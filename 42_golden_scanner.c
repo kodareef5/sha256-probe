@@ -112,11 +112,16 @@ typedef struct {
 } candidate_t;
 
 int main(int argc, char *argv[]) {
+    setbuf(stdout, NULL);
+
     int n_mc = 1000;   /* Monte Carlo shots per candidate */
+    uint32_t fill = 0xffffffff;  /* M[2..15] fill pattern */
     if (argc > 1) n_mc = atoi(argv[1]);
+    if (argc > 2) fill = (uint32_t)strtoul(argv[2], NULL, 0);
 
     printf("Golden Scanner: Thermodynamic Monte Carlo\n");
     printf("  Monte Carlo shots per candidate: %d\n", n_mc);
+    printf("  M[2..15] fill: 0x%08x\n", fill);
     printf("  Scanning M[0] over 2^32 values\n");
     printf("  Looking for da[56]=0 candidates with low Round 60 HW\n\n");
 
@@ -130,7 +135,8 @@ int main(int argc, char *argv[]) {
         uint32_t M1[16], M2[16], s1[8], s2[8];
         uint32_t W1[57], W2[57];
 
-        for (int i = 0; i < 16; i++) M1[i] = 0xffffffff;
+        M1[1] = fill;
+        for (int i = 2; i < 16; i++) M1[i] = fill;
         memcpy(M2, M1, sizeof(M1));
 
         uint32_t rng_state = (uint32_t)(time(NULL) ^ omp_get_thread_num() * 1337);
@@ -139,8 +145,8 @@ int main(int argc, char *argv[]) {
         for (uint64_t m0_val = 0; m0_val < 0x100000000ULL; m0_val++) {
             M1[0] = (uint32_t)m0_val;
             M2[0] = M1[0] ^ 0x80000000;
-            M1[9] = 0xffffffff;
-            M2[9] = 0x7fffffff;
+            M1[9] = fill;
+            M2[9] = fill ^ 0x80000000;
 
             /* Compress 57 rounds for both */
             compress_n(M1, 57, s1);
@@ -207,7 +213,7 @@ int main(int argc, char *argv[]) {
                     fflush(stdout);
                 }
 
-                if (n_hits % 1 == 0) {
+                if (n_hits % 10 == 0) {
                     time_t now = time(NULL);
                     double elapsed = difftime(now, start);
                     printf("  [%d hits in %.0fs, best min_hw60=%d]\n",
