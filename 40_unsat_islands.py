@@ -113,7 +113,7 @@ def build_sr60_with_fixed_w57_bits(w1_fixed, w2_fixed):
     # W[63]
     for sched, pre in [(W1_schedule, W1_pre), (W2_schedule, W2_pre)]:
         w63 = cnf.add_word(
-            cnf.add_word(cnf.sigma1_w(sched[4 + len(sched) - 6]),
+            cnf.add_word(cnf.sigma1_w(sched[4]),
                          cnf.const_word(pre[56])),
             cnf.add_word(cnf.const_word(enc.sigma0_py(pre[48])),
                          cnf.const_word(pre[47])))

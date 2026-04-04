@@ -13,7 +13,7 @@ could inform sr=60 attacks:
 # SHA-256 functions
 def ROR(x, n): return ((x >> n) | (x << (32 - n))) & 0xFFFFFFFF
 def SHR(x, n): return x >> n
-def Ch(e, f, g): return ((e & f) ^ ((~e) & g)) & 0xFFFFFFFF
+def Ch(e, f, g): return (e & f) ^ (~e & g) & 0xFFFFFFFF
 def Maj(a, b, c): return (a & b) ^ (a & c) ^ (b & c)
 def Sigma0(a): return ROR(a, 2) ^ ROR(a, 13) ^ ROR(a, 22)
 def Sigma1(e): return ROR(e, 6) ^ ROR(e, 11) ^ ROR(e, 25)

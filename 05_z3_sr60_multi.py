@@ -2,17 +2,14 @@
 """
 Script 05: Z3 SMT Solver for sr=60 — Multi-Strategy
 
-Key optimization: ANALYTICAL REDUCTION
-Instead of 8 free 32-bit words (W1[57..60] + W2[57..60] = 256 bits),
-we enforce da[r]=0 at each free round analytically:
-  W2[r] = f(W1[r], state1, state2)
-This halves the free variable count to 128 bits (W1[57..60] only).
-
 Tests multiple Z3 tactics:
   1. Default (portfolio)
   2. qfbv (specialized for quantifier-free bitvectors)
   3. sat (bit-blast to internal SAT solver)
   4. Incremental (add constraints one register at a time)
+
+Note: The analytical reduction described in earlier notes is not implemented
+here; W1[57..60] and W2[57..60] remain free (256 bits total).
 """
 
 import sys
@@ -151,7 +148,7 @@ def build_sr60_problem(state1, state2, W1_pre, W2_pre, strategy="default", timeo
         st2 = one_round_z3(st2, K[57 + i], W2_tail[i])
         # Add intermediate da=0 constraints for the free rounds (57-60)
         if i < 4:
-            s.add(st1[0] == st2[0] if False else True)  # placeholder
+            pass
 
     # Actually, let me just do it cleanly: run both, constrain final collision
     # The intermediate da=0 constraints are implied by the collision constraint

@@ -6,15 +6,15 @@ We present a comprehensive cryptanalytic study of the sr=60 schedule compliance 
 
 Our principal results are:
 
-1. **UNSAT Proof via Constant-Folded Recursive Partitioning.** For the published candidate M[0]=0x17149975 under the MSB kernel with standard padding, we prove that sr=60 is unsatisfiable by exhaustively partitioning the search space into 1024 constant-folded sub-instances, each proven UNSAT by Kissat. This demonstrates that the sr=60 "timeout" reported in the original work is not a computational limitation but a mathematical impossibility for this candidate family.
+1. **Constant-Folded Partitioning Evidence.** For the published candidate M[0]=0x17149975 under the MSB kernel with standard padding, we aggressively partition the search space using constant-folded schedule bits (Script 41). This demonstrates that the sr=60 "timeout" reported in the original work is not merely a computational limitation for this candidate family. A formal UNSAT proof still requires DRAT certificates and cross-solver validation.
 
-2. **The Ghost Carry Theorem.** We prove that SHA-256 collisions under the MSB kernel structurally require carry-chain divergence between messages. Forcing carry equality across messages produces instant UNSAT even at sr=59, where collisions are known to exist. This establishes that ARX non-linearity is not an obstacle to collision — it is the mechanism through which collisions propagate.
+2. **The Ghost Carry Observation.** We observe that SHA-256 collisions under the MSB kernel require carry-chain divergence between messages. Forcing carry equality across messages produces fast UNSAT even at sr=59, where collisions are known to exist. This suggests that ARX non-linearity is not an obstacle to collision — it is the mechanism through which collisions propagate.
 
 3. **MITM State-Space Geometry.** By reformulating the 7-round tail as a meet-in-the-middle problem anchored at Round 60, we show that the forward cone (from Round 56) and backward cone (to Round 63 collision) intersect perfectly for 232 of 256 anchor bits. The remaining 24 bits, concentrated in registers g60 and h60 (the oldest shifted e-register values), constitute the exact cryptographic fault line.
 
-4. **The Boomerang Algebraic Contradiction.** We derive a closed-form algebraic condition showing that for the tested candidate, the collision requirement imposes contradictory demands on the W[57] schedule word: registers h60 and d60 (both depth-1 functions of W57) require different W57 differences. The gap is 9 bits. However, we rigorously validate this against reduced-width SAT instances and show that it is a family-specific diagnostic, not a universal predictive filter — SAT solvers at reduced word widths can absorb nonzero boomerang gaps.
+4. **The Boomerang Algebraic Contradiction.** We derive a closed-form algebraic condition showing that for the tested candidate, the collision requirement imposes contradictory demands on the W[57] schedule word: registers h60 and d60 (both depth-1 functions of W57) require different W57 differences. The gap is 9 bits. However, we validate this against reduced-width SAT instances and show that it is a family-specific diagnostic, not a universal predictive filter — SAT solvers at reduced word widths can absorb nonzero boomerang gaps.
 
-5. **Precision Homotopy.** By implementing a parametric N-bit mini-SHA-256 and testing sr=60 at word sizes N=8 through N=16, we prove that sr=60 is satisfiable at all non-degenerate reduced word widths. The barrier is scale-dependent (growing exponentially with word size), not topological. This establishes that sr=60 collisions almost certainly exist at 32 bits for some candidate family, but lie beyond the reach of current SAT solvers for the MSB-kernel/standard-padding family.
+5. **Precision Homotopy.** By implementing a parametric N-bit mini-SHA-256 and testing sr=60 at word sizes N=8 through N=16, we observe that sr=60 is satisfiable at multiple reduced word widths (excluding degenerate settings). The barrier appears scale-dependent (growing with word size), though extrapolation to 32 bits requires caution.
 
 All claims are carefully calibrated: exhaustive results are labeled as proofs; sampled or family-specific results are labeled as evidence.
 
@@ -40,8 +40,8 @@ We show that this characterization, while computationally accurate, is mathemati
 
 We make five principal contributions, each supported by rigorous experimentation:
 
-1. The first proof that a specific da[56]=0 candidate is unsatisfiable at sr=60
-2. A structural theorem on the necessity of carry divergence for MSB-kernel collisions
+1. Evidence that a specific da[56]=0 candidate is unsatisfiable at sr=60 via constant-folded partitioning
+2. A structural observation on the necessity of carry divergence for MSB-kernel collisions
 3. A meet-in-the-middle geometric decomposition of the sr=60 problem that localizes the obstruction to 24 specific bits
 4. An algebraic analysis of the depth-1 boomerang contradiction, with careful validation against reduced-width ground truth
 5. A precision homotopy demonstrating that sr=60 is satisfiable at reduced word widths, establishing the barrier as scale-dependent
@@ -86,7 +86,7 @@ The transition is symmetric: constraining bit 3 of W[61] for either message alon
 
 ---
 
-## 3. The Constant-Folded UNSAT Proof
+## 3. Constant-Folded UNSAT Evidence
 
 ### 3.1 The Constant-Folding Insight
 
@@ -96,17 +96,11 @@ When bits are fixed at encode time, the CNFBuilder's constant propagation cascad
 
 This methodological insight is central to our proof technique.
 
-### 3.2 Recursive Partitioning
+### 3.2 Partitioning Details
 
-We fix the top 4 MSBs of both W1[57] and W2[57] at encode time, generating 256 constant-folded sub-instances. Results:
+Script 41 fixes the top n bits of W1[57] at encode time (W2[57] remains free), generating 2^n constant-folded sub-instances. Script 43 performs a dual 4-bit grid over W1[57] and W2[57] (16x16) as a candidate viability check.
 
-| Level | Resolution | Partitions | UNSAT | Timeout | SAT |
-|---|---|---|---|---|---|
-| 1 (4-bit) | 16x16 | 256 | 224 (88%) | 32 | 0 |
-| 2 (6-bit) | 64x64 | 128 (survivors) | 112 (88%) | 16 | 0 |
-| 3 (8-bit) | 256x256 | 64 (survivors) | 64 (100%) | 0 | 0 |
-
-After three levels of recursive partitioning, all 448 tested sub-instances are proven UNSAT. Zero SAT results at any level. This constitutes a proof that sr=60 is unsatisfiable for M[0]=0x17149975 under the MSB kernel with standard padding.
+In practice, the level-1 dual grid shows a high UNSAT rate for the published candidate, and the remaining survivors are refined by fixing additional W1[57] bits only. These runs provide strong evidence of UNSAT for the tested candidate family, but a formal proof still requires DRAT certificates and cross-solver validation.
 
 ### 3.3 Validation
 
@@ -118,11 +112,11 @@ The contradiction requires both schedule compliance and collision simultaneously
 
 ---
 
-## 4. The Ghost Carry Theorem
+## 4. The Ghost Carry Observation
 
 ### 4.1 Statement
 
-**Theorem (Ghost Carry).** For the MSB kernel with standard IV and all-ones padding, forcing the carry-out bits of the T1 addition to be equal across both messages at any single bit position of any single round produces UNSAT at sr=59.
+**Observation (Ghost Carry).** For the MSB kernel with standard IV and all-ones padding, forcing the carry-out bits of the T1 addition to be equal across both messages at selected bit positions can produce UNSAT at sr=59.
 
 ### 4.2 Proof
 
