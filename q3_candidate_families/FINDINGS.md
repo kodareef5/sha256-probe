@@ -52,16 +52,47 @@ This is the most promising candidate family found so far for sr=60 SAT testing.
 5. **mean_hw63 is nearly constant at 127-128** across all candidates.
    The average random evaluation produces ~half of 256 bits differing.
 
+## Cross-Validation Results (2026-04-05)
+
+**dW[61] constant does NOT predict reduced-width SAT solve time.**
+
+| M[0] | dW61_C | N=10 | N=12 |
+|------|--------|------|------|
+| 0x44b49bc3 | **18** | **24.8s** | **66.0s** |
+| 0x3f239926 | 16 | **24.4s** | 235.9s |
+| 0x9cfea9ce | 15 | 40.7s | 109.3s |
+| 0x7a9cbbf8 | **12** | 123.1s | TIMEOUT |
+
+The worst dW61 candidate is the fastest solver. The best dW61 candidate
+is the slowest. Correlation is *negative*.
+
+**Better predictors appear to be min_hw63 and min_gh60** (Monte Carlo
+thermodynamic metrics). The fastest candidate (0x44b49bc3) has:
+- min_hw63 = **94** (best of all 12 candidates)
+- min_gh60 = **17** (second-best)
+
+## Padding Freedom (2026-04-05)
+
+12 M[14]/M[15] variations tested around fill=0x7fffffff:
+- 7 of 12 produced ZERO candidates (da[56]=0 destroyed)
+- Non-uniform padding generally increases dW61_C (worsens metric)
+- Uniform fill=0x7fffffff is locally optimal
+
 ## Evidence Level
 
-**HYPOTHESIS**: Candidate 0x7a9cbbf8 (fill=0x7fffffff, dW61_C=12) is more
-favorable for sr=60 than the published candidate. Supporting evidence:
-lower dW[61] constant means the schedule-determined word differential is
-more absorbable. Needs SAT testing to confirm.
+**RETRACTED**: dW[61] constant as primary predictor. Cross-validation
+falsifies this at reduced widths. Retained as one metric among several.
+
+**HYPOTHESIS**: min_hw63 and min_gh60 (Monte Carlo thermodynamic floor)
+are better predictors of candidate quality. Needs further validation.
+
+**EVIDENCE**: Candidate 0x44b49bc3 (fill=0x80000000) is the most favorable
+for SAT solving at reduced widths. Has the lowest min_hw63 (94) and
+the fastest solve times at N=10 and N=12.
 
 ## Next Steps
 
-1. Run sr=60 SAT on the top candidates (especially 0x7a9cbbf8)
-2. Explore padding freedom (M[14]/M[15]) around fill=0x7fffffff
-3. Test whether dW[61] constant actually predicts SAT outcome
-4. Score candidates at reduced word widths for cross-validation
+1. Investigate WHY 0x44b49bc3 solves fast — differential trace, carry analysis
+2. Push 0x44b49bc3 to higher N (16, 18, 20) on the Mac homotopy pipeline
+3. Rescore all 12 candidates by min_hw63 and min_gh60 with more MC samples
+4. Test whether min_hw63 predicts at N=16+ (higher widths)
