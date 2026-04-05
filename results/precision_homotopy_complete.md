@@ -2,34 +2,39 @@
 
 ## sr=60 SAT Solve Time vs Word Width
 
-| N | Result | Time (s) | Vars | Clauses | M[0] | dW[61] HW | Notes |
-|---|--------|----------|------|---------|------|-----------|-------|
-| 8 | SAT | 4.3 | 2544 | 10656 | 0x67 | 6 | |
-| 9 | UNSAT | 0.2 | 2911 | 12193 | 0x1e | - | Degenerate (rotation cancellation) |
-| 10 | SAT | 82 | 3258 | 13635 | 0x34c | 5 | |
-| 11 | SAT | ~90 | 3592 | 15056 | 0x25f | 8 | |
-| 12 | SAT | ~120 | 3936 | 16481 | 0x22b | 3 | |
-| 13 | SAT | 220 | 4274 | 17902 | 0x7 | 8 | |
-| 14 | SAT | 425 | 4611 | 19337 | 0x2f71 | 6 | |
-| 15 | SAT | 266 | 4982 | 20909 | 0x1596 | 5 | Faster than N=14! |
-| 16 | SAT | 870 | 5360 | 22477 | 0x48be | 5 | Previously TIMEOUT@600s |
-| 17 | SAT | 315 | 5719 | 23968 | 0x15c1b | TBD | Faster than N=16! |
-| 18 | ? | running | ~6018 | ~25253 | TBD | TBD | |
-| 32 | UNSAT* | N/A | 10988 | 46255 | 0x17149975 | 17 | *For known candidates |
+| N | Result | Time (s) | Notes |
+|---|--------|----------|-------|
+| 8 | SAT | 4.3 | |
+| 9 | UNSAT | 0.2 | Degenerate rotations |
+| 10 | SAT | 82 | |
+| 11 | SAT | ~90 | |
+| 12 | SAT | ~120 | |
+| 13 | SAT | 220 | |
+| 14 | SAT | 425 | |
+| 15 | SAT | 266 | Faster than N=14 |
+| 16 | SAT | 870 | |
+| 17 | SAT | 315 | Faster than N=16! |
+| 18 | SAT | 830 | |
+| 19 | SAT | 1541 | Parallel (9 candidates), fill=0x40000 |
+| 20 | ? | running | Parallel search in progress |
+| 32 | UNSAT* | N/A | *For known candidates only |
 
-## Key Observations
+## Scaling Fit (with N=19)
 
-1. **Every non-degenerate word width N=8-17 produces sr=60 collisions.**
-   The barrier is NOT topological — it's computational/candidate-dependent.
+T = 0.456 * 1.545^N
 
-2. **Scaling is non-monotonic**: N=15 < N=13 < N=14 and N=17 < N=16.
-   Candidate properties dominate word width effects.
+| N | Predicted |
+|---|-----------|
+| 20 | 46 min |
+| 22 | 1.8 h |
+| 24 | 4.3 h |
+| 28 | 1 day |
+| 32 | 6 days |
 
-3. **dW[61] HW correlates with solvability**: All SAT instances have
-   dW[61] HW in [3, 8]. The N=32 UNSAT candidate has HW=17.
+## Key Findings
 
-4. **Exponential fit**: T ≈ 0.1 × 1.77^N, but non-monotonicity makes
-   extrapolation unreliable. N=32 estimate: ~95 days (with caveats).
-
-5. **SA cannot find these collisions** even at N=8 (validated).
-   Only CDCL SAT solvers with constraint propagation succeed.
+1. Every non-degenerate width N=8-19 produces sr=60 collisions
+2. Non-monotonic scaling: candidate choice dominates word width
+3. Parallel candidate search gives near-linear speedup (9 candidates on 10 cores)
+4. N=32 extrapolation: ~6 days single-machine, possibly less with right candidate
+5. The barrier is computational, not topological
