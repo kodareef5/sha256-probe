@@ -29,7 +29,7 @@ static uint32_t MSB_BIT;
 
 /* Scaled rotation: round(k * N / 32), minimum 1 */
 static int scale_rot(int k32, int N) {
-    int r = (int)(0.5 + (double)k32 * N / 32.0);
+    int r = (int)rint((double)k32 * N / 32.0);
     return r < 1 ? 1 : r;
 }
 
