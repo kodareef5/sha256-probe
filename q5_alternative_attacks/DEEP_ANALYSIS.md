@@ -90,10 +90,39 @@ via carry chains that reduce to the deterministic cases (n+n→0,n or u+u→0,u)
    of freedom. Even with de57_err=21, a second block could correct
    the residual.
 
+## Why Wang Modification Changes Everything
+
+Standard SHA-256 collision attacks use Wang-style message modification:
+- **Basic modification**: directly set W[i] to force conditions (probability 1)
+- **Advanced modification**: modify earlier W[i] to fix later-round conditions
+  without disturbing already-satisfied ones
+
+For sr=60 with W[57..60] free:
+- W[57..60] can be SET DIRECTLY to satisfy conditions in rounds 57-60
+- This is BASIC modification ��� probability 1, no search needed
+- The only "search" is for W values that simultaneously satisfy the
+  schedule constraints for W[61..63] AND the collision condition
+
+**This is not a SAT problem — it's a message modification problem.**
+The SAT solver is brute-forcing something that message modification
+can solve deterministically for many bit positions.
+
+The da57=0 constraint is already a form of basic modification (fixing
+dW[57] to zero the a-register). Extending this:
+- Fix dW[57] for da57=0 (1 condition, 1 free word consumed)
+- Fix dW[58] to minimize da58 or de58 error (1 condition, 1 word)
+- Use W[59], W[60] for the remaining conditions
+- Only the bits that CAN'T be deterministically set need SAT solving
+
+**Estimated improvement**: If basic modification can deterministically
+satisfy 60-80% of the collision conditions, the residual SAT problem
+has ~50-100 effective bits of search instead of ~256. That's the
+difference between TIMEOUT and SAT in seconds.
+
 ## Next Steps
 
-- Run da57=0 for candidate 0x44b49bc3 with extended timeout (7200s)
-  → currently running, de57_err=11 should help
-- Build partition solver with da57=0 constraint → parallel over W[58] bits
-- Implement bitsliced propagation for CaDiCaL (Programmatic SAT)
-- Analyze whether 0x44b49bc3's de57 active bits are clustered
+- Run da57=0 for both candidates with 7200s timeout (running now)
+- Build sequential modification: da57=0 → da58=0 → de58 minimized
+- Build partition solver with da57=0 constraint
+- Implement CaDiCaL IPASIR-UP with carry propagation
+- Explore multi-block: second compression block to correct residual
