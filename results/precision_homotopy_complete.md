@@ -19,24 +19,26 @@
 | 20 | SAT | 672 | Parallel, fill=0x80000. Faster than N=18! |
 | 21 | SAT | 653 | Parallel, fill=0x0. Faster than N=20! |
 | 22 | SAT | 2546 | Single candidate, fill=0x3fffff |
+| 23 | ? | solving | M[0]=0x25c53e, fill=0x400000 |
+| 24 | SAT | 4206 | M[0]=0x221e85, fill=0x0 (70 min) |
+| 25-28 | ? | solving | Multiple candidates in parallel |
 | 32 | UNSAT* | N/A | *For known candidates only |
 
-## Scaling Fit (with N=22)
+## Scaling Fit (with N=24)
 
-T = 1.573 * 1.400^N
+T = 1.684 * 1.393^N
 
 | N | Predicted |
 |---|-----------|
-| 23 | 60 min |
-| 24 | 1.4 h |
-| 26 | 2.7 h |
-| 28 | 5.3 h |
-| 32 | 20.5 h |
+| 25 | 1.8 h |
+| 26 | 2.6 h |
+| 28 | 5.0 h |
+| 32 | 18.8 h |
 
 ## Key Findings
 
-1. Every non-degenerate width N=8-22 produces sr=60 collisions
-2. Non-monotonic scaling persists: N=21 (653s) < N=20 (672s) < N=22 (2546s)
+1. Every non-degenerate width N=8-22, N=24 produces sr=60 collisions
+2. N=23 solving, N=25-28 solving in parallel (9 cores)
 3. C candidate scanning is 200-300x faster than Python
-4. N=32 extrapolation: ~20 hours single-machine, less with parallel candidates
+4. N=32 extrapolation: ~19 hours single-machine
 5. The barrier is computational, not topological
