@@ -105,32 +105,55 @@ favorable for our sr=60 problem.
 
 ## High-Priority Ideas for Our Project
 
-### A. Programmatic SAT (HIGHEST PRIORITY)
-Switch from Kissat (black-box) to CaDiCaL with IPASIR-UP. Implement:
-- Bitsliced word-level propagation for SHA-256 operations
-- Inconsistency blocking based on the boomerang contradiction
-- Dynamic constant folding during search (instead of at encode time)
+### A. COMBINED: Decomposed Search + Programmatic SAT (HIGHEST PRIORITY)
 
-The 28→38 step improvement from this technique alone is extraordinary.
-Even a fraction of that improvement on our sr=60 instance could break
-the timeout barrier.
+Combine Li et al.'s multi-phase decomposition with Programmatic SAT:
 
-### B. MILP Trail Search
-Use MILP to find optimal differential trails for the 7-round tail.
-Our current approach fixes the trail (MSB kernel → specific state56)
-and searches for free words that satisfy it. MILP could find entirely
-different trails that are more compatible with sr=60 schedule compliance.
+**Phase 1-4 (Li et al.):** Find sparse differential trail for sr=60
+- Model signed differences {=,n,u,0,1} for the 7-round tail
+- Optimize for minimum HW (sparsest trail = highest probability)
+- Use their Algorithm 1 with selective model depth
+- Code: https://github.com/Peace9911/sha_2_attack.git
 
-### C. Multi-Block Attack
-Use Merkle-Damgard: first block achieves near-collision (e.g., our sr=59
+**Phase 5 (Programmatic SAT):** Conforming pair search with CaDiCaL
+- Bitsliced propagation: perfect propagation at each bit position of
+  modular addition (3 inputs → 2 outputs per slice). Catches deductions
+  that BCP misses. Use LRU cache for repeated patterns.
+- Inconsistency blocking: build graph of two-bit equality/inequality
+  conditions. BFS to detect odd-length cycles = algebraic contradictions.
+  Feed blocking clause to CaDiCaL → immediate backtracking.
+- Wordwise propagation: δA + δB = δC (mod 2^32). Split at carry
+  boundaries, brute-force subproblems ≤10 variables.
+- Auxiliary variable heuristic: assume ? = - for non-primary differentials
+  (dramatically improves propagation, critical for >28 steps).
+- Use IPASIR-UP interface — no custom solver code needed.
+
+**Expected improvement:** Li et al.'s Phase 5 takes 120s with a good trail.
+Programmatic SAT gives 10-step improvement on plain CaDiCaL (28→38).
+Combined, this could make sr=60 tractable.
+
+### B. Multi-Block Attack
+Use Merkle-Damgard: first block achieves near-collision (our sr=59
 result), second block's free IV (= first block's output) corrects the
 remaining differential. This has NEVER been tried on this problem.
 
-### D. Partial Linearization Windows
-Apply the window heuristic to our sr=60 encoding. Test which bit-window
-sizes reveal structure vs destroy it. This could identify which carry
-positions are the actual obstruction.
+The second block gets 256 bits of IV freedom + 512 bits of message
+freedom. This is FAR more freedom than the 128 bits (4 free schedule
+words) we currently have within a single block.
+
+### C. Partial Linearization Windows
+Apply the window heuristic (eprint 2024/1743) to our sr=60 encoding.
+Test which bit-window sizes reveal structure vs destroy it. The window
+heuristic restricts carry propagation to W consecutive bit positions,
+trading accuracy for speed. Test W=1,2,4,8,16,32.
+
+### D. Alternative Differential Trails
+Use MILP or SAT to search for differential trails compatible with sr=60
+that are different from the MSB kernel. Zhang et al. (2026) automated
+the discovery of "local collisions" that had been manually constructed
+for over a decade.
 
 ### E. Neural-Guided Branching
-Train a neural network on our backbone data and sr=59 solutions to
-predict promising branch directions for sr=60 instances.
+SAT4CryptoBench (NeurIPS 2025) provides framework for ML-guided solving
+of cryptographic SAT instances. Our backbone data (9.6% backbone
+variables clustering in early rounds) suggests learnable structure.
