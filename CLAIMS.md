@@ -1,0 +1,96 @@
+# Claims Registry
+
+All testable claims from this project, ranked by evidence level.
+Each claim links to detailed writeup in the relevant `q*/claims/` folder.
+
+## VERIFIED
+
+### sr=59 collision independently reproduced
+The sr=59 collision certificate from Viragh (2026) has been independently
+reproduced using a custom CSA-tree SAT encoder in 220.5 seconds.
+- **Evidence:** Kissat returns SAT; extracted assignment verified by native SHA-256 computation
+- **Scripts:** `archive/13_custom_cnf_encoder.py` (sr59 mode)
+- **Caveats:** None
+
+### sr=60 is SAT at reduced word widths N=8 through N=21
+For every non-degenerate word width from N=8 to N=21, there exists a
+candidate M[0] and free words W[57..60] producing an sr=60 collision
+in mini-SHA-256(N).
+- **Evidence:** Kissat SAT with verified collision at each N
+- **Scripts:** `q1_barrier_location/homotopy/`
+- **Caveats:**
+  - Mini-SHA-256 uses scaled rotations and truncated constants
+  - N=9 excluded (degenerate rotation cancellation: scale_rot(17,9)==scale_rot(19,9))
+  - Does NOT prove sr=60 is SAT at N=32
+
+### SA cannot find sr=60 collisions even where they provably exist
+Simulated annealing with 50K restarts and 500K steps per restart fails to
+find HW=0 at N=8 (best: HW=8), while Kissat finds SAT in 4.3 seconds.
+- **Evidence:** Extensive SA runs at N=8,10; SAT solver succeeds where SA fails
+- **Scripts:** `archive/79_sa_collision_search.c`, `archive/80_mini_sa_search.c`
+- **Significance:** SA-measured "thermodynamic floor" is meaningless for feasibility.
+  Only CDCL SAT solvers with constraint propagation can navigate this landscape.
+
+## EVIDENCE
+
+### sr=60 is UNSAT for M[0]=0x17149975 (MSB kernel, all-ones padding)
+29 of 32 randomly sampled 5-bit dual partitions are UNSAT with:
+- Kissat UNSAT + DRAT proof verified
+- CaDiCaL independently confirms UNSAT
+- 3 partitions timeout (204, 467, 996) — status unknown
+- **Scripts:** `q6_verification/`, `archive/76_partition_verifier.py`
+- **Caveats:**
+  - Not all 1024 partitions tested (32/1024 sampled)
+  - CryptoMiniSat times out on nearly all partitions
+  - 3 partitions remain unresolved
+
+### Carry divergence is required for MSB-kernel collisions
+Forcing carry-out equality between messages at any tested bit position
+produces fast UNSAT at sr=59 (where collisions exist).
+- **Evidence:** Ghost carry experiments on one candidate, one kernel, one padding
+- **Scripts:** `archive/30_ghost_carries.py`
+- **Caveats:** Tested on one candidate only. "Observation" not "theorem."
+
+## HYPOTHESIS
+
+### The sr=60 bottleneck is dW[61] hamming weight
+All SAT instances (N=8-21) have dW[61] HW in range [3, 8].
+The N=32 UNSAT candidate has dW[61] HW=17.
+- **Evidence:** Collision extraction at 8 word widths
+- **Scripts:** `q2_bottleneck_anatomy/dw61_analysis.py`
+- **Caveats:**
+  - Correlation observed, causation not established
+  - dW[61] depends on both candidate AND free word choice
+  - The SAT solver may use a completely different solution strategy
+
+### The barrier is candidate-dependent, not fundamental
+Scaling is highly non-monotonic (N=17 faster than N=16, N=20 faster than N=18).
+Different candidates at the same N have very different solve times.
+- **Evidence:** Parallel candidate races show 3-5x variance within same N
+- **Caveats:** Non-monotonicity could also be solver-specific (Kissat heuristics)
+
+## EXTRAPOLATION
+
+### sr=60 at N=32 may be solvable in ~days of compute
+Exponential fit T = 0.87 * 1.47^N gives ~21h for N=32.
+- **Evidence:** Fit to 11 data points (N=8 through N=21)
+- **Caveats:**
+  - Extrapolation from mini-SHA to full SHA-256 is fundamentally unreliable
+  - Mini-SHA uses different rotation amounts and truncated constants
+  - The fit is dominated by non-monotonic scatter
+  - A phase transition could exist between N=21 and N=32
+  - Even if solvable, finding the right candidate is a separate challenge
+
+## RETRACTED / DOWNGRADED
+
+### "Ghost Carry Theorem" → Observation
+Originally framed as a theorem with proof. Downgraded to observation:
+tested on one candidate, one kernel, one padding. Not a general property.
+
+### "Boomerang Algebraic Contradiction" as primary explanation
+Script 69 shows 20% prediction accuracy. Does not cleanly separate SAT
+from UNSAT. Retained as a family-specific diagnostic, not a principal result.
+
+### "Thermodynamic Floor" as property of SHA-256
+The floor is a property of one candidate family under one kernel. Different
+families may have very different thermodynamic properties.
