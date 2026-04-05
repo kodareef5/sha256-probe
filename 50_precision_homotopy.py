@@ -514,7 +514,7 @@ def run_one_wordsize(N, timeout=120):
     }
 
     # Step 1: Find M[0] with da[56] = 0
-    scan_limit = min(1 << N, 1 << 20)  # Cap at 1M for safety
+    scan_limit = min(1 << N, 1 << 24)  # Cap at 16M (needed for N>20)
     flush(f"\n  Scanning M[0] over {scan_limit} values for da[56]=0 ...")
     t0 = time.time()
     m0, s1, s2, W1, W2 = sha.find_m0(max_scan=scan_limit)
