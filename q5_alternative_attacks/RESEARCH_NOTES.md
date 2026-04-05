@@ -157,3 +157,18 @@ for over a decade.
 SAT4CryptoBench (NeurIPS 2025) provides framework for ML-guided solving
 of cryptographic SAT instances. Our backbone data (9.6% backbone
 variables clustering in early rounds) suggests learnable structure.
+
+### 7. Two-Block Collision Conversion (Standard Technique)
+**Finding from web search (2026-04-05)**
+
+The two-block method is the STANDARD way to convert SFS collisions to
+full collisions in SHA-256 cryptanalysis. The 31-step full SHA-256
+collision uses a 2-block approach converting from the 31-step SFS.
+
+Conversion complexity: at most 2^65.5 for 31 steps.
+
+For our sr=59 → sr=60 gap, the residual from sr=59 should be smaller
+than a generic 31-step SFS residual, so the conversion overhead could
+be much lower.
+
+Source: [The First Practical Collision for 31-Step SHA-256 (ASIACRYPT 2024)](https://dl.acm.org/doi/10.1007/978-981-96-0941-3_8)
