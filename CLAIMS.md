@@ -53,15 +53,14 @@ produces fast UNSAT at sr=59 (where collisions exist).
 
 ## HYPOTHESIS
 
-### The sr=60 bottleneck is dW[61] hamming weight
-All SAT instances (N=8-21) have dW[61] HW in range [3, 8].
-The N=32 UNSAT candidate has dW[61] HW=17.
-- **Evidence:** Collision extraction at 8 word widths
-- **Scripts:** `q2_bottleneck_anatomy/dw61_analysis.py`
-- **Caveats:**
-  - Correlation observed, causation not established
-  - dW[61] depends on both candidate AND free word choice
-  - The SAT solver may use a completely different solution strategy
+### ~~The sr=60 bottleneck is dW[61] hamming weight~~ RETRACTED
+~~All SAT instances (N=8-21) have dW[61] HW in range [3, 8].~~
+**Cross-validation by Q3 workstream shows dW[61] constant HW is
+anti-correlated with solve speed.** The candidate with dW61_C=18 (worst)
+solves fastest at N=10 and N=12, while dW61_C=12 (best) is slowest.
+- **Retraction evidence:** `q3_candidate_families/results/20260405_crossval.md`
+- **Replacement hypothesis:** min_hw63 and min_gh60 (MITM bottleneck metrics)
+  may be better predictors. See Q3 findings.
 
 ### The barrier is candidate-dependent, not fundamental
 Scaling is highly non-monotonic (N=17 faster than N=16, N=20 faster than N=18).
