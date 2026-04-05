@@ -16,7 +16,7 @@ int scan_find_candidates(scan_candidate_t *out, int max_candidates) {
 
     for (int fi = 0; fi < n_fills && found < max_candidates; fi++) {
         uint32_t fill = fills[fi];
-        uint32_t max_m0 = MK < (1U << 20) ? MK : (1U << 20) - 1;
+        uint32_t max_m0 = MK < (1U << 24) ? MK : (1U << 24) - 1;
 
         for (uint32_t m0 = 0; m0 <= max_m0 && found < max_candidates; m0++) {
             uint32_t M1[16], M2[16];

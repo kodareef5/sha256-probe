@@ -13,6 +13,7 @@
 #include <stdint.h>
 #include <string.h>
 #include <time.h>
+#include <math.h>
 
 static int N_BITS;
 static uint32_t WMASK, MSB_BIT;
@@ -100,7 +101,7 @@ int main(int argc, char *argv[]) {
 
     for (int fi = 0; fi < n_fills && found < max_cand; fi++) {
         uint32_t fill = fills[fi];
-        uint32_t max_m0 = WMASK < (1U << 20) ? WMASK : (1U << 20) - 1;
+        uint32_t max_m0 = WMASK < (1U << 24) ? WMASK : (1U << 24) - 1;
 
         for (uint32_t m0 = 0; m0 <= max_m0 && found < max_cand; m0++) {
             uint32_t M1[16], M2[16];
