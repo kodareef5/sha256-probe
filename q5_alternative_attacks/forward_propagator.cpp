@@ -30,6 +30,7 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <string>
+#include <algorithm>
 #include <fstream>
 #include <sstream>
 #include <cassert>
@@ -158,20 +159,74 @@ public:
         reason_clauses.clear();
     }
 
+    // State56 values (set during initialization)
+    uint32_t s1[8], s2[8];
+    uint32_t W1_pre[57], W2_pre[57];
+
+    void set_state56(const uint32_t *state1, const uint32_t *state2,
+                     const uint32_t *w1pre, const uint32_t *w2pre) {
+        memcpy(s1, state1, 32);
+        memcpy(s2, state2, 32);
+        memcpy(W1_pre, w1pre, 228);
+        memcpy(W2_pre, w2pre, 228);
+    }
+
     void try_forward_propagate(int completed_word) {
-        // When a free word is fully assigned, we can compute intermediate
-        // SHA-256 values and check for inconsistencies.
-        //
-        // For now: just count forward runs. The actual propagation
-        // requires knowing which CNF variables correspond to the
-        // intermediate SHA-256 state bits — that's the varmap.
         n_forward_runs++;
 
-        // TODO: With the varmap, we could:
-        // 1. Compute the exact SHA-256 round output for this word
-        // 2. Check if the output bits conflict with already-assigned CNF vars
-        // 3. If conflict → add blocking clause
-        // 4. If determined → propagate the output bits
+        // Check if ALL 8 free words are now assigned
+        bool all_assigned = true;
+        for (int w = 0; w < 8; w++) {
+            if (word_assigned_bits[w] < 32) { all_assigned = false; break; }
+        }
+        if (!all_assigned) return;
+
+        // ALL free words assigned! Run full SHA-256 tail computation.
+        uint32_t w1[4] = {word_values[0], word_values[1], word_values[2], word_values[3]};
+        uint32_t w2[4] = {word_values[4], word_values[5], word_values[6], word_values[7]};
+
+        // Build schedule tail
+        uint32_t W1[7], W2[7];
+        for (int i = 0; i < 4; i++) { W1[i] = w1[i]; W2[i] = w2[i]; }
+        W1[4] = sha_sigma1(W1[2]) + W1_pre[54] + sha_sigma0(W1_pre[46]) + W1_pre[45];
+        W2[4] = sha_sigma1(W2[2]) + W2_pre[54] + sha_sigma0(W2_pre[46]) + W2_pre[45];
+        W1[5] = sha_sigma1(W1[3]) + W1_pre[55] + sha_sigma0(W1_pre[47]) + W1_pre[46];
+        W2[5] = sha_sigma1(W2[3]) + W2_pre[55] + sha_sigma0(W2_pre[47]) + W2_pre[46];
+        W1[6] = sha_sigma1(W1[4]) + W1_pre[56] + sha_sigma0(W1_pre[48]) + W1_pre[47];
+        W2[6] = sha_sigma1(W2[4]) + W2_pre[56] + sha_sigma0(W2_pre[48]) + W2_pre[47];
+
+        // Run 7 rounds for both messages
+        uint32_t a1=s1[0],b1=s1[1],c1=s1[2],d1=s1[3],e1=s1[4],f1=s1[5],g1=s1[6],h1=s1[7];
+        uint32_t a2=s2[0],b2=s2[1],c2=s2[2],d2=s2[3],e2=s2[4],f2=s2[5],g2=s2[6],h2=s2[7];
+        for (int i = 0; i < 7; i++) {
+            uint32_t T1a = h1+sha_Sigma1(e1)+sha_Ch(e1,f1,g1)+K[57+i]+W1[i];
+            uint32_t T2a = sha_Sigma0(a1)+sha_Maj(a1,b1,c1);
+            h1=g1;g1=f1;f1=e1;e1=d1+T1a;d1=c1;c1=b1;b1=a1;a1=T1a+T2a;
+            uint32_t T1b = h2+sha_Sigma1(e2)+sha_Ch(e2,f2,g2)+K[57+i]+W2[i];
+            uint32_t T2b = sha_Sigma0(a2)+sha_Maj(a2,b2,c2);
+            h2=g2;g2=f2;f2=e2;e2=d2+T1b;d2=c2;c2=b2;b2=a2;a2=T1b+T2b;
+        }
+
+        // Check collision
+        int diff_hw = __builtin_popcount(a1^a2) + __builtin_popcount(b1^b2) +
+                      __builtin_popcount(c1^c2) + __builtin_popcount(d1^d2) +
+                      __builtin_popcount(e1^e2) + __builtin_popcount(f1^f2) +
+                      __builtin_popcount(g1^g2) + __builtin_popcount(h1^h2);
+
+        if (diff_hw == 0) {
+            // COLLISION FOUND! The CNF should be SAT with this assignment.
+            // Don't need to do anything — CaDiCaL will verify via BCP.
+            printf("*** FORWARD CHECK: COLLISION at hw=0! ***\n");
+            fflush(stdout);
+        } else if (n_forward_runs % 10000 == 0) {
+            printf("  [fwd] %ld checks, best hw=%d\n", n_forward_runs, diff_hw);
+            fflush(stdout);
+        }
+
+        // If diff_hw > 0, we KNOW this assignment can't be a collision.
+        // We could add a blocking clause, but that requires constructing
+        // a clause from the current assignment of all 256 free-word vars.
+        // For now, let CaDiCaL discover the conflict through BCP.
     }
 
     bool cb_check_found_model(const std::vector<int> &model) override {
@@ -209,8 +264,32 @@ public:
         return 0;
     }
 
+    // Ordered list of free-word vars for decision guidance
+    std::vector<int> decide_order;
+    int decide_cursor = 0;
+
+    void build_decide_order() {
+        // W1[57] bits first, then W2[57], then W1[58], etc.
+        for (auto &[var, wb] : var_to_word_bit) {
+            decide_order.push_back(var);
+        }
+        // Sort by word index then bit position
+        std::sort(decide_order.begin(), decide_order.end(),
+                  [this](int a, int b) {
+                      auto &wa = var_to_word_bit[a];
+                      auto &wb = var_to_word_bit[b];
+                      if (wa.first != wb.first) return wa.first < wb.first;
+                      return wa.second < wb.second;
+                  });
+    }
+
     int cb_decide() override {
-        return 0; // Let CaDiCaL decide
+        // Disabled for now — CaDiCaL's notification timing makes it
+        // unsafe to check our assignment tracking here. Variables may
+        // be propagated but not yet notified to us.
+        // TODO: fix with a "pending" set that tracks what we've been
+        // notified about vs what we haven't.
+        return 0;
     }
 };
 
@@ -288,6 +367,7 @@ int main(int argc, char *argv[]) {
     for (int w = 0; w < 8; w++) {
         prop.register_word_vars(w, word_vars[w]);
     }
+    prop.build_decide_order();
 
     printf("Propagator: watching %zu variables across 8 free words\n",
            prop.var_to_word_bit.size());
