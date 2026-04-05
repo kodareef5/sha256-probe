@@ -90,9 +90,34 @@ are better predictors of candidate quality. Needs further validation.
 for SAT solving at reduced widths. Has the lowest min_hw63 (94) and
 the fastest solve times at N=10 and N=12.
 
+## Root Cause Analysis (2026-04-05)
+
+**The crossval speed differences are fill-truncation artifacts, not candidate properties.**
+
+At N=10, different 32-bit candidates collapse to the same mini-SHA instance:
+- 0x44b49bc3 (fill=0x80000000) → m0=0xe0, fill=0x0 (identical to 0x9cfea9ce)
+- 0x17149975 (fill=0xffffffff) → m0=0x34c, fill=0x3ff (identical to 0x7a9cbbf8)
+
+The "fast" and "slow" candidates in each pair generate literally identical CNFs.
+Speed differences come from solver noise and number of available candidates (2 vs 1).
+
+## Complete Picture
+
+Within the MSB kernel family:
+1. All candidates are thermodynamically identical at N=32 (100K MC confirms)
+2. Crossval speed differences at reduced widths are truncation artifacts
+3. dW[61] constant does not predict difficulty
+4. Padding freedom (M[14]/M[15]) doesn't improve metrics
+
+**Conclusion: the MSB kernel candidate space is exhausted.**
+No amount of M[0]/fill searching will find a fundamentally better candidate.
+
 ## Next Steps
 
-1. Investigate WHY 0x44b49bc3 solves fast — differential trace, carry analysis
-2. Push 0x44b49bc3 to higher N (16, 18, 20) on the Mac homotopy pipeline
-3. Rescore all 12 candidates by min_hw63 and min_gh60 with more MC samples
-4. Test whether min_hw63 predicts at N=16+ (higher widths)
+1. **Multi-bit kernel search** — The MSB kernel is a dead end. Try multi-bit
+   kernels (0xC0000000, 0xA0000000, etc.) which may have different
+   thermodynamic properties and MITM geometry.
+2. **Non-standard IV** — Semi-free-start allows IV freedom. Structured IV
+   construction could bypass the MSB kernel's limitations.
+3. **Pivot to Q4 (MITM)** — Instead of searching for better candidates,
+   solve the hard residue directly for existing candidates.
