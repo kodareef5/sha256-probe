@@ -7,7 +7,9 @@ Usage: ./fast_scan N 10 | python3 89_fast_parallel_solve.py N [timeout]
 """
 import sys, os, csv, time, subprocess, tempfile, signal
 
-sys.path.insert(0, os.path.dirname(__file__) or '.')
+# Support running from any directory
+_root = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, _root)
 spec = __import__('50_precision_homotopy')
 MiniSHA256 = spec.MiniSHA256
 MiniCNFBuilder = spec.MiniCNFBuilder
