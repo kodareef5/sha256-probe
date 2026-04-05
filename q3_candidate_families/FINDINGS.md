@@ -112,12 +112,40 @@ Within the MSB kernel family:
 **Conclusion: the MSB kernel candidate space is exhausted.**
 No amount of M[0]/fill searching will find a fundamentally better candidate.
 
-## Next Steps
+## Multi-Bit Kernel Search (2026-04-05)
 
-1. **Multi-bit kernel search** — The MSB kernel is a dead end. Try multi-bit
-   kernels (0xC0000000, 0xA0000000, etc.) which may have different
-   thermodynamic properties and MITM geometry.
-2. **Non-standard IV** — Semi-free-start allows IV freedom. Structured IV
-   construction could bypass the MSB kernel's limitations.
-3. **Pivot to Q4 (MITM)** — Instead of searching for better candidates,
-   solve the hard residue directly for existing candidates.
+2-bit kernel sweep: 496 kernels × 2^28 M[0] each (134B probes total).
+
+12+ da[56]=0 candidates found across different 2-bit kernels. Examples:
+- Kernel 0x10040000 (bits 28,18): min_hw63=97
+- Kernel 0x80001000 (bits 31,12): best=88 in deep MC
+- Kernel 0x20200000 (bits 29,21): dW61=13
+
+**But: 50K MC comparison shows ALL 2-bit kernels have the same
+thermodynamic distribution as the MSB kernel.** The ~90-bit floor
+is kernel-independent.
+
+## The Complete Q3 Picture
+
+1. Within the MSB kernel: all candidates are thermodynamically identical
+2. Across 2-bit kernels: all kernels are thermodynamically identical
+3. dW[61] constant doesn't predict difficulty
+4. Padding freedom doesn't help
+5. Crossval speed differences are truncation artifacts
+
+**The thermodynamic floor at ~90 bits is a property of the sr=60 problem
+geometry** (7 tail rounds, 4 free words, schedule coupling), not of any
+particular kernel or candidate family.
+
+## Implications
+
+The candidate/kernel search is EXHAUSTED. To make progress, the project
+must change the PROBLEM, not the candidate:
+1. **Q4 (MITM)**: Solve the hard residue directly — don't rely on
+   thermodynamic proximity to collision
+2. **Q5 (Alternative attacks)**: Wang modification, MILP trails — these
+   exploit structure that random evaluation cannot see
+3. **More freedom**: Multi-block attacks (extra compression block),
+   IV freedom (semi-free-start), or different gap placement
+4. **Higher-compute homotopy**: Push N=23,24,25 on the Mac — the
+   precision homotopy remains the most productive empirical direction
