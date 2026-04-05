@@ -1,6 +1,6 @@
 # SHA-256 Probe: Strategic Direction
 
-*Updated 2026-04-05 based on Q3 findings + literature review*
+*Updated 2026-04-05 based on Q3 findings + Q5 experiments + literature review*
 
 ## What We've Learned
 
@@ -17,6 +17,24 @@
 **Bottom line:** Searching for better candidates within any kernel family
 is a dead end. The thermodynamic floor cannot be broken by choosing a
 different M[0], fill, or kernel.
+
+### From Q5 (Constrained Search Experiments — 53+ CPU-hours)
+1. **de57=0 is universally UNSAT** — zeroing the e-register at depth 1
+   is provably impossible for ALL MSB-kernel candidates (<0.5s each)
+2. **da57=0 is the ONLY viable depth-1 strategy** — all other dW57
+   constraints are UNSAT in <1s
+3. **Alternative gap placement (free W[58..61]) is UNSAT in 0.1s** —
+   W[57] freedom is essential for any chance at sr=60
+4. **Single-threaded Kissat with da57=0: TIMEOUT at 7200s** for both
+   best and published candidates
+5. **Partition solver (5-bit: 32 parts × 3600s): ALL TIMEOUT**
+6. **8-bit partition (256 parts × 3600s) running overnight**
+7. **de57_err under da57=0 constraint** correlates with reduced-width
+   solve speed: best candidate has de57_err=11, published has 21
+
+**Bottom line:** Single-threaded black-box SAT is insufficient even with
+algebraic constraints. The problem needs domain-specific solver technology
+or fundamentally different attack structure.
 
 ### From Literature Review
 The standard cryptanalysis community uses fundamentally different
