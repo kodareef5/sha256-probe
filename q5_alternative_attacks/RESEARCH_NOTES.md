@@ -24,17 +24,37 @@ be done dynamically during search.
 ### 2. Li et al. EUROCRYPT 2024 — New Records in SHA-2 Collisions
 **Paper:** [New Records in Collision Attacks on SHA-2](https://eprint.iacr.org/2024/349)
 
-**Key idea:** Use MILP-based differential trail search combined with SAT/SMT
-for characteristic verification. The breakthrough was finding "local collisions"
-in the message expansion — patterns where the schedule words cancel each other
-over a few rounds. This is exactly what Viragh's "schedule compliance" approach
-does from the opposite direction.
+**Code:** https://github.com/Peace9911/sha_2_attack.git
+
+**Key idea:** Multi-phase decomposition using SAT/SMT (not raw MILP).
+They model SIGNED DIFFERENCES {=,n,u,0,1} at each bit, not concrete values.
+Search space is exponentially smaller than our bit-level value encoding.
+
+**Their 5-phase approach:**
+- Phase 1: Fix "local collision" shape (which W[i] have nonzero diffs)
+- Phase 2: Minimize total HW of message diffs (SAT optimization)
+- Phase 3: Minimize HW of state register diffs (zeros enforced in later rounds)
+- Phase 4: Minimize HW of e-register diffs
+- Phase 5: Conforming pair search (concrete values) — only 120 seconds!
 
 **Result:** 39-step SFS collision (SHA-256), 40-step FS collision (SHA-224).
 
-**Relevance:** Their MILP trail search finds optimal differential paths that
-our brute-force approach cannot discover. We should try their trail search
-framework on our 7-round tail problem.
+**CRITICAL INSIGHT for our project:** We solve a MONOLITHIC problem — one
+giant CNF encoding both messages completely. Li et al. decompose into phases
+where each constrains the next. Their Phase 5 (conforming pair search) is
+what we do as our ONLY step, but they arrive with a much more constrained
+problem because Phases 1-4 already determined the differential trail.
+
+**What we're missing:**
+1. Signed difference abstraction (2 vars/bit instead of 1 per message)
+2. Multi-phase decomposition (trail search THEN conforming pair)
+3. Sparsity optimization (minimize HW = maximize probability)
+4. Selective model depth (fast filtering before full verification)
+5. Their Algorithm 1 with 8 precision-control parameters
+
+**Connection to schedule compliance:** Their "local collision" IS our
+"schedule compliance" from the other direction. Same mathematical object,
+fundamentally different search strategy.
 
 ### 3. Window Heuristic / Partial Linearization (eprint 2024/1743)
 **Paper:** [The Window Heuristic: Automating Differential Trail Search in ARX Ciphers](https://eprint.iacr.org/2024/1743)
