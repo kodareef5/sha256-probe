@@ -2,9 +2,15 @@ CC = gcc
 CFLAGS = -O3 -march=native -Wall
 LDFLAGS = -lm
 
-# OpenMP support (macOS)
-OMP_CFLAGS = -Xclang -fopenmp -I/opt/homebrew/opt/libomp/include
-OMP_LDFLAGS = -L/opt/homebrew/opt/libomp/lib -lomp
+# OpenMP support (platform-detected)
+UNAME := $(shell uname)
+ifeq ($(UNAME), Darwin)
+  OMP_CFLAGS = -Xclang -fopenmp -I/opt/homebrew/opt/libomp/include
+  OMP_LDFLAGS = -L/opt/homebrew/opt/libomp/lib -lomp
+else
+  OMP_CFLAGS = -fopenmp
+  OMP_LDFLAGS = -fopenmp
+endif
 
 LIB_SRC = lib/sha256.c lib/scan.c
 LIB_OBJ = $(LIB_SRC:.c=.o)

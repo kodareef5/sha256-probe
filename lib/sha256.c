@@ -3,7 +3,7 @@
  */
 
 #include "sha256.h"
-
+#include <math.h>
 
 /* Global state */
 int sha256_N;
@@ -31,28 +31,39 @@ static const uint32_t IV32[8] = {
     0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19
 };
 
-static int scale_rot(int k32, int N) {
+static int scale_rot_bankers(int k32, int N) {
+    /* Banker's rounding (half to even) — matches Python's round().
+     * C's rint() with default FE_TONEAREST does this. */
+    int r = (int)rint((double)k32 * N / 32.0);
+    return r < 1 ? 1 : r;
+}
+
+static int scale_rot_halfup(int k32, int N) {
+    /* Traditional rounding (half away from zero). */
     int r = (int)(0.5 + (double)k32 * N / 32.0);
     return r < 1 ? 1 : r;
 }
 
-void sha256_init(int N) {
+void sha256_init_ex(int N, int rounding_mode) {
+    int (*sr)(int, int) = (rounding_mode == SHA256_ROUND_HALFUP)
+                          ? scale_rot_halfup : scale_rot_bankers;
+
     sha256_N = N;
     sha256_MASK = (N >= 32) ? 0xFFFFFFFFU : ((1U << N) - 1);
     sha256_MSB = 1U << (N - 1);
 
-    sha256_rS0[0] = scale_rot(2, N);
-    sha256_rS0[1] = scale_rot(13, N);
-    sha256_rS0[2] = scale_rot(22, N);
-    sha256_rS1[0] = scale_rot(6, N);
-    sha256_rS1[1] = scale_rot(11, N);
-    sha256_rS1[2] = scale_rot(25, N);
-    sha256_rs0[0] = scale_rot(7, N);
-    sha256_rs0[1] = scale_rot(18, N);
-    sha256_ss0 = scale_rot(3, N);
-    sha256_rs1[0] = scale_rot(17, N);
-    sha256_rs1[1] = scale_rot(19, N);
-    sha256_ss1 = scale_rot(10, N);
+    sha256_rS0[0] = sr(2, N);
+    sha256_rS0[1] = sr(13, N);
+    sha256_rS0[2] = sr(22, N);
+    sha256_rS1[0] = sr(6, N);
+    sha256_rS1[1] = sr(11, N);
+    sha256_rS1[2] = sr(25, N);
+    sha256_rs0[0] = sr(7, N);
+    sha256_rs0[1] = sr(18, N);
+    sha256_ss0 = sr(3, N);
+    sha256_rs1[0] = sr(17, N);
+    sha256_rs1[1] = sr(19, N);
+    sha256_ss1 = sr(10, N);
 
     for (int i = 0; i < 64; i++) sha256_K[i] = K32[i] & sha256_MASK;
     for (int i = 0; i < 8; i++) sha256_IV[i] = IV32[i] & sha256_MASK;

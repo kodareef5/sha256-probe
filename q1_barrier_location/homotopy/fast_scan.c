@@ -13,12 +13,14 @@
 #include <stdint.h>
 #include <string.h>
 #include <time.h>
+#include <math.h>
 
 static int N_BITS;
 static uint32_t WMASK, MSB_BIT;
 
 static int scale_rot(int k32, int N) {
-    int r = (int)(0.5 + (double)k32 * N / 32.0);
+    /* Use rint() for banker's rounding to match Python's round(). */
+    int r = (int)rint((double)k32 * N / 32.0);
     return r < 1 ? 1 : r;
 }
 

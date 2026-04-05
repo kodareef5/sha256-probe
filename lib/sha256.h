@@ -26,8 +26,18 @@ extern int sha256_rS0[3], sha256_rS1[3];
 extern int sha256_rs0[2], sha256_rs1[2];
 extern int sha256_ss0, sha256_ss1;
 
-/* Initialize for N-bit word width. Must call before any other function. */
-void sha256_init(int N);
+/* Rounding mode for scaling rotation amounts to N-bit.
+ * ROUND_BANKERS (default): matches Python round() — half to even.
+ * ROUND_HALFUP: traditional rounding — half away from zero. */
+#define SHA256_ROUND_BANKERS 0
+#define SHA256_ROUND_HALFUP  1
+
+/* Initialize for N-bit word width. Must call before any other function.
+ * rounding_mode: SHA256_ROUND_BANKERS (Python-compatible) or SHA256_ROUND_HALFUP */
+void sha256_init_ex(int N, int rounding_mode);
+
+/* Convenience: init with banker's rounding (Python-compatible default) */
+static inline void sha256_init(int N) { sha256_init_ex(N, SHA256_ROUND_BANKERS); }
 
 /* Primitives */
 static inline uint32_t sha256_ror(uint32_t x, int k) {
