@@ -14,9 +14,20 @@ remaining rounds can be attacked. See `reference/paper.pdf`.
 
 ## Before You Start
 
-1. Read `CLAIMS.md` — understand what's established vs hypothesized
-2. Read the `QUESTION.md` in whichever `q*_` folder you're working in
-3. **Always import from `lib/`** — never reimplement SHA-256 primitives
+1. **Check `comms/inbox/`** — read messages addressed to you or `all`
+2. **Update `comms/status/<your-machine>.md`** — what you're running, capacity
+3. Read `CLAIMS.md` — understand what's established vs hypothesized
+4. Read the `QUESTION.md` in whichever `q*_` folder you're working in
+5. **Always import from `lib/`** — never reimplement SHA-256 primitives
+
+## Multi-Machine Coordination
+
+This project runs on multiple machines simultaneously. We coordinate via
+git-based messaging in `comms/`. See `comms/README.md`.
+
+**On every `git pull`:** Check `comms/inbox/` for messages addressed to you.
+**After significant events:** Update your status board and send messages.
+**Before starting new work:** Check what others are doing to avoid duplication.
 
 ## Repository Structure
 
