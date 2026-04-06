@@ -77,3 +77,24 @@ EVIDENCE: single N=10 solution analyzed. Would need multiple solutions
 
 EVIDENCE: 3 independent SAT solutions at 3 different N values show
 consistent scaling and the universal "weak link" pattern.
+
+## Multi-Seed Analysis at N=10
+
+5 different Kissat seeds, same candidate:
+
+| Seed | dW57 | dW58 | dW59 | dW60 | dW61 | dW62 | dW63 | Total |
+|------|------|------|------|------|------|------|------|-------|
+| 0 | 6 | 4 | 4 | 4 | 7 | 6 | **1** | 32 |
+| 42 | 6 | 6 | 6 | 6 | 3 | 7 | **1** | 35 |
+| 137 | 6 | 6 | 6 | 8 | 7 | 5 | **1** | 39 |
+| 271 | 6 | 7 | 6 | 3 | 7 | 7 | **1** | 37 |
+| 1337 | 7 | 5 | 6 | 4 | 7 | 5 | **3** | 37 |
+
+dW[63] is the weak link in ALL 5 solutions (hw=1 in 4/5, hw=3 in 1/5).
+
+**Structural explanation**: W[63] = sigma1(W[61]) + constants,
+W[61] = sigma1(W[59]) + constants. The double sigma1 cascade
+(W[59] → W[61] → W[63]) creates algebraic freedom where the
+solver can tune W[59] to make dW[63] nearly vanish.
+
+EVIDENCE level: EVIDENCE — 5 independent solutions, universal pattern.
