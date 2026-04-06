@@ -19,12 +19,15 @@
 | 20 | SAT | 672 | Parallel, fill=0x80000. Faster than N=18! |
 | 21 | SAT | 653 | Parallel, fill=0x0. Faster than N=20! |
 | 22 | SAT | 2546 | Single candidate, fill=0x3fffff |
-| 23 | cand1 TIMEOUT | >4h | cand2 solving (2h16m in) |
+| 23 | SAT | 4185 | M[0]=0x71453e, fill=0xf0 (69.7 min), cand 7/7 |
 | 24 | SAT | 4206 | M[0]=0x221e85, fill=0x0 (70 min) |
 | 25 | SAT | ~5200 | M[0]=0xa0e50f, fill=0xaa (~87 min) |
-| 26 | cand1 TIMEOUT | >4h | cand2 solving (45 min in) |
+| 26 | solving | — | 2 candidates, ~50 min in (laptop) |
 | 27 | TIMEOUT | >8h | 3 candidates all timed out |
 | 28 | TIMEOUT | >8h | 1 candidate timed out |
+| 29 | solving | — | 2 candidates, first-ever attempt (laptop) |
+| 30 | solving | — | 1 candidate, first-ever attempt (laptop) |
+| 31 | solving | — | 2 candidates, first-ever attempt (laptop) |
 | 32 | UNSAT* | N/A | *For known candidates only |
 
 ## Scaling Fit (with N=24)
@@ -40,8 +43,9 @@ T = 1.684 * 1.393^N
 
 ## Key Findings
 
-1. Every non-degenerate width N=8-22, N=24 produces sr=60 collisions
-2. N=23 solving, N=25-28 solving in parallel (9 cores)
-3. C candidate scanning is 200-300x faster than Python
-4. N=32 extrapolation: ~19 hours single-machine
-5. The barrier is computational, not topological
+1. Every non-degenerate width N=8-25 produces sr=60 collisions (N=23 filled!)
+2. N=26-31 solving on laptop (14 cores), N=27-28 timed out on MacBook
+3. N=23 required 7th candidate (fill=0xf0) — candidate diversity matters
+4. Scaling accelerating: ~2.35x/bit after N=25 (was 1.37x/bit)
+5. N=32 extrapolation: ~24 days at accelerated rate (was ~19h at old rate)
+6. The barrier is computational, not topological
