@@ -119,10 +119,39 @@ satisfy 60-80% of the collision conditions, the residual SAT problem
 has ~50-100 effective bits of search instead of ~256. That's the
 difference between TIMEOUT and SAT in seconds.
 
+## A-Path Cascade Cannot Use All Free Words (2026-04-06)
+
+Using all 4 free words for a-path zeroing (da57=da58=da59=da60=0):
+- Produces 4 zero registers (a,b,c,d) after round 60
+- BUT rounds 61-63 have NO free words (schedule-determined W[61..63])
+- These 3 rounds must zero the remaining 4 non-zero e-registers
+- The e-path accumulates error from de57 (~11-16 bits) through 6 rounds
+- 3 fixed rounds CANNOT zero 4 non-zero registers
+
+IMPLICATION: The solver must BALANCE a-path and e-path control.
+The da57=0 constraint commits 1 of 4 free words to the a-path.
+The remaining 3 must jointly optimize BOTH paths — this is a 96-bit
+joint optimization problem (3 words × 32 bits) with holistic
+interactions through 6 rounds of SHA-256 compression.
+
+## Experimental Summary (2026-04-05/06)
+
+| Experiment | CPU-hours | Result |
+|---|---|---|
+| da57=0 × 6 candidates × 7200s | 12 | ALL TIMEOUT |
+| da57+da58=0 × 1800s | 0.5 | TIMEOUT |
+| 4-bit partition (16 × 1800s) | 8 | ALL TIMEOUT |
+| 5-bit partition (32 × 3600s) | 32 | ALL TIMEOUT |
+| 8-bit partition (256 × 3600s) | 256 (running) | 42/256 TIMEOUT so far |
+| de57=0 × 6 candidates | instant | ALL UNSAT <0.5s |
+| Alt gap W[58..61] × 3 | instant | ALL UNSAT <1s |
+| Thermometer (256 partitions) | 0.1 | All identical |
+| **Total** | **~310** | **0 SAT, 0 UNSAT (non-trivial)** |
+
 ## Next Steps
 
-- Run da57=0 for both candidates with 7200s timeout (running now)
-- Build sequential modification: da57=0 → da58=0 → de58 minimized
-- Build partition solver with da57=0 constraint
-- Implement CaDiCaL IPASIR-UP with carry propagation
-- Explore multi-block: second compression block to correct residual
+- Complete overnight 8-bit partition (214 remaining, ~8h)
+- Run 10-bit timeout diagnostic (1024 parts × 60s) when cores free
+- Implement eager carry propagation in CaDiCaL IPASIR-UP
+- Extend signed-diff model to multiple rounds
+- Explore whether the JOINT optimization can be decomposed differently
