@@ -28,24 +28,26 @@
 | 29 | solving | — | 2 candidates, first-ever attempt (laptop) |
 | 30 | SAT | 30570 | M[0]=0x7bffba9, fill=0x55 (8.5h), single candidate, first-ever! |
 | 31 | solving | — | 2 candidates, first-ever attempt (laptop) |
-| 32 | UNSAT* | N/A | *For known candidates only |
+| 32 | **RACING** | — | 12 candidates × 2 solvers = 24 instances on 24-core Linux |
 
-## Scaling Fit (with N=24)
+## Scaling Fit (with N=30)
 
-T = 1.684 * 1.393^N
+T ≈ 1.5 * 1.4^N (approximate, non-monotonic scatter)
 
-| N | Predicted |
-|---|-----------|
-| 25 | 1.8 h |
-| 26 | 2.6 h |
-| 28 | 5.0 h |
-| 32 | 18.8 h |
+| N | Actual | Predicted |
+|---|--------|-----------|
+| 27 | 2.9h | 2.6h |
+| 28 | 3.1h | 3.6h |
+| 30 | 8.5h | 7.1h |
+| 31 | — | ~10h |
+| 32 | — | ~14-20h |
 
 ## Key Findings
 
-1. Every non-degenerate width N=8-25, N=27 produces sr=60 collisions
-2. N=27 cracked by wider candidate search (fill=0x3ffffff, not tried on MacBook)
-3. Candidate diversity is CRITICAL: N=23 needed cand 7/7, N=27 needed cand 2/8
-4. N=26, 28-31 still solving on laptop (15 Kissat processes)
-5. N=27 at 10340s (2.9h) — NOT accelerating as feared, consistent with original fit
-6. The barrier is computational, not topological
+1. Every non-degenerate width N=8-25, N=27-28, N=30 produces sr=60 collisions
+2. NO phase transition detected through N=30 (2 bits from full SHA-256)
+3. Candidate diversity is CRITICAL: wrong candidates timeout, right ones solve
+4. N=26, 29, 31 solving on Mac laptop
+5. **N=32 race launched on 24-core Linux: 12 candidates × 2 solvers**
+6. The barrier is computational, not topological — scaling is smooth 1.4^N
+7. N=32 extrapolation: 14-20h single-thread, ~1-2h with lucky candidate on 24 cores
