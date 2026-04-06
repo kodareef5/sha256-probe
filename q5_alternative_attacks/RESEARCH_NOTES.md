@@ -172,3 +172,16 @@ than a generic 31-step SFS residual, so the conversion overhead could
 be much lower.
 
 Source: [The First Practical Collision for 31-Step SHA-256 (ASIACRYPT 2024)](https://dl.acm.org/doi/10.1007/978-981-96-0941-3_8)
+
+### 8. AlphaMapleSAT: MCTS-guided Cube-and-Conquer (2024-2026)
+**Paper:** [AlphaMapleSAT](https://arxiv.org/abs/2401.13770)
+
+MCTS-guided cubing gives 1.6-7.6x speedup over March lookahead on
+128 cores. But for our problem, we already know the best partition
+variables from algebraic analysis (da57=0, W[58] MSBs).
+
+The cryptographic hash inversion paper (JAIR 2024) inverted 19-round
+SHA-256 with standard cube-and-conquer. Our problem (7 tail rounds)
+is smaller but the collision constraint is harder than inversion.
+
+Source: [Inverting Cryptographic Hash Functions via CnC](https://dl.acm.org/doi/pdf/10.1613/jair.1.15244)
