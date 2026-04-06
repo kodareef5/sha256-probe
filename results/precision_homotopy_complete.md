@@ -24,7 +24,7 @@
 | 25 | SAT | ~5200 | M[0]=0xa0e50f, fill=0xaa (~87 min) |
 | 26 | solving | — | 2 candidates, ~50 min in (laptop) |
 | 27 | SAT | 10340 | M[0]=0x2bfb506, fill=0x3ffffff (2.9h), cand 2/8. MacBook's 3 cands timed out — different fill cracked it! |
-| 28 | TIMEOUT | >8h | 1 candidate timed out |
+| 28 | SAT | 11220 | M[0]=0x97978c3, fill=0xaa (3.1h), cand 5/8. MacBook's 1 cand timed out — different fill! |
 | 29 | solving | — | 2 candidates, first-ever attempt (laptop) |
 | 30 | solving | — | 1 candidate, first-ever attempt (laptop) |
 | 31 | solving | — | 2 candidates, first-ever attempt (laptop) |
