@@ -22,12 +22,12 @@
 | 23 | SAT | 4185 | M[0]=0x71453e, fill=0xf0 (69.7 min), cand 7/7 |
 | 24 | SAT | 4206 | M[0]=0x221e85, fill=0x0 (70 min) |
 | 25 | SAT | ~5200 | M[0]=0xa0e50f, fill=0xaa (~87 min) |
-| 26 | solving | — | 2 candidates, ~50 min in (laptop) |
+| 26 | TIMEOUT | >8h | 8 candidates (7 fills) ALL timeout. Harder than N=27! Non-monotonic outlier. |
 | 27 | SAT | 10340 | M[0]=0x2bfb506, fill=0x3ffffff (2.9h), cand 2/8. MacBook's 3 cands timed out — different fill cracked it! |
 | 28 | SAT | 11220 | M[0]=0x97978c3, fill=0xaa (3.1h), cand 5/8. MacBook's 1 cand timed out — different fill! |
-| 29 | solving | — | 2 candidates, first-ever attempt (laptop) |
+| 29 | solving | — | 5 candidates (3 fills), first-ever attempt (laptop) |
 | 30 | SAT | 30570 | M[0]=0x7bffba9, fill=0x55 (8.5h), single candidate, first-ever! |
-| 31 | solving | — | 2 candidates, first-ever attempt (laptop) |
+| 31 | TIMEOUT | >12h | 2 candidates timed out. Need more diverse fills. |
 | 32 | **RACING** | — | 12 candidates × 2 solvers = 24 instances on 24-core Linux |
 
 ## Scaling Fit (with N=30)
