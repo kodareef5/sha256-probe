@@ -95,7 +95,12 @@ public:
     long n_propagated = 0;
     long n_forward_runs = 0;
 
+    // External clause queue (for blocking non-collision assignments)
+    std::vector<int> pending_clause;
+    bool has_pending_clause = false;
+
     ForwardPropagator(Solver *s, int nvars) : solver(s), n_vars(nvars) {
+        is_lazy = true;  // Only check complete assignments
         assignment.resize(nvars + 1, -1);
         memset(word_assigned_bits, 0, sizeof(word_assigned_bits));
         memset(word_values, 0, sizeof(word_values));
@@ -230,15 +235,78 @@ public:
     }
 
     bool cb_check_found_model(const std::vector<int> &model) override {
-        return true;
+        // Extract free word values from the model
+        uint32_t w1[4]={0,0,0,0}, w2[4]={0,0,0,0};
+        for (int lit : model) {
+            int var = abs(lit);
+            bool val = lit > 0;
+            auto it = var_to_word_bit.find(var);
+            if (it != var_to_word_bit.end()) {
+                int widx = it->second.first;
+                int bit = it->second.second;
+                if (val) {
+                    if (widx < 4) w1[widx] |= (1U << bit);
+                    else w2[widx-4] |= (1U << bit);
+                }
+            }
+        }
+
+        // Run native SHA-256 forward check
+        uint32_t W1t[7], W2t[7];
+        for (int i=0;i<4;i++){W1t[i]=w1[i];W2t[i]=w2[i];}
+        W1t[4]=sha_sigma1(W1t[2])+W1_pre[54]+sha_sigma0(W1_pre[46])+W1_pre[45];
+        W2t[4]=sha_sigma1(W2t[2])+W2_pre[54]+sha_sigma0(W2_pre[46])+W2_pre[45];
+        W1t[5]=sha_sigma1(W1t[3])+W1_pre[55]+sha_sigma0(W1_pre[47])+W1_pre[46];
+        W2t[5]=sha_sigma1(W2t[3])+W2_pre[55]+sha_sigma0(W2_pre[47])+W2_pre[46];
+        W1t[6]=sha_sigma1(W1t[4])+W1_pre[56]+sha_sigma0(W1_pre[48])+W1_pre[47];
+        W2t[6]=sha_sigma1(W2t[4])+W2_pre[56]+sha_sigma0(W2_pre[48])+W2_pre[47];
+
+        uint32_t a1=s1[0],b1=s1[1],c1=s1[2],d1=s1[3],e1=s1[4],f1=s1[5],g1=s1[6],h1=s1[7];
+        uint32_t a2=s2[0],b2=s2[1],c2=s2[2],d2=s2[3],e2=s2[4],f2=s2[5],g2=s2[6],h2=s2[7];
+        for (int i=0;i<7;i++) {
+            uint32_t T1a=h1+sha_Sigma1(e1)+sha_Ch(e1,f1,g1)+K[57+i]+W1t[i];
+            uint32_t T2a=sha_Sigma0(a1)+sha_Maj(a1,b1,c1);
+            h1=g1;g1=f1;f1=e1;e1=d1+T1a;d1=c1;c1=b1;b1=a1;a1=T1a+T2a;
+            uint32_t T1b=h2+sha_Sigma1(e2)+sha_Ch(e2,f2,g2)+K[57+i]+W2t[i];
+            uint32_t T2b=sha_Sigma0(a2)+sha_Maj(a2,b2,c2);
+            h2=g2;g2=f2;f2=e2;e2=d2+T1b;d2=c2;c2=b2;b2=a2;a2=T1b+T2b;
+        }
+
+        bool collision=(a1==a2&&b1==b2&&c1==c2&&d1==d2&&e1==e2&&f1==f2&&g1==g2&&h1==h2);
+        n_forward_runs++;
+
+        if (collision) {
+            printf("*** COLLISION VERIFIED! ***\n"); fflush(stdout);
+            return true;
+        }
+
+        // Block this free-word assignment
+        pending_clause.clear();
+        for (int lit : model) {
+            if (var_to_word_bit.count(abs(lit)))
+                pending_clause.push_back(-lit);
+        }
+        has_pending_clause = true;
+
+        if (n_forward_runs % 100 == 0) {
+            int hw=__builtin_popcount(a1^a2)+__builtin_popcount(b1^b2)+
+                   __builtin_popcount(c1^c2)+__builtin_popcount(d1^d2)+
+                   __builtin_popcount(e1^e2)+__builtin_popcount(f1^f2)+
+                   __builtin_popcount(g1^g2)+__builtin_popcount(h1^h2);
+            printf("  [check #%ld] hw=%d\n", n_forward_runs, hw); fflush(stdout);
+        }
+        return false;
     }
 
     bool cb_has_external_clause(bool &is_forgettable) override {
+        if (has_pending_clause) { is_forgettable = true; return true; }
         return false;
     }
 
     int cb_add_external_clause_lit() override {
-        return 0;
+        if (pending_clause.empty()) { has_pending_clause = false; return 0; }
+        int lit = pending_clause.back(); pending_clause.pop_back();
+        return lit;
     }
 
     int cb_propagate() override {
