@@ -23,7 +23,7 @@
 | 24 | SAT | 4206 | M[0]=0x221e85, fill=0x0 (70 min) |
 | 25 | SAT | ~5200 | M[0]=0xa0e50f, fill=0xaa (~87 min) |
 | 26 | solving | — | 2 candidates, ~50 min in (laptop) |
-| 27 | TIMEOUT | >8h | 3 candidates all timed out |
+| 27 | SAT | 10340 | M[0]=0x2bfb506, fill=0x3ffffff (2.9h), cand 2/8. MacBook's 3 cands timed out — different fill cracked it! |
 | 28 | TIMEOUT | >8h | 1 candidate timed out |
 | 29 | solving | — | 2 candidates, first-ever attempt (laptop) |
 | 30 | solving | — | 1 candidate, first-ever attempt (laptop) |
@@ -43,9 +43,9 @@ T = 1.684 * 1.393^N
 
 ## Key Findings
 
-1. Every non-degenerate width N=8-25 produces sr=60 collisions (N=23 filled!)
-2. N=26-31 solving on laptop (14 cores), N=27-28 timed out on MacBook
-3. N=23 required 7th candidate (fill=0xf0) — candidate diversity matters
-4. Scaling accelerating: ~2.35x/bit after N=25 (was 1.37x/bit)
-5. N=32 extrapolation: ~24 days at accelerated rate (was ~19h at old rate)
+1. Every non-degenerate width N=8-25, N=27 produces sr=60 collisions
+2. N=27 cracked by wider candidate search (fill=0x3ffffff, not tried on MacBook)
+3. Candidate diversity is CRITICAL: N=23 needed cand 7/7, N=27 needed cand 2/8
+4. N=26, 28-31 still solving on laptop (15 Kissat processes)
+5. N=27 at 10340s (2.9h) — NOT accelerating as feared, consistent with original fit
 6. The barrier is computational, not topological
