@@ -1,0 +1,47 @@
+Partition Thermometer: 256 partitions × 10000 samples
+Candidate: 0x44b49bc3, da57=0, 8 bits of W1[58] fixed
+============================================================
+  [32/256] 26s
+  [64/256] 52s
+  [96/256] 77s
+  [128/256] 102s
+  [160/256] 128s
+  [192/256] 154s
+  [224/256] 179s
+  [256/256] 204s
+
+============================================================
+Top 20 hottest partitions (closest to collision):
+  Part  Best HW  Mean HW
+   159       86    127.9 <<<
+    13       89    128.2 <<<
+     5       90    127.9
+    33       91    127.9
+   131       91    127.9
+   190       91    128.0
+    21       92    128.0
+    55       92    128.2
+    58       92    128.1
+   173       92    127.9
+    26       93    128.0
+   106       93    128.0
+   122       93    128.1
+   139       93    128.0
+   143       93    128.0
+   150       93    127.9
+   181       93    128.0
+   189       93    128.1
+   199       93    128.0
+    16       94    128.0
+
+Coldest 5 partitions:
+   235      101    128.1
+   255      101    127.9
+     1      102    128.0
+     9      102    128.0
+   171      102    128.0
+
+Best HW range: 86 to 102
+Mean of bests: 97.5
+Temperature varies by 16 — some partitions are hotter!
+Focus solver time on the hottest partitions.
