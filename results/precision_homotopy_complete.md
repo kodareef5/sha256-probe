@@ -19,10 +19,12 @@
 | 20 | SAT | 672 | Parallel, fill=0x80000. Faster than N=18! |
 | 21 | SAT | 653 | Parallel, fill=0x0. Faster than N=20! |
 | 22 | SAT | 2546 | Single candidate, fill=0x3fffff |
-| 23 | ? | solving | M[0]=0x25c53e, fill=0x400000 (>2h, hard) |
+| 23 | cand1 TIMEOUT | >4h | cand2 solving (1.5h in) |
 | 24 | SAT | 4206 | M[0]=0x221e85, fill=0x0 (70 min) |
 | 25 | SAT | ~5200 | M[0]=0xa0e50f, fill=0xaa (~87 min) |
-| 26-28 | ? | solving | Multiple candidates in parallel |
+| 26 | cand1 TIMEOUT | >4h | cand2 solving |
+| 27 | solving | >7.5h | 3 candidates, approaching 8h timeout |
+| 28 | solving | >7.5h | 1 candidate, approaching 8h timeout |
 | 32 | UNSAT* | N/A | *For known candidates only |
 
 ## Scaling Fit (with N=24)
