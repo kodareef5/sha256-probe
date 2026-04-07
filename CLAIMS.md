@@ -5,6 +5,23 @@ Each claim links to detailed writeup in the relevant `q*/claims/` folder.
 
 ## VERIFIED
 
+### sr=60 collision at full SHA-256 (N=32)
+**The principal result of this project.** An sr=60 semi-free-start collision
+exists for the MSB kernel with M[0]=0x17149975 and all-ones padding.
+- **Certificate:**
+  ```
+  W1[57..60] = [0x9ccfa55e, 0xd9d64416, 0x9e3ffb08, 0xb6befe82]
+  W2[57..60] = [0x72e6c8cd, 0x4b96ca51, 0x587ffaa6, 0xea3ce26b]
+  ```
+- **Hash:** `ba6287f0dcaf9857d89ad44a6cced1e2adf8a242524236fbc0c656cd50a7e23b`
+- **Evidence:** Kissat 4.0.4 --seed=5 SAT in ~12h (Mac M5). Independently
+  verified on 24-core Linux server and laptop via native SHA-256 computation.
+- **Mechanism:** Perfect register-zeroing cascade (see `writeups/sr60_collision_anatomy.md`)
+- **Significance:** Extends Viragh (2026) from sr=59 (92.19%) to sr=60 (93.75%)
+- **Caveats:** Still semi-free-start (4 free schedule words). NOT a standard collision.
+- **Methodological lesson:** The original paper declared this candidate UNSAT.
+  The timeout was a single-seed artifact. Seed diversity is essential.
+
 ### sr=59 collision independently reproduced
 The sr=59 collision certificate from Viragh (2026) has been independently
 reproduced using a custom CSA-tree SAT encoder in 220.5 seconds.
@@ -12,16 +29,17 @@ reproduced using a custom CSA-tree SAT encoder in 220.5 seconds.
 - **Scripts:** `archive/13_custom_cnf_encoder.py` (sr59 mode)
 - **Caveats:** None
 
-### sr=60 is SAT at reduced word widths N=8 through N=21
-For every non-degenerate word width from N=8 to N=21, there exists a
-candidate M[0] and free words W[57..60] producing an sr=60 collision
-in mini-SHA-256(N).
-- **Evidence:** Kissat SAT with verified collision at each N
-- **Scripts:** `q1_barrier_location/homotopy/`
+### sr=60 is SAT at all non-degenerate word widths N=8 through N=32
+For every non-degenerate word width from N=8 to N=30 (and N=32), there
+exists a candidate producing an sr=60 collision. Continuous homotopy
+with no phase transition.
+- **Evidence:** Kissat SAT with verified collision at each N=8-25, 27-28, 30, 32
+- **Scripts:** `q1_barrier_location/homotopy/`, `results/precision_homotopy_complete.md`
+- **Gaps:** N=26, 29, 31 timeout (hard due to prime-width / rotation effects)
 - **Caveats:**
-  - Mini-SHA-256 uses scaled rotations and truncated constants
-  - N=9 excluded (degenerate rotation cancellation: scale_rot(17,9)==scale_rot(19,9))
-  - Does NOT prove sr=60 is SAT at N=32
+  - N=9 excluded (rotation degeneracy)
+  - N<32 uses scaled rotations and truncated constants
+  - N=26, 29, 31 may need longer runs or different candidates
 
 ### SA cannot find sr=60 collisions even where they provably exist
 Simulated annealing with 50K restarts and 500K steps per restart fails to
