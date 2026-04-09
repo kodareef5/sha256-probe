@@ -107,16 +107,17 @@ int main(int argc, char **argv) {
         uint32_t dw56 = w56_1 ^ w56_2;
         int hw_dw56 = hw32(dw56);
 
-        if (hw_dw56 <= hw_thresh) {
-            total_low_hw_hits++;
-            #pragma omp critical
-            {
-                printf("0x%08x   0x%08x   %-8d %-8d  %s\n",
-                       m0, fill, hw_dw56, 0,
-                       hw_dw56 <= 5 ? "*** EXCELLENT ***" :
-                       hw_dw56 <= 7 ? "** GOOD **" : "");
-                fflush(stdout);
-            }
+        if (hw_dw56 <= hw_thresh) total_low_hw_hits++;
+        /* ALWAYS print every da[56]=0 hit (not just low-hw ones) so we
+         * never lose information. Tag the rare ones for visibility. */
+        #pragma omp critical
+        {
+            printf("0x%08x   0x%08x   %-8d %-8d  %s\n",
+                   m0, fill, hw_dw56, 0,
+                   hw_dw56 <= 5 ? "*** EXCELLENT ***" :
+                   hw_dw56 <= 7 ? "** GOOD **" :
+                   hw_dw56 <= 9 ? "* notable *" : "");
+            fflush(stdout);
         }
 
         /* Progress */
