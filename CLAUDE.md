@@ -104,18 +104,26 @@ Each testable claim gets its own file in `q*/claims/` with:
 ## Current State (updated by humans, not auto-generated)
 
 ### Known candidates (MSB kernel, da[56]=0)
-| M[0] | Fill | hw56 | sr=60 Status |
-|------|------|------|-------------|
-| 0x17149975 | 0xffffffff | 104 | UNSAT (DRAT on 29/32 partitions) |
-| 0xa22dc6c7 | 0xffffffff | 115 | Likely UNSAT |
-| 0x9cfea9ce | 0x00000000 | 103 | Likely UNSAT |
-| 0x3f239926 | 0xaaaaaaaa | 107 | Likely UNSAT |
+| M[0] | Fill | hw56 | sr=60 Status | sr=61 Status |
+|------|------|------|-------------|-------------|
+| 0x17149975 | 0xffffffff | 104 | **SAT (verified, Kissat seed=5, 12h)** | 50h+ no result |
+| 0xa22dc6c7 | 0xffffffff | 115 | Untested (29/32 partition UNSAT inconclusive) | not tested |
+| 0x9cfea9ce | 0x00000000 | 103 | Untested | not tested |
+| 0x3f239926 | 0xaaaaaaaa | 107 | Untested | not tested |
+| 0x44b49bc3 | 0x80000000 | 106 | Running (3 seeds, 2026-04-09) | not tested |
+| 0x189b13c7 | 0x80000000 | 122 | Untested | not tested |
 
 ### Precision homotopy frontier
-sr=60 is SAT at every non-degenerate word width N=8 through N=21.
-N=22 is currently being solved. See `q1_barrier_location/claims/`.
+sr=60 is SAT at every non-degenerate word width N=8 through N=32 (verified
+April 2026). The principal sr=60 SAT result is on M[0]=0x17149975, fill=0xff.
+See `writeups/PROJECT_SUMMARY.md` and `writeups/sr60_collision_anatomy.md`.
 
 ### Biggest open questions
-1. Does any N=32 candidate family produce sr=60 SAT?
-2. Can MITM on the 24-bit hard residue bypass the SAT solver entirely?
-3. Do Wang-style message modifications apply to this problem?
+1. Is sr=61 SAT at N=32 for any candidate? (Race ongoing, ~50h+)
+2. Do alternative candidates produce sr=60 SAT faster than 0x17149975?
+   (Tests on 0x44b49bc3 launched 2026-04-09)
+3. Can MITM on the 24-bit hard residue bypass the SAT solver entirely?
+4. Do Wang-style message modifications apply to this problem?
+5. What's the right difficulty predictor? (hw_dW56 refuted at N=8;
+   de57_err untested at N=32; null result on 14 metrics — see
+   `q5_alternative_attacks/results/20260409_n8_predictor_search.md`)
