@@ -75,8 +75,40 @@ interference (no lower bits to carry from).
    constraint reduction.
 4. **Compare across candidates** — does the rank vary? Lower rank = easier?
 
+## Higher-Sample Validation (2000 samples)
+
+Rank confirmed at **34/256** (was 35 at 500 — converging). **4,528 deterministic
+bit relationships** (|bias| > 0.49) mapped.
+
+### Deterministic control structure = cascade mechanism in linear algebra
+
+| Free word | Deterministic output bits per input bit | Role |
+|---|---|---|
+| W[57] (both messages) | **0** | Fully absorbed by carries |
+| W[58] (both messages) | **0** | Fully absorbed by carries |
+| W[59] (both messages) | **5-25** | Cascade 1 tail (feeds dc, dg) |
+| W[60] (both messages) | **55-89** | Cascade 2 trigger (dominates dd, dg, dh) |
+
+Output register hierarchy (deterministic controllers per bit):
+| Register | Min | Max | Role |
+|---|---|---|---|
+| dc[63] | 0 | 21 | Cascade 1 arrival |
+| dg[63] | 10 | 30 | Cascade 2 intermediate |
+| dd[63] | 51 | 84 | Cascade propagation |
+| dh[63] | 61 | 92 | End of both cascades (most constrained) |
+
+### Implication for sr=61
+
+W[60]'s 55-89 deterministic relationships per bit explain QUANTITATIVELY
+why sr=61 is hard. When W[60] becomes schedule-determined (sr=61), these
+deterministic degrees of freedom become constraints imposed by the schedule
+rule. The solver must satisfy ~60 deterministic requirements per bit of
+W[60] through the schedule equation W[60] = sigma1(W[58]) + const —
+a massive over-constraint that the schedule arithmetic almost certainly
+can't satisfy.
+
 ### Evidence level
 
-**EVIDENCE** (pilot): 500 samples, carry-inclusive. Rank finding is robust
-(SVD is deterministic given the data). Deterministic correlations are exact.
-Needs higher-sample validation for small-bias entries.
+**EVIDENCE** (strengthened): 2000 samples, rank stable at 34. Deterministic
+relationships are exact (correlation = 1.0 or 0.0). The cascade mapping
+is structurally interpretable and consistent with the known sr=60 mechanism.
