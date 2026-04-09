@@ -113,6 +113,27 @@ differential-linear analysis, structurally interpretable through the
 known cascade mechanism, consistent with all empirical observations
 (60h CDCL + 12h SLS + N=8 DRAT proofs all pointing UNSAT).
 
+## Exact Symbolic Verification (Bit 0)
+
+At the LSB (bit 0), the entire cascade is provably carry-free:
+
+1. **Cascade 1**: da56=0 → db57=0 → dc58=0 → dd59=0 (shift register, exact)
+2. **Round 60**: de60[0] = C XOR dW60[0] (C is state-dependent, carry-free at LSB)
+3. **Cascade 2**: de60[0] → df61[0] → dg62[0] → dh63[0] (shift register, exact)
+
+For sr=61 at bit 0: dW60[0] = dsigma1(dW58)[0] = dW58[17] XOR dW58[19] XOR dW58[10]
+
+This gives one GF(2) linear equation in 3 unknowns — always satisfiable.
+
+At higher bits, carry chains from lower bits create additional coupled
+constraints. Each bit position adds an equation, but the unknowns are shared
+(each dW58 bit appears in 2-3 sigma1 output positions). By bit ~10, the
+system is over-determined, and the 10.8% structural conflicts emerge.
+
+This explains the gradient in the per-bit conflict data: W[58] low bits
+(0-9) have 3-4 conflicts each, while high bits (19-23) have 10-11 — the
+carry chains accumulate complexity from LSB to MSB.
+
 ## Scripts
 
 - `q5_alternative_attacks/difflinear_matrix.py` — correlation matrix builder
