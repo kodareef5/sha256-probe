@@ -60,7 +60,19 @@ within the candidate space — the corollary being that "find an easier
 candidate" is not a productive direction without orders of magnitude
 more candidates to test.
 
+## Multivariate Update
+
+OLS regression of time on 5 standardized features (dW56, dW55, dW54,
+state_56, h56) across all 30 candidates:
+- **R² = 0.1092** (only 11% of variance explained)
+- Largest standardized coefficient: dW54 at +1.79 (still small)
+- Timeout binary classifier: max single-feature |r| = 0.24 (dW55)
+
+Even combining multiple features explains very little variance.
+The algebraic predictor approach is exhausted at N=8.
+
 ## Evidence level
 
-**EVIDENCE**: 30-candidate sample, 20 valid timing measurements at N=8.
-Reproducible from `q5_alternative_attacks/n8_predictor_search.py`.
+**EVIDENCE** (strengthened by multivariate analysis): 30-candidate sample,
+20 valid timing measurements at N=8. Reproducible from
+`q5_alternative_attacks/n8_predictor_search.py`.
