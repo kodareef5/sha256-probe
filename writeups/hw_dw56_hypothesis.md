@@ -1,4 +1,35 @@
-# Hypothesis: Low hw(dW[56]) Predicts sr=60 Solvability
+## RETRACTED 2026-04-09 — Empirical refutation at N=8
+
+A direct test at N=8 mini-SHA refutes this hypothesis. Across 11 candidates
+spanning hw_dW56_mini ∈ {0, 1, 7}:
+
+| hw | n | min_times | mean (excl. timeouts) |
+|---|---|---|---|
+| 0 | 2 | 3.4s, TIMEOUT | 3.4s |
+| 1 | 4 | 6.7s, 7.4s, 11.3s, 25.9s | 12.8s |
+| 7 | 5 | 2.8s, 3.9s, 5.3s, 16.3s, TIMEOUT | 7.1s |
+
+Within-hw variance dominates between-hw variance. The fastest candidate
+(2.8s) is at hw=7, NOT hw=0. Both hw=0 and hw=7 have one timeout each.
+There is no predictive power.
+
+Mechanistic explanation: hw_dW56 is just one of many differential
+characteristics. Carry propagation, cascade-1 cleanliness, and other
+algebraic factors dominate solver difficulty. The single N=32 observation
+(0x17149975 having lowest hw_dW56) was within the 1.4% chance of random
+correlation.
+
+CAVEAT: N=8 mini-SHA has different rotation amounts and constants than
+N=32. The hypothesis MIGHT still hold at N=32 even though it's refuted at
+N=8 — but the prior should drop substantially.
+
+Test artifacts:
+- `q5_alternative_attacks/n8_hw_dw56_test.py` — enumeration of 262 N=8 candidates
+- `q5_alternative_attacks/n8_hw_dw56_solver_test.py` — kissat timing experiment
+
+---
+
+# Hypothesis (ORIGINAL, see retraction above): Low hw(dW[56]) Predicts sr=60 Solvability
 
 ## Statement
 
