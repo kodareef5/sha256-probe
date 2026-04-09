@@ -62,9 +62,17 @@ is (almost certainly) UNSAT.
    flips. The actual collision involves ALL bits simultaneously — joint
    effects might cancel some conflicts (or create more).
 
-3. **One candidate only**: Tested on M[0]=0x17149975, fill=0xffffffff.
-   Other candidates may have different conflict rates (though the cascade
-   mechanism is the same for all MSB-kernel candidates).
+3. ~~**One candidate only**~~: **RESOLVED** — tested on all 4 known candidates.
+   The conflict rate is **universal at 10.7-10.8%** across all candidates and
+   fills. This is a structural constant of SHA-256's sigma1 design, not
+   candidate-dependent.
+
+   | Candidate | Fill | Conflicts | Checked | Rate |
+   |---|---|---|---|---|
+   | 0x17149975 | 0xffffffff | 208 | 1920 | 10.8% |
+   | 0xa22dc6c7 | 0xffffffff | 204 | 1892 | 10.8% |
+   | 0x9cfea9ce | 0x00000000 | 204 | 1909 | 10.7% |
+   | 0x3f239926 | 0xaaaaaaaa | 202 | 1895 | 10.7% |
 
 4. **Not a proof**: This is an EVIDENCE-level argument, not a theorem.
    A proof would require showing that the polynomial system over GF(2) is
