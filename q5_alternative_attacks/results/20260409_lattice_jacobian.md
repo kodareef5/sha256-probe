@@ -74,8 +74,30 @@ exploitable as rank 20 would be, but not random (which would be ~128).
    output register specifically).
 3. Project free words onto the top SVD direction and search that 1D slice.
 
+## Validation Against Nonlinear Model — NEGATIVE
+
+Sampled 100K random (W[57..60]) pairs through the ACTUAL 7-round tail
+(with carries, real Ch/Maj). Result:
+
+- **ALL 8 registers: mean diff HW = 16.00 ± 0.01** (perfectly uniform)
+- **ALL 256 output bits: zero frequency = 50.0% ± 0.4%** (no outliers)
+- Top vs bottom bit: 50.40% vs 49.58% — within sampling noise
+
+**The XOR-linear dh[63] weakness is completely masked by carry propagation.**
+In the real function, no register or bit is easier to zero than any other.
+The carries randomize the output so thoroughly that the linear Jacobian
+structure does NOT transfer.
+
+This means:
+1. Targeting dh[63] first won't help — it's no easier than any other register
+2. The moderate SVD low-rank (73/128) is an artifact of the linearization
+3. Carry propagation is the dominant source of difficulty, not linear mixing
+
+**The lattice approach (Issue #15) is unlikely to help at N=32** unless
+we find a way to handle carries within the lattice framework.
+
 ## Evidence level
 
-**EVIDENCE**: deterministic computation of the XOR-linear Jacobian.
-The rank, weights, and SVD are exact for the linearized model.
-Transfer to the actual (nonlinear) problem is uncertain.
+**EVIDENCE**: XOR-linear Jacobian is exact for the linearized model.
+Carry-aware validation (100K samples) shows the linear structure does
+NOT transfer to the actual function. The lattice approach is deprioritized.
