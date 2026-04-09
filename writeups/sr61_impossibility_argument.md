@@ -70,12 +70,40 @@ is (almost certainly) UNSAT.
    A proof would require showing that the polynomial system over GF(2) is
    inconsistent, which is co-NP-hard in general.
 
+## Refined Per-Message Analysis
+
+The initial 47.9% was a joint M1+M2 count. Per-message:
+
+| Message | sigma1 conflicts | Checked | Rate |
+|---|---|---|---|
+| M1 | 207 | 1,917 | 10.8% |
+| M2 | 208 | 1,922 | 10.8% |
+
+**Every W[58] bit (32/32) in both messages has at least 3 conflicts.**
+Higher bits (positions 19-23) have 10-11 conflicts each — worst
+interference from sigma1's rotation offsets at 17 and 19.
+
+Conflicts per W[58] bit (M1):
+- Low bits (0-9): 3-4 conflicts each
+- Mid bits (10-18): 7-8 conflicts each
+- High bits (19-23): 10-11 conflicts each (worst)
+- Top bits (24-31): 7-8 conflicts each
+
+M2 is nearly identical (same structure, different constants).
+
+The 10.8% per-message conflict rate means: for each message independently,
+~208 of the ~1920 sigma1-composed deterministic constraints are internally
+contradictory. These 208 constraints cannot be simultaneously satisfied
+by ANY choice of W[58] for that message. The solver must find a W[58]
+where these conflicts happen to cancel through carry propagation —
+which is the "miracle" that makes sr=61 so hard.
+
 ## Evidence Level
 
 **EVIDENCE** (strong): quantitative measurement from 2000-sample
 differential-linear analysis, structurally interpretable through the
 known cascade mechanism, consistent with all empirical observations
-(54h CDCL + 12h SLS + N=8 DRAT proofs all pointing UNSAT).
+(60h CDCL + 12h SLS + N=8 DRAT proofs all pointing UNSAT).
 
 ## Scripts
 
