@@ -1,0 +1,22 @@
+Near-Collision Register Skip Sweep at N=8
+Server found: only skip-h helps at N=8 (1.75s vs 11s full)
+Testing all 8 single-register skips with 120s timeout
+
+  Skip a: TIMEOUT in 120.0s
+  Skip b: TIMEOUT in 120.0s
+  Skip c: TIMEOUT in 120.0s
+  Skip d: TIMEOUT in 120.0s
+  Skip e: TIMEOUT in 120.0s
+  Skip f: TIMEOUT in 120.0s
+  Skip g: SAT in 11.1s
+  Skip h: SAT in 20.4s
+
+=== Double register skips ===
+  Skip d+h: TIMEOUT in 120.0s
+  Skip g+h: TIMEOUT in 120.0s
+  Skip c+h: TIMEOUT in 120.0s
+  Skip f+h: TIMEOUT in 120.0s
+  Skip d+g: TIMEOUT in 120.0s
+  Skip c+g: TIMEOUT in 120.0s
+
+Done.
