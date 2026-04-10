@@ -1,0 +1,114 @@
+Candidate: M[0]=0x17149975 at N=32
+
+Per-Round Degree Profile (N=32)
+============================================================
+
+  Round 57, 1 free words (64 free bits):
+       k  % unchanged                 interpretation
+       1        98.3% degree > k (most bits unaffected)
+       2        97.0% degree > k (most bits unaffected)
+       3        95.8% degree > k (most bits unaffected)
+       4        94.5% degree > k (most bits unaffected)
+       6        92.4% degree > k (most bits unaffected)
+       8        89.8% degree ~ k (some bits affected)
+      12        86.7% degree ~ k (some bits affected)
+      16        83.7% degree ~ k (some bits affected)
+      24        79.8% degree ~ k (some bits affected)
+      32        77.4% degree ~ k (some bits affected)
+    Estimated degree: ~64 / 64 free bits (100% of maximum)
+
+  Round 58, 2 free words (128 free bits):
+       k  % unchanged                 interpretation
+       1        93.7% degree > k (most bits unaffected)
+       2        91.3% degree > k (most bits unaffected)
+       3        86.1% degree ~ k (some bits affected)
+       4        82.8% degree ~ k (some bits affected)
+       6        77.2% degree ~ k (some bits affected)
+       8        74.0% degree ~ k (some bits affected)
+      12        69.5% degree ~ k (some bits affected)
+      16        67.1% degree ~ k (some bits affected)
+      24        61.3% degree ~ k (some bits affected)
+      32        58.6% degree ~ k (some bits affected)
+    Estimated degree: ~128 / 128 free bits (100% of maximum)
+
+  Round 59, 3 free words (192 free bits):
+       k  % unchanged                 interpretation
+       1        90.3% degree > k (most bits unaffected)
+       2        80.7% degree ~ k (some bits affected)
+       3        74.2% degree ~ k (some bits affected)
+       4        66.7% degree ~ k (some bits affected)
+       6        60.4% degree ~ k (some bits affected)
+       8        56.6% degree ~ k (some bits affected)
+      12        50.5% degree ~ k (some bits affected)
+      16        46.4% degree < k (most bits affected)
+      24        40.6% degree < k (most bits affected)
+      32        37.8% degree < k (most bits affected)
+    Estimated degree: ~192 / 192 free bits (100% of maximum)
+
+  Round 60, 4 free words (256 free bits):
+       k  % unchanged                 interpretation
+       1        80.8% degree ~ k (some bits affected)
+       2        71.5% degree ~ k (some bits affected)
+       3        64.5% degree ~ k (some bits affected)
+       4        54.6% degree ~ k (some bits affected)
+       6        43.0% degree < k (most bits affected)
+       8        34.3% degree < k (most bits affected)
+      12        30.8% degree < k (most bits affected)
+      16        26.6% degree < k (most bits affected)
+      24        18.8% degree < k (most bits affected)
+      32        16.1% degree < k (most bits affected)
+    Estimated degree: ~256 / 256 free bits (100% of maximum)
+
+  Round 61, 4 free words (256 free bits):
+       k  % unchanged                 interpretation
+       1        68.4% degree ~ k (some bits affected)
+       2        53.1% degree ~ k (some bits affected)
+       3        42.2% degree < k (most bits affected)
+       4        33.3% degree < k (most bits affected)
+       6        21.2% degree < k (most bits affected)
+       8        16.3% degree < k (most bits affected)
+      12         9.2% degree << k (all bits affected)
+      16         5.6% degree << k (all bits affected)
+      24         2.7% degree << k (all bits affected)
+      32         1.1% degree << k (all bits affected)
+    Estimated degree: ~12 / 256 free bits (5% of maximum)
+
+  Round 62, 4 free words (256 free bits):
+       k  % unchanged                 interpretation
+       1        62.1% degree ~ k (some bits affected)
+       2        40.3% degree < k (most bits affected)
+       3        25.7% degree < k (most bits affected)
+       4        18.6% degree < k (most bits affected)
+       6         8.6% degree << k (all bits affected)
+       8         5.3% degree << k (all bits affected)
+      12         1.4% degree << k (all bits affected)
+      16         0.5% degree << k (all bits affected)
+      24         0.1% degree << k (all bits affected)
+      32         0.0% degree << k (all bits affected)
+    Estimated degree: ~6 / 256 free bits (2% of maximum)
+
+  Round 63, 4 free words (256 free bits):
+       k  % unchanged                 interpretation
+       1        56.8% degree ~ k (some bits affected)
+       2        32.3% degree < k (most bits affected)
+       3        17.7% degree < k (most bits affected)
+       4        10.4% degree < k (most bits affected)
+       6         3.4% degree << k (all bits affected)
+       8         1.3% degree << k (all bits affected)
+      12         0.2% degree << k (all bits affected)
+      16         0.1% degree << k (all bits affected)
+      24         0.0% degree << k (all bits affected)
+      32         0.0% degree << k (all bits affected)
+    Estimated degree: ~6 / 256 free bits (2% of maximum)
+
+============================================================
+DEGREE GROWTH SUMMARY (N=32)
+============================================================
+ Round  Free words  Free bits  Est degree  % of max
+    57           1         64          64      100%
+    58           2        128         128      100%
+    59           3        192         192      100%
+    60           4        256         256      100%
+    61           4        256          12        5% ← LOW
+    62           4        256           6        2% ← LOW
+    63           4        256           6        2% ← LOW
