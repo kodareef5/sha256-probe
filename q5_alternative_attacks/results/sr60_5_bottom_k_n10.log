@@ -1,0 +1,8 @@
+sr=60.5 BOTTOM-K Enforcement at N=10 (enforce LSBs, not MSBs)
+If LSBs are algebraically simpler, this should tolerate MORE enforcement
+
+  Bottom K= 0/10: 3340v 13939c -> SAT in 107s
+  Bottom K= 1/10: 3338v 13939c -> SAT in 13s
+  Bottom K= 2/10: 3336v 13939c -> SAT in 165s
+  Bottom K= 3/10: 3334v 13939c -> SAT in 83s
+  Bottom K= 4/10: 3332v 13939c -> TIMEOUT in 300s
