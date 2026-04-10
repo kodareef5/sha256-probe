@@ -1,0 +1,21 @@
+Finding MULTIPLE N=8 collisions via blocking clauses
+Goal: test if algebraic necessary conditions from N=4 generalize
+
+  [0] SAT 4.6s: W1[59]=0x47 W2[59]=0xb5 W1[57]=0xa2 W2[57]=0xcf
+  [1] SAT 12.0s: W1[59]=0x6a W2[59]=0x98 W1[57]=0x8f W2[57]=0xbc
+  [2] SAT 9.8s: W1[59]=0x42 W2[59]=0x03 W1[57]=0x9c W2[57]=0xc9
+  [3] SAT 24.1s: W1[59]=0xd7 W2[59]=0x65 W1[57]=0x34 W2[57]=0x61
+  [4] SAT 3.7s: W1[59]=0xd4 W2[59]=0x3a W1[57]=0x44 W2[57]=0x71
+  [5] SAT 21.3s: W1[59]=0x26 W2[59]=0xe5 W1[57]=0xc0 W2[57]=0xed
+  [6] SAT 6.1s: W1[59]=0x8a W2[59]=0x3a W1[57]=0xbf W2[57]=0xec
+  [7] SAT 20.8s: W1[59]=0x3c W2[59]=0x98 W1[57]=0x33 W2[57]=0x60
+  [8] SAT 4.5s: W1[59]=0x1c W2[59]=0x5d W1[57]=0x29 W2[57]=0x56
+  [9] SAT 12.0s: W1[59]=0xde W2[59]=0x1f W1[57]=0xf4 W2[57]=0x21
+  Trial 10: TIMEOUT
+
+Found 10 collisions at N=8
+
+=== Algebraic Necessary Conditions at N=8 ===
+Traceback (most recent call last):
+  File "<string>", line 101, in <module>
+AttributeError: 'MiniCNFBuilder' object has no attribute 'free_var_names'
