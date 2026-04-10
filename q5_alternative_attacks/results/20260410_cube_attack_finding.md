@@ -1,4 +1,32 @@
-# Cube Attack Finding: Cube Sums Are Universally Zero (Issue #24)
+## RETRACTION (2026-04-10 21:45 UTC) — Artifact, not finding
+
+The universal-zero cube sums were caused by **most random bits being
+INACTIVE** for the target output bit. Verification:
+
+- For dh[63] bit 0 from base=all-zero, only **88 of 256 input bits**
+  affect the output (i.e., flipping them changes f).
+- Probability that a random 5-bit cube has all 5 bits active: (88/256)^5
+  ≈ 0.5%.
+- A cube containing ANY inactive bit gives sum=0 trivially (because
+  flipping the inactive bit doesn't change f, so the function is
+  constant in that variable and the cube sum is doubled to 0 mod 2).
+
+When I redid the test with cubes restricted to ACTIVE bits, sums were
+**~50% zero, ~50% one** — consistent with random function behavior.
+
+So there's no exploitable algebraic structure here. The function has
+the expected ANF complexity. The "all zeros" was a sampling artifact.
+
+**Lesson**: random cube selection is hopelessly biased when the function
+depends on a subset of inputs. Cube attacks need to either restrict
+to known active bits, or use cubes that are PROVABLY in the active
+support.
+
+The retracted finding is preserved below for transparency.
+
+---
+
+# Cube Attack RETRACTED — Original Finding (Now Known Artifact)
 
 ## Setup
 
