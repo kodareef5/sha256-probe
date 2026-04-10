@@ -1,0 +1,25 @@
+Extended Cascade Theorem: dW[57] bit-by-bit constraints
+
+For the published candidate:
+  dW[57] = -(dT2 + dh + dSig1 + dCh) mod 2^32
+  dT2 = 0x1110348d
+  dh  = 0xf80bc756
+  dSig1 = 0x43e39d8f
+  dCh  = 0x891789fd
+  → dW[57] = 0x29e8dc91
+  → W2[57] = W1[57] + 0x29e8dc91 (mod 2^32)
+
+Verification against N=32 collision certificate:
+  W1[57] = 0x9ccfa55e
+  W2[57] = 0x72e6c8cd
+  Actual dW[57] = 0x29e8dc91
+  Required dW[57] = 0x29e8dc91
+  MATCH: True
+
+*** dW[57] IS COMPLETELY DETERMINED! ***
+For the published candidate, W2[57] = W1[57] + 0x29e8dc91.
+This means W[57] has only 32 bits of freedom (W1[57] is free,
+W2[57] is completely determined by W1[57]).
+The effective search space for sr=60 is 2^96 = 2^96 (not 2^128).
+
+Done.
