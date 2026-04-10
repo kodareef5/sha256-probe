@@ -1,0 +1,63 @@
+Analyzing 49 collisions at N=4
+Round-by-round cascade pattern for each collision
+
+Collision [1]: W1=['0x9', '0xd', '0xb', '0x4'] W2=['0x0', '0x3', '0x0', '0x0']
+  r57: ab.d.... (3/8 zeros)
+  r58: abc.e... (4/8 zeros)
+  r59: abcd.f.. (5/8 zeros)
+  r60: abcde.g. (6/8 zeros)
+  r61: abcdef.h (7/8 zeros)
+  r62: abcdefg. (7/8 zeros)
+  r63: abcdefgh (8/8 zeros)
+
+Collision [2]: W1=['0x1', '0x4', '0xb', '0x4'] W2=['0x8', '0x4', '0x0', '0x0']
+  r57: ab.d.... (3/8 zeros)
+  r58: abc.e... (4/8 zeros)
+  r59: abcd.f.. (5/8 zeros)
+  r60: abcde.g. (6/8 zeros)
+  r61: abcdef.h (7/8 zeros)
+  r62: abcdefg. (7/8 zeros)
+  r63: abcdefgh (8/8 zeros)
+
+Collision [3]: W1=['0xd', '0xb', '0x8', '0x4'] W2=['0x4', '0x6', '0x3', '0x0']
+  r57: ab.d.... (3/8 zeros)
+  r58: abc.e... (4/8 zeros)
+  r59: abcd.f.. (5/8 zeros)
+  r60: abcde.g. (6/8 zeros)
+  r61: abcdef.h (7/8 zeros)
+  r62: abcdefg. (7/8 zeros)
+  r63: abcdefgh (8/8 zeros)
+
+Collision [4]: W1=['0x5', '0x4', '0x8', '0x4'] W2=['0xc', '0x7', '0x3', '0x0']
+  r57: ab.d.... (3/8 zeros)
+  r58: abc.e... (4/8 zeros)
+  r59: abcd.f.. (5/8 zeros)
+  r60: abcde.g. (6/8 zeros)
+  r61: abcdef.h (7/8 zeros)
+  r62: abcdefg. (7/8 zeros)
+  r63: abcdefgh (8/8 zeros)
+
+Collision [5]: W1=['0x2', '0x5', '0x8', '0x5'] W2=['0x9', '0xb', '0x3', '0x0']
+  r57: ab.d.... (3/8 zeros)
+  r58: abc.e... (4/8 zeros)
+  r59: abcd.f.. (5/8 zeros)
+  r60: abcde.g. (6/8 zeros)
+  r61: abcdef.h (7/8 zeros)
+  r62: abcdefg. (7/8 zeros)
+  r63: abcdefgh (8/8 zeros)
+
+=== Cascade Pattern Classification ===
+  Round 57: avg 3.0 zeros (min=3, max=3)
+  Round 58: avg 3.8 zeros (min=3, max=4)
+  Round 59: avg 4.8 zeros (min=4, max=5)
+  Round 60: avg 5.8 zeros (min=5, max=6)
+  Round 61: avg 6.8 zeros (min=6, max=7)
+  Round 62: avg 7.0 zeros (min=7, max=7)
+  Round 63: avg 8.0 zeros (min=8, max=8)
+
+  Monotonic cascade (zeros only increase): 49/49
+
+=== Register Zeroing Order ===
+  abdcefgh: 49 collisions (100%%)
+
+Done.
