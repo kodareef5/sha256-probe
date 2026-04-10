@@ -1,0 +1,39 @@
+Sparse Polynomial Structure: Register h bit 0 (N=4)
+
+Found bit 28 (reg h pos 0) section:
+  ANF: degree=8, monomials=1173, transform time=30s
+  Degree distribution:
+  deg  1: 13 monomials
+  deg  2: 44 monomials
+  deg  3: 131 monomials
+  deg  4: 279 monomials
+  deg  5: 337 monomials
+  deg  6: 242 monomials
+  deg  7: 103 monomials
+  deg  8: 24 monomials
+  *** LOW DEGREE: 8 / 32 (25%) ***
+
+Total possible monomials (degree ≤ 8): 15,033,173
+Actual nonzero monomials: 1,173
+Sparsity: 0.000078 (0.0078%%)
+
+The polynomial is 12816x sparser than a random degree-8 polynomial
+
+49 known solutions → 49 linear equations over the monomial space
+System has 1173 unknowns (monomial coefficients) and 49 equations
+This is MASSIVELY underdetermined — cannot solve for the polynomial from solutions alone
+
+To solve: need ~1173 evaluations with known output, which we have from the truth table
+
+=== Factorizability Analysis ===
+If f = g1*g2 with deg(g1)=deg(g2)=4:
+  g1 would have ~34 monomials
+  g2 would have ~34 monomials
+  f=0 iff g1=0 OR g2=0
+  Each gi is a degree-4 system: C(32,≤4)=41,449 possible monomials
+  With ~34 nonzero: solvable via exhaustive search or linearization
+
+To test factorizability: need the actual monomial list from Moebius transform
+This requires re-running the C program with monomial output enabled
+
+Done.
