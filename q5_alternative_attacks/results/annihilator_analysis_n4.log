@@ -1,0 +1,31 @@
+Annihilator validation (simplified)
+49 collisions, 500 random non-collisions
+
+Degree-1 analysis: which single variables are constant across ALL collisions?
+  x10 (W1[59][2]): CONSTANT = 0 across all 49 collisions!
+  x11 (W1[59][3]): CONSTANT = 1 across all 49 collisions!
+  x26 (W2[59][2]): CONSTANT = 0 across all 49 collisions!
+  x27 (W2[59][3]): CONSTANT = 0 across all 49 collisions!
+
+Degree-2 analysis: pairs with constant XOR across collisions...
+  x0 XOR x16 = 1 (constant)
+  x9 XOR x25 = 1 (constant)
+  x10 XOR x11 = 1 (constant)
+  x10 XOR x26 = 0 (constant)
+  x10 XOR x27 = 0 (constant)
+  x11 XOR x26 = 1 (constant)
+  x11 XOR x27 = 1 (constant)
+  x13 XOR x29 = 0 (constant)
+  x26 XOR x27 = 0 (constant)
+  Total constant-XOR pairs: 9
+
+Validation: do constant relationships hold on random non-collisions?
+  x0 XOR x16 = 1 on collisions, varies on non-collisions → GENUINE
+  x9 XOR x25 = 1 on collisions, varies on non-collisions → GENUINE
+  x10 XOR x11 = 1 on collisions, varies on non-collisions → GENUINE
+  x10 XOR x26 = 0 on collisions, varies on non-collisions → GENUINE
+  x10 XOR x27 = 0 on collisions, varies on non-collisions → GENUINE
+  Genuine degree-1 annihilators: 9
+  *** GENUINE LOW-DEGREE ALGEBRAIC STRUCTURE IN COLLISION SET ***
+
+Done.
