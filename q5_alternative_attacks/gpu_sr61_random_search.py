@@ -55,18 +55,18 @@ def precompute_state(M):
     return [a,b,c,d,e,f,g,h], W
 
 
-def gpu_search(m0=0x17149975, fill=0xffffffff,
+def gpu_search(m0=0x17149975, fill=0xffffffff, kernel=0x80000000,
                batch_size=1<<22, hours=4.0):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print(f"GPU sr=61 random search", flush=True)
-    print(f"Candidate: M[0]=0x{m0:08x}, fill=0x{fill:08x}", flush=True)
+    print(f"Candidate: M[0]=0x{m0:08x}, fill=0x{fill:08x}, kernel=0x{kernel:08x}", flush=True)
     print(f"Device: {device}, batch={batch_size}, hours={hours}", flush=True)
 
     # Build M1, M2 and precompute states + schedule constants
     M1 = [m0] + [fill] * 15
     M2 = list(M1)
-    M2[0] ^= 0x80000000
-    M2[9] ^= 0x80000000
+    M2[0] ^= kernel
+    M2[9] ^= kernel
     state1, W1_pre = precompute_state(M1)
     state2, W2_pre = precompute_state(M2)
     assert state1[0] == state2[0], "da[56] != 0"
@@ -220,4 +220,5 @@ if __name__ == "__main__":
     m0 = int(sys.argv[1], 0) if len(sys.argv) > 1 else 0x17149975
     fill = int(sys.argv[2], 0) if len(sys.argv) > 2 else 0xffffffff
     hours = float(sys.argv[3]) if len(sys.argv) > 3 else 24.0
-    gpu_search(m0, fill, hours=hours)
+    kernel = int(sys.argv[4], 0) if len(sys.argv) > 4 else 0x80000000
+    gpu_search(m0, fill, kernel=kernel, hours=hours)
