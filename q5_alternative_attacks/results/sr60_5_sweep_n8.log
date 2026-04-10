@@ -1,0 +1,15 @@
+sr=60.5 Partial Schedule Compliance Sweep (N=8)
+Enforce K bits of W[60] via schedule rule, leave (N-K) bits free
+Sweep K from 0 (sr=60, should be SAT) to N (sr=61, should be UNSAT)
+
+  K=0/8 enforced: 2608v 10894c → SAT in 4.0s
+  K=1/8 enforced: 2606v 10894c → SAT in 19.8s
+  K=2/8 enforced: 2604v 10894c → SAT in 10.3s
+  K=3/8 enforced: 2602v 10894c → SAT in 18.4s
+  K=4/8 enforced: 2600v 10894c → SAT in 19.3s
+  K=5/8 enforced: 2598v 10894c → UNSAT in 42.1s
+  K=6/8 enforced: 2596v 10894c → UNSAT in 46.1s
+  K=7/8 enforced: 2594v 10894c → UNSAT in 42.6s
+  K=8/8 enforced: 2592v 10894c → UNSAT in 67.0s
+
+Done.

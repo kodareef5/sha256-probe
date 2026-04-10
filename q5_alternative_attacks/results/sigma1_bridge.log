@@ -1,0 +1,18 @@
+sigma1 Bridge MITM (Direction 1 from NOVEL_DIRECTIONS.md)
+For each W1[57], compute required W1[60] for cascade 2,
+invert sigma1 to get forced W1[58], check if round 58 works.
+
+Cascade 1 offset: C_w57 = 0xd617236f
+For any W1[57], W2[57] = W1[57] + C_w57 gives da57=0
+
+sigma1 inverse verified.
+
+Running 1000000 MITM trials...
+
+1000000 trials in 42s (23818/s)
+Best HW: 90
+Viable (HW=0): 0
+
+Note: this is sr=61 equivalent (W[60] schedule-determined).
+If best_hw matches the 92-96 range from prior sr=61 work, it confirms
+the MITM decomposition doesnt help over direct search.

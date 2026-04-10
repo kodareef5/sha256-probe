@@ -1,0 +1,14 @@
+Near-Collision: sr=60 requiring only 7/8 registers to match (skip h)
+
+  N=8: 2544v 10640c → SAT in 12.7s (7/8 registers, skip h)
+Traceback (most recent call last):
+  File "<string>", line 84, in <module>
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 507, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 1134, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 1980, in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/subprocess.py", line 1178, in _check_timeout
+    raise TimeoutExpired(
+subprocess.TimeoutExpired: Command '['kissat', '-q', '/var/folders/q6/zvp5ryyj7tl5k_frk3522n_w0000gn/T/near_coll_d_N8_95dq03b5/near_collision_skip_d.cnf']' timed out after 30 seconds
