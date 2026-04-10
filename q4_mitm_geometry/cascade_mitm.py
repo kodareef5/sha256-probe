@@ -46,18 +46,25 @@ def forward_cascade1_enumerate(state1, state2, W1_pre, W2_pre,
     For da57 = 0: a57_msg1 = a57_msg2
     → T1_1 + T2_1 = T1_2 + T2_2
 
-    Since da56=0 (candidate property): a56_1 = a56_2, so Sigma0 and Maj terms are equal → T2_1 = T2_2
-    → T1_1 = T1_2
-    → (h56_1 + Sigma1(e56_1) + Ch_1 + K + W1[57]) = (h56_2 + Sigma1(e56_2) + Ch_2 + K + W2[57])
-    → W2[57] = W1[57] + (h56_1 - h56_2) + (Sigma1(e56_1) - Sigma1(e56_2)) + (Ch_1 - Ch_2)
+    Since da56=0: Sigma0(a56_1) = Sigma0(a56_2). HOWEVER, Maj DIFFERS when
+    db56 or dc56 is nonzero. So T2_1 != T2_2 in general.
 
-    So for ANY W1[57], there's exactly ONE W2[57] that makes da57=0!
+    Correct derivation:
+      a57_1 - a57_2 = (T1_1 - T1_2) + (T2_1 - T2_2)
+      For da57 = 0: (T1_1 - T1_2) = -(T2_1 - T2_2) = dT2_21
+      (W1[57] - W2[57]) = -(dh56 + dSigma1(e56) + dCh) + dT2_21
+      W2[57] = W1[57] + dh56 + dSigma1 + dCh + (T2_1 - T2_2)
+
+    So for ANY W1[57], there's exactly ONE W2[57] that makes da57=0.
     """
     # Compute the constant offset: W2[57] = W1[57] + C
     dh = (state1[7] - state2[7]) & MASK
     dSig1 = (Sigma1(state1[4]) - Sigma1(state2[4])) & MASK
     dCh = (Ch(state1[4], state1[5], state1[6]) - Ch(state2[4], state2[5], state2[6])) & MASK
-    C_w57 = (dh + dSig1 + dCh) & MASK
+    T2_1 = (Sigma0(state1[0]) + Maj(state1[0], state1[1], state1[2])) & MASK
+    T2_2 = (Sigma0(state2[0]) + Maj(state2[0], state2[1], state2[2])) & MASK
+    dT2 = (T2_1 - T2_2) & MASK
+    C_w57 = (dh + dSig1 + dCh + dT2) & MASK
 
     print(f"Cascade 1 offset: W2[57] = W1[57] + 0x{C_w57:08x}")
     print(f"  dh56 = 0x{dh:08x} (hw={hw(dh)})")
