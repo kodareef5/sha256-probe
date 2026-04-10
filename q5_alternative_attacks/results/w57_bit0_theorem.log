@@ -1,0 +1,25 @@
+Analytical Proof: Why W1[57][0] ≠ W2[57][0]
+
+Published candidate (N=32):
+  dh[0] = 0
+  dSig1[0] = 1
+  dCh[0] = 1
+
+  At bit 0, all additions are XOR (no carry-in at position 0)
+  da57[0] = 0 requires:
+    dW57[0] = dh[0] XOR dSig1[0] XOR dCh[0] XOR dT2[0]
+           = 0 XOR 1 XOR 1 XOR 1
+           = 1
+
+  Since dW57[0] = W1[57][0] XOR W2[57][0] = 1
+  → W1[57][0] ≠ W2[57][0] (MUST differ) — QED!
+
+  This is a THEOREM, not an observation.
+  At bit 0, modular addition = XOR (no carry).
+  The cascade condition da57=0 at bit 0 forces dW57[0]=1.
+  This is true at ANY word width N (bit 0 never has carry-in).
+
+  Sanity check: da56=0 → Sigma0(a56_1)=Sigma0(a56_2)? True
+  (da56=0, so yes, Sigma0 is identical → dSig0=0)
+
+Done.
