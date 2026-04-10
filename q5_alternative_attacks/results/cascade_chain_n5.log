@@ -1,0 +1,14 @@
+Candidate: M[0]=0xe fill=0x1f
+dW[57] = 0xe (constant)
+Cascade-constrained search: 2^30 = 1073741824 evals
+vs unconstrained: 2^40 = 1099511627776 (1024x speedup)
+
+  [26% 22s] w1_57=8/31 colls=0
+  [52% 42s] w1_57=16/31 colls=0
+  [77% 63s] w1_57=24/31 colls=0
+
+=== RESULTS ===
+N=5: 0 collisions found in 81s
+Evaluations: 1073741824 (of 2^30 = 1073741824)
+Expected: 49 collisions (from exhaustive count)
+*** FEWER — cascade misses some collisions ***
