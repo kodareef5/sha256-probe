@@ -1,0 +1,38 @@
+=== g-function universality test ===
+Testing image size distribution for 20 random (f1,f2,g1,g2) tuples
+Reference: cert has image size 1,179,648 = 2^20.2
+
+[REF] cert  : f_xor hw=18 g_xor hw=14
+[REF] cert image: 1179648 (0.0275%, 2^20.17)  [75s]
+
+[  0] f_xor hw=21 g_xor hw=12 -> image=4718592 (0.1099%, 2^22.17) [64s]
+[  1] f_xor hw=13 g_xor hw=14 -> image=65536 (0.0015%, 2^16.00) [61s]
+[  2] f_xor hw=20 g_xor hw=13 -> image=331776 (0.0077%, 2^18.34) [74s]
+[  3] f_xor hw=21 g_xor hw=15 -> image=55296 (0.0013%, 2^15.75) [75s]
+[  4] f_xor hw=13 g_xor hw=15 -> image=103680 (0.0024%, 2^16.66) [66s]
+[  5] f_xor hw=20 g_xor hw=14 -> image=442368 (0.0103%, 2^18.75) [68s]
+[  6] f_xor hw=15 g_xor hw=12 -> image=326400 (0.0076%, 2^18.32) [68s]
+[  7] f_xor hw=15 g_xor hw=21 -> image=1118464 (0.0260%, 2^20.09) [62s]
+[  8] f_xor hw=14 g_xor hw=17 -> image=139264 (0.0032%, 2^17.09) [66s]
+[  9] f_xor hw=13 g_xor hw=17 -> image=327680 (0.0076%, 2^18.32) [69s]
+[ 10] f_xor hw=19 g_xor hw=20 -> image=98304 (0.0023%, 2^16.58) [75s]
+[ 11] f_xor hw=13 g_xor hw=14 -> image=131072 (0.0031%, 2^17.00) [61s]
+[ 12] f_xor hw=12 g_xor hw=11 -> image=16384 (0.0004%, 2^14.00) [78s]
+[ 13] f_xor hw=15 g_xor hw=18 -> image=1664000 (0.0387%, 2^20.67) [66s]
+[ 14] f_xor hw=16 g_xor hw=17 -> image=331776 (0.0077%, 2^18.34) [63s]
+[ 15] f_xor hw=15 g_xor hw=18 -> image=1638400 (0.0381%, 2^20.64) [67s]
+[ 16] f_xor hw=20 g_xor hw=17 -> image=147456 (0.0034%, 2^17.17) [69s]
+[ 17] f_xor hw=15 g_xor hw=15 -> image=12582912 (0.2930%, 2^23.58) [69s]
+[ 18] f_xor hw=15 g_xor hw=16 -> image=368640 (0.0086%, 2^18.49) [64s]
+[ 19] f_xor hw=16 g_xor hw=18 -> image=1769472 (0.0412%, 2^20.75) [63s]
+
+=== Summary ===
+Cert image:   1179648 (2^20.17)
+Min image:    16384 (2^14.00)
+Max image:    12582912 (2^23.58)
+Mean log2(img): 18.44
+Images below cert: 15 of 20
+
+Interpretation:
+  If cert image is typical: compression is universal, not special
+  If cert image is small outlier: cert is specifically structured
