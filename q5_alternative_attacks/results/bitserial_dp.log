@@ -1,0 +1,25 @@
+Candidate: M[0]=0x0
+Round-Serial DP Collision Finder at N=4
+Prune at each round using cascade conditions
+
+Cascade: W2[57] = W1[57] + 0x7
+
+Phase 1: W[57] (2^4 = 16 candidates)
+  After da57=0 prune: 16 states
+  Phase 2: W[58] (tried 4096 × 256 combos) → 4096 states after da58=0
+  Phase 3: W[59] (tried 1048576 × 256 combos) → 1048576 states after da59=de59=0
+  Phase 4: W[60] (tried 49 × 256 combos) → 49 states after FULL COLLISION
+
+=== Results ===
+Collisions found: 49
+Time: 2.8601 seconds
+  W1=[0,1,a,8] W2=[7,e,0,5]
+  W1=[1,4,b,4] W2=[8,4,0,0]
+  W1=[1,4,b,b] W2=[8,4,0,7]
+  W1=[1,b,8,3] W2=[8,b,3,2]
+  W1=[1,b,8,f] W2=[8,b,3,e]
+
+*** ALL 49 COLLISIONS FOUND ***
+Compare: brute force took 157s. DP speedup: 55x
+
+Done.
