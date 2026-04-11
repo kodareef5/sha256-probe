@@ -268,10 +268,13 @@ def main():
     N = int(sys.argv[1]) if len(sys.argv) > 1 else 4
     n_samples = int(sys.argv[2]) if len(sys.argv) > 2 else 20000
     max_degree = int(sys.argv[3]) if len(sys.argv) > 3 else 4
+    # Optional: target specific register only (-1 = all)
+    target_reg = int(sys.argv[4]) if len(sys.argv) > 4 else -1
 
     sha = MiniSHA(N)
     print(f"=== GPU Annihilator Scanner at N={N} ===", flush=True)
-    print(f"Samples: {n_samples}, max degree: {max_degree}", flush=True)
+    print(f"Samples: {n_samples}, max degree: {max_degree}, target_reg: {target_reg}",
+          flush=True)
 
     print(f"\nFinding sr=60 candidate...", flush=True)
     result = find_sr60_candidate(sha)
@@ -306,6 +309,8 @@ def main():
     for out_bit in range(n_output_bits):
         reg = out_bit // N
         bit = out_bit % N
+        if target_reg != -1 and reg != target_reg:
+            continue
         target = outputs[:, out_bit]
 
         ones_count = int(target.sum())
