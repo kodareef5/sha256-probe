@@ -1,0 +1,19 @@
+Carry Entropy Scaling Test at N=6
+Loaded 50 collisions
+
+=== Carry Skeleton (N=6) ===
+Total carries: 294
+Always 0: 105 (35.7%)
+Always 1: 8 (2.7%)
+Variable: 181 (61.6%)
+
+=== Entropy ===
+Distinct full signatures: 50/50
+Entropy: 5.6 bits (vs 181 free carries)
+
+Comparison:
+  N=4: 92/196 free, entropy 5.6 bits (49 solutions)
+  N=6: 181/294 free, entropy 5.6 bits (50 solutions)
+
+Scaling: entropy/N^2 = 0.157 (N=4: 0.350)
+Done.
