@@ -1,0 +1,44 @@
+Carry Pattern Entropy at N=4
+How many distinct carry-diff patterns exist across 49 collisions?
+
+Full carry-diff signatures:
+  Total solutions: 49
+  Distinct full signatures: 49
+  Entropy: log2(49) = 5.6 bits
+  vs theoretical max: 92 free carry bits
+
+Per-round distinct signatures:
+  Round 57: 9 distinct (3.2 bits entropy)
+    [c 7 3 3 0 4 0] x9
+    [c 7 8 1 0 7 0] x8
+    [c 7 0 1 0 7 0] x7
+  Round 58: 26 distinct (4.7 bits entropy)
+    [2 0 0 0 0 0 0] x6
+    [3 e 0 0 0 0 0] x4
+    [4 e e 0 0 0 0] x4
+  Round 59: 17 distinct (4.1 bits entropy)
+    [e 3 e 8 0 0 0] x10
+    [8 6 f 8 0 0 0] x6
+    [e 0 7 8 0 2 0] x4
+  Round 60: 32 distinct (5.0 bits entropy)
+    [4 6 0 0 0 0 0] x4
+    [1 0 0 0 0 0 0] x4
+    [9 f 0 0 0 0 0] x4
+  Round 61: 35 distinct (5.1 bits entropy)
+    [3 0 2 d 0 0 0] x5
+    [4 7 2 d 0 0 0] x3
+    [0 7 5 d 0 0 0] x3
+  Round 62: 22 distinct (4.5 bits entropy)
+    [0 0 0 0 0 0 0] x7
+    [0 0 2 2 0 0 0] x4
+    [0 2 0 0 0 0 0] x4
+  Round 63: 22 distinct (4.5 bits entropy)
+    [0 0 0 e 0 0 0] x14
+    [2 0 0 e 0 0 0] x4
+    [2 0 2 e 0 0 0] x3
+
+Is the carry pattern at later rounds determined by round 57?
+  Round-57 determines full pattern: False
+  Max branching from one round-57 pattern: 9
+
+Done.
