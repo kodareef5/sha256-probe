@@ -1,0 +1,19 @@
+Candidate: M[0]=0x0
+Cascade-Optimized DP at N=4
+Search W1 only — W2 determined by cascade offsets
+Search space: 2^16 = 65536 (vs brute force 2^32 = 4294967296)
+
+  #1: W1=[0,1,a,8] W2=[7,e,0,5]
+  #2: W1=[1,4,b,4] W2=[8,4,0,0]
+  #3: W1=[1,4,b,b] W2=[8,4,0,7]
+  #4: W1=[1,b,8,3] W2=[8,b,3,2]
+  #5: W1=[1,b,8,f] W2=[8,b,3,e]
+
+=== Results ===
+Tested: 65536 (out of 2^16 = 65536)
+Collisions: 49
+Time: 0.000641 seconds
+Speedup vs brute force (157s): 244930x
+
+*** ALL 49 COLLISIONS FOUND ***
+Done.
