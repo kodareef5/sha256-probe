@@ -1,0 +1,35 @@
+Exact Carry Freedom at N=4 (from 49 collision solutions)
+For each of 49 collisions, compute ALL carry diffs.
+Carries constant across ALL solutions = DETERMINED by collision constraint.
+
+Loaded 49 collision solutions
+
+=== Carry Difference Classification (across 49 collision solutions) ===
+  Always 0: 91 (46.4%) — determined zero
+  Always 1: 13 (6.6%) — determined one
+  Varies:   92 (46.9%) — TRUE FREE CARRIES
+  Total:    196
+
+*** THE COLLISION-CONDITIONED CARRY SKELETON HAS 92 FREE BITS ***
+  (down from 359/392 with random inputs)
+  Reduction: 104/196 carries determined = 53%
+
+Per-round free carries:
+  Round 57: 11/28 free
+  Round 58: 20/28 free
+  Round 59: 14/28 free
+  Round 60: 14/28 free
+  Round 61: 12/28 free
+  Round 62: 12/28 free
+  Round 63: 9/28 free
+
+Per-addition-type free carries (summed over 7 rounds):
+  h+Sig1    : 21/28 free
+  prev+Ch   : 22/28 free
+  prev+KW   : 26/28 free
+  K+W       : 10/28 free
+  Sig0+Maj  : 1/28 free
+  d+T1      : 10/28 free
+  T1+T2     : 2/28 free
+
+Done.
