@@ -1,0 +1,37 @@
+Candidate: M[0]=0x0
+Near-Collision Enumeration at N=4
+Finding all inputs where registers a-g match (h free)
+
+  [268435456/4294967296] 6% near=6 full=6 (16s)
+  [536870912/4294967296] 12% near=7 full=7 (32s)
+  [805306368/4294967296] 18% near=15 full=15 (48s)
+  [1073741824/4294967296] 25% near=17 full=17 (65s)
+  [1342177280/4294967296] 31% near=22 full=22 (82s)
+  [1610612736/4294967296] 37% near=24 full=24 (98s)
+  [1879048192/4294967296] 43% near=30 full=30 (115s)
+  [2147483648/4294967296] 50% near=34 full=34 (131s)
+  [2415919104/4294967296] 56% near=38 full=38 (147s)
+  [2684354560/4294967296] 62% near=39 full=39 (163s)
+  [2952790016/4294967296] 68% near=43 full=43 (180s)
+  [3221225472/4294967296] 75% near=44 full=44 (197s)
+  [3489660928/4294967296] 81% near=46 full=46 (213s)
+  [3758096384/4294967296] 87% near=47 full=47 (232s)
+  [4026531840/4294967296] 93% near=48 full=48 (250s)
+
+=== Results ===
+Total inputs: 2^32 = 4294967296
+Near-collisions (a-g match): 49
+Full collisions (all match): 49
+NC/full ratio: 1.0
+NC density: 1 per 87652393 inputs
+Time: 268s
+
+=== dh XOR Distribution ===
+  dh_xor  count  (of 49 near-collisions)
+  0x0 (hw=0): 49  (100.0%)
+
+=== dh Subspace ===
+  GF(2) rank of dh values: 0/4
+  *** dh confined to 0-dim subspace! 4 bits DETERMINED ***
+
+Done.
