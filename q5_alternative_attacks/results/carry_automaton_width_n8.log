@@ -1,0 +1,18 @@
+Bit-Serial Carry Transition Analysis at N=8
+For each bit position, count distinct carry interface states
+
+95 collisions loaded
+  Bit 0: msg1_states= 95  msg2_states= 95  diff_states= 91  (of 95 solutions)
+  Bit 1: msg1_states= 95  msg2_states= 95  diff_states= 95  (of 95 solutions)
+  Bit 2: msg1_states= 95  msg2_states= 95  diff_states= 95  (of 95 solutions)
+  Bit 3: msg1_states= 95  msg2_states= 95  diff_states= 95  (of 95 solutions)
+  Bit 4: msg1_states= 95  msg2_states= 95  diff_states= 95  (of 95 solutions)
+  Bit 5: msg1_states= 95  msg2_states= 95  diff_states= 95  (of 95 solutions)
+  Bit 6: msg1_states= 95  msg2_states= 95  diff_states= 95  (of 95 solutions)
+  Bit 7: msg1_states= 95  msg2_states= 95  diff_states= 95  (of 95 solutions)
+
+=== Automaton Width ===
+The carry automaton processes bits LSB to MSB.
+Width = max distinct carry-difference states at any bit position.
+If width stays bounded, the DP enumeration is poly-time.
+Done.
