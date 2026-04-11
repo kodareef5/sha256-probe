@@ -49,6 +49,39 @@ find HW=0 at N=8 (best: HW=8), while Kissat finds SAT in 4.3 seconds.
 - **Significance:** SA-measured "thermodynamic floor" is meaningless for feasibility.
   Only CDCL SAT solvers with constraint propagation can navigate this landscape.
 
+### Carry entropy = log2(#solutions) exactly at N=4, N=6, N=8
+Each sr=60 collision has a unique carry-difference pattern. The carry
+pattern IS the collision — perfect bijection (injective projection).
+- N=4: 92 free carries, 49 solutions, entropy 5.6 bits, ratio **1.000**
+- N=6: 181 free carries, 50 solutions, entropy 5.6 bits, ratio **1.000**
+- N=8: 234 free carries, 95 solutions, entropy 6.6 bits, ratio **1.000**
+- **Evidence:** Exact computation from all known collision solutions at each N
+- **Significance:** The 234 "free" carry bits contain only 6.6 bits of
+  independent information — the carries are 99.97% correlated. The carry
+  automaton has bounded width equal to #solutions at every bit position.
+- **Caveats:** Verified at mini-SHA only. "Bounded width" not yet proven
+  formally — observed from the solution set, not from structure alone.
+
+### Register h is determined by registers a-g at N=4
+Exhaustive 2^32 enumeration: every input where da=db=dc=dd=de=df=dg=0
+also has dh=0. h is NOT independent — cascade-2 is automatic.
+- **Evidence:** 49 near-collisions = 49 full collisions. NC/full ratio = 1.000.
+- **Significance:** The collision problem has 7 independent register constraints,
+  not 8. One equation is redundant.
+
+### d[0] is the algebraically weakest output bit (degree 7, N=8 restricted)
+Complete restricted ANF at N=8 (32 cascade variables, exact Moebius transform).
+- d[0]: degree 7, 251 monomials. h[0]: degree 8, 266 monomials.
+- Perfect staircase: each bit position adds exactly 1 to the degree.
+- **Evidence:** 64-bit exact computation, ~12 hours total.
+
+### Critical W[60] schedule pairs exist at N=6 and N=8
+Removing specific pairs of W[60] schedule bits makes sr=61 SAT:
+- N=8: pair (4,5) SAT. All other 27 pairs UNSAT.
+- N=6: pairs (1,3) and (2,5) SAT. All other 13 pairs UNSAT.
+- **Evidence:** Exhaustive C(N,2) scan with Kissat at both N values.
+- **Caveats:** Simple rotation-position prediction refuted at N=6.
+
 ## EVIDENCE
 
 ### sr=60 is UNSAT for M[0]=0x17149975 (MSB kernel, all-ones padding)
