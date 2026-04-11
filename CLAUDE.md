@@ -92,6 +92,15 @@ Each testable claim gets its own file in `q*/claims/` with:
   of one candidate family under one kernel with one padding scheme
 - Don't use "theorem" for experimental observations
 
+## Macbook-Local Tools (not in repo)
+
+- **Inspiration Engine** (`~/.claude/inspiration/ask_models.py`): Sends research
+  briefing to Gemini 3.1 Pro and GPT-5.4 via OpenRouter for external critique
+  and creative ideas. Can send extensive context for deep review. DO NOT run
+  without explicit user direction. Useful for fresh perspectives, second set
+  of eyes, or when stuck. Budget: ~$0.50/run, easily modified for different
+  context packages. API key stored locally only.
+
 ## Tools Available
 
 - **Kissat 4.0.4** — primary CDCL SAT solver
