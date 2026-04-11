@@ -22,7 +22,7 @@ tries to find messages M1', M2' that produce equal hash output.
 | 17 | 1024 bits | **SAT** | 8s |
 | 18 | 1024 bits | **SAT** | <600s |
 | 19 | 1024 bits | TIMEOUT (180s) | - |
-| 20 | 1024 bits | testing (30min) | - |
+| 20 | 1024 bits | **TIMEOUT** (30min, both seeds) | - |
 | 24 | 1024 bits | testing (1h) | - |
 
 ### Same message (M1' = M2')
