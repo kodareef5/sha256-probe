@@ -1,0 +1,59 @@
+N=5, M[0]=0xe, MASK=0x1f
+Device: cuda
+Cascade: W2[57] = W1[57] + 0x12
+WARNING: 35 free bits = 2^35 infeasible. Capping at 32.
+Free: 7 words (35 bits), enumerating 4,294,967,296 configs
+W2[57] = W1[57]+C, W2[58..60] independent
+  NEW BEST HW=4/40 at idx=130653 [0s]
+  [2.4%] 3s, 31M/s, best=4, colls=0
+  NEW BEST HW=3/40 at idx=140929510 [4s]
+  [4.9%] 6s, 33M/s, best=3, colls=0
+  NEW BEST HW=2/40 at idx=222532440 [7s]
+  [7.3%] 9s, 34M/s, best=2, colls=0
+  [9.8%] 13s, 33M/s, best=2, colls=0
+  [12.2%] 15s, 34M/s, best=2, colls=0
+  [14.6%] 19s, 34M/s, best=2, colls=0
+  [17.1%] 22s, 33M/s, best=2, colls=0
+  [19.5%] 28s, 30M/s, best=2, colls=0
+  [22.0%] 32s, 29M/s, best=2, colls=0
+  [24.4%] 36s, 29M/s, best=2, colls=0
+  [26.9%] 39s, 29M/s, best=2, colls=0
+  [29.3%] 43s, 29M/s, best=2, colls=0
+  [31.7%] 47s, 29M/s, best=2, colls=0
+  [34.2%] 50s, 29M/s, best=2, colls=0
+  [36.6%] 54s, 29M/s, best=2, colls=0
+  [39.1%] 58s, 29M/s, best=2, colls=0
+  [41.5%] 63s, 28M/s, best=2, colls=0
+  [43.9%] 67s, 28M/s, best=2, colls=0
+  [46.4%] 70s, 28M/s, best=2, colls=0
+  [48.8%] 74s, 28M/s, best=2, colls=0
+  [51.3%] 78s, 28M/s, best=2, colls=0
+  [53.7%] 82s, 28M/s, best=2, colls=0
+  [56.2%] 88s, 27M/s, best=2, colls=0
+  [58.6%] 93s, 27M/s, best=2, colls=0
+  [61.0%] 99s, 26M/s, best=2, colls=0
+  [63.5%] 102s, 27M/s, best=2, colls=0
+  [65.9%] 106s, 27M/s, best=2, colls=0
+  [68.4%] 110s, 27M/s, best=2, colls=0
+  [70.8%] 114s, 27M/s, best=2, colls=0
+  [73.2%] 118s, 27M/s, best=2, colls=0
+  [75.7%] 124s, 26M/s, best=2, colls=0
+  NEW BEST HW=1/40 at idx=3256525595 [124s]
+  [78.1%] 131s, 26M/s, best=1, colls=0
+  [80.6%] 137s, 25M/s, best=1, colls=0
+  [83.0%] 143s, 25M/s, best=1, colls=0
+  [85.4%] 148s, 25M/s, best=1, colls=0
+  [87.9%] 154s, 25M/s, best=1, colls=0
+  [90.3%] 159s, 24M/s, best=1, colls=0
+  [92.8%] 164s, 24M/s, best=1, colls=0
+  [95.2%] 170s, 24M/s, best=1, colls=0
+  [97.7%] 176s, 24M/s, best=1, colls=0
+
+============================================================
+EXHAUSTIVE ENUMERATION COMPLETE at N=5
+Total configurations: 4,294,967,296
+Collisions found: 0
+Best HW: 1/40
+Time: 179s (0.05h)
+Rate: 24M/s
+============================================================
