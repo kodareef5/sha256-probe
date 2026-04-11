@@ -1,0 +1,36 @@
+Candidate: M[0]=0x0
+Carry-Conditioned DP Collision Finder at N=4
+
+Method: full enumeration with d[0] early exit
+d[0] has degree 7, checking it first prunes ~50% of candidates
+
+  COLLISION #1: W1=[9,d,b,4] W2=[0,3,0,0]
+  COLLISION #2: W1=[1,4,b,4] W2=[8,4,0,0]
+  COLLISION #3: W1=[d,b,8,4] W2=[4,6,3,0]
+  COLLISION #4: W1=[5,4,8,4] W2=[c,7,3,0]
+  COLLISION #5: W1=[2,5,8,5] W2=[9,b,3,0]
+  [268435456/4294967296] 6% collisions=6 (10s)
+  [536870912/4294967296] 12% collisions=7 (20s)
+  [805306368/4294967296] 18% collisions=15 (30s)
+  [1073741824/4294967296] 25% collisions=17 (40s)
+  [1342177280/4294967296] 31% collisions=22 (50s)
+  [1610612736/4294967296] 37% collisions=24 (60s)
+  [1879048192/4294967296] 43% collisions=30 (69s)
+  [2147483648/4294967296] 50% collisions=34 (80s)
+  [2415919104/4294967296] 56% collisions=38 (89s)
+  [2684354560/4294967296] 62% collisions=39 (99s)
+  [2952790016/4294967296] 68% collisions=43 (109s)
+  [3221225472/4294967296] 75% collisions=44 (119s)
+  [3489660928/4294967296] 81% collisions=46 (128s)
+  [3758096384/4294967296] 87% collisions=47 (138s)
+  [4026531840/4294967296] 93% collisions=48 (148s)
+
+=== Results ===
+Tested: 4294967296
+Collisions found: 49
+Time: 157s
+Rate: 27.4M/s
+
+*** FOUND ALL 49 KNOWN COLLISIONS ***
+
+Done.
