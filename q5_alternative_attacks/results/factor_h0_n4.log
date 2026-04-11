@@ -1,0 +1,94 @@
+GF(2) Factorization Analysis of h[0] at N=4
+Loading monomials from /Users/mac/Desktop/sha256_review/q5_alternative_attacks/results/monomial_list_h_bit0_n4.log
+Loaded 93 monomials
+
+Degree distribution:
+  deg 1: 13 monomials
+  deg 2: 44 monomials
+  deg 3: 14 monomials
+  deg 4: 15 monomials
+  deg 5: 7 monomials
+
+=== Quadratic Factor Test ===
+  Sampling 100000 random points...
+  f=0: 49961 (50.0%)
+  f=1: 50039 (50.0%)
+
+  Testing bilinear structure in the zero set...
+  Checking quadratic structure in zero set (top-20 correlated pairs)...
+    x5 AND x8: bias = -0.0154 (|0.0154|)
+    x23 AND x26: bias = +0.0136 (|0.0136|)
+    x22 AND x27: bias = -0.0132 (|0.0132|)
+    x1 AND x22: bias = -0.0132 (|0.0132|)
+    x19 AND x26: bias = +0.0128 (|0.0128|)
+    x18 AND x26: bias = +0.0128 (|0.0128|)
+    x2 AND x23: bias = +0.0126 (|0.0126|)
+    x12 AND x22: bias = -0.0120 (|0.0120|)
+    x4 AND x20: bias = +0.0110 (|0.0110|)
+    x18 AND x19: bias = +0.0108 (|0.0108|)
+    x17 AND x23: bias = +0.0108 (|0.0108|)
+    x2 AND x20: bias = +0.0108 (|0.0108|)
+    x16 AND x17: bias = +0.0106 (|0.0106|)
+    x0 AND x4: bias = +0.0104 (|0.0104|)
+    x4 AND x7: bias = +0.0102 (|0.0102|)
+    x2 AND x17: bias = +0.0102 (|0.0102|)
+    x1 AND x12: bias = -0.0102 (|0.0102|)
+    x11 AND x12: bias = -0.0100 (|0.0100|)
+    x10 AND x18: bias = +0.0100 (|0.0100|)
+    x9 AND x21: bias = -0.0100 (|0.0100|)
+
+  Single-variable bias in zero set:
+    x12: Pr[x12=1 | f=0] = 0.4886 (bias -0.0114)
+    x18: Pr[x18=1 | f=0] = 0.5102 (bias +0.0102)
+    x26: Pr[x26=1 | f=0] = 0.5086 (bias +0.0086)
+    x22: Pr[x22=1 | f=0] = 0.4918 (bias -0.0082)
+    x20: Pr[x20=1 | f=0] = 0.5082 (bias +0.0082)
+    x17: Pr[x17=1 | f=0] = 0.5082 (bias +0.0082)
+    x23: Pr[x23=1 | f=0] = 0.5078 (bias +0.0078)
+    x4: Pr[x4=1 | f=0] = 0.5076 (bias +0.0076)
+    x2: Pr[x2=1 | f=0] = 0.5066 (bias +0.0066)
+    x5: Pr[x5=1 | f=0] = 0.4934 (bias -0.0066)
+
+=== Annihilator Search (degree ≤ 2) ===
+  Active variables: 26
+  Generating degree-≤2 monomials...
+  Candidate monomials for g: 352
+  Sampling points where f=1...
+  Found 20000 points with f=1 (out of 39918 tested)
+  Estimated Pr[f=1] ≈ 0.5010
+  Building 704 x 352 GF(2) matrix...
+  Gaussian elimination over GF(2)...
+  Rank: 352/352 in 0.1s
+  Null space dimension: 0
+  No degree-≤2 annihilators found
+
+=== Annihilator Search (degree ≤ 3) ===
+  Active variables: 26
+  Generating degree-≤3 monomials...
+  Candidate monomials for g: 2952
+  Sampling points where f=1...
+  Found 20000 points with f=1 (out of 39918 tested)
+  Estimated Pr[f=1] ≈ 0.5010
+  Building 5904 x 2952 GF(2) matrix...
+  Gaussian elimination over GF(2)...
+  Rank: 2952/2952 in 18.2s
+  Null space dimension: 0
+  No degree-≤3 annihilators found
+
+=== Annihilator Search (degree ≤ 4) ===
+  Active variables: 26
+  Generating degree-≤4 monomials...
+  Candidate monomials for g: 17902
+  Sampling points where f=1...
+  Found 20000 points with f=1 (out of 39918 tested)
+  Estimated Pr[f=1] ≈ 0.5010
+  Building 20000 x 17902 GF(2) matrix...
+  Gaussian elimination over GF(2)...
+  Rank: 17899/17902 in 2085.2s
+  Null space dimension: 3
+
+  *** ANNIHILATORS EXIST! ***
+  There are 3 linearly independent degree-≤4 annihilators of f
+  Algebraic immunity ≤ 4!
+
+Done.
