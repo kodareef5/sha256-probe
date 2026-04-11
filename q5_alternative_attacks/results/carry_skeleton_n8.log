@@ -1,0 +1,52 @@
+Carry Skeleton Analysis at N=8
+
+=== Addition Count ===
+  Additions per round: 7
+  Rounds: 7
+  Total binary additions: 49
+  Carry bits per addition: 8
+  Total carry bits: 392
+
+=== Per-Round Free Operand Analysis ===
+  (Each addition has 2 inputs; count how many are non-constant)
+
+  Round 57: 4 free + 3 const additions → 32 free carries, 24 determined
+  Round 58: 5 free + 2 const additions → 40 free carries, 16 determined
+  Round 59: 6 free + 1 const additions → 48 free carries, 8 determined
+  Round 60: 7 free + 0 const additions → 56 free carries, 0 determined
+  Round 61: 7 free + 0 const additions → 56 free carries, 0 determined
+  Round 62: 7 free + 0 const additions → 56 free carries, 0 determined
+  Round 63: 7 free + 0 const additions → 56 free carries, 0 determined
+
+  TOTAL: 344 potentially free carries + 48 determined
+  Out of 392 total carry bits
+
+=== Carry Difference Analysis ===
+  For two-message collision, the carry DIFFERENCE dc_i = c1_i XOR c2_i
+  is what matters. dc_i = 0 when both messages have the same carry.
+
+  Simulating carry difference variability...
+  (Sample 10000 random inputs, check which carry diffs vary)
+
+  Carry difference classification (10000 samples, N=8):
+    Always 0 (determined, no difference):  26 (6.6%)
+    Always 1 (determined, constant diff):  7 (1.8%)
+    Variable (the true nonlinear skeleton): 359 (91.6%)
+    Total carry bits tracked: 392
+
+  *** THE CARRY SKELETON HAS 359 FREE BITS ***
+  (out of 392 total carry difference bits)
+  Conditioning on these 359 bits makes the rest linear over GF(2).
+  Brute-forcing the skeleton: 2^359 = 1152921504606846976
+  Still too large for brute force. Need carry-reduction strategies.
+
+  Per-round variable carry count:
+    Round 57: 31/56 variable carries
+    Round 58: 54/56 variable carries
+    Round 59: 52/56 variable carries
+    Round 60: 55/56 variable carries
+    Round 61: 56/56 variable carries
+    Round 62: 56/56 variable carries
+    Round 63: 55/56 variable carries
+
+Done.
