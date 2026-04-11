@@ -1,0 +1,50 @@
+Schedule Residual Syndrome Analysis at N=8
+epsilon = W[60] XOR W[60]_schedule
+The critical pair mystery should be explained by the SUPPORT of epsilon
+
+Loaded 95 collisions
+
+=== W1 Schedule Residual ===
+  Distinct epsilon_1 values: 81/95
+    0xe7 (hw=6): 3 times
+    0xf6 (hw=6): 3 times
+    0x19 (hw=3): 2 times
+    0x03 (hw=2): 2 times
+    0x3c (hw=4): 2 times
+    0x7e (hw=6): 2 times
+    0xab (hw=5): 2 times
+    0x09 (hw=2): 2 times
+    0xd8 (hw=4): 2 times
+    0xda (hw=5): 2 times
+  Support (union of all nonzero bits): 0xff = bits [0, 1, 2, 3, 4, 5, 6, 7]
+
+=== W2 Schedule Residual ===
+  Distinct epsilon_2 values: 75/95
+  Support: 0xff = bits [0, 1, 2, 3, 4, 5, 6, 7]
+
+=== Differential Residual (eps1 XOR eps2) ===
+  Distinct: 78/95
+  Support: 0xff = bits [0, 1, 2, 3, 4, 5, 6, 7]
+    0x49 (hw=3): 3 times
+    0xc7 (hw=5): 3 times
+    0x29 (hw=3): 3 times
+    0xc5 (hw=4): 2 times
+    0xe0 (hw=3): 2 times
+    0x41 (hw=2): 2 times
+    0xf9 (hw=6): 2 times
+    0x88 (hw=2): 2 times
+    0xc0 (hw=2): 2 times
+    0xda (hw=5): 2 times
+
+=== Critical Pair Connection ===
+  Known critical pair at N=8: (4, 5)
+  Syndrome support bits: [0, 1, 2, 3, 4, 5, 6, 7]
+  Does syndrome support CONTAIN the critical pair? True
+  Is syndrome support EXACTLY the critical pair? False
+
+=== Minimum Support Syndromes ===
+  Minimum HW of nonzero differential syndrome: 1
+    0x02 = bits [1]
+    0x20 = bits [5]
+
+Done.
