@@ -1,0 +1,17 @@
+Candidate: M[0]=0x67
+Cascade-Optimized DP at N=8
+Search W1 only — W2 determined by cascade offsets
+Search space: 2^32 = 4294967296 (vs brute force 2^64 = 0)
+
+  #1: W1=[2,8d,3c,db] W2=[2f,f5,98,c]
+  #2: W1=[2,d2,69,a9] W2=[2f,3a,53,59]
+  #3: W1=[5,6a,53,3] W2=[32,2b,cd,25]
+  #4: W1=[5,97,47,cc] W2=[32,58,11,ea]
+  #5: W1=[6,86,f4,3d] W2=[33,37,5b,d9]
+
+=== Results ===
+Tested: 4294967296 (out of 2^32 = 4294967296)
+Collisions: 260
+Time: 2155.836338 seconds
+Speedup vs brute force (157s): 0x
+Done.
