@@ -1,0 +1,31 @@
+a-Path Carry-Conditioned Linearization at N=4
+Candidate: M[0]=0x0
+
+Loaded 49 collision solutions
+
+=== a-Path Carry Analysis ===
+  Total a-path carry-diff bits: 56 (Sig0+Maj + T1+T2, 7 rounds)
+  Distinct patterns: 4/49
+  Entropy: 2.0 bits
+  Variable bits: 3/56
+  Fixed bits: 53/56
+
+  Pattern distribution:
+    [00000000000000000000...] x42
+    [00000000010001000000...] x3
+    [00000000000001100000...] x2
+    [00000000010000100000...] x2
+
+=== Key Question: Does a-path carry pattern determine the collision? ===
+  NO — 49 collisions map to 4 patterns
+  Max collisions per pattern: 42
+  The a-path is necessary but not sufficient.
+
+=== Guessing a-Path Carries ===
+  Total guess space: 2^3 = 8
+  Valid guesses (from data): 4
+  Wastage ratio: 2x
+  After correct guess: a-register path becomes LINEAR over GF(2)
+  Remaining: solve T1 chain constraints
+
+Done.
