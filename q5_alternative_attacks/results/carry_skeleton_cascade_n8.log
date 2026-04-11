@@ -1,0 +1,23 @@
+Cascade-Constrained Carry Skeleton at N=8
+Cascade: W2[57] = W1[57] + 0x2d
+Sampling 10000 cascade-constrained inputs...
+
+With cascade constraint:
+  Always 0: 27 (6.9%)
+  Always 1: 8 (2.0%)
+  Variable: 357 (91.1%)
+  Total:    392
+
+Compare: without cascade = 359/392 variable (91.6%)
+         with cascade    = 357/392 variable (91.1%)
+  Cascade ELIMINATES 2 carry variables (1% reduction)
+
+Per-round:
+  Round 57: 30/56 variable, 18 zero, 8 one
+  Round 58: 53/56 variable, 3 zero, 0 one
+  Round 59: 52/56 variable, 4 zero, 0 one
+  Round 60: 55/56 variable, 1 zero, 0 one
+  Round 61: 56/56 variable, 0 zero, 0 one
+  Round 62: 56/56 variable, 0 zero, 0 one
+  Round 63: 55/56 variable, 1 zero, 0 one
+Done.
