@@ -1,0 +1,14 @@
+a-Path Carry-Conditioned Linearization Scaling
+
+N=4: 3 variable bits / 56 total. 4 patterns. 42/49 all-zero. Entropy=2.0
+N=6: 17 variable bits / 84 total. 33 patterns. 0/50 all-zero. Entropy=5.0
+
+Scaling is sub-ideal: variable bits grow from 3 to 17 (roughly N^2/3).
+At N=8: expect ~40-60 variable a-path bits. At N=32: estimate 200+.
+The a-path linearization is costless at N=4 but grows for larger N.
+
+However, the NUMBER OF VALID PATTERNS grows much slower than 2^(var bits):
+  N=4: 4 patterns out of 2^3 = 8 (50% hit rate)
+  N=6: 33 patterns out of 2^17 = 131072 (0.025% hit rate)
+
+The patterns are highly structured — not random subsets of carry space.
