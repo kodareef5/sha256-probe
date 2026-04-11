@@ -62,20 +62,33 @@ class MiniSHA:
         for i in range(16, 64):
             W[i] = (self.sigma1(W[i-2]) + W[i-7] + self.sigma0(W[i-15]) + W[i-16]) & self.MASK
         a,b,c,d,e,f,g,h = self.IV
-        for i in range(56):
+        for i in range(57):
             T1 = (h + self.Sigma1(e) + self.Ch(e,f,g) + self.K[i] + W[i]) & self.MASK
             T2 = (self.Sigma0(a) + self.Maj(a,b,c)) & self.MASK
             h,g,f,e,d,c,b,a = g,f,e,(d+T1)&self.MASK,c,b,a,(T1+T2)&self.MASK
         return [a,b,c,d,e,f,g,h], W[:57]
 
 
-def find_candidate(sha):
-    fill = sha.MASK
-    for m0 in range(1, 1 << sha.N):
-        M1 = [m0] + [fill]*15; M2 = list(M1)
+def find_candidate(sha, max_search=None):
+    """Find M[0] with da[56]=0 at word width N. Uses homotopy code if available."""
+    try:
+        import sys; sys.path.insert(0, '.')
+        spec = __import__('50_precision_homotopy')
+        mini = spec.MiniSHA256(sha.N)
+        m0, s1, s2, W1, W2 = mini.find_m0()
+        # Re-compute with our MiniSHA to get consistent state format
+        M1 = [m0] + [sha.MASK]*15; M2 = list(M1)
         M2[0] ^= sha.MSB; M2[9] ^= sha.MSB
         s1, W1 = sha.compress_56(M1); s2, W2 = sha.compress_56(M2)
         if s1[0] == s2[0]: return m0, s1, s2, W1, W2
+    except Exception:
+        pass
+    fill = sha.MASK
+    for m0 in range(1, 1 << min(sha.N, 16)):
+        M1 = [m0 & sha.MASK] + [fill]*15; M2 = list(M1)
+        M2[0] ^= sha.MSB; M2[9] ^= sha.MSB
+        s1, W1 = sha.compress_56(M1); s2, W2 = sha.compress_56(M2)
+        if s1[0] == s2[0]: return m0 & sha.MASK, s1, s2, W1, W2
     return None
 
 
