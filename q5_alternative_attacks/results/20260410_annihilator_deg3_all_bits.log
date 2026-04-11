@@ -1,0 +1,57 @@
+=== GPU Annihilator Scanner at N=4 ===
+Samples: 12000, max degree: 3
+
+Finding sr=60 candidate...
+  m0=0x1
+
+Sampling 12000 random (input, output) pairs...
+  Done in 0.5s
+
+Monomials up to degree 3: 5489
+
+Evaluating monomials on samples (bitpacked)...
+  Packed shape: (12000, 86) uint64, 1.3s
+
+--- Algebraic Immunity Analysis ---
+  da[0]: 1-set=6027, rank=5489/5489, nullity=0 (7.5s)
+  da[1]: 1-set=6024, rank=5489/5489, nullity=0 (6.9s)
+  da[2]: 1-set=5904, rank=5489/5489, nullity=0 (6.7s)
+  da[3]: 1-set=5971, rank=5489/5489, nullity=0 (6.7s)
+  db[0]: 1-set=6065, rank=5489/5489, nullity=0 (7.0s)
+  db[1]: 1-set=5996, rank=5489/5489, nullity=0 (6.4s)
+  db[2]: 1-set=5921, rank=5489/5489, nullity=0 (6.7s)
+  db[3]: 1-set=6094, rank=5489/5489, nullity=0 (6.5s)
+  dc[0]: 1-set=6144, rank=5489/5489, nullity=0 (6.5s)
+  dc[1]: 1-set=5953, rank=5489/5489, nullity=0 (6.4s)
+  dc[2]: 1-set=6014, rank=5489/5489, nullity=0 (6.7s)
+  dc[3]: 1-set=6059, rank=5489/5489, nullity=0 (6.3s)
+  dd[0]: 1-set=5972, rank=5489/5489, nullity=0 (6.2s)
+  dd[1]: 1-set=5946, rank=5489/5489, nullity=0 (6.2s)
+  dd[2]: 1-set=6097, rank=5489/5489, nullity=0 (5.9s)
+  dd[3]: 1-set=5918, rank=5489/5489, nullity=0 (6.2s)
+  de[0]: 1-set=5942, rank=5489/5489, nullity=0 (6.4s)
+  de[1]: 1-set=5953, rank=5489/5489, nullity=0 (6.1s)
+  de[2]: 1-set=5997, rank=5489/5489, nullity=0 (6.1s)
+  de[3]: 1-set=5849, rank=5489/5489, nullity=0 (5.8s)
+  df[0]: 1-set=6047, rank=5489/5489, nullity=0 (6.7s)
+  df[1]: 1-set=6078, rank=5489/5489, nullity=0 (7.8s)
+  df[2]: 1-set=6033, rank=5489/5489, nullity=0 (7.7s)
+  df[3]: 1-set=5956, rank=5489/5489, nullity=0 (7.7s)
+  dg[0]: 1-set=6013, rank=5489/5489, nullity=0 (7.6s)
+  dg[1]: 1-set=5999, rank=5489/5489, nullity=0 (7.5s)
+  dg[2]: 1-set=6087, rank=5489/5489, nullity=0 (5.6s)
+  dg[3]: 1-set=6013, rank=5489/5489, nullity=0 (5.2s)
+  dh[0]: 1-set=5923, rank=5489/5489, nullity=0 (5.7s)
+  dh[1]: 1-set=6029, rank=5489/5489, nullity=0 (5.5s)
+  dh[2]: 1-set=6094, rank=5489/5489, nullity=0 (5.4s)
+  dh[3]: 1-set=5978, rank=5489/5489, nullity=0 (5.2s)
+
+--- Cascade ordering test (LSBs) ---
+  da[0]: rank=5489, nullity=0
+  db[0]: rank=5489, nullity=0
+  dc[0]: rank=5489, nullity=0
+  dd[0]: rank=5489, nullity=0
+  de[0]: rank=5489, nullity=0
+  df[0]: rank=5489, nullity=0
+  dg[0]: rank=5489, nullity=0
+  dh[0]: rank=5489, nullity=0
