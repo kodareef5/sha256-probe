@@ -1,0 +1,17 @@
+Hybrid SAT N=10: 688 instances across 8 workers
+Range: 0x150..0x3ff
+
+=== Results ===
+  Worker 0: 0x150..0x1a5 → 32 collisions (32 sat, 53 unsat, 1 timeout)
+  Worker 1: 0x1a6..0x1fb → 46 collisions (46 sat, 40 unsat, 0 timeout)
+  Worker 2: 0x1fc..0x251 → 48 collisions (48 sat, 38 unsat, 0 timeout)
+  Worker 3: 0x252..0x2a7 → 42 collisions (42 sat, 43 unsat, 1 timeout)
+  Worker 4: 0x2a8..0x2fd → 42 collisions (42 sat, 43 unsat, 1 timeout)
+  Worker 5: 0x2fe..0x353 → 45 collisions (45 sat, 40 unsat, 1 timeout)
+  Worker 6: 0x354..0x3a9 → 43 collisions (43 sat, 43 unsat, 0 timeout)
+  Worker 7: 0x3aa..0x3ff → 36 collisions (36 sat, 50 unsat, 0 timeout)
+
+Total: 334 collisions, 334 SAT, 350 UNSAT, 4 timeout
+Combined with sequential (0x0..0x14f): 531 total collisions
+Time: 1692s (28.2m)
+Rate: 0.4 instances/s
