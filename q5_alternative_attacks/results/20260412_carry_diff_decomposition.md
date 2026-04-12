@@ -47,3 +47,23 @@ This reduces the search dimension from 343 to ~208 carry-diff bits,
 with the a-path essentially determined for free.
 
 ## Evidence level: VERIFIED (exact, all 260 N=8 collisions)
+
+## Cross-Width Verification (N=4 vs N=8)
+
+| Addition | N=4 inv% | N=8 inv% | Universal? |
+|----------|----------|----------|-----------|
+| Sig0+Maj | 95% | 88% | YES |
+| T1+T2 | 90% | 76% | YES |
+| d+T1 | 67% | 61% | YES |
+| +K | 48% | 24% | Decreases |
+| +Ch | 10% | 12% | ~same |
+| h+Sig1 | 24% | 10% | Decreases |
+| +W | 10% | 4% | Decreases |
+
+Total invariant: N=4: 49%, N=8: 39%.
+
+The T2/a-path invariance is **width-independent** (Sig0+Maj stays >85%
+at both widths). The T1-path freedom is also universal (+W stays <10%).
+
+Prediction for N=32: Sig0+Maj invariance ~80-85%, +W ~1-2%.
+Total invariant fraction ~30-35%.
