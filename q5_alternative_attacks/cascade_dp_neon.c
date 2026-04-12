@@ -358,10 +358,9 @@ int main(int argc, char *argv[]) {
                                         if (va[r] != vb[r]) { ok = 0; break; }
                                     if (ok) {
                                         local_coll++;
-                                        if (local_coll <= 5)
-                                            printf("  COLLISION: W1[57..60]="
-                                                   "[%x,%x,%x,%x]\n",
-                                                   w57, w58, w59, w60);
+                                        #pragma omp critical
+                                        printf("COLL %x %x %x %x\n",
+                                               w57, w58, w59, w60);
                                     }
                                 }
                             }
