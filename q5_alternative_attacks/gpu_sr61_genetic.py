@@ -61,7 +61,7 @@ def cpu_sigma1(x): return ((x>>17|x<<15)&MASK) ^ ((x>>19|x<<13)&MASK) ^ (x>>10)
 
 
 def gpu_genetic(m0=0x17149975, fill=0xffffffff,
-                pop_size=1<<16, hours=8.0,
+                pop_size=1<<20, hours=8.0,
                 mutation_rate=0.01, crossover_rate=0.7,
                 tournament_size=4):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')

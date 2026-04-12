@@ -67,3 +67,20 @@ at both widths). The T1-path freedom is also universal (+W stays <10%).
 
 Prediction for N=32: Sig0+Maj invariance ~80-85%, +W ~1-2%.
 Total invariant fraction ~30-35%.
+
+## Cross-Fill Comparison at N=4
+
+| Fill | m0 | Collisions | Invariant% |
+|------|-----|-----------|-----------|
+| 0xf | 0x0 | 49 | 54% |
+| 0x0 | 0x1 | 22 | **73%** |
+
+**More invariants = fewer collisions.** The invariant fraction is inversely
+correlated with collision count. More structural constraints → smaller
+solution space. This is consistent: the invariants RESTRICT the cascade
+mechanism. Fill=0x0 has a more constrained cascade (73% invariant), leading
+to 55% fewer collisions.
+
+Implication: at N=32, the invariant fraction determines the collision count.
+If the cert (fill=0xff) has ~35% invariant diffs, it admits ~2^26 collisions.
+A fill with 50% invariants might admit only ~2^20.
