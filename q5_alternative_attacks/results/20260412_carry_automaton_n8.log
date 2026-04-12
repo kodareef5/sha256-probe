@@ -1,0 +1,19 @@
+Carry Automaton Profile at N=8 (260 collisions)
+
+Carry matrix: 260 × 686
+Unique carry vectors: 260 (= 100% of collisions)
+Carry entropy: 8.02 bits (= log2(260))
+
+Per-carry stats:
+  Always 0: 62 (9.0%)
+  Always 1: 32 (4.7%)
+  Variable: 592 (86.3%)
+
+Automaton width at each bit position: 260 (every bit is maximal)
+
+CONCLUSION: Carry vectors are a BIJECTION onto the collision set.
+Each collision has a unique carry fingerprint. This holds at both
+N=4 (49/49) and N=8 (260/260).
+
+The carry automaton width = #collisions at all tested widths.
+This is the structural basis of the carry entropy theorem.
