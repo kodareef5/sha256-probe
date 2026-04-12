@@ -1,0 +1,50 @@
+Backward Collision Analysis at N=4
+Starting from collision requirement: all 8 output registers match.
+Working backward through the shift register to count constraints.
+
+Backward propagation of collision constraints:
+  da63=0 → (from round 63 output a)
+  db63=0 → da62=0
+  dc63=0 → da61=0
+  dd63=0 → da60=0
+  de63=0 → (from round 63 output e)
+  df63=0 → de62=0
+  dg63=0 → de61=0
+  dh63=0 → de60=0
+
+Each da_r=0 implies:
+  dT1_r + dT2_r = 0
+  Since cascade-1 zeros b,c,d: dT2 = dSig0(a)+dMaj(a,b,c) = 0
+  So dT1_r = 0, which means dW[r] is determined.
+
+Backward view: the collision determines W2 from W1 at each round.
+This is EXACTLY the cascade mechanism.
+
+MITM Analysis:
+  Forward (57-59): needs W1[57..59] = 3N bits
+  Backward (63-60): needs W[63..60] which are schedule-determined
+    W[63] depends on W[61] which depends on W[59]
+    W[62] depends on W[60]
+    W[61] depends on W[59]
+    So backward needs W[59] and W[60] — overlaps with forward!
+
+  The schedule creates OVERLAP: W[59] is needed by BOTH halves.
+  This prevents a clean MITM split.
+
+  Possible split: forward = W1[57,58], backward = W1[60].
+  Bridge = W1[59] (needed by both).
+  Forward: 2^{2N} states at round 58.
+  Backward: 2^N states at round 60.
+  Bridge: 2^N tries of W1[59] per forward state.
+  Total: 2^{2N} × 2^N = 2^{3N}.
+  vs cascade DP: 2^{4N}. Speedup: 2^N.
+
+  At N=4: 2^12 = 4096 vs 2^16 = 65536 (16x speedup)
+  At N=8: 2^24 = 16M vs 2^32 = 4.3B (256x speedup)
+  At N=32: 2^96 vs 2^128 (2^32 = 4.3B speedup)
+  2^96 is still infeasible at N=32.
+
+CONCLUSION: MITM gives 2^N speedup but not enough for N=32.
+The hybrid SAT approach (enumerate 1 word, SAT rest) gives 2^{3N}
+speedup per SAT call — same as this MITM analysis.
+Done.
