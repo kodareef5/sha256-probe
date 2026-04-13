@@ -1,0 +1,18 @@
+Exotic kernel test at N=8 (2 threads)
+Testing top configurations from N=4 sweep
+
+  Standard: dM[0]=dM[9]=2^6 (champion)            1644  (26.5s) <<<
+  Standard: dM[0]=dM[9]=2^7 (MSB)                  260  (17.8s)
+  NEW: dM[0]=dM[1]=2^6                             121  (17.8s)
+  NEW: dM[0]=dM[1]=2^2 (best at N=4)               477  (17.8s)
+  NEW: dM[0]=dM[14]=2^6                            341  (17.7s)
+  NEW: dM[0]=dM[14]=2^1                            500  (26.3s)
+  NEW: dM[5]=dM[9]=2^6                             306  (17.6s)
+  NEW: dM[5]=dM[9]=2^1                             441  (26.8s)
+  3-word: dM[1]=dM[4]=dM[9]=2^6                    179  (17.6s)
+  3-word: dM[1]=dM[4]=dM[9]=2^1                      0  (0.0s)
+  3-word: dM[0]=dM[5]=dM[9]=2^6                    143  (8.8s)
+  1-word: dM[0]=2^6 only                           321  (8.9s)
+  1-word: dM[0]=2^1 only                           194  (18.0s)
+
+Best: 1644 collisions
