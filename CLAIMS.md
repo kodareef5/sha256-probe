@@ -242,3 +242,12 @@ Among collision solutions, the state-diff trajectory is UNIQUE:
 - **Significance:** The collision-finding problem reduces to carry-reachability:
   find message words whose carry chains reach the unique target trajectory.
   The state-diff problem is trivial; carry space is the true hard problem.
+
+### da=de Equivalence and Single-Equation Reduction (VERIFIED)
+For r ≥ 61: da_r = de_r (proven algebraically). dT2 = 0 unconditionally.
+The collision reduces to ONE independent equation per round: dT1_61 = 0.
+Once dT1_61 = 0 is satisfied, rounds 62-63 propagate deterministically.
+- **Evidence:** Algebraic proof from SHA-256 round structure + cascade
+- **Significance:** The entire 7-round collision problem collapses to
+  finding message words that satisfy ONE equation (dT1_61 = 0) under
+  carry-chain constraints. This is the tightest reduction achievable.
