@@ -75,4 +75,24 @@ manifold has dimensionality ~1.66N in de-space, versus 4N in message-space.
 Combined with the carry automaton width bound (C ≈ 2^{1.07N}), this gives
 a complete characterization of the collision variety.
 
-Evidence level: VERIFIED (exhaustive at N=4, N=8)
+## IMPORTANT UPDATE: Negative Result for Forward Pruning
+
+de_pruned_search.c tested at N=4 and N=8:
+- N=4: 1.3x speedup (51200 vs 65536 evals)
+- N=8: 1.2x speedup (3.69B vs 4.29B evals) — and SLOWER due to overhead
+
+**Root cause**: The "valid" de sets are the IMAGE of the round function
+applied to the initial state, NOT a collision-specific filter. ALL message
+words (collisions and non-collisions alike) produce de values in the valid
+set. The de values don't distinguish collisions from non-collisions.
+
+**Structural meaning**: The collision variety is embedded in carry space,
+not register-diff space. The e-path diff is a PROJECTION of the carry
+structure that loses the collision-discriminating information.
+
+**The 413,000x estimate was wrong** because it assumed de values are
+independently distributed across the full 2^N range. In reality, the
+round function maps ALL inputs into the same small image.
+
+Evidence level: VERIFIED (exhaustive at N=4, N=8) — the de set sizes are
+correct, but they DON'T help with pruning.
