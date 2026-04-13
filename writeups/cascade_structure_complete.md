@@ -109,7 +109,29 @@ Verified: P(da61=0) = P(de61=0) = P(both=0) = 1/260 at N=8
 (perfect correlation, 260x above independence). Algebraic identity
 confirmed at N=32 against known collision certificate.
 
-## 9. Implications
+## 9. Cross-Validation: Carry Automaton at N=12 (Macbook)
+
+The macbook's carry automaton analysis of 2240 N=12 collisions independently
+confirms the algebraic structure:
+
+```
+Rounds 61-63 carry-diff analysis:
+  Sig0(a)+Maj   → CONSTANT (carry-diff = 0)    ← = dT2 = 0 ✓
+  d+T1 = new_e  → CONSTANT (carry-diff = 0)    ← = de = 0 ✓
+  T1+T2 = new_a → CONSTANT (carry-diff = 0)    ← = da = 0 ✓
+
+  h+Sig1, +Ch, +K, +W → all VARIABLE (T1 path free)
+```
+
+The "Sig0+Maj CONSTANT" observation IS our dT2=0 theorem, expressed in carry
+space rather than state-diff space. The "T1+T2 CONSTANT" confirms da=0. The
+"d+T1 CONSTANT" confirms de=0. Three independent representations of the same
+structural identity, verified at N=4, 6, 8, 12, and 32.
+
+T2-path freedom: 26.6% overall, 0% at r61-63 (all invariant).
+T1-path freedom: 84.2% (where the collision's single DOF lives).
+
+## 10. Implications
 
 1. The cascade is a **thin diagonal path** through an 8N-dimensional
    state-diff space. Its "width" is determined by hw(db56).
