@@ -89,6 +89,17 @@ Testing all single-bit positions dM[0]=dM[9]=2^bit:
 - **Evidence:** `kernel_sweep.c`, `kernel_sweep_neon.c` exhaustive at N=4-8
 - **Significance:** The Viragh paper uses MSB throughout. Better kernels exist.
 
+### Alternating fill patterns unlock massive collision counts at odd N
+The fill pattern (padding of non-differential message words) is a critical
+free parameter. Alternating-bit fills (0x55, 0xAA variants) produce
+dramatically more collisions at odd word widths:
+- N=5: fill=0x15 gives **1024** collisions (27.7x old best of 37)
+- N=9: fill=0x55 gives **14,263** collisions (2.9x old best of 4905, 8.7x N=8 champion)
+- **Evidence:** GPU laptop exhaustive sweep, macbook independently verified N=9.
+- **Significance:** The "odd-N zero theorem" was fill-dependent, not fundamental.
+  Alternating fills create favorable carry propagation at odd bit widths.
+- **Caveats:** N=7, N=8, N=10 not yet fully re-swept with alternating fills.
+
 ### Non-(0,9) word pairs produce sr=60 collisions
 The standard (0,9) word pair from Viragh is not the only option:
 - N=4: dM[0]=dM[1]=2^2: 131 coll; dM[0]=dM[14]=2^1: 100; dM[5]=dM[9]=2^1: 96
