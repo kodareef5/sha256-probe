@@ -247,7 +247,7 @@ def find_candidate(p, kernel_bit):
 
 def find_all_candidates(p, kernel_bit):
     delta = 1 << kernel_bit
-    fills = [p.MASK, 0, p.MASK >> 1]
+    fills = [p.MASK, 0, p.MASK >> 1, 1 << (p.N - 1), 0x55 & p.MASK, 0xAA & p.MASK]
     candidates = []
     for fill in fills:
         for m0 in range(p.MASK + 1):
