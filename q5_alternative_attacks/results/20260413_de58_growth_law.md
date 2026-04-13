@@ -9,16 +9,18 @@ Verified at N = 4, 6, 8, 10, 11, 12, 13, 14.
 
 ## de58 Image Size by N
 
-| N | |de58| | log2 | /SIZE |
-|---|--------|------|-------|
-| 4 | 2 | 1.00 | 12.5% |
-| 6 | 8 | 3.00 | 12.5% |
-| 8 | 8 | 3.00 | 3.1% |
-| 10 | 16 | 4.00 | 1.6% |
-| 11 | 32 | 5.00 | 1.6% |
-| **12** | **512** | **9.00** | **12.5%** |
-| 13 | 32 | 5.00 | 0.4% |
-| 14 | 8 | 3.00 | 0.05% |
+| N | |de58| | log2 | /SIZE | Fixed bits |
+|---|--------|------|-------|------------|
+| 4 | 2 | 1.00 | 12.5% | — |
+| 6 | 8 | 3.00 | 12.5% | — |
+| 8 | 8 | 3.00 | 3.1% | — |
+| 10 | 16 | 4.00 | 1.6% | — |
+| 11 | 32 | 5.00 | 1.6% | — |
+| **12** | **512** | **9.00** | **12.5%** | — |
+| 13 | 32 | 5.00 | 0.4% | — |
+| 14 | 8 | 3.00 | 0.05% | — |
+| 16 | 256 | 8.00 | 0.004% | — |
+| **32** | **1024** | **10.00** | **0.000024%** | **18 of 32** |
 
 ## Growth is NON-MONOTONIC
 
@@ -52,6 +54,18 @@ Total effective search = |de58| (since other de's are constant).
 | 14 | 2^56 | 2^3 = 8 | 9.0×10^15x |
 
 Even at N=12 (worst case), pruning exceeds 10^11x.
+
+## N=32 Structural Analysis
+
+At full SHA-256 width, de58 values share extensive bit structure:
+- **18 of 32 bits are FIXED** (8 always-0 + 10 always-1)
+- Only 14 bits are free, containing 1024 = 2^10 values (6.2% of 2^14)
+- NOT a GF(2) subgroup (not XOR-closed)
+- Concentrated near 0x0fbc6000-0x0fbca85c (tiny region of [0, 2^32))
+
+The de58 set is a highly structured, low-dimensional subset of the
+full state space. Its structure is determined by SHA-256's round
+function applied to the specific state56 values.
 
 ## For the Paper
 
