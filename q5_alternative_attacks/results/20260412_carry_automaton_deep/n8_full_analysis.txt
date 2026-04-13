@@ -1,0 +1,155 @@
+Loaded 260 collisions at N=8
+
+Found candidate: M[0]=0x67 fill=0xff (MSB kernel)
+
+--- Extracting carry states for 260 collisions ---
+
+=== Carry State Width at Each Bit ===
+(Path 1 carries, Path 2 carries, Carry-diffs)
+
+Bit   P1-unique  P2-unique  Diff-unique  Permutation?
+  0     260        259        219         no
+  1     260        260        258         YES
+  2     260        260        260         YES
+  3     260        260        259         YES
+  4     260        260        260         YES
+  5     260        260        260         YES
+  6     260        260        260         YES
+  7     260        260        259         YES
+
+Overall permutation: NO
+
+=== Per-Addition Carry-Diff Invariance ===
+(Fraction of collisions sharing the same carry-diff at each bit)
+
+Round 57 (active):
+       h+Sig1(e): 8/8 bits invariant (100.0%) *** 100%
+      +Ch(e,f,g): 8/8 bits invariant (100.0%) *** 100%
+           +K[r]: 8/8 bits invariant (100.0%) *** 100%
+           +W[r]: 0/8 bits invariant (  0.0%)
+     Sig0(a)+Maj: 8/8 bits invariant (100.0%) *** 100%
+      d+T1=new_e: 0/8 bits invariant (  0.0%)
+     T1+T2=new_a: 1/8 bits invariant ( 12.5%)
+Round 58 (active):
+       h+Sig1(e): 0/8 bits invariant (  0.0%)
+      +Ch(e,f,g): 0/8 bits invariant (  0.0%)
+           +K[r]: 2/8 bits invariant ( 25.0%)
+           +W[r]: 0/8 bits invariant (  0.0%)
+     Sig0(a)+Maj: 1/8 bits invariant ( 12.5%)
+      d+T1=new_e: 1/8 bits invariant ( 12.5%)
+     T1+T2=new_a: 1/8 bits invariant ( 12.5%)
+Round 59 (active):
+       h+Sig1(e): 0/8 bits invariant (  0.0%)
+      +Ch(e,f,g): 0/8 bits invariant (  0.0%)
+           +K[r]: 3/8 bits invariant ( 37.5%)
+           +W[r]: 0/8 bits invariant (  0.0%)
+     Sig0(a)+Maj: 8/8 bits invariant (100.0%) *** 100%
+      d+T1=new_e: 1/8 bits invariant ( 12.5%)
+     T1+T2=new_a: 8/8 bits invariant (100.0%) *** 100%
+Round 60 (active):
+       h+Sig1(e): 0/8 bits invariant (  0.0%)
+      +Ch(e,f,g): 0/8 bits invariant (  0.0%)
+           +K[r]: 1/8 bits invariant ( 12.5%)
+           +W[r]: 0/8 bits invariant (  0.0%)
+     Sig0(a)+Maj: 8/8 bits invariant (100.0%) *** 100%
+      d+T1=new_e: 8/8 bits invariant (100.0%) *** 100%
+     T1+T2=new_a: 8/8 bits invariant (100.0%) *** 100%
+Round 61 (active):
+       h+Sig1(e): 0/8 bits invariant (  0.0%)
+      +Ch(e,f,g): 0/8 bits invariant (  0.0%)
+           +K[r]: 1/8 bits invariant ( 12.5%)
+           +W[r]: 0/8 bits invariant (  0.0%)
+     Sig0(a)+Maj: 8/8 bits invariant (100.0%) *** 100%
+      d+T1=new_e: 8/8 bits invariant (100.0%) *** 100%
+     T1+T2=new_a: 8/8 bits invariant (100.0%) *** 100%
+Round 62 (active):
+       h+Sig1(e): 1/8 bits invariant ( 12.5%)
+      +Ch(e,f,g): 1/8 bits invariant ( 12.5%)
+           +K[r]: 1/8 bits invariant ( 12.5%)
+           +W[r]: 1/8 bits invariant ( 12.5%)
+     Sig0(a)+Maj: 8/8 bits invariant (100.0%) *** 100%
+      d+T1=new_e: 8/8 bits invariant (100.0%) *** 100%
+     T1+T2=new_a: 8/8 bits invariant (100.0%) *** 100%
+Round 63 (active):
+       h+Sig1(e): 1/8 bits invariant ( 12.5%)
+      +Ch(e,f,g): 1/8 bits invariant ( 12.5%)
+           +K[r]: 2/8 bits invariant ( 25.0%)
+           +W[r]: 1/8 bits invariant ( 12.5%)
+     Sig0(a)+Maj: 8/8 bits invariant (100.0%) *** 100%
+      d+T1=new_e: 8/8 bits invariant (100.0%) *** 100%
+     T1+T2=new_a: 8/8 bits invariant (100.0%) *** 100%
+
+Total: 165/392 carry-diff bits invariant (42.1%)
+
+=== Transition Structure (bit k -> bit k+1) ===
+
+  Bit 0 -> 1: max successors = 1 (deterministic)
+  Bit 1 -> 2: max successors = 1 (deterministic)
+  Bit 2 -> 3: max successors = 1 (deterministic)
+  Bit 3 -> 4: max successors = 1 (deterministic)
+  Bit 4 -> 5: max successors = 1 (deterministic)
+  Bit 5 -> 6: max successors = 1 (deterministic)
+  Bit 6 -> 7: max successors = 1 (deterministic)
+
+=== Carry-Diff Pattern Classification ===
+
+Round  Addition        Constant?  Value-at-bit0  Value-at-MSB
+  57        h+Sig1(e)   CONSTANT    0              0
+  57       +Ch(e,f,g)   CONSTANT    0              0
+  57            +K[r]   CONSTANT    1              0
+  57            +W[r]   variable    (46 distinct patterns)
+  57      Sig0(a)+Maj   CONSTANT    0              0
+  57       d+T1=new_e   variable    (45 distinct patterns)
+  57      T1+T2=new_a   variable    (8 distinct patterns)
+  58        h+Sig1(e)   variable    (48 distinct patterns)
+  58       +Ch(e,f,g)   variable    (104 distinct patterns)
+  58            +K[r]   variable    (35 distinct patterns)
+  58            +W[r]   variable    (124 distinct patterns)
+  58      Sig0(a)+Maj   variable    (20 distinct patterns)
+  58       d+T1=new_e   variable    (38 distinct patterns)
+  58      T1+T2=new_a   variable    (46 distinct patterns)
+  59        h+Sig1(e)   variable    (94 distinct patterns)
+  59       +Ch(e,f,g)   variable    (133 distinct patterns)
+  59            +K[r]   variable    (13 distinct patterns)
+  59            +W[r]   variable    (99 distinct patterns)
+  59      Sig0(a)+Maj   CONSTANT    0              0
+  59       d+T1=new_e   variable    (23 distinct patterns)
+  59      T1+T2=new_a   CONSTANT    0              0
+  60        h+Sig1(e)   variable    (94 distinct patterns)
+  60       +Ch(e,f,g)   variable    (142 distinct patterns)
+  60            +K[r]   variable    (26 distinct patterns)
+  60            +W[r]   variable    (114 distinct patterns)
+  60      Sig0(a)+Maj   CONSTANT    0              0
+  60       d+T1=new_e   CONSTANT    0              0
+  60      T1+T2=new_a   CONSTANT    0              0
+  61        h+Sig1(e)   variable    (109 distinct patterns)
+  61       +Ch(e,f,g)   variable    (137 distinct patterns)
+  61            +K[r]   variable    (64 distinct patterns)
+  61            +W[r]   variable    (108 distinct patterns)
+  61      Sig0(a)+Maj   CONSTANT    0              0
+  61       d+T1=new_e   CONSTANT    0              0
+  61      T1+T2=new_a   CONSTANT    0              0
+  62        h+Sig1(e)   variable    (66 distinct patterns)
+  62       +Ch(e,f,g)   variable    (86 distinct patterns)
+  62            +K[r]   variable    (44 distinct patterns)
+  62            +W[r]   variable    (77 distinct patterns)
+  62      Sig0(a)+Maj   CONSTANT    0              0
+  62       d+T1=new_e   CONSTANT    0              0
+  62      T1+T2=new_a   CONSTANT    0              0
+  63        h+Sig1(e)   variable    (61 distinct patterns)
+  63       +Ch(e,f,g)   variable    (61 distinct patterns)
+  63            +K[r]   variable    (13 distinct patterns)
+  63            +W[r]   variable    (61 distinct patterns)
+  63      Sig0(a)+Maj   CONSTANT    0              0
+  63       d+T1=new_e   CONSTANT    0              0
+  63      T1+T2=new_a   CONSTANT    0              0
+
+=== Carry State Hamming Distances (Path 1, bit 0) ===
+  Min: 2  Max: 28  Mean: 15.0  (of 49 bits)
+
+=== T1-path vs T2-path Freedom ===
+  T1-path (h+Sig1, +Ch, +K, +W): 184/224 free (82.1%)
+  T2-path (Sig0+Maj, d+T1, T1+T2): 43/168 free (25.6%)
+  Total free: 227/392 (57.9%)
+
+=== Done ===
