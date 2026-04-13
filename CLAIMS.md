@@ -209,11 +209,12 @@ families may have very different thermodynamic properties.
 The sr=60 collision has a diagonal structure in state-diff space:
 - Two zero-waves (a-path and e-path) sweep from upper-left to lower-right
 - One variable diagonal carries the Maj-function freedom
-- |de58| = 2^hw(db56) exactly (proven, verified N=4-14,32)
-- de60 = 0 ALWAYS (e-path cascade is free)
-- **Evidence:** Proven algebraically from shift-register + cascade structure.
-  Verified numerically at all N=4-14 plus N=32. 100% match.
-- **Significance:** Complete structural characterization of the sr=60 mechanism.
-  The collision problem reduces to navigating a thin diagonal path.
-- **Caveats:** The theorem describes the STRUCTURE but not the DIFFICULTY
-  of navigating the diagonal (which depends on carry nonlinearity).
+- |de58| ≤ 2^hw(db56) (proven upper bound, EXACT at N≤14, looser at N=32)
+  N=32: predicted 2^17=131072 but actual=1024 (carry effects reduce image)
+- de60 = 0 ALWAYS (e-path cascade is free, verified N=4-32)
+- **Evidence:** Algebraic proof for upper bound. Exact equality verified N=4-14.
+  N=32 correction: arithmetic carries collapse XOR patterns, giving |de58|=1024.
+- **Significance:** Complete structural characterization of sr=60 mechanism.
+  The correction goes in the GOOD direction (cascade more constrained than predicted).
+- **Caveats:** The bound is not tight at full SHA-256 width. The actual |de58|
+  depends on carry-level details of the Maj function at specific candidates.
