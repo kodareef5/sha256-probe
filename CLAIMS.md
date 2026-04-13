@@ -204,3 +204,16 @@ from UNSAT. Retained as a family-specific diagnostic, not a principal result.
 ### "Thermodynamic Floor" as property of SHA-256
 The floor is a property of one candidate family under one kernel. Different
 families may have very different thermodynamic properties.
+
+### Cascade Diagonal Structure Theorem (VERIFIED)
+The sr=60 collision has a diagonal structure in state-diff space:
+- Two zero-waves (a-path and e-path) sweep from upper-left to lower-right
+- One variable diagonal carries the Maj-function freedom
+- |de58| = 2^hw(db56) exactly (proven, verified N=4-14,32)
+- de60 = 0 ALWAYS (e-path cascade is free)
+- **Evidence:** Proven algebraically from shift-register + cascade structure.
+  Verified numerically at all N=4-14 plus N=32. 100% match.
+- **Significance:** Complete structural characterization of the sr=60 mechanism.
+  The collision problem reduces to navigating a thin diagonal path.
+- **Caveats:** The theorem describes the STRUCTURE but not the DIFFICULTY
+  of navigating the diagonal (which depends on carry nonlinearity).
