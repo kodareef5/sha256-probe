@@ -1,0 +1,201 @@
+Carry Polynomial Analysis at N=4
+Variables: 16 (bits of W1[57..60])
+Search space: 2^16 = 65536
+
+Candidate: M[0]=0x0 fill=0xf
+
+=== Phase 1: Truth Table Construction ===
+Collisions: 49 / 65536
+
+=== Phase 2: ANF (Algebraic Normal Form) of Each Output Bit ===
+
+Register  Bit  Constant  Linear  Quad  Cubic  Deg4+  Total  MaxDeg
+  a       0     0         8     61   298    32550   32917     16
+  a       1     0        11     57   259    32339   32666     16
+  a       2     1         4     65   285    32513   32868     16
+  a       3     0         7     67   268    32559   32901     16
+  b       0     1         7     53   263    32738   33062     16
+  b       1     1        13     64   301    32492   32871     15
+  b       2     0         8     62   276    32442   32788     15
+  b       3     1        10     60   266    32501   32838     15
+  c       0     0         2      9    24     60     95     6
+  c       1     0         3     24   119    13492   13638     13
+  c       2     1         7     48   219    30914   31189     15
+  c       3     1         9     62   276    32540   32888     16
+  d       0     0         0      0     0      0      0     0
+  d       1     0         0      0     0      0      0     0
+  d       2     0         0      0     0      0      0     0
+  d       3     0         0      0     0      0      0     0
+  e       0     1         9     60   302    32358   32730     16
+  e       1     1        11     58   289    32173   32532     16
+  e       2     0         9     57   270    32690   33026     15
+  e       3     1         8     56   268    32164   32497     16
+  f       0     1        11     59   303    28394   28768     14
+  f       1     0         9     57   288    31888   32242     14
+  f       2     1         9     58   288    31979   32335     15
+  f       3     1         8     64   284    32527   32884     16
+  g       0     0         2      9    24     60     95     6
+  g       1     0         2     29   126    9386   9543     12
+  g       2     1         6     55   203    16996   17261     13
+  g       3     0        14     72   296    28367   28749     14
+  h       0     0         0      0     0      0      0     0
+  h       1     0         0      0     0      0      0     0
+  h       2     0         0      0     0      0      0     0
+  h       3     0         0      0     0      0      0     0
+
+Summary:
+  Total output bits: 32
+  Total ANF terms: 653383
+  Constant: 13, Linear: 187, Quadratic: 1266, Higher: 651917
+  Max degree: 16
+  Avg terms per output: 20418.2
+
+=== Phase 3: Linear Subspace Analysis ===
+
+Linear part GF(2) rank: 16 / 16 (of 32 output equations)
+Linear variables eliminable: 16
+Remaining nonlinear DOF: 0
+Expected collisions from linear part: 2^0 = 1
+Actual collisions: 49
+Nonlinear pruning factor: 2^0 / 49 = 0.0
+
+=== Phase 4: Per-Register Degree Analysis ===
+
+  da: max degree 16, total terms 131352
+  db: max degree 16, total terms 131559
+  dc: max degree 16, total terms 77810
+  dd: max degree 0, total terms 0
+  de: max degree 16, total terms 130785
+  df: max degree 16, total terms 126229
+  dg: max degree 14, total terms 55648
+  dh: max degree 0, total terms 0
+
+=== Phase 5: Quadratic Interaction Map ===
+(Which variable pairs appear together in degree-2 terms)
+
+Variable groups: 0-3=W57 bits, 4-7=W58, 8-11=W59, 12-15=W60
+
+Total interacting pairs: 120 / 120 possible
+Within-word: 24, Cross-word: 96
+
+Densest interactions (count > 5):
+  x0 (W57[0]) x x1 (W57[1]): appears in 14 output equations
+  x0 (W57[0]) x x2 (W57[2]): appears in 15 output equations
+  x0 (W57[0]) x x3 (W57[3]): appears in 11 output equations
+  x0 (W57[0]) x x4 (W58[0]): appears in 12 output equations
+  x0 (W57[0]) x x5 (W58[1]): appears in 10 output equations
+  x0 (W57[0]) x x6 (W58[2]): appears in 12 output equations
+  x0 (W57[0]) x x7 (W58[3]): appears in 13 output equations
+  x0 (W57[0]) x x8 (W59[0]): appears in 7 output equations
+  x0 (W57[0]) x x9 (W59[1]): appears in 12 output equations
+  x0 (W57[0]) x x10 (W59[2]): appears in 13 output equations
+  x0 (W57[0]) x x11 (W59[3]): appears in 15 output equations
+  x0 (W57[0]) x x12 (W60[0]): appears in 10 output equations
+  x0 (W57[0]) x x13 (W60[1]): appears in 9 output equations
+  x0 (W57[0]) x x14 (W60[2]): appears in 7 output equations
+  x0 (W57[0]) x x15 (W60[3]): appears in 11 output equations
+  x1 (W57[1]) x x2 (W57[2]): appears in 15 output equations
+  x1 (W57[1]) x x3 (W57[3]): appears in 14 output equations
+  x1 (W57[1]) x x5 (W58[1]): appears in 14 output equations
+  x1 (W57[1]) x x6 (W58[2]): appears in 10 output equations
+  x1 (W57[1]) x x7 (W58[3]): appears in 11 output equations
+  x1 (W57[1]) x x8 (W59[0]): appears in 9 output equations
+  x1 (W57[1]) x x9 (W59[1]): appears in 6 output equations
+  x1 (W57[1]) x x10 (W59[2]): appears in 12 output equations
+  x1 (W57[1]) x x11 (W59[3]): appears in 12 output equations
+  x1 (W57[1]) x x12 (W60[0]): appears in 11 output equations
+  x1 (W57[1]) x x13 (W60[1]): appears in 9 output equations
+  x1 (W57[1]) x x14 (W60[2]): appears in 12 output equations
+  x1 (W57[1]) x x15 (W60[3]): appears in 8 output equations
+  x2 (W57[2]) x x3 (W57[3]): appears in 9 output equations
+  x2 (W57[2]) x x4 (W58[0]): appears in 10 output equations
+  x2 (W57[2]) x x5 (W58[1]): appears in 13 output equations
+  x2 (W57[2]) x x6 (W58[2]): appears in 11 output equations
+  x2 (W57[2]) x x7 (W58[3]): appears in 14 output equations
+  x2 (W57[2]) x x8 (W59[0]): appears in 16 output equations
+  x2 (W57[2]) x x9 (W59[1]): appears in 7 output equations
+  x2 (W57[2]) x x10 (W59[2]): appears in 14 output equations
+  x2 (W57[2]) x x11 (W59[3]): appears in 12 output equations
+  x2 (W57[2]) x x12 (W60[0]): appears in 8 output equations
+  x2 (W57[2]) x x13 (W60[1]): appears in 12 output equations
+  x2 (W57[2]) x x14 (W60[2]): appears in 12 output equations
+  x2 (W57[2]) x x15 (W60[3]): appears in 7 output equations
+  x3 (W57[3]) x x4 (W58[0]): appears in 12 output equations
+  x3 (W57[3]) x x5 (W58[1]): appears in 12 output equations
+  x3 (W57[3]) x x6 (W58[2]): appears in 11 output equations
+  x3 (W57[3]) x x7 (W58[3]): appears in 10 output equations
+  x3 (W57[3]) x x8 (W59[0]): appears in 11 output equations
+  x3 (W57[3]) x x9 (W59[1]): appears in 10 output equations
+  x3 (W57[3]) x x10 (W59[2]): appears in 11 output equations
+  x3 (W57[3]) x x11 (W59[3]): appears in 9 output equations
+  x3 (W57[3]) x x12 (W60[0]): appears in 10 output equations
+  x3 (W57[3]) x x13 (W60[1]): appears in 10 output equations
+  x3 (W57[3]) x x14 (W60[2]): appears in 10 output equations
+  x3 (W57[3]) x x15 (W60[3]): appears in 9 output equations
+  x4 (W58[0]) x x5 (W58[1]): appears in 15 output equations
+  x4 (W58[0]) x x6 (W58[2]): appears in 9 output equations
+  x4 (W58[0]) x x7 (W58[3]): appears in 15 output equations
+  x4 (W58[0]) x x8 (W59[0]): appears in 8 output equations
+  x4 (W58[0]) x x9 (W59[1]): appears in 12 output equations
+  x4 (W58[0]) x x10 (W59[2]): appears in 10 output equations
+  x4 (W58[0]) x x11 (W59[3]): appears in 8 output equations
+  x4 (W58[0]) x x12 (W60[0]): appears in 14 output equations
+  x4 (W58[0]) x x13 (W60[1]): appears in 14 output equations
+  x4 (W58[0]) x x14 (W60[2]): appears in 13 output equations
+  x4 (W58[0]) x x15 (W60[3]): appears in 7 output equations
+  x5 (W58[1]) x x6 (W58[2]): appears in 10 output equations
+  x5 (W58[1]) x x7 (W58[3]): appears in 13 output equations
+  x5 (W58[1]) x x8 (W59[0]): appears in 12 output equations
+  x5 (W58[1]) x x9 (W59[1]): appears in 11 output equations
+  x5 (W58[1]) x x10 (W59[2]): appears in 8 output equations
+  x5 (W58[1]) x x11 (W59[3]): appears in 12 output equations
+  x5 (W58[1]) x x12 (W60[0]): appears in 11 output equations
+  x5 (W58[1]) x x13 (W60[1]): appears in 10 output equations
+  x5 (W58[1]) x x14 (W60[2]): appears in 12 output equations
+  x5 (W58[1]) x x15 (W60[3]): appears in 10 output equations
+  x6 (W58[2]) x x7 (W58[3]): appears in 13 output equations
+  x6 (W58[2]) x x8 (W59[0]): appears in 10 output equations
+  x6 (W58[2]) x x9 (W59[1]): appears in 10 output equations
+  x6 (W58[2]) x x10 (W59[2]): appears in 10 output equations
+  x6 (W58[2]) x x11 (W59[3]): appears in 11 output equations
+  x6 (W58[2]) x x12 (W60[0]): appears in 7 output equations
+  x6 (W58[2]) x x13 (W60[1]): appears in 7 output equations
+  x6 (W58[2]) x x14 (W60[2]): appears in 14 output equations
+  x6 (W58[2]) x x15 (W60[3]): appears in 12 output equations
+  x7 (W58[3]) x x8 (W59[0]): appears in 11 output equations
+  x7 (W58[3]) x x9 (W59[1]): appears in 11 output equations
+  x7 (W58[3]) x x10 (W59[2]): appears in 10 output equations
+  x7 (W58[3]) x x11 (W59[3]): appears in 12 output equations
+  x7 (W58[3]) x x12 (W60[0]): appears in 11 output equations
+  x7 (W58[3]) x x13 (W60[1]): appears in 10 output equations
+  x7 (W58[3]) x x14 (W60[2]): appears in 9 output equations
+  x7 (W58[3]) x x15 (W60[3]): appears in 8 output equations
+  x8 (W59[0]) x x9 (W59[1]): appears in 10 output equations
+  x8 (W59[0]) x x10 (W59[2]): appears in 11 output equations
+  x8 (W59[0]) x x11 (W59[3]): appears in 8 output equations
+  x8 (W59[0]) x x12 (W60[0]): appears in 12 output equations
+  x8 (W59[0]) x x13 (W60[1]): appears in 14 output equations
+  x8 (W59[0]) x x14 (W60[2]): appears in 9 output equations
+  x8 (W59[0]) x x15 (W60[3]): appears in 11 output equations
+  x9 (W59[1]) x x10 (W59[2]): appears in 10 output equations
+  x9 (W59[1]) x x11 (W59[3]): appears in 6 output equations
+  x9 (W59[1]) x x12 (W60[0]): appears in 10 output equations
+  x9 (W59[1]) x x14 (W60[2]): appears in 11 output equations
+  x9 (W59[1]) x x15 (W60[3]): appears in 13 output equations
+  x10 (W59[2]) x x11 (W59[3]): appears in 9 output equations
+  x10 (W59[2]) x x12 (W60[0]): appears in 11 output equations
+  x10 (W59[2]) x x13 (W60[1]): appears in 13 output equations
+  x10 (W59[2]) x x14 (W60[2]): appears in 10 output equations
+  x10 (W59[2]) x x15 (W60[3]): appears in 8 output equations
+  x11 (W59[3]) x x12 (W60[0]): appears in 10 output equations
+  x11 (W59[3]) x x13 (W60[1]): appears in 7 output equations
+  x11 (W59[3]) x x14 (W60[2]): appears in 8 output equations
+  x11 (W59[3]) x x15 (W60[3]): appears in 8 output equations
+  x12 (W60[0]) x x13 (W60[1]): appears in 10 output equations
+  x12 (W60[0]) x x14 (W60[2]): appears in 8 output equations
+  x12 (W60[0]) x x15 (W60[3]): appears in 8 output equations
+  x13 (W60[1]) x x14 (W60[2]): appears in 7 output equations
+  x13 (W60[1]) x x15 (W60[3]): appears in 11 output equations
+  x14 (W60[2]) x x15 (W60[3]): appears in 9 output equations
+
+=== Done ===

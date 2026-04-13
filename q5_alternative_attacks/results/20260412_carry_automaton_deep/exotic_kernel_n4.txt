@@ -1,0 +1,141 @@
+Exotic Kernel Explorer at N=4
+Rotations: S0={1,2,3} S1={1,1,3}
+
+Configuration                                  Coll   Best?
+-------------                                  ----   -----
+
+--- Standard single-bit kernels dM[0]=dM[9]=2^bit ---
+  dM[0]=dM[9]=2^0                                51 <<<
+  dM[0]=dM[9]=2^1                               146 <<<
+  dM[0]=dM[9]=2^2                                17
+  dM[0]=dM[9]=2^3                                49
+
+--- Multi-bit deltas dM[0]=dM[9]=delta ---
+  dM[0]=dM[9]=2^0+2^1 (0x3)                      76
+  dM[0]=dM[9]=2^0+2^2 (0x5)                       1
+  dM[0]=dM[9]=2^0+2^3 (0x9)                      16
+  dM[0]=dM[9]=2^1+2^2 (0x6)                      47
+  dM[0]=dM[9]=2^1+2^3 (0xa)                      39
+  dM[0]=dM[9]=2^2+2^3 (0xc)                      42
+  dM[0]=dM[9]=2^0+2^1+2^2                         9
+  dM[0]=dM[9]=2^0+2^1+2^3                         4
+  dM[0]=dM[9]=2^0+2^2+2^3                         0
+  dM[0]=dM[9]=2^1+2^2+2^3                        39
+
+--- Asymmetric deltas dM[0] != dM[9] ---
+  dM[0]=2^0, dM[9]=2^1                           17
+  dM[0]=2^0, dM[9]=2^2                           18
+  dM[0]=2^0, dM[9]=2^3                            0
+  dM[0]=2^1, dM[9]=2^0                            9
+  dM[0]=2^1, dM[9]=2^2                           44
+  dM[0]=2^1, dM[9]=2^3                            1
+  dM[0]=2^2, dM[9]=2^0                           77
+  dM[0]=2^2, dM[9]=2^1                           27
+  dM[0]=2^2, dM[9]=2^3                           12
+  dM[0]=2^3, dM[9]=2^0                            8
+  dM[0]=2^3, dM[9]=2^1                           40
+  dM[0]=2^3, dM[9]=2^2                           52
+
+--- Non-(0,9) word pairs dM[i]=dM[j]=MSB ---
+  dM[0]=dM[1]=2^0                                17
+  dM[0]=dM[1]=2^1                                22
+  dM[0]=dM[1]=2^2                               131
+  dM[0]=dM[1]=2^3                                 4
+  dM[0]=dM[4]=2^0                                32
+  dM[0]=dM[4]=2^1                                63
+  dM[0]=dM[4]=2^2                                14
+  dM[0]=dM[4]=2^3                                10
+  dM[0]=dM[5]=2^0                                23
+  dM[0]=dM[5]=2^2                                 4
+  dM[0]=dM[5]=2^3                                11
+  dM[0]=dM[8]=2^0                                36
+  dM[0]=dM[8]=2^1                                39
+  dM[0]=dM[8]=2^2                                47
+  dM[0]=dM[8]=2^3                                 7
+  dM[0]=dM[10]=2^2                               15
+  dM[0]=dM[10]=2^3                               13
+  dM[0]=dM[14]=2^0                               76
+  dM[0]=dM[14]=2^1                              100
+  dM[0]=dM[14]=2^2                               29
+  dM[0]=dM[14]=2^3                               67
+  dM[1]=dM[9]=2^0                                39
+  dM[1]=dM[9]=2^1                                42
+  dM[1]=dM[9]=2^2                                35
+  dM[1]=dM[9]=2^3                                28
+  dM[1]=dM[10]=2^0                               16
+  dM[1]=dM[10]=2^2                               16
+  dM[1]=dM[10]=2^3                               79
+  dM[2]=dM[9]=2^0                                 6
+  dM[2]=dM[9]=2^1                                24
+  dM[2]=dM[9]=2^3                                37
+  dM[3]=dM[9]=2^1                                 1
+  dM[3]=dM[9]=2^2                                75
+  dM[3]=dM[9]=2^3                                15
+  dM[4]=dM[9]=2^0                                14
+  dM[4]=dM[9]=2^1                                28
+  dM[4]=dM[9]=2^2                                71
+  dM[4]=dM[9]=2^3                                26
+  dM[5]=dM[9]=2^0                                15
+  dM[5]=dM[9]=2^1                                96
+  dM[5]=dM[9]=2^2                                45
+  dM[5]=dM[9]=2^3                                18
+  dM[0]=dM[13]=2^0                               64
+  dM[0]=dM[13]=2^1                               83
+  dM[0]=dM[13]=2^3                               48
+  dM[1]=dM[14]=2^0                               19
+  dM[1]=dM[14]=2^1                               44
+  dM[1]=dM[14]=2^2                               74
+  dM[1]=dM[14]=2^3                               29
+  dM[2]=dM[11]=2^0                                7
+  dM[2]=dM[11]=2^1                               27
+  dM[2]=dM[11]=2^2                               15
+  dM[2]=dM[11]=2^3                               49
+  dM[3]=dM[12]=2^1                               11
+
+--- Three-word deltas ---
+  dM[0]=dM[4]=dM[9]=2^0                          35
+  dM[0]=dM[4]=dM[9]=2^1                          21
+  dM[0]=dM[4]=dM[9]=2^2                          27
+  dM[0]=dM[4]=dM[9]=2^3                          18
+  dM[0]=dM[5]=dM[9]=2^0                          94
+  dM[0]=dM[5]=dM[9]=2^1                          31
+  dM[0]=dM[5]=dM[9]=2^2                          17
+  dM[0]=dM[5]=dM[9]=2^3                          11
+  dM[0]=dM[1]=dM[9]=2^0                          44
+  dM[0]=dM[1]=dM[9]=2^1                           4
+  dM[0]=dM[1]=dM[9]=2^2                          12
+  dM[0]=dM[1]=dM[9]=2^3                          78
+  dM[0]=dM[9]=dM[14]=2^0                         13
+  dM[0]=dM[9]=dM[14]=2^1                         20
+  dM[0]=dM[9]=dM[14]=2^2                         92
+  dM[0]=dM[9]=dM[14]=2^3                         34
+  dM[1]=dM[4]=dM[9]=2^0                          28
+  dM[1]=dM[4]=dM[9]=2^1                         128
+  dM[1]=dM[4]=dM[9]=2^3                          10
+  dM[0]=dM[8]=dM[9]=2^0                          37
+  dM[0]=dM[8]=dM[9]=2^1                          17
+  dM[0]=dM[8]=dM[9]=2^2                          73
+  dM[0]=dM[8]=dM[9]=2^3                           8
+
+--- Single-word deltas dM[i]=2^bit (word 0 only) ---
+  dM[0]=2^0 only (no dM[9])                      16
+  dM[0]=2^1 only (no dM[9])                      50
+  dM[0]=2^2 only (no dM[9])                      29
+
+--- Rotation-aligned kernels ---
+  dM=sigma0(2^0)=0xc                             42
+  dM=sigma0(2^1)=0x8                             49
+  dM=sigma0(2^2)=0x1                             51
+  dM=sigma0(2^3)=0x2                            146
+  dM=Sigma0(2^0)=0xe                             39
+  dM=Sigma0(2^1)=0xd                              0
+  dM=Sigma0(2^2)=0xb                              4
+  dM=Sigma0(2^3)=0x7                              9
+
+=== Summary ===
+Best overall: 146 collisions
+Configuration: dM[0]=dM[9]=2^1
+Total time: 0.4s
+
+Categories tested: single-bit, multi-bit, asymmetric, non-(0,9),
+  three-word, single-word, rotation-aligned
