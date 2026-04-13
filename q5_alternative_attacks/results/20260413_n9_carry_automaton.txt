@@ -1,0 +1,158 @@
+Loaded 4096 collisions at N=9 (COLL format, will compute W2)
+
+Found candidate: M[0]=0x14f fill=0x100 (bit-7 kernel)
+Computed W2 values for all 4096 collisions
+
+--- Extracting carry states for 4096 collisions ---
+
+=== Carry State Width at Each Bit ===
+(Path 1 carries, Path 2 carries, Carry-diffs)
+
+Bit   P1-unique  P2-unique  Diff-unique  Permutation?
+  0    3997       3962       3367         no
+  1    4093       4094       4056         no
+  2    4094       4094       4045         no
+  3    4094       4096       4069         no
+  4    4095       4096       4049         no
+  5    4095       4096       4020         no
+  6    4094       4091       4038         no
+  7    4092       4093       4014         no
+  8    4095       4095       3935         no
+
+Overall permutation: NO
+
+=== Per-Addition Carry-Diff Invariance ===
+(Fraction of collisions sharing the same carry-diff at each bit)
+
+Round 57 (active):
+       h+Sig1(e): 9/9 bits invariant (100.0%) *** 100%
+      +Ch(e,f,g): 9/9 bits invariant (100.0%) *** 100%
+           +K[r]: 9/9 bits invariant (100.0%) *** 100%
+           +W[r]: 1/9 bits invariant ( 11.1%)
+     Sig0(a)+Maj: 9/9 bits invariant (100.0%) *** 100%
+      d+T1=new_e: 1/9 bits invariant ( 11.1%)
+     T1+T2=new_a: 1/9 bits invariant ( 11.1%)
+Round 58 (active):
+       h+Sig1(e): 0/9 bits invariant (  0.0%)
+      +Ch(e,f,g): 0/9 bits invariant (  0.0%)
+           +K[r]: 2/9 bits invariant ( 22.2%)
+           +W[r]: 0/9 bits invariant (  0.0%)
+     Sig0(a)+Maj: 0/9 bits invariant (  0.0%)
+      d+T1=new_e: 0/9 bits invariant (  0.0%)
+     T1+T2=new_a: 0/9 bits invariant (  0.0%)
+Round 59 (active):
+       h+Sig1(e): 0/9 bits invariant (  0.0%)
+      +Ch(e,f,g): 0/9 bits invariant (  0.0%)
+           +K[r]: 3/9 bits invariant ( 33.3%)
+           +W[r]: 0/9 bits invariant (  0.0%)
+     Sig0(a)+Maj: 9/9 bits invariant (100.0%) *** 100%
+      d+T1=new_e: 0/9 bits invariant (  0.0%)
+     T1+T2=new_a: 9/9 bits invariant (100.0%) *** 100%
+Round 60 (active):
+       h+Sig1(e): 0/9 bits invariant (  0.0%)
+      +Ch(e,f,g): 0/9 bits invariant (  0.0%)
+           +K[r]: 1/9 bits invariant ( 11.1%)
+           +W[r]: 0/9 bits invariant (  0.0%)
+     Sig0(a)+Maj: 9/9 bits invariant (100.0%) *** 100%
+      d+T1=new_e: 9/9 bits invariant (100.0%) *** 100%
+     T1+T2=new_a: 9/9 bits invariant (100.0%) *** 100%
+Round 61 (active):
+       h+Sig1(e): 1/9 bits invariant ( 11.1%)
+      +Ch(e,f,g): 0/9 bits invariant (  0.0%)
+           +K[r]: 0/9 bits invariant (  0.0%)
+           +W[r]: 0/9 bits invariant (  0.0%)
+     Sig0(a)+Maj: 9/9 bits invariant (100.0%) *** 100%
+      d+T1=new_e: 9/9 bits invariant (100.0%) *** 100%
+     T1+T2=new_a: 9/9 bits invariant (100.0%) *** 100%
+Round 62 (active):
+       h+Sig1(e): 0/9 bits invariant (  0.0%)
+      +Ch(e,f,g): 0/9 bits invariant (  0.0%)
+           +K[r]: 0/9 bits invariant (  0.0%)
+           +W[r]: 0/9 bits invariant (  0.0%)
+     Sig0(a)+Maj: 9/9 bits invariant (100.0%) *** 100%
+      d+T1=new_e: 9/9 bits invariant (100.0%) *** 100%
+     T1+T2=new_a: 9/9 bits invariant (100.0%) *** 100%
+Round 63 (active):
+       h+Sig1(e): 0/9 bits invariant (  0.0%)
+      +Ch(e,f,g): 0/9 bits invariant (  0.0%)
+           +K[r]: 1/9 bits invariant ( 11.1%)
+           +W[r]: 0/9 bits invariant (  0.0%)
+     Sig0(a)+Maj: 9/9 bits invariant (100.0%) *** 100%
+      d+T1=new_e: 9/9 bits invariant (100.0%) *** 100%
+     T1+T2=new_a: 9/9 bits invariant (100.0%) *** 100%
+
+Total: 173/441 carry-diff bits invariant (39.2%)
+
+=== Transition Structure (bit k -> bit k+1) ===
+
+  Bit 0 -> 1: max successors = 4 (BRANCHING!)
+  Bit 1 -> 2: max successors = 2 (BRANCHING!)
+  Bit 2 -> 3: max successors = 2 (BRANCHING!)
+  Bit 3 -> 4: max successors = 2 (BRANCHING!)
+  Bit 4 -> 5: max successors = 2 (BRANCHING!)
+  Bit 5 -> 6: max successors = 2 (BRANCHING!)
+  Bit 6 -> 7: max successors = 2 (BRANCHING!)
+  Bit 7 -> 8: max successors = 2 (BRANCHING!)
+
+=== Carry-Diff Pattern Classification ===
+
+Round  Addition        Constant?  Value-at-bit0  Value-at-MSB
+  57        h+Sig1(e)   CONSTANT    0              0
+  57       +Ch(e,f,g)   CONSTANT    0              1
+  57            +K[r]   CONSTANT    0              1
+  57            +W[r]   variable    (31 distinct patterns)
+  57      Sig0(a)+Maj   CONSTANT    0              0
+  57       d+T1=new_e   variable    (77 distinct patterns)
+  57      T1+T2=new_a   variable    (20 distinct patterns)
+  58        h+Sig1(e)   variable    (206 distinct patterns)
+  58       +Ch(e,f,g)   variable    (233 distinct patterns)
+  58            +K[r]   variable    (54 distinct patterns)
+  58            +W[r]   variable    (472 distinct patterns)
+  58      Sig0(a)+Maj   variable    (80 distinct patterns)
+  58       d+T1=new_e   variable    (271 distinct patterns)
+  58      T1+T2=new_a   variable    (300 distinct patterns)
+  59        h+Sig1(e)   variable    (396 distinct patterns)
+  59       +Ch(e,f,g)   variable    (458 distinct patterns)
+  59            +K[r]   variable    (19 distinct patterns)
+  59            +W[r]   variable    (363 distinct patterns)
+  59      Sig0(a)+Maj   CONSTANT    0              0
+  59       d+T1=new_e   variable    (65 distinct patterns)
+  59      T1+T2=new_a   CONSTANT    0              0
+  60        h+Sig1(e)   variable    (166 distinct patterns)
+  60       +Ch(e,f,g)   variable    (468 distinct patterns)
+  60            +K[r]   variable    (55 distinct patterns)
+  60            +W[r]   variable    (394 distinct patterns)
+  60      Sig0(a)+Maj   CONSTANT    0              0
+  60       d+T1=new_e   CONSTANT    0              0
+  60      T1+T2=new_a   CONSTANT    0              0
+  61        h+Sig1(e)   variable    (151 distinct patterns)
+  61       +Ch(e,f,g)   variable    (337 distinct patterns)
+  61            +K[r]   variable    (135 distinct patterns)
+  61            +W[r]   variable    (143 distinct patterns)
+  61      Sig0(a)+Maj   CONSTANT    0              0
+  61       d+T1=new_e   CONSTANT    0              0
+  61      T1+T2=new_a   CONSTANT    0              0
+  62        h+Sig1(e)   variable    (439 distinct patterns)
+  62       +Ch(e,f,g)   variable    (482 distinct patterns)
+  62            +K[r]   variable    (127 distinct patterns)
+  62            +W[r]   variable    (391 distinct patterns)
+  62      Sig0(a)+Maj   CONSTANT    0              0
+  62       d+T1=new_e   CONSTANT    0              0
+  62      T1+T2=new_a   CONSTANT    0              0
+  63        h+Sig1(e)   variable    (329 distinct patterns)
+  63       +Ch(e,f,g)   variable    (371 distinct patterns)
+  63            +K[r]   variable    (53 distinct patterns)
+  63            +W[r]   variable    (170 distinct patterns)
+  63      Sig0(a)+Maj   CONSTANT    0              0
+  63       d+T1=new_e   CONSTANT    0              0
+  63      T1+T2=new_a   CONSTANT    0              0
+
+=== Carry State Hamming Distances (Path 1, bit 0) ===
+  Min: 0  Max: 31  Mean: 16.1  (of 49 bits)
+
+=== T1-path vs T2-path Freedom ===
+  T1-path (h+Sig1, +Ch, +K, +W): 216/252 free (85.7%)
+  T2-path (Sig0+Maj, d+T1, T1+T2): 52/189 free (27.5%)
+  Total free: 268/441 (60.8%)
+
+=== Done ===
