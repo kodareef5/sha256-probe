@@ -263,7 +263,8 @@ def find_all_candidates(p, kernel_bit):
 def gpu_cascade_dp(p, s1_56, s2_56, W1p, W2p, batch_fn):
     N, MASK, SIZE = p.N, p.MASK, 1 << p.N
 
-    max_batch = 1500 * 1024**2 // 200
+    # Target 3GB working set (RTX 4070 has 8GB, leave room for OS/other)
+    max_batch = 3000 * 1024**2 // 200  # ~15M elements
     W58_CHUNK = max(1, min(SIZE, max_batch // (SIZE * SIZE)))
 
     total_coll = 0
