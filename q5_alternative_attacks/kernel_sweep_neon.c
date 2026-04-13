@@ -331,8 +331,8 @@ int main(int argc, char *argv[]) {
                        nc > global_best ? "  <<<" : "");
                 fflush(stdout);
 
-                /* Only test first candidate per fill to save time */
-                break;
+                /* Test ALL candidates per fill (don't break!) */
+                /* The first-found can be 22x worse than optimal (N=8 bit 4). */
             }
         }
 
