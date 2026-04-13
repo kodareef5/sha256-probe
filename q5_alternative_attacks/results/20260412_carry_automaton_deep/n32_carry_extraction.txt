@@ -1,0 +1,79 @@
+da[56] = 00000000 (should be 0)
+Collision verified: YES
+
+=== Carry-Diff Extraction at N=32 ===
+
+Round    Addition   Inv?   HW(cdiff)  cdiff[0]  cdiff[31]
+------------------------------------------------------------
+  57      h+Sig1    ***          18         1          1
+  57         +Ch    ***          13         0          1
+  57          +K    ***          14         0          0
+  57          +W                 16         0          0
+  57      S0+Maj    ***          12         0          0
+  57        d+T1                  7         0          0
+  57       T1+T2                  6         0          0
+  58      h+Sig1                 12         0          1
+  58         +Ch                 23         0          1
+  58          +K                 11         0          1
+  58          +W                 12         1          1
+  58      S0+Maj                  3         0          0
+  58        d+T1                 18         0          0
+  58       T1+T2                 10         0          0
+  59      h+Sig1                 17         0          0
+  59         +Ch                 13         0          0
+  59          +K                  5         0          1
+  59          +W                  5         0          1
+  59      S0+Maj    ***           0         0          0
+  59        d+T1    ***          13         1          0
+  59       T1+T2    ***           0         0          0
+  60      h+Sig1                 12         0          0
+  60         +Ch                  9         0          0
+  60          +K                  6         0          0
+  60          +W                  7         0          0
+  60      S0+Maj    ***           0         0          0
+  60        d+T1    ***           0         0          0
+  60       T1+T2    ***           0         0          0
+  61      h+Sig1                  9         0          0
+  61         +Ch                 18         0          0
+  61          +K                 15         0          1
+  61          +W                 14         0          1
+  61      S0+Maj    ***           0         0          0
+  61        d+T1    ***           0         0          0
+  61       T1+T2    ***           0         0          0
+  62      h+Sig1                  6         0          0
+  62         +Ch                 17         1          0
+  62          +K                 20         1          0
+  62          +W                 16         0          1
+  62      S0+Maj    ***           0         0          0
+  62        d+T1    ***           0         0          0
+  62       T1+T2    ***           0         0          0
+  63      h+Sig1                 15         1          1
+  63         +Ch                  6         0          0
+  63          +K                 11         0          0
+  63          +W                  9         0          0
+  63      S0+Maj    ***           0         0          0
+  63        d+T1    ***           0         0          0
+  63       T1+T2    ***           0         0          0
+
+Total carry-diff bits: 1568
+Structurally invariant: 608 (38.8%)
+Free: 960
+
+=== Invariant Carry-Diff Values ===
+
+  Round 57 +Ch: HW=13, value=0x9ff0b000
+  Round 57 +K: HW=14, value=0x0f19e1e0
+  Round 57 S0+Maj: HW=12, value=0x11707c84
+  Round 57 h+Sig1: HW=18, value=0xbcccc3b5
+  Round 59 d+T1: HW=13, value=0x0373c245
+
+Invariant additions with zero carry-diff: 14
+Invariant additions with nonzero carry-diff: 5
+(Nonzero = constant but != 0 — still usable as unit clauses)
+
+=== SAT Encoder Guidance ===
+
+For carry-conditioned SAT at N=32:
+  - Fix 608 carry-diff bits as unit clauses
+  - Search over 960 free carry-diff bits
+  - This is 960 variables vs ~10K in standard encoding
