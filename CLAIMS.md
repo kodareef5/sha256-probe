@@ -229,3 +229,16 @@ at round 60) = 2^{-N} = 2^{-32} at full SHA-256.
 - **Evidence:** Verified at N=8 (43/10000 = 0.43%, expected 0.39%)
 - **Significance:** Clean structural explanation of WHY sr=61 is hard.
   The schedule removes W[60] freedom needed for a-path cascade continuation.
+
+### Single DOF Theorem: Collisions have exactly one degree of freedom (VERIFIED)
+Among collision solutions, the state-diff trajectory is UNIQUE:
+- 7 of 8 register diffs are constant at round 61
+- Only dh61 varies (= de58, shifted through f→g→h)
+- At round 62: all 8 diffs are constant; round 63: all zero
+- da61, da62, da63 each take a SINGLE value among all collisions
+- The collision is a single point in state-diff space
+- The 260 collisions at N=8 differ ONLY in their carry paths
+- **Evidence:** Verified at N=4 (49 coll) and N=8 (260 coll)
+- **Significance:** The collision-finding problem reduces to carry-reachability:
+  find message words whose carry chains reach the unique target trajectory.
+  The state-diff problem is trivial; carry space is the true hard problem.
