@@ -87,7 +87,29 @@ N ≡ 1 (mod 4) that's absent with standard fills.
 | 11 | 2720 | 11.41 | ALT | bit 1 |
 | 12 | ~4250 | ~12.05 | MSB | (running) |
 
-## 8. Implications
+## 8. The da=de Algebraic Identity (NEW)
+
+**Theorem**: da_r = de_r for all r ≥ 61 (unconditionally at r=61).
+
+**Proof**: At round 61, new_a = T1+T2 and new_e = d+T1. The cascade
+ensures dd60=0 (shift from dc59=db58=da57=0), so de61 = dT1_61.
+The cascade also ensures da60=db60=dc60=0 at round 60, making
+dSigma0=0 and dMaj=0, so dT2_61=0 UNCONDITIONALLY.
+Therefore: da61 = dT1_61 + 0 = dT1_61 = de61. ∎
+
+This extends: among collisions where da61=0, dT2_62=0 too → da62=de62.
+
+**Consequence**: The collision's 6 non-trivial equations at r61-r63
+reduce to 3 (one per round: dT1_r=0). And by back-propagation,
+the r62 and r63 equations are determined once r61 is satisfied.
+
+**The collision is ONE independent equation: dT1_61 = 0.**
+
+Verified: P(da61=0) = P(de61=0) = P(both=0) = 1/260 at N=8
+(perfect correlation, 260x above independence). Algebraic identity
+confirmed at N=32 against known collision certificate.
+
+## 9. Implications
 
 1. The cascade is a **thin diagonal path** through an 8N-dimensional
    state-diff space. Its "width" is determined by hw(db56).
