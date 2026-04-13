@@ -62,6 +62,43 @@ pattern IS the collision — perfect bijection (injective projection).
 - **Caveats:** Verified at mini-SHA only. "Bounded width" not yet proven
   formally — observed from the solution set, not from structure alone.
 
+### Carry automaton transitions are deterministic (branching ≤ 2)
+Full per-addition carry extraction at N=8, N=10, N=12 confirms:
+- N=8 (260 coll): ALL transitions deterministic (perfect permutation)
+- N=10 (946 coll): branching=2 at bits 0 and 5 only
+- N=12 (610 coll, partial): branching=2 at bit 0 only
+- **Evidence:** `carry_automaton_builder.c` exhaustively extracts 49 carry bits
+  per bit position from all collisions and verifies uniqueness.
+- **Significance:** Given the carry state at bit 0, the entire N-bit trajectory
+  is determined. The collision problem is a BOUNDED-WIDTH path problem.
+- **Caveats:** N=12 data is partial (~610 of ~700 expected collisions).
+
+### 42% carry-diff invariance is universal across N and kernel-independent
+The fraction of carry-diff bits that are identical across all collisions:
+- N=8: 42.1%, N=10: 42.2%, N=12: 40.5%
+- Confirmed with MSB kernel AND bit-6 kernel (40% vs 43%)
+- Per-addition: a-path (Sig0+Maj, d+T1, T1+T2) is 100% invariant from round 59+
+- **Evidence:** `carry_automaton_builder.c`, `carry_entropy.py`
+- **Significance:** This is a structural property of SHA-256's round function.
+  42% of carries are pre-determined, reducing the search space.
+
+### MSB kernel is suboptimal at every tested N
+Testing all single-bit positions dM[0]=dM[9]=2^bit:
+- N=4: bit-1 gives 146 (3x MSB=49); N=8: bit-6 gives 1644 (6.3x MSB=260)
+- N=5: MSB gives 0, bit-0 gives 33; N=7: MSB gives 0, bit-1 gives 373
+- **Evidence:** `kernel_sweep.c`, `kernel_sweep_neon.c` exhaustive at N=4-8
+- **Significance:** The Viragh paper uses MSB throughout. Better kernels exist.
+
+### Non-(0,9) word pairs produce sr=60 collisions
+The standard (0,9) word pair from Viragh is not the only option:
+- N=4: dM[0]=dM[1]=2^2: 131 coll; dM[0]=dM[14]=2^1: 100; dM[5]=dM[9]=2^1: 96
+- N=8: dM[0]=dM[14]=2^1: 500; dM[0]=dM[1]=2^2: 477; dM[5]=dM[9]=2^1: 441
+- Even single-word dM[0]=2^6 gives 321 at N=8 (no word-9 flip needed!)
+- **Evidence:** `exotic_kernel.c`, `exotic_n8_quick.c` exhaustive at N=4, N=8
+- **Significance:** The kernel design space is much larger than previously explored.
+- **Caveats:** (0,9) bit-6 remains champion at N=8 (1644). Non-(0,9) pairs
+  haven't been sweep-optimized (only a few bit positions tested).
+
 ### Register h is determined by registers a-g at N=4
 Exhaustive 2^32 enumeration: every input where da=db=dc=dd=de=df=dg=0
 also has dh=0. h is NOT independent — cascade-2 is automatic.
@@ -101,6 +138,18 @@ produces fast UNSAT at sr=59 (where collisions exist).
 - **Evidence:** Ghost carry experiments on one candidate, one kernel, one padding
 - **Scripts:** `archive/30_ghost_carries.py`
 - **Caveats:** Tested on one candidate only. "Observation" not "theorem."
+
+### Collision system is dense in message-variable basis but sparse in carry basis
+Full ANF (Algebraic Normal Form) at N=4 via Mobius transform:
+- Max degree: 16 (= number of variables, fully nonlinear)
+- Linear GF(2) rank: 16 = full (linear part gives exactly 1 candidate)
+- Average ~20K ANF terms per output bit
+- All 120/120 variable pairs interact quadratically (fully connected)
+- But carry-variable basis has width = 49 (sparse!)
+- **Evidence:** `carry_polynomial.c` exhaustive truth table + Mobius transform
+- **Significance:** The polynomial-time path is through carry space, not
+  algebraic elimination of message variables.
+- **Caveats:** Only verified at N=4. Carry-variable ANF not yet computed.
 
 ## HYPOTHESIS
 
