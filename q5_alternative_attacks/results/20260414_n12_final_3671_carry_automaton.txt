@@ -1,0 +1,164 @@
+Loaded 3671 collisions at N=12 (COLL format, will compute W2)
+
+Found candidate: M[0]=0x22b fill=0xfff (bit-11 kernel)
+Computed W2 values for all 3671 collisions
+
+--- Extracting carry states for 3671 collisions ---
+
+=== Carry State Width at Each Bit ===
+(Path 1 carries, Path 2 carries, Carry-diffs)
+
+Bit   P1-unique  P2-unique  Diff-unique  Permutation?
+  0    3532       3619       2163         no
+  1    3671       3671       3657         YES
+  2    3671       3671       3665         YES
+  3    3671       3671       3666         YES
+  4    3671       3671       3670         YES
+  5    3671       3671       3661         YES
+  6    3671       3671       3669         YES
+  7    3670       3671       3659         no
+  8    3671       3671       3663         YES
+  9    3671       3671       3666         YES
+  10    3671       3671       3669         YES
+  11    3671       3671       3668         YES
+
+Overall permutation: NO
+
+=== Per-Addition Carry-Diff Invariance ===
+(Fraction of collisions sharing the same carry-diff at each bit)
+
+Round 57 (active):
+       h+Sig1(e): 12/12 bits invariant (100.0%) *** 100%
+      +Ch(e,f,g): 12/12 bits invariant (100.0%) *** 100%
+           +K[r]: 12/12 bits invariant (100.0%) *** 100%
+           +W[r]: 1/12 bits invariant (  8.3%)
+     Sig0(a)+Maj: 12/12 bits invariant (100.0%) *** 100%
+      d+T1=new_e: 1/12 bits invariant (  8.3%)
+     T1+T2=new_a: 0/12 bits invariant (  0.0%)
+Round 58 (active):
+       h+Sig1(e): 0/12 bits invariant (  0.0%)
+      +Ch(e,f,g): 0/12 bits invariant (  0.0%)
+           +K[r]: 2/12 bits invariant ( 16.7%)
+           +W[r]: 0/12 bits invariant (  0.0%)
+     Sig0(a)+Maj: 1/12 bits invariant (  8.3%)
+      d+T1=new_e: 0/12 bits invariant (  0.0%)
+     T1+T2=new_a: 1/12 bits invariant (  8.3%)
+Round 59 (active):
+       h+Sig1(e): 2/12 bits invariant ( 16.7%)
+      +Ch(e,f,g): 0/12 bits invariant (  0.0%)
+           +K[r]: 3/12 bits invariant ( 25.0%)
+           +W[r]: 0/12 bits invariant (  0.0%)
+     Sig0(a)+Maj: 12/12 bits invariant (100.0%) *** 100%
+      d+T1=new_e: 1/12 bits invariant (  8.3%)
+     T1+T2=new_a: 12/12 bits invariant (100.0%) *** 100%
+Round 60 (active):
+       h+Sig1(e): 0/12 bits invariant (  0.0%)
+      +Ch(e,f,g): 0/12 bits invariant (  0.0%)
+           +K[r]: 1/12 bits invariant (  8.3%)
+           +W[r]: 0/12 bits invariant (  0.0%)
+     Sig0(a)+Maj: 12/12 bits invariant (100.0%) *** 100%
+      d+T1=new_e: 12/12 bits invariant (100.0%) *** 100%
+     T1+T2=new_a: 12/12 bits invariant (100.0%) *** 100%
+Round 61 (active):
+       h+Sig1(e): 0/12 bits invariant (  0.0%)
+      +Ch(e,f,g): 0/12 bits invariant (  0.0%)
+           +K[r]: 0/12 bits invariant (  0.0%)
+           +W[r]: 0/12 bits invariant (  0.0%)
+     Sig0(a)+Maj: 12/12 bits invariant (100.0%) *** 100%
+      d+T1=new_e: 12/12 bits invariant (100.0%) *** 100%
+     T1+T2=new_a: 12/12 bits invariant (100.0%) *** 100%
+Round 62 (active):
+       h+Sig1(e): 0/12 bits invariant (  0.0%)
+      +Ch(e,f,g): 0/12 bits invariant (  0.0%)
+           +K[r]: 1/12 bits invariant (  8.3%)
+           +W[r]: 0/12 bits invariant (  0.0%)
+     Sig0(a)+Maj: 12/12 bits invariant (100.0%) *** 100%
+      d+T1=new_e: 12/12 bits invariant (100.0%) *** 100%
+     T1+T2=new_a: 12/12 bits invariant (100.0%) *** 100%
+Round 63 (active):
+       h+Sig1(e): 1/12 bits invariant (  8.3%)
+      +Ch(e,f,g): 1/12 bits invariant (  8.3%)
+           +K[r]: 2/12 bits invariant ( 16.7%)
+           +W[r]: 1/12 bits invariant (  8.3%)
+     Sig0(a)+Maj: 12/12 bits invariant (100.0%) *** 100%
+      d+T1=new_e: 12/12 bits invariant (100.0%) *** 100%
+     T1+T2=new_a: 12/12 bits invariant (100.0%) *** 100%
+
+Total: 235/588 carry-diff bits invariant (40.0%)
+
+=== Transition Structure (bit k -> bit k+1) ===
+
+  Bit 0 -> 1: max successors = 3 (BRANCHING!)
+  Bit 1 -> 2: max successors = 1 (deterministic)
+  Bit 2 -> 3: max successors = 1 (deterministic)
+  Bit 3 -> 4: max successors = 1 (deterministic)
+  Bit 4 -> 5: max successors = 1 (deterministic)
+  Bit 5 -> 6: max successors = 1 (deterministic)
+  Bit 6 -> 7: max successors = 1 (deterministic)
+  Bit 7 -> 8: max successors = 2 (BRANCHING!)
+  Bit 8 -> 9: max successors = 1 (deterministic)
+  Bit 9 -> 10: max successors = 1 (deterministic)
+  Bit 10 -> 11: max successors = 1 (deterministic)
+
+=== Carry-Diff Pattern Classification ===
+
+Round  Addition        Constant?  Value-at-bit0  Value-at-MSB
+  57        h+Sig1(e)   CONSTANT    0              0
+  57       +Ch(e,f,g)   CONSTANT    0              1
+  57            +K[r]   CONSTANT    0              0
+  57            +W[r]   variable    (186 distinct patterns)
+  57      Sig0(a)+Maj   CONSTANT    0              0
+  57       d+T1=new_e   variable    (251 distinct patterns)
+  57      T1+T2=new_a   variable    (124 distinct patterns)
+  58        h+Sig1(e)   variable    (1253 distinct patterns)
+  58       +Ch(e,f,g)   variable    (1023 distinct patterns)
+  58            +K[r]   variable    (162 distinct patterns)
+  58            +W[r]   variable    (1870 distinct patterns)
+  58      Sig0(a)+Maj   variable    (532 distinct patterns)
+  58       d+T1=new_e   variable    (1023 distinct patterns)
+  58      T1+T2=new_a   variable    (1042 distinct patterns)
+  59        h+Sig1(e)   variable    (650 distinct patterns)
+  59       +Ch(e,f,g)   variable    (1910 distinct patterns)
+  59            +K[r]   variable    (121 distinct patterns)
+  59            +W[r]   variable    (1391 distinct patterns)
+  59      Sig0(a)+Maj   CONSTANT    0              0
+  59       d+T1=new_e   variable    (188 distinct patterns)
+  59      T1+T2=new_a   CONSTANT    0              0
+  60        h+Sig1(e)   variable    (846 distinct patterns)
+  60       +Ch(e,f,g)   variable    (2023 distinct patterns)
+  60            +K[r]   variable    (73 distinct patterns)
+  60            +W[r]   variable    (1490 distinct patterns)
+  60      Sig0(a)+Maj   CONSTANT    0              0
+  60       d+T1=new_e   CONSTANT    0              0
+  60      T1+T2=new_a   CONSTANT    0              0
+  61        h+Sig1(e)   variable    (625 distinct patterns)
+  61       +Ch(e,f,g)   variable    (1894 distinct patterns)
+  61            +K[r]   variable    (1317 distinct patterns)
+  61            +W[r]   variable    (1429 distinct patterns)
+  61      Sig0(a)+Maj   CONSTANT    0              0
+  61       d+T1=new_e   CONSTANT    0              0
+  61      T1+T2=new_a   CONSTANT    0              0
+  62        h+Sig1(e)   variable    (1536 distinct patterns)
+  62       +Ch(e,f,g)   variable    (1941 distinct patterns)
+  62            +K[r]   variable    (233 distinct patterns)
+  62            +W[r]   variable    (1599 distinct patterns)
+  62      Sig0(a)+Maj   CONSTANT    0              0
+  62       d+T1=new_e   CONSTANT    0              0
+  62      T1+T2=new_a   CONSTANT    0              0
+  63        h+Sig1(e)   variable    (1190 distinct patterns)
+  63       +Ch(e,f,g)   variable    (1212 distinct patterns)
+  63            +K[r]   variable    (113 distinct patterns)
+  63            +W[r]   variable    (1194 distinct patterns)
+  63      Sig0(a)+Maj   CONSTANT    0              0
+  63       d+T1=new_e   CONSTANT    0              0
+  63      T1+T2=new_a   CONSTANT    0              0
+
+=== Carry State Hamming Distances (Path 1, bit 0) ===
+  Min: 0  Max: 26  Mean: 13.3  (of 49 bits)
+
+=== T1-path vs T2-path Freedom ===
+  T1-path (h+Sig1, +Ch, +K, +W): 285/336 free (84.8%)
+  T2-path (Sig0+Maj, d+T1, T1+T2): 68/252 free (27.0%)
+  Total free: 353/588 (60.0%)
+
+=== Done ===
