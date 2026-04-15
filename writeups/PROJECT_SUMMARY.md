@@ -69,9 +69,51 @@ SAT instances.
 - Shared library: lib/ (Python + C), CNF encoder with constant propagation
 - Coordination: GitHub issues, git-based comms, 30-min cron check-ins
 
+## Structural Theory (April 2026)
+
+Six theorems characterize the collision mechanism:
+
+1. **Cascade Diagonal**: two zero-waves + one variable diagonal in state-diff space
+2. **de60=0 Always**: e-path cascade is unconditionally free for ALL message words
+3. **Three-Filter Equivalence**: de61=de62=de63=0 ⟺ collision (zero false positives)
+4. **da=de Identity at r≥61**: reduces 6 non-trivial equations to 3
+5. **sr=61 Cascade Break**: P(schedule compatible with cascade) = 2^{-N}
+6. **3x Algorithmic Ceiling**: cascade permissiveness prevents differential pruning
+
+See `writeups/sr60_sr61_boundary_proof.md` for the unified proof.
+
+## BDD Polynomial Complexity
+
+The collision function BDD has O(N^4.8) nodes (10 data points, N=2..12).
+N=12: 92,975 nodes compressing a 35TB truth table by 3 billion×.
+
+Three construction methods developed:
+- Truth-table (N≤8), Streaming (N=9), Collision-list (N≥10)
+- Collision-list builder: pipe NEON solver → BDD builder, 0.02s at N=12
+
+See `writeups/paper_section4_bdd.md` and `q5_alternative_attacks/results/20260415_bdd_polynomial_complete.md`.
+
+## Negative Results (Equally Important)
+
+- **Carry-state DP**: near-injective (89-99% of 2^{4N}), zero speedup
+- **GF(2) linearization**: fails (carry nonlinearity fundamental)
+- **MITM**: blocked by state injectivity
+- **Multi-block**: residual HW too large (min 7 at N=8)
+- **Incremental BDD**: exponential intermediate blowup
+
+## The Unified Object
+
+The collision function is a **dependent transducer** with:
+- Polynomial BDD output (O(N^4.8))
+- Bounded accepting-path width (= collision count)
+- Near-full state space for all inputs (89-99%)
+- Rotation-induced non-local dependencies (window automaton)
+
+See `writeups/unified_theory.md`.
+
 ## Open Questions
 
-1. Is sr=61 provably UNSAT at N=32? (Would need DRAT at full width — infeasible)
-2. Can semi-free IV choice make sr=61 SAT? (Unexplored dimension)
-3. Can a non-MSB-kernel attack achieve sr=61? (No da[56]=0 candidates found)
-4. What is the exact phase transition for partial W[60] enforcement at N=32?
+1. Can the polynomial BDD be constructed in polynomial time?
+2. Does carry automaton width grow polynomially with N?
+3. Can a non-cascade approach achieve sr=61?
+4. Is the collision variety structure exploitable at large N?
