@@ -130,6 +130,22 @@ Removing specific pairs of W[60] schedule bits makes sr=61 SAT:
 - **Evidence:** Exhaustive C(N,2) scan with Kissat at both N values.
 - **Caveats:** Simple rotation-position prediction refuted at N=6.
 
+### BDD of collision function has polynomial size: O(N^4)
+The sr=60 collision function, represented as a Binary Decision Diagram over
+4N Boolean variables (bits of W57-W60), has polynomial node count.
+- N=2: 29, N=3: 35, N=4: 193, N=5: 1507, N=6: 798, N=7: 4191, N=8: 4322
+- Best fit: nodes ≈ 0.95 × N^4.08 (R² = 0.91)
+- Compression: 993,000x at N=8 (4322 nodes vs 4.29B truth table entries)
+- **Evidence:** Exhaustive truth tables at all N=2..8, BDD SAT counts match
+  collision counts. `bdd_parametric.c`, `bdd_n8.c`
+- **Significance:** The collision function has polynomial structural complexity.
+  With the BDD in hand, all collisions can be enumerated in O(N^4 + #coll) time.
+- **Caveats:**
+  - Constructing the BDD requires O(2^{4N}) time (truth table generation)
+  - Pure incremental BDD construction (via Apply) has exponential intermediates
+  - Whether a polynomial-time BDD construction exists is an open question
+  - Different candidates produce different BDD sizes (scatter in the fit)
+
 ## EVIDENCE
 
 ### sr=60 is UNSAT for M[0]=0x17149975 (MSB kernel, all-ones padding)
