@@ -47,10 +47,25 @@ A true polynomial algorithm requires handling the nonlinear slices too.
 This could come from higher-order GF(2) decomposition or carry-conditioned
 linearization (guess ~2 carries per nonlinear addition).
 
-## Next Steps
+## GF(2) Linearization Test: FAILS
 
-1. Verify at N=8: is the affine fraction still ~90%?
-2. Build the GF(2) elimination solver and measure actual speedup
-3. Characterize the nonlinear slices: how many carry guesses are needed?
+Tested: compute Jacobian J from 2N+1 evaluations, solve Jx = f0 over GF(2).
+Result: the linear model finds 0 collisions. All 30 collision-bearing slices
+give wrong solutions (the Jacobian doesn't capture the nonlinear carry effects).
 
-Evidence level: VERIFIED (exhaustive at N=4)
+The power-of-2 collision counts are a property of the algebraic VARIETY
+(solution set structure), NOT evidence that the function is affine.
+Modular additions introduce carry nonlinearity that breaks GF(2) linearity.
+
+Match rate: 226/256 = 88% (but only for ZERO-collision slices, which is trivial).
+
+## Revised Conclusion
+
+The collision function is **NOT affine** in (W59, W60), despite having
+power-of-2 collision counts in 90% of slices. The O(2^{2N} × N^3) speedup
+does NOT work. Carry nonlinearity is fundamental.
+
+The carry-guess approach (guess k carries, linearize, solve) requires
+guessing too many carries (~28-56 per round) to be practical.
+
+Evidence level: VERIFIED (N=4 exhaustive + GF(2) linearization test)
