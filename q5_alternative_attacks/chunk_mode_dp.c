@@ -5,15 +5,19 @@
  * At N=8 with B=4 bit chunks, measure whether projecting to boundary
  * carry states at bit 4 yields effective deduplication.
  *
- * For each of 2^32 (W57,W58,W59,W60) configs (via cascade DP):
- * 1. Compute both paths through all 7 rounds, extracting carries inline
- * 2. At the chunk boundary (bit 4): record carry-out at bit 3 from
- *    every addition in every round, for both paths
- * 3. Pack into a boundary StateKey = (carries_path1, carries_path2)
- * 4. Hash-cons and count unique StateKeys
+ * Strategy: two-phase approach.
  *
- * Also: for each collision, record its boundary state.
- * Verify all 260 collisions have unique boundary states.
+ * Phase 1 (fast): Run the standard cascade DP. Find all 260 collisions.
+ * For each collision: extract all 98 boundary carries (49 per path).
+ * Determine which carries are invariant across all collisions.
+ * Result: the "variable carry mask" at the boundary.
+ *
+ * Phase 2 (full enumeration): For all 2^32 configs, extract ONLY the
+ * variable boundary carries (the reduced state). Count unique reduced states.
+ * This avoids the 98-bit-state explosion problem. If variable carries
+ * number V, unique states fit in 2^V which is manageable.
+ *
+ * Also: verify all 260 collisions have unique reduced boundary states.
  *
  * N=8, MSB kernel, M[0]=0x67, fill=0xff.
  * Compile: gcc -O3 -march=native -o chunk_mode_dp chunk_mode_dp.c -lm
@@ -30,10 +34,8 @@
 #define MSB (1U << (N - 1))
 #define ROUNDS 7
 #define ADDS_PER_ROUND 7
-#define TOTAL_ADDS (ROUNDS * ADDS_PER_ROUND)  /* 49 additions total */
-#define BOUNDARY_BIT 4  /* chunk boundary between bits 0-3 and 4-7 */
-
-/* Mask for low BOUNDARY_BIT bits */
+#define TOTAL_ADDS (ROUNDS * ADDS_PER_ROUND)  /* 49 carry bits per path */
+#define BOUNDARY_BIT 4
 #define LOW_MASK ((1U << BOUNDARY_BIT) - 1)  /* 0xF */
 
 /* --- SHA-256 mini primitives (N-bit) --- */
@@ -78,7 +80,9 @@ static void precompute(const uint32_t M[16], uint32_t st[8], uint32_t W[57]) {
     st[4]=e; st[5]=f; st[6]=g; st[7]=h;
 }
 
-static inline void sha_round(uint32_t s[8], uint32_t k, uint32_t w) {
+/* sha_round without carry extraction — kept for verification use */
+__attribute__((unused))
+static void sha_round(uint32_t s[8], uint32_t k, uint32_t w) {
     uint32_t T1 = (s[7]+fnS1(s[4])+fnCh(s[4],s[5],s[6])+k+w) & MASK;
     uint32_t T2 = (fnS0(s[0])+fnMj(s[0],s[1],s[2])) & MASK;
     s[7]=s[6]; s[6]=s[5]; s[5]=s[4]; s[4]=(s[3]+T1)&MASK;
@@ -94,12 +98,9 @@ static uint32_t find_w2(uint32_t s1[8], uint32_t s2[8], int rnd, uint32_t w1) {
 }
 
 /*
- * SHA round with carry extraction at the chunk boundary.
- * Performs the round AND returns the 7 carry bits (one per addition)
- * packed into bits [base..base+6] of the carry accumulator.
- *
- * carry_out at bit (B-1) from a+b = bit B of (a_low + b_low)
- * where a_low = a & LOW_MASK (the bottom B bits).
+ * SHA round with inline carry extraction at chunk boundary.
+ * Performs the round AND returns 7 boundary carry bits packed into a uint64_t
+ * starting at bit position `base`.
  */
 static inline uint64_t sha_round_carries(uint32_t s[8], uint32_t k, uint32_t w,
                                           int base) {
@@ -107,96 +108,83 @@ static inline uint64_t sha_round_carries(uint32_t s[8], uint32_t k, uint32_t w,
     uint32_t ch_efg = fnCh(s[4], s[5], s[6]);
     uint32_t sig0_a = fnS0(s[0]);
     uint32_t maj_abc = fnMj(s[0], s[1], s[2]);
-
     uint32_t t0 = (s[7] + sig1_e) & MASK;
     uint32_t t1 = (t0 + ch_efg) & MASK;
     uint32_t t2 = (t1 + k) & MASK;
     uint32_t T1 = (t2 + w) & MASK;
     uint32_t T2 = (sig0_a + maj_abc) & MASK;
 
-    /* Extract carry-out at bit 3 from each of the 7 additions */
-    uint64_t carries = 0;
-    carries |= (uint64_t)(((s[7] & LOW_MASK) + (sig1_e & LOW_MASK)) >> BOUNDARY_BIT & 1) << (base + 0);
-    carries |= (uint64_t)(((t0 & LOW_MASK) + (ch_efg & LOW_MASK)) >> BOUNDARY_BIT & 1) << (base + 1);
-    carries |= (uint64_t)(((t1 & LOW_MASK) + (k & LOW_MASK)) >> BOUNDARY_BIT & 1) << (base + 2);
-    carries |= (uint64_t)(((t2 & LOW_MASK) + (w & LOW_MASK)) >> BOUNDARY_BIT & 1) << (base + 3);
-    carries |= (uint64_t)(((sig0_a & LOW_MASK) + (maj_abc & LOW_MASK)) >> BOUNDARY_BIT & 1) << (base + 4);
-    carries |= (uint64_t)(((s[3] & LOW_MASK) + (T1 & LOW_MASK)) >> BOUNDARY_BIT & 1) << (base + 5);
-    carries |= (uint64_t)(((T1 & LOW_MASK) + (T2 & LOW_MASK)) >> BOUNDARY_BIT & 1) << (base + 6);
+    uint64_t c = 0;
+    c |= (uint64_t)((((s[7]&LOW_MASK)+(sig1_e&LOW_MASK))>>BOUNDARY_BIT)&1) << (base+0);
+    c |= (uint64_t)((((t0&LOW_MASK)+(ch_efg&LOW_MASK))>>BOUNDARY_BIT)&1) << (base+1);
+    c |= (uint64_t)((((t1&LOW_MASK)+(k&LOW_MASK))>>BOUNDARY_BIT)&1) << (base+2);
+    c |= (uint64_t)((((t2&LOW_MASK)+(w&LOW_MASK))>>BOUNDARY_BIT)&1) << (base+3);
+    c |= (uint64_t)((((sig0_a&LOW_MASK)+(maj_abc&LOW_MASK))>>BOUNDARY_BIT)&1) << (base+4);
+    c |= (uint64_t)((((s[3]&LOW_MASK)+(T1&LOW_MASK))>>BOUNDARY_BIT)&1) << (base+5);
+    c |= (uint64_t)((((T1&LOW_MASK)+(T2&LOW_MASK))>>BOUNDARY_BIT)&1) << (base+6);
 
-    /* Advance state */
     s[7]=s[6]; s[6]=s[5]; s[5]=s[4]; s[4]=(s[3]+T1)&MASK;
     s[3]=s[2]; s[2]=s[1]; s[1]=s[0]; s[0]=(T1+T2)&MASK;
-
-    return carries;
+    return c;
 }
 
-/* ========== Boundary state type ========== */
+/* ========== Types ========== */
 typedef struct {
-    uint64_t carries_p1;  /* carry-out at bit 3 for path 1, 49 bits */
-    uint64_t carries_p2;  /* carry-out at bit 3 for path 2, 49 bits */
+    uint64_t carries_p1;  /* 49 boundary carry bits, path 1 */
+    uint64_t carries_p2;  /* 49 boundary carry bits, path 2 */
 } BoundaryState;
 
-/* ========== Hash table for boundary state deduplication ========== */
+/* ========== Collision storage ========== */
+#define MAX_COLL 4096
+static int n_coll = 0;
+static uint32_t coll_w1[MAX_COLL][4], coll_w2[MAX_COLL][4];
+static BoundaryState coll_bs[MAX_COLL];
 
-#define HT_BITS 26          /* 64M entries — handles high unique-state counts */
+/* ========== Hash map for reduced state counting ========== */
+/* After Phase 1 determines variable carries, the reduced state is at most
+ * ~30 bits. We use a direct-mapped counting table where possible,
+ * or a hash table if the reduced state is >24 bits. */
+
+/* For the general case: hash table with 32-bit keys (projected state) */
+#define HT_BITS 24
 #define HT_SIZE (1U << HT_BITS)
 #define HT_MASK (HT_SIZE - 1)
 
 typedef struct {
-    BoundaryState key;
+    uint32_t key;
     uint32_t count;
-    uint32_t coll_count;
-    int occupied;
+    uint8_t coll_flag; /* has at least one collision */
+    uint8_t occupied;
 } HTEntry;
 
 static HTEntry *ht;
-static uint64_t ht_entries = 0;
+static uint64_t ht_used = 0;
 
-static inline uint32_t ht_hash(BoundaryState bs) {
-    uint64_t h = 14695981039346656037ULL;
-    h ^= bs.carries_p1; h *= 1099511628211ULL;
-    h ^= bs.carries_p2; h *= 1099511628211ULL;
-    h ^= (bs.carries_p1 >> 32); h *= 1099511628211ULL;
-    h ^= (bs.carries_p2 >> 32); h *= 1099511628211ULL;
-    return (uint32_t)(h & HT_MASK);
-}
-
-static inline int bs_eq(BoundaryState a, BoundaryState b) {
-    return a.carries_p1 == b.carries_p1 && a.carries_p2 == b.carries_p2;
-}
-
-static int ht_insert(BoundaryState bs, int is_collision) {
-    uint32_t idx = ht_hash(bs);
+static int ht_insert(uint32_t key, int is_coll) {
+    uint32_t h = key * 2654435761U; /* Knuth multiplicative hash */
+    uint32_t idx = (h >> (32 - HT_BITS)) & HT_MASK;
     for (;;) {
         if (!ht[idx].occupied) {
-            ht[idx].key = bs;
+            ht[idx].key = key;
             ht[idx].count = 1;
-            ht[idx].coll_count = is_collision ? 1 : 0;
+            ht[idx].coll_flag = is_coll ? 1 : 0;
             ht[idx].occupied = 1;
-            ht_entries++;
-            return 1;
+            ht_used++;
+            return 1; /* new */
         }
-        if (bs_eq(ht[idx].key, bs)) {
+        if (ht[idx].key == key) {
             ht[idx].count++;
-            if (is_collision) ht[idx].coll_count++;
-            return 0;
+            if (is_coll) ht[idx].coll_flag = 1;
+            return 0; /* existing */
         }
         idx = (idx + 1) & HT_MASK;
     }
 }
 
-/* ========== Collision storage ========== */
-#define MAX_COLL 4096
-static int n_coll = 0;
-static uint32_t coll_w1[MAX_COLL][4];
-static BoundaryState coll_bs[MAX_COLL];
-
 /* ========== Main ========== */
 int main() {
     setbuf(stdout, NULL);
 
-    /* Init SHA params */
     rS0[0]=SR(2); rS0[1]=SR(13); rS0[2]=SR(22);
     rS1[0]=SR(6); rS1[1]=SR(11); rS1[2]=SR(25);
     rs0[0]=SR(7); rs0[1]=SR(18); ss0=SR(3);
@@ -204,7 +192,7 @@ int main() {
     for (int i = 0; i < 64; i++) KN[i] = K32[i] & MASK;
     for (int i = 0; i < 8; i++) IVN[i] = IV32[i] & MASK;
 
-    /* Find candidate: M[0]=0x67, fill=0xff */
+    /* Find candidate */
     int found = 0;
     for (uint32_t m0 = 0; m0 <= MASK && !found; m0++) {
         uint32_t M1[16], M2[16];
@@ -217,31 +205,21 @@ int main() {
             found = 1;
         }
     }
-    if (!found) { printf("No candidate found at N=%d\n", N); return 1; }
+    if (!found) { printf("No candidate\n"); return 1; }
 
-    printf("\nChunk-Mode DP Boundary State Measurement\n");
-    printf("=========================================\n");
-    printf("N=%d, B=%d (chunk size), 2 chunks\n", N, BOUNDARY_BIT);
-    printf("Boundary at bit %d: carry-out at bit %d from all %d additions x 2 paths\n",
-           BOUNDARY_BIT, BOUNDARY_BIT - 1, TOTAL_ADDS);
-    printf("Boundary state = (carries_p1[49 bits], carries_p2[49 bits])\n");
-    printf("Search space: 2^%d = %llu configs (cascade DP over W1[57..60])\n\n",
-           4*N, (unsigned long long)1ULL << (4*N));
-
-    /* Allocate hash table */
-    ht = calloc(HT_SIZE, sizeof(HTEntry));
-    if (!ht) { printf("OOM for hash table\n"); return 1; }
+    printf("\n========================================\n");
+    printf(" Phase 1: Find collisions + extract full boundary carries\n");
+    printf("========================================\n\n");
 
     struct timespec t0, t1;
     clock_gettime(CLOCK_MONOTONIC, &t0);
     uint64_t n_tested = 0;
 
+    /* Phase 1: enumerate all, collect collisions + boundary carries */
     for (uint32_t w57 = 0; w57 < (1U << N); w57++) {
         uint32_t s57a[8], s57b[8];
         memcpy(s57a, state1, 32); memcpy(s57b, state2, 32);
         uint32_t w57b = find_w2(s57a, s57b, 57, w57);
-
-        /* Round 57 with carry extraction */
         uint64_t c57a = sha_round_carries(s57a, KN[57], w57, 0);
         uint64_t c57b = sha_round_carries(s57b, KN[57], w57b, 0);
 
@@ -249,15 +227,13 @@ int main() {
             uint32_t s58a[8], s58b[8];
             memcpy(s58a, s57a, 32); memcpy(s58b, s57b, 32);
             uint32_t w58b = find_w2(s58a, s58b, 58, w58);
-
-            uint64_t c58a = c57a | sha_round_carries(s58a, KN[58], w58, ADDS_PER_ROUND);
-            uint64_t c58b = c57b | sha_round_carries(s58b, KN[58], w58b, ADDS_PER_ROUND);
+            uint64_t c58a = c57a | sha_round_carries(s58a, KN[58], w58, 1*ADDS_PER_ROUND);
+            uint64_t c58b = c57b | sha_round_carries(s58b, KN[58], w58b, 1*ADDS_PER_ROUND);
 
             for (uint32_t w59 = 0; w59 < (1U << N); w59++) {
                 uint32_t s59a[8], s59b[8];
                 memcpy(s59a, s58a, 32); memcpy(s59b, s58b, 32);
                 uint32_t w59b = find_w2(s59a, s59b, 59, w59);
-
                 uint64_t c59a = c58a | sha_round_carries(s59a, KN[59], w59, 2*ADDS_PER_ROUND);
                 uint64_t c59b = c58b | sha_round_carries(s59b, KN[59], w59b, 2*ADDS_PER_ROUND);
 
@@ -265,13 +241,11 @@ int main() {
                     uint32_t s60a[8], s60b[8];
                     memcpy(s60a, s59a, 32); memcpy(s60b, s59b, 32);
                     uint32_t w60b = find_w2(s60a, s60b, 60, w60);
-
                     uint64_t ca = c59a | sha_round_carries(s60a, KN[60], w60, 3*ADDS_PER_ROUND);
                     uint64_t cb = c59b | sha_round_carries(s60b, KN[60], w60b, 3*ADDS_PER_ROUND);
 
-                    /* Schedule-determined rounds 61-63 */
-                    uint32_t Wa[7]={w57, w58, w59, w60, 0, 0, 0};
-                    uint32_t Wb[7]={w57b, w58b, w59b, w60b, 0, 0, 0};
+                    uint32_t Wa[7]={w57,w58,w59,w60,0,0,0};
+                    uint32_t Wb[7]={w57b,w58b,w59b,w60b,0,0,0};
                     Wa[4]=(fns1(Wa[2])+W1p[54]+fns0(W1p[46])+W1p[45])&MASK;
                     Wb[4]=(fns1(Wb[2])+W2p[54]+fns0(W2p[46])+W2p[45])&MASK;
                     Wa[5]=(fns1(Wa[3])+W1p[55]+fns0(W1p[47])+W1p[46])&MASK;
@@ -279,7 +253,6 @@ int main() {
                     Wa[6]=(fns1(Wa[4])+W1p[56]+fns0(W1p[48])+W1p[47])&MASK;
                     Wb[6]=(fns1(Wb[4])+W2p[56]+fns0(W2p[48])+W2p[47])&MASK;
 
-                    /* Rounds 61-63 with carry extraction */
                     uint32_t fa[8], fb[8];
                     memcpy(fa, s60a, 32); memcpy(fb, s60b, 32);
                     for (int r = 4; r < 7; r++) {
@@ -287,210 +260,390 @@ int main() {
                         cb |= sha_round_carries(fb, KN[57+r], Wb[r], r*ADDS_PER_ROUND);
                     }
 
-                    /* Check collision */
                     int is_coll = 1;
-                    for (int r = 0; r < 8; r++) {
+                    for (int r = 0; r < 8; r++)
                         if (fa[r] != fb[r]) { is_coll = 0; break; }
-                    }
 
-                    /* Build boundary state */
-                    BoundaryState bs;
-                    bs.carries_p1 = ca;
-                    bs.carries_p2 = cb;
-
-                    /* Insert into hash table */
-                    ht_insert(bs, is_coll);
-
-                    /* Record collision */
                     if (is_coll && n_coll < MAX_COLL) {
-                        coll_w1[n_coll][0] = w57;
-                        coll_w1[n_coll][1] = w58;
-                        coll_w1[n_coll][2] = w59;
-                        coll_w1[n_coll][3] = w60;
-                        coll_bs[n_coll] = bs;
+                        coll_w1[n_coll][0]=w57; coll_w1[n_coll][1]=w58;
+                        coll_w1[n_coll][2]=w59; coll_w1[n_coll][3]=w60;
+                        coll_w2[n_coll][0]=w57b; coll_w2[n_coll][1]=w58b;
+                        coll_w2[n_coll][2]=w59b; coll_w2[n_coll][3]=w60b;
+                        coll_bs[n_coll].carries_p1 = ca;
+                        coll_bs[n_coll].carries_p2 = cb;
                         n_coll++;
                     }
-
                     n_tested++;
                 }
             }
         }
-
-        if ((w57 & 0x3) == 0x3) {
+        if ((w57 & 0xF) == 0xF) {
             clock_gettime(CLOCK_MONOTONIC, &t1);
-            double el = (t1.tv_sec - t0.tv_sec) + (t1.tv_nsec - t0.tv_nsec) / 1e9;
-            double pct = 100.0 * (w57 + 1) / (1 << N);
-            double rate = n_tested / el / 1e6;
-            printf("  [%5.1f%%] w57=0x%02x | tested=%llu coll=%d unique_bs=%llu | %.1fs ETA %.0fs | %.1fM/s\n",
-                   pct, w57,
-                   (unsigned long long)n_tested, n_coll,
-                   (unsigned long long)ht_entries,
-                   el, el / pct * 100 - el, rate);
-            if (ht_entries > HT_SIZE * 3 / 4) {
-                printf("  WARNING: hash table >75%% full (%llu / %u), results may have collisions\n",
-                       (unsigned long long)ht_entries, HT_SIZE);
-            }
+            double el = (t1.tv_sec-t0.tv_sec)+(t1.tv_nsec-t0.tv_nsec)/1e9;
+            double pct = 100.0*(w57+1)/(1<<N);
+            printf("  [%5.1f%%] w57=0x%02x coll=%d | %.1fs ETA %.0fs | %.1fM/s\n",
+                   pct, w57, n_coll, el, el/pct*100-el, n_tested/el/1e6);
         }
     }
-
     clock_gettime(CLOCK_MONOTONIC, &t1);
-    double elapsed = (t1.tv_sec - t0.tv_sec) + (t1.tv_nsec - t0.tv_nsec) / 1e9;
+    double ph1_time = (t1.tv_sec-t0.tv_sec)+(t1.tv_nsec-t0.tv_nsec)/1e9;
 
-    /* ========== Analysis ========== */
-    printf("\n");
-    printf("=============================================================\n");
-    printf("  Chunk-Mode DP Boundary State Results (N=%d, B=%d)\n", N, BOUNDARY_BIT);
-    printf("=============================================================\n\n");
+    printf("\nPhase 1 complete: %llu configs, %d collisions, %.2fs\n\n",
+           (unsigned long long)n_tested, n_coll, ph1_time);
 
-    printf("--- Search ---\n");
-    printf("Total configs tested:           %llu (2^%d)\n",
-           (unsigned long long)n_tested, 4*N);
-    printf("Collisions found:               %d\n", n_coll);
-    printf("Time:                           %.2f s\n\n", elapsed);
+    /* ========== Analyze collision boundary states ========== */
+    printf("========================================\n");
+    printf(" Phase 1 Analysis: Boundary Carry Structure\n");
+    printf("========================================\n\n");
 
-    printf("--- Boundary State Deduplication ---\n");
-    printf("Unique boundary states (all):   %llu\n", (unsigned long long)ht_entries);
-    printf("Deduplication ratio:            %.1fx  (%.4g / %.4g)\n",
-           (double)n_tested / ht_entries,
-           (double)n_tested, (double)ht_entries);
-    printf("log2(unique):                   %.2f  (vs log2(total)=%d)\n",
-           log2((double)ht_entries), 4*N);
-    printf("Bits saved by dedup:            %.1f\n\n",
-           4.0*N - log2((double)ht_entries));
-
-    /* Count collision boundary states */
-    printf("--- Collision Boundary States ---\n");
-    int unique_coll_bs = 0;
+    /* Check uniqueness of collision boundary states */
+    int unique_coll = 0;
     for (int i = 0; i < n_coll; i++) {
         int dup = 0;
         for (int j = 0; j < i; j++) {
-            if (bs_eq(coll_bs[i], coll_bs[j])) { dup = 1; break; }
+            if (coll_bs[i].carries_p1 == coll_bs[j].carries_p1 &&
+                coll_bs[i].carries_p2 == coll_bs[j].carries_p2) {
+                dup = 1; break;
+            }
         }
-        if (!dup) unique_coll_bs++;
+        if (!dup) unique_coll++;
     }
-    printf("Unique collision boundary states: %d / %d\n",
-           unique_coll_bs, n_coll);
-    printf("All collision BS unique?          %s\n",
-           unique_coll_bs == n_coll ? "YES (perfect permutation)" : "NO (merging)");
-    printf("Collision BS subset of full set?  YES (by construction)\n\n");
+    printf("Unique collision boundary states (full 98-bit): %d / %d\n",
+           unique_coll, n_coll);
+    printf("All unique? %s\n\n",
+           unique_coll == n_coll ? "YES (perfect permutation at boundary)" : "NO");
 
-    /* Distribution analysis */
-    printf("--- Configs-per-Boundary-State Distribution ---\n");
-    uint64_t max_count = 0, min_count = UINT64_MAX;
-    uint64_t count_1 = 0, count_le10 = 0, count_le100 = 0;
-    uint64_t coll_bearing = 0;
-    for (uint32_t i = 0; i < HT_SIZE; i++) {
-        if (!ht[i].occupied) continue;
-        uint32_t c = ht[i].count;
-        if (c > max_count) max_count = c;
-        if (c < min_count) min_count = c;
-        if (c == 1) count_1++;
-        if (c <= 10) count_le10++;
-        if (c <= 100) count_le100++;
-        if (ht[i].coll_count > 0) coll_bearing++;
+    /* Determine invariant carries across all collisions */
+    uint64_t active_mask = (1ULL << TOTAL_ADDS) - 1;
+    uint64_t inv_p1 = active_mask, inv_p2 = active_mask;
+    if (n_coll > 0) {
+        uint64_t ref_p1 = coll_bs[0].carries_p1;
+        uint64_t ref_p2 = coll_bs[0].carries_p2;
+        for (int i = 1; i < n_coll; i++) {
+            inv_p1 &= ~(coll_bs[i].carries_p1 ^ ref_p1);
+            inv_p2 &= ~(coll_bs[i].carries_p2 ^ ref_p2);
+        }
     }
-    printf("Min configs/BS:     %llu\n", (unsigned long long)min_count);
-    printf("Max configs/BS:     %llu\n", (unsigned long long)max_count);
-    printf("BS with count=1:    %llu (%.1f%%)\n",
-           (unsigned long long)count_1, 100.0 * count_1 / ht_entries);
-    printf("BS with count<=10:  %llu (%.1f%%)\n",
-           (unsigned long long)count_le10, 100.0 * count_le10 / ht_entries);
-    printf("BS with count<=100: %llu (%.1f%%)\n",
-           (unsigned long long)count_le100, 100.0 * count_le100 / ht_entries);
-    printf("Collision-bearing:  %llu (BS entries with >=1 collision)\n\n",
-           (unsigned long long)coll_bearing);
+    uint64_t var_p1 = active_mask & ~inv_p1;
+    uint64_t var_p2 = active_mask & ~inv_p2;
+    int n_inv_p1 = __builtin_popcountll(inv_p1 & active_mask);
+    int n_inv_p2 = __builtin_popcountll(inv_p2 & active_mask);
+    int n_var_p1 = TOTAL_ADDS - n_inv_p1;
+    int n_var_p2 = TOTAL_ADDS - n_inv_p2;
+    int n_var_total = n_var_p1 + n_var_p2;
 
-    /* Collision BS sharing details */
-    printf("--- Collision BS Sharing (first 10) ---\n");
-    int shown = 0;
-    for (int i = 0; i < n_coll && shown < 10; i++) {
-        uint32_t idx = ht_hash(coll_bs[i]);
-        while (!bs_eq(ht[idx].key, coll_bs[i])) idx = (idx + 1) & HT_MASK;
-        printf("  Coll #%3d: W1=[%02x,%02x,%02x,%02x] BS=(0x%012llx,0x%012llx) "
-               "share=%u coll_in_bs=%u\n",
-               i + 1,
-               coll_w1[i][0], coll_w1[i][1], coll_w1[i][2], coll_w1[i][3],
-               (unsigned long long)coll_bs[i].carries_p1,
-               (unsigned long long)coll_bs[i].carries_p2,
-               ht[idx].count, ht[idx].coll_count);
-        shown++;
-    }
+    printf("--- Invariant analysis ---\n");
+    printf("Path 1: %d/%d invariant, %d variable\n", n_inv_p1, TOTAL_ADDS, n_var_p1);
+    printf("Path 2: %d/%d invariant, %d variable\n", n_inv_p2, TOTAL_ADDS, n_var_p2);
+    printf("Total variable carries: %d (this is the reduced state dimensionality)\n",
+           n_var_total);
+    printf("Reduced state space: 2^%d = %llu (vs 2^98 full)\n\n",
+           n_var_total, (unsigned long long)1ULL << (n_var_total < 63 ? n_var_total : 63));
 
-    /* Carry-diff analysis */
-    printf("\n--- Carry-Diff at Boundary (P1 XOR P2) ---\n");
+    /* Carry-diff among collisions */
     int unique_diffs = 0;
     uint64_t diff_seen[MAX_COLL];
     for (int i = 0; i < n_coll; i++) {
         uint64_t d = coll_bs[i].carries_p1 ^ coll_bs[i].carries_p2;
         int dup = 0;
-        for (int j = 0; j < unique_diffs; j++) {
+        for (int j = 0; j < unique_diffs; j++)
             if (diff_seen[j] == d) { dup = 1; break; }
-        }
         if (!dup) diff_seen[unique_diffs++] = d;
     }
-    printf("Unique carry-diffs among collisions: %d\n", unique_diffs);
-    if (unique_diffs <= 5) {
-        for (int i = 0; i < unique_diffs; i++)
-            printf("  diff[%d] = 0x%012llx  (%d bits set)\n",
-                   i, (unsigned long long)diff_seen[i],
-                   __builtin_popcountll(diff_seen[i]));
+    printf("Unique carry-diffs (p1 XOR p2) among collisions: %d\n", unique_diffs);
+    for (int i = 0; i < unique_diffs && i < 5; i++)
+        printf("  diff[%d] = 0x%012llx (%d bits set)\n",
+               i, (unsigned long long)diff_seen[i],
+               __builtin_popcountll(diff_seen[i]));
+
+    /* Per-addition breakdown */
+    const char *add_names[ADDS_PER_ROUND] = {
+        "h+Sig1(e)", "+Ch(efg)", "+K[r]", "+W[r]",
+        "Sig0+Maj", "d+T1=e'", "T1+T2=a'"
+    };
+    printf("\nPer-addition invariance (across %d collisions):\n", n_coll);
+    printf("Round  Addition       P1    P2\n");
+    for (int r = 0; r < ROUNDS; r++) {
+        for (int a = 0; a < ADDS_PER_ROUND; a++) {
+            int bit = r * ADDS_PER_ROUND + a;
+            printf("  r%d   %-14s   %s    %s\n",
+                   57+r, add_names[a],
+                   ((inv_p1 >> bit) & 1) ? "INV" : "var",
+                   ((inv_p2 >> bit) & 1) ? "INV" : "var");
+        }
     }
 
-    /* Invariant carry analysis */
-    printf("\n--- Invariant Carries at Boundary (across all collisions) ---\n");
-    if (n_coll > 0) {
-        uint64_t all_same_p1 = ~0ULL, all_same_p2 = ~0ULL;
-        uint64_t ref_p1 = coll_bs[0].carries_p1;
-        uint64_t ref_p2 = coll_bs[0].carries_p2;
-        for (int i = 1; i < n_coll; i++) {
-            all_same_p1 &= ~(coll_bs[i].carries_p1 ^ ref_p1);
-            all_same_p2 &= ~(coll_bs[i].carries_p2 ^ ref_p2);
-        }
-        uint64_t active_mask = (1ULL << TOTAL_ADDS) - 1;
-        int inv_p1 = __builtin_popcountll(all_same_p1 & active_mask);
-        int inv_p2 = __builtin_popcountll(all_same_p2 & active_mask);
-        printf("Path 1: %d/%d carries invariant\n", inv_p1, TOTAL_ADDS);
-        printf("Path 2: %d/%d carries invariant\n", inv_p2, TOTAL_ADDS);
-        printf("Variable carries: %d (p1) + %d (p2) = %d total DOF\n",
-               TOTAL_ADDS - inv_p1, TOTAL_ADDS - inv_p2,
-               2 * TOTAL_ADDS - inv_p1 - inv_p2);
+    /* Build variable-carry index maps for compact projection */
+    int var_idx_p1[TOTAL_ADDS], var_idx_p2[TOTAL_ADDS];
+    int vi1 = 0, vi2 = 0;
+    for (int i = 0; i < TOTAL_ADDS; i++) {
+        var_idx_p1[i] = ((var_p1 >> i) & 1) ? vi1++ : -1;
+        var_idx_p2[i] = ((var_p2 >> i) & 1) ? vi2++ : -1;
+    }
 
-        /* Per-addition breakdown */
-        printf("\nPer-addition invariance (across %d collisions):\n", n_coll);
-        const char *add_names[ADDS_PER_ROUND] = {
-            "h+Sig1(e)", "+Ch(efg)", "+K[r]", "+W[r]",
-            "Sig0+Maj", "d+T1=e'", "T1+T2=a'"
-        };
-        printf("Round  Addition       P1-inv  P2-inv\n");
-        for (int r = 0; r < ROUNDS; r++) {
-            for (int a = 0; a < ADDS_PER_ROUND; a++) {
-                int bit = r * ADDS_PER_ROUND + a;
-                int p1_inv = (all_same_p1 >> bit) & 1;
-                int p2_inv = (all_same_p2 >> bit) & 1;
-                printf("  r%d   %-14s   %s      %s\n",
-                       57 + r, add_names[a],
-                       p1_inv ? "INV" : "var",
-                       p2_inv ? "INV" : "var");
+    /* Project collision boundary states to reduced form (128-bit for safety) */
+    typedef struct { uint64_t lo, hi; } Proj128;
+    printf("\n--- Reduced boundary states for collisions ---\n");
+    Proj128 coll_reduced[MAX_COLL];
+    int unique_reduced_coll = 0;
+    for (int c = 0; c < n_coll; c++) {
+        uint64_t lo = 0, hi = 0;
+        int bit_pos = 0;
+        for (int i = 0; i < TOTAL_ADDS; i++) {
+            if ((var_p1 >> i) & 1) {
+                uint64_t v = (coll_bs[c].carries_p1 >> i) & 1;
+                if (bit_pos < 64) lo |= v << bit_pos;
+                else hi |= v << (bit_pos - 64);
+                bit_pos++;
             }
         }
+        for (int i = 0; i < TOTAL_ADDS; i++) {
+            if ((var_p2 >> i) & 1) {
+                uint64_t v = (coll_bs[c].carries_p2 >> i) & 1;
+                if (bit_pos < 64) lo |= v << bit_pos;
+                else hi |= v << (bit_pos - 64);
+                bit_pos++;
+            }
+        }
+        coll_reduced[c].lo = lo;
+        coll_reduced[c].hi = hi;
+
+        int dup = 0;
+        for (int j = 0; j < c; j++)
+            if (coll_reduced[j].lo == lo && coll_reduced[j].hi == hi) { dup = 1; break; }
+        if (!dup) unique_reduced_coll++;
+    }
+    printf("Unique reduced collision boundary states: %d / %d\n",
+           unique_reduced_coll, n_coll);
+    printf("All unique? %s\n", unique_reduced_coll == n_coll ? "YES" : "NO");
+
+    /* Print first few reduced states */
+    for (int i = 0; i < n_coll && i < 5; i++)
+        printf("  Coll #%3d: W1=[%02x,%02x,%02x,%02x] reduced=(0x%016llx,0x%06llx)\n",
+               i+1, coll_w1[i][0], coll_w1[i][1], coll_w1[i][2], coll_w1[i][3],
+               (unsigned long long)coll_reduced[i].lo, (unsigned long long)coll_reduced[i].hi);
+
+    /* ========== Phase 2: Full enumeration with reduced states ========== */
+    if (n_var_total > 24) {
+        printf("\n========================================\n");
+        printf(" Phase 2: SKIPPED (reduced state has %d bits > 24)\n", n_var_total);
+        printf("========================================\n");
+        printf("Hash table deduplication would require 2^%d entries.\n", n_var_total);
+        printf("Instead, reporting Phase 1 results as the main finding.\n");
+
+        /* Sample-based uniqueness measurement using full 98-bit boundary state.
+         * Since the full state is 98 bits and almost all are variable (88),
+         * use a hash-based approach: hash to 64 bits, count unique hashes
+         * in a small hash set. */
+        printf("\n--- Sample-based unique count estimate ---\n");
+        #define SAMPLE_HT_BITS 20
+        #define SAMPLE_HT_SIZE (1U << SAMPLE_HT_BITS)
+        #define SAMPLE_HT_MASK (SAMPLE_HT_SIZE - 1)
+        uint64_t *sample_ht = calloc(SAMPLE_HT_SIZE, sizeof(uint64_t));
+        uint8_t *sample_occ = calloc(SAMPLE_HT_SIZE, 1);
+        int sample_unique = 0;
+        uint32_t sample_count = 1U << 20;
+        uint64_t rng = 0x12345678DEADBEEFULL;
+        printf("Sampling %u random configs...\n", sample_count);
+
+        for (uint32_t s = 0; s < sample_count; s++) {
+            rng ^= rng << 13; rng ^= rng >> 7; rng ^= rng << 17;
+            uint32_t w57 = (rng >> 0) & MASK;
+            uint32_t w58 = (rng >> 8) & MASK;
+            uint32_t w59 = (rng >> 16) & MASK;
+            uint32_t w60 = (rng >> 24) & MASK;
+
+            uint32_t sa[8], sb[8];
+            memcpy(sa, state1, 32); memcpy(sb, state2, 32);
+            uint32_t w57b = find_w2(sa, sb, 57, w57);
+            uint64_t ca = sha_round_carries(sa, KN[57], w57, 0);
+            uint64_t cb = sha_round_carries(sb, KN[57], w57b, 0);
+            uint32_t w58b = find_w2(sa, sb, 58, w58);
+            ca |= sha_round_carries(sa, KN[58], w58, ADDS_PER_ROUND);
+            cb |= sha_round_carries(sb, KN[58], w58b, ADDS_PER_ROUND);
+            uint32_t w59b = find_w2(sa, sb, 59, w59);
+            ca |= sha_round_carries(sa, KN[59], w59, 2*ADDS_PER_ROUND);
+            cb |= sha_round_carries(sb, KN[59], w59b, 2*ADDS_PER_ROUND);
+            uint32_t w60b = find_w2(sa, sb, 60, w60);
+            ca |= sha_round_carries(sa, KN[60], w60, 3*ADDS_PER_ROUND);
+            cb |= sha_round_carries(sb, KN[60], w60b, 3*ADDS_PER_ROUND);
+
+            uint32_t Wa[7]={w57,w58,w59,w60,0,0,0};
+            uint32_t Wb[7]={w57b,w58b,w59b,w60b,0,0,0};
+            Wa[4]=(fns1(Wa[2])+W1p[54]+fns0(W1p[46])+W1p[45])&MASK;
+            Wb[4]=(fns1(Wb[2])+W2p[54]+fns0(W2p[46])+W2p[45])&MASK;
+            Wa[5]=(fns1(Wa[3])+W1p[55]+fns0(W1p[47])+W1p[46])&MASK;
+            Wb[5]=(fns1(Wb[3])+W2p[55]+fns0(W2p[47])+W2p[46])&MASK;
+            Wa[6]=(fns1(Wa[4])+W1p[56]+fns0(W1p[48])+W1p[47])&MASK;
+            Wb[6]=(fns1(Wb[4])+W2p[56]+fns0(W2p[48])+W2p[47])&MASK;
+
+            uint32_t fa[8], fb[8];
+            memcpy(fa, sa, 32); memcpy(fb, sb, 32);
+            for (int r = 4; r < 7; r++) {
+                ca |= sha_round_carries(fa, KN[57+r], Wa[r], r*ADDS_PER_ROUND);
+                cb |= sha_round_carries(fb, KN[57+r], Wb[r], r*ADDS_PER_ROUND);
+            }
+
+            /* Hash the full 98-bit state (ca,cb) to a 64-bit fingerprint */
+            uint64_t fp = ca * 6364136223846793005ULL + cb * 1442695040888963407ULL;
+            fp ^= fp >> 33; fp *= 0xff51afd7ed558ccdULL;
+            fp ^= fp >> 33;
+
+            /* Insert into sample hash table */
+            uint32_t idx = (uint32_t)(fp & SAMPLE_HT_MASK);
+            for (;;) {
+                if (!sample_occ[idx]) {
+                    sample_ht[idx] = fp;
+                    sample_occ[idx] = 1;
+                    sample_unique++;
+                    break;
+                }
+                if (sample_ht[idx] == fp) break; /* duplicate */
+                idx = (idx + 1) & SAMPLE_HT_MASK;
+            }
+        }
+        printf("Sample: %u configs, %d unique boundary states (full 98-bit hashed)\n",
+               sample_count, sample_unique);
+        double dup_rate = 1.0 - (double)sample_unique / sample_count;
+        printf("Duplicate rate: %.4f\n", dup_rate);
+        if (dup_rate > 0.001) {
+            /* Good's estimate: N_unique ~ n / (1 - f_1/n) where f_1 = singletons */
+            double est_total = (double)sample_count * sample_count /
+                               (2.0 * (sample_count - sample_unique) + 1);
+            printf("Estimated total unique (capture-recapture): ~%.0f\n", est_total);
+            printf("Estimated dedup ratio: %.1fx over 2^32\n",
+                   (double)(1ULL<<32) / est_total);
+        } else {
+            printf("Almost all unique -> dedup ratio ~1x at boundary\n");
+        }
+        free(sample_ht);
+        free(sample_occ);
+    } else {
+        printf("\n========================================\n");
+        printf(" Phase 2: Full enumeration with %d-bit reduced state\n", n_var_total);
+        printf("========================================\n\n");
+
+        ht = calloc(HT_SIZE, sizeof(HTEntry));
+        if (!ht) { printf("OOM\n"); return 1; }
+
+        clock_gettime(CLOCK_MONOTONIC, &t0);
+        n_tested = 0;
+
+        for (uint32_t w57 = 0; w57 < (1U << N); w57++) {
+            uint32_t s57a[8], s57b[8];
+            memcpy(s57a, state1, 32); memcpy(s57b, state2, 32);
+            uint32_t w57b = find_w2(s57a, s57b, 57, w57);
+            uint64_t c57a = sha_round_carries(s57a, KN[57], w57, 0);
+            uint64_t c57b = sha_round_carries(s57b, KN[57], w57b, 0);
+            for (uint32_t w58 = 0; w58 < (1U << N); w58++) {
+                uint32_t s58a[8], s58b[8];
+                memcpy(s58a, s57a, 32); memcpy(s58b, s57b, 32);
+                uint32_t w58b = find_w2(s58a, s58b, 58, w58);
+                uint64_t c58a = c57a | sha_round_carries(s58a, KN[58], w58, ADDS_PER_ROUND);
+                uint64_t c58b = c57b | sha_round_carries(s58b, KN[58], w58b, ADDS_PER_ROUND);
+                for (uint32_t w59 = 0; w59 < (1U << N); w59++) {
+                    uint32_t s59a[8], s59b[8];
+                    memcpy(s59a, s58a, 32); memcpy(s59b, s58b, 32);
+                    uint32_t w59b = find_w2(s59a, s59b, 59, w59);
+                    uint64_t c59a = c58a | sha_round_carries(s59a, KN[59], w59, 2*ADDS_PER_ROUND);
+                    uint64_t c59b = c58b | sha_round_carries(s59b, KN[59], w59b, 2*ADDS_PER_ROUND);
+                    for (uint32_t w60 = 0; w60 < (1U << N); w60++) {
+                        uint32_t s60a[8], s60b[8];
+                        memcpy(s60a, s59a, 32); memcpy(s60b, s59b, 32);
+                        uint32_t w60b = find_w2(s60a, s60b, 60, w60);
+                        uint64_t ca = c59a | sha_round_carries(s60a, KN[60], w60, 3*ADDS_PER_ROUND);
+                        uint64_t cb = c59b | sha_round_carries(s60b, KN[60], w60b, 3*ADDS_PER_ROUND);
+
+                        uint32_t Wa[7]={w57,w58,w59,w60,0,0,0};
+                        uint32_t Wb[7]={w57b,w58b,w59b,w60b,0,0,0};
+                        Wa[4]=(fns1(Wa[2])+W1p[54]+fns0(W1p[46])+W1p[45])&MASK;
+                        Wb[4]=(fns1(Wb[2])+W2p[54]+fns0(W2p[46])+W2p[45])&MASK;
+                        Wa[5]=(fns1(Wa[3])+W1p[55]+fns0(W1p[47])+W1p[46])&MASK;
+                        Wb[5]=(fns1(Wb[3])+W2p[55]+fns0(W2p[47])+W2p[46])&MASK;
+                        Wa[6]=(fns1(Wa[4])+W1p[56]+fns0(W1p[48])+W1p[47])&MASK;
+                        Wb[6]=(fns1(Wb[4])+W2p[56]+fns0(W2p[48])+W2p[47])&MASK;
+
+                        uint32_t fa[8], fb[8];
+                        memcpy(fa, s60a, 32); memcpy(fb, s60b, 32);
+                        for (int r = 4; r < 7; r++) {
+                            ca |= sha_round_carries(fa, KN[57+r], Wa[r], r*ADDS_PER_ROUND);
+                            cb |= sha_round_carries(fb, KN[57+r], Wb[r], r*ADDS_PER_ROUND);
+                        }
+
+                        int is_coll = 1;
+                        for (int r = 0; r < 8; r++)
+                            if (fa[r] != fb[r]) { is_coll = 0; break; }
+
+                        /* Project to reduced state */
+                        uint32_t proj = 0;
+                        int bp = 0;
+                        for (int i = 0; i < TOTAL_ADDS; i++)
+                            if ((var_p1 >> i) & 1) {
+                                proj |= (uint32_t)((ca >> i) & 1) << bp++;
+                            }
+                        for (int i = 0; i < TOTAL_ADDS; i++)
+                            if ((var_p2 >> i) & 1) {
+                                proj |= (uint32_t)((cb >> i) & 1) << bp++;
+                            }
+
+                        ht_insert(proj, is_coll);
+                        n_tested++;
+                    }
+                }
+            }
+            if ((w57 & 0xF) == 0xF) {
+                clock_gettime(CLOCK_MONOTONIC, &t1);
+                double el = (t1.tv_sec-t0.tv_sec)+(t1.tv_nsec-t0.tv_nsec)/1e9;
+                double pct = 100.0*(w57+1)/(1<<N);
+                printf("  [%5.1f%%] unique_reduced=%llu | %.1fs ETA %.0fs\n",
+                       pct, (unsigned long long)ht_used, el, el/pct*100-el);
+            }
+        }
+        clock_gettime(CLOCK_MONOTONIC, &t1);
+        double ph2_time = (t1.tv_sec-t0.tv_sec)+(t1.tv_nsec-t0.tv_nsec)/1e9;
+
+        printf("\nPhase 2: %llu configs, %llu unique reduced states, %.2fs\n\n",
+               (unsigned long long)n_tested, (unsigned long long)ht_used, ph2_time);
+
+        printf("--- Deduplication ---\n");
+        printf("Total configs:          %llu (2^%d)\n", (unsigned long long)n_tested, 4*N);
+        printf("Unique reduced states:  %llu\n", (unsigned long long)ht_used);
+        printf("Dedup ratio:            %.1fx\n", (double)n_tested / ht_used);
+        printf("log2(unique):           %.2f (vs log2(total)=%d)\n",
+               log2((double)ht_used), 4*N);
+        printf("Bits saved:             %.1f\n", 4.0*N - log2((double)ht_used));
+
+        /* Distribution */
+        uint64_t max_c=0, coll_bearing=0;
+        for (uint32_t i = 0; i < HT_SIZE; i++) {
+            if (!ht[i].occupied) continue;
+            if (ht[i].count > max_c) max_c = ht[i].count;
+            if (ht[i].coll_flag) coll_bearing++;
+        }
+        printf("Max configs/state:      %llu\n", (unsigned long long)max_c);
+        printf("Collision-bearing:      %llu (1 in %.0f)\n",
+               (unsigned long long)coll_bearing,
+               (double)ht_used / (coll_bearing > 0 ? coll_bearing : 1));
+
+        free(ht);
     }
 
-    printf("\n=== Summary ===\n");
-    printf("Deduplication effective? ");
-    if (ht_entries < n_tested / 2)
-        printf("YES (%.1fx compression)\n", (double)n_tested / ht_entries);
-    else
-        printf("MARGINAL (%.1fx compression)\n", (double)n_tested / ht_entries);
-    printf("Collision BS unique?    %s\n",
-           unique_coll_bs == n_coll ? "YES" : "NO");
-    printf("Carry automaton width:  %d collision states in %llu total BS\n",
-           n_coll, (unsigned long long)ht_entries);
-    if (coll_bearing > 0)
-        printf("Fraction coll-bearing:  %.6f (1 in %.0f)\n",
-               (double)coll_bearing / ht_entries,
-               (double)ht_entries / coll_bearing);
-
-    free(ht);
+    /* ========== Final summary ========== */
+    printf("\n=============================================================\n");
+    printf("  CHUNK-MODE DP SUMMARY (N=%d, B=%d)\n", N, BOUNDARY_BIT);
+    printf("=============================================================\n\n");
+    printf("Collisions:                 %d\n", n_coll);
+    printf("Full boundary state:        98 bits (49 per path)\n");
+    printf("Invariant carries:          %d (P1) + %d (P2) = %d\n",
+           n_inv_p1, n_inv_p2, n_inv_p1 + n_inv_p2);
+    printf("Variable carries:           %d (P1) + %d (P2) = %d\n",
+           n_var_p1, n_var_p2, n_var_total);
+    printf("Reduced state dimension:    %d bits\n", n_var_total);
+    printf("Collision BS all unique?    %s (full 98-bit) / %s (reduced %d-bit)\n",
+           unique_coll == n_coll ? "YES" : "NO",
+           unique_reduced_coll == n_coll ? "YES" : "NO",
+           n_var_total);
+    printf("Carry-diff classes:         %d\n", unique_diffs);
     printf("\nDone.\n");
     return 0;
 }
