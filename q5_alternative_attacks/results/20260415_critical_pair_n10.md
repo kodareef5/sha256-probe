@@ -28,3 +28,18 @@ Longer timeouts (hours) might resolve some pairs at N=10. But the scaling
 trend is clear: sr=61 critical pairs become impractical at N≥10.
 
 Evidence level: EVIDENCE (timeout is inconclusive, but consistent with theory)
+
+## Triplet Scan (3 freed bits)
+
+Tested 10 most promising triplets with 600s timeout:
+(3,4,5), (3,5,6), (4,5,6), (4,5,7), (2,4,5),
+(3,4,6), (5,6,7), (2,5,6), (1,4,5), (4,6,7)
+
+ALL 10 TIMEOUT. Even 3 freed bits (8 values) is insufficient at N=10.
+
+Interpretation: the 2^N penalty (1024 at N=10) overwhelms both
+2-bit freedom (4 values) and 3-bit freedom (8 values).
+Would need ~log2(1024) = 10 freed bits for expected coverage.
+
+Long-timeout test on pair (4,5) at 3600s is running. If SAT, it
+demonstrates that the pair exists but requires much more solver time.
