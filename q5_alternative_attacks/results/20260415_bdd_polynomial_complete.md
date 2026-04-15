@@ -96,11 +96,27 @@ carries propagate from LSB to MSB, creating nodes, while the MSB has few carries
 5. Whether a polynomial-time BDD construction exists for this function is an open
    question. It would imply a polynomial-time sr=60 collision finder.
 
+## N=9: First BDD Beyond Truth-Table Limit
+
+Using the streaming approach (bdd_streaming.c), the collision BDD was constructed
+at N=9 — where the full truth table (2^36 = 64GB) exceeds RAM.
+
+**N=9 result**: 52,821 BDD nodes, 4905 collisions, 23 minutes total.
+
+The node count is higher than the polynomial fit predicts because:
+1. Different candidate (kernel bit 7, fill=0x100, 4905 collisions)
+2. Streaming approach uses suboptimal variable ordering (W57 tested first, not interleaved)
+
+Nodes-per-collision analysis shows the BDD overhead is roughly constant:
+- N=4: 3.9 nodes/coll, N=8 (tt): 16.6, N=8 (stream): 11.5, N=9: 10.8
+- BDD size ≈ O(#collisions × N^α) where α ≈ 1-2
+
 ## Files
 
 - `bdd_incremental.c`: Pure incremental BDD (exponential intermediates)
 - `bdd_hybrid.c`: Hybrid concrete/BDD approach
 - `bdd_parametric.c`: Parametric truth-table BDD (N=2..8)
+- `bdd_streaming.c`: Streaming BDD for N=9+ (no full truth table needed)
 - `bdd_n8.c`: Original N=8 truth-table BDD
 
-Evidence level: VERIFIED (exhaustive truth tables at all N, BDD SAT counts match)
+Evidence level: VERIFIED (exhaustive truth tables at N=2..8, streaming at N=9)
