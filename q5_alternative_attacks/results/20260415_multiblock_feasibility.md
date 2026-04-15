@@ -57,10 +57,30 @@ a differential attack on full SHA-256.
 At N=4: no single-bit residuals observed (minimum HW=2).
 At larger N: the residual distribution needs to be characterized.
 
-## Next Steps
+## N=8 Residual Distribution (100K random samples)
 
-1. Characterize residual HW distribution at N=8, N=10, N=12
-2. If single-bit residuals exist, they define the multi-block differential trail
-3. The trail analysis for block 2 is a separate research problem (Wang-style)
+Minimum residual HW observed: 7 (out of 64 total register bits).
+Distribution peaks at HW=24, roughly bell-shaped.
 
-Evidence level: HYPOTHESIS (analysis at N=4 only)
+| HW | Count | Fraction |
+|----|-------|----------|
+| 7 | 2 | 0.002% |
+| 9 | 6 | 0.006% |
+| 10 | 21 | 0.02% |
+| 15 | 786 | 0.79% |
+| 20 | 6065 | 6.1% |
+| 24 | 9846 | 9.8% (peak) |
+
+The minimum HW=7 means block 2 would need to cancel a 7-bit differential —
+much harder than the 2-4 bits at N=4. At N=32, the residual would have
+HW ~90-100 (out of 256 bits) — impractical for Wang-style attacks.
+
+## Conclusion
+
+The multi-block approach is UNLIKELY to work at practical N:
+- Residual HW scales roughly as 3N (proportional to state size)
+- Block 2 requires a Wang-style differential attack on full 64 rounds
+- No practical attacks exist on full SHA-256 even with small differentials
+- The structural advantage from block 1 is insufficient
+
+Evidence level: EVIDENCE (analysis at N=4 exhaustive, N=8 sampled)
