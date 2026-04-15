@@ -268,12 +268,20 @@ int main(int argc, char **argv) {
     if(N<4||N>12){printf("N must be 4..12\n");return 1;}
     MASK=(1U<<N)-1;
     NVARS=4*N;
-    int INNER_NVARS = 3*N;
     uint32_t SIZE = 1U<<N;
 
+    /* For N>=10, use double outer loop (W57,W58) to keep inner TT manageable */
+    int DOUBLE_OUTER = (N >= 10) ? 1 : 0;
+    int INNER_NVARS = DOUBLE_OUTER ? 2*N : 3*N;
+    int OUTER_WORDS = DOUBLE_OUTER ? 2 : 1;
+
     printf("=== Streaming BDD for N=%d ===\n", N);
-    printf("Outer: W57 (2^%d = %u values)\n", N, SIZE);
-    printf("Inner: W58,W59,W60 (2^%d = %llu TT entries per slice)\n",
+    if(DOUBLE_OUTER)
+        printf("Outer: W57,W58 (2^%d = %u values)\n", 2*N, 1U<<(2*N));
+    else
+        printf("Outer: W57 (2^%d = %u values)\n", N, SIZE);
+    printf("Inner: %s (2^%d = %llu TT entries per slice)\n",
+           DOUBLE_OUTER ? "W59,W60" : "W58,W59,W60",
            INNER_NVARS, 1ULL<<INNER_NVARS);
     printf("Memory per slice: %.0f MB\n", (double)(1ULL<<INNER_NVARS)/(1<<20));
     printf("Total BDD vars: %d\n\n", NVARS);
