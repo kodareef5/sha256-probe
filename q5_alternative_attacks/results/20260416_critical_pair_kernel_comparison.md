@@ -49,3 +49,13 @@ richer critical pair structure might make sr=61 feasible at N=10 with
 a non-MSB kernel. Testing needed.
 
 Evidence level: VERIFIED (exhaustive pair scans at N=8 for both kernels)
+
+## N=10 Bit-6 Kernel Result
+
+15 pairs tested with 600s timeout: ALL TIMEOUT.
+Including the N=8 critical pairs (1,2), (1,4), (3,7) and nearby pairs.
+
+The bit-6 kernel advantage at N=8 (3 critical pairs vs 1) does NOT
+translate to N=10. The 2^N penalty (1024 at N=10) overwhelms the
+kernel advantage. sr=61 at N=10 requires fundamentally more freedom
+than 2 freed W[60] bits, regardless of kernel choice.
