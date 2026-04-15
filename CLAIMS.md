@@ -123,12 +123,22 @@ Complete restricted ANF at N=8 (32 cascade variables, exact Moebius transform).
 - Perfect staircase: each bit position adds exactly 1 to the degree.
 - **Evidence:** 64-bit exact computation, ~12 hours total.
 
-### Critical W[60] schedule pairs exist at N=6 and N=8
-Removing specific pairs of W[60] schedule bits makes sr=61 SAT:
-- N=8: pair (4,5) SAT. All other 27 pairs UNSAT.
-- N=6: pairs (1,3) and (2,5) SAT. All other 13 pairs UNSAT.
-- **Evidence:** Exhaustive C(N,2) scan with Kissat at both N values.
-- **Caveats:** Simple rotation-position prediction refuted at N=6.
+### Critical W[60] schedule pairs are KERNEL-DEPENDENT
+The sr=61 critical pairs depend on the kernel differential choice:
+- N=8 full map (6 kernel bits, 168 Kissat tests, 120s timeout):
+  | Kernel bit | Critical pairs | Count |
+  |------------|----------------|-------|
+  | 1 | (5,6) | 1 |
+  | **3** | **(0,1),(1,3),(1,5),(2,7)** | **4** |
+  | 4 | none | 0 |
+  | 5 | (1,3) | 1 |
+  | 6 | (1,2),(1,4),(3,7) | 3 |
+  | 7 (MSB) | (4,5) | 1 |
+- Kernel bit 3 has the MOST critical pairs despite few sr=60 collisions
+- Bit 1 of W[60] is a "universal repair coordinate" across kernels
+- MSB kernel uniquely easy for UNSAT proofs; others mostly timeout
+- **Evidence:** Exhaustive pair scan at N=8 for all valid kernels
+- **Caveats:** 132/168 pairs TIMEOUT; true landscape is richer
 
 ### BDD of collision function has polynomial size: O(N^4.8)
 The sr=60 collision function, represented as a Binary Decision Diagram over
