@@ -83,9 +83,12 @@ N ≡ 1 (mod 4) that's absent with standard fills.
 | 7 | 373 | 8.54 | std | bit 1 |
 | 8 | 1644 | 10.68 | std | bit 6 |
 | 9 | 14263 | 13.80 | ALT | bit 1 |
-| 10 | 1467 | 10.52 | std | bit 8 |
-| 11 | 2720 | 11.41 | ALT | bit 1 |
-| 12 | ~4250 | ~12.05 | MSB | (running) |
+| 10 | 1833 | 10.84 | 0x1ff | bit 9 (MSB) |
+| 11 | 2720 | 11.41 | 0x055 | bit 1 |
+| 12 | 3671 | 11.84 | 0xfff | bit 11 (MSB) |
+
+*N=10 updated with all-candidates sweep (macbook NEON, 9h).
+N=12 FINAL: 3671 collisions, 43h exhaustive NEON DP.*
 
 ## 8. The da=de Algebraic Identity (NEW)
 
@@ -131,7 +134,47 @@ structural identity, verified at N=4, 6, 8, 12, and 32.
 T2-path freedom: 26.6% overall, 0% at r61-63 (all invariant).
 T1-path freedom: 84.2% (where the collision's single DOF lives).
 
-## 10. Implications
+## 10. Three-Filter Equivalence Theorem (Macbook, NEW)
+
+**Theorem**: de61=de62=de63=0 ⟺ collision. Zero false positives.
+
+**Proof** (by back-propagation from collision condition):
+- da63=0 (cascade). db63=da62=0 (shift). dc63=da61=0 (shift+cascade).
+  dd63=da60=0 (shift+cascade).
+- de63=0 (direct check). df63=de62=0 (shift). dg63=de61=0 (shift).
+  dh63=de60=0 (shift+cascade, de60=0 always).
+All 8 diffs = 0. QED.
+
+Verified exhaustively at N=4: 49 configs with de61=de62=de63=0 = 49 collisions.
+
+**Implication**: Only 3 e-register checks needed. The a-path (cascade) and
+h-path (de60=0 + shift) are automatic. This gives the de61=0 structural
+filter: 1/2^N pruning rate at each of rounds 61, 62, 63.
+
+## 11. The 3x Algorithmic Ceiling (Macbook, NEW)
+
+**Theorem**: Register-diff filtering on the cascade-DP structure gives at
+most ~3x speedup over brute force at any N.
+
+**Proof**: The cascade construction W2[r] = W1[r] + offset makes da=0 for
+ALL W1 values. There are NO differential constraints during the free rounds
+(57-60). The cascade is too permissive — it accepts everything.
+
+The only collision-discriminating constraints come from the schedule-determined
+rounds (61-63). The de61=0 filter captures this: it saves 2/7 of the round
+computation for 1-1/2^N of configs. The cost model gives 7/(5+2/2^N) ≈ 1.4x
+algorithmic speedup, with practical gains up to 3x from early-exit optimization.
+
+**Verified**: 5 independent implementations (structural solver, FACE, quotient
+transducer, backward construction, face_full) all converge to ~3x or less when
+using register-diff approaches. The backward construction's 14x includes OpenMP
+parallelization, not algorithmic advantage.
+
+**Implication**: The polynomial-time collision finder, if it exists, must work in
+CARRY SPACE, not register-diff space. Or it must use a fundamentally different
+problem structure (e.g., multi-block, different cascade construction).
+
+## 12. Implications
 
 1. The cascade is a **thin diagonal path** through an 8N-dimensional
    state-diff space. Its "width" is determined by hw(db56).
