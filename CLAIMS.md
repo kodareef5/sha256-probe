@@ -130,21 +130,40 @@ Removing specific pairs of W[60] schedule bits makes sr=61 SAT:
 - **Evidence:** Exhaustive C(N,2) scan with Kissat at both N values.
 - **Caveats:** Simple rotation-position prediction refuted at N=6.
 
-### BDD of collision function has polynomial size: O(N^4)
+### BDD of collision function has polynomial size: O(N^4.8)
 The sr=60 collision function, represented as a Binary Decision Diagram over
 4N Boolean variables (bits of W57-W60), has polynomial node count.
-- N=2: 29, N=3: 35, N=4: 193, N=5: 1507, N=6: 798, N=7: 4191, N=8: 4322
-- Best fit: nodes ≈ 0.95 × N^4.08 (R² = 0.91)
-- Compression: 993,000x at N=8 (4322 nodes vs 4.29B truth table entries)
-- **Evidence:** Exhaustive truth tables at all N=2..8, BDD SAT counts match
-  collision counts. `bdd_parametric.c`, `bdd_n8.c`
+- 10 data points: N=2: 29, N=3: 35, N=4: 193, N=5: 1507, N=6: 798,
+  N=7: 4191, N=8: 4322, N=9: 52821, N=10: 19677, N=12: 92975
+- Best fit: nodes ≈ 0.38 × N^4.82 (R² = 0.93)
+- N=12: 92975 nodes compressing 35TB truth table by 3 billion×
+- **Evidence:** Exhaustive truth tables at N=2..8; streaming at N=9;
+  collision-list BDD builder at N=10,12. `bdd_parametric.c`, `bdd_streaming.c`,
+  `bdd_from_collisions.c`
 - **Significance:** The collision function has polynomial structural complexity.
-  With the BDD in hand, all collisions can be enumerated in O(N^4 + #coll) time.
+  With the BDD in hand, all collisions can be enumerated in O(N^4.8 + #coll) time.
 - **Caveats:**
-  - Constructing the BDD requires O(2^{4N}) time (truth table generation)
+  - Constructing the BDD requires O(2^{4N}) time (truth table) or
+    O(#coll × N × BDD_size) via collision-list builder (needs solver first)
   - Pure incremental BDD construction (via Apply) has exponential intermediates
   - Whether a polynomial-time BDD construction exists is an open question
   - Different candidates produce different BDD sizes (scatter in the fit)
+
+### Carry-state DP provides zero algorithmic speedup
+The carry-diff state width at each bit position is 89-99% of the search space
+(near-injective). The carry automaton's bounded width applies ONLY to the
+collision subset, NOT to all inputs.
+- **Evidence:** Exhaustive at N=4 (65536 inputs, 58903-65469 unique carry-diff states)
+- **Significance:** Carry-state enumeration/DP is equivalent to brute force.
+  The rotation frontier (Sigma reads bits at ≠ positions) spreads information.
+- **Caveats:** Only tested at N=4 (larger N prohibitively expensive to test exhaustively)
+
+### GF(2) linearization of collision function FAILS
+The collision function has power-of-2 collision counts in 90% of (W57,W58)
+slices at N=4, but is NOT affine — GF(2) Jacobian linearization finds 0 of
+49 collisions. Carry nonlinearity from modular additions is fundamental.
+- **Evidence:** Exhaustive Jacobian test at N=4, all 30 collision slices fail
+- **Significance:** No quadratic-root speedup via GF(2) elimination
 
 ## EVIDENCE
 
