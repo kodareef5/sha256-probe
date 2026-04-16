@@ -238,6 +238,19 @@ Different candidates at the same N have very different solve times.
 - **Evidence:** Parallel candidate races show 3-5x variance within same N
 - **Caveats:** Non-monotonicity could also be solver-specific (Kissat heuristics)
 
+### Productive kernel bits at N=32 align with SHA-256 rotation constants
+At full N=32, every kernel bit that has produced sr=61 candidates lies in
+the set {0, 6, 10, 11, 13, 17, 19} — and 6 of these 7 align with a SHA-256
+rotation constant (bit 0 is LSB/carry-propagation). The hypothesis predicts
+the full productive set is {0} ∪ {2, 3, 6, 7, 10, 11, 13, 17, 18, 19, 22, 25}
+= bits 0 plus the union of all four Sigma/sigma rotation positions.
+- **Evidence:** Fleet scan across 7 kernel bits at N=32 — 6/7 rotation-aligned
+- **Writeup:** `writeups/rotation_aligned_kernels.md`
+- **Predictions pending:** bits 2, 3, 7, 18, 22 should be productive;
+  bits 5, 14, 27 should be barren.
+- **Caveats:** Only tested at N=32 so far. Smaller N may follow different
+  rules since scaled rotations don't align with the same positions.
+
 ## EXTRAPOLATION
 
 ### sr=60 at N=32 may be solvable in ~days of compute
