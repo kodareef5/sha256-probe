@@ -29,6 +29,20 @@ reproduced using a custom CSA-tree SAT encoder in 220.5 seconds.
 - **Scripts:** `archive/13_custom_cnf_encoder.py` (sr59 mode)
 - **Caveats:** None
 
+### sr=61 is SAT at N=6,8,10-14,16,18,20 with partial schedule enforcement
+With appropriate kernel choice and single-bit W[60] schedule enforcement,
+sr=61 collisions exist at every tested N except N=4,5,7,9.
+- **Evidence:** Kissat SAT with verified assignments at each N
+- **Notable:** N=14 bit 12: 14/14 single-bit SAT (100%)
+                N=16 bit 10: 9/9 seeds SAT
+                N=18 bit 11: 4+ SAT across 3 enforced bits
+                N=20 bit 19: 2+ SAT at ~95 min each
+- **N=32:** 10 seeds racing now with fleet's kernel-10 candidates
+- **Key insight:** sr=61 is not a universal wall. It's a smooth phase
+  transition dependent on (N, kernel, fill, enforcement level).
+- **Caveats:** Single-bit enforcement is the weakest partial sr=61.
+  Full sr=61 (all bits enforced) remains open.
+
 ### sr=60 is SAT at all non-degenerate word widths N=8 through N=32
 For every non-degenerate word width from N=8 to N=30 (and N=32), there
 exists a candidate producing an sr=60 collision. Continuous homotopy
