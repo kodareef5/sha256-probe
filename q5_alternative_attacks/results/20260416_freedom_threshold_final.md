@@ -15,6 +15,8 @@ Free N-1 bits of W[60], enforce just 1 schedule bit. Test all N positions.
 | 10 | MSB | 8 | 2 | 0 | **80%** | SAT |
 | 11 | bit 10 | 6 | 5 | 0 | **55%** | SAT |
 | 12 | MSB | 3 | 9 | 0 | **25%** | SAT |
+| 13 | bit 10 | 8 | 5 | 0 | **62%** | SAT |
+| **14** | **bit 12** | **14** | **0** | **0** | **100%** | **ALL SAT!** |
 
 ## Alternating Pattern
 
