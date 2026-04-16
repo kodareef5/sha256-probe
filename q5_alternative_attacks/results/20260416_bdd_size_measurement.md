@@ -29,23 +29,25 @@ The MSB bits (var 28-31) encode just 16 → 8 → 4 → 2 node transitions.
 This means the top 2 bits of each word are near-deterministic given
 the lower bits — consistent with the MSB-kernel cascade zeroing.
 
-## BDD Scaling Exponent
+## BDD Scaling Exponent (3 data points)
 
-Combining with prior N=4 measurement:
-- N=4: 183 nodes, 49 collisions
-- N=8: 4322 nodes, 260 collisions
+| N | BDD nodes | Collisions | Nodes/coll |
+|---|----------:|----------:|----------:|
+| 4 | 183 | 49 | 3.7 |
+| 8 | 4,322 | 260 | 16.6 |
+| 10 | 14,818 | 691* | 21.4 |
 
-Scaling: 4322 / 183 = 23.6x from N=4 to N=8.
-log₂(23.6) / log₂(8/4) = **4.56** (polynomial exponent)
+\* N=10 partial (691 of ~946 collisions)
 
-Consistent with prior O(N^4.8) scaling finding (MEMORY).
+3-point least-squares fit: **nodes = C × N^4.74**
+
+Consistent with prior O(N^4.8) estimate.
 
 ## Projection to N=32
 
-If O(N^4.56) holds:
-- N=32 BDD size: 4322 × (32/8)^4.56 = 4322 × 1024 ≈ **4.4M nodes ≈ 100 MB**
+N^4.74 fit projects: **~3.4M nodes ≈ 68 MB** at N=32.
 
-A SHA-256 sr=60 cascade collision BDD at N=32 would fit in RAM.
+A SHA-256 sr=60 cascade collision BDD at N=32 would easily fit in RAM.
 
 ## The Construction Bottleneck
 
