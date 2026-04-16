@@ -35,17 +35,15 @@ the lower bits — consistent with the MSB-kernel cascade zeroing.
 |---|----------:|----------:|----------:|
 | 4 | 183 | 49 | 3.7 |
 | 8 | 4,322 | 260 | 16.6 |
-| 10 | 14,818 | 691* | 21.4 |
+| 10 | **18,813** | **897** | **21.0** |
 
-\* N=10 partial (691 of ~946 collisions)
+3-point least-squares fit: **nodes = 0.185 × N^4.94**
 
-3-point least-squares fit: **nodes = C × N^4.74**
-
-Consistent with prior O(N^4.8) estimate.
+Consistent with prior O(N^4.8) estimate (refined to 4.94).
 
 ## Projection to N=32
 
-N^4.74 fit projects: **~3.4M nodes ≈ 68 MB** at N=32.
+N^4.94 fit projects: **~5.0M nodes ≈ 100 MB** at N=32.
 
 A SHA-256 sr=60 cascade collision BDD at N=32 would easily fit in RAM.
 
