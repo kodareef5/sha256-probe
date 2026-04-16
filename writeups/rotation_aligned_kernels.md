@@ -40,20 +40,32 @@ fill pattern.**
 
 This gives 13 candidate productive bits out of 32.
 
-## Predictions (Untested)
+## Predictions (Partially Validated 2026-04-16 15:15)
 
-The fleet has NOT yet scanned these rotation-aligned bits:
-- bit 2  (Sigma0[0] = ROTR2)  — expected productive
-- bit 3  (sigma0[2] = SHR3)   — expected productive
-- bit 7  (sigma0[0] = ROTR7)  — expected productive
-- bit 18 (sigma0[1] = ROTR18) — expected productive
-- bit 22 (Sigma0[2] = ROTR22) — expected productive
-- bit 25 (Sigma1[2] = ROTR25) — fleet is scanning now
+- **bit 25** (Sigma1[2] = ROTR25): predicted productive → **CONFIRMED (9 candidates, new record!)**
+- **bit 20** (NON-rotation): predicted zero/few → **REFUTED (3 candidates found)**
 
-These should produce candidates, completing the rotation-bit inventory.
+### Refined Hypothesis (Post-bit-20)
 
-Non-rotation bits (like bit 5, 8, 14, 20, 27, 30) should produce
-ZERO or very few candidates.
+The strong version (productive = ONLY rotation constants + LSB) is FALSE.
+Every tested bit has at least some candidates.
+
+Weaker (but still useful) version:
+- Rotation-aligned bits yield MORE candidates on average
+- Non-rotation bits yield FEWER
+- The rotation effect is about PRODUCTIVITY RATE, not existence
+
+### Still Untested
+- bit 2, 3, 7, 18, 22 (all rotation-aligned)
+- Most non-rotation bits (5, 14, 27 control tests)
+
+### The Real Test (Hypothesis 2.0)
+
+**Does SAT solve time at N=32 correlate with rotation-alignment?**
+
+If bit-25 (rotation) sr=61 SAT resolves faster than bit-20 (non-rotation),
+that's a cleaner structural claim: rotation-alignment aids CDCL navigation
+even if both have candidates.
 
 ## Why This Might Be True
 
