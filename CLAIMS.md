@@ -221,6 +221,36 @@ Full ANF (Algebraic Normal Form) at N=4 via Mobius transform:
   algebraic elimination of message variables.
 - **Caveats:** Only verified at N=4. Carry-variable ANF not yet computed.
 
+### Cascade collision tree has branching factor ~1 after W57 choice
+At N=8, 260 collisions factor through 250 unique (W57,W58) pairs
+(ratio 1.04); and 251 (W57,W58,W59) triples (ratio 0.965). Effective
+forward branching is 1.0 per step after the initial W57 choice.
+Total collision count ≈ 2^N = 256, matching the carry entropy theorem
+log₂(#colls) = N bits.
+- **Evidence:** Full enumeration of 260 N=8 collisions via cascade_dp_fast
+- **Extension (partial):** N=10 DP running, 237/946 collisions so far show
+  ratio 1.049 — same pattern holds
+- **Scripts:** `q5_alternative_attacks/cascade_dp_fast.c`,
+  `q5_alternative_attacks/results/20260416_cascade_tree_linearity.md`
+- **Significance:** The collision set has effective dimension N, not 4N.
+  IF we could find f(W57) → (W58,W59,W60), collision finding is O(2^N).
+- **Caveats:** The map f is not algebraically simple (verified: ΔW and XOR
+  distributions uniform, bit-correlations < 0.08 from 0.5). So tree-linearity
+  is structural, not algorithmically trivial.
+
+### W[59] is the cascade's internal bottleneck in direct and differential form
+At N=8 (260 collisions):
+- W1[59] takes only 42/256 unique values (16.4%) — smallest of any word
+- ΔW[59] (modular) takes only 74/256 unique values — also smallest (excluding
+  the trivially-constant ΔW[57])
+- Both are near-maximal algebraic degree (no low-order ANF description)
+- Pattern consistent across N=4 (W1[59]: 4/16=25%), N=6 (17/64=26%), N=8 (16.4%)
+- **Writeups:** `q5_alternative_attacks/results/20260416_W59_cardinality_reduction.md`,
+  `q5_alternative_attacks/results/20260416_modular_delta_diversity.md`
+- **Significance:** W[59] is the "bottleneck word" of the cascade — the
+  round-before-schedule-determined position carries most of the cascade
+  constraint density.
+
 ## HYPOTHESIS
 
 ### ~~The sr=60 bottleneck is dW[61] hamming weight~~ RETRACTED
