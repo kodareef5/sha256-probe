@@ -1,7 +1,7 @@
 # Linear Invariants of the Cascade Collision Set
 
 **Date**: 2026-04-16  
-**Status**: VERIFIED at N=4, testing at N=8
+**Status**: VERIFIED at N=4. **At N=8: no linear invariants** — structure is nonlinear.
 
 ## Finding at N=4
 
@@ -62,23 +62,63 @@ If similar structural constraints hold at full SHA-256:
 - O(1) free bits in W1[59] could become O(N/2) or O(log N)
 - Combined with cascade DP (2^4N), search space could shrink further
 
-## Test Plan
+## N=8 Extension (260 collisions)
 
-- [x] Verify at N=4: 2 invariants out of 16 (12.5% fixed)
-- [ ] Verify at N=8: expect ~4 invariants out of 32 (if structure scales)
-- [ ] Test at N=12 if time permits
-- [ ] Characterize which bits are always fixed vs which are free
-- [ ] Compare invariants across kernel bits
+Ran the same analysis at N=8 with 260 collisions:
+
+- Affine rank: **32/32 (no linear invariants)**
+- Linear rank: **32/32 (no through-origin invariants)**
+- Per-word linear ranks: all 8/8 (each word individually spans fully)
+
+BUT:
+- W1[59] takes only **42 of 256 possible values** (16.4% cardinality)
+- Distribution of W1[59] values is bit-balanced (no constant bits)
+- Hamming weight distribution biased toward hw ∈ {2,3,4,5}
+
+## Revised Interpretation
+
+The N=4 linear invariants (W1[59].b2=0, b3=1) are an **artifact of
+N=4's scaled rotations and small word size**, NOT a fundamental
+property of the cascade.
+
+At N=8 the cascade constraint is **nonlinear**: the collision set
+is a subvariety of W1 space that is NOT a linear subspace. The
+42 allowed values of W1[59] form a structured but nonlinear set.
+
+This means:
+1. Linear invariants are NOT a useful algebraic tool for pruning at N ≥ 8
+2. The collision set IS a structured subset, but the structure is
+   nonlinear (higher degree ANF)
+3. BDD / ZDD compilation of the collision set may be more productive
+   than GF(2) rank analysis
 
 ## Why This Matters
 
 The user's prompt asks for "cross-register correlations" and
-"higher-order differentials". This is a cleaner variant: **linear
-invariants across the collision set**. It's observable, verifiable,
-and gives concrete structural understanding of the cascade.
+"higher-order differentials". Linear invariants were a natural
+first thing to check. The negative result at N=8 informs:
 
-If invariants scale linearly with N (O(N) fixed bits), we have
-non-trivial structural pruning for all N.
+1. **Don't rely on linear structure at N ≥ 8.** Cross-register
+   correlations at N=8 (already tested, negative) and this linear
+   invariant analysis (now tested, negative at N=8) both point
+   to the collision set being essentially "nonlinear" in the
+   free-message coordinates.
 
-If invariants scale poly-logarithmically or stay constant, they're
-an anecdotal N=4 property with no algorithmic impact.
+2. **The W1[59] cardinality reduction (42/256) is real structure.**
+   Some values of W1[59] simply never appear in collisions. If we
+   could characterize this set a priori (without enumerating all
+   collisions), we'd get a 6x pruning. But characterizing a
+   nonlinear 42-subset of 256 requires a more sophisticated
+   description — possibly a small Boolean circuit or low-order ANF.
+
+3. **The paper story for N=4 invariants**: mention as a pedagogical
+   example, caveated by the N=8 result showing it doesn't generalize.
+
+## Test Plan
+
+- [x] Verify at N=4: 2 invariants out of 16 (12.5% fixed)
+- [x] Verify at N=8: 0 linear invariants (32/32 rank)
+- [x] W1[59] cardinality at N=8: 42/256 (nonlinear structure)
+- [ ] Characterize the 42 allowed W1[59] values at N=8 (ANF, circuit)
+- [ ] Extend to other kernel bits at N=8 — is the cardinality bias
+      kernel-specific or universal?
