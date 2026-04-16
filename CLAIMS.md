@@ -268,18 +268,17 @@ Different candidates at the same N have very different solve times.
 - **Evidence:** Parallel candidate races show 3-5x variance within same N
 - **Caveats:** Non-monotonicity could also be solver-specific (Kissat heuristics)
 
-### Productive kernel bits at N=32 align with SHA-256 rotation constants
-At full N=32, every kernel bit that has produced sr=61 candidates lies in
-the set {0, 6, 10, 11, 13, 17, 19} — and 6 of these 7 align with a SHA-256
-rotation constant (bit 0 is LSB/carry-propagation). The hypothesis predicts
-the full productive set is {0} ∪ {2, 3, 6, 7, 10, 11, 13, 17, 18, 19, 22, 25}
-= bits 0 plus the union of all four Sigma/sigma rotation positions.
-- **Evidence:** Fleet scan across 7 kernel bits at N=32 — 6/7 rotation-aligned
-- **Writeup:** `writeups/rotation_aligned_kernels.md`
-- **Predictions pending:** bits 2, 3, 7, 18, 22 should be productive;
-  bits 5, 14, 27 should be barren.
-- **Caveats:** Only tested at N=32 so far. Smaller N may follow different
-  rules since scaled rotations don't align with the same positions.
+### ~~Productive N=32 kernels are rotation-aligned~~ REFUTED (2026-04-16 17:00)
+Fleet scan of non-rotation control bits 5, 14, 27 yielded 5, 5, 3 candidates
+respectively. Combined with bit 20 (non-rotation, 3 candidates), every
+tested non-rotation bit produces sr=61 candidates.
+- **Rotation-aligned (7 bits)**: avg 4.86 candidates each
+- **Non-rotation (4 bits)**: avg 4.33 candidates each
+- **Advantage**: only ~20% — not structural
+- **Refuted evidence:** `comms/inbox/20260416_gpu_laptop_rotation_hypothesis_refuted.md`
+- **Replacement claim:** every kernel bit at N=32 produces 1-9 candidates
+  (6-fill search), with rotation-alignment a minor effect. Real open
+  question is whether SAT TRACTABILITY differs between rotation/non-rotation.
 
 ## EXTRAPOLATION
 

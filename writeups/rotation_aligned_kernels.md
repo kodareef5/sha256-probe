@@ -40,32 +40,53 @@ fill pattern.**
 
 This gives 13 candidate productive bits out of 32.
 
-## Predictions (Partially Validated 2026-04-16 15:15)
+## Validation Complete (2026-04-16 17:00)
 
-- **bit 25** (Sigma1[2] = ROTR25): predicted productive → **CONFIRMED (9 candidates, new record!)**
-- **bit 20** (NON-rotation): predicted zero/few → **REFUTED (3 candidates found)**
+Fleet scan of non-rotation control bits 5, 14, 27:
+- bit 5: 5 candidates
+- bit 14: 5 candidates  
+- bit 27: 3 candidates
 
-### Refined Hypothesis (Post-bit-20)
+Combined with earlier rotation data:
+- **Rotation-aligned** (6, 10, 11, 13, 17, 19, 25): avg **4.86** candidates
+- **Non-rotation** (5, 14, 20, 27): avg **4.33** candidates
 
-The strong version (productive = ONLY rotation constants + LSB) is FALSE.
-Every tested bit has at least some candidates.
+**Rotation-alignment gives only ~20% advantage in candidate yield.**
 
-Weaker (but still useful) version:
-- Rotation-aligned bits yield MORE candidates on average
-- Non-rotation bits yield FEWER
-- The rotation effect is about PRODUCTIVITY RATE, not existence
+## Final Assessment: Hypothesis REFUTED (Strong Version), WEAK (Soft Version)
 
-### Still Untested
-- bit 2, 3, 7, 18, 22 (all rotation-aligned)
-- Most non-rotation bits (5, 14, 27 control tests)
+### Strong claim (FALSE)
+"Productive kernels = {0} ∪ {rotation constants}."
+Non-rotation bits 5, 14, 20, 27 ALL produce candidates (3-5 each).
 
-### The Real Test (Hypothesis 2.0)
+### Soft claim (WEAK)
+"Rotation-aligned kernels have higher candidate yield."
+True in aggregate (4.86 vs 4.33), but only a 20% margin with small
+samples. Not a robust structural property.
 
-**Does SAT solve time at N=32 correlate with rotation-alignment?**
+## What the Data Actually Shows
 
-If bit-25 (rotation) sr=61 SAT resolves faster than bit-20 (non-rotation),
-that's a cleaner structural claim: rotation-alignment aids CDCL navigation
-even if both have candidates.
+At N=32, EVERY kernel bit produces sr=61 candidates at rates 1-9 per
+6-fill search. Rotation-alignment is a MINOR factor, not a determining
+one. The "productive" set is approximately all 32 bit positions,
+with modest variation.
+
+## The Real Open Question
+
+**Does SAT TRACTABILITY (solve time) differ between rotation and
+non-rotation kernels?** This was not tested in the candidate scan
+(which only measures existence). The fleet's kissat race is 95% on
+rotation-aligned bits, so we have no comparison data.
+
+If future testing shows bit-25 SAT resolves faster than bit-5 SAT,
+rotation-alignment is a SAT-complexity feature, not an existence
+feature.
+
+## Paper Claim (Conservative)
+
+"Kernel bit choice affects candidate yield modestly at N=32, with
+rotation-aligned positions yielding ~20% more candidates on average.
+The practical effect on SAT tractability remains untested."
 
 ## Why This Might Be True
 
