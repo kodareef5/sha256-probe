@@ -76,3 +76,26 @@ depths 0-31: 1,2,4,8,16,32,61,105,156,190,218,235,247,250,255,254,
 253,253,251,250,244,237,222,206,159,108,64,35,17,9,5,3
 
 Terminal: 2 (TRUE and FALSE)
+
+## N=12 Confirmation (3671 collisions)
+
+Peak quotient width: **3640** at depths 24-25 (ratio 0.992).
+First 9 depths are EXACT powers of 2: 1,2,4,8,16,32,64,128,256,512.
+92,975 BDD nodes, satcount matches.
+
+Full profile:
+1→2→4→8→16→32→64→128→256→512→998→1698→2411→2942→3240→3437→
+3526→3571→3603→3616→3632→3637→3639→3639→3640→3640→3640→3637→
+3635→3631→3613→3591→3543→3435→3270→2971→2418→1694→1004→521→
+259→131→67→35→19→11→7→4→2
+
+## Scaling Law (3 data points)
+
+| N  | #Collisions | Peak Quotient | Ratio | First exact 2^k depths |
+|----|-------------|---------------|-------|----------------------|
+| 8  | 260         | 255           | 0.98  | 6 (up to 32)         |
+| 10 | 946         | 925           | 0.98  | 8 (up to 128)        |
+| 12 | 3671        | 3640          | 0.99  | 9 (up to 512)        |
+
+The number of exact-power-of-2 initial depths grows with N:
+approximately 2N/3 depths before saturation begins.
