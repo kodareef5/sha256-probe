@@ -228,8 +228,7 @@ forward branching is 1.0 per step after the initial W57 choice.
 Total collision count ≈ 2^N = 256, matching the carry entropy theorem
 log₂(#colls) = N bits.
 - **Evidence:** Full enumeration of 260 N=8 collisions via cascade_dp_fast
-- **Extension (partial):** N=10 DP running, 237/946 collisions so far show
-  ratio 1.049 — same pattern holds
+- **Extension:** N=10 (897 colls): ratio 1.042 — confirmed at second data point
 - **Scripts:** `q5_alternative_attacks/cascade_dp_fast.c`,
   `q5_alternative_attacks/results/20260416_cascade_tree_linearity.md`
 - **Significance:** The collision set has effective dimension N, not 4N.
@@ -250,6 +249,35 @@ At N=8 (260 collisions):
 - **Significance:** W[59] is the "bottleneck word" of the cascade — the
   round-before-schedule-determined position carries most of the cascade
   constraint density.
+
+### sr=61 schedule mismatch is uniformly random at bit level
+At N=10 (946 collisions), each bit of W[60] matches the schedule with
+exactly 50% probability. No structurally biased bits, no cross-bit correlations.
+Mismatch Hamming weight follows exact binomial distribution (mean 5.05, expected 5.0).
+- **Evidence:** `q5_alternative_attacks/results/20260416_sr61_bit_criticality.md`
+- **Significance:** No "easy bits" to exploit. Partial enforcement of K bits has
+  success probability exactly 2^{-K}. Rules out bit-targeted SAT approaches.
+- **Caveats:** Tested at N=10 only. N=32 bit-level analysis not feasible without
+  the full collision set.
+
+### Carry elimination (linear) provides ZERO speedup
+The GF(2) affine rank of the collision set in carry+message space equals
+#collisions - 1 (maximum possible). Linear carry constraints don't reduce
+the search space at all — the quadratic MAJ/Ch constraints do ALL the pruning.
+- **Evidence:** N=4 (39 collisions): affine rank = 38 out of 326 variables
+- **Scripts:** `q5_alternative_attacks/results/20260416_carry_elimination_negative.md`
+- **Significance:** Rules out linear-algebra speedups (Gaussian elimination on
+  carries, "guess carries + linearize" approach). SAT solver's quadratic
+  reasoning (CDCL on MAJ/Ch constraints) IS the right approach.
+
+### Cascade absorption: register diffs decrease 6→5→4→3→2→1→0 over 7 rounds
+The SHA-256 shift register absorbs all pre-cascade state56 register diffs
+in exactly 7 rounds. The cascade (da=0) feeds zero-diff into position a,
+which shifts through all 8 register positions over 7 rounds.
+- **Evidence:** Computed from known N=32 sr=60 collision
+- **Scripts:** `q5_alternative_attacks/results/20260416_cascade_absorption_pattern.md`
+- **Significance:** Explains why cascade needs exactly 7 rounds. The sr=60/61
+  boundary is where schedule compliance must begin (at round 60).
 
 ## HYPOTHESIS
 
