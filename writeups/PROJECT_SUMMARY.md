@@ -15,9 +15,10 @@ Extends Viragh (2026) from sr=59 (92.19%) to sr=60 (93.75%).
 ## Secondary Result: sr=60 is the Boundary
 
 **sr=61 is UNSAT at N=8** for all tested candidates (6 MSB-kernel + 1 multi-bit
-kernel), with 4 DRAT-verified impossibility proofs. At N=32, 42+ hours of
-compute across 3 machines (~2500+ CPU-hours, 24+ CDCL instances + GPU SLS)
-produced zero results.
+kernel), with 4 DRAT-verified impossibility proofs. At N=32, true sr=61 seeds
+were launched on 2026-04-18 after discovering that prior "sr=61" fleet CNFs
+were misconfigured as sr=60 (~2000 CPU-hours invalidated). **Full-width sr=61
+at N=32 remains open** — first genuine attempts now running.
 
 ## How the Collision Works
 
@@ -56,7 +57,8 @@ SAT instances.
 | Experiment | CPU-hours | Result |
 |---|---|---|
 | sr=60 N=32 race (24 solvers) | ~360 | **SAT at 12h (seed=5)** |
-| sr=61 N=32 race (24 solvers) | ~1000+ | TIMEOUT (42h+) |
+| "sr=61" N=32 race (INVALIDATED) | ~1000+ | **Misconfig: was sr=60** |
+| TRUE sr=61 N=32 (launched 2026-04-18) | running | **Open** |
 | sr=61 N=8 DRAT proofs | ~2 | 4/6 VERIFIED UNSAT |
 | Q3 candidate search (8 fills) | ~50 | All identical |
 | Q5 constrained experiments | ~310 | All TIMEOUT |

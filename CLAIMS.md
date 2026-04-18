@@ -37,11 +37,14 @@ sr=61 collisions exist at every tested N except N=4,5,7,9.
                 N=16 bit 10: 9/9 seeds SAT
                 N=18 bit 11: 4+ SAT across 3 enforced bits
                 N=20 bit 19: 2+ SAT at ~95 min each
-- **N=32:** 10 seeds racing now with fleet's kernel-10 candidates
+- **N=32:** 8 TRUE sr=61 seeds launched 2026-04-18 on sigma1-aligned
+  kernels (bits 10, 17, 19). **Note:** Prior fleet "sr=61" CNFs were
+  misconfigured as sr=60 (~2000 CPU-hours invalidated). Full-width
+  sr=61 at N=32 remains genuinely open.
 - **Key insight:** sr=61 is not a universal wall. It's a smooth phase
   transition dependent on (N, kernel, fill, enforcement level).
 - **Caveats:** Single-bit enforcement is the weakest partial sr=61.
-  Full sr=61 (all bits enforced) remains open.
+  Full sr=61 (all bits enforced) remains open at N=32.
 
 ### sr=60 is SAT at all non-degenerate word widths N=8 through N=32
 For every non-degenerate word width from N=8 to N=30 (and N=32), there
