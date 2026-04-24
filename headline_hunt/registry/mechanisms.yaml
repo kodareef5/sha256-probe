@@ -9,14 +9,14 @@
   structural_basis:
     - "Single-block cascade boundary does not rule out multi-block disturbance correction."
     - "Naive block-2 SAT reaches ~18 rounds; Wang-style message modification typically extends 6-12 more."
-    - "Cascade residuals have structured da=de pattern, not random; trails can be tailored to that."
-  status: open
+    - "Cascade residuals have structured d63=h63=0 pattern; active register set always {a,b,c,e,f,g}."
+  status: blocked
   priority: 1
   expected_info_per_cpu_hour: very_high
   dependencies:
-    - "Collect 100-1000 best block-1 near-collision residuals from existing q5 runs."
-    - "Implement a bitcondition/trail-search engine (not just SAT)."
-  next_action: "Cluster residuals by active registers, bit positions, signed/additive form, carry-entry profile. Then 20/24/28/32-round trail search per cluster."
+    - "Get block-1 residuals down to HW≤16 (Wang differential threshold)."
+    - "Implement a bitcondition/trail-search engine (Wang-style, not just SAT)."
+  next_action: "RESIDUAL HW BARRIER: 200k random samples reach min HW=62, hill-climb plateaus at HW=82 (1M evals). HW landscape is too rough for local search. Path forward is either (a) algebraic construction via cascade-aux force-mode extended through rounds 61-62, or (b) build the bitcondition/trail-search engine that backward-constructs from target residual. See bets/block2_wang/residuals/20260424_hillclimb_negative.md."
   kill_criteria:
     - "No residual cluster yields >18-round absorber after 1 week of dedicated trail search."
     - "No improvement over naive block-2 SAT frontier on N=8/N=12 analogs after pilot phase."

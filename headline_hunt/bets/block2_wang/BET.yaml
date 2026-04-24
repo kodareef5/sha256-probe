@@ -1,14 +1,32 @@
 mechanism_id: block2_wang_residual_absorption
 priority: 1
-status: open
-owner: unassigned
-machines_assigned: []
-compute_budget_cpu_hours: null  # CPU-light first phase; budget set after pilot
-human_time_budget_days: 14      # GPT-5.5 flagged this as human-time-expensive
+status: blocked
+owner: macbook
+machines_assigned: [macbook]
+compute_budget_cpu_hours: null
+human_time_budget_days: 14
 current_progress: |
-  Bet just opened. No residual corpus collected yet, no trail engine built.
-  Phase 1: collect 100-1000 best block-1 near-collision residuals from existing q5 runs.
-  Phase 2: cluster by active registers, bit positions, signed/additive form, carry-entry profile.
-  Phase 3: trail-search pilot at N=8 / 20-32 rounds.
-last_heartbeat: "2026-04-24T00:00:00Z"
+  Phase 1 partially done (2026-04-24, macbook):
+    - Built residuals/build_corpus.py — generates JSONL of (state1_63, state2_63,
+      W[57..60]) tuples from forward run. 200k MSB samples in 8.5s.
+    - First corpus saved: residuals/corpus_msb_200k_hw96.jsonl (104k records).
+    - Active-register pattern is universal {a,b,c,e,f,g}; d63=h63=0 always.
+    - Min HW achieved: 62 (random sampling) or 82 (hill-climb 1M evals).
+
+  Phase 1 BLOCKED:
+    - Wang differential needs HW≤16-24. Random and hill-climb both plateau
+      well above that on N=32. The HW landscape is too rough for local search.
+    - See residuals/20260424_hillclimb_negative.md.
+
+  Path forward (one of):
+    A. Extend cascade_aux_encoding force-mode to clamp residual HW algebraically
+       (currently zeros a-e at round 60; could extend to constrain round-61/62
+       further, possibly producing constructive low-HW residuals).
+    B. Build the bitcondition/trail-search engine that works BACKWARD from
+       a target low-HW residual, finding compatible (W[57..60]). This is the
+       expensive human-time path GPT-5.5 originally flagged.
+
+  Either approach is multi-day. Bet is still alive but cannot start Phase 2/3
+  until Phase 1 produces a sub-24-HW corpus.
+last_heartbeat: "2026-04-24T23:20:00Z"
 heartbeat_interval_days: 7
