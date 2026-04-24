@@ -75,3 +75,14 @@ Shipped:
 - g60 dominance is universal: 12-21 of the uniform bits live in g60, every candidate. f60 and h60 contribute 3-4 and 2-5 bits respectively. The register identity is invariant; only the within-register positions vary.
 - Open question raised: are hard-bit positions algebraically predictable from (m0, fill, kernel_bit)? If yes, the amortization problem dissolves. Worth investigating next.
 - Writeup: `bets/mitm_residue/results/20260424_cross_candidate_hard_bit_positions.md` with full Jaccard matrix, register-by-register decomposition, three concrete next-actions.
+
+## 19:00 EDT — W[60] sweep: hard-bit positions are W[60]-independent (clean architectural result)
+
+Shipped:
+- Tested 5 W[60] anchors (cert + 4 random) on MSB candidate, 100k samples each.
+- **Jaccard = 1.00 between every pair**. Same exact 28 hard-residue bit positions across all W[60] values.
+- Cleans up the bet's table architecture: forward table keys on **28-bit hard-residue signature**, NOT on W[60]. Table size drops from ~17GB (2^32 keying) to **~5-10GB (2^28 keying)**. W[60] is derived post-hoc from cascade-2.
+- Strengthens the algebraic-prediction conjecture: since hard bits are W[60]-independent, they should be predictable from (m0, fill, kernel_bit) ALONE — derivable from the candidate's round-56 state.
+- Writeup: `bets/mitm_residue/results/20260424_w60_sweep_stable.md` with reproduce snippet.
+
+Session running total: 9 commits, all pushed. mitm_residue went from blocked → open → measured → architecturally clarified in one session.
