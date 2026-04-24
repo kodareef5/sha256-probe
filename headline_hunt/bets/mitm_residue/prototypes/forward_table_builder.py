@@ -100,14 +100,16 @@ def build_schedule_word(W_pre, W_free, r):
                sigma0(W_at(r - 15)), W_at(r - 16))
 
 
-def run_one(s1_init, s2_init, W1_pre, W2_pre, w1_57, w1_58, w1_59, w1_60):
+def run_one(s1_init, s2_init, W1_pre, W2_pre, w1_57, w1_58, w1_59, w1_60,
+            return_intermediate=False):
     """
     One forward sample. cw57, cw58, cw59, cw60 are computed *dynamically* per
     round from the current state — that's what makes the cascade chain hold.
     Fixing cw to cert values from a previous run is wrong because the round-r
     state depends on W[57..r-1], so the required offset shifts.
 
-    Returns the 8-register diff at round 63 or None on cascade break.
+    Returns the 8-register diff at round 63, or None on cascade break.
+    If return_intermediate=True, returns dict with diff at rounds 60 and 63.
     """
     # Round 57 — cw57 from initial state
     cw57 = cascade_step_offset(s1_init, s2_init, 57)
@@ -159,7 +161,11 @@ def run_one(s1_init, s2_init, W1_pre, W2_pre, w1_57, w1_58, w1_59, w1_60):
         s1 = apply_round(s1, W1[r], r)
         s2 = apply_round(s2, W2[r], r)
 
-    return tuple(s1[i] ^ s2[i] for i in range(8))
+    diff63 = tuple(s1[i] ^ s2[i] for i in range(8))
+    if return_intermediate:
+        diff60 = tuple(s1_60[i] ^ s2_60[i] for i in range(8))
+        return {"diff60": diff60, "diff63": diff63}
+    return diff63
 
 
 def main():

@@ -55,3 +55,13 @@ Shipped:
 - Writeup: `bets/mitm_residue/results/20260424_cross_candidate_sweep.md`. Full table + 3 next-actions ranked by leverage.
 
 This addresses item #4 from audit_summary directly — the bet is now substantially more confident in its core assumption.
+
+## 18:45 EDT — hard-residue bits empirically identified
+
+Shipped:
+- New analyzer: `bets/mitm_residue/prototypes/hard_residue_analyzer.py` — measures per-bit bias at rounds 60 and 63 over a large sample.
+- Ran 1M samples on the MSB candidate. **Round 60 result: ~228 structurally-determined bits + ~28 truly-uniform bits**. Bet hypothesis (232 free + 24 hard) refined and substantially confirmed.
+- The hard residue is **localized to register g** at round 60: ~18 uniform bits in g, ~4 in f, ~4 in h. Total ~26 hard bits.
+- Memory implication for the bet: forward table is **2^26 entries (~17 GB)**, not 2^32 (~256 GB). Bet economics improve dramatically.
+- Round-60 vs round-63 distinction sharply confirmed: at round 63 only dd and dh are zero (64 bits); the rest are uniform. **Round 60 is the right MITM meeting point.**
+- Writeup: `bets/mitm_residue/results/20260424_hard_residue_findings.md` with specific hard-bit positions in g/f/h and three concrete next-actions (cross-candidate hard-bit positions, W[60] sweep, backward analyzer).
