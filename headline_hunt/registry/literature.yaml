@@ -1,261 +1,237 @@
-# Literature registry.
-# confidence: high | needs_verification | search_terms_only | classical_no_id
-# Schema: see ../infra/schemas/literature.schema.yaml
-
-# === HIGH CONFIDENCE (cited by GPT-5.5 with specific IDs or already in repo) ===
-
 - id: viragh_2026_92pct_sha256
-  citation: "Robert Viragh — We Broke 92% of SHA-256: Full 64-Round Semi-Free-Start Collision at sr=59"
+  citation: "Robert Viragh \u2014 We Broke 92% of SHA-256: Full 64-Round Semi-Free-Start Collision at sr=59"
   year: 2026
-  venue: "self-published"
+  venue: self-published
   url: null
   arxiv_or_eprint: null
   confidence: high
-  relevance: "Baseline schedule-compliance framework. Defines sr-level. The structural starting point for this entire project."
+  relevance: Baseline schedule-compliance framework. Defines sr-level. The structural starting point for this entire project.
   read_status: read
-  key_takeaway: "Schedule-compliance gives a per-round difficulty ladder; sr=59 is achieved; this project has extended to sr=60."
+  key_takeaway: Schedule-compliance gives a per-round difficulty ladder; sr=59 is achieved; this project has extended to sr=60.
   action_items: []
   owner: macbook
-  last_updated: "2026-04-24"
-  notes: "In-repo at reference/paper.pdf. Already extracted to text and consumed by GPT-5.5."
-
+  last_updated: '2026-04-24'
+  notes: In-repo at reference/paper.pdf. Already extracted to text and consumed by GPT-5.5.
 - id: zhang_2026_sha256_round_reduced
-  citation: "Zhang et al. — Collision Attacks on Round-Reduced SHA-256"
+  citation: "Zhang et al. \u2014 Collision Attacks on Round-Reduced SHA-256"
   year: 2026
-  venue: "IACR ePrint / EUROCRYPT 2026 (likely)"
-  url: "https://eprint.iacr.org/2026/232"
-  arxiv_or_eprint: "IACR ePrint 2026/232"
+  venue: IACR ePrint / EUROCRYPT 2026 (likely)
+  url: https://eprint.iacr.org/2026/232
+  arxiv_or_eprint: IACR ePrint 2026/232
   confidence: high
-  relevance: "Latest reduced-round SHA-256 frontier. Likely best source for automated local-collision and trail search techniques relevant to block2_wang_residual_absorption."
+  relevance: Latest reduced-round SHA-256 frontier. Likely best source for automated local-collision and trail search techniques
+    relevant to block2_wang_residual_absorption.
   read_status: todo
   key_takeaway: null
   action_items:
-    - "Extract trail-search and message-modification ideas relevant to block2_wang."
-    - "Compare their reduced-round bounds to our sr=60 result."
+  - Extract trail-search and message-modification ideas relevant to block2_wang.
+  - Compare their reduced-round bounds to our sr=60 result.
   owner: unassigned
-  last_updated: "2026-04-24"
-
+  last_updated: '2026-04-24'
 - id: alphamaplesat_mcts_cube_and_conquer
-  citation: "AlphaMapleSAT — MCTS-driven cube-and-conquer for structured SAT instances"
+  citation: "AlphaMapleSAT \u2014 MCTS-driven cube-and-conquer for structured SAT instances"
   year: 2024
-  venue: "arXiv"
-  url: "https://arxiv.org/abs/2401.13770"
-  arxiv_or_eprint: "arXiv:2401.13770"
+  venue: arXiv
+  url: https://arxiv.org/abs/2401.13770
+  arxiv_or_eprint: arXiv:2401.13770
   confidence: high
-  relevance: "Structured cube selection methodology. Could inform programmatic_sat_cascade_propagator's branching strategy."
-  read_status: todo
-  key_takeaway: null
+  relevance: Structured cube selection methodology. Could inform programmatic_sat_cascade_propagator's branching strategy.
+  read_status: read
+  key_takeaway: "MCTS+deductive-feedback for cube selection; 1.6-7.6x over March on hard combinatorics; not evaluated on SHA-2;\
+    \ CaDiCaL-based \u2014 matches our local toolchain."
   action_items:
-    - "Read for cube-selection ideas applicable to cascade-aware SAT branching."
+  - Read for cube-selection ideas applicable to cascade-aware SAT branching.
   owner: unassigned
-  last_updated: "2026-04-24"
-
-# === NEEDS VERIFICATION (GPT-5.5 flagged ID as ambiguous) ===
-
+  last_updated: '2026-04-24'
 - id: li_isobe_meier_zhang_sha2_records
-  citation: "Li, Isobe, Meier, Zhang — New Records in Collision Attacks on SHA-2"
+  citation: "Li, Isobe, Meier, Zhang \u2014 New Records in Collision Attacks on SHA-2"
   year: 2024
-  venue: "ePrint (ID ambiguous)"
+  venue: ePrint (ID ambiguous)
   url: null
-  arxiv_or_eprint: "ePrint 2023/285 OR 2024/349 — verify before citing"
+  arxiv_or_eprint: "ePrint 2023/285 OR 2024/349 \u2014 verify before citing"
   confidence: needs_verification
-  relevance: "Modern SHA-2 differential path and message modification methodology. Direct relevance to block2_wang."
+  relevance: Modern SHA-2 differential path and message modification methodology. Direct relevance to block2_wang.
   read_status: todo
   key_takeaway: null
   action_items:
-    - "Verify ePrint ID before citing."
-    - "Read for message-modification specifics applicable to SHA-256 block 2."
+  - Verify ePrint ID before citing.
+  - Read for message-modification specifics applicable to SHA-256 block 2.
   owner: unassigned
-  last_updated: "2026-04-24"
-
+  last_updated: '2026-04-24'
 - id: li_asiacrypt_2024_sha256_diff
-  citation: "Li et al. — Improving the Differential Analysis of SHA-256"
+  citation: "Li et al. \u2014 Improving the Differential Analysis of SHA-256"
   year: 2024
-  venue: "ASIACRYPT 2024"
+  venue: ASIACRYPT 2024
   url: null
-  arxiv_or_eprint: "ePrint ID unknown"
+  arxiv_or_eprint: ePrint ID unknown
   confidence: needs_verification
-  relevance: "Best-paper-level SHA-256 trail and message-modification improvements."
+  relevance: Best-paper-level SHA-256 trail and message-modification improvements.
   read_status: todo
   key_takeaway: null
   action_items:
-    - "Locate ePrint ID, fetch PDF."
+  - Locate ePrint ID, fetch PDF.
   owner: unassigned
-  last_updated: "2026-04-24"
-
+  last_updated: '2026-04-24'
 - id: alamgir_nejati_bright_sat_cas_sha256
-  citation: "Alamgir / Nejati / Bright — SAT/CAS for SHA-256 collision search"
+  citation: "Alamgir / Nejati / Bright \u2014 SAT/CAS for SHA-256 collision search"
   year: 2024
-  venue: "arXiv or ePrint (ambiguous)"
+  venue: arXiv or ePrint (ambiguous)
   url: null
-  arxiv_or_eprint: "arXiv:2406.20072 OR ePrint 2024/2017 — verify"
+  arxiv_or_eprint: "arXiv:2406.20072 OR ePrint 2024/2017 \u2014 verify"
   confidence: needs_verification
-  relevance: "Programmatic SAT / IPASIR-UP approach to SHA-256. Direct comparison point for programmatic_sat_cascade_propagator."
+  relevance: Programmatic SAT / IPASIR-UP approach to SHA-256. Direct comparison point for programmatic_sat_cascade_propagator.
   read_status: todo
   key_takeaway: null
   action_items:
-    - "Verify identifier; if real, read carefully — closest published analog to a bet we're proposing."
+  - "Verify identifier; if real, read carefully \u2014 closest published analog to a bet we're proposing."
   owner: unassigned
-  last_updated: "2026-04-24"
-
-# === SEARCH TERMS ONLY (no invented IDs — GPT-5.5 explicitly refused to make these up) ===
-
+  last_updated: '2026-04-24'
 - id: search_d4_d4v2_c2d
-  citation: "d4 / d4v2 / c2d — top-down d-DNNF compilers, recent papers"
+  citation: "d4 / d4v2 / c2d \u2014 top-down d-DNNF compilers, recent papers"
   year: null
   venue: null
   url: null
   arxiv_or_eprint: null
   confidence: search_terms_only
-  relevance: "Top-down compilation may avoid the BDD Apply blowup we measured. Direct relevance to d4_xor_preprocessing and bottom_up_sdd_blowup."
+  relevance: Top-down compilation may avoid the BDD Apply blowup we measured. Direct relevance to d4_xor_preprocessing and
+    bottom_up_sdd_blowup.
   read_status: search_pending
   key_takeaway: null
   action_items:
-    - "Search recent SAT/CP proceedings for d4v2 advances."
+  - Search recent SAT/CP proceedings for d4v2 advances.
   owner: unassigned
-  last_updated: "2026-04-24"
-
+  last_updated: '2026-04-24'
 - id: search_projected_model_counting
-  citation: "Ganak / ApproxMC / DPMC / SharpSAT-TD — projected #SAT and approximate counting"
+  citation: "Ganak / ApproxMC / DPMC / SharpSAT-TD \u2014 projected #SAT and approximate counting"
   year: null
   venue: null
   url: null
   arxiv_or_eprint: null
   confidence: search_terms_only
-  relevance: "Candidate scoring via reduced model counting. Could replace ad-hoc kernel sweeps with principled enumeration."
+  relevance: Candidate scoring via reduced model counting. Could replace ad-hoc kernel sweeps with principled enumeration.
   read_status: search_pending
   key_takeaway: null
   action_items:
-    - "Search for SharpSAT-TD treewidth-aware counter behavior on ARX-shaped instances."
+  - Search for SharpSAT-TD treewidth-aware counter behavior on ARX-shaped instances.
   owner: unassigned
-  last_updated: "2026-04-24"
-
+  last_updated: '2026-04-24'
 - id: search_treewidth_sat_solving
-  citation: "Treewidth-aware SAT solving — FlowCutter, htd, sharpSAT-TD"
+  citation: "Treewidth-aware SAT solving \u2014 FlowCutter, htd, sharpSAT-TD"
   year: null
   venue: null
   url: null
   arxiv_or_eprint: null
   confidence: search_terms_only
-  relevance: "Directly relevant to d4_xor_preprocessing — better tree decomposition could shrink the d4 barrier."
+  relevance: "Directly relevant to d4_xor_preprocessing \u2014 better tree decomposition could shrink the d4 barrier."
   read_status: search_pending
   key_takeaway: null
   action_items: []
   owner: unassigned
-  last_updated: "2026-04-24"
-
+  last_updated: '2026-04-24'
 - id: search_sdd_vtree_heuristics
-  citation: "Sentential Decision Diagrams — vtree learning and search heuristics"
+  citation: "Sentential Decision Diagrams \u2014 vtree learning and search heuristics"
   year: null
   venue: null
   url: null
   arxiv_or_eprint: null
   confidence: search_terms_only
-  relevance: "Bottom-up SDD failed; custom vtrees aligned with cascade structure remain possible."
+  relevance: Bottom-up SDD failed; custom vtrees aligned with cascade structure remain possible.
   read_status: search_pending
   key_takeaway: null
   action_items: []
   owner: unassigned
-  last_updated: "2026-04-24"
-
+  last_updated: '2026-04-24'
 - id: search_xor_aware_preprocessing
-  citation: "XOR-aware preprocessing — Bosphorus, CryptoMiniSat, Gauss-Jordan CNF XOR recovery"
+  citation: "XOR-aware preprocessing \u2014 Bosphorus, CryptoMiniSat, Gauss-Jordan CNF XOR recovery"
   year: null
   venue: null
   url: null
   arxiv_or_eprint: null
   confidence: search_terms_only
-  relevance: "d4 + XOR preprocessing requires preserving linear structure; these tools do that."
+  relevance: d4 + XOR preprocessing requires preserving linear structure; these tools do that.
   read_status: search_pending
   key_takeaway: null
   action_items: []
   owner: unassigned
-  last_updated: "2026-04-24"
-
+  last_updated: '2026-04-24'
 - id: search_tensor_network_sat
-  citation: "Tensor network model counting and #SAT"
+  citation: 'Tensor network model counting and #SAT'
   year: null
   venue: null
   url: null
   arxiv_or_eprint: null
   confidence: search_terms_only
-  relevance: "Quantum-inspired classical sampling. GPT-5.5 says: don't chase first; if treewidth is moderate could contract factor graph differently."
+  relevance: 'Quantum-inspired classical sampling. GPT-5.5 says: don''t chase first; if treewidth is moderate could contract
+    factor graph differently.'
   read_status: search_pending
   key_takeaway: null
   action_items: []
   owner: unassigned
-  last_updated: "2026-04-24"
-  notes: "Lower priority — likely prototype-heavy, less mature than d-DNNF tools."
-
-# === CLASSICAL ARX READING (no ID needed — well-known cited foundations) ===
-
+  last_updated: '2026-04-24'
+  notes: "Lower priority \u2014 likely prototype-heavy, less mature than d-DNNF tools."
 - id: classical_wang_yu_yin_message_modification
-  citation: "Wang / Yu / Yin — Message modification techniques for hash collisions"
+  citation: "Wang / Yu / Yin \u2014 Message modification techniques for hash collisions"
   year: 2005
-  venue: "various"
+  venue: various
   url: null
   arxiv_or_eprint: null
   confidence: classical_no_id
-  relevance: "Foundational for block2_wang. Required reading before starting that bet."
+  relevance: Foundational for block2_wang. Required reading before starting that bet.
   read_status: should_read
   key_takeaway: null
   action_items:
-    - "Required pre-read for block2_wang."
+  - Required pre-read for block2_wang.
   owner: unassigned
-  last_updated: "2026-04-24"
-
+  last_updated: '2026-04-24'
 - id: classical_mendel_nad_schlaffer_sha256
-  citation: "Mendel / Nad / Schläffer — SHA-256 local collisions and trail search"
+  citation: "Mendel / Nad / Schl\xE4ffer \u2014 SHA-256 local collisions and trail search"
   year: 2013
-  venue: "FSE / EUROCRYPT range"
+  venue: FSE / EUROCRYPT range
   url: null
   arxiv_or_eprint: null
   confidence: classical_no_id
-  relevance: "Specific to SHA-256 differential trails. Direct prior art for block2_wang."
+  relevance: Specific to SHA-256 differential trails. Direct prior art for block2_wang.
   read_status: should_read
   key_takeaway: null
   action_items: []
   owner: unassigned
-  last_updated: "2026-04-24"
-
+  last_updated: '2026-04-24'
 - id: classical_decanniere_rechberger_automated_search
-  citation: "de Cannière / Rechberger — Automated characteristic search for SHA-1/SHA-2"
+  citation: "de Canni\xE8re / Rechberger \u2014 Automated characteristic search for SHA-1/SHA-2"
   year: 2006
-  venue: "ASIACRYPT"
+  venue: ASIACRYPT
   url: null
   arxiv_or_eprint: null
   confidence: classical_no_id
-  relevance: "Original automated trail search. Foundation for trail-search engine in block2_wang."
+  relevance: Original automated trail search. Foundation for trail-search engine in block2_wang.
   read_status: should_read
   key_takeaway: null
   action_items: []
   owner: unassigned
-  last_updated: "2026-04-24"
-
+  last_updated: '2026-04-24'
 - id: classical_lipmaa_moriai_modular_add
-  citation: "Lipmaa / Moriai — Modular addition differential analysis"
+  citation: "Lipmaa / Moriai \u2014 Modular addition differential analysis"
   year: 2001
-  venue: "FSE"
+  venue: FSE
   url: null
   arxiv_or_eprint: null
   confidence: classical_no_id
-  relevance: "Carry differential analysis fundamentals. Underpins everything we measure with carry-state analyses."
+  relevance: Carry differential analysis fundamentals. Underpins everything we measure with carry-state analyses.
   read_status: should_read
   key_takeaway: null
   action_items: []
   owner: unassigned
-  last_updated: "2026-04-24"
-
+  last_updated: '2026-04-24'
 - id: classical_mouha_arx_framework
-  citation: "Mouha et al. — ARX differential trail frameworks"
+  citation: "Mouha et al. \u2014 ARX differential trail frameworks"
   year: 2010
-  venue: "various"
+  venue: various
   url: null
   arxiv_or_eprint: null
   confidence: classical_no_id
-  relevance: "ARX cipher analysis methodology relevant to SHA-256 structure."
+  relevance: ARX cipher analysis methodology relevant to SHA-256 structure.
   read_status: should_read
   key_takeaway: null
   action_items: []
   owner: unassigned
-  last_updated: "2026-04-24"
+  last_updated: '2026-04-24'
