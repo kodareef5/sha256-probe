@@ -1,13 +1,21 @@
 mechanism_id: cascade_auxiliary_encoding
 priority: 2
-status: open
-owner: unassigned
-machines_assigned: []
+status: in_flight
+owner: macbook
+machines_assigned: [macbook]
 compute_budget_cpu_hours: 200   # encoding work + treewidth measurement + comparison runs
 current_progress: |
-  Bet just opened. No encoder variant built. Auxiliary variable set not specified.
-  Phase 1: spec the auxiliary variable set (which cascade offsets, which rounds).
-  Phase 2: implement encoder variant in lib/cnf_encoder.py (extension, not modification).
-  Phase 3: measure treewidth via FlowCutter on N=8/10/12; SAT comparison on TRUE sr=61 N=10.
-last_heartbeat: "2026-04-24T00:00:00Z"
+  CLAIMED by macbook 2026-04-24 as first-worker bet.
+
+  Phase 1 (SPEC) — DONE: encoders/SPEC.md defines the auxiliary variable set,
+    expected treewidth impact, and the additive-only design principle.
+  Phase 2 (ENCODER) — INITIAL: encoders/cascade_aux_encoder.py wraps the
+    existing lib/cnf_encoder.CNFBuilder and emits the aux variables + tying
+    clauses on top of a standard cascade CNF. Emits DIMACS to stdout or file.
+  Phase 3 (TREEWIDTH) — OPEN: Next worker to run FlowCutter on matched pairs
+    of standard vs aux CNFs at N=8, N=10, N=12. Target: aux tw < standard tw.
+  Phase 4 (SAT COMPARISON) — OPEN: Next worker to run Kissat with multiple
+    seeds on TRUE sr=61 N=10 instances (standard vs aux encoding) and compare
+    conflict counts + wall time. Log every run via infra/append_run.py.
+last_heartbeat: "2026-04-24T20:45:00Z"
 heartbeat_interval_days: 7

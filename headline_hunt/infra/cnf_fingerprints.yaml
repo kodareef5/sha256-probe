@@ -32,3 +32,46 @@
 
 # TODO: add sr60_n32 fingerprint once a known-good sr=60 CNF is verified.
 # This is what would have caught the 2026-04-18 disaster.
+
+# cascade-aux encoder fingerprints (bets/cascade_aux_encoding/encoders/cascade_aux_encoder.py).
+# Observed sizes 2026-04-24 on macbook:
+#   sr=60 aux (both modes): 12620 vars / 52783 clauses (candidate 0x17149975/0xff/bit31)
+#   sr=61 aux (both modes): 12816 vars / 53698 clauses (candidate 0x3304caa0/0x80000000/bit10)
+# Ranges below must NOT overlap between sr-levels (that would trigger spurious
+# CROSS_SR_MATCH disasters). Tight ranges will miss aux CNFs built for very different
+# candidate/fill/kernel combos — expand per observation as new candidates are tried.
+- bucket_id: sr60_n32_cascade_aux_expose
+  sr_level: 60
+  n: 32
+  encoder_variant: "cascade_aux_expose"
+  vars_range: [12500, 12700]
+  clauses_range: [52500, 53100]
+  example_file: "(generated at runtime, see bets/cascade_aux_encoding/encoders/cascade_aux_encoder.py)"
+  last_audited: "2026-04-24"
+
+- bucket_id: sr60_n32_cascade_aux_force
+  sr_level: 60
+  n: 32
+  encoder_variant: "cascade_aux_force"
+  vars_range: [12500, 12700]
+  clauses_range: [52500, 53100]
+  example_file: "(generated at runtime)"
+  last_audited: "2026-04-24"
+
+- bucket_id: sr61_n32_cascade_aux_expose
+  sr_level: 61
+  n: 32
+  encoder_variant: "cascade_aux_expose"
+  vars_range: [12750, 13200]
+  clauses_range: [53300, 54500]
+  example_file: "(generated at runtime)"
+  last_audited: "2026-04-24"
+
+- bucket_id: sr61_n32_cascade_aux_force
+  sr_level: 61
+  n: 32
+  encoder_variant: "cascade_aux_force"
+  vars_range: [12750, 13200]
+  clauses_range: [53300, 54500]
+  example_file: "(generated at runtime)"
+  last_audited: "2026-04-24"

@@ -35,22 +35,24 @@
   structural_basis:
     - "Standard CNF has treewidth ~110 at N=8; derived encoding worsened to 181."
     - "Local auxiliaries that mirror cascade-diagonal constraints may give the solver explicit hooks without adding global substitution clauses."
-  status: open
+  status: in_flight
   priority: 2
   expected_info_per_cpu_hour: very_high
   dependencies:
     - "Specify the auxiliary variable set (which cascade offsets, which rounds)."
     - "Implement encoder variant in lib/cnf_encoder.py."
-  next_action: "Implement encoder variant; measure treewidth via FlowCutter on N=8/N=10/N=12; compare SAT solve time on TRUE sr=61 N=10."
+  next_action: "SPEC.md drafted; encoder variant in bets/cascade_aux_encoding/encoders/. Next machine: run FlowCutter on N=8/N=10/N=12 standard+aux CNFs; Kissat comparison on TRUE sr=61 N=10 with multiple seeds."
   kill_criteria:
     - "Treewidth at N=8 not measurably below 110."
     - "No SAT robustness improvement on N=10/N=12 controlled instances after encoding tuning."
   reopen_criteria:
     - "New theoretical insight on cascade structure suggests a different auxiliary basis."
-  evidence: []
-  owner: unassigned
+  evidence:
+    - "bets/cascade_aux_encoding/encoders/SPEC.md"
+    - "bets/cascade_aux_encoding/encoders/cascade_aux_encoder.py"
+  owner: macbook
   last_updated: "2026-04-24"
-  notes: "Cheap to build, directly addresses the SAT-vs-compiler encoding conflict."
+  notes: "Cheap to build, directly addresses the SAT-vs-compiler encoding conflict. CLAIMED by macbook 2026-04-24 as first-worker bet. Design + initial implementation shipped; compute/measurement work open for fleet pickup."
 
 - id: d4_xor_preprocessing
   name: "d4 with XOR-preserving preprocessing on standard CNF"

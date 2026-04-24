@@ -47,6 +47,15 @@ FILENAME_PATTERNS = [
     # TRUE_sr61_* — explicit true sr=61 marking
     (re.compile(r"^TRUE_sr61_.*\.cnf$"),
      {"sr_level": 61, "n": 32, "encoder_variant": "true_sr61_explicit"}),
+    # cascade_aux outputs — expose / force modes, sr60 / sr61
+    (re.compile(r"^aux_expose_sr60.*\.cnf$"),
+     {"sr_level": 60, "n": 32, "encoder_variant": "cascade_aux_expose"}),
+    (re.compile(r"^aux_force_sr60.*\.cnf$"),
+     {"sr_level": 60, "n": 32, "encoder_variant": "cascade_aux_force"}),
+    (re.compile(r"^aux_expose_sr61.*\.cnf$"),
+     {"sr_level": 61, "n": 32, "encoder_variant": "cascade_aux_expose"}),
+    (re.compile(r"^aux_force_sr61.*\.cnf$"),
+     {"sr_level": 61, "n": 32, "encoder_variant": "cascade_aux_force"}),
     # sr=60 patterns
     (re.compile(r"^sr60_.*\.cnf$"),
      {"sr_level": 60, "n": None, "encoder_variant": "sr60_unspecified"}),
