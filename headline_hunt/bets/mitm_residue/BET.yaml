@@ -1,13 +1,23 @@
 mechanism_id: mitm_hard_residue
 priority: 5
-status: blocked
-owner: unassigned
-machines_assigned: []
+status: open
+owner: macbook
+machines_assigned: [macbook]
 compute_budget_cpu_hours: 100   # prototype only; scaled-up post-spec
 current_progress: |
-  BLOCKED on operationalization. Tools exist in q4_mitm_geometry/ (scripts 71, 74, 75)
-  but were never made operational at N=32 against the actual 24-bit residue.
-  Phase 1: audit q4 scripts — what's built vs stubbed.
-  Phase 2: define forward/backward tables keyed on actual residue (not whole state).
-last_heartbeat: "2026-04-24T00:00:00Z"
+  Audit completed 2026-04-24 (macbook). See prototypes/audit_summary.md.
+  Findings: q4_mitm_geometry/ contains 30+ scripts; the core MITM prototypes
+  (cascade_mitm_full.py, gpu_mitm_prototype.py, round61_inverter.{py,c}) are
+  operational or near-operational. cascade_mitm_full.py verified working —
+  recovers sr=60 cert at 1000-sample smoke test in <1s.
+
+  Real next-actions are scale-up + table connection, not operationalization:
+    1. cascade_mitm_full.py at 2^20 samples (~30 min CPU) for forward distribution
+    2. gpu_mitm_prototype.py at N=8 for validation against known 260 collisions (GPU box)
+    3. Connect forward/backward fingerprints to a hash-keyed table (~100 LOC Python)
+    4. Test candidate-independence of hard-residue location
+    5. Verify memory budget at N=32 (~256GB if naive table)
+
+  Macbook owns the audit + table-structure work; GPU box should pick up #2.
+last_heartbeat: "2026-04-24T22:00:00Z"
 heartbeat_interval_days: 14

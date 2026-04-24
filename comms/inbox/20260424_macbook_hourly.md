@@ -13,3 +13,13 @@ Shipped:
 Why this matters: every fleet solver run on these CNFs now gets a CONFIRMED verdict instead of INFERRED. INFERRED is what trains people to ignore the audit — eliminating it tightens the discipline.
 
 `validate_registry.py` clean (0 errors, 0 warnings).
+
+## 18:00 EDT — q4_mitm_geometry audit + mitm_residue unblock
+
+Shipped:
+- Audited 30+ scripts in `q4_mitm_geometry/`. Wrote `bets/mitm_residue/prototypes/audit_summary.md` (the file the BET README pointed at as next_action).
+- Smoke-tested `q4_mitm_geometry/cascade_mitm_full.py` — verified working: recovers sr=60 cert, ~86k W[57] samples/s on macbook.
+- Promoted `mitm_residue` from `blocked` → `open` in both BET.yaml and mechanisms.yaml. The bet was never actually blocked — tools were just dormant. Updated `current_progress` and `next_action` with five concrete scale-up items, ranked by leverage.
+- GPU box should pick up `gpu_mitm_prototype.py` at N=8 (validates against the known 260 collisions). Macbook will pair on the table-structure work (~100 LOC Python).
+
+validate_registry: 0 errors, 0 warnings.

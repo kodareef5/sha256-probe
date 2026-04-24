@@ -110,23 +110,29 @@
   hypothesis: "232/256 anchor bits are 'almost free'; the hard work concentrates in g60/h60 with ~24 effective bits. A forward/backward MITM keyed on the actual hard residue (not whole state) could complete in 2^24-ish work."
   structural_basis:
     - "Pause summary identifies the 24-bit residue as the bottleneck."
-    - "Existing q4_mitm_geometry/ scripts (71, 74, 75) are partial implementations."
-  status: blocked
+    - "q4_mitm_geometry/cascade_mitm_full.py operational at smoke-test scale (verified 2026-04-24); recovers sr=60 cert."
+    - "gpu_mitm_prototype.py exists with N=8 feasibility analysis built in; needs validation run."
+  status: open
   priority: 5
   expected_info_per_cpu_hour: medium
   dependencies:
-    - "Operationalize forward and backward tables keyed on the actual residue (not whole state)."
-    - "Concrete bit-budget analysis: which 24 bits, what's the joint distribution."
-  next_action: "Audit q4_mitm_geometry/ scripts 71/74/75 — what's built, what's stubbed, what's the gap to operational."
+    - "Scale forward enumeration in cascade_mitm_full.py to 2^20+ samples."
+    - "Run gpu_mitm_prototype.py at N=8 against known 260 collisions for validation."
+    - "Connect forward/backward fingerprints to a hash-keyed table structure."
+    - "Test candidate-independence of hard-residue location."
+  next_action: "See bets/mitm_residue/prototypes/audit_summary.md (2026-04-24). Forward-enumeration scale-up + GPU N=8 validation are the next two concrete CPU-hours of work."
   kill_criteria:
     - "N=8/N=10 prototype not faster than the existing structural solver."
     - "Effective-residue width at N=32 turns out to be substantially larger than 24 bits under any candidate."
+    - "Memory budget at N=32 unmanageable across all reasonable hash compressions."
   reopen_criteria:
     - "New cascade analysis identifies a smaller effective bottleneck."
-  evidence: []
-  owner: unassigned
+  evidence:
+    - "bets/mitm_residue/prototypes/audit_summary.md"
+    - "q4_mitm_geometry/cascade_mitm_full.py (verified working)"
+  owner: macbook
   last_updated: "2026-04-24"
-  notes: "Tools exist but need operationalization. Strong external recommendation in prior reviews."
+  notes: "Audit completed 2026-04-24 — promoted blocked → open. Tools were never blocked, just dormant. GPU box should pick up gpu_mitm_prototype.py at N=8."
 
 - id: chunk_mode_dp_with_modes
   name: "Chunk-mode DP with mode variables on future-completion state"
