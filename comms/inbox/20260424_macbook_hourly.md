@@ -45,3 +45,13 @@ Shipped:
 - Result writeup: `bets/mitm_residue/results/20260424_forward_residue_distribution.md`. Includes histogram, implications for the bet hypothesis, and three concrete <30min next-actions for the next worker (cross-candidate sweep, W[60] sweep, hard-residue bit identification).
 
 Speed: 24k samples/s single-threaded Python on macbook. Means scaling to 50M samples (the 'where's the next collision' question) is ~30 min CPU.
+
+## 18:38 EDT — cross-candidate sweep: candidate-independence CONFIRMED
+
+Shipped:
+- Ran forward_table_builder across 7 candidates (kernel bits 0, 6, 10, 13, 17, 19, 31). 20k samples each, ~5s total CPU.
+- **Result: residue distribution is candidate-independent**. Median exactly 48 for every candidate. Mean 48.0-48.1 (range 0.1). Min HW 26-31. Max HW 65-72.
+- This validates the bet's key memory-budget assumption: forward-table MITM built for one candidate re-keyable for others. ~256GB at N=32 doesn't multiply by candidate count.
+- Writeup: `bets/mitm_residue/results/20260424_cross_candidate_sweep.md`. Full table + 3 next-actions ranked by leverage.
+
+This addresses item #4 from audit_summary directly — the bet is now substantially more confident in its core assumption.
