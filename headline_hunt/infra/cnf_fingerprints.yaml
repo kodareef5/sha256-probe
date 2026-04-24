@@ -12,22 +12,55 @@
 #     example_file: <path to a known-good representative>
 #     last_audited: <date>
 
+# Fingerprints below tightened 2026-04-24 after auditing all 42 CNFs in cnfs_n32/.
+# Observed ranges + small margin for future candidate variation.
 - bucket_id: sr61_n32_enf0
   sr_level: 61
   n: 32
   encoder_variant: "cascade_enf0"
-  vars_range: [10000, 12500]
-  clauses_range: [44000, 50000]
+  vars_range: [11150, 11320]
+  clauses_range: [46700, 47200]
   example_file: "cnfs_n32/sr61_n32_bit10_m3304caa0_fill80000000_enf0.cnf"
+  observed_n: 28
+  observed_vars: [11190, 11281]
+  observed_clauses: [46789, 47146]
   last_audited: "2026-04-24"
+
+- bucket_id: sr61_n32_full
+  sr_level: 61
+  n: 32
+  encoder_variant: "cascade_full"
+  vars_range: [11200, 11280]
+  clauses_range: [47280, 47400]
+  example_file: "cnfs_n32/sr61_n32_bit25_m09990bd2_fill80000000_full.cnf"
+  observed_n: 1
+  observed_vars: [11234, 11234]
+  observed_clauses: [47338, 47338]
+  last_audited: "2026-04-24"
+  notes: "Single example so far — widen range as more 'full' enforcement variants appear."
 
 - bucket_id: sr61_cascade_n32
   sr_level: 61
   n: 32
   encoder_variant: "cascade_explicit"
-  vars_range: [10000, 13000]
-  clauses_range: [44000, 52000]
+  vars_range: [11150, 11290]
+  clauses_range: [47300, 47720]
   example_file: "cnfs_n32/sr61_cascade_m3304caa0_f80000000_bit10.cnf"
+  observed_n: 8
+  observed_vars: [11184, 11256]
+  observed_clauses: [47362, 47663]
+  last_audited: "2026-04-24"
+
+- bucket_id: sr61_n32_true_explicit
+  sr_level: 61
+  n: 32
+  encoder_variant: "true_sr61_explicit"
+  vars_range: [11150, 11280]
+  clauses_range: [47100, 47500]
+  example_file: "cnfs_n32/TRUE_sr61_bit10_3304.cnf"
+  observed_n: 4
+  observed_vars: [11184, 11243]
+  observed_clauses: [47170, 47436]
   last_audited: "2026-04-24"
 
 # TODO: add sr60_n32 fingerprint once a known-good sr=60 CNF is verified.
