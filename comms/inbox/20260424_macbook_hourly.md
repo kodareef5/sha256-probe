@@ -86,3 +86,13 @@ Shipped:
 - Writeup: `bets/mitm_residue/results/20260424_w60_sweep_stable.md` with reproduce snippet.
 
 Session running total: 9 commits, all pushed. mitm_residue went from blocked → open → measured → architecturally clarified in one session.
+
+## 19:00 EDT — first end-to-end solver run + SPEC revision
+
+Shipped:
+- **First runs.jsonl entry committed**: kissat 4.0.4 on aux-force sr=61 CNF for cand_n32_bit10_m3304caa0_fill80000000, seed=5, 600s budget → **TIMEOUT**. Pipeline (encode → audit CONFIRMED → run → append_run with auto git/sha256/machine capture → summarize_runs picks it up) validated end-to-end.
+- **SPEC prediction empirically refuted at 10min budget**: encoder SPEC said "Mode B on sr=61 expected to UNSAT fast (seconds to minutes)" — that's wrong. Did not UNSAT in 600s. Updated SPEC.md with the empirical correction; revised expectation is hours, not minutes.
+- Writeup: `bets/cascade_aux_encoding/results/20260424_first_solver_run.md` with three concrete follow-ups (longer budget, sr=60 Mode B sanity, multi-seed three-way comparison).
+- dashboard.md regenerated, now shows 1 run / 1 timeout / 0 audit failures for cascade_aux_encoding.
+
+Note: the 600s test on a single candidate-seed pair is one data point. Real conclusion needs the 50 CPU-hour multi-seed sweep documented in the writeup. Recommended for the next machine with idle CPU.
