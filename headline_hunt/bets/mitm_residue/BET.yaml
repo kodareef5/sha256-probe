@@ -5,40 +5,43 @@ owner: macbook
 machines_assigned: [macbook]
 compute_budget_cpu_hours: 100   # prototype only; scaled-up post-spec
 current_progress: |
-  Substantive progress 2026-04-24 (macbook). Items #1, #3, #4 from audit_summary
-  complete; bet's core hypothesis substantially confirmed with refinements.
+  Substantive progress 2026-04-24 (macbook). All 5 next-actions from
+  audit_summary either complete or actively progressing.
+
+  ARCHITECTURE: forward MITM table keys on a 28-bit hard-residue signature
+  at round 60 (NOT round 63 — that's only 64 cascade-zero bits, 192 uniform).
+  Table size 2^28 entries (~5-10 GB), per-candidate. W[60] is post-hoc.
+
+  HEADLINE FINDING (2026-04-24): ~9 of the 28 hard bits are predictable in
+  CLOSED FORM from candidate state alone. h60 hard bits = bits where
+  (Δe57 mod 2^i)/2^i is in [0.45, 0.55]; f60 same with Δe59=db56_mod.
+  Verified 6/6 (h60) and 4/4 (f60). g60 (~18 bits) is NOT yet closed-form
+  because Δe58 varies with W[57]; needs marginal-distribution model.
 
   Tools shipped:
-    - prototypes/forward_table_builder.py: extends cascade chain to round 63,
-      dumps round-60 + round-63 register diffs as JSONL. ~24k samples/sec on macbook.
-    - prototypes/hard_residue_analyzer.py: per-bit bias analysis at rounds 60/63.
+    - prototypes/forward_table_builder.py — extends cascade chain to round 63,
+      JSONL dumps. ~24k samples/sec.
+    - prototypes/hard_residue_analyzer.py — per-bit bias measurement.
+    - prototypes/predict_hard_bits.py — closed-form predictor for h60+f60
+      (O(1) per candidate, runs over candidates.yaml in <1s).
 
-  Empirical results:
-    - Forward residue distribution: HW(da||db||dc||dd) at round 63 is mean 48
-      (skewed left vs uniform 64 — cascade structure visible).
-      [results/20260424_forward_residue_distribution.md]
-    - Cross-candidate residue distribution is candidate-independent: median 48
-      for all 7 candidates tested.
-      [results/20260424_cross_candidate_sweep.md]
-    - Round-60 hard residue identified: ~24 uniform bits per candidate (range
-      17-28), localized to register g60 (12-21 bits), f60 (3-4 bits), h60 (2-5
-      bits). a60-e60 always cascade-zero (160 bits guaranteed).
-      [results/20260424_hard_residue_findings.md]
-    - Cross-candidate hard-bit POSITIONS are NOT shared (Jaccard 0.08-0.47;
-      zero bits uniform across all 6 candidates). Forward MITM table is
-      per-candidate (~17GB at 2^26 entries), NOT amortizable across candidates.
-      [results/20260424_cross_candidate_hard_bit_positions.md]
+  Pre-screen result (results/20260424_pre_screen_35.md +
+  20260424_f60_h60_prediction.md): 35 candidates ranked by total predicted
+  h60+f60 hard bits. Minimum: 5 bits (3 candidates tied). MSB cert
+  candidate (0x17149975) has 9 — middle of the pack.
 
-  Bet status: hypothesis size-correct (~24 bits) and locality-correct
-  (g60-dominant). Amortization assumption refuted: tables don't share across
-  candidates. Single-candidate MITM remains strongly viable; ~17GB table.
+  Empirical kissat test (results/20260424_pre_screen_kissat_test.md):
+  600s budget on 3 minimum-bit candidates × 2 seeds → all TIMEOUT.
+  Inconclusive at this budget; standard sr=60 takes 12h. Need 4h budgets
+  to settle whether dh60 hard-bit count predicts kissat solve time.
 
   Open work:
-    - Algebraic prediction of hard-bit positions from (m0, fill, kernel_bit)
-      — if predictable, amortization returns. (Macbook can investigate.)
-    - W[60] sweep: vary W[60] in cascade-2 slack, confirm position stability.
-    - Backward analyzer (round-63 → round-60 inversion). Symmetric counterpart
-      to forward_table_builder.
-    - GPU box: gpu_mitm_prototype.py at N=8 vs known 260 collisions.
-last_heartbeat: "2026-04-24T22:55:00Z"
+    - g60 marginal-distribution prediction (~1 day to derive).
+    - Backward analyzer (round-63 → round-60 inversion).
+    - 24-CPU-h experiment to test pre-screen predictive power.
+    - GPU box: gpu_mitm_prototype.py at N=8 (still untested).
+
+  Run history: 6 kissat runs logged via append_run.py (all TIMEOUT @ 600s).
+  Audit-failure rate: 0/6.
+last_heartbeat: "2026-04-24T23:50:00Z"
 heartbeat_interval_days: 14
