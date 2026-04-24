@@ -65,3 +65,13 @@ Shipped:
 - Memory implication for the bet: forward table is **2^26 entries (~17 GB)**, not 2^32 (~256 GB). Bet economics improve dramatically.
 - Round-60 vs round-63 distinction sharply confirmed: at round 63 only dd and dh are zero (64 bits); the rest are uniform. **Round 60 is the right MITM meeting point.**
 - Writeup: `bets/mitm_residue/results/20260424_hard_residue_findings.md` with specific hard-bit positions in g/f/h and three concrete next-actions (cross-candidate hard-bit positions, W[60] sweep, backward analyzer).
+
+## 18:55 EDT — cross-candidate hard-bit positions: refuted amortization, confirmed size
+
+Shipped:
+- Ran hard_residue_analyzer across 6 candidates × 200k samples each (~5 min CPU).
+- **Key finding**: hard-residue *size* is ~24 bits/candidate (range 17-28, mean 24.5) — empirically validates bet's prediction. But hard-residue *positions* differ across candidates: pairwise Jaccard 0.08-0.47, **zero bits uniform across all 6 candidates**.
+- Implication: forward-table MITM is **per-candidate** (~17GB each), NOT amortizable across candidates. Multi-candidate sweep budget = 17GB × N. Single-candidate MITM remains strongly viable.
+- g60 dominance is universal: 12-21 of the uniform bits live in g60, every candidate. f60 and h60 contribute 3-4 and 2-5 bits respectively. The register identity is invariant; only the within-register positions vary.
+- Open question raised: are hard-bit positions algebraically predictable from (m0, fill, kernel_bit)? If yes, the amortization problem dissolves. Worth investigating next.
+- Writeup: `bets/mitm_residue/results/20260424_cross_candidate_hard_bit_positions.md` with full Jaccard matrix, register-by-register decomposition, three concrete next-actions.
