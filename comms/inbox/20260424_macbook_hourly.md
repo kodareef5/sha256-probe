@@ -23,3 +23,15 @@ Shipped:
 - GPU box should pick up `gpu_mitm_prototype.py` at N=8 (validates against the known 260 collisions). Macbook will pair on the table-structure work (~100 LOC Python).
 
 validate_registry: 0 errors, 0 warnings.
+
+## 18:22 EDT — encoder swept across all 35 candidates
+
+Shipped:
+- New driver: `bets/cascade_aux_encoding/encoders/generate_all.py`. Reads candidates.yaml, generates aux CNFs in both modes for each, audits each, writes a baseline manifest.
+- Generated 70 CNFs (35 candidates × 2 modes). **All 70 CONFIRMED**. Encoder handles every candidate cleanly — no edge cases (expected one or two to error on cascade-eligibility check, but the existing candidates.yaml is well-curated).
+- Manifest written to `bets/cascade_aux_encoding/results/aux_encoder_manifest.md` — baseline so any encoder drift becomes a visible diff.
+- Caught a self-bug: my initial filename scheme didn't match audit_cnf.py patterns, so all 70 audited UNKNOWN. Fixed inline (added `aux_{mode}_sr{sr}_` prefix) and re-ran. Process value: writing the audit step into the driver caught the regression in seconds.
+
+Now anyone running a kissat sweep across the cascade_aux candidates can either:
+  - run `generate_all.py --keep-cnfs <dir>` to materialize the CNFs, or
+  - call cascade_aux_encoder.py per-candidate.
