@@ -96,3 +96,13 @@ Shipped:
 - dashboard.md regenerated, now shows 1 run / 1 timeout / 0 audit failures for cascade_aux_encoding.
 
 Note: the 600s test on a single candidate-seed pair is one data point. Real conclusion needs the 50 CPU-hour multi-seed sweep documented in the writeup. Recommended for the next machine with idle CPU.
+
+## 19:15 EDT — block2_wang first residual corpus + LSB-rule refutation + dW57 data
+
+Shipped:
+- block2_wang: `residuals/build_corpus.py` writes residuals as JSONL with full state pair, message words, HW per register. First corpus: `corpus_msb_200k_hw96.jsonl` (104k records).
+- **Reality finding for block2_wang**: at N=32 random sampling, min HW=62 in 200k samples (uniform-mean ~96). Wang differential needs HW≤16-24. Random sampling is NOT the route. `q4_mitm_geometry/cascade_hillclimb.py` already exists — block2_wang should pivot to use it.
+- Active-register pattern is structurally [a,b,c,_,e,f,g,_] for every residual. d63 and h63 always zero (cascade-zero). 6 active registers, max HW=192.
+- mitm_residue: LSB rule for hard-bit prediction REFUTED (Jaccard 0.10-0.16). Algebraic prediction needs richer model than 'bits >= LSB(cw57)'. Empirical 200k-sample run remains the cheapest route per candidate (~10s).
+- mitm_residue: dW[57] uniform-bit data captured — 3-5 uniform bits per candidate, sparsely placed. Building block for future prediction work.
+- 2 background kissat runs (sr=60 MSB Mode A/B seed=5, 90min each) cooking — will report in next cycle.
