@@ -1,0 +1,68 @@
+# sr=60 semi-free-start collision certificate at full N=32 SHA-256.
+# Source: writeups/sr60_collision_anatomy.md
+# Verified: 2026-04-XX on 3 machines (macbook, linux server, gpu laptop).
+
+id: sr60_n32_m17149975
+sr_level: 60
+n: 32
+schedule_compliance: "60 of 64 (93.75%)"
+
+m0: "0x17149975"
+fill: "0xFFFFFFFF"
+
+kernel:
+  name: "MSB kernel"
+  word_pair: [0, 9]
+  bit: 31
+  diff_hex: "0x80000000"
+
+# W1 / W2 differential at the bottleneck rounds (the schedule-determined ones).
+W1:
+  "57": "0x9ccfa55e"
+  "58": "0xd9d64416"
+  "59": "0x9e3ffb08"
+  "60": "0xb6befe82"
+W2:
+  "57": "0x72e6c8cd"
+  "58": "0x4b96ca51"
+  "59": "0x587ffaa6"
+  "60": "0xea3ce26b"
+
+# Trigger differentials (Hamming weights of differences in cascade-driving words)
+trigger_dW_hw:
+  dW57: 18    # triggers cascade 1 (da57=0)
+  dW60: 14    # triggers cascade 2 (de60=0)
+
+hash: "ba6287f0dcaf9857d89ad44a6cced1e2adf8a242524236fbc0c656cd50a7e23b"
+
+mechanism: |
+  Perfect cascade that zeros exactly one state register at the right round, twice.
+  Two overlapping shift-register cascades:
+    - a-path cascade: triggered by W[57], propagates through a-register, kills da[57..60].
+    - e-path cascade: triggered by W[60], propagates through e-register, kills de[60].
+  Both cascades are "free" properties of the candidate (da56=0 and the chosen W[57], W[60]
+  differentials), amplified by the schedule. sr=61 breaks because the two cascades no
+  longer align — the schedule constraint at round 61 forces a non-zero residual.
+
+solver:
+  name: kissat
+  version: "4.0.4"
+  seed: 5
+  solve_time_seconds: 43200    # ~12h
+  notes: "Other seeds (and other solvers) did not find this in 12h. seed=5 succeeds."
+
+verified_by_machines:
+  - macbook
+  - linux_server
+  - gpu_laptop
+
+verification_log: null   # raw verification logs not retained beyond writeups; re-verifiable from this YAML
+
+related:
+  cnf_file: null   # original CNF was sr=60 family; no canonical path retained
+  writeup: "writeups/sr60_collision_anatomy.md"
+  paper_section: "writeups/sr60_sr61_boundary_proof.md"
+
+candidate_id: cand_n32_msb_m17149975_fillffffffff
+mechanism_id: null   # not from a headline_hunt mechanism — this is the pre-existing result
+last_updated: "2026-04-24"

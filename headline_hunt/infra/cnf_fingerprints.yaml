@@ -1,0 +1,34 @@
+# Known-good CNF size fingerprints — used by audit_cnf.py to detect mislabeled files.
+# Each entry: a (sr_level, n, encoder_variant) bucket with expected variable + clause ranges.
+# Add a new entry whenever a new encoder variant is introduced.
+#
+# Format:
+#   - bucket_id: <human-readable>
+#     sr_level: 60 | 61
+#     n: <int>
+#     encoder_variant: <string matching the filename pattern>
+#     vars_range: [min, max]
+#     clauses_range: [min, max]
+#     example_file: <path to a known-good representative>
+#     last_audited: <date>
+
+- bucket_id: sr61_n32_enf0
+  sr_level: 61
+  n: 32
+  encoder_variant: "cascade_enf0"
+  vars_range: [10000, 12500]
+  clauses_range: [44000, 50000]
+  example_file: "cnfs_n32/sr61_n32_bit10_m3304caa0_fill80000000_enf0.cnf"
+  last_audited: "2026-04-24"
+
+- bucket_id: sr61_cascade_n32
+  sr_level: 61
+  n: 32
+  encoder_variant: "cascade_explicit"
+  vars_range: [10000, 13000]
+  clauses_range: [44000, 52000]
+  example_file: "cnfs_n32/sr61_cascade_m3304caa0_f80000000_bit10.cnf"
+  last_audited: "2026-04-24"
+
+# TODO: add sr60_n32 fingerprint once a known-good sr=60 CNF is verified.
+# This is what would have caught the 2026-04-18 disaster.

@@ -1,0 +1,13 @@
+mechanism_id: cascade_auxiliary_encoding
+priority: 2
+status: open
+owner: unassigned
+machines_assigned: []
+compute_budget_cpu_hours: 200   # encoding work + treewidth measurement + comparison runs
+current_progress: |
+  Bet just opened. No encoder variant built. Auxiliary variable set not specified.
+  Phase 1: spec the auxiliary variable set (which cascade offsets, which rounds).
+  Phase 2: implement encoder variant in lib/cnf_encoder.py (extension, not modification).
+  Phase 3: measure treewidth via FlowCutter on N=8/10/12; SAT comparison on TRUE sr=61 N=10.
+last_heartbeat: "2026-04-24T00:00:00Z"
+heartbeat_interval_days: 7

@@ -1,0 +1,15 @@
+mechanism_id: true_sr61_n32
+priority: 4
+status: in_flight
+owner: fleet
+machines_assigned: []
+compute_budget_cpu_hours: 10000  # HARD CAP per GPT-5.5
+cpu_hours_spent: 1800            # post-audit baseline
+current_progress: |
+  29 TRUE sr=61 candidates available in cnfs_n32/. ~1800 CPU-h spent post-CNF-audit
+  with zero SAT. NO MORE seed farming on unchanged encodings — every run must use
+  a new encoding (cascade_aux) or new candidate or be in service of a structural
+  predictor experiment.
+last_heartbeat: "2026-04-24T00:00:00Z"
+heartbeat_interval_days: 3      # higher cadence — this is the most-likely-to-drift bet
+audit_required: true

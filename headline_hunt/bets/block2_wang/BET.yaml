@@ -1,0 +1,14 @@
+mechanism_id: block2_wang_residual_absorption
+priority: 1
+status: open
+owner: unassigned
+machines_assigned: []
+compute_budget_cpu_hours: null  # CPU-light first phase; budget set after pilot
+human_time_budget_days: 14      # GPT-5.5 flagged this as human-time-expensive
+current_progress: |
+  Bet just opened. No residual corpus collected yet, no trail engine built.
+  Phase 1: collect 100-1000 best block-1 near-collision residuals from existing q5 runs.
+  Phase 2: cluster by active registers, bit positions, signed/additive form, carry-entry profile.
+  Phase 3: trail-search pilot at N=8 / 20-32 rounds.
+last_heartbeat: "2026-04-24T00:00:00Z"
+heartbeat_interval_days: 7

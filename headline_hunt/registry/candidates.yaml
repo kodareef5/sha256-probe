@@ -1,0 +1,1237 @@
+# Candidates registry. Schema: ../infra/schemas/candidate.schema.yaml
+# Seeded 2026-04-24 from CLAUDE.md MSB table + cnfs_n32/ inventory.
+# Status enum: unknown | tested_sat | tested_unsat | in_flight | timeout | not_applicable
+
+# === MSB kernel (bit 31) — original 6 candidates from CLAUDE.md ===
+- id: cand_n32_msb_m17149975_fillffffffff
+  n: 32
+  m0: "0x17149975"
+  fill: "0xffffffff"
+  kernel:
+    word_pair: [0, 9]
+    bit: 31
+    diff_hex: "0x80000000"
+  source: "CLAUDE.md known-candidates table (MSB sweep)"
+  da56:
+    status: verified
+    state_hash: null
+  metrics:
+    hw56: 104
+    db56_hw: null
+    de58_size: null
+    w60_mismatch_hw: null
+  statuses:
+    sr60:
+      status: sat_verified
+      evidence: []
+      cert_id: "datasets/certificates/sr60_n32_m17149975.yaml"
+      notes: "Kissat seed=5, 12h, hash ba6287f0..."
+    true_sr61:
+      status: unknown
+      evidence: []
+      cpu_hours: 0
+  artifacts:
+    cnfs: []
+    certs: ["datasets/certificates/sr60_n32_m17149975.yaml"]
+    logs: []
+  last_tested: "2026-04-20"
+  last_updated: "2026-04-24"
+  owner: macbook
+  evidence_level: VERIFIED
+
+- id: cand_n32_msb_ma22dc6c7_fillffffffff
+  n: 32
+  m0: "0xa22dc6c7"
+  fill: "0xffffffff"
+  kernel:
+    word_pair: [0, 9]
+    bit: 31
+    diff_hex: "0x80000000"
+  source: "CLAUDE.md known-candidates table (MSB sweep)"
+  da56:
+    status: verified
+    state_hash: null
+  metrics:
+    hw56: 115
+    db56_hw: null
+    de58_size: null
+    w60_mismatch_hw: null
+  statuses:
+    sr60:
+      status: unknown
+      evidence: []
+      cert_id: null
+      notes: "29/32 partition UNSAT inconclusive"
+    true_sr61:
+      status: unknown
+      evidence: []
+      cpu_hours: 0
+  artifacts:
+    cnfs: []
+    certs: []
+    logs: []
+  last_tested: "2026-04-20"
+  last_updated: "2026-04-24"
+  owner: macbook
+  evidence_level: UNTESTED
+
+- id: cand_n32_msb_m9cfea9ce_fill00000000
+  n: 32
+  m0: "0x9cfea9ce"
+  fill: "0x00000000"
+  kernel:
+    word_pair: [0, 9]
+    bit: 31
+    diff_hex: "0x80000000"
+  source: "CLAUDE.md known-candidates table (MSB sweep)"
+  da56:
+    status: verified
+    state_hash: null
+  metrics:
+    hw56: 103
+    db56_hw: null
+    de58_size: null
+    w60_mismatch_hw: null
+  statuses:
+    sr60:
+      status: unknown
+      evidence: []
+      cert_id: null
+      notes: "untested"
+    true_sr61:
+      status: unknown
+      evidence: []
+      cpu_hours: 0
+  artifacts:
+    cnfs: []
+    certs: []
+    logs: []
+  last_tested: "2026-04-20"
+  last_updated: "2026-04-24"
+  owner: macbook
+  evidence_level: UNTESTED
+
+- id: cand_n32_msb_m3f239926_fillaaaaaaaa
+  n: 32
+  m0: "0x3f239926"
+  fill: "0xaaaaaaaa"
+  kernel:
+    word_pair: [0, 9]
+    bit: 31
+    diff_hex: "0x80000000"
+  source: "CLAUDE.md known-candidates table (MSB sweep)"
+  da56:
+    status: verified
+    state_hash: null
+  metrics:
+    hw56: 107
+    db56_hw: null
+    de58_size: null
+    w60_mismatch_hw: null
+  statuses:
+    sr60:
+      status: unknown
+      evidence: []
+      cert_id: null
+      notes: "untested"
+    true_sr61:
+      status: unknown
+      evidence: []
+      cpu_hours: 0
+  artifacts:
+    cnfs: []
+    certs: []
+    logs: []
+  last_tested: "2026-04-20"
+  last_updated: "2026-04-24"
+  owner: macbook
+  evidence_level: UNTESTED
+
+- id: cand_n32_msb_m44b49bc3_fill80000000
+  n: 32
+  m0: "0x44b49bc3"
+  fill: "0x80000000"
+  kernel:
+    word_pair: [0, 9]
+    bit: 31
+    diff_hex: "0x80000000"
+  source: "CLAUDE.md known-candidates table (MSB sweep)"
+  da56:
+    status: verified
+    state_hash: null
+  metrics:
+    hw56: 106
+    db56_hw: null
+    de58_size: null
+    w60_mismatch_hw: null
+  statuses:
+    sr60:
+      status: in_flight
+      evidence: []
+      cert_id: null
+      notes: "3 seeds launched 2026-04-09"
+    true_sr61:
+      status: unknown
+      evidence: []
+      cpu_hours: 0
+  artifacts:
+    cnfs: []
+    certs: []
+    logs: []
+  last_tested: "2026-04-20"
+  last_updated: "2026-04-24"
+  owner: macbook
+  evidence_level: UNTESTED
+
+- id: cand_n32_msb_m189b13c7_fill80000000
+  n: 32
+  m0: "0x189b13c7"
+  fill: "0x80000000"
+  kernel:
+    word_pair: [0, 9]
+    bit: 31
+    diff_hex: "0x80000000"
+  source: "CLAUDE.md known-candidates table (MSB sweep)"
+  da56:
+    status: verified
+    state_hash: null
+  metrics:
+    hw56: 122
+    db56_hw: null
+    de58_size: null
+    w60_mismatch_hw: null
+  statuses:
+    sr60:
+      status: unknown
+      evidence: []
+      cert_id: null
+      notes: "untested"
+    true_sr61:
+      status: unknown
+      evidence: []
+      cpu_hours: 0
+  artifacts:
+    cnfs: []
+    certs: []
+    logs: []
+  last_tested: "2026-04-20"
+  last_updated: "2026-04-24"
+  owner: macbook
+  evidence_level: UNTESTED
+
+# === TRUE sr=61 candidates from cnfs_n32/ (parsed from filenames 2026-04-24) ===
+- id: cand_n32_bit00_m8299b36f_fill80000000
+  n: 32
+  m0: "0x8299b36f"
+  fill: "0x80000000"
+  kernel:
+    word_pair: [0, 9]
+    bit: 0
+    diff_hex: "0x00000001"
+  source: "cnfs_n32/sr61_n32_bit00_m8299b36f_fill80000000_enf0.cnf (TRUE sr=61, post-audit)"
+  da56:
+    status: verified
+    state_hash: null
+  metrics:
+    hw56: null
+    db56_hw: null
+    de58_size: null
+    w60_mismatch_hw: null
+  statuses:
+    sr60:
+      status: not_applicable
+      evidence: []
+      cert_id: null
+    true_sr61:
+      status: in_flight
+      evidence: []
+      cpu_hours: 0
+  artifacts:
+    cnfs: ["cnfs_n32/sr61_n32_bit00_m8299b36f_fill80000000_enf0.cnf"]
+    certs: []
+    logs: []
+  last_tested: "2026-04-20"
+  last_updated: "2026-04-24"
+  owner: fleet
+  evidence_level: UNTESTED
+
+- id: cand_n32_bit00_mc765db3d_fill7fffffff
+  n: 32
+  m0: "0xc765db3d"
+  fill: "0x7fffffff"
+  kernel:
+    word_pair: [0, 9]
+    bit: 0
+    diff_hex: "0x00000001"
+  source: "cnfs_n32/sr61_n32_bit00_mc765db3d_fill7fffffff_enf0.cnf (TRUE sr=61, post-audit)"
+  da56:
+    status: verified
+    state_hash: null
+  metrics:
+    hw56: null
+    db56_hw: null
+    de58_size: null
+    w60_mismatch_hw: null
+  statuses:
+    sr60:
+      status: not_applicable
+      evidence: []
+      cert_id: null
+    true_sr61:
+      status: in_flight
+      evidence: []
+      cpu_hours: 0
+  artifacts:
+    cnfs: ["cnfs_n32/sr61_n32_bit00_mc765db3d_fill7fffffff_enf0.cnf"]
+    certs: []
+    logs: []
+  last_tested: "2026-04-20"
+  last_updated: "2026-04-24"
+  owner: fleet
+  evidence_level: UNTESTED
+
+- id: cand_n32_bit00_md5508363_fill80000000
+  n: 32
+  m0: "0xd5508363"
+  fill: "0x80000000"
+  kernel:
+    word_pair: [0, 9]
+    bit: 0
+    diff_hex: "0x00000001"
+  source: "cnfs_n32/sr61_n32_bit00_md5508363_fill80000000_enf0.cnf (TRUE sr=61, post-audit)"
+  da56:
+    status: verified
+    state_hash: null
+  metrics:
+    hw56: null
+    db56_hw: null
+    de58_size: null
+    w60_mismatch_hw: null
+  statuses:
+    sr60:
+      status: not_applicable
+      evidence: []
+      cert_id: null
+    true_sr61:
+      status: in_flight
+      evidence: []
+      cpu_hours: 0
+  artifacts:
+    cnfs: ["cnfs_n32/sr61_n32_bit00_md5508363_fill80000000_enf0.cnf"]
+    certs: []
+    logs: []
+  last_tested: "2026-04-20"
+  last_updated: "2026-04-24"
+  owner: fleet
+  evidence_level: UNTESTED
+
+- id: cand_n32_bit00_mf3a909cc_fillaaaaaaaa
+  n: 32
+  m0: "0xf3a909cc"
+  fill: "0xaaaaaaaa"
+  kernel:
+    word_pair: [0, 9]
+    bit: 0
+    diff_hex: "0x00000001"
+  source: "cnfs_n32/sr61_n32_bit00_mf3a909cc_fillaaaaaaaa_enf0.cnf (TRUE sr=61, post-audit)"
+  da56:
+    status: verified
+    state_hash: null
+  metrics:
+    hw56: null
+    db56_hw: null
+    de58_size: null
+    w60_mismatch_hw: null
+  statuses:
+    sr60:
+      status: not_applicable
+      evidence: []
+      cert_id: null
+    true_sr61:
+      status: in_flight
+      evidence: []
+      cpu_hours: 0
+  artifacts:
+    cnfs: ["cnfs_n32/sr61_n32_bit00_mf3a909cc_fillaaaaaaaa_enf0.cnf"]
+    certs: []
+    logs: []
+  last_tested: "2026-04-20"
+  last_updated: "2026-04-24"
+  owner: fleet
+  evidence_level: UNTESTED
+
+- id: cand_n32_bit06_m024723f3_fill7fffffff
+  n: 32
+  m0: "0x024723f3"
+  fill: "0x7fffffff"
+  kernel:
+    word_pair: [0, 9]
+    bit: 6
+    diff_hex: "0x00000040"
+  source: "cnfs_n32/sr61_n32_bit06_m024723f3_fill7fffffff_enf0.cnf (TRUE sr=61, post-audit)"
+  da56:
+    status: verified
+    state_hash: null
+  metrics:
+    hw56: null
+    db56_hw: null
+    de58_size: null
+    w60_mismatch_hw: null
+  statuses:
+    sr60:
+      status: not_applicable
+      evidence: []
+      cert_id: null
+    true_sr61:
+      status: in_flight
+      evidence: []
+      cpu_hours: 0
+  artifacts:
+    cnfs: ["cnfs_n32/sr61_n32_bit06_m024723f3_fill7fffffff_enf0.cnf"]
+    certs: []
+    logs: []
+  last_tested: "2026-04-20"
+  last_updated: "2026-04-24"
+  owner: fleet
+  evidence_level: UNTESTED
+
+- id: cand_n32_bit06_m667c64cd_fill7fffffff
+  n: 32
+  m0: "0x667c64cd"
+  fill: "0x7fffffff"
+  kernel:
+    word_pair: [0, 9]
+    bit: 6
+    diff_hex: "0x00000040"
+  source: "cnfs_n32/sr61_n32_bit06_m667c64cd_fill7fffffff_enf0.cnf (TRUE sr=61, post-audit)"
+  da56:
+    status: verified
+    state_hash: null
+  metrics:
+    hw56: null
+    db56_hw: null
+    de58_size: null
+    w60_mismatch_hw: null
+  statuses:
+    sr60:
+      status: not_applicable
+      evidence: []
+      cert_id: null
+    true_sr61:
+      status: in_flight
+      evidence: []
+      cpu_hours: 0
+  artifacts:
+    cnfs: ["cnfs_n32/sr61_n32_bit06_m667c64cd_fill7fffffff_enf0.cnf"]
+    certs: []
+    logs: []
+  last_tested: "2026-04-20"
+  last_updated: "2026-04-24"
+  owner: fleet
+  evidence_level: UNTESTED
+
+- id: cand_n32_bit06_m6781a62a_fillaaaaaaaa
+  n: 32
+  m0: "0x6781a62a"
+  fill: "0xaaaaaaaa"
+  kernel:
+    word_pair: [0, 9]
+    bit: 6
+    diff_hex: "0x00000040"
+  source: "cnfs_n32/sr61_n32_bit06_m6781a62a_fillaaaaaaaa_enf0.cnf (TRUE sr=61, post-audit)"
+  da56:
+    status: verified
+    state_hash: null
+  metrics:
+    hw56: null
+    db56_hw: null
+    de58_size: null
+    w60_mismatch_hw: null
+  statuses:
+    sr60:
+      status: not_applicable
+      evidence: []
+      cert_id: null
+    true_sr61:
+      status: in_flight
+      evidence: []
+      cpu_hours: 0
+  artifacts:
+    cnfs: ["cnfs_n32/sr61_n32_bit06_m6781a62a_fillaaaaaaaa_enf0.cnf"]
+    certs: []
+    logs: []
+  last_tested: "2026-04-20"
+  last_updated: "2026-04-24"
+  owner: fleet
+  evidence_level: UNTESTED
+
+- id: cand_n32_bit06_m6e173e58_fillffffffff
+  n: 32
+  m0: "0x6e173e58"
+  fill: "0xffffffff"
+  kernel:
+    word_pair: [0, 9]
+    bit: 6
+    diff_hex: "0x00000040"
+  source: "cnfs_n32/sr61_n32_bit06_m6e173e58_fillffffffff_enf0.cnf (TRUE sr=61, post-audit)"
+  da56:
+    status: verified
+    state_hash: null
+  metrics:
+    hw56: null
+    db56_hw: null
+    de58_size: null
+    w60_mismatch_hw: null
+  statuses:
+    sr60:
+      status: not_applicable
+      evidence: []
+      cert_id: null
+    true_sr61:
+      status: in_flight
+      evidence: []
+      cpu_hours: 0
+  artifacts:
+    cnfs: ["cnfs_n32/sr61_n32_bit06_m6e173e58_fillffffffff_enf0.cnf"]
+    certs: []
+    logs: []
+  last_tested: "2026-04-20"
+  last_updated: "2026-04-24"
+  owner: fleet
+  evidence_level: UNTESTED
+
+- id: cand_n32_bit06_m88fab888_fill55555555
+  n: 32
+  m0: "0x88fab888"
+  fill: "0x55555555"
+  kernel:
+    word_pair: [0, 9]
+    bit: 6
+    diff_hex: "0x00000040"
+  source: "cnfs_n32/sr61_n32_bit06_m88fab888_fill55555555_enf0.cnf (TRUE sr=61, post-audit)"
+  da56:
+    status: verified
+    state_hash: null
+  metrics:
+    hw56: null
+    db56_hw: null
+    de58_size: null
+    w60_mismatch_hw: null
+  statuses:
+    sr60:
+      status: not_applicable
+      evidence: []
+      cert_id: null
+    true_sr61:
+      status: in_flight
+      evidence: []
+      cpu_hours: 0
+  artifacts:
+    cnfs: ["cnfs_n32/sr61_n32_bit06_m88fab888_fill55555555_enf0.cnf"]
+    certs: []
+    logs: []
+  last_tested: "2026-04-20"
+  last_updated: "2026-04-24"
+  owner: fleet
+  evidence_level: UNTESTED
+
+- id: cand_n32_bit06_ma8fc79d1_fill00000000
+  n: 32
+  m0: "0xa8fc79d1"
+  fill: "0x00000000"
+  kernel:
+    word_pair: [0, 9]
+    bit: 6
+    diff_hex: "0x00000040"
+  source: "cnfs_n32/sr61_n32_bit06_ma8fc79d1_fill00000000_enf0.cnf (TRUE sr=61, post-audit)"
+  da56:
+    status: verified
+    state_hash: null
+  metrics:
+    hw56: null
+    db56_hw: null
+    de58_size: null
+    w60_mismatch_hw: null
+  statuses:
+    sr60:
+      status: not_applicable
+      evidence: []
+      cert_id: null
+    true_sr61:
+      status: in_flight
+      evidence: []
+      cpu_hours: 0
+  artifacts:
+    cnfs: ["cnfs_n32/sr61_n32_bit06_ma8fc79d1_fill00000000_enf0.cnf"]
+    certs: []
+    logs: []
+  last_tested: "2026-04-20"
+  last_updated: "2026-04-24"
+  owner: fleet
+  evidence_level: UNTESTED
+
+- id: cand_n32_bit10_m075cb3b9_fill00000000
+  n: 32
+  m0: "0x075cb3b9"
+  fill: "0x00000000"
+  kernel:
+    word_pair: [0, 9]
+    bit: 10
+    diff_hex: "0x00000400"
+  source: "cnfs_n32/sr61_n32_bit10_m075cb3b9_fill00000000_enf0.cnf (TRUE sr=61, post-audit)"
+  da56:
+    status: verified
+    state_hash: null
+  metrics:
+    hw56: null
+    db56_hw: null
+    de58_size: null
+    w60_mismatch_hw: null
+  statuses:
+    sr60:
+      status: not_applicable
+      evidence: []
+      cert_id: null
+    true_sr61:
+      status: in_flight
+      evidence: []
+      cpu_hours: 0
+  artifacts:
+    cnfs: ["cnfs_n32/sr61_n32_bit10_m075cb3b9_fill00000000_enf0.cnf"]
+    certs: []
+    logs: []
+  last_tested: "2026-04-20"
+  last_updated: "2026-04-24"
+  owner: fleet
+  evidence_level: UNTESTED
+
+- id: cand_n32_bit10_m24451221_fill55555555
+  n: 32
+  m0: "0x24451221"
+  fill: "0x55555555"
+  kernel:
+    word_pair: [0, 9]
+    bit: 10
+    diff_hex: "0x00000400"
+  source: "cnfs_n32/sr61_n32_bit10_m24451221_fill55555555_enf0.cnf (TRUE sr=61, post-audit)"
+  da56:
+    status: verified
+    state_hash: null
+  metrics:
+    hw56: null
+    db56_hw: null
+    de58_size: null
+    w60_mismatch_hw: null
+  statuses:
+    sr60:
+      status: not_applicable
+      evidence: []
+      cert_id: null
+    true_sr61:
+      status: in_flight
+      evidence: []
+      cpu_hours: 0
+  artifacts:
+    cnfs: ["cnfs_n32/sr61_n32_bit10_m24451221_fill55555555_enf0.cnf"]
+    certs: []
+    logs: []
+  last_tested: "2026-04-20"
+  last_updated: "2026-04-24"
+  owner: fleet
+  evidence_level: UNTESTED
+
+- id: cand_n32_bit10_m27e646e1_fill55555555
+  n: 32
+  m0: "0x27e646e1"
+  fill: "0x55555555"
+  kernel:
+    word_pair: [0, 9]
+    bit: 10
+    diff_hex: "0x00000400"
+  source: "cnfs_n32/sr61_n32_bit10_m27e646e1_fill55555555_enf0.cnf (TRUE sr=61, post-audit)"
+  da56:
+    status: verified
+    state_hash: null
+  metrics:
+    hw56: null
+    db56_hw: null
+    de58_size: null
+    w60_mismatch_hw: null
+  statuses:
+    sr60:
+      status: not_applicable
+      evidence: []
+      cert_id: null
+    true_sr61:
+      status: in_flight
+      evidence: []
+      cpu_hours: 0
+  artifacts:
+    cnfs: ["cnfs_n32/sr61_n32_bit10_m27e646e1_fill55555555_enf0.cnf"]
+    certs: []
+    logs: []
+  last_tested: "2026-04-20"
+  last_updated: "2026-04-24"
+  owner: fleet
+  evidence_level: UNTESTED
+
+- id: cand_n32_bit10_m3304caa0_fill80000000
+  n: 32
+  m0: "0x3304caa0"
+  fill: "0x80000000"
+  kernel:
+    word_pair: [0, 9]
+    bit: 10
+    diff_hex: "0x00000400"
+  source: "cnfs_n32/sr61_n32_bit10_m3304caa0_fill80000000_enf0.cnf (TRUE sr=61, post-audit)"
+  da56:
+    status: verified
+    state_hash: null
+  metrics:
+    hw56: null
+    db56_hw: null
+    de58_size: null
+    w60_mismatch_hw: null
+  statuses:
+    sr60:
+      status: not_applicable
+      evidence: []
+      cert_id: null
+    true_sr61:
+      status: in_flight
+      evidence: []
+      cpu_hours: 0
+  artifacts:
+    cnfs: ["cnfs_n32/sr61_n32_bit10_m3304caa0_fill80000000_enf0.cnf"]
+    certs: []
+    logs: []
+  last_tested: "2026-04-20"
+  last_updated: "2026-04-24"
+  owner: fleet
+  evidence_level: UNTESTED
+
+- id: cand_n32_bit10_m5f59b67c_fill80000000
+  n: 32
+  m0: "0x5f59b67c"
+  fill: "0x80000000"
+  kernel:
+    word_pair: [0, 9]
+    bit: 10
+    diff_hex: "0x00000400"
+  source: "cnfs_n32/sr61_n32_bit10_m5f59b67c_fill80000000_enf0.cnf (TRUE sr=61, post-audit)"
+  da56:
+    status: verified
+    state_hash: null
+  metrics:
+    hw56: null
+    db56_hw: null
+    de58_size: null
+    w60_mismatch_hw: null
+  statuses:
+    sr60:
+      status: not_applicable
+      evidence: []
+      cert_id: null
+    true_sr61:
+      status: in_flight
+      evidence: []
+      cpu_hours: 0
+  artifacts:
+    cnfs: ["cnfs_n32/sr61_n32_bit10_m5f59b67c_fill80000000_enf0.cnf"]
+    certs: []
+    logs: []
+  last_tested: "2026-04-20"
+  last_updated: "2026-04-24"
+  owner: fleet
+  evidence_level: UNTESTED
+
+- id: cand_n32_bit10_m9e157d24_fill80000000
+  n: 32
+  m0: "0x9e157d24"
+  fill: "0x80000000"
+  kernel:
+    word_pair: [0, 9]
+    bit: 10
+    diff_hex: "0x00000400"
+  source: "cnfs_n32/sr61_n32_bit10_m9e157d24_fill80000000_enf0.cnf (TRUE sr=61, post-audit)"
+  da56:
+    status: verified
+    state_hash: null
+  metrics:
+    hw56: null
+    db56_hw: null
+    de58_size: null
+    w60_mismatch_hw: null
+  statuses:
+    sr60:
+      status: not_applicable
+      evidence: []
+      cert_id: null
+    true_sr61:
+      status: in_flight
+      evidence: []
+      cpu_hours: 0
+  artifacts:
+    cnfs: ["cnfs_n32/sr61_n32_bit10_m9e157d24_fill80000000_enf0.cnf"]
+    certs: []
+    logs: []
+  last_tested: "2026-04-20"
+  last_updated: "2026-04-24"
+  owner: fleet
+  evidence_level: UNTESTED
+
+- id: cand_n32_bit10_mc45e4115_fill80000000
+  n: 32
+  m0: "0xc45e4115"
+  fill: "0x80000000"
+  kernel:
+    word_pair: [0, 9]
+    bit: 10
+    diff_hex: "0x00000400"
+  source: "cnfs_n32/sr61_n32_bit10_mc45e4115_fill80000000_enf0.cnf (TRUE sr=61, post-audit)"
+  da56:
+    status: verified
+    state_hash: null
+  metrics:
+    hw56: null
+    db56_hw: null
+    de58_size: null
+    w60_mismatch_hw: null
+  statuses:
+    sr60:
+      status: not_applicable
+      evidence: []
+      cert_id: null
+    true_sr61:
+      status: in_flight
+      evidence: []
+      cpu_hours: 0
+  artifacts:
+    cnfs: ["cnfs_n32/sr61_n32_bit10_mc45e4115_fill80000000_enf0.cnf"]
+    certs: []
+    logs: []
+  last_tested: "2026-04-20"
+  last_updated: "2026-04-24"
+  owner: fleet
+  evidence_level: UNTESTED
+
+- id: cand_n32_bit11_m45b0a5f6_fill00000000
+  n: 32
+  m0: "0x45b0a5f6"
+  fill: "0x00000000"
+  kernel:
+    word_pair: [0, 9]
+    bit: 11
+    diff_hex: "0x00000800"
+  source: "cnfs_n32/sr61_n32_bit11_m45b0a5f6_fill00000000_enf0.cnf (TRUE sr=61, post-audit)"
+  da56:
+    status: verified
+    state_hash: null
+  metrics:
+    hw56: null
+    db56_hw: null
+    de58_size: null
+    w60_mismatch_hw: null
+  statuses:
+    sr60:
+      status: not_applicable
+      evidence: []
+      cert_id: null
+    true_sr61:
+      status: in_flight
+      evidence: []
+      cpu_hours: 0
+  artifacts:
+    cnfs: ["cnfs_n32/sr61_n32_bit11_m45b0a5f6_fill00000000_enf0.cnf"]
+    certs: []
+    logs: []
+  last_tested: "2026-04-20"
+  last_updated: "2026-04-24"
+  owner: fleet
+  evidence_level: UNTESTED
+
+- id: cand_n32_bit11_m56076c68_fill55555555
+  n: 32
+  m0: "0x56076c68"
+  fill: "0x55555555"
+  kernel:
+    word_pair: [0, 9]
+    bit: 11
+    diff_hex: "0x00000800"
+  source: "cnfs_n32/sr61_n32_bit11_m56076c68_fill55555555_enf0.cnf (TRUE sr=61, post-audit)"
+  da56:
+    status: verified
+    state_hash: null
+  metrics:
+    hw56: null
+    db56_hw: null
+    de58_size: null
+    w60_mismatch_hw: null
+  statuses:
+    sr60:
+      status: not_applicable
+      evidence: []
+      cert_id: null
+    true_sr61:
+      status: in_flight
+      evidence: []
+      cpu_hours: 0
+  artifacts:
+    cnfs: ["cnfs_n32/sr61_n32_bit11_m56076c68_fill55555555_enf0.cnf"]
+    certs: []
+    logs: []
+  last_tested: "2026-04-20"
+  last_updated: "2026-04-24"
+  owner: fleet
+  evidence_level: UNTESTED
+
+- id: cand_n32_bit13_m4d9f691c_fill55555555
+  n: 32
+  m0: "0x4d9f691c"
+  fill: "0x55555555"
+  kernel:
+    word_pair: [0, 9]
+    bit: 13
+    diff_hex: "0x00002000"
+  source: "cnfs_n32/sr61_n32_bit13_m4d9f691c_fill55555555_enf0.cnf (TRUE sr=61, post-audit)"
+  da56:
+    status: verified
+    state_hash: null
+  metrics:
+    hw56: null
+    db56_hw: null
+    de58_size: null
+    w60_mismatch_hw: null
+  statuses:
+    sr60:
+      status: not_applicable
+      evidence: []
+      cert_id: null
+    true_sr61:
+      status: in_flight
+      evidence: []
+      cpu_hours: 0
+  artifacts:
+    cnfs: ["cnfs_n32/sr61_n32_bit13_m4d9f691c_fill55555555_enf0.cnf"]
+    certs: []
+    logs: []
+  last_tested: "2026-04-20"
+  last_updated: "2026-04-24"
+  owner: fleet
+  evidence_level: UNTESTED
+
+- id: cand_n32_bit13_m4e560940_fillaaaaaaaa
+  n: 32
+  m0: "0x4e560940"
+  fill: "0xaaaaaaaa"
+  kernel:
+    word_pair: [0, 9]
+    bit: 13
+    diff_hex: "0x00002000"
+  source: "cnfs_n32/sr61_n32_bit13_m4e560940_fillaaaaaaaa_enf0.cnf (TRUE sr=61, post-audit)"
+  da56:
+    status: verified
+    state_hash: null
+  metrics:
+    hw56: null
+    db56_hw: null
+    de58_size: null
+    w60_mismatch_hw: null
+  statuses:
+    sr60:
+      status: not_applicable
+      evidence: []
+      cert_id: null
+    true_sr61:
+      status: in_flight
+      evidence: []
+      cpu_hours: 0
+  artifacts:
+    cnfs: ["cnfs_n32/sr61_n32_bit13_m4e560940_fillaaaaaaaa_enf0.cnf"]
+    certs: []
+    logs: []
+  last_tested: "2026-04-20"
+  last_updated: "2026-04-24"
+  owner: fleet
+  evidence_level: UNTESTED
+
+- id: cand_n32_bit13_m72f21093_fillaaaaaaaa
+  n: 32
+  m0: "0x72f21093"
+  fill: "0xaaaaaaaa"
+  kernel:
+    word_pair: [0, 9]
+    bit: 13
+    diff_hex: "0x00002000"
+  source: "cnfs_n32/sr61_n32_bit13_m72f21093_fillaaaaaaaa_enf0.cnf (TRUE sr=61, post-audit)"
+  da56:
+    status: verified
+    state_hash: null
+  metrics:
+    hw56: null
+    db56_hw: null
+    de58_size: null
+    w60_mismatch_hw: null
+  statuses:
+    sr60:
+      status: not_applicable
+      evidence: []
+      cert_id: null
+    true_sr61:
+      status: in_flight
+      evidence: []
+      cpu_hours: 0
+  artifacts:
+    cnfs: ["cnfs_n32/sr61_n32_bit13_m72f21093_fillaaaaaaaa_enf0.cnf"]
+    certs: []
+    logs: []
+  last_tested: "2026-04-20"
+  last_updated: "2026-04-24"
+  owner: fleet
+  evidence_level: UNTESTED
+
+- id: cand_n32_bit13_m916a56aa_fillffffffff
+  n: 32
+  m0: "0x916a56aa"
+  fill: "0xffffffff"
+  kernel:
+    word_pair: [0, 9]
+    bit: 13
+    diff_hex: "0x00002000"
+  source: "cnfs_n32/sr61_n32_bit13_m916a56aa_fillffffffff_enf0.cnf (TRUE sr=61, post-audit)"
+  da56:
+    status: verified
+    state_hash: null
+  metrics:
+    hw56: null
+    db56_hw: null
+    de58_size: null
+    w60_mismatch_hw: null
+  statuses:
+    sr60:
+      status: not_applicable
+      evidence: []
+      cert_id: null
+    true_sr61:
+      status: in_flight
+      evidence: []
+      cpu_hours: 0
+  artifacts:
+    cnfs: ["cnfs_n32/sr61_n32_bit13_m916a56aa_fillffffffff_enf0.cnf"]
+    certs: []
+    logs: []
+  last_tested: "2026-04-20"
+  last_updated: "2026-04-24"
+  owner: fleet
+  evidence_level: UNTESTED
+
+- id: cand_n32_bit13_mbee3704b_fill00000000
+  n: 32
+  m0: "0xbee3704b"
+  fill: "0x00000000"
+  kernel:
+    word_pair: [0, 9]
+    bit: 13
+    diff_hex: "0x00002000"
+  source: "cnfs_n32/sr61_n32_bit13_mbee3704b_fill00000000_enf0.cnf (TRUE sr=61, post-audit)"
+  da56:
+    status: verified
+    state_hash: null
+  metrics:
+    hw56: null
+    db56_hw: null
+    de58_size: null
+    w60_mismatch_hw: null
+  statuses:
+    sr60:
+      status: not_applicable
+      evidence: []
+      cert_id: null
+    true_sr61:
+      status: in_flight
+      evidence: []
+      cpu_hours: 0
+  artifacts:
+    cnfs: ["cnfs_n32/sr61_n32_bit13_mbee3704b_fill00000000_enf0.cnf"]
+    certs: []
+    logs: []
+  last_tested: "2026-04-20"
+  last_updated: "2026-04-24"
+  owner: fleet
+  evidence_level: UNTESTED
+
+- id: cand_n32_bit13_me01ff7c0_fillaaaaaaaa
+  n: 32
+  m0: "0xe01ff7c0"
+  fill: "0xaaaaaaaa"
+  kernel:
+    word_pair: [0, 9]
+    bit: 13
+    diff_hex: "0x00002000"
+  source: "cnfs_n32/sr61_n32_bit13_me01ff7c0_fillaaaaaaaa_enf0.cnf (TRUE sr=61, post-audit)"
+  da56:
+    status: verified
+    state_hash: null
+  metrics:
+    hw56: null
+    db56_hw: null
+    de58_size: null
+    w60_mismatch_hw: null
+  statuses:
+    sr60:
+      status: not_applicable
+      evidence: []
+      cert_id: null
+    true_sr61:
+      status: in_flight
+      evidence: []
+      cpu_hours: 0
+  artifacts:
+    cnfs: ["cnfs_n32/sr61_n32_bit13_me01ff7c0_fillaaaaaaaa_enf0.cnf"]
+    certs: []
+    logs: []
+  last_tested: "2026-04-20"
+  last_updated: "2026-04-24"
+  owner: fleet
+  evidence_level: UNTESTED
+
+- id: cand_n32_bit17_m427c281d_fill80000000
+  n: 32
+  m0: "0x427c281d"
+  fill: "0x80000000"
+  kernel:
+    word_pair: [0, 9]
+    bit: 17
+    diff_hex: "0x00020000"
+  source: "cnfs_n32/sr61_n32_bit17_m427c281d_fill80000000_enf0.cnf (TRUE sr=61, post-audit)"
+  da56:
+    status: verified
+    state_hash: null
+  metrics:
+    hw56: null
+    db56_hw: null
+    de58_size: null
+    w60_mismatch_hw: null
+  statuses:
+    sr60:
+      status: not_applicable
+      evidence: []
+      cert_id: null
+    true_sr61:
+      status: in_flight
+      evidence: []
+      cpu_hours: 0
+  artifacts:
+    cnfs: ["cnfs_n32/sr61_n32_bit17_m427c281d_fill80000000_enf0.cnf"]
+    certs: []
+    logs: []
+  last_tested: "2026-04-20"
+  last_updated: "2026-04-24"
+  owner: fleet
+  evidence_level: UNTESTED
+
+- id: cand_n32_bit17_m8c752c40_fill00000000
+  n: 32
+  m0: "0x8c752c40"
+  fill: "0x00000000"
+  kernel:
+    word_pair: [0, 9]
+    bit: 17
+    diff_hex: "0x00020000"
+  source: "cnfs_n32/sr61_n32_bit17_m8c752c40_fill00000000_enf0.cnf (TRUE sr=61, post-audit)"
+  da56:
+    status: verified
+    state_hash: null
+  metrics:
+    hw56: null
+    db56_hw: null
+    de58_size: null
+    w60_mismatch_hw: null
+  statuses:
+    sr60:
+      status: not_applicable
+      evidence: []
+      cert_id: null
+    true_sr61:
+      status: in_flight
+      evidence: []
+      cpu_hours: 0
+  artifacts:
+    cnfs: ["cnfs_n32/sr61_n32_bit17_m8c752c40_fill00000000_enf0.cnf"]
+    certs: []
+    logs: []
+  last_tested: "2026-04-20"
+  last_updated: "2026-04-24"
+  owner: fleet
+  evidence_level: UNTESTED
+
+- id: cand_n32_bit17_mb36375a2_fill00000000
+  n: 32
+  m0: "0xb36375a2"
+  fill: "0x00000000"
+  kernel:
+    word_pair: [0, 9]
+    bit: 17
+    diff_hex: "0x00020000"
+  source: "cnfs_n32/sr61_n32_bit17_mb36375a2_fill00000000_enf0.cnf (TRUE sr=61, post-audit)"
+  da56:
+    status: verified
+    state_hash: null
+  metrics:
+    hw56: null
+    db56_hw: null
+    de58_size: null
+    w60_mismatch_hw: null
+  statuses:
+    sr60:
+      status: not_applicable
+      evidence: []
+      cert_id: null
+    true_sr61:
+      status: in_flight
+      evidence: []
+      cpu_hours: 0
+  artifacts:
+    cnfs: ["cnfs_n32/sr61_n32_bit17_mb36375a2_fill00000000_enf0.cnf"]
+    certs: []
+    logs: []
+  last_tested: "2026-04-20"
+  last_updated: "2026-04-24"
+  owner: fleet
+  evidence_level: UNTESTED
+
+- id: cand_n32_bit19_m51ca0b34_fill55555555
+  n: 32
+  m0: "0x51ca0b34"
+  fill: "0x55555555"
+  kernel:
+    word_pair: [0, 9]
+    bit: 19
+    diff_hex: "0x00080000"
+  source: "cnfs_n32/sr61_n32_bit19_m51ca0b34_fill55555555_enf0.cnf (TRUE sr=61, post-audit)"
+  da56:
+    status: verified
+    state_hash: null
+  metrics:
+    hw56: null
+    db56_hw: null
+    de58_size: null
+    w60_mismatch_hw: null
+  statuses:
+    sr60:
+      status: not_applicable
+      evidence: []
+      cert_id: null
+    true_sr61:
+      status: in_flight
+      evidence: []
+      cpu_hours: 0
+  artifacts:
+    cnfs: ["cnfs_n32/sr61_n32_bit19_m51ca0b34_fill55555555_enf0.cnf"]
+    certs: []
+    logs: []
+  last_tested: "2026-04-20"
+  last_updated: "2026-04-24"
+  owner: fleet
+  evidence_level: UNTESTED
+

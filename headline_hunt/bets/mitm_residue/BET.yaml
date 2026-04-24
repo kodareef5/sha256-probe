@@ -1,0 +1,13 @@
+mechanism_id: mitm_hard_residue
+priority: 5
+status: blocked
+owner: unassigned
+machines_assigned: []
+compute_budget_cpu_hours: 100   # prototype only; scaled-up post-spec
+current_progress: |
+  BLOCKED on operationalization. Tools exist in q4_mitm_geometry/ (scripts 71, 74, 75)
+  but were never made operational at N=32 against the actual 24-bit residue.
+  Phase 1: audit q4 scripts — what's built vs stubbed.
+  Phase 2: define forward/backward tables keyed on actual residue (not whole state).
+last_heartbeat: "2026-04-24T00:00:00Z"
+heartbeat_interval_days: 14

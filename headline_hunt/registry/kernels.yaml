@@ -1,0 +1,248 @@
+# Kernel families and sweep coverage. Schema: ../infra/schemas/kernel.schema.yaml
+# Status enum: open | swept_complete | swept_partial | refuted | closed
+
+- id: kernel_msb_0_9_bit31
+  name: "MSB kernel (word-pair (0,9), bit 31)"
+  n_scope: [4, 8, 10, 12, 16, 24, 27, 30, 32]
+  word_pair: [0, 9]
+  bit: 31
+  diff_hex: "0x80000000"
+  scan_coverage:
+    fills: ["0x00000000", "0x80000000", "0xaaaaaaaa", "0xffffffff"]
+    m0_range: "selected per fill"
+    complete: false
+  candidates_found: 6
+  best_results_by_n:
+    n32_sr60: "SAT (M[0]=0x17149975, fill=0xff, Kissat seed=5, 12h)"
+  sr61_partial:
+    n32_true_sr61:
+      status: in_flight
+      candidates: 1
+      cpu_hours: null
+      notes: "sr61_cascade_m17149975_fffffffff_bit31.cnf exists but not in main bit-31 sr61 set"
+  status: swept_partial
+  last_updated: "2026-04-20"
+  owner: macbook
+  notes: "Original baseline kernel. Other kernels (bit 6, 10, etc.) discovered AFTER and may be more productive."
+
+- id: kernel_0_9_bit06
+  name: "bit-6 kernel at word-pair (0,9) — kernel-dependent critical pairs finding"
+  n_scope: [8, 32]
+  word_pair: [0, 9]
+  bit: 6
+  diff_hex: "0x00000040"
+  scan_coverage:
+    fills: ["0x00000000", "0x55555555", "0x7fffffff", "0xaaaaaaaa", "0xffffffff"]
+    m0_range: "partial 2^32 per fill"
+    complete: false
+  candidates_found: 6
+  best_results_by_n:
+    n8: "3 critical pairs vs MSB's 1 (kernel-dependent)"
+  sr61_partial:
+    n32_true_sr61:
+      status: in_flight
+      candidates: 6
+      cpu_hours: null
+  status: open
+  last_updated: "2026-04-20"
+  owner: gpu_laptop
+  notes: "Highest interest among non-MSB kernels — multiple critical pairs at N=8 suggests structural difference."
+
+- id: kernel_0_9_bit10
+  name: "bit-10 kernel at word-pair (0,9) — sigma1-aligned"
+  n_scope: [32]
+  word_pair: [0, 9]
+  bit: 10
+  diff_hex: "0x00000400"
+  scan_coverage:
+    fills: ["0x00000000", "0x55555555", "0x80000000"]
+    m0_range: "partial sweep per fill"
+    complete: false
+  candidates_found: 7
+  best_results_by_n: {}
+  sr61_partial:
+    n32_true_sr61:
+      status: in_flight
+      candidates: 7
+      cpu_hours: null
+  status: open
+  last_updated: "2026-04-20"
+  owner: fleet
+  notes: "sigma1-aligned bit. GPT-5.5 example used cand_n32_bit10_m3304caa0."
+
+- id: kernel_0_9_bit11
+  name: "bit-11 kernel at word-pair (0,9)"
+  n_scope: [16, 32]
+  word_pair: [0, 9]
+  bit: 11
+  diff_hex: "0x00000800"
+  scan_coverage:
+    fills: ["0x00000000", "0x55555555"]
+    m0_range: "partial"
+    complete: false
+  candidates_found: 2
+  best_results_by_n:
+    n16: "Partial sr=61 SAT (4 of 8 attempts, 2026-04-16)"
+  sr61_partial:
+    n32_true_sr61:
+      status: in_flight
+      candidates: 2
+      cpu_hours: null
+  status: open
+  last_updated: "2026-04-20"
+  owner: macbook
+  notes: "N=16 partial sr=61 breakthrough on bit-11 may indicate scaling potential."
+
+- id: kernel_0_9_bit13
+  name: "bit-13 kernel at word-pair (0,9)"
+  n_scope: [32]
+  word_pair: [0, 9]
+  bit: 13
+  diff_hex: "0x00002000"
+  scan_coverage:
+    fills: ["0x00000000", "0x55555555", "0xaaaaaaaa", "0xffffffff"]
+    m0_range: "partial"
+    complete: false
+  candidates_found: 6
+  best_results_by_n: {}
+  sr61_partial:
+    n32_true_sr61:
+      status: in_flight
+      candidates: 6
+      cpu_hours: null
+  status: open
+  last_updated: "2026-04-20"
+  owner: fleet
+
+- id: kernel_0_9_bit17
+  name: "bit-17 kernel at word-pair (0,9) — sigma1-aligned"
+  n_scope: [32]
+  word_pair: [0, 9]
+  bit: 17
+  diff_hex: "0x00020000"
+  scan_coverage:
+    fills: ["0x00000000", "0x80000000"]
+    m0_range: "partial"
+    complete: false
+  candidates_found: 3
+  best_results_by_n: {}
+  sr61_partial:
+    n32_true_sr61:
+      status: in_flight
+      candidates: 3
+      cpu_hours: null
+  status: open
+  last_updated: "2026-04-20"
+  owner: fleet
+  notes: "sigma1-aligned bit. Listed in pause summary as untested with better fills."
+
+- id: kernel_0_9_bit19
+  name: "bit-19 kernel at word-pair (0,9) — sigma1-aligned"
+  n_scope: [32]
+  word_pair: [0, 9]
+  bit: 19
+  diff_hex: "0x00080000"
+  scan_coverage:
+    fills: ["0x55555555"]
+    m0_range: "partial"
+    complete: false
+  candidates_found: 1
+  best_results_by_n: {}
+  sr61_partial:
+    n32_true_sr61:
+      status: in_flight
+      candidates: 1
+      cpu_hours: null
+  status: open
+  last_updated: "2026-04-20"
+  owner: fleet
+  notes: "sigma1-aligned. Single candidate so far — incomplete sweep."
+
+- id: kernel_0_9_bit25
+  name: "bit-25 kernel at word-pair (0,9)"
+  n_scope: [32]
+  word_pair: [0, 9]
+  bit: 25
+  diff_hex: "0x02000000"
+  scan_coverage:
+    fills: ["0x80000000"]
+    m0_range: "partial"
+    complete: false
+  candidates_found: 1
+  best_results_by_n: {}
+  sr61_partial:
+    n32_true_sr61:
+      status: in_flight
+      candidates: 1
+      cpu_hours: null
+  status: open
+  last_updated: "2026-04-20"
+  owner: fleet
+
+- id: kernel_0_9_bit00
+  name: "bit-0 kernel at word-pair (0,9) — LSB"
+  n_scope: [32]
+  word_pair: [0, 9]
+  bit: 0
+  diff_hex: "0x00000001"
+  scan_coverage:
+    fills: ["0x7fffffff", "0x80000000", "0xaaaaaaaa"]
+    m0_range: "partial"
+    complete: false
+  candidates_found: 4
+  best_results_by_n: {}
+  sr61_partial:
+    n32_true_sr61:
+      status: in_flight
+      candidates: 4
+      cpu_hours: null
+  status: open
+  last_updated: "2026-04-20"
+  owner: fleet
+  notes: "LSB. Carry implications differ from MSB kernel."
+
+- id: kernel_exotic_0_14
+  name: "Exotic kernel at word-pair (0,14)"
+  n_scope: [8]
+  word_pair: [0, 14]
+  bit: null
+  diff_hex: null
+  scan_coverage:
+    fills: []
+    m0_range: "N=8 only"
+    complete: false
+  candidates_found: 500
+  best_results_by_n:
+    n8: "500 candidates at N=8"
+  sr61_partial:
+    n32_true_sr61:
+      status: untested
+      candidates: 0
+      cpu_hours: 0
+  status: open
+  last_updated: "2026-04-15"
+  owner: macbook
+  notes: "Memory-noted: exotic non-(0,9) word-pair gives 500 candidates at N=8. Never extended to N=32."
+
+- id: kernel_exotic_0_1
+  name: "Exotic kernel at word-pair (0,1)"
+  n_scope: [8]
+  word_pair: [0, 1]
+  bit: null
+  diff_hex: null
+  scan_coverage:
+    fills: []
+    m0_range: "N=8 only"
+    complete: false
+  candidates_found: 477
+  best_results_by_n:
+    n8: "477 candidates at N=8"
+  sr61_partial:
+    n32_true_sr61:
+      status: untested
+      candidates: 0
+      cpu_hours: 0
+  status: open
+  last_updated: "2026-04-15"
+  owner: macbook
+  notes: "Memory-noted: 477 candidates at N=8. Untested at N=32."

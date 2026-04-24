@@ -1,0 +1,16 @@
+type: list_of_records
+record_id_field: id
+required_fields:
+  - id
+  - citation
+  - confidence
+  - relevance
+  - read_status
+  - owner
+  - last_updated
+confidence_enum:
+  confidence: [high, needs_verification, search_terms_only, classical_no_id]
+read_status_enum:
+  read_status: [todo, read, search_pending, should_read, abandoned]
+date_fields: [last_updated]
+cross_references: []

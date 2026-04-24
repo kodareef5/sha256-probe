@@ -1,0 +1,21 @@
+type: list_of_records
+record_id_field: id
+id_prefix: kernel_
+required_fields:
+  - id
+  - name
+  - n_scope
+  - word_pair
+  - scan_coverage
+  - candidates_found
+  - status
+  - owner
+  - last_updated
+# bit and diff_hex are conditionally required: present for single-bit kernels,
+# null/absent for word-pair-level exotic kernels (e.g., kernel_exotic_0_14).
+nested_required:
+  scan_coverage: [fills, m0_range, complete]
+status_enum:
+  status: [open, swept_complete, swept_partial, refuted, closed]
+date_fields: [last_updated]
+cross_references: []

@@ -17,8 +17,12 @@ remaining rounds can be attacked. See `reference/paper.pdf`.
 1. **Check `comms/inbox/`** — read messages addressed to you or `all`
 2. **Update `comms/status/<your-machine>.md`** — what you're running, capacity
 3. Read `CLAIMS.md` — understand what's established vs hypothesized
-4. Read the `QUESTION.md` in whichever `q*_` folder you're working in
-5. **Always import from `lib/`** — never reimplement SHA-256 primitives
+4. **Read `headline_hunt/TARGETS.md`** — the active hunt direction (post-2026-04-24)
+5. **Read `headline_hunt/registry/mechanisms.yaml`** — pick a bet whose owner is `unassigned`
+6. **Always import from `lib/`** — never reimplement SHA-256 primitives
+
+The old `q*_` folders' QUESTION.md files are **historical**. The active workspace is
+`headline_hunt/`.
 
 ## Multi-Machine Coordination
 
@@ -32,16 +36,28 @@ git-based messaging in `comms/`. See `comms/README.md`.
 ## Repository Structure
 
 ```
+headline_hunt/         **ACTIVE WORKSPACE** — post-2026-04-24 second wind
+  TARGETS.md           Headline classes we're hunting
+  registry/            Living lists: candidates, kernels, mechanisms, negatives, literature, runs
+  bets/                One folder per active bet (each with kill criteria)
+  datasets/            Canonical artifacts: certificates, BDDs, collision lists, proofs
+  infra/               Audit, validation, run-logging, dashboard scripts
+  literature/          BibTeX + per-paper notes
+  graveyard/           Closed-bet kill memos (prevents reanimation)
+  reports/             Decision memos + weekly dashboards
+consultations/         External-model consultations (current + archive of prior reviews)
 lib/                   Shared library (SHA-256, CNF encoder, solvers)
-q1_barrier_location/   WHERE is the collision barrier?
-q2_bottleneck_anatomy/ WHY does the barrier exist?
-q3_candidate_families/ Can we find BETTER candidates?
-q4_mitm_geometry/      Can we solve the HARD RESIDUE directly?
-q5_alternative_attacks/ What if SAT isn't the right tool?
-q6_verification/       Are our results correct?
-reference/             Source paper, prior art, specs
-writeups/              Focused research narratives
-infra/                 Build, batch, orchestration
+q1_barrier_location/   FROZEN — historical record (don't extend)
+q2_bottleneck_anatomy/ FROZEN
+q3_candidate_families/ FROZEN
+q4_mitm_geometry/      FROZEN — but tools here feed bets/mitm_residue/
+q5_alternative_attacks/ FROZEN — most active pre-pause; tools may feed multiple bets
+q6_verification/       FROZEN
+reference/             Source paper, prior art, specs (paper.pdf is Viragh 2026)
+writeups/              Pre-pause research narratives — read for background, don't extend
+cnfs_n32/              Existing TRUE sr=61 CNFs (used by bets/sr61_n32/)
+comms/                 Multi-machine coordination (inbox/ for messages)
+infra/                 (legacy) Build, batch, orchestration
 archive/               Legacy numbered scripts (read-only)
 ```
 
@@ -80,7 +96,33 @@ Each testable claim gets its own file in `q*/claims/` with:
 
 ### Commit messages
 - State what changed and the evidence level of any new claims
-- Reference the question folder: `[q1] N=22 SAT in 1847s`
+- Reference the bet (post-2nd-wind): `[block2_wang] residual corpus collected, N=...`
+- Legacy q*-folder references still acceptable for historical reference: `[q1] ...`
+
+## Running Experiments — Registry Discipline (post-2nd-wind, NON-NEGOTIABLE)
+
+The 2026-04-18 CNF audit cost ~2000 CPU-hours because mislabeled CNFs went
+unaudited. These rules exist so that doesn't happen again.
+
+1. **Audit before queuing**: every CNF passes `python3 headline_hunt/infra/audit_cnf.py <file>`.
+   Trust the audit verdict, NOT the filename. If it returns CRITICAL_MISMATCH
+   or UNKNOWN, do not run.
+2. **Log every run**: every solver invocation is recorded via
+   `python3 headline_hunt/infra/append_run.py --bet <id> --candidate <id> ...`.
+   No exceptions, including exploratory runs. The script auto-captures
+   git commit, CNF sha256, machine, audit verdict.
+3. **Claim a bet** by editing `headline_hunt/registry/mechanisms.yaml` to set
+   `<mechanism>.owner` to your machine name. Update the bet's `BET.yaml` too.
+4. **Validate before starting**: `python3 headline_hunt/infra/validate_registry.py`
+   should return zero errors. If it warns about staleness on a bet you're about
+   to touch, that's a signal to refresh the bet's `last_updated` /
+   `last_heartbeat` field in the same commit.
+5. **Weekly dashboard**: run `python3 headline_hunt/infra/summarize_runs.py`,
+   commit `headline_hunt/reports/dashboard.md`. Watch the audit-failure-rate
+   row — if it exceeds 1%, the sr61_n32 bet auto-trips its process kill criterion.
+6. **Kill-criteria are real**: when a bet's kill criteria fire, move it to
+   `headline_hunt/graveyard/closed_bets/` and write a kill memo using the
+   template. Do NOT silently restart a closed bet — meet the reopen criteria first.
 
 ## What NOT To Do
 
@@ -95,11 +137,14 @@ Each testable claim gets its own file in `q*/claims/` with:
 ## Macbook-Local Tools (not in repo)
 
 - **Inspiration Engine** (`~/.claude/inspiration/ask_models.py`): Sends research
-  briefing to Gemini 3.1 Pro and GPT-5.4 via OpenRouter for external critique
-  and creative ideas. Can send extensive context for deep review. DO NOT run
-  without explicit user direction. Useful for fresh perspectives, second set
-  of eyes, or when stuck. Budget: ~$0.50/run, easily modified for different
-  context packages. API key stored locally only.
+  briefing to frontier models via OpenRouter for external critique and creative
+  ideas. Currently configured for GPT-5.5 at high reasoning (prior pair: Gemini
+  3.1 Pro + GPT-5.4, kept commented in MODELS dict). Auto-loads ~400-570K
+  tokens of context. DO NOT run without explicit user direction. Useful for
+  fresh perspectives, second set of eyes, or when stuck. Budget: ~$2.50-7.50/run
+  for GPT-5.5 at high reasoning (reasoning tokens bill as output — actual cost
+  ~2× the naive estimate). API key stored locally only. Outputs land in
+  `consultations/<date>_<purpose>/` per run.
 
 ## Tools Available
 
@@ -110,29 +155,21 @@ Each testable claim gets its own file in `q*/claims/` with:
 - **gcc + OpenMP** — for C tools. Compile flags:
   `gcc -O3 -march=native -Xclang -fopenmp -I/opt/homebrew/opt/libomp/include -L/opt/homebrew/opt/libomp/lib -lomp`
 
-## Current State (updated by humans, not auto-generated)
+## Current State (post-2026-04-24 second wind)
 
-### Known candidates (MSB kernel, da[56]=0)
-| M[0] | Fill | hw56 | sr=60 Status | sr=61 Status |
-|------|------|------|-------------|-------------|
-| 0x17149975 | 0xffffffff | 104 | **SAT (verified, Kissat seed=5, 12h)** | 50h+ no result |
-| 0xa22dc6c7 | 0xffffffff | 115 | Untested (29/32 partition UNSAT inconclusive) | not tested |
-| 0x9cfea9ce | 0x00000000 | 103 | Untested | not tested |
-| 0x3f239926 | 0xaaaaaaaa | 107 | Untested | not tested |
-| 0x44b49bc3 | 0x80000000 | 106 | Running (3 seeds, 2026-04-09) | not tested |
-| 0x189b13c7 | 0x80000000 | 122 | Untested | not tested |
+The pre-pause state (sr=60 SAT verified, sr=61 open, 11 closed mechanisms,
+6-theorem boundary proof, BDD O(N^4.8)) is all preserved in `writeups/`.
 
-### Precision homotopy frontier
-sr=60 is SAT at every non-degenerate word width N=8 through N=32 (verified
-April 2026). The principal sr=60 SAT result is on M[0]=0x17149975, fill=0xff.
-See `writeups/PROJECT_SUMMARY.md` and `writeups/sr60_collision_anatomy.md`.
+For **active** state, see:
+- `headline_hunt/TARGETS.md` — what we're hunting
+- `headline_hunt/registry/candidates.yaml` — all candidates with statuses (replaces
+  the inline table that used to live here)
+- `headline_hunt/registry/mechanisms.yaml` — what's open/in_flight/blocked/closed
+  with kill criteria and reopen triggers
+- `headline_hunt/registry/negatives.yaml` — closed doors with would-change-my-mind triggers
+- `headline_hunt/reports/dashboard.md` — generated weekly from runs.jsonl
+- `consultations/20260424_secondwind/` — GPT-5.5's full meta-consultation that drove this restructure
 
-### Biggest open questions
-1. Is sr=61 SAT at N=32 for any candidate? (Race ongoing, ~50h+)
-2. Do alternative candidates produce sr=60 SAT faster than 0x17149975?
-   (Tests on 0x44b49bc3 launched 2026-04-09)
-3. Can MITM on the 24-bit hard residue bypass the SAT solver entirely?
-4. Do Wang-style message modifications apply to this problem?
-5. What's the right difficulty predictor? (hw_dW56 refuted at N=8;
-   de57_err untested at N=32; null result on 14 metrics — see
-   `q5_alternative_attacks/results/20260409_n8_predictor_search.md`)
+The principal sr=60 collision certificate is at:
+`headline_hunt/datasets/certificates/sr60_n32_m17149975.yaml`
+(extracted from `writeups/sr60_collision_anatomy.md`; re-verifiable from the YAML).

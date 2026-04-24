@@ -1,0 +1,18 @@
+type: list_of_records
+record_id_field: id
+required_fields:
+  - id
+  - claim
+  - scope
+  - status
+  - evidence_level
+  - closed_date
+  - why_closed
+  - would_change_my_mind
+  - owner
+status_enum:
+  status: [closed, reopened, archived]
+evidence_level_enum: [HYPOTHESIS, EVIDENCE, VERIFIED]
+date_fields: [closed_date]
+cross_references:
+  related_mechanisms: mechanisms

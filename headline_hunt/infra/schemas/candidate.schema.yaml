@@ -1,0 +1,26 @@
+# Schema for registry/candidates.yaml
+type: list_of_records
+record_id_field: id
+id_prefix: cand_
+required_fields:
+  - id
+  - n
+  - m0
+  - fill
+  - kernel
+  - source
+  - statuses
+  - owner
+  - last_updated
+  - evidence_level
+nested_required:
+  kernel: [word_pair, bit, diff_hex]
+  statuses: [sr60, true_sr61]
+  statuses.sr60: [status]
+  statuses.true_sr61: [status, cpu_hours]
+status_enum:
+  statuses.sr60.status: [unknown, tested_sat, sat_verified, tested_unsat, in_flight, timeout, not_applicable]
+  statuses.true_sr61.status: [unknown, tested_sat, sat_verified, tested_unsat, in_flight, timeout, not_applicable]
+evidence_level_enum: [UNTESTED, HYPOTHESIS, EXTRAPOLATION, EVIDENCE, VERIFIED]
+date_fields: [last_tested, last_updated]
+cross_references: []

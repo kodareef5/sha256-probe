@@ -1,0 +1,20 @@
+type: list_of_records
+record_id_field: id
+required_fields:
+  - id
+  - name
+  - headline_if_success
+  - hypothesis
+  - structural_basis
+  - status
+  - kill_criteria
+  - reopen_criteria
+  - owner
+  - last_updated
+status_enum:
+  status: [open, in_flight, blocked, closed, reopened, archived]
+expected_info_enum:
+  expected_info_per_cpu_hour: [very_high, high, medium, medium_low, low, unknown]
+date_fields: [last_updated]
+cross_references:
+  related_mechanisms: mechanisms

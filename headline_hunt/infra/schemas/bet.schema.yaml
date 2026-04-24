@@ -1,0 +1,13 @@
+type: single_record
+required_fields:
+  - mechanism_id
+  - status
+  - owner
+  - machines_assigned
+  - current_progress
+  - last_heartbeat
+status_enum:
+  status: [open, in_flight, blocked, closed, reopened, archived]
+date_fields: [last_heartbeat]
+cross_references:
+  mechanism_id: mechanisms
