@@ -35,3 +35,13 @@ Shipped:
 Now anyone running a kissat sweep across the cascade_aux candidates can either:
   - run `generate_all.py --keep-cnfs <dir>` to materialize the CNFs, or
   - call cascade_aux_encoder.py per-candidate.
+
+## 18:35 EDT — forward MITM table builder + first residue distribution
+
+Shipped:
+- New prototype: `bets/mitm_residue/prototypes/forward_table_builder.py`. Extends cascade_mitm_full to round 63, dumps round-63 register-difference distribution as JSONL.
+- Hit a real bug while writing it: original draft fixed cascade offsets to cert values, which only worked for the cert (1/50,000 random samples held). Fix: compute cascade offsets dynamically per-round from current state. After fix: 50,000/50,000 cascade-held.
+- First empirical result on the residue distribution: HW(da||db||dc||dd) at round 63 over 50k random (W[57], W[58], W[59]) triples — **mean 48, median 48, min 28, max 70 out of 128 possible**. Distribution concentrated around 48, visibly skewed left compared to uniform-random. Consistent with cascade structure pulling HW down.
+- Result writeup: `bets/mitm_residue/results/20260424_forward_residue_distribution.md`. Includes histogram, implications for the bet hypothesis, and three concrete <30min next-actions for the next worker (cross-candidate sweep, W[60] sweep, hard-residue bit identification).
+
+Speed: 24k samples/s single-threaded Python on macbook. Means scaling to 50M samples (the 'where's the next collision' question) is ~30 min CPU.
