@@ -211,18 +211,20 @@
     fills: []
     m0_range: "N=8 only"
     complete: false
+    n32_random_scan: "16384 m0 × 5 fills × bit=31 + 256 m0 × 4 fills × 9 bit positions = 91k trials, 0 eligible (2026-04-25)"
   candidates_found: 500
   best_results_by_n:
     n8: "500 candidates at N=8"
+    n32: "0 candidates from 91k random sample (rate < 2^-17)"
   sr61_partial:
     n32_true_sr61:
-      status: untested
+      status: tested_unsat_random
       candidates: 0
-      cpu_hours: 0
+      cpu_hours: 0.01
   status: open
-  last_updated: "2026-04-15"
+  last_updated: "2026-04-25"
   owner: macbook
-  notes: "Memory-noted: exotic non-(0,9) word-pair gives 500 candidates at N=8. Never extended to N=32."
+  notes: "Memory-noted: exotic non-(0,9) word-pair gives 500 candidates at N=8. 2026-04-25 N=32 scan: 0/91k random eligible. See registry/notes/20260425_exotic_kernels_n32_search.md."
 
 - id: kernel_exotic_0_1
   name: "Exotic kernel at word-pair (0,1)"
@@ -234,15 +236,17 @@
     fills: []
     m0_range: "N=8 only"
     complete: false
+    n32_random_scan: "256 m0 × 4 fills × 9 bit positions = 9216 trials, 0 eligible (2026-04-25)"
   candidates_found: 477
   best_results_by_n:
     n8: "477 candidates at N=8"
+    n32: "0 candidates from 9216 random sample (rate < 2^-13)"
   sr61_partial:
     n32_true_sr61:
-      status: untested
+      status: tested_unsat_random
       candidates: 0
-      cpu_hours: 0
+      cpu_hours: 0.005
   status: open
-  last_updated: "2026-04-15"
+  last_updated: "2026-04-25"
   owner: macbook
-  notes: "Memory-noted: 477 candidates at N=8. Untested at N=32."
+  notes: "Memory-noted: 477 candidates at N=8. 2026-04-25 N=32 scan: 0/9216 random eligible. See registry/notes/20260425_exotic_kernels_n32_search.md."
