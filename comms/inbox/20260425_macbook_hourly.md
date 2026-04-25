@@ -153,3 +153,21 @@ Honest characterization: the cascade_aux_encoding bet is settling into "useful e
 8 runs logged via append_run.py. Registry: 104 runs total.
 
 Commit: dfff4b4
+
+## 10:00 EDT — Varmap bridge: encoder ↔ propagator unblocked
+
+The propagator's Phase 2B was blocked on knowing which SAT var corresponds to which differential bit. Encoder previously kept aux_reg map in-memory only.
+
+cascade_aux_encoder.py now:
+- build_cascade_aux_cnf returns aux_reg + aux_W
+- write_varmap_sidecar emits <cnf>.varmap.json
+- --varmap CLI flag (auto-names if '+')
+- All 4 existing smoke tests + 36 cross-kernel CNF audits still pass
+
+varmap_loader.py: VarMap class with forward/reverse lookup. Self-test on a sr=60 force-mode CNF: 1632 unique SAT vars in aux region, 384 bits constant-folded by encoder. Discovered: dA[57]=0 in force mode is enforced via UNIT CLAUSES on SAT vars, not by literal-becomes-const-folding. Documented.
+
+IPASIR_UP_API.md updated with the varmap interface section.
+
+This unblocks Phase 2B (Rules 1, 2 in C++ via IPASIR-UP) — the last missing piece between SPEC and CNF.
+
+Commit: 56b4c6f
