@@ -772,3 +772,20 @@ bit-19 emerges as the structural extreme. Three independent measurements
 (de58, Rule 4 firing, Mode B speedup) all point at it.
 
 Commit: cae5935
+
+## 16:54 EDT — 5 missing MSB CNFs generated, audited, registry-wired
+
+Audit of cnfs_n32/ vs registry: 5 of 36 candidates had no CNF on disk
+(ma22dc6c7, m9cfea9ce, m3f239926, m44b49bc3, m189b13c7 — all MSB family).
+Generated via encode_sr61_cascade.py, audited (3 CONFIRMED, 2 INFERRED
+beyond fingerprint range). Extended sr61_cascade_n32 clauses_range
+47720→47800 to cover the larger ones; re-audit → all 5 CONFIRMED.
+
+Wired the 5 CNFs into candidates.yaml artifacts.cnfs lists. validate
+clean, pushed to origin master.
+
+Notable: this unblocks fleet runs against the SURPRISE candidate
+(m9cfea9ce_fill00000000, 20-bit de58 compression — 5 bits better than
+the MSB cert) and the BOTTOM candidate (m189b13c7, low-HW=3 reachable).
+
+Commit: 0f79d45
