@@ -45,5 +45,23 @@ current_progress: |
     - g60 marginal-distribution closed form (~2 days analytical)
     - 4h+ multi-seed kissat sweep on priority candidate
     - GPU N=8 prototype run (untested)
-last_heartbeat: "2026-04-25T01:35:00Z"
+
+  EMPIRICAL FINDING (late 2026-04-24 session): XOR-domain dCh
+  controllability (~18 bits per triple) does NOT translate to modular
+  control. W1[60] sweep over 1M values for one cascade-holding triple:
+  de61 distributes ~uniform-random over 2^32, 0 hits at de61=0
+  (consistent with 2^-32 theoretical). Cascade-sr=61 search is
+  genuinely 2^96 at the modular constraint level.
+
+  Status review: the bet's "MITM via 17-bit hard-residue gives 2^17
+  speedup" path is empirically refuted. The 17-bit signature analysis
+  remains valid as a structural characterization of round-60 freedom,
+  but does NOT yield a search-time speedup. Bet stays open at p5 as
+  DOCUMENTATION of the cascade-DP search landscape; advancing it to
+  a working attack requires either fundamentally different mechanism
+  or genuine modular-difference algebra (Lipmaa-Moriai).
+
+  Refs: results/20260424_de61_empirical_rate.md (rate measurement)
+        results/20260424_de61_solver_bug.md (solver retraction)
+last_heartbeat: "2026-04-25T03:15:00Z"
 heartbeat_interval_days: 14
