@@ -182,6 +182,50 @@ def build_cascade_aux_cnf(sr, m0, fill, kernel_bit=31, mode="expose"):
         w2r = W2_schedule[r_idx]
         aux_W[r] = [cnf.xor2(w1r[i], w2r[i]) for i in range(32)]
 
+    # ---- Modular-diff aux (Phase 2C-Rule4 Option C, 2026-04-25) ----
+    # For each (reg, round) where Rule 4 firing might apply, allocate aux
+    # variables representing bit-i of (w1 - w2) mod 2^32 with ripple-borrow
+    # subtractor clauses. The propagator can then force these aux vars
+    # directly when partial-bit modular reasoning determines bit values.
+    #
+    # We emit modular-diff aux for: e at r ∈ {62, 63} (target of Rule 4
+    # forcing) and a at r ∈ {62, 63} (source for dT2 + dA[62] reasoning).
+    # Each pair adds 32 SAT vars + ~96 ripple-borrow clauses.
+    #
+    # Two's complement subtraction: a - b = a + (~b) + 1. Implementation
+    # uses CNFBuilder.full_adder primitive.
+    aux_modular_diff = {}  # (reg, r) -> 32-element list of literals
+
+    def emit_modular_diff_word(w1_bits, w2_bits):
+        """Emit a 32-element list of aux vars representing (w1 - w2) mod 2^32.
+        Uses ripple subtractor: bit i = w1[i] XOR (NOT w2[i]) XOR borrow_in.
+        Returns the diff-bit literals AND adds the aux + clauses to cnf.
+        """
+        diff_bits = []
+        borrow = -1  # initial borrow_in = FALSE (constant -1)
+        for i in range(32):
+            # diff_i = w1_i XOR w2_i XOR borrow_in
+            xor1 = cnf.xor2(w1_bits[i], w2_bits[i])
+            diff_i = cnf.xor2(xor1, borrow)
+            diff_bits.append(diff_i)
+            # borrow_out_i = (NOT w1_i AND w2_i) OR ((NOT (w1_i XOR w2_i)) AND borrow_in)
+            #              = (~w1_i & w2_i) | (~xor1 & borrow_in)
+            # In CNFBuilder: negate via -lit (for SAT vars) or negate constant.
+            def neg(lit):
+                if lit == 1: return -1
+                if lit == -1: return 1
+                return -lit
+            t1 = cnf.and2(neg(w1_bits[i]), w2_bits[i])
+            t2 = cnf.and2(neg(xor1), borrow)
+            borrow = cnf.or2(t1, t2)
+        return diff_bits
+
+    # Emit modular diffs for the registers Rule 4 r=62/63 cares about.
+    for reg_name, r in [("a", 62), ("a", 63), ("e", 62), ("e", 63)]:
+        w1 = s_at(states1, r)[REG_NAMES.index(reg_name)]
+        w2 = s_at(states2, r)[REG_NAMES.index(reg_name)]
+        aux_modular_diff[(reg_name, r)] = emit_modular_diff_word(w1, w2)
+
     aux_vars_added = cnf.next_var - 1 - vars_before_aux
     aux_clauses_added = len(cnf.clauses) - clauses_before_aux
 
@@ -261,11 +305,13 @@ def build_cascade_aux_cnf(sr, m0, fill, kernel_bit=31, mode="expose"):
     # aux_reg[(reg, r)] = list of 32 literals (var IDs or ±1 constants)
     # aux_W[r] = list of 32 literals
     # actual_reg_p1[(reg, r)] / actual_reg_p2[(reg, r)] = 32 literals for pair values
-    return cnf, summary, aux_reg, aux_W, actual_reg_p1, actual_reg_p2
+    # aux_modular_diff[(reg, r)] = 32 literals for (w1 - w2) mod 2^32
+    return cnf, summary, aux_reg, aux_W, actual_reg_p1, actual_reg_p2, aux_modular_diff
 
 
 def write_varmap_sidecar(aux_reg, aux_W, summary, out_path,
-                          actual_reg_p1=None, actual_reg_p2=None):
+                          actual_reg_p1=None, actual_reg_p2=None,
+                          aux_modular_diff=None):
     """Emit a JSON sidecar mapping aux differential bits to SAT vars.
 
     Schema (version 2 adds actual register-value vars for Rule 4 at r=62,r=63):
@@ -306,6 +352,11 @@ def write_varmap_sidecar(aux_reg, aux_W, summary, out_path,
             out["actual_p1"][f"{reg}_{r}"] = [int(x) for x in lits]
         for (reg, r), lits in actual_reg_p2.items():
             out["actual_p2"][f"{reg}_{r}"] = [int(x) for x in lits]
+    if aux_modular_diff:
+        out["version"] = 3  # bump for modular-diff aux
+        out["aux_modular_diff"] = {}
+        for (reg, r), lits in aux_modular_diff.items():
+            out["aux_modular_diff"][f"{reg}_{r}"] = [int(x) for x in lits]
     with open(out_path, "w") as f:
         json.dump(out, f)
     return out_path
@@ -361,8 +412,8 @@ def main():
         print(f"Building cascade-aux CNF: sr={args.sr} m0={m0:#x} fill={fill:#x} "
               f"bit={args.kernel_bit} mode={args.mode}", file=sys.stderr)
 
-    cnf, summary, aux_reg, aux_W, actual_p1, actual_p2 = build_cascade_aux_cnf(
-        args.sr, m0, fill, args.kernel_bit, args.mode)
+    cnf, summary, aux_reg, aux_W, actual_p1, actual_p2, aux_modular_diff = \
+        build_cascade_aux_cnf(args.sr, m0, fill, args.kernel_bit, args.mode)
     n_vars, n_clauses = write_dimacs_with_header(cnf, summary, args.out)
 
     varmap_path = None
@@ -370,7 +421,7 @@ def main():
         varmap_path = (args.out + ".varmap.json"
                        if args.varmap in ("+", "auto") else args.varmap)
         write_varmap_sidecar(aux_reg, aux_W, summary, varmap_path,
-                             actual_p1, actual_p2)
+                             actual_p1, actual_p2, aux_modular_diff)
 
     if not args.quiet:
         print(f"Wrote {args.out}: {n_vars} vars, {n_clauses} clauses", file=sys.stderr)

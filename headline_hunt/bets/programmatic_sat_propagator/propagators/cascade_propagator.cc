@@ -576,7 +576,7 @@ bool load_varmap(const std::string& path, AuxRegMap& aux_reg,
     json data;
     f >> data;
     version = data["version"];
-    if (version != 1 && version != 2) {
+    if (version != 1 && version != 2 && version != 3) {
         std::cerr << "ERROR: unknown varmap version " << version << "\n";
         return false;
     }

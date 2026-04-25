@@ -54,18 +54,19 @@ class VarMap:
 
     def __init__(self, summary, aux_reg, aux_W):
         self.summary = summary
-        self.aux_reg = aux_reg     # (reg, round) -> [32 lits]
-        self.aux_W = aux_W         # round -> [32 lits]
-        self.actual_p1 = {}        # (reg, round) -> [32 lits]  (v2+ only)
-        self.actual_p2 = {}        # (reg, round) -> [32 lits]  (v2+ only)
-        self._reverse = {}         # |var_id| -> [(reg, round, bit, polarity)]
+        self.aux_reg = aux_reg          # (reg, round) -> [32 lits]
+        self.aux_W = aux_W              # round -> [32 lits]
+        self.actual_p1 = {}             # (reg, round) -> [32 lits]  (v2+ only)
+        self.actual_p2 = {}             # (reg, round) -> [32 lits]  (v2+ only)
+        self.aux_modular_diff = {}      # (reg, round) -> [32 lits]  (v3+ only)
+        self._reverse = {}              # |var_id| -> [(reg, round, bit, polarity)]
         self._build_reverse()
 
     @classmethod
     def load(cls, path):
         with open(path) as f:
             data = json.load(f)
-        if data.get("version") not in (1, 2):
+        if data.get("version") not in (1, 2, 3):
             raise ValueError(f"Unknown varmap version: {data.get('version')}")
         aux_reg = {}
         for k, v in data["aux_reg"].items():
@@ -73,8 +74,8 @@ class VarMap:
             aux_reg[(reg, int(r))] = v
         aux_W = {int(r): v for r, v in data["aux_W"].items()}
         loader = cls(data["summary"], aux_reg, aux_W)
-        # Version 2 adds actual register-value vars (for Rule 4 r=62/63).
-        if data.get("version") == 2:
+        # Version 2+ adds actual register-value vars (for Rule 4 r=62/63).
+        if data.get("version") >= 2:
             loader.actual_p1 = {}
             loader.actual_p2 = {}
             for k, v in data.get("actual_p1", {}).items():
@@ -83,6 +84,12 @@ class VarMap:
             for k, v in data.get("actual_p2", {}).items():
                 reg, r = k.rsplit("_", 1)
                 loader.actual_p2[(reg, int(r))] = v
+        # Version 3+ adds modular-diff aux vars (for Rule 4 firing — Option C).
+        if data.get("version") >= 3:
+            loader.aux_modular_diff = {}
+            for k, v in data.get("aux_modular_diff", {}).items():
+                reg, r = k.rsplit("_", 1)
+                loader.aux_modular_diff[(reg, int(r))] = v
         return loader
 
     def _build_reverse(self):
