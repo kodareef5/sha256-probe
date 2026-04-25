@@ -923,3 +923,16 @@ candidate-specific (8-57%), NOT N-specific. Image sizes scattered too.
 EVIDENCE that the cascade structural picture is N-INVARIANT for the
 auto-discovered first-eligible candidate at each N. Strong support for
 the bet's algorithmic foundation regardless of which N is chosen.
+
+## 19:36 EDT — 20 cascade_aux CNFs generated for the 5 missing MSB candidates
+
+Concrete shippable: 5 missing-MSB candidates × sr60/sr61 × expose/force =
+20 new aux CNFs. Compiled via cascade_aux_encoder.py, all 20 audited
+CONFIRMED, registry artifacts.cnfs lists wired.
+
+This unblocks fleet aux-vs-cascade comparison for the SURPRISE candidate
+(m9cfea9ce, 20-bit de58 compression) and BOTTOM (m189b13c7, HW=3 reachable)
+without regenerating each time.
+
+Now any fleet machine can target the SURPRISE/BOTTOM with Mode B encoding
+and compare to standard cascade against the same candidate.
