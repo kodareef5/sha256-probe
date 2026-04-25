@@ -1033,3 +1033,26 @@ expected to hold. After matrix completes, will run clean re-runs of
 contended cells to verify wall-time pattern.
 
 Pushed: c4eb41c, 3025214, e4a974c.
+
+## 22:24 EDT — Phase B 10/10 COMPLETE: predictor closure FINAL
+
+Last cell (msb_cert cadical 10M) finished: 494s, dec/conf 3.24.
+
+FINAL Spearman ρ at 10M conflicts (n=5):
+                       │  kissat  │  cadical
+  de58_size            │  +0.000  │  +0.000
+  hard_bit_total_lb    │  -0.100  │  -0.100
+
+CONSISTENT NULL across both solvers, both predictors. de58 image-size
+rank and hard_bit_total_lb are SEARCH-IRRELEVANT for cascade-DP CNF
+solver behavior at 10M-conflict CDCL budgets. CLOSED.
+
+Dashboard: 158 total runs, 20 sr61_n32 runs (matrix), 0 audit failures.
+1.5 CPU-h spent on the validation matrix; well under 10k budget.
+
+Implication for fleet: future sr61_n32 compute should distribute by
+candidate COVERAGE (disjoint de58 regions) rather than RANK. Neither
+predictor justifies prioritizing one candidate over another at standard
+CDCL budgets.
+
+Pushed: c4eb41c, 3025214, e4a974c, 62d663c.

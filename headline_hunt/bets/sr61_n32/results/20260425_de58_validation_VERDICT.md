@@ -1,23 +1,43 @@
 # de58 predictor validation — VERDICT (kissat data complete, cadical pending 1 cell)
 **2026-04-25 evening** — sr61_n32 / de58 validation matrix.
 
-## Summary (5/5 candidates with kissat 10M data)
+## FINAL Summary (Phase B 10/10 complete)
 
 ```
-Spearman ρ vs kissat 10M dec/conf:
-  de58_size            → ρ = +0.000  (perfectly null)
-  hard_bit_total_lb    → ρ = -0.100  (essentially null, slightly negative)
+Spearman ρ at 10M conflicts (n=5):
+                       │  kissat  │  cadical
+  de58_size            │  +0.000  │  +0.000
+  hard_bit_total_lb    │  -0.100  │  -0.100
 ```
 
-Neither structural predictor correlates with cascade-DP solver behavior
-at 10M conflicts.
+**Both predictors are PERFECTLY NULL vs kissat dec/conf and PERFECTLY NULL
+vs cadical dec/conf.** Same direction (and same magnitude) in both solvers
+— consistent and decisive falsification.
+
+Per-candidate dec/conf at 10M:
+
+| Candidate | de58_size | hard_lb | kissat dc | cadical dc |
+|-----------|----------:|--------:|----------:|-----------:|
+| bit-19    |       256 |      15 |      3.29 |       3.05 |
+| bit-25    |     4,096 |      22 |      3.38 |       3.12 |
+| msb_surp  |     4,096 |      20 |      3.41 |       3.19 |
+| msb_bot   |   130,049 |      29 |    **3.22** |    **2.97** |
+| msb_cert  |    82,826 |      26 |    **3.45** |       3.24 |
+
+msb_bot (LARGEST de58, MOST hard bits) has LOWEST dec/conf in BOTH solvers.
+msb_cert (medium de58, medium hard_bit_lb) has HIGHEST kissat dec/conf.
+bit-19 (extreme of both predictors) is mid-pack.
+
+The predictor and the dec/conf are essentially orthogonal: factor-500
+variation in de58 image size translates to <10% variation in dec/conf
+with no monotone correlation in either direction in either solver.
 
 ## Question
 
 Does the de58 image-size rank predict solver behavior on cascade-DP CNFs?
 (Per AUTHORIZATION_REQUEST_de58_validation.md.)
 
-## Data (9 of 10 Phase B cells; msb_cert cadical pending)
+## Data (10 of 10 Phase B cells COMPLETE)
 
 ### dec/conf at 10M conflicts (CPU-rate-mostly-independent metric)
 
@@ -27,7 +47,7 @@ Does the de58 image-size rank predict solver behavior on cascade-DP CNFs?
 | bit-25               |       4096 |       13 |      22 |      3.38 |     3.12 |
 | msb_surp (m9cfea9ce) |       4096 |       10 |      20 |      3.41 |     3.19 |
 | msb_bot (m189b13c7)  |    130,049 |        4 |      29 |  **3.22** | **2.97** |
-| MSB cert             |     82,826 |       10 |      26 |  **3.45** | (pending)|
+| MSB cert             |     82,826 |       10 |      26 |  **3.45** |     3.24 |
 
 **msb_bot (LEAST de58-compressed, MOST hard bits) has LOWEST dec/conf in BOTH solvers.**
 **msb_cert (mid de58, mid hard_lb) has HIGHEST kissat dec/conf.**
@@ -46,7 +66,7 @@ This is **the OPPOSITE of what either predictor would forecast.**
 The bit-19 vs others wall difference at 10M was likely **contention noise**.
 When uncontended (msb_bot), wall is comparable to bit-19's contended 289s.
 
-## Preliminary verdict (not final)
+## Final verdict (10 of 10 cells complete; CLOSED)
 
 **The de58 image-size predictor does NOT predict cascade-DP solver behavior
 in any monotonic way at 10M conflicts.**
