@@ -131,3 +131,18 @@ Distilled the 200k-record corpus to a 50-residual starter pack (HW 62-69) at `be
 All 50 share active register pattern [a,b,c,_,e,f,g,_] (d63=h63=0 universal cascade signature).
 HW=62 is too dense for direct Wang differential — bet stays blocked. Starter pack useful for cluster analysis, hill-climb seeds, structural pattern checks.
 Writeup: `bets/block2_wang/residuals/STARTER_PACK.md` with concrete next-actions for the next worker.
+
+## 20:30 EDT — pulse-end status: 5 commits this hour, real correction cycle
+
+Final shipped this hour:
+- Predictor-vs-memory 4-point curve: NOT monotonic. Earlier 2-point overclaim retracted.
+- Kissat metrics (conflicts/decisions/propagations/restarts/rss) extracted. The 'predictor signals kissat' apparent effect is sr-level CONFOUNDED — within sr=60, 3 candidates cluster regardless of predicted lb.
+- block2_wang starter pack: top-50 lowest-HW residuals distilled to a JSONL for the next trail-engine builder.
+
+What stands: predict_hard_bits is a valid MITM-table-size predictor (8/8 verified). It is NOT validated as a kissat-difficulty predictor. The same-sr multi-seed sweep needed to settle that is ~5-8 CPU-h, queued for a future worker.
+
+Background processes:
+- 35-cand sweep: 26/35 done (~7 min remaining)
+- 90-min kissat × 2 (Mode A vs Mode B sr=60 MSB): 72:29 of 90:00 (~18 min remaining)
+
+Will report final rankings when sweep completes. Dashboard: 15 runs, 0 audit failures.
