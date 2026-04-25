@@ -79,6 +79,45 @@ public:
     // Used to undo on notify_backtrack.
     std::vector<size_t> level_propagation_counts;
 
+    // ---- Rule 4 @ r=62, r=63: actual register-value bit tracking ----
+    // For each (reg, round, pair) we track 32 bits. Each bit ∈ {-1, 0, 1}
+    // (unassigned / false / true). Supports the eventual modular sum
+    // reasoning at r=62 and r=63 (RULE4_R62_R63_DESIGN.md).
+    //
+    // Indexed by a flat register key: reg_key = reg_idx * 64 + round, where
+    // reg_idx ∈ [0..7] for 'a'..'h'. We track rounds 57..63 (full residual
+    // window) for both pair-1 and pair-2.
+    static constexpr int N_REG_KEYS = 8 * 64;  // sparse; only some used
+    struct PartialReg {
+        std::array<int, 32> bits;  // -1, 0, 1
+        int n_decided;
+        PartialReg() : n_decided(0) { bits.fill(-1); }
+    };
+    std::map<int, PartialReg> actual_p1;  // reg_key -> partial value (pair-1)
+    std::map<int, PartialReg> actual_p2;  // pair-2
+
+    // Reverse: SAT var -> (reg_key, pair, bit_idx, polarity)
+    struct ActualVarInfo { int reg_key; int pair; int bit; int polarity; };
+    std::unordered_map<int, ActualVarInfo> actual_var_lookup;
+
+    // Backtrack support: per-level undo stack of bit assignments.
+    struct ActualUndo { int reg_key; int pair; int bit; int prev; };
+    std::vector<std::vector<ActualUndo>> level_actual_undo;
+
+    static int reg_key_for(const std::string& reg, int round) {
+        int reg_idx = (reg.size() == 1 && reg[0] >= 'a' && reg[0] <= 'h')
+                      ? (reg[0] - 'a') : -1;
+        if (reg_idx < 0) return -1;
+        return reg_idx * 64 + round;
+    }
+    static std::string reg_key_str(int reg_key) {
+        char reg_c = 'a' + (reg_key / 64);
+        int round = reg_key % 64;
+        return std::string(1, reg_c) + "_" + std::to_string(round);
+    }
+
+    long long n_actual_assignments = 0;
+
     // Statistics
     long long n_assignments = 0;
     long long n_propagations = 0;
@@ -90,6 +129,7 @@ public:
     CascadePropagator() {
         level_propagation_counts.push_back(0);
         level_eq_assignments.push_back({});
+        level_actual_undo.push_back({});
     }
 
     // Helper: queue a forced literal with its reason (input literals).
@@ -109,6 +149,25 @@ public:
 
     void notify_assignment(const std::vector<int>& lits) override {
         n_assignments += lits.size();
+
+        // Rule 4 r=62/63 substrate: track actual register-value bits.
+        for (int lit : lits) {
+            int var = std::abs(lit);
+            auto av_it = actual_var_lookup.find(var);
+            if (av_it == actual_var_lookup.end()) continue;
+            const ActualVarInfo& info = av_it->second;
+            int sat_val = (lit > 0) ? 1 : 0;
+            int bit_val = (info.polarity > 0) ? sat_val : (1 - sat_val);
+            auto& reg_map = (info.pair == 1) ? actual_p1 : actual_p2;
+            PartialReg& preg = reg_map[info.reg_key];
+            int prev = preg.bits[info.bit];
+            preg.bits[info.bit] = bit_val;
+            if (prev == -1) preg.n_decided++;
+            level_actual_undo.back().push_back(
+                {info.reg_key, info.pair, info.bit, prev});
+            n_actual_assignments++;
+        }
+
         // Rule 5 (R63.1) — track dc_63 and dg_63 bit assignments.
         for (int lit : lits) {
             int var = std::abs(lit);
@@ -158,6 +217,7 @@ public:
     void notify_new_decision_level() override {
         level_propagation_counts.push_back(level_propagation_counts.back());
         level_eq_assignments.push_back({});
+        level_actual_undo.push_back({});
         n_decisions++;
     }
 
@@ -184,6 +244,18 @@ public:
                 else r63_eq_state[it->pair_idx].second = it->prev;
             }
             level_eq_assignments.pop_back();
+        }
+        // Undo actual-register state changes back to new_level.
+        while (level_actual_undo.size() > new_level + 1) {
+            for (auto it = level_actual_undo.back().rbegin();
+                 it != level_actual_undo.back().rend(); ++it) {
+                auto& reg_map = (it->pair == 1) ? actual_p1 : actual_p2;
+                PartialReg& preg = reg_map[it->reg_key];
+                int cur = preg.bits[it->bit];
+                if (cur != -1 && it->prev == -1) preg.n_decided--;
+                preg.bits[it->bit] = it->prev;
+            }
+            level_actual_undo.pop_back();
         }
     }
 
@@ -285,7 +357,9 @@ public:
 // Map (reg, round) -> 32 SAT-var literals
 using AuxRegMap = std::map<std::pair<std::string, int>, std::vector<int>>;
 
-bool load_varmap(const std::string& path, AuxRegMap& aux_reg, int& total_vars) {
+bool load_varmap(const std::string& path, AuxRegMap& aux_reg,
+                 AuxRegMap& actual_p1, AuxRegMap& actual_p2,
+                 int& total_vars, int& version) {
     std::ifstream f(path);
     if (!f) {
         std::cerr << "ERROR: cannot open varmap " << path << "\n";
@@ -293,14 +367,13 @@ bool load_varmap(const std::string& path, AuxRegMap& aux_reg, int& total_vars) {
     }
     json data;
     f >> data;
-    int ver = data["version"];
-    if (ver != 1 && ver != 2) {
-        std::cerr << "ERROR: unknown varmap version " << ver << "\n";
+    version = data["version"];
+    if (version != 1 && version != 2) {
+        std::cerr << "ERROR: unknown varmap version " << version << "\n";
         return false;
     }
     total_vars = data["summary"]["total_vars"];
     for (auto& [key, lits] : data["aux_reg"].items()) {
-        // key is "<reg>_<round>"
         auto pos = key.rfind('_');
         std::string reg = key.substr(0, pos);
         int r = std::stoi(key.substr(pos + 1));
@@ -308,9 +381,30 @@ bool load_varmap(const std::string& path, AuxRegMap& aux_reg, int& total_vars) {
         for (auto& l : lits) lit_vec.push_back(l);
         aux_reg[{reg, r}] = lit_vec;
     }
+    if (version == 2) {
+        if (data.contains("actual_p1")) {
+            for (auto& [key, lits] : data["actual_p1"].items()) {
+                auto pos = key.rfind('_');
+                std::string reg = key.substr(0, pos);
+                int r = std::stoi(key.substr(pos + 1));
+                std::vector<int> lit_vec;
+                for (auto& l : lits) lit_vec.push_back(l);
+                actual_p1[{reg, r}] = lit_vec;
+            }
+        }
+        if (data.contains("actual_p2")) {
+            for (auto& [key, lits] : data["actual_p2"].items()) {
+                auto pos = key.rfind('_');
+                std::string reg = key.substr(0, pos);
+                int r = std::stoi(key.substr(pos + 1));
+                std::vector<int> lit_vec;
+                for (auto& l : lits) lit_vec.push_back(l);
+                actual_p2[{reg, r}] = lit_vec;
+            }
+        }
+    }
     return true;
 }
-
 
 // -------- DIMACS CNF loader --------
 
@@ -367,10 +461,18 @@ int main(int argc, char** argv) {
 
     // Load varmap
     AuxRegMap aux_reg;
+    AuxRegMap actual_p1_map, actual_p2_map;
     int total_vars = 0;
-    if (!load_varmap(varmap_path, aux_reg, total_vars)) return 1;
-    std::cerr << "Loaded varmap: " << aux_reg.size() << " (reg,round) entries, "
+    int varmap_version = 0;
+    if (!load_varmap(varmap_path, aux_reg, actual_p1_map, actual_p2_map,
+                     total_vars, varmap_version)) return 1;
+    std::cerr << "Loaded varmap v" << varmap_version << ": "
+              << aux_reg.size() << " (reg,round) entries, "
               << "total_vars=" << total_vars << "\n";
+    if (varmap_version >= 2) {
+        std::cerr << "  actual_p1: " << actual_p1_map.size()
+                  << " entries; actual_p2: " << actual_p2_map.size() << " entries\n";
+    }
 
     // Set up solver
     CaDiCaL::Solver solver;
@@ -482,6 +584,36 @@ int main(int argc, char** argv) {
         std::cerr << grp.label << ": " << n_registered << " bit-pairs registered\n";
     }
 
+    // ---- Rule 4 r=62/63 substrate: register actual-value vars from varmap v2 ----
+    // For now we just track them; the actual modular sum reasoning is the
+    // dedicated next phase (RULE4_R62_R63_DESIGN.md). Tracking them here
+    // exercises the data structures and validates backtrack safety.
+    int n_actual_registered = 0;
+    auto register_actuals = [&](const AuxRegMap& src, int pair) {
+        for (auto& [key, lits] : src) {
+            const auto& [reg, r] = key;
+            // Track the rounds and registers that Rule 4 r=62/63 will need:
+            // a, b, c at r ∈ {59, 60, 61, 62}.
+            if (r < 59 || r > 62) continue;
+            if (reg != "a" && reg != "b" && reg != "c") continue;
+            int reg_key = CascadePropagator::reg_key_for(reg, r);
+            for (int b = 0; b < 32; b++) {
+                int lit = lits[b];
+                if (std::abs(lit) <= 1) continue;
+                int var = std::abs(lit);
+                int pol = (lit > 0) ? 1 : -1;
+                prop.actual_var_lookup[var] = {reg_key, pair, b, pol};
+                n_actual_registered++;
+            }
+        }
+    };
+    if (varmap_version >= 2) {
+        register_actuals(actual_p1_map, 1);
+        register_actuals(actual_p2_map, 2);
+        std::cerr << "Rule 4 r=62/63 substrate: " << n_actual_registered
+                  << " actual-register SAT vars registered (a,b,c at r=59..62)\n";
+    }
+
     // Connect propagator (optional — skip with --no-propagator for baseline)
     if (use_propagator) {
         solver.connect_external_propagator(&prop);
@@ -492,9 +624,14 @@ int main(int argc, char** argv) {
         for (auto& [var, _] : prop.r63_eq_lookup) {
             solver.add_observed_var(var);
         }
+        // And the Rule 4 r=62/63 substrate vars
+        for (auto& [var, _] : prop.actual_var_lookup) {
+            solver.add_observed_var(var);
+        }
         std::cerr << "Propagator connected: " << prop.forced_zero_vars.size()
                   << " cascade-zero vars + " << prop.r63_eq_lookup.size()
-                  << " Rule-5 vars observed\n";
+                  << " Rule-5 vars + " << prop.actual_var_lookup.size()
+                  << " actual-register vars observed\n";
     } else {
         std::cerr << "Running WITHOUT propagator (baseline)\n";
     }
@@ -515,6 +652,7 @@ int main(int argc, char** argv) {
               << "  cb_propagate fires:       " << prop.n_propagations << "\n"
               << "    of which Rule 5 fires:  " << prop.n_rule5_fires << "\n"
               << "    of which Rule 4@r=61:   " << prop.n_rule4r61_fires << "\n"
+              << "  actual-reg bit assigns:   " << prop.n_actual_assignments << "\n"
               << "  decisions:                " << prop.n_decisions << "\n"
               << "  backtracks:               " << prop.n_backtracks << "\n";
 
