@@ -1109,3 +1109,29 @@ and converge to null at high budgets (-0.1 to 0.0). More compressed
 candidate ≠ easier for solver; if anything, slightly harder early.
 
 VERDICT: SEARCH-IRRELEVANT, definitive. CLOSED.
+
+## 23:25 EDT — Solver-internal metrics show structure detection (bonus signal)
+
+While dec/conf is null, kissat reports glue1_used and prop_rate that DO
+correlate with predictors:
+
+  Spearman ρ at kissat 1M seed=5:
+    de58_size  vs  focused_glue1: -0.600  (more compressed → MORE glue1)
+    de58_size  vs  prop_rate:     +0.600  (more compressed → SLOWER prop)
+    hard_lb    vs  focused_glue1: -0.700
+
+bit-19 has 1.44M glue1 @1M, 24.6M @10M. msb_bot has 1.29M @1M, 21.3M @10M.
+12% more glue1 clauses learned for bit-19 — solver IS detecting compressed
+structure. But effect cancels with slower propagation; net dec/conf null.
+
+n=5 thin; not a new predictor, but the closure is now "predictor exists
+in solver-internal terms but doesn't translate to dec/conf at tested
+budgets" — a richer narrowing than "no signal."
+
+## 23:30 EDT — bit-19 10M kissat CLEAN re-run = 282s (vs contended 289s)
+
+Almost identical to msb_bot's 281s uncontended. The 7s contended-vs-clean
+gap was tiny noise. WALL TIME at 10M kissat is FLAT across candidates
+uncontended. Confirms predictor null at wall level too, not just dec/conf.
+
+Pushed: ef7261a, 3b9ed36, 72c621d, db6905f, ea32aa8.
