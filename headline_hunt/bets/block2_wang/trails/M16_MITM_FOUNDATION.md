@@ -116,7 +116,18 @@ hit-rate prediction.
 ## ALTERNATIVE design candidate: backward-modification (no storage at all)
 
 Discovered 2026-04-25 evening in `q5_alternative_attacks/backward_modification.py`.
-Different architecture from store-and-match MITM:
+Different architecture from store-and-match MITM.
+
+**IMPORTANT CAVEAT (re-read 2026-04-25 evening)**: the q5 Python script's
+DOCSTRING describes the algorithm below, but the IMPLEMENTATION (lines
+56-105) is honest about the gap: "For ACTUAL backward computation, we'd need
+to invert rounds 63→59 to find state at round 58... But inverting SHA-256
+rounds is non-trivial." The actual code just forward-evaluates with W[57]=
+W[58]=0 (a partial sampler, not a backward-modification engine).
+
+So this is a DESIGN CANDIDATE, not a working tool. Adopting it requires
+implementing the actual backward-inversion machinery — closer to multi-day
+than half-day work.
 
 **Algorithm**:
 1. Search over (W59, W60) only — 2N bits.
@@ -141,17 +152,29 @@ constraints reduce effective collision-target dimensionality. At sr=60 the
 trick reportedly reduces 256-bit search to 128-bit. At sr=63 (full collision
 target) the reduction may be smaller. **Empirical test needed**.
 
-**Concrete next step (no compute needed)**: port q5/backward_modification.py
-to N=16 (similar to backward_construct port). Verify the W57+W58 backward-
-solve step is well-defined at N=16. ~half day of implementation.
+**Concrete next step (NO COMPUTE NEEDED, but MORE IMPLEMENTATION than first
+estimated)**: implement the backward-inversion of SHA rounds 63→59. The
+key step (step 4 in the algorithm) requires:
 
-This design is **strictly superior to store-and-match MITM** if it works:
-no storage requirement, simpler architecture, falsifiable with a 70-min
-single-machine experiment instead of a 64-GB-storage-and-multi-day MITM.
+  Given target state_63 (collision), compute backward what state_58 must
+  have been such that 5 forward rounds with chosen (W59, W60) produce that
+  target.
 
-Updated M16 priority: **try backward-modification design FIRST** before
-investing in store-and-match MITM signature reduction. Filed as the
-revised M16 frontrunner in this evening's hand-off.
+This is non-trivial because each round mixes the state via Σ0/Σ1/Maj/Ch.
+Doable but requires careful design. Estimated 2-3 days implementation.
+
+This design is **structurally superior to store-and-match MITM** IF the
+backward-inversion machinery can be built efficiently. It avoids the storage
+problem that blocks naive M16-MITM. Worth attempting before falling back
+to multi-day storage-bound MITM.
+
+Updated M16 priority: **investigate backward-modification feasibility**
+before investing in store-and-match MITM signature reduction. Cost is
+similar (multi-day implementation) but PAYOFF is potentially much better
+(~70 min single-machine run instead of 64-GB MITM).
+
+This is the **active sharp decision** for the bet's M16 milestone, per
+GPT-5.5's framing.
 
 ## Tracking
 
