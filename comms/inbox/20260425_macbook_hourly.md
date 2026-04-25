@@ -92,3 +92,20 @@ WCM trigger seed_farming_unchanged_sr61: stays PARTIAL FIRE. Encoding demonstrab
 This is the kind of clean refinement we need — measure, refine, refute over-confidence. 9 more runs logged. Total 18 sub-1-min sat runs this hour, all audit-CONFIRMED.
 
 Commit: d3ed48b
+
+## 08:00 EDT — Multi-seed: Mode B 50k advantage is highly seed-stable
+
+5 seeds × 3 kernels × 3 encodings = 45 runs at 50k-conflict budget (100s total). All 45 logged via append_run.py.
+
+Mode B (force) gives wall=1.00s deterministically — every one of 15 force runs across 3 kernel families × 5 seeds is exactly 1.00s. CV=0.000. Standard CV=0.188; expose CV=0.218. The fixed Theorems 1-4 unit clauses trigger identical preprocessing paths regardless of seed.
+
+This refutes the "lucky seed=5" counter-explanation for last hour's 50k Mode B speedup. The 2.2x advantage is structural and reproducible.
+
+Combined three-data-point picture:
+- 50k:  Mode B 2.2x faster, CV=0 (this hour)
+- 500k: Mode B converges with standard (last hour)
+- >50k regime: front-loaded gain that erodes; not headline-class
+
+45 runs all audit-CONFIRMED. Total runs in registry now: 71.
+
+Commit: 1b5ac22
