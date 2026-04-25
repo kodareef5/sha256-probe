@@ -592,6 +592,50 @@ public:
 
     // -------- Optional methods --------
 
+    // Path A from MODULAR_VS_XOR_FORCING_ISSUE.md: actively shape CDCL
+    // decisions to bring the solver into Rule 4's input domain.
+    //
+    // The structural finding from phase2c_continuous_trigger_2026-04-25:
+    // CDCL navigates by deciding diff-aux variables; actual register
+    // values are decided implicitly via unit propagation, rarely as
+    // primary decisions. So Rule 4's trigger states are visited only
+    // during preprocessing.
+    //
+    // cb_decide() injects a SUGGESTION: when CDCL would otherwise pick
+    // any literal, suggest an actual-register bit that's currently
+    // undecided AND would unlock a Rule 4 firing if decided.
+    //
+    // Heuristic: pick the lowest-bit-position undecided actual-register
+    // bit at (a_61, pair=1) — the first input to dSigma0/dMaj at r=62.
+    // This is a SIMPLE heuristic; a smarter one would aim at bits that
+    // would complete a Sigma0 input pattern.
+    long long n_cb_decide_suggestions = 0;
+    bool decision_shaping_enabled = false;  // toggled via --shape-decisions
+
+    int cb_decide() override {
+        if (!decision_shaping_enabled) return 0;
+        // Find an undecided bit of a_61 in pair-1 with low bit-index.
+        int key_a61 = reg_key_for("a", 61);
+        auto it = actual_p1.find(key_a61);
+        if (it == actual_p1.end()) return 0;
+        const PartialReg& pr = it->second;
+        for (int b = 0; b < 32; b++) {
+            if (pr.bits[b] != -1) continue;
+            // Find a SAT var bound to (a_61, pair=1, b)
+            for (auto& [var_id, bindings] : actual_var_lookup) {
+                for (const auto& info : bindings) {
+                    if (info.reg_key == key_a61 && info.pair == 1
+                        && info.bit == b) {
+                        // Suggest TRUE for this var.
+                        n_cb_decide_suggestions++;
+                        return (int)var_id;
+                    }
+                }
+            }
+        }
+        return 0;  // no preference; let solver decide
+    }
+
     int cb_propagate() override {
         // First: drain the pending queue from notify_assignment-driven Rule 5.
         // pending_propagations holds literals queued but not yet returned.
@@ -779,12 +823,15 @@ int main(int argc, char** argv) {
     std::string varmap_path = argv[2];
     long long conflict_limit = 0;  // 0 = no limit
     bool use_propagator = true;
+    bool shape_decisions = false;
     for (int i = 3; i < argc; i++) {
         std::string arg = argv[i];
         if (arg.rfind("--conflicts=", 0) == 0) {
             conflict_limit = std::stoll(arg.substr(12));
         } else if (arg == "--no-propagator") {
             use_propagator = false;
+        } else if (arg == "--shape-decisions") {
+            shape_decisions = true;
         }
     }
 
@@ -965,6 +1012,10 @@ int main(int argc, char** argv) {
 
     // Connect propagator (optional — skip with --no-propagator for baseline)
     if (use_propagator) {
+        prop.decision_shaping_enabled = shape_decisions;
+        if (shape_decisions) {
+            std::cerr << "Decision-shaping ENABLED (cb_decide suggests a_61 bits)\n";
+        }
         solver.connect_external_propagator(&prop);
         for (auto& [var, _] : prop.forced_zero_vars) {
             solver.add_observed_var(var);
@@ -1010,6 +1061,7 @@ int main(int argc, char** argv) {
               << "    of which Rule 5 fires:  " << prop.n_rule5_fires << "\n"
               << "    of which Rule 4@r=61:   " << prop.n_rule4r61_fires << "\n"
               << "    of which Rule 4@r=62 forcings: " << prop.n_rule4_r62_fires << "\n"
+              << "  cb_decide suggestions:    " << prop.n_cb_decide_suggestions << "\n"
               << "  actual-reg bit assigns:   " << prop.n_actual_assignments << "\n"
               << "  dT2_62 computable (sample, full): " << prop.n_dT2_62_computable
               << " (out of ~" << (prop.n_actual_assignments / 4096) << " samples)\n"
