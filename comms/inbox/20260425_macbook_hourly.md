@@ -853,3 +853,34 @@ Stale tail -f shell killed.
 
 Files: SCALING_PLAN.md, M10_RESULT.md, AUTHORIZATION_REQUEST_de58_validation.md,
 backward_construct_n10.c (compiled binary alongside).
+
+## 18:32 EDT — Authorized parallel work: validation matrix + M12 + N=10 stratified
+
+User authorized de58 validation matrix + M12 launch ("use as much as you can").
+
+Stratified BF at N=10 (w57 ∈ [0,64) subspace, M5-tuned -mcpu=apple-m4 build):
+  BF: 72 collisions in 131s
+  BC: 72 collisions in 8.378s
+  Wall speedup: 15.67× (VERIFIED, was estimated)
+  Cross-validation: 72/72 matched, 0 missed, 0 extra
+  Phase 4: 72/72
+
+  M10 speedup claim moved EVIDENCE → VERIFIED (15.67× near N=8's 17.12×,
+  decay ~0.92 per N-bit). Predicts N=12 ~14×, N=16 ~10×.
+
+de58 validation matrix Phase A (1M conflicts) DONE: 10/10 TIMEOUT, all
+candidates within 21-31s wall (excluding contended bit-19 39-49s).
+NO obvious de58-rank vs wall correlation at 1M.
+
+Phase B (10M conflicts) underway, contended with M12. bit-19 10M kissat:
+289s TIMEOUT. Other 10M cells pending.
+
+M12 launched with M5-tuned binary (10 threads OpenMP, ~2hr ETA).
+Per-bet template M12_RESULT_template.md ready for fill-in.
+
+N-invariance probe (n_invariants.py): Theorem 4 + R63.1 + R63.3 all pass
+8192/8192 at N ∈ {8,10,12,14}. EVIDENCE that cascade structure is
+N-invariant. Earlier inline R63.3 result was buggy (operator precedence)
+and is SUPERSEDED.
+
+Pushed: 02cc34f, e251a6f, b8f4633, 417778c, 6ecd3ab.
