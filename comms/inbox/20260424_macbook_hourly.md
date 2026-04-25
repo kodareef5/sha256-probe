@@ -189,3 +189,11 @@ Wrote prototypes/de61_solver.py based on dCh controllability. Empirical verifica
 Bug: XOR-vs-modular conflation for dCh. The XOR expression `(e60 AND ctrl_mask) XOR dg60` is correct; equating it with a modular target is wrong.
 Caught in ~5 minutes via verify-everything discipline. The XOR-domain dCh analysis is still valid; the bridge to modular satisfaction is the open Lipmaa-Moriai problem.
 Solver tagged NON-FUNCTIONAL with inline warning. Writeup: `bets/mitm_residue/results/20260424_de61_solver_bug.md`.
+
+## 23:17 EDT — de61=0 empirical rate measured: 0/1M = essentially 2^-32
+
+Swept W1[60] over 1M random values for one cascade-holding triple. de61 distributes uniform-random over 2^32 (HW peaks at 18.5).
+**Confirms**: XOR-domain dCh controllability does NOT reduce the modular cascade-sr=61 search complexity. Per-triple is genuinely 2^32 for de61=0.
+Total cascade-sr=61 search: 2^96 work (consistent with empirical 1800 CPU-h finding nothing).
+Path forward requires either (a) fundamentally different mechanism (block2_wang, programmatic_sat_propagator) or (b) structural insight reducing the modular constraint below 32 bits — XOR-control alone won't get there.
+Writeup: `bets/mitm_residue/results/20260424_de61_empirical_rate.md` with HW distribution histogram.
