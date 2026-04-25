@@ -1,5 +1,16 @@
 # sr=59 cascade-DP cadical sanity probe — UNEXPECTED HARDNESS
 
+## ⚠ Terminology clarification
+
+**Our encoder's `sr=59` is NOT Viragh's "sr=59."** Important to flag upfront:
+
+- **Viragh 2026 "92% broken at sr=59"**: 59-round-truncated SHA-256, collision check at round 59. The collision-finding problem is inherent to the 59-round compression function.
+- **Our encoder's `sr=59`**: full 63-round SHA-256 (collision at round 63), with 5 free W's at rounds 57-61 (vs sr=60's 4 free, sr=61's 3 free) under the cascade-DP construction.
+
+So "sr=N" in our encoder is really "n_free=5, 4, or 3 W's at the cascade-DP construction's tail." It's NOT a round-truncation of SHA-256.
+
+The cadical hardness we observe is therefore on **cascade-DP, full 63-round** problems with varying input freedom — NOT directly comparable to Viragh's 59-round result.
+
 ## Setup
 
 Per the encoder's parameter schema:
@@ -7,7 +18,7 @@ Per the encoder's parameter schema:
 - sr=60: 4 free W's (57-60).
 - sr=61: 3 free W's (57-59).
 
-Naive intuition: sr=59 has the MOST search freedom, so SAT should be easiest. Combined with Viragh's "92% broken" sr=59 result, sr=59 should be a quick sanity-check SAT.
+Naive intuition: more free W's → easier SAT. We tested: not so.
 
 **Test**: cadical 3.0.0 with conflict budget 1M, both modes, 6 candidates × 1 seed (force) + 3 candidates × 5 seeds (force, multi-seed) + 3 candidates × 1 seed (expose). Total 18 runs.
 
@@ -46,7 +57,7 @@ The only way to find SAT in <1M conflicts is if the constraints have STRUCTURE t
 
 ## What this implies
 
-1. **Viragh's "92% broken" result is NOT cascade-DP-compatible.** Viragh likely uses Wang-style differential characteristics with low-Hamming-weight starting differences, which yield trail probabilities high enough to make collision search feasible. Our cascade-DP construction enforces a SPECIFIC class of differentials (cascade diagonal + zero e-trace at r=60..63) that doesn't overlap with Viragh's solution space.
+1. **Viragh's "92% broken" result is NOT directly cascade-DP-comparable.** First, the naming mismatch (our sr=59 is full-63-round with 5-W-freedom, Viragh's sr=59 is 59-round-truncated). Second, even taking the spirit of "sr=59 should be easy somehow," our cascade-DP construction enforces a SPECIFIC class of differentials (cascade diagonal + zero e-trace at r=60..63) that doesn't overlap with whatever differential characteristic Viragh used. Viragh likely uses Wang-style trails with low-HW starting differences.
 
 2. **Cascade-DP sr=59 is structurally hard.** The 2^32 expected SAT solutions don't translate to easy CDCL search. The structural constraints (Theorems 1-4) define a tight modular variety that CDCL has to navigate via unit propagation alone — no shortcuts.
 
