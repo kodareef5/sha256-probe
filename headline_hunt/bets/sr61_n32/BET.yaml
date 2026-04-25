@@ -10,6 +10,18 @@ current_progress: |
   with zero SAT. NO MORE seed farming on unchanged encodings — every run must use
   a new encoding (cascade_aux) or new candidate or be in service of a structural
   predictor experiment.
-last_heartbeat: "2026-04-24T00:00:00Z"
+
+  2026-04-25 structural sweep (no compute): de58 image-size predictor across all
+  36 candidates; bit-19_m51ca0b34_fill55555555 is structural extreme (image=2^8,
+  24-bit compression). Multi-residual analysis: at r=60 cascade boundary only
+  de58 varies (others are candidate-fixed constants). Residual dimension growth
+  through r=63: full 6-component residual saturates at sample size — cascade-DP
+  residual is 1-D in W57 across all candidates. Theorem 4 (da_r ≡ de_r mod 2^32
+  at r=61) verified at full N=32 across 1M samples, 0 violations.
+
+  Caveat: initial cost-estimate ("brute force in 30s") was wrong — encoder
+  demands FULL slot-64 collision, not just da_61=0. 1800 CPU-h baseline is real
+  problem hardness, not encoding waste.
+last_heartbeat: "2026-04-25T19:46:00Z"
 heartbeat_interval_days: 3      # higher cadence — this is the most-likely-to-drift bet
 audit_required: true
