@@ -1,0 +1,22 @@
+Loaded varmap v2: 56 (reg,round) entries, total_vars=12816
+  actual_p1: 56 entries; actual_p2: 56 entries
+Conflict limit: 50000
+Cascade-zero targets: 448 SAT vars observed, 0 bits already const-false
+Rule 5  (dc_63 = dg_63): 32 bit-pairs registered
+Rule 4@r=61 (dA[61] = dE[61]): 32 bit-pairs registered
+Rule 4 r=62/63 substrate: 768 actual-register SAT vars registered (a,b,c at r=59..62)
+Propagator connected: 448 cascade-zero vars + 128 Rule-5 vars + 384 actual-register vars observed
+Loaded 53698 clauses from /tmp/v2_propagator_test.cnf
+Solving with cascade propagator...
+
+Result: 0 (10=SAT, 20=UNSAT, 0=UNKNOWN)
+Propagator stats:
+  notify_assignment events: 521483
+  cb_propagate fires:       480
+    of which Rule 5 fires:  32
+    of which Rule 4@r=61:   32
+  actual-reg bit assigns:   520937
+  dT2_62 computable (sample): 0 (out of ~127 samples)
+  decisions:                381733
+  backtracks:               58826
+s UNKNOWN

@@ -117,6 +117,85 @@ public:
     }
 
     long long n_actual_assignments = 0;
+    long long n_dT2_62_computable = 0;  // # times all 96 inputs decided
+
+    // ---- Helper utilities for Rule 4 r=62/63 firing logic ----
+
+    // Read a 32-bit unsigned value from a PartialReg if all 32 bits are decided.
+    // Returns -1 if any bit is undecided.
+    static long long read_full_value(const PartialReg& preg) {
+        if (preg.n_decided < 32) return -1;
+        unsigned int v = 0;
+        for (int b = 0; b < 32; b++) {
+            if (preg.bits[b] == -1) return -1;  // belt-and-suspenders
+            if (preg.bits[b] == 1) v |= (1u << b);
+        }
+        return (long long)v;
+    }
+
+    // Sigma0(x) = ROTR(x, 2) ^ ROTR(x, 13) ^ ROTR(x, 22).
+    static unsigned int sigma0(unsigned int x) {
+        auto rotr = [](unsigned int v, int n) {
+            return (v >> n) | (v << (32 - n));
+        };
+        return rotr(x, 2) ^ rotr(x, 13) ^ rotr(x, 22);
+    }
+
+    // Maj(x, y, z) = (x & y) ^ (x & z) ^ (y & z).
+    static unsigned int maj(unsigned int x, unsigned int y, unsigned int z) {
+        return (x & y) ^ (x & z) ^ (y & z);
+    }
+
+    // Modular dSigma0 = (Sigma0(a1) - Sigma0(a2)) mod 2^32.
+    // Returns -1 if either a1 or a2 isn't fully decided.
+    static long long dSigma0_modular(const PartialReg& a1, const PartialReg& a2) {
+        long long va1 = read_full_value(a1);
+        long long va2 = read_full_value(a2);
+        if (va1 < 0 || va2 < 0) return -1;
+        unsigned int s1 = sigma0((unsigned int)va1);
+        unsigned int s2 = sigma0((unsigned int)va2);
+        return (long long)((s1 - s2) & 0xFFFFFFFFu);
+    }
+
+    // Modular dMaj = (Maj(a1_{r-1}, V60, V59) - Maj(a2_{r-1}, V60, V59)) mod 2^32
+    // where V60 = a_60 (cascade-zero, value common between pairs) and similarly V59.
+    // Caller passes V60 and V59 as the cascade-equal common values.
+    static long long dMaj_modular_cascade(const PartialReg& a1_rm1,
+                                          const PartialReg& a2_rm1,
+                                          unsigned int V60, unsigned int V59) {
+        long long va1 = read_full_value(a1_rm1);
+        long long va2 = read_full_value(a2_rm1);
+        if (va1 < 0 || va2 < 0) return -1;
+        unsigned int m1 = maj((unsigned int)va1, V60, V59);
+        unsigned int m2 = maj((unsigned int)va2, V60, V59);
+        return (long long)((m1 - m2) & 0xFFFFFFFFu);
+    }
+
+    // Compute dT2_r when all required inputs are fully decided.
+    // For r=62: dT2_62 = dSigma0(a_61) + dMaj(a_61, a_60, a_59) mod 2^32
+    //   inputs: a1_61, a2_61 (varying), a_60 (cascade-zero), a_59 (cascade-zero)
+    // Returns -1 if any input isn't fully decided.
+    long long compute_dT2_62() {
+        int key_a1_61 = reg_key_for("a", 61);
+        int key_a_60 = reg_key_for("a", 60);
+        int key_a_59 = reg_key_for("a", 59);
+        auto p1_61_it = actual_p1.find(key_a1_61);
+        auto p2_61_it = actual_p2.find(key_a1_61);
+        auto p1_60_it = actual_p1.find(key_a_60);
+        auto p1_59_it = actual_p1.find(key_a_59);
+        if (p1_61_it == actual_p1.end() || p2_61_it == actual_p2.end()
+            || p1_60_it == actual_p1.end() || p1_59_it == actual_p1.end())
+            return -1;  // varmap doesn't expose these
+        long long V60 = read_full_value(p1_60_it->second);
+        long long V59 = read_full_value(p1_59_it->second);
+        if (V60 < 0 || V59 < 0) return -1;
+        long long ds0 = dSigma0_modular(p1_61_it->second, p2_61_it->second);
+        if (ds0 < 0) return -1;
+        long long dmaj = dMaj_modular_cascade(p1_61_it->second, p2_61_it->second,
+                                              (unsigned int)V60, (unsigned int)V59);
+        if (dmaj < 0) return -1;
+        return (long long)(((unsigned int)ds0 + (unsigned int)dmaj) & 0xFFFFFFFFu);
+    }
 
     // Statistics
     long long n_assignments = 0;
@@ -166,6 +245,13 @@ public:
             level_actual_undo.back().push_back(
                 {info.reg_key, info.pair, info.bit, prev});
             n_actual_assignments++;
+        }
+
+        // Diagnostic: track how often the dT2_62 input set is fully decided.
+        // (A real Rule 4 firing would happen here.)
+        if (n_actual_assignments > 0 && (n_actual_assignments & 0xFFF) == 0) {
+            // Sample once per 4096 bit-assignments to keep overhead tiny.
+            if (compute_dT2_62() >= 0) n_dT2_62_computable++;
         }
 
         // Rule 5 (R63.1) — track dc_63 and dg_63 bit assignments.
@@ -653,6 +739,8 @@ int main(int argc, char** argv) {
               << "    of which Rule 5 fires:  " << prop.n_rule5_fires << "\n"
               << "    of which Rule 4@r=61:   " << prop.n_rule4r61_fires << "\n"
               << "  actual-reg bit assigns:   " << prop.n_actual_assignments << "\n"
+              << "  dT2_62 computable (sample): " << prop.n_dT2_62_computable
+              << " (out of ~" << (prop.n_actual_assignments / 4096) << " samples)\n"
               << "  decisions:                " << prop.n_decisions << "\n"
               << "  backtracks:               " << prop.n_backtracks << "\n";
 
