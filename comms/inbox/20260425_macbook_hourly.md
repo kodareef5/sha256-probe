@@ -123,3 +123,17 @@ Implication for propagator bet: CaDiCaL is the right target for IPASIR-UP. Prepr
 9 cadical runs logged. Total registry: 80 runs.
 
 Commit: f9f212b
+
+## 09:00 EDT — Full 9-kernel cadical sweep + bit-25 registry fix
+
+Extended the 3-kernel cadical comparison to all 9 kernel families. Aggregate Mode B speedup vs cascade_enf0 standard across 8 kernels (excluding bit-31 confound): mean 3.10x, std 0.59, range 2.40x-4.18x. Highly consistent across kernels.
+
+bit-31 caveat surfaced: its standard CNF uses cascade_explicit encoder (not enf0) which is itself partially cascade-aware → 1.01x speedup. Excluded from the aggregate. The cascade_explicit encoder might be worth porting to other 8 kernels.
+
+Mode A (expose) confirmed STRICTLY WORSE than standard on cadical across all 9 kernels (8.49s mean vs 4.24s standard). Anti-recommend Mode A on cadical.
+
+Registry maintenance: bit-25 candidate (m=0x09990bd2 fill=0x80000000) was missing from candidates.yaml despite kernel_0_9_bit25 existing in kernels.yaml. Caused 3 logging failures. Now added with both available CNF artifacts (sr61_n32_*_full.cnf and sr61_cascade_*.cnf). validate_registry.py: 0 errors.
+
+18 runs logged (15 + 3 retry). Registry: 96 runs total.
+
+Commit: 850477e
