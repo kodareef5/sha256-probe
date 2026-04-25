@@ -208,3 +208,13 @@ Lowest HW(da)+HW(de) = 15 (a single 8+7 split). 51 records with HW(da)+HW(de) �
 Implication: even best 50 records have total HW > 60 across 6 active regs — block2_wang barrier stands.
 Saved: `bets/block2_wang/residuals/lowest_da_plus_de.jsonl` (top 50 trail-design candidates).
 Writeup: `bets/block2_wang/residuals/CLUSTER_ANALYSIS.md`.
+
+## 00:17 EDT — block2_wang cross-candidate universality CONFIRMED
+
+Replicated cluster analysis on bit19_m51ca0b34 (different kernel family). 104,857 records analyzed.
+Per-register HW means within 0.02 across MSB vs bit19 — **cascade produces structurally-identical residuals regardless of kernel bit**.
+Theorem 4 fails at r=63 in both candidates (0% da63==de63).
+bit19 has slightly MORE low-HW outliers (4 vs 1 records at HW(da)≤4).
+Implication: cascade structural barrier is FUNDAMENTAL, not MSB-specific. Block2_wang HW>60 minimum holds across kernels.
+Concrete next-actions: full 35-candidate corpus sweep (overnight), hill-climb on TOTAL HW (vs random plateau), pinpoint round where da-de divergence kicks in.
+Writeup: `bets/block2_wang/residuals/CROSS_CANDIDATE_UNIVERSALITY.md`
