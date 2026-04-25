@@ -28,5 +28,18 @@ current_progress: |
 
   Either approach is multi-day. Bet is still alive but cannot start Phase 2/3
   until Phase 1 produces a sub-24-HW corpus.
-last_heartbeat: "2026-04-24T23:20:00Z"
+
+  STRUCTURAL UPDATE (2026-04-25, macbook): The mitm_residue bet's structural
+  picture (R63.1, R63.3 + cascade-zero on d, h) shows the residual at r=63
+  has 4 modular d.o.f. across 6 active registers. Re-ranked the 104k corpus
+  by hw_free4 (sum across the 4 free moduli) as a structurally-aware metric.
+
+    Min hw_free4 in corpus: 34 (vs 24 Wang threshold)
+    Median hw_free4: 64
+    Top-50 by hw_free4: residuals/top50_lowest_hw_free4.jsonl
+
+  See residuals/STRUCTURAL_RERANK_NOTE.md. The structural floor of HW≥34 on
+  random sampling confirms (path B) backward-search from target low-HW
+  residuals is the necessary path; random sampling cannot reach Wang threshold.
+last_heartbeat: "2026-04-25T09:35:00Z"
 heartbeat_interval_days: 7

@@ -1,11 +1,23 @@
 mechanism_id: programmatic_sat_cascade_propagator
-priority: null   # newly surfaced — set after architectural sketch
-status: open
+priority: 8   # newly surfaced; SPEC shipped; ranks below sigma1_aligned (p7) until prototype
+status: open    # SPEC complete (propagators/SPEC.md); next phase: Python prototype
 owner: unassigned
 machines_assigned: []
 compute_budget_cpu_hours: 300
 current_progress: |
-  Newly surfaced by GPT-5.5 (2026-04-24). No design, no implementation. Survey IPASIR-UP
-  / CaDiCaL external propagator API first.
-last_heartbeat: "2026-04-24T00:00:00Z"
+  SPEC shipped 2026-04-25 (macbook): propagators/SPEC.md with 8 rules.
+  Rules 4-6 directly use the cascade-DP residual structure characterized by
+  the mitm_residue bet (Theorem 4 unified + R63.1 + R63.3). Rules 1-3 are
+  the well-known Theorems 1-3 cascade structure. Rules 7-8 are engineering.
+
+  Next phase: Python-stub validation of rule firing (1-2 weeks of work).
+  Then CaDiCaL IPASIR-UP integration (2-4 weeks). Then N=8 conflict-count
+  experiment vs vanilla CaDiCaL.
+
+  Decision gate (per kill_criteria.md): 10x conflict reduction at N=8 or kill.
+
+  Structural foundation: the rules' correctness is empirically locked by
+  mitm_residue's cross-kernel verification (60,000+ fresh-sample structural
+  checks, 9 kernel families, zero failures).
+last_heartbeat: "2026-04-25T09:35:00Z"
 heartbeat_interval_days: 14
