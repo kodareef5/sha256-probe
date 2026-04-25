@@ -21,6 +21,13 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \ the 104k corpus\nby hw_free4 (sum across the 4 free moduli) as a structurally-aware metric.\n\n  Min hw_free4 in corpus:\
   \ 34 (vs 24 Wang threshold)\n  Median hw_free4: 64\n  Top-50 by hw_free4: residuals/top50_lowest_hw_free4.jsonl\n\nSee residuals/STRUCTURAL_RERANK_NOTE.md.\
   \ The structural floor of HW\u226534 on\nrandom sampling confirms (path B) backward-search from target low-HW\nresiduals\
-  \ is the necessary path; random sampling cannot reach Wang threshold.\n"
-last_heartbeat: '2026-04-25T18:30:00Z'
+  \ is the necessary path; random sampling cannot reach Wang threshold.\n\n2026-04-25 evening (post-GPT-5.5 review): SCALING_PLAN.md\
+  \ written; Stage 1 (M10) executed: ported q5/backward_construct.c to N=10, 946 collisions found,\
+  \ 100% Phase-4 verified, 117s wall on 10 OpenMP threads. Stage 1 PASSED.\n  N-invariant probe at N\u2208{8,10,12,14}:\
+  \ Theorem 4 + R63.1 + R63.3 modular relations all pass 8192/8192 \u2014 EVIDENCE the cascade structure\
+  \ is N-invariant (not an N=32 quirk). Hardlock fraction is candidate-dependent, not N-dependent.\n\
+  \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
+  \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
+  \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
+last_heartbeat: '2026-04-25T22:55:00Z'
 heartbeat_interval_days: 7

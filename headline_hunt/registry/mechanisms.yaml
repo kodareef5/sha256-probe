@@ -13,11 +13,12 @@
   dependencies:
   - "Get block-1 residuals down to HW\u226416 (Wang differential threshold)."
   - Implement a bitcondition/trail-search engine (Wang-style, not just SAT).
-  next_action: "Path B foundation EXISTS: q5_alternative_attacks/backward_construct.c implements a constructive backward solver\
-    \ at N=8 that finds 260/260 collisions, 17x faster than brute force, validated 2026-04-25. Extension to N=32 is now ~1-2\
-    \ weeks of focused implementation (port arithmetic + add MITM signature caching by mitm_residue's 4-d.o.f. residual variety\
-    \ + Wang-style bit-condition pruning). See bets/block2_wang/residuals/20260425_backward_construct_foundation.md. Random\
-    \ sampling and hill-climb are CLOSED \u2014 see 20260424_hillclimb_negative.md and 20260425_structural_hillclimb_negative.md."
+  next_action: "Stage-ladder underway 2026-04-25 evening (per GPT-5.5 review): SCALING_PLAN.md decomposes\
+    \ N=8 \u2192 N=32 into M10/M12/M16/MITM milestones with falsification gates. M10 PASSED: 946 collisions\
+    \ at N=10, 100% Phase-4 verified, 117s wall. N-invariant probe (n_invariants.py) confirms Theorem 4,\
+    \ R63.1, R63.3 hold at N\u2208{8,10,12,14}. M12 source compiled, awaiting clean-wall-time slot post de58\
+    \ validation matrix. Random sampling and hill-climb are CLOSED \u2014 see 20260424_hillclimb_negative.md\
+    \ and 20260425_structural_hillclimb_negative.md."
   kill_criteria:
   - No residual cluster yields >18-round absorber after 1 week of dedicated trail search.
   - No improvement over naive block-2 SAT frontier on N=8/N=12 analogs after pilot phase.
