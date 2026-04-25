@@ -17,5 +17,19 @@ current_progress: |
   Phase 4 (SAT COMPARISON) — OPEN: Next worker to run Kissat with multiple
     seeds on TRUE sr=61 N=10 instances (standard vs aux encoding) and compare
     conflict counts + wall time. Log every run via infra/append_run.py.
-last_heartbeat: "2026-04-24T20:45:00Z"
+  STRUCTURAL HOOK AVAILABLE (2026-04-25, from mitm_residue): Six modular
+  constraints + two zero-diffs at r ∈ {61,62,63} are now empirically locked
+  (60,000+ cross-kernel checks, 9 families). Specifically:
+    R63.1  dc_63 ≡ dg_63           — adds 32 bit-equality clauses
+    R63.3  da_63 − de_63 ≡ dT2_63  — adds modular sum + Sigma0/Maj sub-network
+  These could be added as HINT CLAUSES in a Mode A+ variant (no solution-space
+  restriction; just structural propagation acceleration). Worth a comparative
+  pilot at small N if/when an N=8 encoder is rebuilt.
+
+  Mode B's existing dE[61..63]=0 + dA[61]=dE[61] already implies these in the
+  collision-finding context, so adding them is redundant for Mode B. The
+  potential benefit is for non-Mode-B usage where structural propagation
+  accelerates discovery without forcing the cascade interpretation.
+
+last_heartbeat: "2026-04-25T09:35:00Z"
 heartbeat_interval_days: 7
