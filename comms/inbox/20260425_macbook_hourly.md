@@ -211,3 +211,28 @@ Phase 2C-next: Rule 4 (modular Theorem 4 — da_r − de_r ≡ dT2_r). This is t
 Cumulative today: ~52 commits, registry validates, dashboard 138+ runs, 0% audit failures.
 
 Commit: d3f6816
+
+## 11:00 EDT — Phase 2C Mode B parity COMPLETE; Rule 4 r=62/63 design shipped
+
+Continued Phase 2C through to Mode B parity in the C++ propagator:
+- Rule 5  (dc_63=dg_63): 32 conditional bit-equality fires.
+- Rule 4 @ r=61 (dA[61]=dE[61]): 32 fires; refactored equality into pair-groups.
+- Rule 3 (dE[61..63]=0 three-filter): 64 fires (96 minus 32 const-folded).
+- Varmap v2: encoder now exposes actual register-value SAT vars (pair-1 + pair-2)
+  for rounds 57-63 — unblocks Rule 4 r=62/63.
+
+Final test: Mode A expose CNF, sr=61, 50k conflicts:
+  WITH propagator (Rules 1+2+3+5+4@r=61): 3s, 480 fires (416 zero + 64 equality)
+  WITHOUT propagator:                       7s
+  → 2.3x speedup, propagator dynamically does what Mode B's CNF does statically.
+
+Then shipped RULE4_R62_R63_DESIGN.md — concrete ~640 LOC implementation plan
+for the value-bearing rule (modular Theorem 4 with actual register values).
+Estimated 2-3 days dedicated session. Decision gate: ≥10x conflict reduction
+or kill.
+
+BET.yaml updated to in_flight, owner=macbook. The bet has gone from
+"newly surfaced, no design" → working C++ propagator at Mode B parity →
+clear design for value-bearing next phase. ~56 commits today.
+
+Commits this stretch: d3f6816, 99f09ef, cc1dc84, 396cf5a, f6a7bb7, f0e40a3
