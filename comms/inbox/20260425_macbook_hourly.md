@@ -60,3 +60,11 @@ Generated and audited 36 CNFs (9 kernel families × sr=60/61 × expose/force) fo
 Updated cnf_fingerprints.yaml — widened sr60/sr61 cascade_aux_{expose,force} bucket ranges to accommodate cross-kernel variation (bit-10 was 12540 vars, just below the prior 12500-min). Added observed_n_kernels=9 documentation in the fingerprint entries.
 
 Commit: 41b62de
+
+## 06:30 EDT — IPASIR-UP API survey + Phase 2A smoke test
+
+Closes propagator bet's #1 TODO. IPASIR_UP_API.md: full survey of CaDiCaL 3.0.0's ExternalPropagator class extracted from local headers, with each of the 8 SPEC.md rules mapped to API hooks. cascade_propagator_smoke.cc: minimal NullPropagator that compiles and runs against local CaDiCaL — Phase 2A toolchain verified end-to-end (returns SAT on a trivial unit clause; lifecycle connect/observe/solve/disconnect all working).
+
+Phase 2 build path: 2A skeleton → 2B Rules 1,2 → 2C Rules 3-5 → decision gate (10x conflicts at N=32). The 36-CNF cross-kernel set from this hour's earlier commit is the comparison substrate.
+
+Commit: 4b649e5
