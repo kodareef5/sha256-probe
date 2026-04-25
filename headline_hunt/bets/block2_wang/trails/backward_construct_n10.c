@@ -710,9 +710,9 @@ int main(void) {
     printf("  Collisions found:     %llu\n", (unsigned long long)n_coll_global);
     printf("  de61=0 hits:          %llu (pass rate: 1/%.0f)\n",
            (unsigned long long)n_de61_hits_global,
-           (double)(n_triples_global * 256) / n_de61_hits_global);
-    printf("  Triples evaluated:    %llu (2^24 = %llu)\n",
-           (unsigned long long)n_triples_global, (unsigned long long)(1ULL << 24));
+           (double)(n_triples_global * (1ULL << N)) / n_de61_hits_global);
+    printf("  Triples evaluated:    %llu (2^%d = %llu)\n",
+           (unsigned long long)n_triples_global, 3*N, (unsigned long long)(1ULL << (3*N)));
     printf("  Time:                 %.3fs\n", bc_time);
     printf("  Speedup vs BF:        %.2fx\n", bf_time / bc_time);
 
@@ -856,11 +856,11 @@ skip_phase3:;
     printf("\nAlgorithmic analysis:\n");
     printf("  de61 pass rate:       1/%.0f\n",
            n_de61_hits_global > 0 ?
-           (double)(n_triples_global * 256) / n_de61_hits_global : 0.0);
-    printf("  Outer triples:        2^24 = %llu\n", (unsigned long long)(1ULL << 24));
-    printf("  Inner W60 scan:       256 (table-driven, ~7 ops/value)\n");
-    double ops_bf = (double)(1ULL << 32) * 80.0;
-    double ops_bc = (double)n_triples_global * (256.0 * 7.0 + 15.0)
+           (double)(n_triples_global * (1ULL << N)) / n_de61_hits_global : 0.0);
+    printf("  Outer triples:        2^%d = %llu\n", 3*N, (unsigned long long)(1ULL << (3*N)));
+    printf("  Inner W60 scan:       %u (table-driven, ~7 ops/value)\n", (1U << N));
+    double ops_bf = (double)(1ULL << (4*N)) * 80.0;
+    double ops_bc = (double)n_triples_global * ((double)(1U << N) * 7.0 + 15.0)
                     + (double)n_de61_hits_global * 160.0;
     printf("  Est. ops (BF):        %.2e\n", ops_bf);
     printf("  Est. ops (BC):        %.2e\n", ops_bc);
