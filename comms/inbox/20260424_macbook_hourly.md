@@ -182,3 +182,10 @@ Implication: 2^18 / 2^32 = 2^-14 per-triple probability of admitting W1[60] for 
 Refines my MITM-gain interpretation: forward-table alone covers 2^17 round-60 freedom, but full cascade-sr=61 needs W1[60] dimension + de62/63 constraints. Total search = 2^96 even with cascade-DP (consistent with Theorem 5+6 + 1800 CPU-h empirical).
 Path forward documented: per-triple algebraic solver via Lipmaa-Moriai (~1 day implementation).
 Writeup: `bets/mitm_residue/results/20260424_dch_controllability.md`
+
+## 22:30 EDT — de61 solver attempted, BUG FOUND, retracted
+
+Wrote prototypes/de61_solver.py based on dCh controllability. Empirical verification on the first 10 'compatible' triples showed de61 is NOT zero on any of them — solver is non-functional.
+Bug: XOR-vs-modular conflation for dCh. The XOR expression `(e60 AND ctrl_mask) XOR dg60` is correct; equating it with a modular target is wrong.
+Caught in ~5 minutes via verify-everything discipline. The XOR-domain dCh analysis is still valid; the bridge to modular satisfaction is the open Lipmaa-Moriai problem.
+Solver tagged NON-FUNCTIONAL with inline warning. Writeup: `bets/mitm_residue/results/20260424_de61_solver_bug.md`.
