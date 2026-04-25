@@ -1,11 +1,16 @@
 mechanism_id: d4_xor_preprocessing
 priority: 3
-status: open
+status: blocked
 owner: unassigned
 machines_assigned: []
 compute_budget_cpu_hours: 500
-current_progress: |
-  Not started. Standard CNF available; d4 build available; XOR preprocessor (Bosphorus or
-  CryptoMiniSat XOR recovery) needed.
-last_heartbeat: "2026-04-24T00:00:00Z"
+current_progress: "Tested CryptoMiniSat 5 XOR recovery on three cascade-DP CNF variants\n(cascade_enf0, cascade_explicit,\
+  \ cascade_aux_force) at maxxorsize=8.\nResult: ZERO XOR clauses recovered across all three.\n\nKill criterion #2 fired:\
+  \ Bosphorus / CryptoMiniSat XOR recovery on\ncascade CNF produces no or near-zero XOR clauses \u2192 premise of the bet\n\
+  fails (no hidden linear structure for XOR preprocessor to expose).\n\nThe encoder (lib.cnf_encoder.CNFBuilder) emits XOR\
+  \ operations via\nAIG-style 3-clause Tseitin form, not natural XOR-clause patterns.\nCryptoMiniSat does not detect them.\
+  \ Encoder constant propagation also\ncollapses trivial XORs to constants pre-emission.\n\nStatus: blocked. Bet stays alive\
+  \ only if Bosphorus (separate XOR-finding\nalgorithm) finds different structure. Bosphorus install is multi-day\nsetup work;\
+  \ not initiating without explicit user direction.\n\nSee results/20260425_xor_recovery_zero.md.\n"
+last_heartbeat: '2026-04-25T19:00:00Z'
 heartbeat_interval_days: 7

@@ -1,210 +1,225 @@
-# Active and proposed attack mechanisms.
-# Schema: see ../infra/schemas/mechanism.schema.yaml
-# Discipline: every entry has kill_criteria. If you can't say what closes it, it's not a mechanism.
-
 - id: block2_wang_residual_absorption
-  name: "Wang-style block-2 modification from cascade residuals"
-  headline_if_success: "Two-block schedule-compliant extension/absorber beyond current SHA-256 reduced-round frontier"
-  hypothesis: "Structured block-1 residuals can be absorbed by a tailored SHA-256 block-2 differential trail using disturbance correction, neutral bits, and message modification."
+  name: Wang-style block-2 modification from cascade residuals
+  headline_if_success: Two-block schedule-compliant extension/absorber beyond current SHA-256 reduced-round frontier
+  hypothesis: Structured block-1 residuals can be absorbed by a tailored SHA-256 block-2 differential trail using disturbance
+    correction, neutral bits, and message modification.
   structural_basis:
-    - "Single-block cascade boundary does not rule out multi-block disturbance correction."
-    - "Naive block-2 SAT reaches ~18 rounds; Wang-style message modification typically extends 6-12 more."
-    - "Cascade residuals have structured d63=h63=0 pattern; active register set always {a,b,c,e,f,g}."
+  - Single-block cascade boundary does not rule out multi-block disturbance correction.
+  - Naive block-2 SAT reaches ~18 rounds; Wang-style message modification typically extends 6-12 more.
+  - Cascade residuals have structured d63=h63=0 pattern; active register set always {a,b,c,e,f,g}.
   status: blocked
   priority: 1
   expected_info_per_cpu_hour: very_high
   dependencies:
-    - "Get block-1 residuals down to HW≤16 (Wang differential threshold)."
-    - "Implement a bitcondition/trail-search engine (Wang-style, not just SAT)."
-  next_action: "Path B foundation EXISTS: q5_alternative_attacks/backward_construct.c implements a constructive backward solver at N=8 that finds 260/260 collisions, 17x faster than brute force, validated 2026-04-25. Extension to N=32 is now ~1-2 weeks of focused implementation (port arithmetic + add MITM signature caching by mitm_residue's 4-d.o.f. residual variety + Wang-style bit-condition pruning). See bets/block2_wang/residuals/20260425_backward_construct_foundation.md. Random sampling and hill-climb are CLOSED — see 20260424_hillclimb_negative.md and 20260425_structural_hillclimb_negative.md."
+  - "Get block-1 residuals down to HW\u226416 (Wang differential threshold)."
+  - Implement a bitcondition/trail-search engine (Wang-style, not just SAT).
+  next_action: "Path B foundation EXISTS: q5_alternative_attacks/backward_construct.c implements a constructive backward solver\
+    \ at N=8 that finds 260/260 collisions, 17x faster than brute force, validated 2026-04-25. Extension to N=32 is now ~1-2\
+    \ weeks of focused implementation (port arithmetic + add MITM signature caching by mitm_residue's 4-d.o.f. residual variety\
+    \ + Wang-style bit-condition pruning). See bets/block2_wang/residuals/20260425_backward_construct_foundation.md. Random\
+    \ sampling and hill-climb are CLOSED \u2014 see 20260424_hillclimb_negative.md and 20260425_structural_hillclimb_negative.md."
   kill_criteria:
-    - "No residual cluster yields >18-round absorber after 1 week of dedicated trail search."
-    - "No improvement over naive block-2 SAT frontier on N=8/N=12 analogs after pilot phase."
+  - No residual cluster yields >18-round absorber after 1 week of dedicated trail search.
+  - No improvement over naive block-2 SAT frontier on N=8/N=12 analogs after pilot phase.
   reopen_criteria:
-    - "New residual class with HW/register concentration substantially below current best."
-    - "New SHA-256 message-modification paper or tool becomes available."
+  - New residual class with HW/register concentration substantially below current best.
+  - New SHA-256 message-modification paper or tool becomes available.
   evidence: []
   owner: unassigned
-  last_updated: "2026-04-24"
-  notes: "GPT-5.5 ranked this #1 EV/CPU-hour. Human-time expensive — only start if willing to build a real trail engine."
-
+  last_updated: '2026-04-24'
+  notes: "GPT-5.5 ranked this #1 EV/CPU-hour. Human-time expensive \u2014 only start if willing to build a real trail engine."
 - id: cascade_auxiliary_encoding
-  name: "Cascade-auxiliary CNF encoding for SAT and KC"
-  headline_if_success: "Reduced treewidth + improved SAT robustness, enabling either constructive d4 or sr=61 SAT solve."
-  hypothesis: "Adding local-offset auxiliary variables that expose cascade structure (instead of full W2 substitution) can drop treewidth without producing the derived-encoding penalty."
+  name: Cascade-auxiliary CNF encoding for SAT and KC
+  headline_if_success: Reduced treewidth + improved SAT robustness, enabling either constructive d4 or sr=61 SAT solve.
+  hypothesis: Adding local-offset auxiliary variables that expose cascade structure (instead of full W2 substitution) can
+    drop treewidth without producing the derived-encoding penalty.
   structural_basis:
-    - "Standard CNF has treewidth ~110 at N=8; derived encoding worsened to 181."
-    - "Local auxiliaries that mirror cascade-diagonal constraints may give the solver explicit hooks without adding global substitution clauses."
+  - Standard CNF has treewidth ~110 at N=8; derived encoding worsened to 181.
+  - Local auxiliaries that mirror cascade-diagonal constraints may give the solver explicit hooks without adding global substitution
+    clauses.
   status: in_flight
   priority: 2
   expected_info_per_cpu_hour: very_high
   dependencies:
-    - "Specify the auxiliary variable set (which cascade offsets, which rounds)."
-    - "Implement encoder variant in lib/cnf_encoder.py."
-  next_action: "SPEC.md drafted; encoder variant in bets/cascade_aux_encoding/encoders/. Next machine: run FlowCutter on N=8/N=10/N=12 standard+aux CNFs; Kissat comparison on TRUE sr=61 N=10 with multiple seeds."
+  - Specify the auxiliary variable set (which cascade offsets, which rounds).
+  - Implement encoder variant in lib/cnf_encoder.py.
+  next_action: 'SPEC.md drafted; encoder variant in bets/cascade_aux_encoding/encoders/. Next machine: run FlowCutter on N=8/N=10/N=12
+    standard+aux CNFs; Kissat comparison on TRUE sr=61 N=10 with multiple seeds.'
   kill_criteria:
-    - "Treewidth at N=8 not measurably below 110."
-    - "No SAT robustness improvement on N=10/N=12 controlled instances after encoding tuning."
+  - Treewidth at N=8 not measurably below 110.
+  - No SAT robustness improvement on N=10/N=12 controlled instances after encoding tuning.
   reopen_criteria:
-    - "New theoretical insight on cascade structure suggests a different auxiliary basis."
+  - New theoretical insight on cascade structure suggests a different auxiliary basis.
   evidence:
-    - "bets/cascade_aux_encoding/encoders/SPEC.md"
-    - "bets/cascade_aux_encoding/encoders/cascade_aux_encoder.py"
+  - bets/cascade_aux_encoding/encoders/SPEC.md
+  - bets/cascade_aux_encoding/encoders/cascade_aux_encoder.py
   owner: macbook
-  last_updated: "2026-04-24"
-  notes: "Cheap to build, directly addresses the SAT-vs-compiler encoding conflict. CLAIMED by macbook 2026-04-24 as first-worker bet. Design + initial implementation shipped; compute/measurement work open for fleet pickup."
-
+  last_updated: '2026-04-24'
+  notes: Cheap to build, directly addresses the SAT-vs-compiler encoding conflict. CLAIMED by macbook 2026-04-24 as first-worker
+    bet. Design + initial implementation shipped; compute/measurement work open for fleet pickup.
 - id: d4_xor_preprocessing
-  name: "d4 with XOR-preserving preprocessing on standard CNF"
-  headline_if_success: "Constructive d-DNNF compilation of N=16+ collision object — directly tests the BDD paradox boundary."
-  hypothesis: "d4 failed at N=8 because derived encoding broke linear structure; standard CNF + XOR-aware preprocessing might decompose better."
+  name: d4 with XOR-preserving preprocessing on standard CNF
+  headline_if_success: "Constructive d-DNNF compilation of N=16+ collision object \u2014 directly tests the BDD paradox boundary."
+  hypothesis: d4 failed at N=8 because derived encoding broke linear structure; standard CNF + XOR-aware preprocessing might
+    decompose better.
   structural_basis:
-    - "BDD has polynomial size O(N^4.8); d-DNNF could too if vtree/decomposition aligns with cascade structure."
-    - "Bosphorus/CryptoMiniSat-style XOR recovery preserves linear constraints d4 can exploit."
-  status: open
+  - BDD has polynomial size O(N^4.8); d-DNNF could too if vtree/decomposition aligns with cascade structure.
+  - Bosphorus/CryptoMiniSat-style XOR recovery preserves linear constraints d4 can exploit.
+  status: blocked
   priority: 3
   expected_info_per_cpu_hour: high
   dependencies:
-    - "Tooling: d4 build, Bosphorus or equivalent XOR preprocessor."
-    - "Standard (not derived) CNF inputs."
-  next_action: "Run XOR preprocessing on standard N=8 CNF; feed to d4 with tree decomposition; measure component cache hits."
+  - 'Tooling: d4 build, Bosphorus or equivalent XOR preprocessor.'
+  - Standard (not derived) CNF inputs.
+  next_action: 'CryptoMiniSat XOR recovery on cascade CNF returned 0 clauses (2026-04-25 macbook). Kill criterion #2 fired.
+    Bet stays alive only if Bosphorus finds different structure. See bets/kc_xor_d4/results/20260425_xor_recovery_zero.md.'
   kill_criteria:
-    - "N=8 still fails or is qualitatively as slow as before with no treewidth drop and no component-cache signal."
-    - "XOR preprocessor cannot recover meaningful linear structure from cascade encoding."
+  - N=8 still fails or is qualitatively as slow as before with no treewidth drop and no component-cache signal.
+  - XOR preprocessor cannot recover meaningful linear structure from cascade encoding.
   reopen_criteria:
-    - "New d-DNNF compiler with better vtree heuristics for ARX-style circuits."
+  - New d-DNNF compiler with better vtree heuristics for ARX-style circuits.
   evidence: []
   owner: unassigned
-  last_updated: "2026-04-24"
-
+  last_updated: '2026-04-25'
 - id: true_sr61_n32
-  name: "TRUE sr=61 semi-free-start collision at N=32"
-  headline_if_success: "Direct extension of public SHA-256 collision boundary from sr=60 to sr=61 (94/64 rounds)."
-  hypothesis: "Among the 29+ TRUE sr=61 candidates in cnfs_n32/, at least one has a SAT instance reachable in under 10k CPU-hours given new encoding/candidate diversity."
+  name: TRUE sr=61 semi-free-start collision at N=32
+  headline_if_success: Direct extension of public SHA-256 collision boundary from sr=60 to sr=61 (94/64 rounds).
+  hypothesis: Among the 29+ TRUE sr=61 candidates in cnfs_n32/, at least one has a SAT instance reachable in under 10k CPU-hours
+    given new encoding/candidate diversity.
   structural_basis:
-    - "Cascade boundary theorem says sr=61 is structurally ~2^N harder, but not impossible."
-    - "Kernel-dependent critical pairs finding (bit-6 has 3 vs MSB's 1) suggests other kernels may have favorable solver behavior."
+  - Cascade boundary theorem says sr=61 is structurally ~2^N harder, but not impossible.
+  - Kernel-dependent critical pairs finding (bit-6 has 3 vs MSB's 1) suggests other kernels may have favorable solver behavior.
   status: in_flight
   priority: 4
   expected_info_per_cpu_hour: medium
   compute_budget_cpu_hours: 10000
   dependencies:
-    - "Audited CNFs (run audit_cnf.py before queueing)."
-    - "Candidate/kernel diversity, not seed farming."
-  next_action: "Pair with cascade_auxiliary_encoding — try new encoding on best 5 candidates before more raw seeds."
+  - Audited CNFs (run audit_cnf.py before queueing).
+  - Candidate/kernel diversity, not seed farming.
+  next_action: "Pair with cascade_auxiliary_encoding \u2014 try new encoding on best 5 candidates before more raw seeds."
   kill_criteria:
-    - "10k additional CPU-hours spent without SAT AND without measurable solver-behavior improvement from any new encoding/candidate."
-    - "No structural predictor identified that distinguishes promising from hopeless candidates."
+  - 10k additional CPU-hours spent without SAT AND without measurable solver-behavior improvement from any new encoding/candidate.
+  - No structural predictor identified that distinguishes promising from hopeless candidates.
   reopen_criteria:
-    - "A new mechanism (cascade_auxiliary_encoding succeeds, or programmatic propagator gives early termination signals) materially changes solver behavior."
+  - A new mechanism (cascade_auxiliary_encoding succeeds, or programmatic propagator gives early termination signals) materially
+    changes solver behavior.
   evidence:
-    - "cnfs_n32/sr61_n32_*.cnf — 29 audited candidates"
-    - "writeups/20260420_project_pause_summary.md — 1800 CPU-h with zero SAT post-audit"
+  - "cnfs_n32/sr61_n32_*.cnf \u2014 29 audited candidates"
+  - "writeups/20260420_project_pause_summary.md \u2014 1800 CPU-h with zero SAT post-audit"
   owner: fleet
-  last_updated: "2026-04-24"
-  notes: "BUDGET-CAPPED. Every run must be audited and logged. No exceptions. This is the bet most prone to drifting back into seed farming."
-
+  last_updated: '2026-04-24'
+  notes: BUDGET-CAPPED. Every run must be audited and logged. No exceptions. This is the bet most prone to drifting back into
+    seed farming.
 - id: mitm_hard_residue
-  name: "Meet-in-the-middle on the 24-bit hard residue"
-  headline_if_success: "Bypass SAT entirely for the structural bottleneck; demonstrate constructive cryptanalytic path."
-  hypothesis: "232/256 anchor bits are 'almost free'; the hard work concentrates in g60/h60 with ~24 effective bits. A forward/backward MITM keyed on the actual hard residue (not whole state) could complete in 2^24-ish work."
+  name: Meet-in-the-middle on the 24-bit hard residue
+  headline_if_success: Bypass SAT entirely for the structural bottleneck; demonstrate constructive cryptanalytic path.
+  hypothesis: 232/256 anchor bits are 'almost free'; the hard work concentrates in g60/h60 with ~24 effective bits. A forward/backward
+    MITM keyed on the actual hard residue (not whole state) could complete in 2^24-ish work.
   structural_basis:
-    - "Pause summary identifies the 24-bit residue as the bottleneck."
-    - "q4_mitm_geometry/cascade_mitm_full.py operational at smoke-test scale (verified 2026-04-24); recovers sr=60 cert."
-    - "gpu_mitm_prototype.py exists with N=8 feasibility analysis built in; needs validation run."
+  - Pause summary identifies the 24-bit residue as the bottleneck.
+  - q4_mitm_geometry/cascade_mitm_full.py operational at smoke-test scale (verified 2026-04-24); recovers sr=60 cert.
+  - gpu_mitm_prototype.py exists with N=8 feasibility analysis built in; needs validation run.
   status: open
   priority: 5
   expected_info_per_cpu_hour: medium
   dependencies:
-    - "Scale forward enumeration in cascade_mitm_full.py to 2^20+ samples."
-    - "Run gpu_mitm_prototype.py at N=8 against known 260 collisions for validation."
-    - "Connect forward/backward fingerprints to a hash-keyed table structure."
-    - "Test candidate-independence of hard-residue location."
-  next_action: "See bets/mitm_residue/prototypes/audit_summary.md (2026-04-24). Forward-enumeration scale-up + GPU N=8 validation are the next two concrete CPU-hours of work."
+  - Scale forward enumeration in cascade_mitm_full.py to 2^20+ samples.
+  - Run gpu_mitm_prototype.py at N=8 against known 260 collisions for validation.
+  - Connect forward/backward fingerprints to a hash-keyed table structure.
+  - Test candidate-independence of hard-residue location.
+  next_action: See bets/mitm_residue/prototypes/audit_summary.md (2026-04-24). Forward-enumeration scale-up + GPU N=8 validation
+    are the next two concrete CPU-hours of work.
   kill_criteria:
-    - "N=8/N=10 prototype not faster than the existing structural solver."
-    - "Effective-residue width at N=32 turns out to be substantially larger than 24 bits under any candidate."
-    - "Memory budget at N=32 unmanageable across all reasonable hash compressions."
+  - N=8/N=10 prototype not faster than the existing structural solver.
+  - Effective-residue width at N=32 turns out to be substantially larger than 24 bits under any candidate.
+  - Memory budget at N=32 unmanageable across all reasonable hash compressions.
   reopen_criteria:
-    - "New cascade analysis identifies a smaller effective bottleneck."
+  - New cascade analysis identifies a smaller effective bottleneck.
   evidence:
-    - "bets/mitm_residue/prototypes/audit_summary.md"
-    - "q4_mitm_geometry/cascade_mitm_full.py (verified working)"
+  - bets/mitm_residue/prototypes/audit_summary.md
+  - q4_mitm_geometry/cascade_mitm_full.py (verified working)
   owner: macbook
-  last_updated: "2026-04-24"
-  notes: "Audit completed 2026-04-24 — promoted blocked → open. Tools were never blocked, just dormant. GPU box should pick up gpu_mitm_prototype.py at N=8."
-
+  last_updated: '2026-04-24'
+  notes: "Audit completed 2026-04-24 \u2014 promoted blocked \u2192 open. Tools were never blocked, just dormant. GPU box\
+    \ should pick up gpu_mitm_prototype.py at N=8."
 - id: chunk_mode_dp_with_modes
-  name: "Chunk-mode DP with mode variables on future-completion state"
-  headline_if_success: "First constructive DP route for cascade collisions; would invalidate carry-state-injectivity-as-barrier conclusion."
-  hypothesis: "Raw carry-state DP fails because the state is near-injective on the search space. A quotient state based on future-completion (boundary modes + canonical residual context) might be compact."
+  name: Chunk-mode DP with mode variables on future-completion state
+  headline_if_success: First constructive DP route for cascade collisions; would invalidate carry-state-injectivity-as-barrier
+    conclusion.
+  hypothesis: Raw carry-state DP fails because the state is near-injective on the search space. A quotient state based on
+    future-completion (boundary modes + canonical residual context) might be compact.
   structural_basis:
-    - "BDD has O(N^4.8) size — a corresponding compact DP state must exist if the BDD is constructive."
-    - "Completion quotient = #collisions, verified N=8/N=10/N=12."
+  - "BDD has O(N^4.8) size \u2014 a corresponding compact DP state must exist if the BDD is constructive."
+  - 'Completion quotient = #collisions, verified N=8/N=10/N=12.'
   status: open
   priority: 6
   expected_info_per_cpu_hour: medium_low
   dependencies:
-    - "Define the mode variable set and canonical residual representation."
-    - "N=8 prototype that recovers the known 260 collisions with compact state."
-  next_action: "Design the future-completion quotient state; prototype on N=8."
+  - Define the mode variable set and canonical residual representation.
+  - N=8 prototype that recovers the known 260 collisions with compact state.
+  next_action: Design the future-completion quotient state; prototype on N=8.
   kill_criteria:
-    - "N=8 prototype cannot recover 260 with a compact state count (e.g., state explosion comparable to brute force)."
+  - N=8 prototype cannot recover 260 with a compact state count (e.g., state explosion comparable to brute force).
   reopen_criteria:
-    - "New quotient theory — e.g., from the BDD construction proof — suggests a workable mode set."
+  - "New quotient theory \u2014 e.g., from the BDD construction proof \u2014 suggests a workable mode set."
   evidence: []
   owner: unassigned
-  last_updated: "2026-04-24"
-
+  last_updated: '2026-04-24'
 - id: sigma1_aligned_kernel_sweep
-  name: "sigma1-aligned N=32 kernels (bits 10, 17, 19) with improved fills"
-  headline_if_success: "Faster sr=60 SAT or first sr=61 SAT via better-tuned candidate."
-  hypothesis: "Bits 10, 17, 19 are sigma1-aligned and were identified as productive for sr=61 but never fully swept with the best fills."
+  name: sigma1-aligned N=32 kernels (bits 10, 17, 19) with improved fills
+  headline_if_success: Faster sr=60 SAT or first sr=61 SAT via better-tuned candidate.
+  hypothesis: Bits 10, 17, 19 are sigma1-aligned and were identified as productive for sr=61 but never fully swept with the
+    best fills.
   structural_basis:
-    - "Kernel-dependent critical pairs finding (bit-6 vs MSB)."
-    - "Existing bit-10/17/19 candidates in cnfs_n32/ but no exhaustive fill sweep."
+  - Kernel-dependent critical pairs finding (bit-6 vs MSB).
+  - Existing bit-10/17/19 candidates in cnfs_n32/ but no exhaustive fill sweep.
   status: open
   priority: 7
   expected_info_per_cpu_hour: low
   dependencies:
-    - "Fill sweep code (likely in q3_candidate_families/ or kernel_sweep_neon.c)."
-  next_action: "Decide whether to do this OR pivot the same compute into block2_wang."
+  - Fill sweep code (likely in q3_candidate_families/ or kernel_sweep_neon.c).
+  next_action: Decide whether to do this OR pivot the same compute into block2_wang.
   kill_criteria:
-    - "No solve-time separation on controlled true-sr=61 instances vs current best candidate."
+  - No solve-time separation on controlled true-sr=61 instances vs current best candidate.
   reopen_criteria:
-    - "Kernel-pair theory predicts a specific (bit, fill, M[0]) class."
+  - Kernel-pair theory predicts a specific (bit, fill, M[0]) class.
   evidence:
-    - "cnfs_n32/sr61_n32_bit10_*, sr61_n32_bit17_*, sr61_n32_bit19_*"
+  - cnfs_n32/sr61_n32_bit10_*, sr61_n32_bit17_*, sr61_n32_bit19_*
   owner: unassigned
-  last_updated: "2026-04-24"
-  notes: "GPT-5.5 ranked low — candidate-count yield was weak/refuted. Consider folding into true_sr61_n32."
-
+  last_updated: '2026-04-24'
+  notes: "GPT-5.5 ranked low \u2014 candidate-count yield was weak/refuted. Consider folding into true_sr61_n32."
 - id: programmatic_sat_cascade_propagator
-  name: "Programmatic SAT solver with SHA-256/cascade-aware propagator"
-  headline_if_success: "Sub-brute-force on a nontrivial reduced-SHA target via early-termination from cascade-aware reasoning. Or first sr=61 SAT via custom propagation."
-  hypothesis: "A programmatic SAT solver (IPASIR-UP, CaDiCaL external propagator) that exposes modular-add carry modes, propagates cascade offsets, reasons about schedule-derived W[60], and caches failed residual interfaces could be the practical form of the quotient-state idea without writing a full compiler."
+  name: Programmatic SAT solver with SHA-256/cascade-aware propagator
+  headline_if_success: Sub-brute-force on a nontrivial reduced-SHA target via early-termination from cascade-aware reasoning.
+    Or first sr=61 SAT via custom propagation.
+  hypothesis: A programmatic SAT solver (IPASIR-UP, CaDiCaL external propagator) that exposes modular-add carry modes, propagates
+    cascade offsets, reasons about schedule-derived W[60], and caches failed residual interfaces could be the practical form
+    of the quotient-state idea without writing a full compiler.
   structural_basis:
-    - "GPT-5.5 surfaced this as a missing mechanism between Kissat and chunk-mode DP."
-    - "AlphaMapleSAT (arXiv:2401.13770) demonstrates structured cube selection; similar custom propagation has worked elsewhere."
+  - GPT-5.5 surfaced this as a missing mechanism between Kissat and chunk-mode DP.
+  - AlphaMapleSAT (arXiv:2401.13770) demonstrates structured cube selection; similar custom propagation has worked elsewhere.
   status: closed
   priority: null
   expected_info_per_cpu_hour: unknown
   dependencies:
-    - "CaDiCaL with IPASIR-UP / external propagator API."
-    - "Cascade-aware propagation rules: which carry modes, which cascade offsets, which schedule-derived constraints to expose."
-    - "Failed-residual caching design."
-  next_action: "CLOSED 2026-04-25. See bets/programmatic_sat_propagator/results/ and graveyard kill memo."
+  - CaDiCaL with IPASIR-UP / external propagator API.
+  - 'Cascade-aware propagation rules: which carry modes, which cascade offsets, which schedule-derived constraints to expose.'
+  - Failed-residual caching design.
+  next_action: CLOSED 2026-04-25. See bets/programmatic_sat_propagator/results/ and graveyard kill memo.
   kill_criteria:
-    - "N=8 propagator doesn't reduce conflicts vs vanilla Kissat by >10x."
-    - "Implementation cost dominates the CPU savings on intended target."
-    - "Rule firing is preprocessing-phase only (added 2026-04-25, FIRED)."
+  - N=8 propagator doesn't reduce conflicts vs vanilla Kissat by >10x.
+  - Implementation cost dominates the CPU savings on intended target.
+  - Rule firing is preprocessing-phase only (added 2026-04-25, FIRED).
   reopen_criteria:
-    - "New IPASIR-UP-compatible solver advance, or new cascade theory that gives propagation rules with formal soundness."
-    - "Generative pruning rule (vs constant-pruning) identified."
-    - "Specific candidate where vanilla cadical can't solve but propagator can."
+  - New IPASIR-UP-compatible solver advance, or new cascade theory that gives propagation rules with formal soundness.
+  - Generative pruning rule (vs constant-pruning) identified.
+  - Specific candidate where vanilla cadical can't solve but propagator can.
   evidence:
-    - "graveyard/closed_bets/programmatic_sat_propagator/KILL_MEMO.md"
-    - "bets/programmatic_sat_propagator/results/phase2c_cb_decide_2026-04-25/"
+  - graveyard/closed_bets/programmatic_sat_propagator/KILL_MEMO.md
+  - bets/programmatic_sat_propagator/results/phase2c_cb_decide_2026-04-25/
   owner: unassigned
-  last_updated: "2026-04-25"
-  notes: "CLOSED 2026-04-25 (macbook). The bet's hypothesis empirically refuted at three trigger strategies (sample-based, continuous, decision-shaping). Rule 4 caps at finite ~977 fires regardless of trigger — algebra has finite implied literal set. Engineering substrate (~750 LOC + tests + varmap v3 + cb_decide framework) preserved at bets/programmatic_sat_propagator/ for future generative-rule reuse."
+  last_updated: '2026-04-25'
+  notes: "CLOSED 2026-04-25 (macbook). The bet's hypothesis empirically refuted at three trigger strategies (sample-based,\
+    \ continuous, decision-shaping). Rule 4 caps at finite ~977 fires regardless of trigger \u2014 algebra has finite implied\
+    \ literal set. Engineering substrate (~750 LOC + tests + varmap v3 + cb_decide framework) preserved at bets/programmatic_sat_propagator/\
+    \ for future generative-rule reuse."
