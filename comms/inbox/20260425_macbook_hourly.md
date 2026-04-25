@@ -454,3 +454,33 @@ CDCL during search. Whether it pays off is now an empirical question.
 Today: ~78 commits.
 
 Commit: f90ebfa
+
+## 13:00 EDT — Cross-kernel Rule 4 firing sweep + honest speedup ratio
+
+Real diagnostic data on which kernels the propagator helps most.
+9-kernel sweep at sr=61 force, 50k conflicts:
+  Highest:  bit-25 (249 fires), bit-19 (209), bit-31 (201)
+  Lowest:   bit-0 (52), bit-11 (78), bit-6 (86)
+  Mean: 139 fires, stdev ~70 — 5× variation across kernels.
+
+Then HONEST speedup ratio at 50k on top-3 firing kernels:
+  bit-19: 2.18× SLOWER with propagator
+  bit-25: 1.94× SLOWER
+  bit-31: 1.89× SLOWER
+
+The per-conflict overhead from partial-bit reasoning + reason-clause
+construction exceeds per-conflict pruning at 50k budget. The bet's
+hypothesis is this inverts at multi-hour budgets where accumulated
+pruning compounds. Cannot verify without explicit user direction.
+
+What the cross-kernel data DOES tell us: if a multi-hour decision-gate
+experiment ever happens, FOCUS on bit-25 and bit-19 first (highest
+firing density = most pruning per second of compute = best chance to
+see the inversion).
+
+Engineering substrate is complete. Whether the bet pays off is now
+purely an empirical compute question.
+
+Today: ~80 commits.
+
+Commits: df398e2, 9dc6651
