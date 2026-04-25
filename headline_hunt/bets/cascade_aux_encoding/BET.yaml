@@ -65,8 +65,15 @@ current_progress: |
         + varmap bridge all shipped today; Phase 2B C++ engineering ready),
     (3) genuinely-multi-day compute on a single instance.
 
-  Total runs logged this session: 119 (cascade_aux_encoding-tagged).
+  Total runs logged this session: 128 (cascade_aux_encoding-tagged).
   Total CPU-h: 3.3 / 200 budget. Plenty of headroom.
 
-last_heartbeat: "2026-04-25T14:25:00Z"
+  2026-04-25 evening (post-GPT-5.5 review): Generated 20 new aux CNFs for
+  the 5 newly-shipped MSB candidates (ma22dc6c7, m9cfea9ce, m3f239926,
+  m44b49bc3, m189b13c7) × sr60/sr61 × expose/force; all 20 audit CONFIRMED.
+  Re-ran results/aux_encoder_manifest.md across all 36 candidates × 2 modes
+  = 72 CNFs, all CONFIRMED. Bet remains characterized (Mode B 2-3.4× front-
+  loaded preprocessing, not a path to cascade-DP SAT discovery).
+
+last_heartbeat: "2026-04-25T22:05:00Z"
 heartbeat_interval_days: 7
