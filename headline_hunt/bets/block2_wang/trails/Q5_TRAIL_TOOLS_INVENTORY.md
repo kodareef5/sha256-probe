@@ -11,11 +11,18 @@ map to block2_wang Path B (build a Wang-style trail/bitcondition engine).
 - **Concept**: Wang-style message modification for sr=60 tail. Determines
   per-round bit conditions, then adjusts message words backward to satisfy
   them.
-- **Status**: prototype at N=4/N=8. Greedy W[58] selection + random W[59..60].
-- **Mapping to bet**: directly relevant to Path B trail engine. The
-  per-round-bit-condition framework IS what the bet calls for at N=32.
-- **Gap to N=32**: needs bit-condition extraction at full N (the existing
-  code extracts conditions empirically from collision solutions).
+- **Status (validated 2026-04-25 23:35 N=8 run for 30s)**: NEAR-collision
+  search; finds HW≥20 collisions but NOT zero-HW exact ones. Step 2
+  extracts per-round differential conditions cleanly. Step 3 (Wang
+  modification) reaches best HW=22 after 11 trials — exploratory, not
+  a closed solver.
+- **Mapping to bet**: the per-round-bit-condition framework IS what
+  Path B needs. Wang_modification is the CONCEPTUAL prototype, not a
+  working collision finder.
+- **Gap to working engine**: The current implementation does NOT solve
+  the conditions algebraically — it samples + greedy. For an actual
+  trail engine, conditions need to drive a constructive search (which
+  is what backward_construct.c does for the de61=0 condition specifically).
 
 ### `q5_alternative_attacks/li_trail_search.py` (284 LOC)
 - **Concept**: Adapted Li et al. EUROCRYPT-2024 trail search using Z3.

@@ -1166,3 +1166,18 @@ Mode B is 12% faster wall but 10% higher dec/conf — speedup is in CPU
 throughput, not search efficiency.
 
 Pushed: 6e02ded.
+
+## 23:35 EDT — Validated wang_modification.py at N=8: prototype, not working solver
+
+Ran q5/wang_modification.py 8 for 30s. Result:
+  - Step 1 sample: best HW=20 collisions found (NEAR-collisions, not exact)
+  - Step 2: per-round differential conditions extracted cleanly for 3 paths
+  - Step 3 (Wang modification): best HW=22 after 11 trials, exploratory
+
+So wang_modification is the CONCEPTUAL prototype for the per-round-bit-
+condition framework, NOT a closed working solver. backward_construct.c
+remains the only q5 tool that finds EXACT collisions at N=8.
+
+Updated Q5_TRAIL_TOOLS_INVENTORY.md with honest assessment: trail engine
+builders should treat wang_modification as condition-extraction substrate,
+not as a starting solver.
