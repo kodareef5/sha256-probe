@@ -789,3 +789,19 @@ Notable: this unblocks fleet runs against the SURPRISE candidate
 the MSB cert) and the BOTTOM candidate (m189b13c7, low-HW=3 reachable).
 
 Commit: 0f79d45
+
+## 17:08 EDT — de58 hard-locked bit pattern per candidate
+
+Per-bit signature analysis on de58 image: each candidate has bits that NEVER
+vary across W57. These are concrete sr=61 SAT predictions — any solution
+must satisfy de58 & locked_mask == locked_value.
+
+bit-11_m56076c68 is the structural extreme: 16 of 32 de58 bits hard-locked
+(50%). bit-19: 13 locked, 19 varying (only 8 independent, since image=256).
+
+Concrete encoder extension proposed: emit HW(locked_mask) extra unit clauses
+per candidate as cascade-tautologies — purely additive, possible Mode B
+front-loaded speedup.
+
+Script: bets/sr61_n32/de58_hardlock_bits.py (30s for all 36 candidates).
+Writeup: bets/sr61_n32/results/20260425_de58_hardlock_bits.md
