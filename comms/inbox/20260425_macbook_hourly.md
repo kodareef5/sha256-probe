@@ -964,3 +964,22 @@ Also shipped this hour:
 - 2 residual corpora (SURPRISE + BOTTOM) confirming HW≥62 floor across candidates
 
 Pushed: a2e7212, 8947805.
+
+## 19:55 EDT — M12 PARTIAL PASS (algorithm validated, full sweep too long)
+
+Killed M12 BC after 43 wall-min: 32 of 4096 W57 done. Found 32 collisions,
+535M de61 hits. Algorithm correctly produces output at N=12.
+
+Aborted because: extrapolated full-sweep wall is ~92 hr under contention,
+~8 hr uncontended (1024× M10's 117s, not 64×; original SCALING_PLAN had
+the wrong scaling factor). M5 + de58 validation matrix contention pushed
+real per-w57 wall to 80s vs ideal 6s.
+
+DECISION: M12 algorithmically validated. Need clean overnight run for full
+sweep results. Source's 4096-collision buffer will overflow at full N=12;
+bump to 16384 before re-run.
+
+CPU now freed for validation matrix Phase B to run uncontended. 5 of 10
+10M cells done (bit19 k+c, bit25 k+c, msb_surp k); 5 cells remaining.
+
+Pushed: d072173 (M12_RESULT.md).

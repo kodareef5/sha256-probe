@@ -7,7 +7,7 @@
 | M10-strat | ✅ VERIFIED    | Stratified BF (w57∈[0,64)): 72/72 BF↔BC matched, 15.67× wall speedup. |
 | N-inv probe| ✅ EVIDENCE   | Theorem 4 + R63.1 + R63.3 hold 8192/8192 at N ∈ {8,10,12,14,16,18}. |
 | Hardlock  | ✅ EVIDENCE    | de58 hardlock fraction is candidate-specific (8-57%), not N-specific. |
-| M12       | ▶️ IN FLIGHT   | backward_construct_n12. ETA ~8 hr wall; 22 min in as of 19:30. |
+| M12       | ⏸️ PARTIAL PASS | 32 collisions in first 1/128 of W57 space at N=12 over 43 wall-min on contended M5; ALGORITHMICALLY VALIDATED. Full sweep aborted (extrapolated 92hr contended / 8hr clean). Schedule overnight when CPU is quiet, with buffer cap raised. |
 | M16       | ⏸️ DESIGN-STUCK | Naive enumerate-all has 6.6 PB storage at N=16. Signature reduction needed before implementation. |
 | M16-MITM  | ⏸️ DESIGN      | q5/mitm_cascade_sr60.py is the prototype; signature sparseness (state_59 too wide) blocks naive port. |
 | M32-MITM  | ⏸️ FUTURE      | Multi-machine compute, multi-day. Needs M16-MITM design first. |
