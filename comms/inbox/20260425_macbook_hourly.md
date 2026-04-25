@@ -290,3 +290,36 @@ saves a future worker from implementing the speculative version.
 Cumulative propagator: ~570 LOC main + ~170 LOC tests. Today: ~67 commits.
 
 Commits: 4df69b8 (helpers + diagnostic), 7394d98 (unit tests).
+
+## 11:45 EDT — Partial-bit modular subtraction (the missing primitive)
+
+Shipped test_modular_sub.cc — 14/14 unit tests for partial-bit modular
+subtraction with borrow chain. This is THE missing primitive that
+unblocks Rule 4 partial-bit propagation.
+
+Key soundness property verified: when input bits get partial knowledge
+(bits 0..i decided, i+1..31 unknown), output bits 0..i are determined
+correctly via borrow chain, AND the chain BREAKS at the first unknown
+input — never produces a wrong bit due to missing borrow info.
+
+Verified properties:
+- Full → full output (32 bits decided).
+- Partial low N bits → partial low N bits of output.
+- Borrow chain breaks at first unknown — soundness guarantee.
+- Inverse direction works: b = a - c recovers b from c = a - b.
+
+Combined with Sigma0/Maj/dT2 helpers shipped earlier this hour, the
+propagator now has ALL value-level math primitives for partial-bit
+Rule 4. The integration step (PartialReg-aware Sigma0/Maj evaluators
+chained through modular subtraction) is the next ~200 LOC of focused
+work.
+
+Phase 2C-Rule4@r62/63 implementation status:
+- Substrate: shipped (commit 3424a29)
+- Helpers (full-input): shipped (commit 4df69b8)
+- Helper unit tests: shipped (commit 7394d98)
+- Modular sub primitive: shipped (commit a63fee5)
+- Partial-bit Sigma0/Maj integration: NEXT
+- Rule 4 firing logic: NEXT-NEXT
+
+Today: ~68 commits.
