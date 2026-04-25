@@ -114,6 +114,63 @@ def main():
 
     print(f"\nAll {len(cases)} smoke tests PASSED")
 
+    # Bonus: varmap sidecar smoke (added 2026-04-25)
+    print("\nValidating --varmap sidecar...")
+    varmap_cnf = os.path.join(tmp, "varmap_check.cnf")
+    cmd = [sys.executable, ENCODER, "--sr", "60", "--m0", "0x17149975",
+           "--fill", "0xffffffff", "--kernel-bit", "31", "--mode", "force",
+           "--out", varmap_cnf, "--varmap", "+", "--quiet"]
+    r = subprocess.run(cmd, capture_output=True, text=True)
+    if r.returncode != 0:
+        print(f"FAIL: varmap encoder exit {r.returncode}\nstderr: {r.stderr}")
+        sys.exit(1)
+    varmap_path = varmap_cnf + ".varmap.json"
+    if not os.path.exists(varmap_path):
+        print(f"FAIL: varmap sidecar not written at {varmap_path}")
+        sys.exit(1)
+
+    import json
+    with open(varmap_path) as f:
+        vm = json.load(f)
+    if vm.get("version") != 1:
+        print(f"FAIL: varmap version mismatch (got {vm.get('version')})")
+        sys.exit(1)
+    expected_keys = {f"{r}_{rd}" for r in "abcdefgh" for rd in range(57, 64)}
+    if set(vm["aux_reg"].keys()) != expected_keys:
+        missing = expected_keys - set(vm["aux_reg"].keys())
+        extra = set(vm["aux_reg"].keys()) - expected_keys
+        print(f"FAIL: varmap aux_reg keys mismatch. missing={missing}, extra={extra}")
+        sys.exit(1)
+    if set(vm["aux_W"].keys()) != {str(r) for r in range(57, 64)}:
+        print(f"FAIL: varmap aux_W keys mismatch")
+        sys.exit(1)
+
+    # Round-trip: a non-constant SAT var should be reachable via varmap_loader
+    sys.path.insert(0, os.path.join(REPO_ROOT, "headline_hunt", "bets",
+                                     "programmatic_sat_propagator", "propagators"))
+    try:
+        from varmap_loader import VarMap
+    except ImportError:
+        print("INFO: varmap_loader.py not on path; skipping reverse-lookup test")
+    else:
+        loader = VarMap.load(varmap_path)
+        # find any non-constant var, look it up
+        sample = next((b for r in range(57, 64) for reg in "abcdefgh"
+                       for b in [loader.diff_lit(reg, r, 0)]
+                       if abs(b) > 1), None)
+        if sample is None:
+            print("WARN: all aux bits are constants? Unusual but not a fail.")
+        else:
+            info = loader.lookup_var(abs(sample))
+            if not info:
+                print(f"FAIL: varmap reverse lookup empty for var {sample}")
+                sys.exit(1)
+            print(f"PASS: varmap roundtrip OK (var {abs(sample)} -> {info[0]})")
+
+    print(f"PASS: varmap sidecar emitted, schema correct, "
+          f"{len(vm['aux_reg'])} (reg,round) entries, {len(vm['aux_W'])} W-rounds")
+    print(f"\nAll {len(cases) + 1} smoke tests PASSED")
+
 
 if __name__ == "__main__":
     main()
