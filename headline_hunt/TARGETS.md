@@ -98,16 +98,17 @@ Durable findings that should inform any future bet design.
 - The SPEC's "≥10× SAT speedup" claim was empirically refuted at all tested budgets.
 - Reference: `bets/cascade_aux_encoding/comparisons/conflict_500k_2026-04-25/RESULT.md`
 
-### Programmatic SAT propagator hypothesis empirically refuted on Rule 4 alone
+### Rule-4-style cascade propagator (this specific design) refuted on tested budgets
+- Scope of this finding: ONE design — the actual-register-value-triggered Rule-4 propagator with continuous-decide variant. Does NOT generalize to "all programmatic SAT for SHA-256 is dead." A diff-aux-variable propagator, or a fundamentally different rule set, has not been tested.
 - 750 LOC C++ propagator implementing Rules 1+2+3+5+4@r=61+4@r=62 ships and runs end-to-end.
-- Rule 4@r=62 fires 209-249 times in first ~50k conflicts, ZERO times across 50k–500k.
-- Decision count drops 17% with continuous trigger but wall time still 1.9× slower than vanilla.
-- Reference: `bets/programmatic_sat_propagator/kill_criteria.md` (criterion #3 fired)
+- Rule 4@r=62 fires 209-249 times in first ~50k conflicts, ZERO times across 50k–500k under tested triggers.
+- Decision count drops 17% with continuous trigger but wall time still 1.9× slower than vanilla at tested budgets.
+- Reference: `bets/programmatic_sat_propagator/kill_criteria.md` (criterion #3 fired). Reopen criteria documented there.
 
-### What this means for headline-hunting
+### What this means for headline-hunting (claim-tightened 2026-04-25)
 
-- **Cascade-DP can't be sub-2^32 via current mechanisms.** Structural ceiling is firm.
-- **The propagator path doesn't beat Mode B at the budgets tested.** Future propagators must operate on diff-aux variables (which CDCL DOES decide) or actively shape CDCL decisions via cb_decide().
+- **Cascade-DP at the tested encoding budgets did not go sub-2^32.** This is EVIDENCE that the structural ceiling on the current encoder family + CDCL approach is near 2^32, not a derived ceiling for all cascade-DP encodings. A new encoder or non-CDCL solver could in principle still help.
+- **The Rule-4 propagator path doesn't beat Mode B at the budgets tested.** Future propagators must operate on diff-aux variables (which CDCL DOES decide) or actively shape CDCL decisions via cb_decide().
 - **Headline path 1 (sr=61 SAT)** still requires multi-day-per-candidate compute. No structural shortcut found.
 - **Headline path 2 (constructive collision via compilation)** unaltered by propagator findings — different mechanism class.
 - **Headline path 3 (Wang-style block-2 trail)** unaltered, still highest EV per GPT-5.5 meta-consultation.

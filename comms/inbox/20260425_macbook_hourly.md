@@ -817,3 +817,39 @@ Filled it in (65k-sample image size) plus added three new metric fields:
 Now the registry carries the structural signature per candidate; validates clean.
 Future agents can grep candidates.yaml directly for "most-locked candidate"
 without re-running the sweep.
+
+## 17:50 EDT — Block2_wang M10 milestone PASS (concrete handoff result)
+
+Per GPT-5.5 review feedback ("stop ending with victory recap; produce concrete
+implementation"), executed Stage 1 of block2_wang/SCALING_PLAN.md.
+
+Ported q5/backward_construct.c (N=8) → bets/block2_wang/trails/backward_construct_n10.c
+in ~30 min: parameterized N, MASK, MSB; replaced hardcoded 256 with (MASK+1U);
+added auto-search for cascade-eligible M0; skipped Phase 1 BF at N>=10 (intractable);
+fall back to Phase 4 verification.
+
+Result: 946 collisions found at N=10, M[0]=0x34c, fill=0x3ff, MSB kernel.
+Phase 4 independent verification: 946/946 (100%, no false positives).
+Wall: 117s on 10 OpenMP threads; pass rate 1/256 (= 1/2^N — likely structural).
+
+M10 decision gate (from SCALING_PLAN): PASS. Algorithm scales correctly N=8→N=10.
+
+Three caveats logged in M10_RESULT.md:
+  - Speedup claim is EVIDENCE not VERIFIED (no BF wall-time at N=10).
+  - Theorem-4/R63 invariants not directly checked at N=10.
+  - 1/2^N pass rate worth a structural derivation in followup.
+
+NEXT (no authorization needed): stratified BF on subspace at N=10 to upgrade
+speedup claim. M12 port (~2 hours wall, single-machine, single-shot run)
+needs explicit user OK before launch.
+
+Also pushed: GPT-5.5-driven claim-language tightening in TARGETS.md (narrowing
+"propagator killed" → "Rule-4-style propagator design refuted at tested
+budgets") and de58_predictor.md (replacing "EXACT POWERS OF 2" with EVIDENCE
+qualifier). Plus AUTHORIZATION_REQUEST_de58_validation.md with the concrete
+20-run matrix for de58-rank → solver-behavior validation.
+
+Stale tail -f shell killed.
+
+Files: SCALING_PLAN.md, M10_RESULT.md, AUTHORIZATION_REQUEST_de58_validation.md,
+backward_construct_n10.c (compiled binary alongside).

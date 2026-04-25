@@ -98,9 +98,9 @@ A new structural-predictor diagnostic. Cheap (1.4s for 9 candidates). Future wor
 
 The bet portfolio's "where to spend CPU-h" question now has empirical guidance.
 
-## CONFIRMED at 1M samples: image sizes are exact powers of 2
+## EVIDENCE at 1M samples: image sizes appear to be exact powers of 2
 
-Re-ran with 1M samples (~9s/candidate) to verify the 16k-sample numbers weren't sampling noise:
+Re-ran with 1M samples (~9s/candidate) to check whether 16k-sample numbers were sampling noise. **Caveat (claim-language tightening 2026-04-25 evening per GPT-5.5 review):** "exact powers of 2" is empirical observation across 9 candidates at 1M samples, not algebraically derived. Still consistent with sampling artifact at higher orders; only an exhaustive 2^32 sweep or algebraic derivation would CONFIRM. Treat as EVIDENCE for now.
 
 | Candidate | distinct@16k | distinct@1M | log₂ image |
 |---|---:|---:|---:|
@@ -114,7 +114,7 @@ Re-ran with 1M samples (~9s/candidate) to verify the 16k-sample numbers weren't 
 | **bit-19** | 256 | **256** | **8.0** (exact!) |
 | **bit-25** | 4022 | **4,096** | **12.0** (exact) |
 
-**Six of the nine candidates have de58 image size = EXACT POWER OF 2.** This is a structural invariant, not sampling noise.
+**Six of the nine candidates show de58 image sizes appearing as exact powers of 2 at 1M samples.** EVIDENCE-level (not algebraically derived; could still saturate higher at >1M). The cleanest reading: cascade structure compresses de58 deterministically per candidate, with the compression amount matching power-of-2 thresholds in the data.
 
 The cascade's a-path constraints compress the de58 image deterministically per candidate:
 - bit-19: **24 bits compression** (de58 → 8-bit subspace)
