@@ -124,3 +124,10 @@ The 2-point lb=15-vs-lb=29 result that suggested predictor signals kissat memory
 What stands: predict_hard_bits is valid for MITM table size (verified 8/8). It is NOT a kissat-difficulty predictor at 5-min budgets.
 Honest retraction shipped: `bets/mitm_residue/results/20260424_predictor_signal_correction.md`
 Dashboard now 15 runs, 0 audit failures.
+
+## 20:25 EDT — block2_wang starter pack: top-50 lowest-HW residuals
+
+Distilled the 200k-record corpus to a 50-residual starter pack (HW 62-69) at `bets/block2_wang/residuals/top50_lowest_hw.jsonl`.
+All 50 share active register pattern [a,b,c,_,e,f,g,_] (d63=h63=0 universal cascade signature).
+HW=62 is too dense for direct Wang differential — bet stays blocked. Starter pack useful for cluster analysis, hill-climb seeds, structural pattern checks.
+Writeup: `bets/block2_wang/residuals/STARTER_PACK.md` with concrete next-actions for the next worker.
