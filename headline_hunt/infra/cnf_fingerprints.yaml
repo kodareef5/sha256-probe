@@ -77,19 +77,25 @@
   sr_level: 60
   n: 32
   encoder_variant: "cascade_aux_expose"
-  vars_range: [12500, 12700]
-  clauses_range: [52500, 53100]
-  example_file: "(generated at runtime, see bets/cascade_aux_encoding/encoders/cascade_aux_encoder.py)"
-  last_audited: "2026-04-24"
+  vars_range: [12450, 12700]
+  clauses_range: [52400, 53100]
+  example_file: "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_expose_sr60_n32_bit31_m17149975_fillffffffff.cnf"
+  observed_n_kernels: 9
+  observed_vars: [12540, 12620]
+  observed_clauses: [52454, 52783]
+  last_audited: "2026-04-25"
 
 - bucket_id: sr60_n32_cascade_aux_force
   sr_level: 60
   n: 32
   encoder_variant: "cascade_aux_force"
-  vars_range: [12500, 12700]
-  clauses_range: [52500, 53100]
-  example_file: "(generated at runtime)"
-  last_audited: "2026-04-24"
+  vars_range: [12450, 12700]
+  clauses_range: [52400, 53100]
+  observed_n_kernels: 9
+  observed_vars: [12540, 12620]
+  observed_clauses: [52454, 52783]
+  example_file: "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit31_m17149975_fillffffffff.cnf"
+  last_audited: "2026-04-25"
 
 - bucket_id: sr61_n32_cascade_aux_expose
   sr_level: 61
@@ -97,8 +103,11 @@
   encoder_variant: "cascade_aux_expose"
   vars_range: [12750, 13200]
   clauses_range: [53300, 54500]
-  example_file: "(generated at runtime)"
-  last_audited: "2026-04-24"
+  observed_n_kernels: 9
+  observed_vars: [12816, 12888]
+  observed_clauses: [53698, 53999]
+  example_file: "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_expose_sr61_n32_bit31_m17149975_fillffffffff.cnf"
+  last_audited: "2026-04-25"
 
 - bucket_id: sr61_n32_cascade_aux_force
   sr_level: 61
@@ -106,5 +115,8 @@
   encoder_variant: "cascade_aux_force"
   vars_range: [12750, 13200]
   clauses_range: [53300, 54500]
-  example_file: "(generated at runtime)"
-  last_audited: "2026-04-24"
+  observed_n_kernels: 9
+  observed_vars: [12816, 12888]
+  observed_clauses: [53698, 53999]
+  example_file: "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr61_n32_bit31_m17149975_fillffffffff.cnf"
+  last_audited: "2026-04-25"
