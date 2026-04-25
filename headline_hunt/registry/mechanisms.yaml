@@ -13,12 +13,16 @@
   dependencies:
   - "Get block-1 residuals down to HW\u226416 (Wang differential threshold)."
   - Implement a bitcondition/trail-search engine (Wang-style, not just SAT).
-  next_action: "Stage-ladder underway 2026-04-25 evening (per GPT-5.5 review): SCALING_PLAN.md decomposes\
+  next_action: "Stage-ladder progress 2026-04-25 (per GPT-5.5 review): SCALING_PLAN.md decomposes\
     \ N=8 \u2192 N=32 into M10/M12/M16/MITM milestones with falsification gates. M10 PASSED: 946 collisions\
-    \ at N=10, 100% Phase-4 verified, 117s wall. N-invariant probe (n_invariants.py) confirms Theorem 4,\
-    \ R63.1, R63.3 hold at N\u2208{8,10,12,14}. M12 source compiled, awaiting clean-wall-time slot post de58\
-    \ validation matrix. Random sampling and hill-climb are CLOSED \u2014 see 20260424_hillclimb_negative.md\
-    \ and 20260425_structural_hillclimb_negative.md."
+    \ at N=10, 100% Phase-4 verified, 117s wall, 15.67\u00d7 stratified-BF speedup VERIFIED.\
+    \ M12 PARTIAL PASS (32 collisions at 32/4096 W57 in 43 wall-min; algorithmically validated;\
+    \ full sweep ~8hr clean wall, ~92hr contended). N-invariance probe + cross-candidate probe:\
+    \ Theorem 4, R63.1, R63.3 hold across N\u2208{8,10,12,14,16,18} AND across all 10 N=10 candidates.\
+    \ M16 single-machine pure-BC CONFIRMED INFEASIBLE (~80 days uncontended at 1024\u00d7-per-2N scaling);\
+    \ M16-MITM is the only viable path. Naive enumerate-all has signature-sparseness blocker;\
+    \ design memo needed before code. Random sampling closed across cert+SURPRISE+BOTTOM corpora\
+    \ (HW\u226562 floor universal); SURPRISE/BOTTOM mean per-register HW is 2 bits LOWER than cert."
   kill_criteria:
   - No residual cluster yields >18-round absorber after 1 week of dedicated trail search.
   - No improvement over naive block-2 SAT frontier on N=8/N=12 analogs after pilot phase.
