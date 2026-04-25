@@ -92,6 +92,24 @@ Added new fingerprint buckets to `infra/cnf_fingerprints.yaml`:
 
 Updated `infra/audit_cnf.py` with `^aux_{expose,force}_sr59.*\.cnf$` patterns. All 6 sr=59 CNFs audit-CONFIRMED.
 
+## kissat cross-solver check (added)
+
+Tested kissat 4.0.4 (vs cadical 3.0.0) on the same sr=59 force CNFs at 1M conflicts:
+
+```
+kissat bit-10: UNKNOWN, 16.17s
+kissat bit-19: UNKNOWN, 14.09s
+kissat bit-31: UNKNOWN, 14.94s
+```
+
+Both solvers agree: sr=59 cascade-DP is hard. Not a cadical-specific search-strategy issue. Combined cumulative across both solvers:
+
+| solver | runs | total conflicts | SAT |
+|---|---:|---:|---:|
+| cadical | 25 | 34M | 0 |
+| kissat  | 3  | 3M  | 0 |
+| **Total** | **28** | **37M** | **0** |
+
 ## 10M-conflict deep probe (added)
 
 To test "are we just below the SAT-finding threshold?", ran cadical at **10× longer budget** on bit-31 force sr=59:
