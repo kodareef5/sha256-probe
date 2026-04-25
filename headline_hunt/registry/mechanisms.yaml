@@ -186,20 +186,25 @@
   structural_basis:
     - "GPT-5.5 surfaced this as a missing mechanism between Kissat and chunk-mode DP."
     - "AlphaMapleSAT (arXiv:2401.13770) demonstrates structured cube selection; similar custom propagation has worked elsewhere."
-  status: open
+  status: closed
   priority: null
   expected_info_per_cpu_hour: unknown
   dependencies:
     - "CaDiCaL with IPASIR-UP / external propagator API."
     - "Cascade-aware propagation rules: which carry modes, which cascade offsets, which schedule-derived constraints to expose."
     - "Failed-residual caching design."
-  next_action: "Survey IPASIR-UP / CaDiCaL external propagator API. Sketch the propagation rule set on N=8."
+  next_action: "CLOSED 2026-04-25. See bets/programmatic_sat_propagator/results/ and graveyard kill memo."
   kill_criteria:
     - "N=8 propagator doesn't reduce conflicts vs vanilla Kissat by >10x."
     - "Implementation cost dominates the CPU savings on intended target."
+    - "Rule firing is preprocessing-phase only (added 2026-04-25, FIRED)."
   reopen_criteria:
     - "New IPASIR-UP-compatible solver advance, or new cascade theory that gives propagation rules with formal soundness."
-  evidence: []
+    - "Generative pruning rule (vs constant-pruning) identified."
+    - "Specific candidate where vanilla cadical can't solve but propagator can."
+  evidence:
+    - "graveyard/closed_bets/programmatic_sat_propagator/KILL_MEMO.md"
+    - "bets/programmatic_sat_propagator/results/phase2c_cb_decide_2026-04-25/"
   owner: unassigned
-  last_updated: "2026-04-24"
-  notes: "Newly surfaced by GPT-5.5 (2026-04-24). Priority unset — needs architectural sketch before slotting."
+  last_updated: "2026-04-25"
+  notes: "CLOSED 2026-04-25 (macbook). The bet's hypothesis empirically refuted at three trigger strategies (sample-based, continuous, decision-shaping). Rule 4 caps at finite ~977 fires regardless of trigger — algebra has finite implied literal set. Engineering substrate (~750 LOC + tests + varmap v3 + cb_decide framework) preserved at bets/programmatic_sat_propagator/ for future generative-rule reuse."

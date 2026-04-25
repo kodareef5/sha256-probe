@@ -1,52 +1,27 @@
 mechanism_id: programmatic_sat_cascade_propagator
 priority: 8
-status: blocked   # Phase 2 engineering complete; Rule 4 value-add EMPIRICALLY REFUTED
+status: closed
 owner: macbook
-machines_assigned: [macbook]
+machines_assigned:
+- macbook
 compute_budget_cpu_hours: 300
-current_progress: |
-  ENGINEERING-COMPLETE (2026-04-25): Phase 2 propagator implementation
-  ~750 LOC C++ main + ~560 LOC unit tests. 40+ unit tests passing,
-  end-to-end runs work on real cascade-aux CNFs.
-
-  Phase 2 chronology:
-    - 2A: API smoke vs CaDiCaL 3.0.0 (commit 4b649e5)
-    - 2B: Rules 1+2 cascade-zero forcing — 4x speedup on Mode A (d736ef6)
-    - 2C-Rule5: dc_63 = dg_63 bit-equality (d3f6816)
-    - 2C-Rule4@r=61: dA[61] = dE[61] specialization (99f09ef)
-    - 2C-Rule3: dE[61..63] = 0 three-filter (396cf5a)
-    - Varmap v2: actual register-value vars exposed (cc1dc84)
-    - Rule 4 substrate: bit-tracking + backtrack (3424a29)
-    - Helpers + unit tests (4df69b8, 7394d98, a63fee5, 5656896)
-    - 1:many SAT-var lookup fix — partial-bit firing breakthrough (e814b3d)
-    - Modular-vs-XOR design doc (a6076d3)
-    - Encoder Option C: modular-diff aux ripple-borrow subtractor (17c3efe)
-    - Rule 4 firing logic LIVE — 157+ fires per 50k conflicts (f90ebfa)
-    - Cross-kernel firing sweep — 5x variation (df398e2)
-    - 500k confirmation: front-loaded firing (4a45d20)
-
-  EMPIRICAL FINDING (kill criterion #3 fired):
-    Rule 4@r=62 fires THE SAME NUMBER of times at 50k and 500k:
-      bit-19: 209 / 209
-      bit-25: 249 / 249
-      bit-31: 201 / 201
-    All firings happen in the first ~50k conflicts; ZERO across 50k-500k.
-    Rule 4 is structurally equivalent to Mode B's preprocessing — but
-    incurs ~1.9x wall-time overhead at all measured budgets.
-
-  STATUS = BLOCKED (was in_flight): bet stays alive ONLY if:
-    - Rule 6 at r=63 (modular Theorem 4 with TWO varying inputs) shows
-      different firing behavior. ~400 LOC remaining.
-    - A smarter trigger fires Rule 4 incrementally during deep search.
-    - A specific candidate identifies where vanilla cadical can't solve
-      but propagator can.
-
-  Recommend NOT initiating multi-hour compute experiments on Rule 4 alone.
-  Mode B (cascade_aux_encoding force mode) achieves ~80% of the
-  propagator's preprocessing effect with 10% of the complexity.
-
-  Cross-kernel diagnostic for any future re-test: focus on bit-25 (249
-  fires) and bit-19 (209 fires, 32 max bits in 1 sample) where the
-  propagator's value-add is concentrated.
-last_heartbeat: "2026-04-25T17:30:00Z"
+current_progress: "ENGINEERING-COMPLETE (2026-04-25): Phase 2 propagator implementation\n~750 LOC C++ main + ~560 LOC unit\
+  \ tests. 40+ unit tests passing,\nend-to-end runs work on real cascade-aux CNFs.\n\nPhase 2 chronology:\n  - 2A: API smoke\
+  \ vs CaDiCaL 3.0.0 (commit 4b649e5)\n  - 2B: Rules 1+2 cascade-zero forcing \u2014 4x speedup on Mode A (d736ef6)\n  - 2C-Rule5:\
+  \ dc_63 = dg_63 bit-equality (d3f6816)\n  - 2C-Rule4@r=61: dA[61] = dE[61] specialization (99f09ef)\n  - 2C-Rule3: dE[61..63]\
+  \ = 0 three-filter (396cf5a)\n  - Varmap v2: actual register-value vars exposed (cc1dc84)\n  - Rule 4 substrate: bit-tracking\
+  \ + backtrack (3424a29)\n  - Helpers + unit tests (4df69b8, 7394d98, a63fee5, 5656896)\n  - 1:many SAT-var lookup fix \u2014\
+  \ partial-bit firing breakthrough (e814b3d)\n  - Modular-vs-XOR design doc (a6076d3)\n  - Encoder Option C: modular-diff\
+  \ aux ripple-borrow subtractor (17c3efe)\n  - Rule 4 firing logic LIVE \u2014 157+ fires per 50k conflicts (f90ebfa)\n \
+  \ - Cross-kernel firing sweep \u2014 5x variation (df398e2)\n  - 500k confirmation: front-loaded firing (4a45d20)\n\nEMPIRICAL\
+  \ FINDING (kill criterion #3 fired):\n  Rule 4@r=62 fires THE SAME NUMBER of times at 50k and 500k:\n    bit-19: 209 / 209\n\
+  \    bit-25: 249 / 249\n    bit-31: 201 / 201\n  All firings happen in the first ~50k conflicts; ZERO across 50k-500k.\n\
+  \  Rule 4 is structurally equivalent to Mode B's preprocessing \u2014 but\n  incurs ~1.9x wall-time overhead at all measured\
+  \ budgets.\n\nSTATUS = BLOCKED (was in_flight): bet stays alive ONLY if:\n  - Rule 6 at r=63 (modular Theorem 4 with TWO\
+  \ varying inputs) shows\n    different firing behavior. ~400 LOC remaining.\n  - A smarter trigger fires Rule 4 incrementally\
+  \ during deep search.\n  - A specific candidate identifies where vanilla cadical can't solve\n    but propagator can.\n\n\
+  Recommend NOT initiating multi-hour compute experiments on Rule 4 alone.\nMode B (cascade_aux_encoding force mode) achieves\
+  \ ~80% of the\npropagator's preprocessing effect with 10% of the complexity.\n\nCross-kernel diagnostic for any future re-test:\
+  \ focus on bit-25 (249\nfires) and bit-19 (209 fires, 32 max bits in 1 sample) where the\npropagator's value-add is concentrated.\n"
+last_heartbeat: '2026-04-25T18:00:00Z'
 heartbeat_interval_days: 14
