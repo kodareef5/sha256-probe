@@ -102,11 +102,13 @@
   - Audited CNFs (run audit_cnf.py before queueing).
   - Candidate/kernel diversity, not seed farming.
   next_action: "Pair with cascade_auxiliary_encoding \u2014 try new encoding on best 5 candidates before more raw seeds.\
-    \ 2026-04-25 evening: de58 validation matrix (5 candidates \xD7 2 solvers \xD7 2 budgets = 20 runs) launched and 8/10\
-    \ Phase-B cells complete. PRELIMINARY VERDICT: de58 image-size rank does NOT predict CDCL solver behavior in any monotonic\
-    \ way at 10M conflicts (msb_bot least-compressed has LOWEST kissat dec/conf 3.22; bit-19 most-compressed has 3.29; mid-tier\
-    \ candidates 3.38-3.41). Spread ~10%, no monotone correlation. Final closure pending msb_cert k+c \u2014 see results/20260425_de58_validation_VERDICT.md.\
-    \ Compute should distribute by COVERAGE diversity (disjoint de58 regions) not RANK."
+    \ 2026-04-25 evening: de58 validation matrix (5 candidates \xD7 2 solvers \xD7 2 budgets = 20 runs) executed.\
+    \ EVIDENCE-LEVEL CLOSURE (kissat 5/5 cells): de58_size and hard_bit_total_lb predictors are BOTH null vs kissat\
+    \ dec/conf (Spearman \u03c1 = +0.000 and -0.100 respectively). msb_bot (LEAST compressed) has LOWEST dec/conf;\
+    \ msb_cert highest. Factor-500 variation in de58 image translates to <10% variation in dec/conf, no monotone correlation.\
+    \ Predictors are STRUCTURAL but SEARCH-IRRELEVANT at 10M-conflict CDCL budgets.\
+    \ See results/20260425_de58_validation_VERDICT.md and 20260425_predictor_correlation.md.\
+    \ Compute should distribute by candidate COVERAGE (disjoint de58 regions) not RANK."
   kill_criteria:
   - 10k additional CPU-hours spent without SAT AND without measurable solver-behavior improvement from any new encoding/candidate.
   - No structural predictor identified that distinguishes promising from hopeless candidates.
