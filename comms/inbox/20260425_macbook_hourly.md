@@ -904,3 +904,22 @@ direction either way at 1M conflicts.
 Preliminary EVIDENCE: de58 rank does NOT predict kissat decisions/conflict
 at 1M conflicts. Phase B (10M) outcome will determine if this holds at
 higher budget or if a signal emerges.
+
+## 19:18 EDT — N-invariance confirmed at N ∈ {8, 10, 12, 14, 16, 18}
+
+Extended n_invariants.py probe; same script runs at any N value.
+
+  N= 8: image=  8, locked=2/8  (25%), Th4 + R63.1 + R63.3 all 8192/8192
+  N=10: image= 16, locked=5/10 (50%), 8192/8192 each
+  N=12: image=512, locked=1/12 ( 8%), 8192/8192 each
+  N=14: image= 32, locked=8/14 (57%), 8192/8192 each
+  N=16: image=512, locked=4/16 (25%), 8192/8192 each
+  N=18: image=128, locked=8/18 (44%), 8192/8192 each
+
+Three modular relations (Theorem 4 at r=61, R63.1 dc=dg, R63.3 da-de=dT2)
+hold at every tested N across 6 different N values. Hardlock fraction is
+candidate-specific (8-57%), NOT N-specific. Image sizes scattered too.
+
+EVIDENCE that the cascade structural picture is N-INVARIANT for the
+auto-discovered first-eligible candidate at each N. Strong support for
+the bet's algorithmic foundation regardless of which N is chosen.
