@@ -323,3 +323,35 @@ Phase 2C-Rule4@r62/63 implementation status:
 - Rule 4 firing logic: NEXT-NEXT
 
 Today: ~68 commits.
+
+## 12:00 EDT — Partial-bit Sigma0/Maj/dSigma0/dMaj evaluators (the firing logic foundation)
+
+Shipped test_partial_sigma0.cc — 12/12 tests pass for partial-bit aware
+Sigma0/Maj/dSigma0/dMaj evaluation. This combines:
+- Bit-local Sigma0 (each output bit needs 3 specific input bits)
+- Bit-local Maj (each output bit needs same-position input bits)
+- Modular subtraction with borrow chain (last hour's commit)
+
+Critical milestone: partial_sigma0 bit 0 fires with ONLY 3 input bits
+decided (positions 2, 13, 22). Verified at minimum granularity — the
+propagator can compute dSigma0 contributions before the solver has
+fully decided either Sigma0 input.
+
+Phase 2C-Rule4@r62/63 implementation status:
+  ✓ Substrate (bit tracking + backtrack)        [3424a29]
+  ✓ Helpers (full-input evaluators)              [4df69b8]
+  ✓ Helper unit tests                            [7394d98]
+  ✓ Modular subtraction primitive                [a63fee5]
+  ✓ Partial-bit Sigma0/Maj/dSigma0/dMaj          [5656896]
+  ─ Integrate into CascadePropagator class       NEXT
+  ─ Wire into notify_assignment trigger          NEXT
+  ─ Generate reason clauses                      NEXT
+  ─ Add to cb_propagate firing                   NEXT
+
+The remaining work is integration (~150 LOC) on top of fully-tested
+primitives. All math is verified; all soundness corners are covered;
+only the SAT-solver-integration layer remains.
+
+Today: ~70 commits. Cumulative propagator infra: ~570 LOC main + ~560 LOC tests.
+
+Commit: 5656896
