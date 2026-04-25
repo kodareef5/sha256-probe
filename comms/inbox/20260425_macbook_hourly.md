@@ -17,3 +17,11 @@ Retracting the SPEC-bug flag from `20260425_theorem4_pinpoint.md`.
 The boundary-pinpoint (r=61 modular = 100%, r=62 = 0%) STANDS — that's an independent finding.
 Mode B's ≥10x SPEC claim remains separately refuted at 90-min budget for unrelated reasons.
 Writeup: `bets/mitm_residue/results/20260425_spec_bug_retraction.md`
+
+## 02:00 EDT — Theorem 4 structural proof: r=62 breakage formula identified
+
+Derived and empirically confirmed: `da_62 − de_62 ≡ dT2_62 (mod 2^32)` exactly.
+1000/1000 samples match: dT2_62 generically nonzero (da_61 nonzero generically) → da_62 ≠ de_62.
+Theorem 4's natural domain is r=61 SPECIFICALLY. Earlier 'r ≥ 61' language in writeups/sr60_sr61_boundary_proof.md is technically true (vacuously at higher rounds when collision forces zeros) but potentially misleading.
+At the cert: da_61=0 makes everything vacuous. At random cascade-held: Theorem 4 is the maximum 'da-de relationship' available — doesn't extend.
+Writeup: `bets/mitm_residue/results/20260425_theorem4_structural_proof.md`
