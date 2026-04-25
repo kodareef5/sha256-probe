@@ -423,3 +423,34 @@ Phase 2C-Rule4 status:
 Today: ~76 commits.
 
 Commit: 17c3efe
+
+## 12:50 EDT — Phase 2C-Rule4 FIRING IS LIVE
+
+The propagator now actually fires forcing literals on bits of
+(e1[62] - e2[62]) mod 2^32 — the value-bearing rule that CNF cannot
+express directly without aux ripple-carry adders.
+
+Implementation: try_fire_rule4_r62() checks compute_partial_forced_dE_62
+on every 64th actual-reg bit assignment, forces newly-determined bits
+via the aux_modular_diff SAT vars from varmap v3. Sound reason clauses
+gather all decided input lits. Backtrack-safe via per-level undo.
+
+Test results (cadical 3.0.0 runs, 50k conflict budget):
+  sr=60 force MSB:   157 Rule 4@r=62 forcings, 2.04s wall (0.91s vanilla)
+  sr=61 force bit10: 170 Rule 4@r=62 forcings, 2.26s wall (1.09s vanilla)
+
+Per-conflict wall time is ~2x SLOWER (partial-bit reasoning overhead).
+Both ON/OFF hit UNKNOWN at 50k — bet's actual decision gate (10x
+conflict-count reduction) requires multi-hour runs. Infrastructure is
+now in place to settle that empirically.
+
+Phase 2C-Rule4 engineering: COMPLETE. ~750 LOC propagator + ~560 LOC
+unit tests. 40+ unit tests pass + live solver runs work end-to-end.
+
+The full Phase 2 arc has gone from "no design" → working modular-
+arithmetic propagator that exposes Theorem 4's mathematical truth to
+CDCL during search. Whether it pays off is now an empirical question.
+
+Today: ~78 commits.
+
+Commit: f90ebfa
