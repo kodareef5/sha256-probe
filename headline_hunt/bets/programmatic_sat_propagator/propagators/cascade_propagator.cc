@@ -456,15 +456,23 @@ public:
         if (n_actual_assignments > 0 && (n_actual_assignments & 0xFFF) == 0) {
             if (compute_dT2_62() >= 0) n_dT2_62_computable++;
         }
+        // Aggressive trigger: fire Rule 4 after EVERY notify_assignment
+        // (not sampled). This is the smarter-trigger experiment per the
+        // 500k-front-loaded finding — sample-based was missing fleeting
+        // states where Rule 4 could have fired between backtracks.
+        // Diagnostic: track partial-bit reasoning every 64 events, but
+        // ALSO try to fire continuously.
         if (n_actual_assignments > 0 && (n_actual_assignments & 0x3F) == 0) {
-            // Fine sampling for partial-bit
             PartialReg forced_dE62 = compute_partial_forced_dE_62();
             if (forced_dE62.n_decided > 0) n_partial_dT2_62_fires++;
             if (forced_dE62.n_decided > n_partial_bits_decided_max) {
                 n_partial_bits_decided_max = forced_dE62.n_decided;
             }
-            // Phase 2C-Rule4 firing: when partial reasoning determines bits
-            // of dE[62], force them via the modular-diff aux variables.
+        }
+        // Continuous trigger (smarter-trigger experiment, 2026-04-25).
+        // Cost: O(32 * 32) = 1024 ops per call vs sampling. With 521k events,
+        // worst case ~533M ops. Should still be fast on modern HW.
+        if (!aux_modular_diff.empty()) {
             try_fire_rule4_r62();
         }
 
