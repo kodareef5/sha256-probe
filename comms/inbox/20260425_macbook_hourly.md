@@ -884,3 +884,23 @@ N-invariant. Earlier inline R63.3 result was buggy (operator precedence)
 and is SUPERSEDED.
 
 Pushed: 02cc34f, e251a6f, b8f4633, 417778c, 6ecd3ab.
+
+## 19:05 EDT — De58-rank prediction signal at 1M conflicts: FLAT
+
+Extracted decisions/conflict + conflicts/second from kissat 1M-conflict runs
+(CPU-rate-mostly-independent metric):
+
+  bit-19 (de58=256):    5.17 dec/conf, 30k conf/s (contended)
+  bit-25 (4096):        5.04 dec/conf, 44k conf/s
+  msb_surp (4096):      5.13 dec/conf, 45k conf/s
+  msb_bot  (130049):    4.73 dec/conf, 48k conf/s   ← lowest dec/conf, biggest de58 image
+  msb_cert (82826):     5.24 dec/conf, 46k conf/s
+
+Variance ~10% across all 5 candidates. msb_bot (LEAST de58 compression) has
+LOWEST decisions/conflict. Anti-correlated with the de58 predictor's
+"compression → solver-friendly" hypothesis. Range too tight to confirm
+direction either way at 1M conflicts.
+
+Preliminary EVIDENCE: de58 rank does NOT predict kissat decisions/conflict
+at 1M conflicts. Phase B (10M) outcome will determine if this holds at
+higher budget or if a signal emerges.
