@@ -166,3 +166,11 @@ Predictor 35/35 lower bound, mean extras 1.54, max 4. The closed-form pre-screen
 Forward-table size at 2^17 = 131k entries — trivially feasible (≤16 MB at 1 byte/entry).
 Writeup: `bets/mitm_residue/results/20260424_FINAL_RANKING.md` with concrete forward-table build path.
 Data: `bets/mitm_residue/results/final_ranking_35.json`.
+
+## 21:35 EDT — 90-min kissat both UNKNOWN; SPEC ≥10x speedup claim REFUTED
+
+Both 90-min Mode A and Mode B sr=60 MSB cert seed=5 runs returned UNKNOWN.
+Standard encoding takes 12h on the same instance — Mode A and Mode B did NOT find SAT in 1/8 of that time.
+**Mode B sr=60 speedup is < 8x (possibly zero).** SPEC's '≥10x' prediction is now empirically refuted at 90-min budgets.
+Updated SPEC.md with the empirical bounds; 'SAT-speedup predictions' are RETRACTED pending 4h+ multi-seed test.
+Dashboard: 17 total runs (7 cascade_aux + 10 mitm_residue), 0 audit failures, 4.8 wall-hours of solver time logged.

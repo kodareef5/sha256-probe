@@ -169,13 +169,25 @@ propagation benefit but the CSA adders still dominate conflict analysis.
 the search immediately prunes to cascade solutions. For sr=61 TRUE instances,
 Mode B is expected to either find a (vanishingly rare) SAT or eventually UNSAT.
 
-**Empirical update (2026-04-24, run d8aa291)**: Initial SPEC predicted "fast
-UNSAT (seconds to minutes)" for sr=61 Mode B. Tested at 600s on candidate
-cand_n32_bit10_m3304caa0_fill80000000 with kissat seed=5 — result was
-**TIMEOUT** at 10 min, no UNSAT proof reached. The "seconds-to-minutes" claim
-was too optimistic; revised expectation: hours, not minutes. Multi-seed × multi-
-candidate sweeps at 1-4h budgets are required. See
-`results/20260424_first_solver_run.md`.
+**Empirical update (2026-04-24)**: Initial SPEC predicted "fast UNSAT (seconds
+to minutes)" for sr=61 Mode B and "≥10x speedup on sr=60 SAT" for Mode B over
+standard. Both empirically refuted at modest budgets:
+
+- 600s (10 min) Mode B sr=61 (cand_n32_bit10_m3304caa0): TIMEOUT (run d8aa291).
+- 5400s (90 min) Mode B sr=60 MSB cert seed=5: **TIMEOUT** at full 90 min
+  budget. Standard takes 12h on same instance/seed; Mode B did NOT find SAT
+  in 1/8 of that → Mode B sr=60 speedup is < 8x (and possibly zero).
+- 5400s (90 min) Mode A sr=60 MSB cert seed=5: also TIMEOUT.
+
+Both modes' SAT speedup claims are bounded above by what 90-min runs prove
+(< 8x). The "≥10x sr=60 speedup" prediction is REFUTED at this budget. To
+test for any real speedup, need 4h+ budgets across multiple seeds — that's
+the multi-seed sweep documented in `results/20260424_first_solver_run.md`.
+
+The SPEC's *encoding correctness* (audit pipeline, fingerprint, breadth-test
+on 35 candidates → 70 CONFIRMED CNFs) is solid. The SPEC's *SAT-speedup
+predictions* lack empirical support at these budgets and are RETRACTED until
+properly tested.
 
 **Wait — that's important**: a fast UNSAT on Mode B for sr=61 does NOT imply
 sr=61 is UNSAT in general! It only means no *cascade-DP* sr=61 solution exists.
