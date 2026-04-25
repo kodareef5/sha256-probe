@@ -1008,3 +1008,28 @@ image-size rank does NOT predict solver behavior monotonically.
 
 Pushed: e7dec20, c5d07b5, dfd7ee1, 989b1dd, plus the predictor-correlation
 write-up.
+
+## 20:30 EDT — de58 + hard_bit predictors FALSIFIED at 10M kissat
+
+5/5 candidates with kissat 10M data:
+  Spearman ρ vs kissat 10M dec/conf:
+    de58_size           = +0.000  PERFECTLY NULL
+    hard_bit_total_lb   = -0.100  essentially null
+
+msb_bot (LEAST compressed, 130k image, 29 hard bits) has LOWEST dec/conf
+(3.22) — opposite of predictor forecast. msb_cert (medium) HIGHEST (3.45).
+
+EVIDENCE-LEVEL CLOSURE: both structural predictors are search-irrelevant
+for cascade-DP CNF at 10M-conflict CDCL budgets. Factor-500 variation in
+de58 image translates to <10% variation in dec/conf, no monotone correlation.
+
+TARGETS.md and mechanisms.yaml updated with the closure.
+
+For sr61_n32 compute allocation: distribute by candidate COVERAGE
+(disjoint de58 regions per the disjointness finding) rather than RANK.
+
+msb_cert cadical 10M still running (last cell of Phase B); pattern
+expected to hold. After matrix completes, will run clean re-runs of
+contended cells to verify wall-time pattern.
+
+Pushed: c4eb41c, 3025214, e4a974c.
