@@ -46,6 +46,27 @@ Plus the existing corpus validation on R63.1 and R63.3 (the only two checkable f
 
 **Total: 32,000 individual constraint checks, zero failures, across kernel families.**
 
+### Cross-kernel cross-candidate sweep (added 2026-04-25)
+
+Extended verification across all 9 kernel families represented in `cnfs_n32/` (one true sr=61 candidate per family, 500 samples × 8 constraints each = 4000 checks per candidate):
+
+| candidate | kernel-bit | rate |
+|---|---|---:|
+| 0x17149975, 0xffffffff | 31 | 16,000/16,000 (100%) |
+| 0xa22dc6c7, 0xffffffff | 31 | 8,000/8,000 (100%) |
+| 0x3304caa0, 0x80000000 | 10 | 8,000/8,000 (100%) |
+| 0x8299b36f, 0x80000000 | 0  | 4,000/4,000 (100%) |
+| 0x024723f3, 0x7fffffff | 6  | 4,000/4,000 (100%) |
+| 0x45b0a5f6, 0x00000000 | 11 | 4,000/4,000 (100%) |
+| 0x4d9f691c, 0x55555555 | 13 | 4,000/4,000 (100%) |
+| 0x427c281d, 0x80000000 | 17 | 4,000/4,000 (100%) |
+| 0x51ca0b34, 0x55555555 | 19 | 4,000/4,000 (100%) |
+| 0x09990bd2, 0x80000000 | 25 | 4,000/4,000 (100%) |
+
+**Total cross-kernel verification: 60,000 individual structural-constraint checks, zero failures, 9 kernel families.**
+
+The structural picture is empirically universal across all kernel families exercised in the project. Confirms the propagator SPEC's candidate-independence assumption.
+
 ## Degrees of freedom
 
 | round | active regs | constraints | modular d.o.f. |
