@@ -106,3 +106,12 @@ Shipped:
 - mitm_residue: LSB rule for hard-bit prediction REFUTED (Jaccard 0.10-0.16). Algebraic prediction needs richer model than 'bits >= LSB(cw57)'. Empirical 200k-sample run remains the cheapest route per candidate (~10s).
 - mitm_residue: dW[57] uniform-bit data captured — 3-5 uniform bits per candidate, sparsely placed. Building block for future prediction work.
 - 2 background kissat runs (sr=60 MSB Mode A/B seed=5, 90min each) cooking — will report in next cycle.
+
+## 20:11 EDT — predictor signals kissat memory! 3.5× peak-memory ratio matches predicted hard-bit ratio
+
+Shipped:
+- Head-to-head 5-min kissat: priority (predict_lb=15, sr=61) vs high-prediction reference (predict_lb=29, sr=60). Same solver, same seed, same wall budget.
+- **Result: priority used 135 GB peak memory, high-prediction used 467 GB — 3.5× more.** Both TIMEOUT at 5 min. Predicted hard-bit count correlates with solver search-space exploration.
+- Implication: closed-form predictor pre-screens candidates not just for MITM table size but ALSO for kissat-mode work. Lower-prediction candidates are systematically cheaper for the solver.
+- 2 more runs logged via append_run.py. Dashboard now 13 runs, 0 audit failures.
+- Writeup: `bets/mitm_residue/results/20260424_predictor_kissat_signal.md` with the proposal: a 4h kissat run on the priority candidate is the natural next experiment to test whether it solves materially faster.
