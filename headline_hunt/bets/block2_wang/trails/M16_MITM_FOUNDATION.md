@@ -113,6 +113,46 @@ This is now the active M16 design question. **No multi-machine compute
 authorization needed** until the signature design produces a non-trivial
 hit-rate prediction.
 
+## ALTERNATIVE design candidate: backward-modification (no storage at all)
+
+Discovered 2026-04-25 evening in `q5_alternative_attacks/backward_modification.py`.
+Different architecture from store-and-match MITM:
+
+**Algorithm**:
+1. Search over (W59, W60) only — 2N bits.
+2. For each candidate (W59, W60): compute forward rounds 59-63, get final state.
+3. If states don't collide, compute what round-59 state IS NEEDED for collision.
+4. **Solve backward** for W58 from the needed state (simple subtraction — always solvable).
+5. **Solve backward** for W57 similarly.
+6. Verify: does the collision hold under the derived (W57, W58)?
+
+**Search space at N=16**: 2^32 (W59, W60) trials. ~70 minutes single-thread. Tractable.
+
+**No storage needed.** No signature space sparseness problem. Backward steps
+are deterministic; verification is O(1) per trial.
+
+**Why it works (potentially)**: by solving W57 + W58 from the COLLISION
+constraint rather than enumerating, we sidestep the forward-record storage
+problem entirely. The cost is that W57/W58 may be "unrealistic" values that
+violate cascade constraints; verification step catches those.
+
+**Expected SAT hit rate**: at N=16 with cascade structure, residual
+constraints reduce effective collision-target dimensionality. At sr=60 the
+trick reportedly reduces 256-bit search to 128-bit. At sr=63 (full collision
+target) the reduction may be smaller. **Empirical test needed**.
+
+**Concrete next step (no compute needed)**: port q5/backward_modification.py
+to N=16 (similar to backward_construct port). Verify the W57+W58 backward-
+solve step is well-defined at N=16. ~half day of implementation.
+
+This design is **strictly superior to store-and-match MITM** if it works:
+no storage requirement, simpler architecture, falsifiable with a 70-min
+single-machine experiment instead of a 64-GB-storage-and-multi-day MITM.
+
+Updated M16 priority: **try backward-modification design FIRST** before
+investing in store-and-match MITM signature reduction. Filed as the
+revised M16 frontrunner in this evening's hand-off.
+
 ## Tracking
 
 This file is a HANDOFF artifact. Next implementer:
