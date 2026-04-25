@@ -52,3 +52,11 @@ Then bootstrapped programmatic_sat_propagator (was: newly-surfaced, no design). 
 mitm_residue is now structurally complete at p5; recommend parking the bet there. Path forward for breaking 2^-32 wall is non-cascade-DP mechanisms (block2_wang, kc_xor_d4, programmatic_sat_propagator).
 
 Recent commits: 6ec9524, 74cd316, fb44179, 565db0a, 37a4100, 8138fd3 — six in a row, all clean.
+
+## 06:00 EDT — Cross-kernel cascade_aux CNF set shipped
+
+Generated and audited 36 CNFs (9 kernel families × sr=60/61 × expose/force) for the cascade_aux_encoding bet. Prior state: zero CNFs in the bet directory; comparisons ran only on MSB priority. Now: any fleet worker can run `bash cnfs/regenerate.sh` and get the full cross-kernel test set in ~3 min, all audit-CONFIRMED.
+
+Updated cnf_fingerprints.yaml — widened sr60/sr61 cascade_aux_{expose,force} bucket ranges to accommodate cross-kernel variation (bit-10 was 12540 vars, just below the prior 12500-min). Added observed_n_kernels=9 documentation in the fingerprint entries.
+
+Commit: 41b62de
