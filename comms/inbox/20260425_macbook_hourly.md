@@ -619,3 +619,38 @@ investigated has results, kill memos, or revival path captured.
 
 Commits this stretch: 40b70bd (cb_decide), 2571f12 (kill memo),
 61d502a (block2_wang foundation), 2ed1a1b (kc_xor_d4 block).
+
+## Mid-hour pulse — Empirical sweep continues
+
+The q5_alternative_attacks survey is paying off — found and ran two existing tools that produce real empirical results without new compute setup.
+
+q5/chunk_mode_dp.c (already-built binary) at N=8:
+  - 88 of 98 boundary carries variable; only 10 invariant
+  - 99.99% of configs have UNIQUE boundary states (dedup ratio ~1x)
+  - All 260 collisions have unique reduced states
+  - REFUTES the boundary-carry quotient hypothesis (specific design)
+  - chunk_mode_dp BET stays open (mode-variable design is structurally
+    different from boundary-carry) but with sharper empirical bounds.
+
+Added new entry to negatives.yaml: boundary_carry_quotient_no_compression
+(CLOSED, VERIFIED). Future workers know to avoid this specific quotient
+design.
+
+The day's empirical pattern: q5 has substantial pre-existing prototype
+code that, when actually run, produces real results that update bet
+status. The propagator + kc_xor_d4 + chunk_mode_dp boundary-carry findings
+collectively sharpen what mechanisms can/can't work for the headline-hunt.
+
+Bet portfolio status (afternoon end):
+  KILLED:  programmatic_sat_propagator
+  BLOCKED: kc_xor_d4
+  OPEN+SHARPER: block2_wang (foundation found), chunk_mode_dp (design pivot
+                away from boundary carries), mitm_residue (structurally
+                complete), cascade_aux_encoding (Mode B characterized),
+                sigma1_aligned (untouched), sr61_n32 (fleet)
+
+Each finding is concrete empirical evidence, captured in bet writeups
++ negatives.yaml + status updates. Future workers don't have to
+re-discover today's negatives or re-run today's experiments.
+
+Commits this stretch: 4ef9bf9 (chunk_mode_dp result), 4b58146 (negatives update)
