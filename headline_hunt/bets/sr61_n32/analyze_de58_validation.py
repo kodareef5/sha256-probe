@@ -125,66 +125,60 @@ def main():
             print(f"   {r['candidate_id']}, {r['solver']}, budget={budget_of(r)}, wall={r['wall_seconds']}s")
 
     # CPU-rate-independent metric: decisions per conflict from solver logs.
-    print("\nDecisions/conflict from kissat 1M-conflict runs:")
-    print("(CPU-rate-independent metric: lower = stronger propagation, smarter search)")
-    print(f"{'Candidate':45s} {'de58sz':>7} {'lockbits':>8} {'dec/conf':>9} {'conf/s':>8}")
+    # Now extract for BOTH 1M and 10M budgets to see warmup effect.
+    print("\nDecisions/conflict from kissat runs (CPU-rate-mostly-independent):")
+    print("(low = stronger propagation = solver-friendly. Warmup tends to lower it.)")
+    print(f"{'Candidate':45s} {'de58sz':>7} {'lockb':>5}  {'dec/conf 1M':>11}  {'dec/conf 10M':>12}  {'Δ':>5}")
+    cand_to_tag = {
+        'cand_n32_bit19_m51ca0b34_fill55555555': 'bit19',
+        'cand_n32_bit25_m09990bd2_fill80000000': 'bit25',
+        'cand_n32_msb_m9cfea9ce_fill00000000':   'msb_surp',
+        'cand_n32_msb_m189b13c7_fill80000000':   'msb_bot',
+        'cand_n32_msb_m17149975_fillffffffff':   'msb_cert',
+    }
+
+    def parse_dec_conf(logpath):
+        """Return (dec_per_conf, conf_per_sec) or (None, None)."""
+        try:
+            with open(logpath) as f:
+                lines = f.read().splitlines()
+        except FileNotFoundError:
+            return None, None
+        dec = conf_rate = None
+        for line in lines:
+            if line.startswith('c decisions:'):
+                for p in line.split():
+                    try:
+                        v = float(p)
+                        if 0 < v < 100:
+                            dec = v; break
+                    except ValueError:
+                        pass
+            elif line.startswith('c conflicts:'):
+                for p in line.split():
+                    try:
+                        v = float(p)
+                        if 1000 < v < 1e9:
+                            conf_rate = v; break
+                    except ValueError:
+                        pass
+        return dec, conf_rate
+
     by_dec = []
     for cand, size, lockb, cells in rows:
-        # Find the kissat 1M log file
-        logpath = None
-        for r in matrix:
-            if (r['candidate_id'] == cand and r['solver'] == 'kissat'
-                    and budget_of(r) == 1000000):
-                logpath = r.get('artifacts', [None])[0] if isinstance(r.get('artifacts'), list) else None
-                if not logpath:
-                    logpath = r.get('log')
-                if not logpath:
-                    # try canonical path
-                    for tag, c, _, _ in [
-                        ('bit19',     'cand_n32_bit19_m51ca0b34_fill55555555', 0, 0),
-                        ('bit25',     'cand_n32_bit25_m09990bd2_fill80000000', 0, 0),
-                        ('msb_surp',  'cand_n32_msb_m9cfea9ce_fill00000000', 0, 0),
-                        ('msb_bot',   'cand_n32_msb_m189b13c7_fill80000000', 0, 0),
-                        ('msb_cert',  'cand_n32_msb_m17149975_fillffffffff', 0, 0),
-                    ]:
-                        if c == cand:
-                            logpath = f"headline_hunt/bets/sr61_n32/runs/de58_validation_2026-04-25/{tag}_kissat_1000000.log"
-                            break
-                break
-        dec = conf_rate = None
-        if logpath:
+        tag = cand_to_tag.get(cand, '?')
+        log1M  = f"{REPO}/headline_hunt/bets/sr61_n32/runs/de58_validation_2026-04-25/{tag}_kissat_1000000.log"
+        log10M = f"{REPO}/headline_hunt/bets/sr61_n32/runs/de58_validation_2026-04-25/{tag}_kissat_10000000.log"
+        d1, _ = parse_dec_conf(log1M)
+        d10, _ = parse_dec_conf(log10M)
+        delta = (d10 - d1) if (d1 is not None and d10 is not None) else None
+        deltastr = f"{delta:+.2f}" if delta is not None else "    ?"
+        d1s = f"{d1:.2f}" if d1 is not None else "    ?"
+        d10s = f"{d10:.2f}" if d10 is not None else "    ?"
+        print(f"{cand[-43:]:45s} {str(size):>7} {str(lockb):>5}  {d1s:>11}  {d10s:>12}  {deltastr:>5}")
+        if size != '?' and d10 is not None:
             try:
-                with open(os.path.join(REPO, logpath)) as f:
-                    for line in f:
-                        # kissat format: "c decisions:    5036746     5.04 per conflict"
-                        # cadical format different — kissat-only here
-                        if line.startswith('c decisions:'):
-                            parts = line.split()
-                            for p in parts:
-                                try:
-                                    val = float(p)
-                                    if val > 0 and val < 100:  # dec/conf is small
-                                        dec = val
-                                        break
-                                except ValueError:
-                                    pass
-                        elif line.startswith('c conflicts:'):
-                            parts = line.split()
-                            for p in parts:
-                                try:
-                                    val = float(p)
-                                    if 1000 < val < 1e9:  # conf/s is reasonable range
-                                        conf_rate = val
-                                        break
-                                except ValueError:
-                                    pass
-            except FileNotFoundError:
-                pass
-        line = f"{cand[-43:]:45s} {str(size):>7} {str(lockb):>8} {str(dec or '?'):>9} {str(conf_rate or '?'):>8}"
-        print(line)
-        if size != '?' and dec is not None:
-            try:
-                by_dec.append((int(size), dec, cand))
+                by_dec.append((int(size), d10, cand))
             except (TypeError, ValueError):
                 pass
 
