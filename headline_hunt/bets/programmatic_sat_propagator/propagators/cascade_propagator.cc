@@ -33,14 +33,44 @@ using json = nlohmann::json;
 
 class CascadePropagator : public CaDiCaL::ExternalPropagator {
 public:
-    // Forced-zero variables (Rules 1+2): their SAT vars must be FALSE.
+    // Forced-zero variables (Rules 1+2+3): their SAT vars must be FALSE.
     // Stored as a map: var_id -> required_value (always 0 for now).
     // (We use map instead of unordered_map for stable iteration order in tests.)
     std::map<int, int> forced_zero_vars;
 
+    // Rule 5 (R63.1: dc_63 = dg_63 bit-equality):
+    // Each pair (cv, gv) is the SAT var for bit i of dc_63 / dg_63 respectively.
+    // When one is assigned, the other must take the same value (modulo polarity
+    // signs from the encoder's literal-as-XOR-aux representation).
+    // dc_polarity / dg_polarity reflect whether the encoder's aux literal has
+    // positive (=+1) or negative (=-1) polarity at this bit.
+    struct EqPair {
+        int cv;        // dc_63 bit-i SAT var (or 0 if constant)
+        int dc_pol;    // +1 or -1 (sign of literal in encoder)
+        int gv;        // dg_63 bit-i SAT var (or 0 if constant)
+        int dg_pol;
+    };
+    std::vector<EqPair> r63_eq_pairs;  // 32 entries (one per bit position)
+
+    // For reverse lookup: SAT var -> (eq-pair index, side: 'c' or 'g').
+    // Used in notify_assignment to know which bit was just decided.
+    struct EqVarSide { int pair_idx; int side; }; // side: 0=c, 1=g
+    std::unordered_map<int, EqVarSide> r63_eq_lookup;
+
+    // Current value of each eq-pair side: -1=unassigned, 0=false, 1=true.
+    // Updated in notify_assignment, undone in notify_backtrack.
+    // Stored as a stack (decision-level partitioned).
+    struct AssignEvent { int pair_idx; int side; int prev; };
+    std::vector<std::vector<AssignEvent>> level_eq_assignments;
+    std::vector<std::pair<int, int>> r63_eq_state;  // [pair_idx] -> (c_val, g_val)
+
     // Pending propagations: literals we've decided to force but the solver
     // hasn't requested yet via cb_propagate.
     std::vector<int> pending_propagations;
+
+    // For each pending propagation, remember the reason: a list of literals
+    // that forced this propagation (negations form the reason clause body).
+    std::vector<std::vector<int>> pending_reasons;
 
     // Set of literals already propagated (avoid re-propagating).
     std::unordered_set<int> propagated;
@@ -54,39 +84,104 @@ public:
     long long n_propagations = 0;
     long long n_decisions = 0;
     long long n_backtracks = 0;
+    long long n_rule5_fires = 0;
 
     CascadePropagator() {
         level_propagation_counts.push_back(0);
+        level_eq_assignments.push_back({});
+    }
+
+    // Helper: queue a forced literal with its reason (input literals).
+    // Reason convention: the reason clause is [propagated_lit] OR [neg(input)
+    // for input in reason_lits], asserting "if all reason inputs hold then
+    // propagated_lit holds." For unconditional axioms, reason_lits is empty.
+    void queue_propagation(int lit, std::vector<int> reason_lits) {
+        if (propagated.find(lit) != propagated.end()) return;  // already done
+        propagated.insert(lit);
+        pending_propagations.push_back(lit);
+        pending_reasons.push_back(std::move(reason_lits));
+        level_propagation_counts.back() = pending_propagations.size();
+        n_propagations++;
     }
 
     // -------- IPASIR-UP API: required virtual methods --------
 
     void notify_assignment(const std::vector<int>& lits) override {
         n_assignments += lits.size();
-        // For Rules 1+2, no need to track assignments — the rules fire
-        // unconditionally based on the cascade-DP setup. Future rules
-        // (4, 5) will need to update internal modular state here.
+        // Rule 5 (R63.1) — track dc_63 and dg_63 bit assignments.
+        for (int lit : lits) {
+            int var = std::abs(lit);
+            auto it = r63_eq_lookup.find(var);
+            if (it == r63_eq_lookup.end()) continue;
+
+            int pair_idx = it->second.pair_idx;
+            int side = it->second.side;
+            // sat-value: true if lit > 0, false if lit < 0
+            int sat_val = (lit > 0) ? 1 : 0;
+            // Convert to differential-bit value via the encoder's polarity.
+            // bit_val = sat_val XOR (pol < 0)
+            const EqPair& pair = r63_eq_pairs[pair_idx];
+            int pol = (side == 0) ? pair.dc_pol : pair.dg_pol;
+            int bit_val = (pol > 0) ? sat_val : (1 - sat_val);
+
+            // Record for backtrack
+            int prev = (side == 0) ? r63_eq_state[pair_idx].first
+                                   : r63_eq_state[pair_idx].second;
+            level_eq_assignments.back().push_back({pair_idx, side, prev});
+
+            if (side == 0) r63_eq_state[pair_idx].first = bit_val;
+            else r63_eq_state[pair_idx].second = bit_val;
+
+            // Check if the partner side is now forceable.
+            int other_side = 1 - side;
+            int other_var = (other_side == 0) ? pair.cv : pair.gv;
+            if (other_var == 0) continue;  // partner is constant
+            int other_pol = (other_side == 0) ? pair.dc_pol : pair.dg_pol;
+            int other_state = (other_side == 0) ? r63_eq_state[pair_idx].first
+                                                 : r63_eq_state[pair_idx].second;
+            if (other_state == -1) {
+                // Force partner to bit_val. Convert bit_val back to sat-val
+                // using other_pol.
+                int forced_sat_val = (other_pol > 0) ? bit_val : (1 - bit_val);
+                int forced_lit = (forced_sat_val == 1) ? other_var : -other_var;
+                // Reason: the negation of the input (`-lit`) and the
+                // propagated literal forming the binary clause:
+                //   [forced_lit, -lit]  meaning "lit → forced_lit"
+                queue_propagation(forced_lit, {lit});
+                n_rule5_fires++;
+            }
+        }
     }
 
     void notify_new_decision_level() override {
         level_propagation_counts.push_back(level_propagation_counts.back());
+        level_eq_assignments.push_back({});
         n_decisions++;
     }
 
     void notify_backtrack(size_t new_level) override {
         n_backtracks++;
-        // Pop level_propagation_counts back to new_level + 1.
-        // The "kept" count is level_propagation_counts[new_level].
         if (new_level + 1 < level_propagation_counts.size()) {
             size_t kept = level_propagation_counts[new_level];
             level_propagation_counts.resize(new_level + 1);
-            // Truncate pending_propagations to kept count.
-            // (For Rules 1+2, propagations are unconditional axioms — they
-            // CAN be re-fired after backtrack. But to avoid double-firing,
-            // we trim and let cb_propagate refill.)
+            // Truncate pending_propagations + reasons. Also drop from
+            // `propagated` set so they can re-fire.
             if (pending_propagations.size() > kept) {
+                for (size_t i = kept; i < pending_propagations.size(); i++) {
+                    propagated.erase(pending_propagations[i]);
+                }
                 pending_propagations.resize(kept);
+                pending_reasons.resize(kept);
             }
+        }
+        // Undo Rule 5 state changes back to new_level.
+        while (level_eq_assignments.size() > new_level + 1) {
+            for (auto it = level_eq_assignments.back().rbegin();
+                 it != level_eq_assignments.back().rend(); ++it) {
+                if (it->side == 0) r63_eq_state[it->pair_idx].first = it->prev;
+                else r63_eq_state[it->pair_idx].second = it->prev;
+            }
+            level_eq_assignments.pop_back();
         }
     }
 
@@ -108,41 +203,77 @@ public:
     // -------- Optional methods --------
 
     int cb_propagate() override {
-        // Find the next forced-zero variable that hasn't been propagated yet.
+        // First: drain the pending queue from notify_assignment-driven Rule 5.
+        // pending_propagations holds literals queued but not yet returned.
+        // We use a "next unsent" marker: scan for the next entry that the
+        // solver hasn't seen yet (we mark "sent" by inserting into a set).
+        for (size_t i = 0; i < pending_propagations.size(); i++) {
+            int lit = pending_propagations[i];
+            if (sent_to_solver.find(lit) == sent_to_solver.end()) {
+                sent_to_solver.insert(lit);
+                return lit;
+            }
+        }
+
+        // Then: zero-forcing for Rules 1+2 (cascade-DP axioms).
         for (auto& [var_id, _] : forced_zero_vars) {
             int neg_lit = -var_id;
             if (propagated.find(neg_lit) == propagated.end()) {
-                propagated.insert(neg_lit);
-                pending_propagations.push_back(neg_lit);
-                level_propagation_counts.back() = pending_propagations.size();
-                n_propagations++;
+                queue_propagation(neg_lit, {});  // unconditional axiom, no reason inputs
+                sent_to_solver.insert(neg_lit);
                 return neg_lit;
             }
         }
         return 0;  // Nothing to propagate
     }
 
+    std::unordered_set<int> sent_to_solver;  // propagations the solver has consumed
+
     int cb_add_reason_clause_lit(int propagated_lit) override {
-        // For Rules 1+2 (cascade-DP axioms), the reason is unconditional —
-        // the literal is always FALSE under cascade-DP. The minimal valid
-        // reason clause is the unit clause [propagated_lit] itself.
-        // CaDiCaL expects: the reason clause MUST contain propagated_lit.
+        // Reason clause format: [propagated_lit, -input_1, -input_2, ...]
+        // i.e., "propagated_lit OR not(input_1) OR not(input_2)" which is
+        // logically "input_1 AND input_2 → propagated_lit".
         //
-        // We implement: emit propagated_lit, then 0 to terminate.
-        // This makes the clause [propagated_lit] which is the unit clause
-        // that's tautologically valid in cascade-DP context.
+        // For unconditional rules (1, 2): inputs is empty, clause is
+        // just [propagated_lit] — a unit clause encoding the axiom.
         //
-        // Note: this is sound IFF the user has committed to cascade-DP
-        // search. The propagator is restricting the search space; the
-        // unit clause is the formal record of that restriction.
-        static int state = 0;
+        // For Rule 5: inputs has one literal (the partner-side decision),
+        // clause is [propagated_lit, -input] — a binary clause encoding
+        // the bit-equality.
+        static int reason_idx = -1;
+        static int reason_state = 0;
+        static const std::vector<int>* current_reason = nullptr;
         static int saved_lit = 0;
+
         if (saved_lit != propagated_lit) {
+            // New reason clause requested. Find the index in pending_propagations.
             saved_lit = propagated_lit;
-            state = 0;
+            reason_state = 0;
+            reason_idx = -1;
+            for (size_t i = 0; i < pending_propagations.size(); i++) {
+                if (pending_propagations[i] == propagated_lit) {
+                    reason_idx = (int)i;
+                    current_reason = &pending_reasons[i];
+                    break;
+                }
+            }
+            if (reason_idx < 0) {
+                // Shouldn't happen — propagated_lit must be in pending list.
+                return 0;
+            }
         }
-        if (state == 0) { state = 1; return propagated_lit; }
-        return 0;
+
+        if (reason_state == 0) {
+            reason_state = 1;
+            return propagated_lit;
+        }
+        // State 1+: emit -input_k for each input.
+        int input_idx = reason_state - 1;
+        if (current_reason && input_idx < (int)current_reason->size()) {
+            reason_state++;
+            return -((*current_reason)[input_idx]);
+        }
+        return 0;  // terminate clause
     }
 };
 
@@ -294,14 +425,47 @@ int main(int argc, char** argv) {
     std::cerr << "Cascade-zero targets: " << n_observed << " SAT vars observed, "
               << n_const_already << " bits already const-false\n";
 
+    // ---- Rule 5: R63.1 dc_63 = dg_63 (32 bit-equalities) ----
+    auto dc_it = aux_reg.find({"c", 63});
+    auto dg_it = aux_reg.find({"g", 63});
+    if (dc_it == aux_reg.end() || dg_it == aux_reg.end()) {
+        std::cerr << "WARN: dc_63 or dg_63 missing from varmap; skipping Rule 5\n";
+    } else {
+        prop.r63_eq_pairs.resize(32);
+        prop.r63_eq_state.assign(32, {-1, -1});
+        int n_rule5 = 0;
+        for (int b = 0; b < 32; b++) {
+            int dc_lit = dc_it->second[b];
+            int dg_lit = dg_it->second[b];
+            CascadePropagator::EqPair p;
+            p.cv = (std::abs(dc_lit) > 1) ? std::abs(dc_lit) : 0;
+            p.dc_pol = (dc_lit > 0) ? 1 : -1;
+            p.gv = (std::abs(dg_lit) > 1) ? std::abs(dg_lit) : 0;
+            p.dg_pol = (dg_lit > 0) ? 1 : -1;
+            prop.r63_eq_pairs[b] = p;
+            if (p.cv && p.gv) {
+                prop.r63_eq_lookup[p.cv] = {b, 0};
+                prop.r63_eq_lookup[p.gv] = {b, 1};
+                n_rule5++;
+            }
+        }
+        std::cerr << "Rule 5 (dc_63 = dg_63): " << n_rule5
+                  << " bit-pairs registered\n";
+    }
+
     // Connect propagator (optional — skip with --no-propagator for baseline)
     if (use_propagator) {
         solver.connect_external_propagator(&prop);
         for (auto& [var, _] : prop.forced_zero_vars) {
             solver.add_observed_var(var);
         }
-        std::cerr << "Propagator connected with "
-                  << prop.forced_zero_vars.size() << " observed cascade-zero vars\n";
+        // Also observe the Rule 5 vars
+        for (auto& [var, _] : prop.r63_eq_lookup) {
+            solver.add_observed_var(var);
+        }
+        std::cerr << "Propagator connected: " << prop.forced_zero_vars.size()
+                  << " cascade-zero vars + " << prop.r63_eq_lookup.size()
+                  << " Rule-5 vars observed\n";
     } else {
         std::cerr << "Running WITHOUT propagator (baseline)\n";
     }
@@ -320,6 +484,7 @@ int main(int argc, char** argv) {
     std::cerr << "Propagator stats:\n"
               << "  notify_assignment events: " << prop.n_assignments << "\n"
               << "  cb_propagate fires:       " << prop.n_propagations << "\n"
+              << "    of which Rule 5 fires:  " << prop.n_rule5_fires << "\n"
               << "  decisions:                " << prop.n_decisions << "\n"
               << "  backtracks:               " << prop.n_backtracks << "\n";
 
