@@ -126,7 +126,7 @@ M32-MITM is a multi-machine multi-day compute. **DO NOT launch without explicit 
 ## Concrete next steps (in order, REVISED 2026-04-25)
 
 1. ✅ **M10 implementation** — DONE 2026-04-25. M10_RESULT.md: 946 collisions, 100% verified, 117s wall, 15.67× speedup VERIFIED via stratified BF.
-2. ▶️ **M12 implementation** — IN FLIGHT 2026-04-25 evening. ETA ~2 hr wall on 10 threads (contended with de58 validation matrix). Algorithmic feasibility ladder.
+2. ▶️ **M12 implementation** — IN FLIGHT 2026-04-25 evening. ETA REVISED: ~8 hr wall on 10 threads (was 2 hr; original estimate forgot inner-loop 4× factor: N=12 inner is 4096 vs N=10's 1024). Total work N=12/N=10 = 64 × 4 = 256× → 117s × 256 = 30,000s ≈ 8.3 hr. Algorithmic feasibility still expected to PASS; just longer wall.
 3. **M16 implementation REVISED**: not pure-BC (infeasible single-machine), but M16-MITM. Forward+backward+match architecture. ~25 min wall + 64 GB storage. Single machine sufficient.
 4. **M32-MITM design refinement** — write the storage/match-phase architecture (multi-machine, not single).
 5. **Authorization request** to user with M16-MITM and M32-MITM concrete budgets.

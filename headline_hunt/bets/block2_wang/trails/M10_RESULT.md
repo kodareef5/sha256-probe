@@ -124,7 +124,7 @@ gcc -O3 -march=native -Xclang -fopenmp \
 |---:|----------------:|----------:|-----------------------:|------------------------------|
 |  8 |        16,777,216 (2^24) |     16,211,828 |    0.494s | from existing N=8 source     |
 | 10 |     1,073,741,824 (2^30) |  1,075,034,892 |  117.087s | this run                     |
-| 12 |   ~68B (2^36)            |  ~68B          | ~7,500s ≈ 2 hrs (extrapolated) | M12 milestone, ETA |
+| 12 |   ~68B (2^36)            |  ~280B (2^48)  | ~30,000s ≈ 8 hrs REVISED | M12 milestone, IN FLIGHT |
 | 16 |  ~1.1×10^14 (2^48)       |    ~10^14      | ~7×10^6 s ≈ 80 days     | INTRACTABLE without MITM partition |
 
 Wall time scales as ~2^(4N) — same as the outer-triple count, since per-tuple work is O(2^N) for the inner W60 scan and the de61 pass rate is 1/2^N (so the post-pass cost is O(1) per outer triple).
