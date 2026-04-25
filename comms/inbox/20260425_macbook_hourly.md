@@ -1181,3 +1181,19 @@ remains the only q5 tool that finds EXACT collisions at N=8.
 Updated Q5_TRAIL_TOOLS_INVENTORY.md with honest assessment: trail engine
 builders should treat wang_modification as condition-extraction substrate,
 not as a starting solver.
+
+## 23:40 EDT — li_trail_search.py BROKEN (missing constrain_condition dep)
+
+Tried to validate q5/li_trail_search.py at N=8. Result: ModuleNotFoundError
+on `constrain_condition` (imports from reference/sha_2_attack/find_dc/
+configuration/). The reference/sha_2_attack/ directory IS EMPTY in the
+repo — the Li et al. truth-table sources never landed.
+
+Z3 4.16.0.0 is installed (so SMT solver itself is available).
+
+Updated Q5_TRAIL_TOOLS_INVENTORY: li_trail_search marked BROKEN with
+unblock estimate (0.5-1 day to re-derive truth tables from EUROCRYPT
+2024 paper, OR fetch original code).
+
+This narrows the q5-foundation count from 6 to 5 working ones. The Li-et-al
+signed-diff path is gated on truth-table re-derivation.

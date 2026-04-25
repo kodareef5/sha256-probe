@@ -24,15 +24,20 @@ map to block2_wang Path B (build a Wang-style trail/bitcondition engine).
   trail engine, conditions need to drive a constructive search (which
   is what backward_construct.c does for the de61=0 condition specifically).
 
-### `q5_alternative_attacks/li_trail_search.py` (284 LOC)
+### `q5_alternative_attacks/li_trail_search.py` (284 LOC) — BROKEN (missing dep)
 - **Concept**: Adapted Li et al. EUROCRYPT-2024 trail search using Z3.
   Signed-difference (v, d) per-bit model.
-- **Status**: prototype against the 7-round sr=60 tail problem.
-- **Mapping to bet**: the signed-diff model is the formal framework
-  block2_wang needs for trail search. Z3-based, so dependent on SMT
-  solver throughput.
-- **Gap to N=32**: Z3 timeout behavior at full bit-width unknown;
-  needs benchmarking.
+- **Status (validated 2026-04-25 23:38 N=8 attempt)**: **CANNOT RUN** —
+  imports `constrain_condition` from `reference/sha_2_attack/find_dc/
+  configuration/`, but `reference/sha_2_attack/` is EMPTY in the repo.
+  Z3 4.16 IS installed; the dep gap is the blocker.
+- **Mapping to bet**: would be the formal signed-diff model if working.
+- **To unblock**: need the Li et al. truth-table source files (probably
+  shipped with the original paper's code release; not in this repo).
+  Either fetch from author or re-derive the truth tables from the
+  EUROCRYPT 2024 paper.
+- **Estimated effort to unblock**: 0.5-1 day (re-implement truth tables
+  for {Σ0, Σ1, Maj, Ch, modular add} signed-diff propagation).
 
 ### `q5_alternative_attacks/trail_search.py` (326 LOC)
 - **Concept**: independent trail-search implementation (predates Li et al. port).
