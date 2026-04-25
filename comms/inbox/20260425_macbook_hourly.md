@@ -654,3 +654,39 @@ Each finding is concrete empirical evidence, captured in bet writeups
 re-discover today's negatives or re-run today's experiments.
 
 Commits this stretch: 4ef9bf9 (chunk_mode_dp result), 4b58146 (negatives update)
+
+## Hour ship — q5/bdd_qm result: BDD completion-quotient blows up
+
+Empirical sweep continues. Found and ran q5/bdd_qm (345 LOC pre-built) on
+the 260-collision N=8 corpus.
+
+Result: BDD completion-quotient peaks at 255 distinct residual states
+for 260 collisions. Quotient ≈ collision count — essentially each
+collision is a distinct path through the BDD.
+
+This refutes GPT-5.4's hypothesis that the polynomial BDD result
+(O(N^4.8) nodes) gives a polynomial-state constructive automaton. The
+quotient blows up despite the BDD itself being polynomial.
+
+Three chunk-mode quotient designs now empirically refuted:
+  - Raw carry state (closed since pause)
+  - Boundary carries (today, commit 4ef9bf9)
+  - BDD completion sub-graph (today, commit cfc0c04)
+
+The bet stays alive for the remaining UNTESTED designs (cascade-status
++ modular register diffs, mode-variable quotient, different BDD
+vtree). Each is structurally different from the three refuted ones.
+
+Added bdd_completion_quotient_no_polynomial_at_n8 to negatives.yaml.
+
+Pattern of today: q5 has substantial pre-existing prototype code that
+produces real refutations when actually run. Each refutation sharpens
+the bet design space and saves future workers from re-running.
+
+Day's empirical sweep so far has:
+  - KILLED: programmatic_sat_propagator (3-pillar refutation)
+  - BLOCKED: kc_xor_d4 (CryptoMiniSat XOR recovery null)
+  - SHARPENED: chunk_mode_dp (3 quotient designs refuted)
+  - UNSTUCK: block2_wang (q5/backward_construct.c found)
+
+Bet portfolio significantly more honest than 24h ago.
