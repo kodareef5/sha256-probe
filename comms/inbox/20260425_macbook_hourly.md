@@ -1084,3 +1084,28 @@ msb_surp at +5.8%). Predictor null is robust to seed.
 VERDICT NOW DEFINITIVELY CLOSED across kissat seed=5, kissat seed=7,
 cadical seed=5, at both 1M and 10M conflict budgets. de58_size and
 hard_bit_total_lb are SEARCH-IRRELEVANT for cascade-DP CNF behavior.
+
+## 23:05 EDT — Cadical seed=7 1M replicate: 12-cell Spearman table, ALL ≤ 0
+
+5 cadical seed=7 1M cells (~3 min wall): per-candidate dec/conf stable
+across seeds (≤2.4% variation; msb_bot lowest at 4.12).
+
+Final 12-cell Spearman table across 2 solvers × 2 budgets × 2 seeds (mostly):
+
+| Cell                  | ρ(de58_size) | ρ(hard_bit_lb) |
+|-----------------------|-------------:|---------------:|
+| kissat  seed=5 1M     |       -0.300 |         -0.400 |
+| kissat  seed=7 1M     |       -0.500 |         -0.800 |
+| kissat  seed=5 10M    |       +0.000 |         -0.100 |
+| cadical seed=5 1M     |       -0.100 |         -0.300 |
+| cadical seed=7 1M     |       -0.200 |         -0.500 |
+| cadical seed=5 10M    |       +0.000 |         -0.100 |
+
+ALL 12 ρ values ≤ 0. Predictors are NEVER positively correlated with
+solver dec/conf in ANY tested configuration.
+
+If anything, predictors are MILDLY INVERSE at low budgets (-0.3 to -0.8)
+and converge to null at high budgets (-0.1 to 0.0). More compressed
+candidate ≠ easier for solver; if anything, slightly harder early.
+
+VERDICT: SEARCH-IRRELEVANT, definitive. CLOSED.

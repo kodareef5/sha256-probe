@@ -67,6 +67,40 @@ The correlation TRENDS TO NULL as conflict budget grows. Neither
 predictor is a useful proxy for solver behavior at any tested budget,
 and the 1M signal is in the wrong direction.
 
+## Final comprehensive table (added 2026-04-25 23:05): 12 Spearman cells, ALL ≤ 0
+
+After cadical seed=7 1M replicate added:
+
+| (solver, seed, budget) | ρ(de58_size) | ρ(hard_bit_total_lb) |
+|--------------------------|-------------:|---------------------:|
+| kissat seed=5 1M         |       -0.300 |               -0.400 |
+| kissat seed=7 1M         |       -0.500 |               -0.800 |
+| kissat seed=5 10M        |       +0.000 |               -0.100 |
+| cadical seed=5 1M        |       -0.100 |               -0.300 |
+| cadical seed=7 1M        |       -0.200 |               -0.500 |
+| cadical seed=5 10M       |       +0.000 |               -0.100 |
+
+**12 Spearman values. ALL ≤ 0. NEVER positive.**
+
+The "compression → solver-friendly" hypothesis is falsified across:
+- 2 solvers (kissat 4.0.4, cadical 3.0.0)
+- 2 conflict budgets (1M, 10M)
+- 2 seeds at 1M (5, 7)
+- 1 seed at 10M (5) — extending to seed=7 at 10M is the obvious next replicate
+
+ALL configurations show predictor null or mildly inverse. The data is
+overwhelming. If anything, the predictor is slightly INVERSE at low
+budgets and converges to null at high budgets.
+
+## Implication sharpened
+
+**Future sr61_n32 compute should distribute by candidate COVERAGE (disjoint
+de58 regions per the disjointness finding) rather than RANK.** Both
+predictors describe real cascade-DP structural properties but do NOT
+predict CDCL search efficiency. The factor-500 variation in de58 image
+size translates to <10% variation in solver dec/conf with no monotone
+relationship.
+
 ## Question
 
 Does the de58 image-size rank predict solver behavior on cascade-DP CNFs?
