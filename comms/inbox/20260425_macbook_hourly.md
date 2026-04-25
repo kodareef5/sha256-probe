@@ -983,3 +983,28 @@ CPU now freed for validation matrix Phase B to run uncontended. 5 of 10
 10M cells done (bit19 k+c, bit25 k+c, msb_surp k); 5 cells remaining.
 
 Pushed: d072173 (M12_RESULT.md).
+
+## 20:18 EDT — Hard-bit predictor populated; Spearman ρ=0.73 vs de58 image
+
+Cross-referenced two structural predictors:
+  de58_size (empirical image)
+  hard_bit_total_lb (closed-form h60+f60+g60_lb from mitm_residue)
+
+Spearman ρ = 0.73 — strong but not identical. Top-5 overlap: 2/5.
+bit-19 is #1 in BOTH predictors (robust signal at extreme).
+msb_m189b13c7 is #36 in BOTH.
+
+candidates.yaml metrics now carry hard_bit_h60, hard_bit_f60,
+hard_bit_g60_lb, hard_bit_total_lb. Future workers can grep either axis.
+
+Phase B progress: 9 of 10 cells done.
+  msb_bot kissat 10M: 281s uncontended, dec/conf 3.22
+  msb_bot cadical 10M: 414s uncontended, dec/conf 2.97
+  msb_cert kissat 10M: 315s uncontended, dec/conf 3.45
+
+Pattern at uncontended 10M: msb_bot (LEAST de58-compressed) has LOWEST
+dec/conf in both solvers. Predictor preliminary VERDICT holds: de58
+image-size rank does NOT predict solver behavior monotonically.
+
+Pushed: e7dec20, c5d07b5, dfd7ee1, 989b1dd, plus the predictor-correlation
+write-up.
