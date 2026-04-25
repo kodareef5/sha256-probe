@@ -543,7 +543,7 @@ int main(void) {
     uint64_t n_triples_global = 0;
 
     /* Global collision buffer protected by critical section */
-    coll_t *bc_colls = (coll_t *)malloc(4096 * sizeof(coll_t));
+    coll_t *bc_colls = (coll_t *)malloc(16384 * sizeof(coll_t));
     uint64_t bc_count = 0;
 
     #pragma omp parallel num_threads(nthreads) \
@@ -675,7 +675,7 @@ int main(void) {
                             local_coll++;
                             #pragma omp critical
                             {
-                                if (bc_count < 4096) {
+                                if (bc_count < 16384) {
                                     bc_colls[bc_count].w57 = w57;
                                     bc_colls[bc_count].w58 = w58;
                                     bc_colls[bc_count].w59 = w59;
@@ -783,7 +783,7 @@ skip_phase3:;
      * ================================================================ */
     printf("\n--- Phase 4: Independent verification ---\n");
     int verified = 0;
-    for (uint64_t i = 0; i < bc_count && i < 4096; i++) {
+    for (uint64_t i = 0; i < bc_count && i < 16384; i++) {
         uint32_t w57 = bc_colls[i].w57;
         uint32_t w58 = bc_colls[i].w58;
         uint32_t w59 = bc_colls[i].w59;
