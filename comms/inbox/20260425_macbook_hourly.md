@@ -194,3 +194,20 @@ Phase 2B PROVEN. Phase 2C roadmap (Rules 3-6, ~600 LOC) captured. The wins from 
 Commits today: ~50.
 
 Commit: d736ef6
+
+## 10:45 EDT — Phase 2C Rule 5 ships (dc_63 = dg_63 bit-equality)
+
+Extended cascade_propagator.cc (~370 LOC now) with Rule 5 — R63.1 bit-equality propagation. Fires conditionally when one side of dc_63/dg_63 is assigned, forces the partner. Backtrack-safe via per-level undo stack.
+
+Test results (sr=61 expose, bit-10, 50k conflicts):
+- Rules 1+2+5: 384 cb_propagate fires (352 + 32 = expected counts).
+- Wall time: 2s (unchanged from Phase 2B; Rule 5 zero-overhead).
+- 4x speedup vs vanilla cadical persists.
+
+Rule 5 doesn't change CDCL navigation on Mode A expose (full r=63 collision already forces dc=dg=0 at level 0). But the infrastructure is correct — verified via 32 expected fires, sound reason clauses, clean backtrack.
+
+Phase 2C-next: Rule 4 (modular Theorem 4 — da_r − de_r ≡ dT2_r). This is the value-bearing rule because CNF cannot express it directly without ripple-carry aux vars. ~400 LOC; multi-day session.
+
+Cumulative today: ~52 commits, registry validates, dashboard 138+ runs, 0% audit failures.
+
+Commit: d3f6816
