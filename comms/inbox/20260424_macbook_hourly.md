@@ -197,3 +197,14 @@ Swept W1[60] over 1M random values for one cascade-holding triple. de61 distribu
 Total cascade-sr=61 search: 2^96 work (consistent with empirical 1800 CPU-h finding nothing).
 Path forward requires either (a) fundamentally different mechanism (block2_wang, programmatic_sat_propagator) or (b) structural insight reducing the modular constraint below 32 bits — XOR-control alone won't get there.
 Writeup: `bets/mitm_residue/results/20260424_de61_empirical_rate.md` with HW distribution histogram.
+
+## 23:36 EDT — block2_wang cluster analysis: 100% [a,b,c,_,e,f,g,_] signature, 50 low-(da+de) targets
+
+Analyzed the 104k-record residual corpus.
+Universal cascade signature: all 104,700 residuals have active-register pattern [a,b,c,_,e,f,g,_] — d63=h63=0 always.
+Per-register HW: nearly identical (mean ~15, std ~2.7) across all 6 active registers — no easier register to attack.
+**Theorem 4 (da=de at r≥61) does NOT extend to r=63**: 0/104700 records have da63==de63.
+Lowest HW(da)+HW(de) = 15 (a single 8+7 split). 51 records with HW(da)+HW(de) ≤ 18.
+Implication: even best 50 records have total HW > 60 across 6 active regs — block2_wang barrier stands.
+Saved: `bets/block2_wang/residuals/lowest_da_plus_de.jsonl` (top 50 trail-design candidates).
+Writeup: `bets/block2_wang/residuals/CLUSTER_ANALYSIS.md`.
