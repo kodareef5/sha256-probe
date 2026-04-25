@@ -174,3 +174,11 @@ Standard encoding takes 12h on the same instance — Mode A and Mode B did NOT f
 **Mode B sr=60 speedup is < 8x (possibly zero).** SPEC's '≥10x' prediction is now empirically refuted at 90-min budgets.
 Updated SPEC.md with the empirical bounds; 'SAT-speedup predictions' are RETRACTED pending 4h+ multi-seed test.
 Dashboard: 17 total runs (7 cascade_aux + 10 mitm_residue), 0 audit failures, 4.8 wall-hours of solver time logged.
+
+## 22:17 EDT — dCh controllability under W1[60] — narrows cascade-sr=61 search
+
+Per (W57,W58,W59) triple on priority candidate: ~18 bits of dCh are W1[60]-controllable, ~14 fixed.
+Implication: 2^18 / 2^32 = 2^-14 per-triple probability of admitting W1[60] for de61=0.
+Refines my MITM-gain interpretation: forward-table alone covers 2^17 round-60 freedom, but full cascade-sr=61 needs W1[60] dimension + de62/63 constraints. Total search = 2^96 even with cascade-DP (consistent with Theorem 5+6 + 1800 CPU-h empirical).
+Path forward documented: per-triple algebraic solver via Lipmaa-Moriai (~1 day implementation).
+Writeup: `bets/mitm_residue/results/20260424_dch_controllability.md`
