@@ -125,6 +125,17 @@ public:
     long long n_partial_bits_decided_max = 0;  // max # bits of partial dT2_62 ever determined
     long long n_partial_dT2_62_fires = 0;  // # samples where partial-bit logic would force ≥1 dE[62] bit
 
+    // ---- Phase 2C-Rule4 Option C: modular-diff aux for direct forcing ----
+    // varmap_v3+ exposes aux_modular_diff[(reg, round)] — SAT vars representing
+    // bit i of (w1 - w2) mod 2^32 with ripple-borrow ties to actual w1, w2 bits.
+    // The propagator can force these directly when partial-bit logic determines
+    // the modular bit value.
+    std::map<std::pair<std::string, int>, std::vector<int>> aux_modular_diff;
+    // Track which (reg_round, bit) we've already forced this level (to avoid re-fires)
+    std::set<std::pair<int, int>> rule4_forced;  // (encoded reg_round, bit)
+    std::vector<std::vector<std::pair<int, int>>> level_rule4_undo;
+    long long n_rule4_r62_fires = 0;
+
     // ---- Helper utilities for Rule 4 r=62/63 firing logic ----
 
     // Read a 32-bit unsigned value from a PartialReg if all 32 bits are decided.
@@ -318,6 +329,84 @@ public:
         level_propagation_counts.push_back(0);
         level_eq_assignments.push_back({});
         level_actual_undo.push_back({});
+        level_rule4_undo.push_back({});
+    }
+
+    // Try firing Rule 4 at r=62: force bits of aux_modular_diff[("e", 62)]
+    // based on partial-bit reasoning.
+    // Returns # of newly-forced bits.
+    int try_fire_rule4_r62() {
+        auto it = aux_modular_diff.find({"e", 62});
+        if (it == aux_modular_diff.end()) return 0;
+        const std::vector<int>& mod_diff_e62 = it->second;
+        if (mod_diff_e62.size() < 32) return 0;
+
+        PartialReg forced_dE62 = compute_partial_forced_dE_62();
+        if (forced_dE62.n_decided == 0) return 0;
+
+        int reg_key_e62 = reg_key_for("e", 62);
+        int n_new = 0;
+        for (int b = 0; b < 32; b++) {
+            if (forced_dE62.bits[b] == -1) continue;
+            // Already forced this bit at current state?
+            std::pair<int, int> key{reg_key_e62, b};
+            if (rule4_forced.find(key) != rule4_forced.end()) continue;
+
+            int aux_lit = mod_diff_e62[b];
+            if (std::abs(aux_lit) <= 1) continue;  // already constant
+            int sat_var = std::abs(aux_lit);
+            int aux_pol = (aux_lit > 0) ? 1 : -1;
+            int target_bit = forced_dE62.bits[b];
+            int target_sat_val = (aux_pol > 0) ? target_bit : (1 - target_bit);
+            int forced_lit = (target_sat_val == 1) ? sat_var : -sat_var;
+
+            // Build a minimal-but-sound reason clause: list ALL the relevant
+            // currently-decided input literals that contribute to bit b's
+            // determination. For now (sound but heavy): include all decided
+            // bits of a_61, a_60, a_59 in both pairs, plus a_62 in both pairs.
+            std::vector<int> reason_inputs;
+            auto collect_decided = [&](int rk, int pair) {
+                auto& m = (pair == 1) ? actual_p1 : actual_p2;
+                auto pit = m.find(rk);
+                if (pit == m.end()) return;
+                const PartialReg& pr = pit->second;
+                // Find the actual SAT var for each decided bit (reverse lookup).
+                // Since SAT vars alias, we record them as positive lits matching
+                // each bit's current value (so the reason is "if bit was the
+                // value it currently is, then...").
+                for (int bi = 0; bi < 32; bi++) {
+                    if (pr.bits[bi] == -1) continue;
+                    // Find ANY SAT var bound to (rk, pair, bi).
+                    // We don't have a direct fwd index; we scan the bindings.
+                    for (auto& [var_id, bindings] : actual_var_lookup) {
+                        for (const auto& info : bindings) {
+                            if (info.reg_key == rk && info.pair == pair && info.bit == bi) {
+                                int sat_lit_value = (info.polarity > 0) ? pr.bits[bi]
+                                                                        : (1 - pr.bits[bi]);
+                                int input_lit = (sat_lit_value == 1) ? var_id : -var_id;
+                                reason_inputs.push_back(input_lit);
+                                goto next_bit;
+                            }
+                        }
+                    }
+                    next_bit:;
+                }
+            };
+            collect_decided(reg_key_for("a", 61), 1);
+            collect_decided(reg_key_for("a", 61), 2);
+            collect_decided(reg_key_for("a", 60), 1);  // cascade-zero (V60)
+            collect_decided(reg_key_for("a", 59), 1);  // cascade-zero (V59)
+            collect_decided(reg_key_for("a", 62), 1);
+            collect_decided(reg_key_for("a", 62), 2);
+
+            // Reason inputs collected. Queue propagation.
+            queue_propagation(forced_lit, std::move(reason_inputs));
+            rule4_forced.insert(key);
+            level_rule4_undo.back().push_back(key);
+            n_new++;
+            n_rule4_r62_fires++;
+        }
+        return n_new;
     }
 
     // Helper: queue a forced literal with its reason (input literals).
@@ -374,6 +463,9 @@ public:
             if (forced_dE62.n_decided > n_partial_bits_decided_max) {
                 n_partial_bits_decided_max = forced_dE62.n_decided;
             }
+            // Phase 2C-Rule4 firing: when partial reasoning determines bits
+            // of dE[62], force them via the modular-diff aux variables.
+            try_fire_rule4_r62();
         }
 
         // Rule 5 (R63.1) — track dc_63 and dg_63 bit assignments.
@@ -426,6 +518,7 @@ public:
         level_propagation_counts.push_back(level_propagation_counts.back());
         level_eq_assignments.push_back({});
         level_actual_undo.push_back({});
+        level_rule4_undo.push_back({});
         n_decisions++;
     }
 
@@ -464,6 +557,13 @@ public:
                 preg.bits[it->bit] = it->prev;
             }
             level_actual_undo.pop_back();
+        }
+        // Undo Rule 4 forcings — let them re-fire if conditions still hold.
+        while (level_rule4_undo.size() > new_level + 1) {
+            for (auto& key : level_rule4_undo.back()) {
+                rule4_forced.erase(key);
+            }
+            level_rule4_undo.pop_back();
         }
     }
 
@@ -567,6 +667,7 @@ using AuxRegMap = std::map<std::pair<std::string, int>, std::vector<int>>;
 
 bool load_varmap(const std::string& path, AuxRegMap& aux_reg,
                  AuxRegMap& actual_p1, AuxRegMap& actual_p2,
+                 AuxRegMap& aux_modular_diff,
                  int& total_vars, int& version) {
     std::ifstream f(path);
     if (!f) {
@@ -589,7 +690,7 @@ bool load_varmap(const std::string& path, AuxRegMap& aux_reg,
         for (auto& l : lits) lit_vec.push_back(l);
         aux_reg[{reg, r}] = lit_vec;
     }
-    if (version == 2) {
+    if (version >= 2) {
         if (data.contains("actual_p1")) {
             for (auto& [key, lits] : data["actual_p1"].items()) {
                 auto pos = key.rfind('_');
@@ -608,6 +709,18 @@ bool load_varmap(const std::string& path, AuxRegMap& aux_reg,
                 std::vector<int> lit_vec;
                 for (auto& l : lits) lit_vec.push_back(l);
                 actual_p2[{reg, r}] = lit_vec;
+            }
+        }
+    }
+    if (version >= 3) {
+        if (data.contains("aux_modular_diff")) {
+            for (auto& [key, lits] : data["aux_modular_diff"].items()) {
+                auto pos = key.rfind('_');
+                std::string reg = key.substr(0, pos);
+                int r = std::stoi(key.substr(pos + 1));
+                std::vector<int> lit_vec;
+                for (auto& l : lits) lit_vec.push_back(l);
+                aux_modular_diff[{reg, r}] = lit_vec;
             }
         }
     }
@@ -669,17 +782,21 @@ int main(int argc, char** argv) {
 
     // Load varmap
     AuxRegMap aux_reg;
-    AuxRegMap actual_p1_map, actual_p2_map;
+    AuxRegMap actual_p1_map, actual_p2_map, aux_modular_diff_map;
     int total_vars = 0;
     int varmap_version = 0;
     if (!load_varmap(varmap_path, aux_reg, actual_p1_map, actual_p2_map,
-                     total_vars, varmap_version)) return 1;
+                     aux_modular_diff_map, total_vars, varmap_version)) return 1;
     std::cerr << "Loaded varmap v" << varmap_version << ": "
               << aux_reg.size() << " (reg,round) entries, "
               << "total_vars=" << total_vars << "\n";
     if (varmap_version >= 2) {
         std::cerr << "  actual_p1: " << actual_p1_map.size()
                   << " entries; actual_p2: " << actual_p2_map.size() << " entries\n";
+    }
+    if (varmap_version >= 3) {
+        std::cerr << "  aux_modular_diff: " << aux_modular_diff_map.size()
+                  << " entries (Rule 4 firing targets)\n";
     }
 
     // Set up solver
@@ -824,6 +941,20 @@ int main(int argc, char** argv) {
                   << " actual-register SAT vars registered (a,b,c at r=59..62)\n";
     }
 
+    // Copy aux_modular_diff into the propagator for Rule 4 firing.
+    int n_modular_diff_vars = 0;
+    if (varmap_version >= 3) {
+        for (auto& [key, lits] : aux_modular_diff_map) {
+            prop.aux_modular_diff[key] = lits;
+            for (int lit : lits) {
+                if (std::abs(lit) > 1) n_modular_diff_vars++;
+            }
+        }
+        std::cerr << "Rule 4 firing targets: " << n_modular_diff_vars
+                  << " modular-diff aux SAT vars across "
+                  << prop.aux_modular_diff.size() << " (reg,round) entries\n";
+    }
+
     // Connect propagator (optional — skip with --no-propagator for baseline)
     if (use_propagator) {
         solver.connect_external_propagator(&prop);
@@ -837,6 +968,14 @@ int main(int argc, char** argv) {
         // And the Rule 4 r=62/63 substrate vars
         for (auto& [var, _] : prop.actual_var_lookup) {
             solver.add_observed_var(var);
+        }
+        // And the Rule 4 firing target vars (aux_modular_diff)
+        for (auto& [key, lits] : prop.aux_modular_diff) {
+            for (int lit : lits) {
+                if (std::abs(lit) > 1) {
+                    solver.add_observed_var(std::abs(lit));
+                }
+            }
         }
         std::cerr << "Propagator connected: " << prop.forced_zero_vars.size()
                   << " cascade-zero vars + " << prop.r63_eq_lookup.size()
@@ -862,6 +1001,7 @@ int main(int argc, char** argv) {
               << "  cb_propagate fires:       " << prop.n_propagations << "\n"
               << "    of which Rule 5 fires:  " << prop.n_rule5_fires << "\n"
               << "    of which Rule 4@r=61:   " << prop.n_rule4r61_fires << "\n"
+              << "    of which Rule 4@r=62 forcings: " << prop.n_rule4_r62_fires << "\n"
               << "  actual-reg bit assigns:   " << prop.n_actual_assignments << "\n"
               << "  dT2_62 computable (sample, full): " << prop.n_dT2_62_computable
               << " (out of ~" << (prop.n_actual_assignments / 4096) << " samples)\n"
