@@ -45,3 +45,24 @@ This needs ~1 day of careful coding to verify.
 
 - `priority_signature_distribution.json` — 5M-sample summary (131k sigs, top-10 counts, etc.)
 - `priority_candidate_hard_bits.md` — the 17 bit positions
+
+## Forward-table collision sweep (post-build)
+
+Swept all 131,072 witnesses in the forward table through full round-63
+computation:
+- Time: 5.1s on macbook
+- Cascade-sr=61 collisions found: **0**
+- Near-collisions (HW<16): **0**
+- Best HW achieved: **65** (sig=8787, W1[57]=0x6d8e6421)
+
+Consistent with Theorem 5 (cascade-sr=61 SAT probability = 2^-32 per
+candidate; expected 131k × 2^-32 ≈ 3×10^-5 collisions in this sweep).
+Consistent with block2_wang's earlier random-sampling finding (min HW
+62 in 200k samples).
+
+Conclusion: this candidate (and likely all 35 in the registry) does
+NOT have a cascade-sr=61 collision discoverable via forward sampling
+at < 2^32 samples. The bet's path forward, if any, requires either:
+(a) a true MITM with backward analyzer that genuinely halves the
+search exponent, or (b) a fundamentally different attack mechanism
+than cascade-DP.
