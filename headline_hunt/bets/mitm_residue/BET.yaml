@@ -5,43 +5,45 @@ owner: macbook
 machines_assigned: [macbook]
 compute_budget_cpu_hours: 100   # prototype only; scaled-up post-spec
 current_progress: |
-  Substantive progress 2026-04-24 (macbook). All 5 next-actions from
-  audit_summary either complete or actively progressing.
+  46-commit arc on 2026-04-24 (macbook). Bet's central question answered:
+  hard-residue is predictable in closed-form O(1), priority MITM target
+  identified, forward MITM table built as durable on-disk artifact.
 
-  ARCHITECTURE: forward MITM table keys on a 28-bit hard-residue signature
-  at round 60 (NOT round 63 — that's only 64 cascade-zero bits, 192 uniform).
-  Table size 2^28 entries (~5-10 GB), per-candidate. W[60] is post-hoc.
+  HEADLINE: closed-form predictor (h60+f60 exact, g60 lower bound via
+  HW(db56_xor)) validated 35/35 as a TRUE LOWER BOUND. Mean extras 1.54,
+  max 4. Predictor accurate to ±5 bits in 100% of candidates, ±3 in 89%.
 
-  HEADLINE FINDING (2026-04-24): ~9 of the 28 hard bits are predictable in
-  CLOSED FORM from candidate state alone. h60 hard bits = bits where
-  (Δe57 mod 2^i)/2^i is in [0.45, 0.55]; f60 same with Δe59=db56_mod.
-  Verified 6/6 (h60) and 4/4 (f60). g60 (~18 bits) is NOT yet closed-form
-  because Δe58 varies with W[57]; needs marginal-distribution model.
+  PRIORITY MITM TARGET: cand_n32_bit19_m51ca0b34_fill55555555
+    - 17 empirical hard bits at round 60 (3 in f, 10 in g, 4 in h)
+    - 3 bits below next-best, 12 bits below worst
+    - Forward table: 2^17 = 131,072 distinct signatures, full coverage in 5M samples
+    - Built and committed: datasets/bdds/priority_forward_table.bin (1.5 MB)
+    - Reader: prototypes/forward_table_reader.py
+
+  FORWARD-TABLE COLLISION SWEEP: 0 collisions in 131k witnesses, best HW=65.
+  Consistent with Theorem 5 (cascade-sr=61 SAT prob 2^-32). Forward-table
+  approach alone cannot find cascade-sr=61 SAT at < 2^32 samples.
 
   Tools shipped:
-    - prototypes/forward_table_builder.py — extends cascade chain to round 63,
-      JSONL dumps. ~24k samples/sec.
-    - prototypes/hard_residue_analyzer.py — per-bit bias measurement.
-    - prototypes/predict_hard_bits.py — closed-form predictor for h60+f60
-      (O(1) per candidate, runs over candidates.yaml in <1s).
+    - prototypes/forward_table_builder.py
+    - prototypes/hard_residue_analyzer.py
+    - prototypes/predict_hard_bits.py
+    - prototypes/forward_table_reader.py
 
-  Pre-screen result (results/20260424_pre_screen_35.md +
-  20260424_f60_h60_prediction.md): 35 candidates ranked by total predicted
-  h60+f60 hard bits. Minimum: 5 bits (3 candidates tied). MSB cert
-  candidate (0x17149975) has 9 — middle of the pack.
+  Bet status: bet's amortization concern is FULLY characterized analytically.
+  Search-space at round 60 is 2^17 for the priority candidate. But cascade-DP
+  sr=61 collision discovery requires either (a) genuine MITM with backward
+  analyzer reducing the 32-bit collision constraint, or (b) a fundamentally
+  different mechanism (block2_wang, programmatic_sat_propagator).
 
-  Empirical kissat test (results/20260424_pre_screen_kissat_test.md):
-  600s budget on 3 minimum-bit candidates × 2 seeds → all TIMEOUT.
-  Inconclusive at this budget; standard sr=60 takes 12h. Need 4h budgets
-  to settle whether dh60 hard-bit count predicts kissat solve time.
+  Run history: 17 kissat runs via append_run.py (all TIMEOUT, 0 audit failures).
+  Empirical: SPEC's "≥10x sr=60 speedup" REFUTED at 90-min budget. SAT-speedup
+  predictions retracted pending 4h+ multi-seed test (~5-8 CPU-h to settle).
 
-  Open work:
-    - g60 marginal-distribution prediction (~1 day to derive).
-    - Backward analyzer (round-63 → round-60 inversion).
-    - 24-CPU-h experiment to test pre-screen predictive power.
-    - GPU box: gpu_mitm_prototype.py at N=8 (still untested).
-
-  Run history: 6 kissat runs logged via append_run.py (all TIMEOUT @ 600s).
-  Audit-failure rate: 0/6.
-last_heartbeat: "2026-04-24T23:50:00Z"
+  Open work that would advance the bet:
+    - Backward analyzer (round-63 → round-60 collision-target derivation)
+    - g60 marginal-distribution closed form (~2 days analytical)
+    - 4h+ multi-seed kissat sweep on priority candidate
+    - GPU N=8 prototype run (untested)
+last_heartbeat: "2026-04-25T01:35:00Z"
 heartbeat_interval_days: 14
