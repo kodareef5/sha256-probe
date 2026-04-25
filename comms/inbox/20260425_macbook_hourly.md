@@ -484,3 +484,35 @@ purely an empirical compute question.
 Today: ~80 commits.
 
 Commits: df398e2, 9dc6651
+
+## 13:15 EDT — 500k probe: Rule 4 firing is FRONT-LOADED (refines bet hypothesis)
+
+Critical empirical finding from 500k-conflict comparison on top 3 firing
+kernels:
+
+1. Slowdown ratio approximately CONSTANT across budgets (~1.9× both at
+   50k and 500k). Propagator overhead is linear, not amortized.
+
+2. Rule 4 fires the EXACT SAME NUMBER at 50k as at 500k:
+     bit-19: 209 / 209 (50k / 500k)
+     bit-25: 249 / 249
+     bit-31: 201 / 201
+   ALL Rule 4 firings happen in the first ~50k conflicts. Zero fires
+   across 50k-500k.
+
+Conclusion: Rule 4 is empirically a PREPROCESSING-PHASE constraint
+(structurally same as Mode B's static unit clauses), NOT a deep-search
+accelerator. The bet's value-add hypothesis ("compounding pruning at
+multi-hour budgets") is empirically NOT supported by this evidence.
+
+Recommend conditional kill of "value-add over Mode B." Bet stays alive
+only if smarter triggers, more rules (Rule 6@r=63), or a specific
+candidate identifies where vanilla cadical can't solve but propagator can.
+
+This 500k diagnostic SAVES a multi-hour decision-gate experiment from
+launching with low expected value. Honest negative evidence prevents
+expensive compute on a refuted hypothesis.
+
+Today: ~82 commits.
+
+Commit: 4a45d20
