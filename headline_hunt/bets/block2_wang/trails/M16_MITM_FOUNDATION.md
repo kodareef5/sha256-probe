@@ -68,16 +68,50 @@ If M16-MITM passes, M32-MITM follows the same architecture but with **10 TB
 storage** (per SCALING_PLAN Stage 4) and **multi-day fleet compute**. That's
 where the bet either headline-hits or fails honestly.
 
-## Caveats
+## Caveats — UPDATED 2026-04-25 evening after sanity test
 
 - The Python prototype has **never been validated** at the M16 use case.
   Its sr=60 validation used cert-fixed W[58]/W[59], so the math is not
   exercised at full enumeration.
-- Disk-backed forward records may have **I/O bottleneck** at 96 GB in/out
-  per match phase. SSD-only.
-- The "state_59 effective signature width" question (item #3 above)
-  determines whether storage is 64 GB or 96 GB or something larger. Needs
-  measurement on N=10 first.
+- **CRITICAL**: a quick sanity test of `m16_mitm_forward_n10` (NAIVE port)
+  showed full N=10 enumeration produces ~23 GB of records (2^30 × 22
+  bytes). At N=16 this scales to 2^48 × 22 bytes = **6.6 PB**. Storage is
+  the BLOCKING ISSUE, not compute.
+- The naive design "emit every (W57, W58, W59) record" doesn't work for
+  MITM because state_59 is too SPARSE in the signature space (8 × 16 = 128
+  bits at N=16, 2^48 records means ~2^80 collision-free space — no MITM
+  matches will fire by coincidence).
+- Real MITM design must EMIT ONLY records SHARING A SHORT SIGNATURE.
+  Concretely: keyed match must use a smaller state digest, e.g., the
+  4-d.o.f. residual variety from mitm_residue (4 × 16 = 64 bits at N=16).
+  At 2^48 forward records over 2^64 signature space, expected match-hits
+  per backward record = 2^48/2^64 = 2^-16 — too sparse.
+- For MATCHES to FIRE: forward records × backward records / signature
+  space ≥ 1. Need forward × backward ~ 2^k where signature = k bits.
+- **REVISED M16-MITM design needed**: signature width and enumeration
+  scope must be co-designed. q5/mitm_cascade_sr60.py had this right at
+  sr=60: the forward enumerated 2^32 W57 trials with cert-fixed
+  W[58,59]; signature was state_59 of pair-1 (8 × 32 = 256 bits, but
+  cascade-zeroed the a-path, so effective signature width was 4 × 32 =
+  128 bits or so); backward enumerated 2^32 W60 trials.
+  At 2^32 × 2^32 / 2^128 = 2^-64 → no MITM match at sr=60!
+  The Python prototype was a **proof of concept on signal architecture**,
+  not a winning algorithm yet.
+- Re-design for M16: the M16-MITM proof requires either a SHORTER signature
+  (using R63 modular relations to reduce key space) or a NARROWER
+  enumeration scope. **This is the actual hard work** — not the
+  C-port-from-Python which is straightforward.
+
+## Realistic estimate
+
+The M16-MITM milestone as originally framed in SCALING_PLAN ("MITM works
+at N=16 for ~25 min wall + 64 GB storage") is over-optimistic without the
+co-design above. Realistic: 1-2 weeks of design + implementation to make
+the signature scheme produce match-hits at all.
+
+This is now the active M16 design question. **No multi-machine compute
+authorization needed** until the signature design produces a non-trivial
+hit-rate prediction.
 
 ## Tracking
 
