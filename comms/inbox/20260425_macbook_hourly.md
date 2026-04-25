@@ -805,3 +805,15 @@ front-loaded speedup.
 
 Script: bets/sr61_n32/de58_hardlock_bits.py (30s for all 36 candidates).
 Writeup: bets/sr61_n32/results/20260425_de58_hardlock_bits.md
+
+## 17:24 EDT — Populated de58_size + hardlock metrics for all 36 candidates
+
+candidates.yaml metrics.de58_size was null for all 36 — TODO from registry seed.
+Filled it in (65k-sample image size) plus added three new metric fields:
+  de58_hardlock_mask  — bits that NEVER vary across W57 (hex)
+  de58_hardlock_value — locked-bit values (de58 & mask == value)
+  de58_hardlock_bits  — popcount of locked_mask (more locked = more SAT pruning)
+
+Now the registry carries the structural signature per candidate; validates clean.
+Future agents can grep candidates.yaml directly for "most-locked candidate"
+without re-running the sweep.
