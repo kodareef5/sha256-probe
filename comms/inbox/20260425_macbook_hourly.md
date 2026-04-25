@@ -25,3 +25,12 @@ Derived and empirically confirmed: `da_62 − de_62 ≡ dT2_62 (mod 2^32)` exact
 Theorem 4's natural domain is r=61 SPECIFICALLY. Earlier 'r ≥ 61' language in writeups/sr60_sr61_boundary_proof.md is technically true (vacuously at higher rounds when collision forces zeros) but potentially misleading.
 At the cert: da_61=0 makes everything vacuous. At random cascade-held: Theorem 4 is the maximum 'da-de relationship' available — doesn't extend.
 Writeup: `bets/mitm_residue/results/20260425_theorem4_structural_proof.md`
+
+## 02:17 EDT — Theorem 4 unified extension: da_r − de_r ≡ dT2_r mod 2^32 for r ∈ {61,62,63}
+
+Single unified formula derived + empirically verified 1000/1000 each at r=62 and r=63.
+At r=61: dT2_61 = 0 (recovers Theorem 4 original); at r=62, 63: dT2_r generically nonzero but structurally bounded.
+Key insight: shift-register propagates cascade-zero in d through all of r=61,62,63; c picks up nonzero only at r=63 via b_62=a_61.
+Implication: 3 modular constraints (da-de=dT2 at r=61,62,63) usable for cascade-aware SAT propagation or block2_wang trail bounding.
+Recommends precision update to writeups/sr60_sr61_boundary_proof.md Theorem 4.
+Writeup: `bets/mitm_residue/results/20260425_theorem4_unified.md`
