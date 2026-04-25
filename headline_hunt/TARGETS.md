@@ -113,3 +113,18 @@ Durable findings that should inform any future bet design.
 - **Headline path 3 (Wang-style block-2 trail)** unaltered, still highest EV per GPT-5.5 meta-consultation.
 
 The 2026-04-25 sprint sharpened the bet portfolio. Future workers: design propagation rules that fit CDCL's natural diff-aux search trajectory, not against it.
+
+### de58 family of structural findings (2026-04-25 evening)
+
+Empirical sweeps across the 36 registered candidates produced a coherent picture of cascade-DP search-space structure at the cascade boundary:
+
+- **At r=60, only de58 varies.** All other register diffs at r=60 are candidate-fixed constants (image=1). The cascade-DP residual at the cascade boundary is **1-dimensional in W57**.
+- **Image sizes vary 24 bits across candidates**: bit-19_m51ca0b34 has image 2^8 (extreme); msb_m189b13c7 has image 2^17.98 (least compressed). 6 candidates have image = exact power of 2.
+- **Theorem 4 verified at full N=32 across r=61**: `da_61 ≡ de_61 (mod 2^32)` for 1,048,576 random samples, 0 violations.
+- **Full residual at r=63 is 1-D in W57 across all candidates**: joint image of 6-component diff saturates at sample size = injective. Cascade-DP r=63 residual is parameterized entirely by W57 (32 bits).
+- **de58 images of the 36 candidates are 96.7% pairwise disjoint**. Total union covers ~0.030% of 32-bit de58 space. Choice of candidate = choice of de58 region. de58=0 is in NO candidate's image at 65k samples.
+- **Low-HW de58 reachability differs across candidates**: 3 candidates achieve HW=3 (bit13_m4e560940, bit17_m427c281d, msb_m189b13c7); bit-19's image is HW=14+ throughout. Two competing structural extremes.
+- **Per-de58-class W57 → da_63 is essentially injective**: bit-19's 24-bit compression at de58 does NOT propagate to r=63. Compression caps at de58 alone.
+- **References**: `bets/sr61_n32/results/20260425_de58_*.md`, `20260425_residual_growth_r60_to_r63.md`, `20260425_residuals_only_de58_varies.md`.
+
+**Implication for the bet portfolio**: candidate selection is non-redundant — different candidates explore disjoint regions of de58 space. But within a candidate, the W57 search hits a 32-bit ceiling. The "30s C brute force" speculation is wrong (encoder demands FULL slot-64 collision; observed 0 da_61=0 hits in 4M trials at bit-19). The 1800 CPU-h sr61_n32 baseline is real problem hardness.
