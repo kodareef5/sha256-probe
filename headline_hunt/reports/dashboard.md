@@ -1,10 +1,10 @@
 # headline_hunt — Runs Dashboard
 
-_Generated 2026-04-25T00:10:04Z_
+_Generated 2026-04-25T00:18:27Z_
 
 ## Global
 
-- Total runs logged: **13**
+- Total runs logged: **15**
 - Audit failure rate: **0.00%**
 
 ## Per-bet rollup
@@ -12,7 +12,7 @@ _Generated 2026-04-25T00:10:04Z_
 | Bet | Runs | SAT | UNSAT | Timeout | Killed | CPU-h | Wall-h | Last activity | Audit fails |
 |---|---:|---:|---:|---:|---:|---:|---:|---|---:|
 | cascade_aux_encoding | 5 | 0 | 0 | 5 | 0 | 0.0 | 0.5 | 2026-04-24T23:07:26Z | 0 |
-| mitm_residue | 8 | 0 | 0 | 8 | 0 | 0.2 | 1.2 | 2026-04-25T00:10:04Z | 0 |
+| mitm_residue | 10 | 0 | 0 | 10 | 0 | 0.3 | 1.3 | 2026-04-25T00:18:27Z | 0 |
 
 ## Notes
 

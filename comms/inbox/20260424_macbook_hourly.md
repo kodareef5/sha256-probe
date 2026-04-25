@@ -115,3 +115,12 @@ Shipped:
 - Implication: closed-form predictor pre-screens candidates not just for MITM table size but ALSO for kissat-mode work. Lower-prediction candidates are systematically cheaper for the solver.
 - 2 more runs logged via append_run.py. Dashboard now 13 runs, 0 audit failures.
 - Writeup: `bets/mitm_residue/results/20260424_predictor_kissat_signal.md` with the proposal: a 4h kissat run on the priority candidate is the natural next experiment to test whether it solves materially faster.
+
+## 20:21 EDT — RETRACTION: 4-point curve refutes predictor-vs-kissat-memory claim
+
+Shipped 2 more 5-min kissat runs at predict_hard_bits lb=22 and lb=26.
+Full curve: lb=15→135GB, lb=22→337GB, lb=26→193GB, lb=29→467GB. **Not monotonic.**
+The 2-point lb=15-vs-lb=29 result that suggested predictor signals kissat memory was **noise from extremes** — middle points don't fit the trend.
+What stands: predict_hard_bits is valid for MITM table size (verified 8/8). It is NOT a kissat-difficulty predictor at 5-min budgets.
+Honest retraction shipped: `bets/mitm_residue/results/20260424_predictor_signal_correction.md`
+Dashboard now 15 runs, 0 audit failures.
