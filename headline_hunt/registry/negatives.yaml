@@ -186,3 +186,24 @@
   related_mechanisms:
   - chunk_mode_dp_with_modes
   owner: macbook
+- id: bdd_completion_quotient_no_polynomial_at_n8
+  claim: "BDD completion-quotient (residual sub-graph identity at each prefix depth) is NOT polynomial in N \u2014 quotient\
+    \ width peaks at 255 of 260 collisions at N=8. Each collision is essentially a distinct path."
+  scope: chunk-mode DP design where the quotient is BDD-residual-identity at each variable assignment depth.
+  status: closed
+  evidence_level: VERIFIED
+  closed_date: '2026-04-25'
+  evidence_files:
+  - q5_alternative_attacks/bdd_quotient_and_marginals.c
+  - bets/chunk_mode_dp/results/bdd_qm_2026-04-25/RESULT.md
+  - bets/chunk_mode_dp/results/bdd_qm_2026-04-25/bdd_qm_output.log
+  why_closed: 'Empirically: at N=8 the quotient width peaks at 255 (out of 260 collisions). The polynomial BDD (O(N^4.8) nodes)
+    does NOT translate to a polynomial-state automaton via this quotient design. GPT-5.4 Review 7 prescribed measurement,
+    fully run.'
+  would_change_my_mind:
+  - A different quotient design (e.g., cascade-status + modular register diffs, NOT BDD sub-graph identity) compresses to
+    <2*N states at N=8.
+  - A different vtree variable ordering reveals hidden polynomial quotient.
+  related_mechanisms:
+  - chunk_mode_dp_with_modes
+  owner: macbook

@@ -1,0 +1,86 @@
+=== BDD Quotient + Marginals, N=8 (32 variables) ===
+
+  100 collisions...
+  200 collisions...
+Collisions: 260, BDD nodes: 4322, satcount: 260, match: YES
+Build time: 0.02s
+
+=== COMPLETION QUOTIENT (Distinct residual nodes per depth) ===
+
+Depth  QuotientWidth  VarName
+   0           1       W57[0]
+   1           2       W58[0]
+   2           4       W59[0]
+   3           8       W60[0]
+   4          16       W57[1]
+   5          32       W58[1]
+   6          61       W59[1]
+   7         105       W60[1]
+   8         156       W57[2]
+   9         190       W58[2]
+  10         218       W59[2]
+  11         235       W60[2]
+  12         247       W57[3]
+  13         250       W58[3]
+  14         255       W59[3]
+  15         254       W60[3]
+  16         253       W57[4]
+  17         253       W58[4]
+  18         251       W59[4]
+  19         250       W60[4]
+  20         244       W57[5]
+  21         237       W58[5]
+  22         222       W59[5]
+  23         206       W60[5]
+  24         159       W57[6]
+  25         108       W58[6]
+  26          64       W59[6]
+  27          35       W60[6]
+  28          17       W57[7]
+  29           9       W58[7]
+  30           5       W59[7]
+  31           3       W60[7]
+  32           2       (terminal)
+
+Max quotient width across all depths will show if this is polynomial or exponential.
+
+=== MARGINAL PROBABILITIES (P(var=1) across all collisions) ===
+
+Var  Word     Bit  P(=1)    Bias     Phase
+  0  W57    0  0.0000  -0.5000  FORCE_0
+  1  W58    0  0.0000  -0.5000  FORCE_0
+  2  W59    0  0.0000  -0.5000  FORCE_0
+  3  W60    0  0.0000  -0.5000  FORCE_0
+  4  W57    1  0.0000  -0.5000  FORCE_0
+  5  W58    1  0.0000  -0.5000  FORCE_0
+  6  W59    1  0.0000  -0.5000  FORCE_0
+  7  W60    1  0.0000  -0.5000  FORCE_0
+  8  W57    2  0.0000  -0.5000  FORCE_0
+  9  W58    2  0.0000  -0.5000  FORCE_0
+ 10  W59    2  0.0000  -0.5000  FORCE_0
+ 11  W60    2  0.0000  -0.5000  FORCE_0
+ 12  W57    3  0.0000  -0.5000  FORCE_0
+ 13  W58    3  0.0000  -0.5000  FORCE_0
+ 14  W59    3  0.0000  -0.5000  FORCE_0
+ 15  W60    3  0.0000  -0.5000  FORCE_0
+ 16  W57    4  0.0000  -0.5000  FORCE_0
+ 17  W58    4  0.0000  -0.5000  FORCE_0
+ 18  W59    4  0.0000  -0.5000  FORCE_0
+ 19  W60    4  0.0000  -0.5000  FORCE_0
+ 20  W57    5  0.0000  -0.5000  FORCE_0
+ 21  W58    5  0.0000  -0.5000  FORCE_0
+ 22  W59    5  0.0000  -0.5000  FORCE_0
+ 23  W60    5  0.0000  -0.5000  FORCE_0
+ 24  W57    6  0.0000  -0.5000  FORCE_0
+ 25  W58    6  0.0000  -0.5000  FORCE_0
+ 26  W59    6  0.0000  -0.5000  FORCE_0
+ 27  W60    6  0.0000  -0.5000  FORCE_0
+ 28  W57    7  0.0000  -0.5000  FORCE_0
+ 29  W58    7  0.0000  -0.5000  FORCE_0
+ 30  W59    7  0.0000  -0.5000  FORCE_0
+ 31  W60    7  0.0000  -0.5000  FORCE_0
+
+Biased variables (>15% from 0.5): 32/32
+These can be used as Kissat --phase hints for guided search.
+
+Done.
