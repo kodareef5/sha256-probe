@@ -1,22 +1,37 @@
-# de58 predictor validation — preliminary VERDICT (8 of 10 cells)
+# de58 predictor validation — VERDICT (kissat data complete, cadical pending 1 cell)
 **2026-04-25 evening** — sr61_n32 / de58 validation matrix.
+
+## Summary (5/5 candidates with kissat 10M data)
+
+```
+Spearman ρ vs kissat 10M dec/conf:
+  de58_size            → ρ = +0.000  (perfectly null)
+  hard_bit_total_lb    → ρ = -0.100  (essentially null, slightly negative)
+```
+
+Neither structural predictor correlates with cascade-DP solver behavior
+at 10M conflicts.
 
 ## Question
 
 Does the de58 image-size rank predict solver behavior on cascade-DP CNFs?
 (Per AUTHORIZATION_REQUEST_de58_validation.md.)
 
-## Data so far (8 of 10 Phase B cells complete; msb_cert k+c pending)
+## Data (9 of 10 Phase B cells; msb_cert cadical pending)
 
 ### dec/conf at 10M conflicts (CPU-rate-mostly-independent metric)
 
-| Candidate            | de58 image | hardlock |  kissat  |  cadical |
-|----------------------|-----------:|---------:|---------:|---------:|
-| bit-19 (TOP)         |        256 |       13 | **3.29** | **3.05** |
-| bit-25               |       4096 |       13 |     3.38 |     3.12 |
-| msb_surp (m9cfea9ce) |       4096 |       10 |     3.41 |     3.19 |
-| msb_bot (m189b13c7)  |    130,049 |        4 | **3.22** | (pending)|
-| MSB cert             |     82,826 |       10 |  pending |  pending |
+| Candidate            | de58 image | hardlock | hard_lb |   kissat  |  cadical |
+|----------------------|-----------:|---------:|--------:|----------:|---------:|
+| bit-19 (TOP)         |        256 |       13 |      15 |      3.29 |     3.05 |
+| bit-25               |       4096 |       13 |      22 |      3.38 |     3.12 |
+| msb_surp (m9cfea9ce) |       4096 |       10 |      20 |      3.41 |     3.19 |
+| msb_bot (m189b13c7)  |    130,049 |        4 |      29 |  **3.22** | **2.97** |
+| MSB cert             |     82,826 |       10 |      26 |  **3.45** | (pending)|
+
+**msb_bot (LEAST de58-compressed, MOST hard bits) has LOWEST dec/conf in BOTH solvers.**
+**msb_cert (mid de58, mid hard_lb) has HIGHEST kissat dec/conf.**
+This is **the OPPOSITE of what either predictor would forecast.**
 
 ### Wall time at 10M conflicts
 
