@@ -516,3 +516,31 @@ expensive compute on a refuted hypothesis.
 Today: ~82 commits.
 
 Commit: 4a45d20
+
+## 13:30 EDT — BET refresh: programmatic_sat_propagator status → blocked
+
+After the 500k finding that Rule 4 firing is PREPROCESSING-PHASE only
+(zero new fires across 50k-500k), updated BET.yaml + kill_criteria.md
+to honestly reflect today's empirical evidence.
+
+Changes:
+- status: in_flight → blocked (was implementing-Rule-4-r=62/63; now
+  empirical evidence makes that the wrong direction).
+- current_progress: full Phase 2 chronology captured (~14 commits) +
+  the front-loaded firing finding documented.
+- kill_criteria #3 ADDED: "Rule firing is preprocessing-phase only" —
+  EMPIRICALLY FIRED for Rule 4. Bet stays alive only if Rule 6 or
+  smarter triggers show different behavior.
+
+Honest recommendation: do NOT initiate multi-hour validation runs on
+Rule 4 alone. The front-loaded finding strongly predicts the bet's
+≥10x decision gate WON'T be passed. Mode B (cascade_aux force mode)
+achieves equivalent preprocessing effect at 10% complexity.
+
+This is honest negative evidence on a bet's central hypothesis,
+captured before expensive compute is launched on a refuted premise.
+
+Today: ~83 commits. The propagator engineering substrate is
+complete; the answer to its value-add hypothesis is in.
+
+Commit: a37a22c
