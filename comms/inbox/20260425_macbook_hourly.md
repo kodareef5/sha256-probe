@@ -171,3 +171,26 @@ IPASIR_UP_API.md updated with the varmap interface section.
 This unblocks Phase 2B (Rules 1, 2 in C++ via IPASIR-UP) — the last missing piece between SPEC and CNF.
 
 Commit: 56b4c6f
+
+## 10:35 EDT — User redirected, killed orphan, shipped Phase 2B propagator
+
+User flagged: (1) 7-day orphan pyapproxmc PID 73268 at 99% CPU. KILLED. (2) cascade_aux is characterized — stop cheap experiments. (3) Pivot to Phase 2B propagator C++ implementation.
+
+Pivot executed:
+- Killed PID 73268 (9544 CPU-min wasted on stuck pyapproxmc).
+- Shipped 1 cheap-experiment commit as a clean negative (structural hill-climb refutation; closes that avenue).
+- Then BUILT Phase 2B C++ propagator. cascade_propagator.cc, ~280 LOC, links against CaDiCaL 3.0.0 + nlohmann-json. Implements Rules 1+2 via IPASIR-UP ExternalPropagator. Uses varmap sidecar (shipped earlier today) for SAT-var ↔ (reg,round,bit) mapping.
+
+Head-to-head test (sr=61 bit-10, 50k conflicts):
+  Mode A (expose) + propagator: 2s   ← matches Mode B parity!
+  Mode A (expose) vanilla:      8s   ← baseline
+  Mode B (force) + propagator:  2s   ← redundant
+  Mode B (force) vanilla:       1s   ← Mode B already does Rules 1+2
+
+Propagator stats: 352 cb_propagate fires (= 11 cascade-zero (reg,round) × 32 bits), 373k decisions, 58k backtracks. Solid behavior.
+
+Phase 2B PROVEN. Phase 2C roadmap (Rules 3-6, ~600 LOC) captured. The wins from Phase 2C should come from Rule 4 (modular Theorem 4) which CNF cannot express directly.
+
+Commits today: ~50.
+
+Commit: d736ef6
