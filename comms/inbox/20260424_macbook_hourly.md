@@ -157,3 +157,12 @@ Outliers with extras=4: m5f59b67c, m667c64cd, m56076c68. Worth structural follow
 Writeup: `bets/mitm_residue/results/20260424_predictor_validation_27.md`.
 Data: `bets/mitm_residue/results/predictor_validation_27.json`.
 Remaining 8 sweep candidates ETA ~9 min — including the bit19_m51ca0b34 priority (predict_lb=15).
+
+## 21:32 EDT — FINAL 35-CANDIDATE RANKING — priority MITM target confirmed
+
+Sweep complete. All 35 candidates 1M-sample empirical hard-bit count.
+**Priority: cand_n32_bit19_m51ca0b34_fill55555555 at 17 bits (3 below next best, 12 below worst).**
+Predictor 35/35 lower bound, mean extras 1.54, max 4. The closed-form pre-screen identified the same priority.
+Forward-table size at 2^17 = 131k entries — trivially feasible (≤16 MB at 1 byte/entry).
+Writeup: `bets/mitm_residue/results/20260424_FINAL_RANKING.md` with concrete forward-table build path.
+Data: `bets/mitm_residue/results/final_ranking_35.json`.
