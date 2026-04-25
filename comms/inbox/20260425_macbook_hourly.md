@@ -936,3 +936,31 @@ without regenerating each time.
 
 Now any fleet machine can target the SURPRISE/BOTTOM with Mode B encoding
 and compare to standard cascade against the same candidate.
+
+## 19:50 EDT — Cross-candidate invariance: 10/10 N=10 candidates pass
+
+n_invariants_cross_candidate.py: ALL 10 cascade-eligible (M0, fill) at N=10
+pass Theorem 4 + R63.1 + R63.3 at 4096 samples each (30 invariant checks
+total, 100% pass rate).
+
+  M0      fill     image  locked   Th4   R63.1  R63.3
+  0x34c   0x3ff       16    5/10    100%   100%   100%
+  0x0e0   0x000        8    6/10    100%   100%   100%
+  0x264   0x000       64    3/10    100%   100%   100%
+  0x1a6   0x155       32    3/10    100%   100%   100%
+  0x2bb   0x155        8    5/10    100%   100%   100%
+  0x00e   0x2aa        8    6/10    100%   100%   100%
+  0x065   0x100       32    3/10    100%   100%   100%
+  0x271   0x100       64    1/10    100%   100%   100%
+  0x056   0x0ff        4    6/10    100%   100%   100%
+  0x320   0x0ff       64    4/10    100%   100%   100%
+
+Combined with N ∈ {8,10,12,14,16,18}: cascade structure is universal across
+BOTH N values AND candidate choice. Image sizes scatter wildly (4-64),
+hardlock fractions wildly (10-60%), but invariants always hold.
+
+Also shipped this hour:
+- 20 cascade_aux CNFs (5 missing MSB candidates × sr60/sr61 × expose/force)
+- 2 residual corpora (SURPRISE + BOTTOM) confirming HW≥62 floor across candidates
+
+Pushed: a2e7212, 8947805.
