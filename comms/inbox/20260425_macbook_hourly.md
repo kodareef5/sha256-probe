@@ -137,3 +137,19 @@ Registry maintenance: bit-25 candidate (m=0x09990bd2 fill=0x80000000) was missin
 18 runs logged (15 + 3 retry). Registry: 96 runs total.
 
 Commit: 850477e
+
+## 09:30 EDT — sr=60 Mode B sanity probe: advantage shrinks at higher budget
+
+Pulse-suggested move. 4 non-MSB candidates × 2 encodings × 1M conflicts on cadical at sr=60. All UNKNOWN. Total: 206s wall.
+
+Mode B advantage at sr=60 1M is only 1.08x (force 24.56s vs expose 26.51s) — vs the 6x advantage at sr=61 50k. This is consistent with the prior "Mode B advantage erodes after preprocessing" finding (sr=61 500k showed 1.05x, here we see 1.08x at sr=60 1M).
+
+Two contributing factors: (1) 1M is post-warmup, (2) sr=60 has more free rounds (4 vs 3), so the Mode B unit clauses prune a smaller fraction.
+
+No SAT found in any of 8 runs (expected — needs ~10^9 conflicts on hard cascade-DP instances). The Mode B benefit is empirically a 2-6x preprocessing speedup, NOT a deep-search accelerator. Reframes the bet's headline-hunt premise.
+
+Honest characterization: the cascade_aux_encoding bet is settling into "useful encoding tweak that gives 2-6x at low budgets" rather than "≥10x SAT speedup." This refines the SPEC's prediction.
+
+8 runs logged via append_run.py. Registry: 104 runs total.
+
+Commit: dfff4b4
