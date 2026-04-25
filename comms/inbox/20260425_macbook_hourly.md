@@ -1056,3 +1056,31 @@ predictor justifies prioritizing one candidate over another at standard
 CDCL budgets.
 
 Pushed: c4eb41c, 3025214, e4a974c, 62d663c.
+
+## 22:30 EDT — Seed=7 replicate confirms predictor null/inverse at 1M
+
+Re-ran 5 candidates × kissat × 1M conflicts with seed=7 (5 cells, ~2 min wall total):
+
+| Candidate | seed=5 | seed=7 | Δ% |
+|-----------|-------:|-------:|---:|
+| bit-19    |   5.17 |   5.15 | -0.4% |
+| bit-25    |   5.04 |   5.06 | +0.4% |
+| msb_surp  |   5.13 |   5.43 | +5.8% |
+| msb_bot   |   4.73 |   4.72 | -0.2% |
+| msb_cert  |   5.24 |   5.11 | -2.5% |
+
+Spearman ρ at 1M conflicts:
+  de58_size           vs dec/conf: -0.300 (seed=5), -0.500 (seed=7)
+  hard_bit_total_lb   vs dec/conf: -0.400 (seed=5), -0.800 (seed=7)
+
+Predictors are ANTI-CORRELATED with solver dec/conf at 1M (more compressed
+candidate = HIGHER dec/conf, opposite of hypothesis). At 10M the
+correlation trends to null (ρ ≈ 0). NEITHER budget supports the predictor
+hypothesis.
+
+Per-candidate dec/conf is stable across seeds (≤2.5% variation, except
+msb_surp at +5.8%). Predictor null is robust to seed.
+
+VERDICT NOW DEFINITIVELY CLOSED across kissat seed=5, kissat seed=7,
+cadical seed=5, at both 1M and 10M conflict budgets. de58_size and
+hard_bit_total_lb are SEARCH-IRRELEVANT for cascade-DP CNF behavior.

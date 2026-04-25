@@ -32,6 +32,41 @@ The predictor and the dec/conf are essentially orthogonal: factor-500
 variation in de58 image size translates to <10% variation in dec/conf
 with no monotone correlation in either direction in either solver.
 
+## Seed-replicate (added 2026-04-25 22:25) — predictor null robust
+
+Re-ran kissat at 1M conflicts with seed=7 to verify the predictor null
+isn't seed-specific:
+
+| Candidate | de58sz | hard_lb | kissat seed=5 | kissat seed=7 | Δ% |
+|-----------|-------:|--------:|--------------:|--------------:|---:|
+| bit-19    |    256 |      15 |          5.17 |          5.15 | -0.4% |
+| bit-25    |   4096 |      22 |          5.04 |          5.06 | +0.4% |
+| msb_surp  |   4096 |      20 |          5.13 |          5.43 | +5.8% |
+| msb_bot   | 130049 |      29 |          4.73 |          4.72 | -0.2% |
+| msb_cert  |  82826 |      26 |          5.24 |          5.11 | -2.5% |
+
+Per-candidate dec/conf is mostly stable across seeds (≤2.5% variation
+except msb_surp at +5.8%). Seed-rank Spearman = +0.600 (stable but noisy).
+
+```
+Spearman at 1M conflicts (n=5):
+                       │ seed=5 │ seed=7
+  de58_size            │ -0.300 │ -0.500
+  hard_bit_total_lb    │ -0.400 │ -0.800
+```
+
+**Both predictors show NEGATIVE correlation with dec/conf at 1M
+conflicts under both seeds.** This goes BEYOND the 10M null result:
+at 1M (early-conflict regime), the predictors are ANTI-CORRELATED.
+
+Combined with 10M result (ρ ≈ 0):
+- 1M conflicts: predictors are mildly inverted (-0.3 to -0.8)
+- 10M conflicts: predictors null (-0.1 to 0.0)
+
+The correlation TRENDS TO NULL as conflict budget grows. Neither
+predictor is a useful proxy for solver behavior at any tested budget,
+and the 1M signal is in the wrong direction.
+
 ## Question
 
 Does the de58 image-size rank predict solver behavior on cascade-DP CNFs?
