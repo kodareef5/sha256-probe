@@ -44,6 +44,22 @@ For each of bit-25 and bit-19, the experiment design:
 
 That's ~2-4 CPU-hours per kernel × 2 kernels = 4-8 CPU-hours total. **Compute-heavy enough that user direction is needed before launch.**
 
+## Speedup comparison on top 3 firing kernels (added)
+
+Direct timing comparison WITH vs WITHOUT propagator on bit-19, bit-25, bit-31 (the top firing kernels). Same 50k-conflict budget; both UNKNOWN.
+
+| kernel | WITH wall | WITHOUT wall | ratio (WITH/WITHOUT) | Rule 4 fires |
+|---|---:|---:|---:|---:|
+| bit-19 | 2.33s | 1.07s | **2.18×** | 209 |
+| bit-25 | 2.10s | 1.08s | **1.94×** | 249 |
+| bit-31 | 2.12s | 1.12s | **1.89×** | 201 |
+
+**At 50k conflicts, propagator is ~2× SLOWER per conflict.** Even on the highest-firing kernels.
+
+This is the expected pattern: per-conflict overhead from partial-bit reasoning + reason-clause construction exceeds the per-conflict pruning gain at low budgets. The bet's hypothesis is that this inverts at higher budgets (the propagator's accumulated pruning reduces total conflicts-to-SAT enough to overcome the per-conflict overhead).
+
+**Verifying that hypothesis requires multi-hour budgets** that need explicit user direction.
+
 ## What this DOESN'T resolve
 
 - Whether the firings ACTUALLY reduce conflicts-to-SAT, or just slow per-conflict throughput.
