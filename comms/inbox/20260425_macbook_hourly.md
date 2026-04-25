@@ -355,3 +355,38 @@ only the SAT-solver-integration layer remains.
 Today: ~70 commits. Cumulative propagator infra: ~570 LOC main + ~560 LOC tests.
 
 Commit: 5656896
+
+## 12:15 EDT — BREAKTHROUGH: partial-bit Rule 4 fires 44× max 30 bits (was 0× due to bug)
+
+While integrating the partial-bit evaluators into the live propagator,
+found a subtle bug: actual_var_lookup was 1:1, but the encoder REUSES
+SAT vars across shift-register-equivalent (reg, round) slots. E.g.,
+SAT var 2 binds to a_57[0]=e_57[0]=b_58[0]=f_58[0]=c_59[0]=g_59[0]
+=d_60[0]=h_60[0] — 8 logical slots → 1 var. Old lookup lost 7 of 8.
+
+Fix: 1:many lookup (vector<ActualVarInfo>). All bindings update.
+
+Impact on the partial-bit firing diagnostic:
+  actual-reg bit assigns:           520k → 874k (+68%)
+  partial-bit firing samples:       0 → 44 (in ~8000 fine samples)
+  max bits of dE[62] forceable:     0 → 30
+
+Earlier this hour I shipped the partial-bit primitives (modular sub,
+partial Sigma0/Maj, partial dSigma0/dMaj) with full unit tests, and a
+diagnostic that fired 0 times — would have led a future worker to
+"abandon the bet" conclusion. The bug fix turns that into 44 fires with
+30-bit max — Rule 4 firing IS feasible.
+
+Project-level lesson: when an empirical diagnostic returns unexpected
+ZERO, investigate plumbing before concluding the phenomenon doesn't
+exist. The encoder's SAT-var sharing across shift-register-equivalent
+slots is exactly the kind of plumbing detail that nullified the
+apparent negative.
+
+Phase 2C-Rule4 status: empirically VALIDATED. Remaining ~150 LOC for
+forcing-literal generation + reason clauses. The math primitives are
+all done and tested.
+
+Today: ~73 commits.
+
+Commits: e814b3d (breakthrough)
