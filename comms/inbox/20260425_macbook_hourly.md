@@ -80,3 +80,15 @@ This is the first hard quantitative evidence that Mode B's cascade-structure CNF
 Suggested follow-up (next worker): re-run at 500k-conflict budget (~30 min total) to confirm speedup persists; multi-seed for variance.
 
 Commit: 1c4771d
+
+## 07:30 EDT — 500k confirmation: Mode B advantage ERODES at scale
+
+Repeated last 30-min's 9-run sweep at 10× budget (500k conflicts, 96s total). The 50k 2× advantage was REAL but is FRONT-LOADED: preprocessing eats Mode B's ~3000 cascade-zero unit clauses immediately, giving a 2× head-start. Steady-state CDCL search then converges across encodings.
+
+At 500k: force is ~10% SLOWER per conflict than standard; expose has the LOWEST decisions/conflict but slowest wall time. Implication: Mode B's gain is ~2× wall-time reduction at modest budgets, not 10× — refines (refutes the strong reading of) the last commit's claim.
+
+WCM trigger seed_farming_unchanged_sr61: stays PARTIAL FIRE. Encoding demonstrably changes conflict distribution (confirmed at 50k, eroded at 500k); doesn't (yet) reduce conflicts-to-SAT count.
+
+This is the kind of clean refinement we need — measure, refine, refute over-confidence. 9 more runs logged. Total 18 sub-1-min sat runs this hour, all audit-CONFIRMED.
+
+Commit: d3ed48b
