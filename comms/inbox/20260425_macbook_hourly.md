@@ -260,3 +260,33 @@ modular subtraction + reason clauses.
 Commits today: ~62. Cumulative propagator: ~470 LOC.
 
 Commit: 3424a29
+
+## 11:30 EDT — Sigma0/Maj/dT2 helpers + 14/14 unit tests + empirical trigger diagnostic
+
+Three concrete pieces shipped this stretch:
+
+1. **Sigma0/Maj/dT2 evaluator helpers** in cascade_propagator.cc (~80 LOC):
+   read_full_value, sigma0, maj, dSigma0_modular, dMaj_modular_cascade,
+   compute_dT2_62. Production-ready building blocks for Rule 4 firing.
+
+2. **Empirical trigger diagnostic** — added a sampler that checks if
+   compute_dT2_62 returns valid values during real CDCL search.
+   **Result on 50k-conflict run: ZERO valid samples out of ~127.**
+   The "all 128 bits decided" trigger is empirically useless — the
+   solver never fixes that much input state simultaneously.
+
+3. **Unit test harness** test_helpers.cc — 14 tests cover all helpers,
+   including partial-input rejection. Cross-validated against Python
+   lib.sha256 with hand-computed reference values:
+     Sigma0(0xa1b2c3d4) = 0xfdc6efe5  PASS
+     dSigma0(0x12345678, 0x12345679) = 0x3ff80400  PASS
+     dMaj(all-1, 0, V60, V59) = 0xb38695ac  PASS
+
+The empirical "0 samples fire" finding sharpens the next-session scope:
+Rule 4 firing MUST use partial-bit propagation with carry-chain
+reasoning. The naive all-or-nothing approach would fire never. This
+saves a future worker from implementing the speculative version.
+
+Cumulative propagator: ~570 LOC main + ~170 LOC tests. Today: ~67 commits.
+
+Commits: 4df69b8 (helpers + diagnostic), 7394d98 (unit tests).
