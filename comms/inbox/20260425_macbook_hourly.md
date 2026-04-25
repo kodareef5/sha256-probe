@@ -1197,3 +1197,18 @@ unblock estimate (0.5-1 day to re-derive truth tables from EUROCRYPT
 
 This narrows the q5-foundation count from 6 to 5 working ones. The Li-et-al
 signed-diff path is gated on truth-table re-derivation.
+
+## 23:50 EDT — Exotic kernels at N=32: 0/91k random samples eligible (narrow negative)
+
+Scanned (0,14) and (0,1) kernels × 9 bit positions × 4 fills × 256 m0 random
+samples at N=32: total 91k trials, ZERO cascade-eligible candidates found.
+
+The exotic kernels are confirmed at N=8 (300-500 collisions vs 260 for (0,9))
+but DON'T survive easy scaling to N=32. Random eligibility rate at this
+scale is ≤ 2^-17 (observed 0 hits in 91k).
+
+This narrowly closes the "expand candidate base via exotic kernels" direction.
+Next sr61_n32 candidate hunt should focus on alternate bit positions for
+(0,9) (not yet exhaustively covered by the 36 registered candidates).
+
+Full memo: registry/notes/20260425_exotic_kernels_n32_search.md
