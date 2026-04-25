@@ -582,3 +582,40 @@ Cascade-DP sub-2^32 is structurally blocked. Headline paths 1 / 2 / 3
 remain — but with sharper empirical boundaries.
 
 Commits this stretch: 9329f72, c78363d
+
+## EOD push — bet portfolio sweep: 1 killed, 1 blocked, 1 unstuck
+
+After exhausting the propagator path through three empirical refutations,
+shifted to surveying for unexploited tooling and quick concrete tests.
+
+PROPAGATOR fully KILLED:
+- 3 refutations (sample-based / continuous / decision-shaping triggers
+  all show preprocessing-only firing with finite ~977 cap)
+- Kill memo + status=closed in registry + graveyard entry
+- Engineering substrate (~750 LOC + tests + varmap v3 + cb_decide
+  framework) preserved as reusable for future generative-rule bets
+
+KC_XOR_D4 BLOCKED:
+- CryptoMiniSat 5 already installed; ran XOR recovery on 3 cascade-DP
+  CNF variants (cascade_enf0, cascade_explicit, cascade_aux_force).
+- Result: ZERO XOR clauses recovered on all three.
+- Kill criterion #2 fires (no recoverable linear structure).
+- Status: open → blocked. Bet alive only if Bosphorus finds different
+  structure (multi-day install).
+
+BLOCK2_WANG UNSTUCK:
+- Survey of q5_alternative_attacks/ found backward_construct.c — a
+  WORKING constructive backward solver at N=8.
+- 17.12x faster than brute force, finds 260/260 collisions (matched).
+- Path B is no longer "from scratch" — extension to N=32 is ~1-2 weeks
+  scoped work (port arithmetic + MITM signature caching by 4-d.o.f.
+  variety + Wang bit-condition pruning).
+- Status: blocked → open with concrete next-step plan.
+
+Net: bet portfolio is sharper. Engineering effort reallocated from a
+fully-refuted hypothesis to a concrete next-step on the highest-EV bet.
+The day's empirical sweep is HONEST evidence — every direction
+investigated has results, kill memos, or revival path captured.
+
+Commits this stretch: 40b70bd (cb_decide), 2571f12 (kill memo),
+61d502a (block2_wang foundation), 2ed1a1b (kc_xor_d4 block).
