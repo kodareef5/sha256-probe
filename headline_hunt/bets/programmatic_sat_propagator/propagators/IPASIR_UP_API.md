@@ -129,6 +129,34 @@ For Rule 1 (cascade diagonal): reason is just the cascade-1 W[57] offset existen
 
 4. **Performance: notify_assignment is called on EVERY assignment** including BCP propagations. Internal state update must be O(1) or O(log n) per literal; anything heavier will dominate solve time.
 
+## Var-map: bridging CNF and propagator state
+
+The cascade_aux encoder emits a JSON varmap sidecar (`<cnf>.varmap.json` via `--varmap +`) that maps SAT variable IDs to differential-bit coordinates `(register, round, bit)`. Generated 2026-04-25.
+
+Schema (see `propagators/varmap_loader.py`):
+```json
+{
+  "version": 1,
+  "summary": {"sr": 60, "mode": "force", "total_vars": 12620, ...},
+  "aux_reg": {
+    "a_57": [10989, 10990, ...],   // 32 SAT-var literals
+    "a_58": [...], "a_59": [...], ...,
+    "h_63": [...]
+  },
+  "aux_W": {
+    "57": [...], "58": [...], ..., "63": [...]
+  }
+}
+```
+
+Literal convention: positive int = SAT var; negative = negated; 1 = const TRUE; -1 = const FALSE. The encoder's constant propagation folds ~384 / 1792 differential bits to compile-time constants on a typical sr=60 force-mode CNF.
+
+The propagator uses `varmap_loader.VarMap` to:
+1. **Forward lookup**: get the SAT literal for a specific differential bit. Used during `add_observed_var` setup and `cb_propagate` rule firing.
+2. **Reverse lookup**: given a SAT var assignment from `notify_assignment`, identify which differential bit was just decided. Updates the propagator's internal state model.
+
+Without the varmap, the propagator would have to either re-derive the encoder's variable allocation logic (fragile) or instrument the encoder to emit the map at run time (intrusive). The sidecar approach is clean: encoder writes once, propagator reads at solve start.
+
 ## Existing reference implementations
 
 - **CaDiCaL examples directory** (`/opt/homebrew/Cellar/cadical/3.0.0/share/`): one ExternalPropagator demo for parity constraints.

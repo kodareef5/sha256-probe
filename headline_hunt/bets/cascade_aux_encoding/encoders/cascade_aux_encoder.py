@@ -249,7 +249,48 @@ def build_cascade_aux_cnf(sr, m0, fill, kernel_bit=31, mode="expose"):
         "force_clauses_added": force_clauses_added,
         "encoder_stats": dict(cnf.stats),
     }
-    return cnf, summary
+    # aux_reg[(reg, r)] = list of 32 literals (var IDs or ±1 constants)
+    # aux_W[r] = list of 32 literals
+    return cnf, summary, aux_reg, aux_W
+
+
+def write_varmap_sidecar(aux_reg, aux_W, summary, out_path):
+    """Emit a JSON sidecar mapping aux differential bits to SAT vars.
+
+    Schema:
+      {
+        "version": 1,
+        "summary": {sr, m0, fill, kernel_bit, mode, total_vars, ...},
+        "aux_reg": {
+          "<reg>_<round>": [32 ints],   # e.g. "a_61" -> [v0, v1, ..., v31]
+        },
+        "aux_W": {
+          "<round>": [32 ints]          # e.g. "57" -> [...]
+        }
+      }
+
+    Literal convention: positive int = SAT variable ID; negative = negated;
+    1 = constant TRUE; -1 = constant FALSE. Mirrors aux_reg semantics in the
+    encoder's in-memory state.
+    """
+    import json
+    REG_NAMES = "abcdefgh"
+    out = {
+        "version": 1,
+        "summary": {k: summary[k] for k in
+                    ["sr", "m0", "fill", "kernel_bit", "mode", "n_free",
+                     "total_vars", "total_clauses", "aux_vars_added",
+                     "aux_clauses_added", "force_clauses_added"]},
+        "aux_reg": {},
+        "aux_W": {},
+    }
+    for (reg, r), lits in aux_reg.items():
+        out["aux_reg"][f"{reg}_{r}"] = [int(x) for x in lits]
+    for r, lits in aux_W.items():
+        out["aux_W"][str(r)] = [int(x) for x in lits]
+    with open(out_path, "w") as f:
+        json.dump(out, f)
+    return out_path
 
 
 def write_dimacs_with_header(cnf, summary, out_path):
@@ -288,6 +329,10 @@ def main():
                     help="Kernel difference bit (31=MSB, 0=LSB, etc). Default 31.")
     ap.add_argument("--mode", choices=["expose", "force"], default="expose")
     ap.add_argument("--out", required=True, help="output .cnf path")
+    ap.add_argument("--varmap", default=None,
+                    help="Also emit JSON varmap sidecar to this path. "
+                         "If '+' or 'auto', use <out>.varmap.json. "
+                         "Useful for hooking the propagator to the CNF.")
     ap.add_argument("--quiet", action="store_true")
     args = ap.parse_args()
 
@@ -298,14 +343,22 @@ def main():
         print(f"Building cascade-aux CNF: sr={args.sr} m0={m0:#x} fill={fill:#x} "
               f"bit={args.kernel_bit} mode={args.mode}", file=sys.stderr)
 
-    cnf, summary = build_cascade_aux_cnf(args.sr, m0, fill, args.kernel_bit, args.mode)
+    cnf, summary, aux_reg, aux_W = build_cascade_aux_cnf(args.sr, m0, fill, args.kernel_bit, args.mode)
     n_vars, n_clauses = write_dimacs_with_header(cnf, summary, args.out)
+
+    varmap_path = None
+    if args.varmap is not None:
+        varmap_path = (args.out + ".varmap.json"
+                       if args.varmap in ("+", "auto") else args.varmap)
+        write_varmap_sidecar(aux_reg, aux_W, summary, varmap_path)
 
     if not args.quiet:
         print(f"Wrote {args.out}: {n_vars} vars, {n_clauses} clauses", file=sys.stderr)
         print(f"  aux vars: {summary['aux_vars_added']}  "
               f"aux clauses: {summary['aux_clauses_added']}  "
               f"force clauses: {summary['force_clauses_added']}", file=sys.stderr)
+        if varmap_path:
+            print(f"  varmap: {varmap_path}", file=sys.stderr)
 
 
 if __name__ == "__main__":
