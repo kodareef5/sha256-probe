@@ -1,39 +1,52 @@
 mechanism_id: programmatic_sat_cascade_propagator
 priority: 8
-status: in_flight   # Phase 2C Mode-B-parity propagator shipped; Rule 4 r=62/63 next
+status: blocked   # Phase 2 engineering complete; Rule 4 value-add EMPIRICALLY REFUTED
 owner: macbook
 machines_assigned: [macbook]
 compute_budget_cpu_hours: 300
 current_progress: |
-  PHASE 2A (smoke): API verified against local CaDiCaL 3.0.0 (commit 4b649e5).
-  PHASE 2B (Rules 1+2): 280 LOC C++ propagator. Mode A + propagator gives
-    4x speedup vs vanilla cadical on Mode A — equals Mode B parity (commit d736ef6).
-  PHASE 2C (Rules 1+2+3+5+4@r=61):
-    - Rule 5  (R63.1 dc_63 = dg_63):       ships commit d3f6816
-    - Rule 4 specialization (dA[61]=dE[61]): ships commit 99f09ef
-    - Rule 3 (dE[61..63]=0 three-filter):    ships commit 396cf5a
-    - Varmap v2 (actual register vars):      ships commit cc1dc84
-    Cumulative: 400 LOC, 2.3-3.5x speedup on Mode A vs vanilla.
-    Status: Mode B parity — propagator dynamically replicates Mode B's
-    static unit clauses without modifying CNF.
+  ENGINEERING-COMPLETE (2026-04-25): Phase 2 propagator implementation
+  ~750 LOC C++ main + ~560 LOC unit tests. 40+ unit tests passing,
+  end-to-end runs work on real cascade-aux CNFs.
 
-  PHASE 2C-NEXT (Rule 4 r=62/63 — value-bearing):
-    Design doc shipped: propagators/RULE4_R62_R63_DESIGN.md (commit f6a7bb7).
-    Estimated ~640 LOC, 2-3 days. This is the first propagator rule that
-    enforces a constraint CNF cannot express directly (modular sum with
-    Sigma0/Maj on actual register values).
+  Phase 2 chronology:
+    - 2A: API smoke vs CaDiCaL 3.0.0 (commit 4b649e5)
+    - 2B: Rules 1+2 cascade-zero forcing — 4x speedup on Mode A (d736ef6)
+    - 2C-Rule5: dc_63 = dg_63 bit-equality (d3f6816)
+    - 2C-Rule4@r=61: dA[61] = dE[61] specialization (99f09ef)
+    - 2C-Rule3: dE[61..63] = 0 three-filter (396cf5a)
+    - Varmap v2: actual register-value vars exposed (cc1dc84)
+    - Rule 4 substrate: bit-tracking + backtrack (3424a29)
+    - Helpers + unit tests (4df69b8, 7394d98, a63fee5, 5656896)
+    - 1:many SAT-var lookup fix — partial-bit firing breakthrough (e814b3d)
+    - Modular-vs-XOR design doc (a6076d3)
+    - Encoder Option C: modular-diff aux ripple-borrow subtractor (17c3efe)
+    - Rule 4 firing logic LIVE — 157+ fires per 50k conflicts (f90ebfa)
+    - Cross-kernel firing sweep — 5x variation (df398e2)
+    - 500k confirmation: front-loaded firing (4a45d20)
 
-  Decision gate: ≥10x conflict-count reduction on sr=61 cascade-DP after
-  Rule 4 r=62/63 ships, or kill the bet (per kill_criteria.md).
+  EMPIRICAL FINDING (kill criterion #3 fired):
+    Rule 4@r=62 fires THE SAME NUMBER of times at 50k and 500k:
+      bit-19: 209 / 209
+      bit-25: 249 / 249
+      bit-31: 201 / 201
+    All firings happen in the first ~50k conflicts; ZERO across 50k-500k.
+    Rule 4 is structurally equivalent to Mode B's preprocessing — but
+    incurs ~1.9x wall-time overhead at all measured budgets.
 
-  Structural foundation: 105k+ records on the unified Theorem 4 (mitm_residue
-  bet's commit chain, all locked).
+  STATUS = BLOCKED (was in_flight): bet stays alive ONLY if:
+    - Rule 6 at r=63 (modular Theorem 4 with TWO varying inputs) shows
+      different firing behavior. ~400 LOC remaining.
+    - A smarter trigger fires Rule 4 incrementally during deep search.
+    - A specific candidate identifies where vanilla cadical can't solve
+      but propagator can.
 
-  Build: nlohmann-json + CaDiCaL 3.0.0 (homebrew). Single-file C++.
+  Recommend NOT initiating multi-hour compute experiments on Rule 4 alone.
+  Mode B (cascade_aux_encoding force mode) achieves ~80% of the
+  propagator's preprocessing effect with 10% of the complexity.
 
-  All 36 cross-kernel CNFs auto-emit varmap sidecars via cnfs/regenerate.sh.
-  Fleet workers can pick up Rule 4 r=62/63 implementation directly from
-  the design doc.
-
-last_heartbeat: "2026-04-25T15:00:00Z"
+  Cross-kernel diagnostic for any future re-test: focus on bit-25 (249
+  fires) and bit-19 (209 fires, 32 max bits in 1 sample) where the
+  propagator's value-add is concentrated.
+last_heartbeat: "2026-04-25T17:30:00Z"
 heartbeat_interval_days: 14
