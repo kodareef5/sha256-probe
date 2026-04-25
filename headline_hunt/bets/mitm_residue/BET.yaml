@@ -63,5 +63,43 @@ current_progress: |
 
   Refs: results/20260424_de61_empirical_rate.md (rate measurement)
         results/20260424_de61_solver_bug.md (solver retraction)
-last_heartbeat: "2026-04-25T03:15:00Z"
+
+  STRUCTURAL CLOSE-OUT (2026-04-25): The cascade-DP residual at r ∈ {61,62,63}
+  is now fully characterized. Six modular constraints + two zero-diff conditions
+  hold universally:
+    R61.1  da_61 ≡ de_61 (mod 2^32)
+    R62.1  db_62 ≡ df_62 (mod 2^32)
+    R62.2  da_62 − de_62 ≡ dT2_62 (mod 2^32)   ← unified Theorem 4 r=62
+    R63.1  dc_63 ≡ dg_63 (mod 2^32)
+    R63.2  db_63 − df_63 ≡ dT2_62 (mod 2^32)
+    R63.3  da_63 − de_63 ≡ dT2_63 (mod 2^32)   ← unified Theorem 4 r=63
+    Z63d   dd_63 = 0
+    Z63h   dh_63 = 0
+
+  Validation scale (across kernel families): 60,000 fresh-sample structural
+  checks + 104,800 corpus records on R63.1+R63.3 + 20,000 uniformity samples.
+  Universal across 9 kernel families (bits 0,6,10,11,13,17,19,25,31).
+
+  STRUCTURAL FLOOR DERIVATION: The 4 modular d.o.f. at r=63 (after R63.1 and
+  R63.3 reduce 6 active regs to 4) implies cascade-sr=61 SAT prob = 2^(96−128)
+  = 2^-32 per candidate. Matches empirical 1800 CPU-h null result and 1M-sample
+  W[60] sweep finding 0 hits at de61=0. The 2^-32 hardness is structurally
+  inevitable; no shortcut without a 5th independent constraint (empirically
+  refuted via uniformity check) or a non-cascade-DP mechanism.
+
+  Recommendation: PARK at p5. The bet's structural picture serves as a
+  baseline for future bets: anything achieving sub-2^-32 hardness on
+  cascade-DP-eligible candidates is a structural breakthrough.
+
+  Recent results files (2026-04-25):
+    results/20260425_residual_structure_complete.md (the structural picture)
+    results/20260425_theorem4_unified.md (the unified Theorem 4)
+    results/20260425_theorem4_unified_104k.md (104k cross-corpus)
+    results/20260425_sat_prob_derivation.md (2^-32 from first principles)
+
+  These structural results FEED forward into:
+    - bets/programmatic_sat_propagator/propagators/SPEC.md (rules 4,5,6)
+    - bets/block2_wang/residuals/STRUCTURAL_RERANK_NOTE.md (4-d.o.f. ranking)
+
+last_heartbeat: "2026-04-25T09:35:00Z"
 heartbeat_interval_days: 14
