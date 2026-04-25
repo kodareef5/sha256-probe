@@ -138,49 +138,69 @@ def main():
     }
 
     def parse_dec_conf(logpath):
-        """Return (dec_per_conf, conf_per_sec) or (None, None)."""
+        """Return dec_per_conf for kissat OR cadical log.
+
+        kissat: "c decisions:    5036746     5.04 per conflict"  → dec/conf parsed directly.
+        cadical: "c decisions:    4656618    113184.07    per second"  → no dec/conf field;
+                 must compute from total conflicts and total decisions.
+        """
         try:
             with open(logpath) as f:
                 lines = f.read().splitlines()
         except FileNotFoundError:
             return None, None
-        dec = conf_rate = None
+        dec_total = conf_total = None
+        kissat_dec_per_conf = None
         for line in lines:
             if line.startswith('c decisions:'):
-                for p in line.split():
+                parts = line.split()
+                # Kissat has a small float (dec/conf) usually in field 3 with "per conflict" keyword;
+                # cadical has a large rate ("per second"). Extract: total in [1] usually.
+                if len(parts) >= 3:
                     try:
-                        v = float(p)
-                        if 0 < v < 100:
-                            dec = v; break
+                        dec_total = int(parts[2])
                     except ValueError:
                         pass
+                # Look for the dec/conf field (kissat-only: small number followed by "per" "conflict")
+                for i in range(2, len(parts) - 1):
+                    if parts[i] == "per" and i+1 < len(parts) and parts[i+1] == "conflict":
+                        try:
+                            kissat_dec_per_conf = float(parts[i-1])
+                        except ValueError:
+                            pass
+                        break
             elif line.startswith('c conflicts:'):
-                for p in line.split():
+                parts = line.split()
+                if len(parts) >= 3:
                     try:
-                        v = float(p)
-                        if 1000 < v < 1e9:
-                            conf_rate = v; break
+                        conf_total = int(parts[2])
                     except ValueError:
                         pass
-        return dec, conf_rate
+        if kissat_dec_per_conf is not None:
+            return kissat_dec_per_conf, None
+        if dec_total and conf_total:
+            return dec_total / conf_total, None
+        return None, None
 
     by_dec = []
     for cand, size, lockb, cells in rows:
         tag = cand_to_tag.get(cand, '?')
-        log1M  = f"{REPO}/headline_hunt/bets/sr61_n32/runs/de58_validation_2026-04-25/{tag}_kissat_1000000.log"
-        log10M = f"{REPO}/headline_hunt/bets/sr61_n32/runs/de58_validation_2026-04-25/{tag}_kissat_10000000.log"
-        d1, _ = parse_dec_conf(log1M)
-        d10, _ = parse_dec_conf(log10M)
-        delta = (d10 - d1) if (d1 is not None and d10 is not None) else None
-        deltastr = f"{delta:+.2f}" if delta is not None else "    ?"
-        d1s = f"{d1:.2f}" if d1 is not None else "    ?"
-        d10s = f"{d10:.2f}" if d10 is not None else "    ?"
-        print(f"{cand[-43:]:45s} {str(size):>7} {str(lockb):>5}  {d1s:>11}  {d10s:>12}  {deltastr:>5}")
-        if size != '?' and d10 is not None:
-            try:
-                by_dec.append((int(size), d10, cand))
-            except (TypeError, ValueError):
-                pass
+        for solver in ('kissat', 'cadical'):
+            log1M  = f"{REPO}/headline_hunt/bets/sr61_n32/runs/de58_validation_2026-04-25/{tag}_{solver}_1000000.log"
+            log10M = f"{REPO}/headline_hunt/bets/sr61_n32/runs/de58_validation_2026-04-25/{tag}_{solver}_10000000.log"
+            d1, _ = parse_dec_conf(log1M)
+            d10, _ = parse_dec_conf(log10M)
+            delta = (d10 - d1) if (d1 is not None and d10 is not None) else None
+            deltastr = f"{delta:+.2f}" if delta is not None else "    ?"
+            d1s = f"{d1:.2f}" if d1 is not None else "    ?"
+            d10s = f"{d10:.2f}" if d10 is not None else "    ?"
+            label = f"{cand[-30:]} ({solver})"
+            print(f"{label:45s} {str(size):>7} {str(lockb):>5}  {d1s:>11}  {d10s:>12}  {deltastr:>5}")
+            if size != '?' and d10 is not None:
+                try:
+                    by_dec.append((int(size), d10, f"{cand} {solver}"))
+                except (TypeError, ValueError):
+                    pass
 
     if by_dec:
         sizes = [s for s, _, _ in by_dec]
