@@ -109,3 +109,17 @@ Combined three-data-point picture:
 45 runs all audit-CONFIRMED. Total runs in registry now: 71.
 
 Commit: 1b5ac22
+
+## 08:30 EDT — Cross-solver: Mode B 3.4x on CaDiCaL (vs 2.0x kissat)
+
+Reran the 9-instance matrix at 50k conflicts using CaDiCaL 3.0.0 instead of kissat 4.0.4. Mode B speedup is HIGHER on cadical (3.4x vs standard) than kissat (2.0x). Both solvers show ~5x fewer propagations/conflict in Mode B.
+
+This confirms the Mode B advantage is STRUCTURAL (CNF-level encoding effect), not solver-specific kissat tuning. Encoding effect dominates solver effect at this regime.
+
+Notable: cadical aux_expose hits 39 GB resident set on bit-10 — the aux variables explode CaDiCaL's preprocessing memory. Mode B keeps it manageable by giving the preprocessor immediate constants. This suggests aux_expose has a MEMORY problem on CaDiCaL that Mode B fixes.
+
+Implication for propagator bet: CaDiCaL is the right target for IPASIR-UP. Preprocessing amplifies cascade structure, and the propagator can extend that effect throughout the search.
+
+9 cadical runs logged. Total registry: 80 runs.
+
+Commit: f9f212b
