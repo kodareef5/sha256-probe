@@ -544,3 +544,41 @@ Today: ~83 commits. The propagator engineering substrate is
 complete; the answer to its value-add hypothesis is in.
 
 Commit: a37a22c
+
+## EOD — Continuous trigger refutation + structural insights promoted to TARGETS.md
+
+After the 500k front-loaded finding, tested whether a CONTINUOUS trigger
+(fire after every notify_assignment, not sample-based) would catch
+Rule 4 fires the sample-based trigger missed.
+
+Result on bit-19 highest-firing kernel:
+  Continuous trigger 50k:  520 fires (vs 209 sample-based) — 2.5× more
+  Continuous trigger 500k: 520 fires (SAME) — STILL front-loaded
+  Decisions drop 17% (356k vs 431k) — modest pruning effect
+  Wall time 1.9× slower (constant overhead, doesn't amortize)
+
+This is a DEEPER structural finding than previous: the bottleneck isn't
+the trigger, it's CDCL's search trajectory. After preprocessing-phase
+cascade-zero propagation, CDCL navigates by deciding DIFF-AUX variables
+not actual register values. Rule 4's input domain is NOT NATURALLY
+EXPLORED during deep search.
+
+Three paths to revive:
+  A. cb_decide() heuristic to force CDCL into actual-value subspace
+  B. Reformulate Rule 4 to fire on diff-aux variables only
+  C. Kill — cascade-DP search is fundamentally diff-aux focused
+
+Promoted four 2026-04-25 structural insights to TARGETS.md so they're
+visible to anyone navigating the headline-hunt:
+1. Cascade-DP residual is 4-d.o.f. modular variety
+2. CDCL is DIFF-AUX-focused not actual-value-focused
+3. Mode B speedup is 2-3.4× but FRONT-LOADED
+4. Rule 4 hypothesis empirically refuted
+
+The bet portfolio moved from "we should test" to "we have empirical
+evidence." Future workers don't have to re-discover today's negatives.
+
+Cascade-DP sub-2^32 is structurally blocked. Headline paths 1 / 2 / 3
+remain — but with sharper empirical boundaries.
+
+Commits this stretch: 9329f72, c78363d
