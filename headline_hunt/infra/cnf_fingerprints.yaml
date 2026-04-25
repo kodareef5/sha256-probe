@@ -120,3 +120,30 @@
   observed_clauses: [53698, 53999]
   example_file: "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr61_n32_bit31_m17149975_fillffffffff.cnf"
   last_audited: "2026-04-25"
+
+# sr=59 cascade-aux: 5 free rounds (57-61). Smaller search space than sr=60.
+# Viragh's published 2026 collision is at sr=59, so SAT-finding here serves as
+# a cascade-encoder soundness check (fast SAT expected).
+- bucket_id: sr59_n32_cascade_aux_expose
+  sr_level: 59
+  n: 32
+  encoder_variant: "cascade_aux_expose"
+  vars_range: [12200, 12400]
+  clauses_range: [51100, 51600]
+  observed_n_kernels: 6
+  observed_vars: [12252, 12336]
+  observed_clauses: [51168, 51511]
+  example_file: "(generated at runtime via cascade_aux_encoder.py --sr 59)"
+  last_audited: "2026-04-25"
+
+- bucket_id: sr59_n32_cascade_aux_force
+  sr_level: 59
+  n: 32
+  encoder_variant: "cascade_aux_force"
+  vars_range: [12200, 12400]
+  clauses_range: [51100, 51600]
+  observed_n_kernels: 6
+  observed_vars: [12252, 12336]
+  observed_clauses: [51168, 51511]
+  example_file: "(generated at runtime via cascade_aux_encoder.py --sr 59)"
+  last_audited: "2026-04-25"

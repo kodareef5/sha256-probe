@@ -56,6 +56,11 @@ FILENAME_PATTERNS = [
      {"sr_level": 61, "n": 32, "encoder_variant": "cascade_aux_expose"}),
     (re.compile(r"^aux_force_sr61.*\.cnf$"),
      {"sr_level": 61, "n": 32, "encoder_variant": "cascade_aux_force"}),
+    # sr=59 cascade-aux (Viragh's "92% broken" level — sanity-check substrate)
+    (re.compile(r"^aux_expose_sr59.*\.cnf$"),
+     {"sr_level": 59, "n": 32, "encoder_variant": "cascade_aux_expose"}),
+    (re.compile(r"^aux_force_sr59.*\.cnf$"),
+     {"sr_level": 59, "n": 32, "encoder_variant": "cascade_aux_force"}),
     # sr=60 patterns
     (re.compile(r"^sr60_.*\.cnf$"),
      {"sr_level": 60, "n": None, "encoder_variant": "sr60_unspecified"}),
