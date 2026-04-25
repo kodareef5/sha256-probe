@@ -390,3 +390,36 @@ all done and tested.
 Today: ~73 commits.
 
 Commits: e814b3d (breakthrough)
+
+## 12:30 EDT — Phase 2C-Rule4 Option C: encoder emits modular-diff aux
+
+After identifying the modular-vs-XOR forcing issue (commit a6076d3),
+implemented Option C — the encoder now emits modular-diff aux variables
+(32 bits per register, with ripple-borrow subtractor clauses) for the
+registers Rule 4 firing needs: {a, e} at r ∈ {62, 63}.
+
+This unblocks the propagator's firing mechanism: when partial-bit
+reasoning determines bit i of dE[62] modular, the propagator can
+directly force aux_modular_diff[("e", 62)][i] — no more domain
+mismatch, since the encoder now exposes the right semantic.
+
+Encoder changes (~50 LOC, no lib/ modification per user guideline):
+- emit_modular_diff_word: ripple subtractor inline using existing
+  CNFBuilder primitives (xor2, and2, or2).
+- aux_modular_diff dict populated for {a, e} × {62, 63}.
+- Varmap schema bumped to v3 with aux_modular_diff section.
+
+Size impact (~5% larger CNF):
+  sr=60 MSB: 12620 → 13248 vars, 52783 → 54919 clauses
+  sr=61 bit-10: 12816 → 13444 vars, 53698 → 55834 clauses
+
+Fingerprint ranges updated to be non-overlapping (sr60: [12450, 13350],
+sr61: [13360, 14000]). validate_registry passes.
+
+Phase 2C-Rule4 status:
+  Encoder Option C:                              ✓ shipped (this commit)
+  Propagator firing logic (~80 LOC):             NEXT — last piece
+
+Today: ~76 commits.
+
+Commit: 17c3efe
