@@ -129,3 +129,16 @@ Empirical sweeps across the 36 registered candidates produced a coherent picture
 - **References**: `bets/sr61_n32/results/20260425_de58_*.md`, `20260425_residual_growth_r60_to_r63.md`, `20260425_residuals_only_de58_varies.md`.
 
 **Implication for the bet portfolio**: candidate selection is non-redundant — different candidates explore disjoint regions of de58 space. But within a candidate, the W57 search hits a 32-bit ceiling. The "30s C brute force" speculation is wrong (encoder demands FULL slot-64 collision; observed 0 da_61=0 hits in 4M trials at bit-19). The 1800 CPU-h sr61_n32 baseline is real problem hardness.
+
+### de58 + hard_bit_total_lb predictor validation FALSIFIED at 10M (2026-04-25 evening)
+
+A 20-cell validation matrix (5 candidates × 2 solvers × 2 budgets) tested whether de58_size or the closed-form hard_bit_total_lb predict cascade-DP solver behavior. Result at kissat 10M conflicts (n=5):
+
+- de58_size → kissat dec/conf: **Spearman ρ = +0.000** (perfectly null).
+- hard_bit_total_lb → kissat dec/conf: **Spearman ρ = -0.100** (essentially null).
+
+msb_bot (LEAST de58-compressed, 130k image, 29 hard bits) has the LOWEST kissat dec/conf (3.22) — diametrically opposite the predictors. msb_cert (medium) has the HIGHEST (3.45). bit-19 (most compressed) is mid-pack at 3.29.
+
+EVIDENCE-level closure: factor-500 variation in de58 image translates to <10% variation in dec/conf, with NO monotone correlation. **Both structural predictors are SEARCH-IRRELEVANT** for cascade-DP CNF behavior at 10M-conflict CDCL budgets.
+
+**Implication**: future sr61_n32 compute should distribute by candidate COVERAGE (disjoint de58 regions) rather than RANK. bit-19's "structural extreme" status is real but does not translate to solver advantage. References: `bets/sr61_n32/results/20260425_de58_validation_VERDICT.md`, `20260425_predictor_correlation.md`.
