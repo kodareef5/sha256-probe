@@ -146,3 +146,14 @@ Background processes:
 - 90-min kissat × 2 (Mode A vs Mode B sr=60 MSB): 72:29 of 90:00 (~18 min remaining)
 
 Will report final rankings when sweep completes. Dashboard: 15 runs, 0 audit failures.
+
+## 21:17 EDT — predictor validation at scale: 27/27 lower bound holds, mean extras 1.52
+
+Used in-flight sweep data (27 of 35 candidates 1M-sample empirical) to validate the closed-form predictor.
+**100% non-negative extras** (predictor is true lower bound, never over-counts).
+Mean extras 1.52, median 1, range [0,4]. 89% within [0,3], 100% within [0,5].
+Best empirical candidate so far: cand_n32_bit10_m27e646e1 with 20 bits (predict_lb=19, extras=1).
+Outliers with extras=4: m5f59b67c, m667c64cd, m56076c68. Worth structural follow-up.
+Writeup: `bets/mitm_residue/results/20260424_predictor_validation_27.md`.
+Data: `bets/mitm_residue/results/predictor_validation_27.json`.
+Remaining 8 sweep candidates ETA ~9 min — including the bit19_m51ca0b34 priority (predict_lb=15).
