@@ -101,6 +101,42 @@ predict CDCL search efficiency. The factor-500 variation in de58 image
 size translates to <10% variation in solver dec/conf with no monotone
 relationship.
 
+## Bonus: internal solver metrics show NON-NULL correlations (added 2026-04-25 23:25)
+
+While dec/conf is null, OTHER kissat-internal metrics correlate with the
+predictors at 1M conflicts (n=5, seed=5):
+
+| Predictor             | restarts | focused_glue1 | prop_rate |
+|-----------------------|---------:|--------------:|----------:|
+| de58_size             |   -0.300 |        -0.600 |    +0.600 |
+| hard_bit_total_lb     |   -0.400 |        -0.700 |    +0.300 |
+
+- **focused_glue1**: count of glue-1 learned clauses (high-utility for
+  CDCL). NEGATIVE with both predictors — bit-19 (most compressed) has
+  MORE glue1 clauses (1.44M) than msb_bot (1.29M).
+- **prop_rate**: propagations per second. POSITIVE with de58_size — bit-19
+  has SLOWER prop rate (3985/s) vs msb_bot (5283/s).
+
+Interpretation: bit-19's compressed cascade structure produces MORE
+high-utility learned clauses but propagates SLOWER (denser constraint
+interactions per conflict). The two effects roughly cancel out at the
+dec/conf level — explaining the null dec/conf correlation despite real
+structural differences in solver behavior.
+
+This is **n=5, single seed, single budget — too thin to claim new
+predictors**. But it suggests:
+1. de58 IS detected by the solver (more glue1 clauses learned).
+2. The detection doesn't translate to efficiency at 1M conflicts.
+3. Whether it translates at MUCH higher budgets (10G+) is untested.
+
+If a future agent wants to validate "de58 → solver structure detection →
+deep-budget efficiency", they could:
+- Run kissat with --conflicts=1G or --conflicts=10G on bit-19 vs msb_bot.
+- Compare cumulative glue1 / restart cadence at different time slices.
+- Check if bit-19's higher glue1-rate eventually pays off.
+
+That's a multi-hour experiment, **not authorized tonight**.
+
 ## Question
 
 Does the de58 image-size rank predict solver behavior on cascade-DP CNFs?
