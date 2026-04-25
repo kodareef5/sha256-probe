@@ -68,3 +68,15 @@ Closes propagator bet's #1 TODO. IPASIR_UP_API.md: full survey of CaDiCaL 3.0.0'
 Phase 2 build path: 2A skeleton → 2B Rules 1,2 → 2C Rules 3-5 → decision gate (10x conflicts at N=32). The 36-CNF cross-kernel set from this hour's earlier commit is the comparison substrate.
 
 Commit: 4b649e5
+
+## 07:00 EDT — Mode B 2× per-conflict speedup (first hard evidence)
+
+9-run sweep across 3 kernels (bit-10, bit-13, bit-19) × 3 encodings (standard, aux_expose, aux_force) at sr=61, conflict-budget=50k, kissat seed=5. All 9 audit-CONFIRMED, logged via append_run.py.
+
+Mode B (force) consistently shows ~35% fewer decisions/conflict, ~58% fewer propagations/conflict, ~2× faster wall time/conflict — across all 3 kernels. Mode A (expose) is *slower* than standard at this budget (overhead of aux vars without enough pruning).
+
+This is the first hard quantitative evidence that Mode B's cascade-structure CNF constraints DO measurably change solver behavior — refuting the strict reading of the TIMEOUT-only 90-min history. Partial firing of negatives.yaml#seed_farming_unchanged_sr61 WCM trigger ("encoding demonstrably changes conflict count distribution at low budget"). To fully reopen: confirm at higher budgets + demonstrate real-time SAT.
+
+Suggested follow-up (next worker): re-run at 500k-conflict budget (~30 min total) to confirm speedup persists; multi-seed for variance.
+
+Commit: 1c4771d
