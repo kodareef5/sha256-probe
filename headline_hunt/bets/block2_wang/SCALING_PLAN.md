@@ -71,26 +71,28 @@ If pass: this validates the algorithmic scaling. Any further failure at N>12 mus
 
 If fail: redirect bet to MITM-only approach (skip backward construction). Backward construction's per-step overhead would dominate.
 
-## Stage 3 — N=16 stress test (Milestone M16)
+## Stage 3 — N=16 stress test (Milestone M16) — REVISED 2026-04-25 evening
 
-**Target effort**: 1 day implementation + measurement.
+**REVISION**: original M16 gate said "complete full 2^48 outer loop in ≤ 2 hours wall." Based on real M10 measurements (117s wall on 10 OpenMP threads for 2^30 outer triples), the geometric extrapolation gives N=16 ≈ 117s × 2^18 = ~30M seconds = ~350 days single-machine. **M16 single-machine BC is INFEASIBLE.**
 
-### Purpose
-N=16 is where brute force becomes genuinely intractable (2^64 outer loop). This is the critical "does the algorithm still fit?" check.
+**Revised M16 plan**: M16 must include the MITM partition, not be a pure-BC milestone. Effectively M16 IS the first MITM milestone.
 
-### Deliverables
-- `backward_construct_n16.c`
-- Cascade-eligibility scan
-- **No brute-force reference** — instead run the constructive solver and emit (W57, W58, W59) tuples that produce de61=0. Verify each tuple against forward execution. Count tuples produced per second.
+### MITM partition at N=16 (CORRECTED budget)
+- Forward path (W57, W58): 2^32 outer × 2^16 inner = 2^48 ops. ~10 minutes wall on 10 threads at M10 rates.
+- Storage: 2^32 records × ~16 bytes (state_59 = 8 × 16 bits = 16 bytes) = 64 GB. Tractable on a single NAS-equipped machine.
+- Backward path (W59, W60): 2^32 outer × 2^16 inner = 2^48 ops. ~10 min.
+- Match phase: hash-join on state_59 signature (16-byte key). Expected matches at N=16 with 4-d.o.f. residual variety: ~2^32 × 2^32 / 2^48 = 2^16 candidate tuples. Verify each (~1ms each = 65 sec).
 
-### M16 decision gate
+**Total M16-MITM compute**: ~25 min wall on a single machine with 64 GB storage.
+
+### M16 decision gate (revised)
 Pass if:
-- Constructive solver completes a full 2^48 outer loop in ≤ 2 hours wall (assuming N=12 measurement extrapolates).
-- Per-candidate solution count > 0 for at least 3 of 5 candidates.
-- Decision-gate-validation: at N=16, the de58 image hardlock mask should still cluster the candidates into compression bands. Verify by sampling W57 → de58 at all 5 N=16 candidates.
+- MITM forward + backward + match phases complete in budget without OOM.
+- Match phase produces verifiable collision tuples that pass Phase 4 (independent SHA re-execution at N=16).
+- ≥1 verified collision per candidate at N=16.
 
-If pass: ready for the MITM partitioning at N=32.
-If fail: cap the bet at "scales to N=12, breaks beyond" — that itself is a paper-worthy result.
+If pass: scaling architecture validated; M32-MITM is a (much) bigger version of the same architecture.
+If fail: kill memo with the failed phase. Backward construction without MITM doesn't reach N=16; bet moves to graveyard or gets a fundamentally different next-stage design.
 
 ## Stage 4 — MITM partitioning at N=32 (Milestone M32-MITM)
 
@@ -121,13 +123,13 @@ M32-MITM is a multi-machine multi-day compute. **DO NOT launch without explicit 
 - Per-machine memory footprint
 - Failure-recovery: which intermediate artifacts survive a crash
 
-## Concrete next steps (in order)
+## Concrete next steps (in order, REVISED 2026-04-25)
 
-1. **M10 implementation** (1 day) — cheap, immediately falsifies or validates the algorithmic scaling. ANY future macbook session can take this. No authorization needed.
-2. **M12 implementation** (0.5 day) — gates the entire bet's algorithmic feasibility. Same machine.
-3. **M16 implementation** (1 day) — answers whether N=32 is reachable at all without MITM.
-4. **M32-MITM design refinement** — write the storage/match-phase architecture. Author a kill memo template for the bet so we know in advance what failure looks like.
-5. **Authorization request** to user with M32-MITM concrete budget. THIS is the first thing requiring user input.
+1. ✅ **M10 implementation** — DONE 2026-04-25. M10_RESULT.md: 946 collisions, 100% verified, 117s wall, 15.67× speedup VERIFIED via stratified BF.
+2. ▶️ **M12 implementation** — IN FLIGHT 2026-04-25 evening. ETA ~2 hr wall on 10 threads (contended with de58 validation matrix). Algorithmic feasibility ladder.
+3. **M16 implementation REVISED**: not pure-BC (infeasible single-machine), but M16-MITM. Forward+backward+match architecture. ~25 min wall + 64 GB storage. Single machine sufficient.
+4. **M32-MITM design refinement** — write the storage/match-phase architecture (multi-machine, not single).
+5. **Authorization request** to user with M16-MITM and M32-MITM concrete budgets.
 
 ## What this plan IS
 
