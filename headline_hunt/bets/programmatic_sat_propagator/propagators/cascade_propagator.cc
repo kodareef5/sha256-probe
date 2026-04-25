@@ -390,12 +390,20 @@ int main(int argc, char** argv) {
     //   dC[59..60] = 0
     //   dD[60] = 0
     //   dE[60] = 0      (Theorem 2)
+    // Rules 1+2: cascade diagonal + dE[60]=0 (Theorems 1+2).
+    // Rule 3 (Mode FORCE three-filter): dE[61..63] = 0.
+    // All four enforce zero-diff on specific (reg,round) cells.
     std::vector<std::pair<std::string, int>> zero_regs = {
+        // Rule 1: cascade diagonal
         {"a", 57}, {"a", 58}, {"a", 59}, {"a", 60},
         {"b", 58}, {"b", 59}, {"b", 60},
         {"c", 59}, {"c", 60},
         {"d", 60},
+        // Rule 2: dE[60] = 0
         {"e", 60},
+        // Rule 3: dE[61..63] = 0 (three-filter — equivalent to full r=63 collision
+        // under cascade-DP per Theorem 3).
+        {"e", 61}, {"e", 62}, {"e", 63},
     };
     int n_observed = 0;
     int n_const_already = 0;
