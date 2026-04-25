@@ -50,16 +50,16 @@ public:
         int gv;        // dg_63 bit-i SAT var (or 0 if constant)
         int dg_pol;
     };
-    std::vector<EqPair> r63_eq_pairs;  // 32 entries (one per bit position)
+    // Indexed first by pair-GROUP (e.g., 0=dc_63↔dg_63 (R63.1),
+    // 1=dA[61]↔dE[61] (R61.1 / Rule 4 specialization)), then by bit (0..31).
+    // We store a flat vector and use stride 32.
+    std::vector<EqPair> r63_eq_pairs;  // size = 32 * n_groups
 
-    // For reverse lookup: SAT var -> (eq-pair index, side: 'c' or 'g').
-    // Used in notify_assignment to know which bit was just decided.
+    // For reverse lookup: SAT var -> (flat eq-pair index, side: 0 or 1).
     struct EqVarSide { int pair_idx; int side; }; // side: 0=c, 1=g
     std::unordered_map<int, EqVarSide> r63_eq_lookup;
 
     // Current value of each eq-pair side: -1=unassigned, 0=false, 1=true.
-    // Updated in notify_assignment, undone in notify_backtrack.
-    // Stored as a stack (decision-level partitioned).
     struct AssignEvent { int pair_idx; int side; int prev; };
     std::vector<std::vector<AssignEvent>> level_eq_assignments;
     std::vector<std::pair<int, int>> r63_eq_state;  // [pair_idx] -> (c_val, g_val)
@@ -85,6 +85,7 @@ public:
     long long n_decisions = 0;
     long long n_backtracks = 0;
     long long n_rule5_fires = 0;
+    long long n_rule4r61_fires = 0;
 
     CascadePropagator() {
         level_propagation_counts.push_back(0);
@@ -148,7 +149,8 @@ public:
                 // propagated literal forming the binary clause:
                 //   [forced_lit, -lit]  meaning "lit → forced_lit"
                 queue_propagation(forced_lit, {lit});
-                n_rule5_fires++;
+                if (pair_idx < 32) n_rule5_fires++;
+                else n_rule4r61_fires++;
             }
         }
     }
@@ -425,32 +427,50 @@ int main(int argc, char** argv) {
     std::cerr << "Cascade-zero targets: " << n_observed << " SAT vars observed, "
               << n_const_already << " bits already const-false\n";
 
-    // ---- Rule 5: R63.1 dc_63 = dg_63 (32 bit-equalities) ----
-    auto dc_it = aux_reg.find({"c", 63});
-    auto dg_it = aux_reg.find({"g", 63});
-    if (dc_it == aux_reg.end() || dg_it == aux_reg.end()) {
-        std::cerr << "WARN: dc_63 or dg_63 missing from varmap; skipping Rule 5\n";
-    } else {
-        prop.r63_eq_pairs.resize(32);
-        prop.r63_eq_state.assign(32, {-1, -1});
-        int n_rule5 = 0;
+    // ---- Bit-equality groups ----
+    // Group 0 (indices 0..31):  Rule 5  — dc_63 = dg_63        (R63.1)
+    // Group 1 (indices 32..63): Rule 4 specialization at r=61 — dA[61] = dE[61]
+    //   (since dT2_61 = 0 under cascade, the modular form da_61 = de_61 reduces
+    //    to bit-equality identical in form to Rule 5).
+    struct EqGroup {
+        std::string left_reg; int left_round;
+        std::string right_reg; int right_round;
+        const char* label;
+    };
+    std::vector<EqGroup> eq_groups = {
+        {"c", 63, "g", 63, "Rule 5  (dc_63 = dg_63)"},
+        {"a", 61, "e", 61, "Rule 4@r=61 (dA[61] = dE[61])"},
+    };
+    int total_pairs = 32 * eq_groups.size();
+    prop.r63_eq_pairs.resize(total_pairs);
+    prop.r63_eq_state.assign(total_pairs, {-1, -1});
+
+    for (size_t g = 0; g < eq_groups.size(); g++) {
+        const auto& grp = eq_groups[g];
+        auto left_it = aux_reg.find({grp.left_reg, grp.left_round});
+        auto right_it = aux_reg.find({grp.right_reg, grp.right_round});
+        if (left_it == aux_reg.end() || right_it == aux_reg.end()) {
+            std::cerr << "WARN: " << grp.label << " — missing varmap; skipping\n";
+            continue;
+        }
+        int n_registered = 0;
         for (int b = 0; b < 32; b++) {
-            int dc_lit = dc_it->second[b];
-            int dg_lit = dg_it->second[b];
+            int left_lit = left_it->second[b];
+            int right_lit = right_it->second[b];
+            int flat_idx = (int)g * 32 + b;
             CascadePropagator::EqPair p;
-            p.cv = (std::abs(dc_lit) > 1) ? std::abs(dc_lit) : 0;
-            p.dc_pol = (dc_lit > 0) ? 1 : -1;
-            p.gv = (std::abs(dg_lit) > 1) ? std::abs(dg_lit) : 0;
-            p.dg_pol = (dg_lit > 0) ? 1 : -1;
-            prop.r63_eq_pairs[b] = p;
+            p.cv = (std::abs(left_lit) > 1) ? std::abs(left_lit) : 0;
+            p.dc_pol = (left_lit > 0) ? 1 : -1;
+            p.gv = (std::abs(right_lit) > 1) ? std::abs(right_lit) : 0;
+            p.dg_pol = (right_lit > 0) ? 1 : -1;
+            prop.r63_eq_pairs[flat_idx] = p;
             if (p.cv && p.gv) {
-                prop.r63_eq_lookup[p.cv] = {b, 0};
-                prop.r63_eq_lookup[p.gv] = {b, 1};
-                n_rule5++;
+                prop.r63_eq_lookup[p.cv] = {flat_idx, 0};
+                prop.r63_eq_lookup[p.gv] = {flat_idx, 1};
+                n_registered++;
             }
         }
-        std::cerr << "Rule 5 (dc_63 = dg_63): " << n_rule5
-                  << " bit-pairs registered\n";
+        std::cerr << grp.label << ": " << n_registered << " bit-pairs registered\n";
     }
 
     // Connect propagator (optional — skip with --no-propagator for baseline)
@@ -485,6 +505,7 @@ int main(int argc, char** argv) {
               << "  notify_assignment events: " << prop.n_assignments << "\n"
               << "  cb_propagate fires:       " << prop.n_propagations << "\n"
               << "    of which Rule 5 fires:  " << prop.n_rule5_fires << "\n"
+              << "    of which Rule 4@r=61:   " << prop.n_rule4r61_fires << "\n"
               << "  decisions:                " << prop.n_decisions << "\n"
               << "  backtracks:               " << prop.n_backtracks << "\n";
 
