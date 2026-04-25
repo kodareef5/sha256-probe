@@ -293,8 +293,9 @@ bool load_varmap(const std::string& path, AuxRegMap& aux_reg, int& total_vars) {
     }
     json data;
     f >> data;
-    if (data["version"] != 1) {
-        std::cerr << "ERROR: unknown varmap version " << data["version"] << "\n";
+    int ver = data["version"];
+    if (ver != 1 && ver != 2) {
+        std::cerr << "ERROR: unknown varmap version " << ver << "\n";
         return false;
     }
     total_vars = data["summary"]["total_vars"];

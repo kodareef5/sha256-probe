@@ -56,6 +56,8 @@ class VarMap:
         self.summary = summary
         self.aux_reg = aux_reg     # (reg, round) -> [32 lits]
         self.aux_W = aux_W         # round -> [32 lits]
+        self.actual_p1 = {}        # (reg, round) -> [32 lits]  (v2+ only)
+        self.actual_p2 = {}        # (reg, round) -> [32 lits]  (v2+ only)
         self._reverse = {}         # |var_id| -> [(reg, round, bit, polarity)]
         self._build_reverse()
 
@@ -63,14 +65,25 @@ class VarMap:
     def load(cls, path):
         with open(path) as f:
             data = json.load(f)
-        if data.get("version") != 1:
+        if data.get("version") not in (1, 2):
             raise ValueError(f"Unknown varmap version: {data.get('version')}")
         aux_reg = {}
         for k, v in data["aux_reg"].items():
             reg, r = k.rsplit("_", 1)
             aux_reg[(reg, int(r))] = v
         aux_W = {int(r): v for r, v in data["aux_W"].items()}
-        return cls(data["summary"], aux_reg, aux_W)
+        loader = cls(data["summary"], aux_reg, aux_W)
+        # Version 2 adds actual register-value vars (for Rule 4 r=62/63).
+        if data.get("version") == 2:
+            loader.actual_p1 = {}
+            loader.actual_p2 = {}
+            for k, v in data.get("actual_p1", {}).items():
+                reg, r = k.rsplit("_", 1)
+                loader.actual_p1[(reg, int(r))] = v
+            for k, v in data.get("actual_p2", {}).items():
+                reg, r = k.rsplit("_", 1)
+                loader.actual_p2[(reg, int(r))] = v
+        return loader
 
     def _build_reverse(self):
         for (reg, r), lits in self.aux_reg.items():
@@ -183,6 +196,16 @@ def selftest():
     n_const = sum(1 for (reg, r), lits in vm.aux_reg.items()
                   for lit in lits if abs(lit) == 1)
     print(f"  {n_const} bits constant-folded by encoder")
+
+    # Version 2 check: actual_p1/p2 should be populated
+    if vm.actual_p1:
+        n_p1 = sum(1 for k, lits in vm.actual_p1.items() for lit in lits)
+        n_p2 = sum(1 for k, lits in vm.actual_p2.items() for lit in lits)
+        a60_p1 = vm.actual_p1.get(("a", 60), [])
+        a60_p2 = vm.actual_p2.get(("a", 60), [])
+        print(f"  v2 actual_p1: {len(vm.actual_p1)} (reg,round) entries, {n_p1} lits")
+        print(f"  v2 actual_p2: {len(vm.actual_p2)} (reg,round) entries, {n_p2} lits")
+        print(f"  a_60[:3] pair-1 lits: {a60_p1[:3]}, pair-2: {a60_p2[:3]}")
 
     print("selftest: PASS")
     return 0

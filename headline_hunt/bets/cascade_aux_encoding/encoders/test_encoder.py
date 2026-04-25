@@ -132,7 +132,7 @@ def main():
     import json
     with open(varmap_path) as f:
         vm = json.load(f)
-    if vm.get("version") != 1:
+    if vm.get("version") not in (1, 2):
         print(f"FAIL: varmap version mismatch (got {vm.get('version')})")
         sys.exit(1)
     expected_keys = {f"{r}_{rd}" for r in "abcdefgh" for rd in range(57, 64)}

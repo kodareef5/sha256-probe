@@ -159,11 +159,20 @@ def build_cascade_aux_cnf(sr, m0, fill, kernel_bit=31, mode="expose"):
     vars_before_aux = cnf.next_var - 1
     clauses_before_aux = len(cnf.clauses)
 
+    # Also expose ACTUAL register-value literals (pair-1 and pair-2) for the
+    # propagator (Rule 4 at r=62, r=63 needs Sigma0/Maj on actual values, not
+    # just diffs). These are NOT new variables — they're the existing
+    # round-state vars from the encoder; we just record their identity.
+    actual_reg_p1 = {}  # actual_reg_p1[(reg_name, r)] = list of 32 literals
+    actual_reg_p2 = {}
+
     for r in range(57, 64):
         for reg_idx, reg_name in enumerate(REG_NAMES):
             w1 = s_at(states1, r)[reg_idx]
             w2 = s_at(states2, r)[reg_idx]
             aux_reg[(reg_name, r)] = [cnf.xor2(w1[i], w2[i]) for i in range(32)]
+            actual_reg_p1[(reg_name, r)] = list(w1)
+            actual_reg_p2[(reg_name, r)] = list(w2)
 
     # dW[r] aux
     aux_W = {}
@@ -251,32 +260,34 @@ def build_cascade_aux_cnf(sr, m0, fill, kernel_bit=31, mode="expose"):
     }
     # aux_reg[(reg, r)] = list of 32 literals (var IDs or ±1 constants)
     # aux_W[r] = list of 32 literals
-    return cnf, summary, aux_reg, aux_W
+    # actual_reg_p1[(reg, r)] / actual_reg_p2[(reg, r)] = 32 literals for pair values
+    return cnf, summary, aux_reg, aux_W, actual_reg_p1, actual_reg_p2
 
 
-def write_varmap_sidecar(aux_reg, aux_W, summary, out_path):
+def write_varmap_sidecar(aux_reg, aux_W, summary, out_path,
+                          actual_reg_p1=None, actual_reg_p2=None):
     """Emit a JSON sidecar mapping aux differential bits to SAT vars.
 
-    Schema:
+    Schema (version 2 adds actual register-value vars for Rule 4 at r=62,r=63):
       {
-        "version": 1,
+        "version": 2,
         "summary": {sr, m0, fill, kernel_bit, mode, total_vars, ...},
-        "aux_reg": {
-          "<reg>_<round>": [32 ints],   # e.g. "a_61" -> [v0, v1, ..., v31]
-        },
-        "aux_W": {
-          "<round>": [32 ints]          # e.g. "57" -> [...]
-        }
+        "aux_reg": {"<reg>_<round>": [32 ints]},   # diff aux (XOR diff)
+        "aux_W":   {"<round>":       [32 ints]},   # W diff aux
+        "actual_p1": {"<reg>_<round>": [32 ints]}, # pair-1 actual register vars
+        "actual_p2": {"<reg>_<round>": [32 ints]}  # pair-2 actual register vars
       }
 
     Literal convention: positive int = SAT variable ID; negative = negated;
     1 = constant TRUE; -1 = constant FALSE. Mirrors aux_reg semantics in the
     encoder's in-memory state.
+
+    Backwards compat: version 1 sidecars (no actual_p1/p2) still parse — the
+    propagator's varmap_loader treats them as missing and skips Rule 4 r=62/63.
     """
     import json
-    REG_NAMES = "abcdefgh"
     out = {
-        "version": 1,
+        "version": 2 if actual_reg_p1 is not None else 1,
         "summary": {k: summary[k] for k in
                     ["sr", "m0", "fill", "kernel_bit", "mode", "n_free",
                      "total_vars", "total_clauses", "aux_vars_added",
@@ -288,6 +299,13 @@ def write_varmap_sidecar(aux_reg, aux_W, summary, out_path):
         out["aux_reg"][f"{reg}_{r}"] = [int(x) for x in lits]
     for r, lits in aux_W.items():
         out["aux_W"][str(r)] = [int(x) for x in lits]
+    if actual_reg_p1 is not None:
+        out["actual_p1"] = {}
+        out["actual_p2"] = {}
+        for (reg, r), lits in actual_reg_p1.items():
+            out["actual_p1"][f"{reg}_{r}"] = [int(x) for x in lits]
+        for (reg, r), lits in actual_reg_p2.items():
+            out["actual_p2"][f"{reg}_{r}"] = [int(x) for x in lits]
     with open(out_path, "w") as f:
         json.dump(out, f)
     return out_path
@@ -343,14 +361,16 @@ def main():
         print(f"Building cascade-aux CNF: sr={args.sr} m0={m0:#x} fill={fill:#x} "
               f"bit={args.kernel_bit} mode={args.mode}", file=sys.stderr)
 
-    cnf, summary, aux_reg, aux_W = build_cascade_aux_cnf(args.sr, m0, fill, args.kernel_bit, args.mode)
+    cnf, summary, aux_reg, aux_W, actual_p1, actual_p2 = build_cascade_aux_cnf(
+        args.sr, m0, fill, args.kernel_bit, args.mode)
     n_vars, n_clauses = write_dimacs_with_header(cnf, summary, args.out)
 
     varmap_path = None
     if args.varmap is not None:
         varmap_path = (args.out + ".varmap.json"
                        if args.varmap in ("+", "auto") else args.varmap)
-        write_varmap_sidecar(aux_reg, aux_W, summary, varmap_path)
+        write_varmap_sidecar(aux_reg, aux_W, summary, varmap_path,
+                             actual_p1, actual_p2)
 
     if not args.quiet:
         print(f"Wrote {args.out}: {n_vars} vars, {n_clauses} clauses", file=sys.stderr)
