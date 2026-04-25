@@ -730,3 +730,45 @@ The pattern: existing q5 tools + cross-kernel runs + structural
 analysis = empirical evidence on bet promises.
 
 Commit: fa9fa21
+
+## Pushing — 36-candidate de58 ranking — singular winner + SURPRISE
+
+Extended the de58 predictor to ALL 36 registered candidates (262k samples
+each, 80s total).
+
+LANDMARK FINDINGS:
+
+1. bit-19_m51ca0b34_fill55555555: 24 bits compression — SINGULAR, 4 bits
+   ahead of next tier. de58 image = 2^8 (256 distinct values out of 2^32
+   max). Structurally distinctive.
+
+2. msb_m9cfea9ce_fill00000000: SURPRISE candidate. An MSB-kernel with
+   fill=0x00 (not 0xff like the cert) has 20-bit compression. 5 bits
+   better than cert. The fill matters as much as the bit position.
+
+3. THE MSB CERT (m17149975, fill=0xff) is MEDIOCRE: 15.2 bits compression,
+   bottom third. The cert exists because of ~12h sr=60 SAT search, NOT
+   because the candidate is sr=61-promising. Existing "priority cert"
+   framing in writeups is empirically obsolete for sr=61.
+
+NEW SEARCH RANKING (replacing old MSB-first thinking):
+  1. bit-19_m51ca0b34_fill55555555
+  2. msb_m9cfea9ce_fill00000000  ← under-explored
+  3. bit-25_m09990bd2_fill80000000
+  4. bit-11_m56076c68_fill55555555
+  5. bit-13_mbee3704b_fill00000000
+
+Skip MSB cert for sr=61 — useful for sr=60 cross-validation only.
+
+This shifts the bet portfolio's "where to spend CPU-h" from "MSB cert"
+to "structural-promise-ranked." Cheap reusable diagnostic.
+
+The day's empirical sweep has produced:
+  - 5 bets KILLED/BLOCKED/UNSTUCK/SHARPENED
+  - 1 NEW structural predictor (de58 ranking)
+  - Multiple cross-validating findings on bit-19
+
+bit-19 emerges as the structural extreme. Three independent measurements
+(de58, Rule 4 firing, Mode B speedup) all point at it.
+
+Commit: cae5935
