@@ -96,9 +96,13 @@ public:
     std::map<int, PartialReg> actual_p1;  // reg_key -> partial value (pair-1)
     std::map<int, PartialReg> actual_p2;  // pair-2
 
-    // Reverse: SAT var -> (reg_key, pair, bit_idx, polarity)
+    // Reverse: SAT var -> list of (reg_key, pair, bit_idx, polarity).
+    // The encoder REUSES SAT vars across (reg, round) pairs that share the
+    // same underlying value via SHA-256's shift register (e.g., a_57 = b_58
+    // = c_59 = d_60, all share their bit-0 SAT var). When such a var is
+    // assigned, ALL bindings are updated.
     struct ActualVarInfo { int reg_key; int pair; int bit; int polarity; };
-    std::unordered_map<int, ActualVarInfo> actual_var_lookup;
+    std::unordered_map<int, std::vector<ActualVarInfo>> actual_var_lookup;
 
     // Backtrack support: per-level undo stack of bit assignments.
     struct ActualUndo { int reg_key; int pair; int bit; int prev; };
@@ -118,6 +122,8 @@ public:
 
     long long n_actual_assignments = 0;
     long long n_dT2_62_computable = 0;  // # times all 96 inputs decided
+    long long n_partial_bits_decided_max = 0;  // max # bits of partial dT2_62 ever determined
+    long long n_partial_dT2_62_fires = 0;  // # samples where partial-bit logic would force ≥1 dE[62] bit
 
     // ---- Helper utilities for Rule 4 r=62/63 firing logic ----
 
@@ -197,6 +203,109 @@ public:
         return (long long)(((unsigned int)ds0 + (unsigned int)dmaj) & 0xFFFFFFFFu);
     }
 
+    // ---- Partial-bit primitives (from test_partial_sigma0.cc) ----
+
+    static PartialReg partial_sigma0(const PartialReg& a) {
+        PartialReg r;
+        for (int i = 0; i < 32; i++) {
+            int b1 = a.bits[(i + 2) % 32];
+            int b2 = a.bits[(i + 13) % 32];
+            int b3 = a.bits[(i + 22) % 32];
+            if (b1 == -1 || b2 == -1 || b3 == -1) continue;
+            r.bits[i] = b1 ^ b2 ^ b3;
+            r.n_decided++;
+        }
+        return r;
+    }
+
+    static PartialReg partial_maj(const PartialReg& a, const PartialReg& b,
+                                   const PartialReg& c) {
+        PartialReg r;
+        for (int i = 0; i < 32; i++) {
+            int ai = a.bits[i], bi = b.bits[i], ci = c.bits[i];
+            if (ai == -1 || bi == -1 || ci == -1) continue;
+            r.bits[i] = (ai & bi) ^ (ai & ci) ^ (bi & ci);
+            r.n_decided++;
+        }
+        return r;
+    }
+
+    static PartialReg partial_modular_sub(const PartialReg& a, const PartialReg& b) {
+        PartialReg r;
+        int borrow = 0;
+        for (int i = 0; i < 32; i++) {
+            if (a.bits[i] == -1 || b.bits[i] == -1) break;
+            int diff = a.bits[i] - b.bits[i] - borrow;
+            if (diff < 0) { r.bits[i] = diff + 2; borrow = 1; }
+            else          { r.bits[i] = diff;     borrow = 0; }
+            r.n_decided++;
+        }
+        return r;
+    }
+
+    static PartialReg partial_modular_add(const PartialReg& a, const PartialReg& b) {
+        PartialReg r;
+        int carry = 0;
+        for (int i = 0; i < 32; i++) {
+            if (a.bits[i] == -1 || b.bits[i] == -1) break;
+            int sum = a.bits[i] + b.bits[i] + carry;
+            r.bits[i] = sum & 1;
+            carry = (sum >> 1) & 1;
+            r.n_decided++;
+        }
+        return r;
+    }
+
+    // Compute partial dT2_62 = dSigma0(a_61) + dMaj(a_61, a_60, a_59) bit-by-bit.
+    // Bit i is determined iff:
+    //   - bits 0..i of dSigma0 are determined (via partial_sigma0 + modular_sub)
+    //   - bits 0..i of dMaj are determined (similar)
+    //   - bits 0..i of their sum (modular add) are determined
+    // Returns a PartialReg; n_decided tells how many low bits are determined.
+    PartialReg compute_partial_dT2_62() {
+        PartialReg empty;
+        int key_a1_61 = reg_key_for("a", 61);
+        int key_a_60 = reg_key_for("a", 60);
+        int key_a_59 = reg_key_for("a", 59);
+        auto p1_61_it = actual_p1.find(key_a1_61);
+        auto p2_61_it = actual_p2.find(key_a1_61);
+        auto p1_60_it = actual_p1.find(key_a_60);
+        auto p1_59_it = actual_p1.find(key_a_59);
+        if (p1_61_it == actual_p1.end() || p2_61_it == actual_p2.end()
+            || p1_60_it == actual_p1.end() || p1_59_it == actual_p1.end())
+            return empty;
+        // dSigma0 = Sigma0(a1_61) - Sigma0(a2_61) modular
+        PartialReg ds0 = partial_modular_sub(
+            partial_sigma0(p1_61_it->second),
+            partial_sigma0(p2_61_it->second));
+        // dMaj cascade: V60, V59 fully decided in pair-1 (cascade-equal in pair-2)
+        // Use the cascade-zero common values (which are stored in actual_p1).
+        PartialReg dmaj = partial_modular_sub(
+            partial_maj(p1_61_it->second, p1_60_it->second, p1_59_it->second),
+            partial_maj(p2_61_it->second, p1_60_it->second, p1_59_it->second));
+        // dT2 = dSigma0 + dMaj modular
+        return partial_modular_add(ds0, dmaj);
+    }
+
+    // For Rule 4 firing: would force bits of dE[r] = dA[r] - dT2_r modular.
+    // Returns the partial dE[62] that would be implied by current state.
+    // (Diagnostic only — does not yet generate forcing literals.)
+    PartialReg compute_partial_forced_dE_62() {
+        PartialReg empty;
+        // Look up dA[62] aux register (the dE we want to force)
+        // We need access to aux_reg from main; instead we use the actual values.
+        // dA[62] = a1_62 - a2_62 modular (computed from actual values).
+        int key_a_62 = reg_key_for("a", 62);
+        auto p1_62_it = actual_p1.find(key_a_62);
+        auto p2_62_it = actual_p2.find(key_a_62);
+        if (p1_62_it == actual_p1.end() || p2_62_it == actual_p2.end())
+            return empty;
+        PartialReg dA62 = partial_modular_sub(p1_62_it->second, p2_62_it->second);
+        PartialReg dT2_62 = compute_partial_dT2_62();
+        // dE[62] = dA[62] - dT2_62 modular
+        return partial_modular_sub(dA62, dT2_62);
+    }
+
     // Statistics
     long long n_assignments = 0;
     long long n_propagations = 0;
@@ -230,28 +339,41 @@ public:
         n_assignments += lits.size();
 
         // Rule 4 r=62/63 substrate: track actual register-value bits.
+        // SAT vars are reused across (reg, round) pairs via shift register —
+        // update ALL bindings when one is assigned.
         for (int lit : lits) {
             int var = std::abs(lit);
             auto av_it = actual_var_lookup.find(var);
             if (av_it == actual_var_lookup.end()) continue;
-            const ActualVarInfo& info = av_it->second;
             int sat_val = (lit > 0) ? 1 : 0;
-            int bit_val = (info.polarity > 0) ? sat_val : (1 - sat_val);
-            auto& reg_map = (info.pair == 1) ? actual_p1 : actual_p2;
-            PartialReg& preg = reg_map[info.reg_key];
-            int prev = preg.bits[info.bit];
-            preg.bits[info.bit] = bit_val;
-            if (prev == -1) preg.n_decided++;
-            level_actual_undo.back().push_back(
-                {info.reg_key, info.pair, info.bit, prev});
-            n_actual_assignments++;
+            for (const ActualVarInfo& info : av_it->second) {
+                int bit_val = (info.polarity > 0) ? sat_val : (1 - sat_val);
+                auto& reg_map = (info.pair == 1) ? actual_p1 : actual_p2;
+                PartialReg& preg = reg_map[info.reg_key];
+                int prev = preg.bits[info.bit];
+                preg.bits[info.bit] = bit_val;
+                if (prev == -1) preg.n_decided++;
+                level_actual_undo.back().push_back(
+                    {info.reg_key, info.pair, info.bit, prev});
+                n_actual_assignments++;
+            }
         }
 
         // Diagnostic: track how often the dT2_62 input set is fully decided.
-        // (A real Rule 4 firing would happen here.)
+        // Also: PARTIAL-BIT diagnostic — how often would partial-bit Rule 4
+        // r=62 firing have determined ≥1 bit of dE[62]?
+        // Sample at TWO rates: coarse (every 4096) for full-decided check,
+        // fine (every 64) for partial-bit check (where firing is rarer).
         if (n_actual_assignments > 0 && (n_actual_assignments & 0xFFF) == 0) {
-            // Sample once per 4096 bit-assignments to keep overhead tiny.
             if (compute_dT2_62() >= 0) n_dT2_62_computable++;
+        }
+        if (n_actual_assignments > 0 && (n_actual_assignments & 0x3F) == 0) {
+            // Fine sampling for partial-bit
+            PartialReg forced_dE62 = compute_partial_forced_dE_62();
+            if (forced_dE62.n_decided > 0) n_partial_dT2_62_fires++;
+            if (forced_dE62.n_decided > n_partial_bits_decided_max) {
+                n_partial_bits_decided_max = forced_dE62.n_decided;
+            }
         }
 
         // Rule 5 (R63.1) — track dc_63 and dg_63 bit assignments.
@@ -688,7 +810,9 @@ int main(int argc, char** argv) {
                 if (std::abs(lit) <= 1) continue;
                 int var = std::abs(lit);
                 int pol = (lit > 0) ? 1 : -1;
-                prop.actual_var_lookup[var] = {reg_key, pair, b, pol};
+                // 1:many lookup — append, don't overwrite.
+                prop.actual_var_lookup[var].push_back(
+                    {reg_key, pair, b, pol});
                 n_actual_registered++;
             }
         }
@@ -739,8 +863,12 @@ int main(int argc, char** argv) {
               << "    of which Rule 5 fires:  " << prop.n_rule5_fires << "\n"
               << "    of which Rule 4@r=61:   " << prop.n_rule4r61_fires << "\n"
               << "  actual-reg bit assigns:   " << prop.n_actual_assignments << "\n"
-              << "  dT2_62 computable (sample): " << prop.n_dT2_62_computable
+              << "  dT2_62 computable (sample, full): " << prop.n_dT2_62_computable
               << " (out of ~" << (prop.n_actual_assignments / 4096) << " samples)\n"
+              << "  dT2_62 partial-bit firing samples: "
+              << prop.n_partial_dT2_62_fires << " ("
+              << "max bits forced in any sample: "
+              << prop.n_partial_bits_decided_max << ")\n"
               << "  decisions:                " << prop.n_decisions << "\n"
               << "  backtracks:               " << prop.n_backtracks << "\n";
 
