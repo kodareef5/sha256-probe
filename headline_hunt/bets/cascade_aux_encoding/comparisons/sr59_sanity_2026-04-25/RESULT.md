@@ -81,6 +81,25 @@ Added new fingerprint buckets to `infra/cnf_fingerprints.yaml`:
 
 Updated `infra/audit_cnf.py` with `^aux_{expose,force}_sr59.*\.cnf$` patterns. All 6 sr=59 CNFs audit-CONFIRMED.
 
+## 10M-conflict deep probe (added)
+
+To test "are we just below the SAT-finding threshold?", ran cadical at **10× longer budget** on bit-31 force sr=59:
+
+```
+cadical -c 10000000 --seed=5 aux_force_sr59_n32_bit31_m17149975_fillffffffff.cnf
+Result: UNKNOWN. 10,000,000 conflicts, 309 seconds wall.
+```
+
+**Even at 10M conflicts, zero SAT.** Combined with the 24 1M-conflict runs:
+
+| budget | runs | total conflicts | SAT count |
+|---|---:|---:|---:|
+| 1M  | 24 | 24M | 0 |
+| 10M | 1  | 10M | 0 |
+| **Total** | **25** | **34M** | **0** |
+
+Conclusion strengthened: cascade-DP sr=59 SAT is genuinely beyond cadical's reach at multi-minute budgets. The structural picture (cascade tightness) dominates the naive bit-counting freedom.
+
 ## Run logs
 
-24 logs in this directory (6 single-seed force, 15 multi-seed force, 3 expose).
+25 logs in this directory (6 single-seed force, 15 multi-seed force, 3 expose, 1 deep 10M).
