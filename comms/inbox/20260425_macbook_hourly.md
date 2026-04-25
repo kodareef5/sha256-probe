@@ -236,3 +236,27 @@ BET.yaml updated to in_flight, owner=macbook. The bet has gone from
 clear design for value-bearing next phase. ~56 commits today.
 
 Commits this stretch: d3f6816, 99f09ef, cc1dc84, 396cf5a, f6a7bb7, f0e40a3
+
+## 11:15 EDT — Phase 2C Rule 4 r=62/63 SUBSTRATE shipped
+
+Started Phase 2C-Rule4@r=62/63 implementation incrementally. This hour ships
+the foundation layer (data structures + bit tracking + backtrack), which
+is ~150 LOC of the eventual ~640.
+
+Verified end-to-end on sr=61 expose at 50k conflicts:
+- 768 actual-register SAT vars registered (a,b,c at r=59-62, 2 pairs).
+- 521k notify_assignment events tracked correctly.
+- 58k backtracks survived without crashes.
+- 3s wall time (same as before substrate; O(hash-lookup) per assignment).
+
+The substrate is necessary for Rule 4 firing but doesn't fire yet —
+that needs Sigma0+Maj+modular sum reasoning (multi-day, next session).
+By splitting the implementation, we de-risk the multi-day work.
+
+The rest of Rule 4 at r=62/63 is now ~500 LOC of pure logic on top of
+verified infrastructure. Next session: trigger detection + Sigma0/Maj +
+modular subtraction + reason clauses.
+
+Commits today: ~62. Cumulative propagator: ~470 LOC.
+
+Commit: 3424a29
