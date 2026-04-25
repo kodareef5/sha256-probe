@@ -47,6 +47,27 @@ For path (b): the forward-table approach showed 0 collisions in 131k witnesses, 
 
 For path (c): the active bets cover this — block2_wang, kc_xor_d4, programmatic_sat_propagator each take a different non-cascade-DP angle.
 
+## Empirical uniformity check — no hidden 5th constraint
+
+Tested whether the 4 d.o.f. `(da_63, db_63, dc_63, df_63)` are uniformly distributed on `(Z/2^32)^4` under random cascade-held W. If non-uniform or correlated → hidden structural constraint waiting to be found.
+
+20,000 fresh cascade-held samples on the priority candidate:
+
+| variable | lower-byte chi² | bit-bias max | verdict |
+|---|---:|---:|---|
+| da_63 | 224.3 | 0.0101 | uniform-ish |
+| db_63 | 247.4 | 0.0080 | uniform-ish |
+| dc_63 | 249.3 | 0.0101 | uniform-ish |
+| df_63 | 243.0 | 0.0088 | uniform-ish |
+
+(threshold for non-uniformity: chi² > 330 at p=0.001 with df=255.)
+
+Pairwise LSB-equality (50% expected for independent): all 6 pairs in [49.7%, 50.5%] range. No detectable correlation.
+
+**Conclusion: empirically no hidden 5th constraint.** The 4 d.o.f. distribution is tight and the 2^-32 SAT prob is structurally tight.
+
+Validation script: `check_residual_uniformity.py`.
+
 ## Status of the mitm_residue bet
 
 The bet's CENTRAL QUESTION ("can MITM on the residue beat 2^32?") now has a STRUCTURAL ANSWER: under cascade-DP residual structure (4 modular d.o.f.), naive MITM can't beat 2^32. A non-naive MITM that uses the constraint structure (e.g., parametrize forward by `a_60, a_61, a_62`-determined moduli, parametrize backward by independent moduli) might break this — but no such partition has been found yet.
