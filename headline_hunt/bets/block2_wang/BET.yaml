@@ -1,45 +1,26 @@
 mechanism_id: block2_wang_residual_absorption
 priority: 1
-status: blocked
+status: open
 owner: macbook
-machines_assigned: [macbook]
+machines_assigned:
+- macbook
 compute_budget_cpu_hours: null
 human_time_budget_days: 14
-current_progress: |
-  Phase 1 partially done (2026-04-24, macbook):
-    - Built residuals/build_corpus.py — generates JSONL of (state1_63, state2_63,
-      W[57..60]) tuples from forward run. 200k MSB samples in 8.5s.
-    - First corpus saved: residuals/corpus_msb_200k_hw96.jsonl (104k records).
-    - Active-register pattern is universal {a,b,c,e,f,g}; d63=h63=0 always.
-    - Min HW achieved: 62 (random sampling) or 82 (hill-climb 1M evals).
-
-  Phase 1 BLOCKED:
-    - Wang differential needs HW≤16-24. Random and hill-climb both plateau
-      well above that on N=32. The HW landscape is too rough for local search.
-    - See residuals/20260424_hillclimb_negative.md.
-
-  Path forward (one of):
-    A. Extend cascade_aux_encoding force-mode to clamp residual HW algebraically
-       (currently zeros a-e at round 60; could extend to constrain round-61/62
-       further, possibly producing constructive low-HW residuals).
-    B. Build the bitcondition/trail-search engine that works BACKWARD from
-       a target low-HW residual, finding compatible (W[57..60]). This is the
-       expensive human-time path GPT-5.5 originally flagged.
-
-  Either approach is multi-day. Bet is still alive but cannot start Phase 2/3
-  until Phase 1 produces a sub-24-HW corpus.
-
-  STRUCTURAL UPDATE (2026-04-25, macbook): The mitm_residue bet's structural
-  picture (R63.1, R63.3 + cascade-zero on d, h) shows the residual at r=63
-  has 4 modular d.o.f. across 6 active registers. Re-ranked the 104k corpus
-  by hw_free4 (sum across the 4 free moduli) as a structurally-aware metric.
-
-    Min hw_free4 in corpus: 34 (vs 24 Wang threshold)
-    Median hw_free4: 64
-    Top-50 by hw_free4: residuals/top50_lowest_hw_free4.jsonl
-
-  See residuals/STRUCTURAL_RERANK_NOTE.md. The structural floor of HW≥34 on
-  random sampling confirms (path B) backward-search from target low-HW
-  residuals is the necessary path; random sampling cannot reach Wang threshold.
-last_heartbeat: "2026-04-25T09:35:00Z"
+current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built residuals/build_corpus.py \u2014 generates JSONL\
+  \ of (state1_63, state2_63,\n    W[57..60]) tuples from forward run. 200k MSB samples in 8.5s.\n  - First corpus saved:\
+  \ residuals/corpus_msb_200k_hw96.jsonl (104k records).\n  - Active-register pattern is universal {a,b,c,e,f,g}; d63=h63=0\
+  \ always.\n  - Min HW achieved: 62 (random sampling) or 82 (hill-climb 1M evals).\n\nPhase 1 BLOCKED:\n  - Wang differential\
+  \ needs HW\u226416-24. Random and hill-climb both plateau\n    well above that on N=32. The HW landscape is too rough for\
+  \ local search.\n  - See residuals/20260424_hillclimb_negative.md.\n\nPath forward (one of):\n  A. Extend cascade_aux_encoding\
+  \ force-mode to clamp residual HW algebraically\n     (currently zeros a-e at round 60; could extend to constrain round-61/62\n\
+  \     further, possibly producing constructive low-HW residuals).\n  B. Build the bitcondition/trail-search engine that\
+  \ works BACKWARD from\n     a target low-HW residual, finding compatible (W[57..60]). This is the\n     expensive human-time\
+  \ path GPT-5.5 originally flagged.\n\nEither approach is multi-day. Bet is still alive but cannot start Phase 2/3\nuntil\
+  \ Phase 1 produces a sub-24-HW corpus.\n\nSTRUCTURAL UPDATE (2026-04-25, macbook): The mitm_residue bet's structural\npicture\
+  \ (R63.1, R63.3 + cascade-zero on d, h) shows the residual at r=63\nhas 4 modular d.o.f. across 6 active registers. Re-ranked\
+  \ the 104k corpus\nby hw_free4 (sum across the 4 free moduli) as a structurally-aware metric.\n\n  Min hw_free4 in corpus:\
+  \ 34 (vs 24 Wang threshold)\n  Median hw_free4: 64\n  Top-50 by hw_free4: residuals/top50_lowest_hw_free4.jsonl\n\nSee residuals/STRUCTURAL_RERANK_NOTE.md.\
+  \ The structural floor of HW\u226534 on\nrandom sampling confirms (path B) backward-search from target low-HW\nresiduals\
+  \ is the necessary path; random sampling cannot reach Wang threshold.\n"
+last_heartbeat: '2026-04-25T18:30:00Z'
 heartbeat_interval_days: 7

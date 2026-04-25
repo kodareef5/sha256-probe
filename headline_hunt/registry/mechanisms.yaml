@@ -16,7 +16,7 @@
   dependencies:
     - "Get block-1 residuals down to HW≤16 (Wang differential threshold)."
     - "Implement a bitcondition/trail-search engine (Wang-style, not just SAT)."
-  next_action: "RESIDUAL HW BARRIER: 200k random samples reach min HW=62, hill-climb plateaus at HW=82 (1M evals). HW landscape is too rough for local search. Path forward is either (a) algebraic construction via cascade-aux force-mode extended through rounds 61-62, or (b) build the bitcondition/trail-search engine that backward-constructs from target residual. See bets/block2_wang/residuals/20260424_hillclimb_negative.md."
+  next_action: "Path B foundation EXISTS: q5_alternative_attacks/backward_construct.c implements a constructive backward solver at N=8 that finds 260/260 collisions, 17x faster than brute force, validated 2026-04-25. Extension to N=32 is now ~1-2 weeks of focused implementation (port arithmetic + add MITM signature caching by mitm_residue's 4-d.o.f. residual variety + Wang-style bit-condition pruning). See bets/block2_wang/residuals/20260425_backward_construct_foundation.md. Random sampling and hill-climb are CLOSED — see 20260424_hillclimb_negative.md and 20260425_structural_hillclimb_negative.md."
   kill_criteria:
     - "No residual cluster yields >18-round absorber after 1 week of dedicated trail search."
     - "No improvement over naive block-2 SAT frontier on N=8/N=12 analogs after pilot phase."
