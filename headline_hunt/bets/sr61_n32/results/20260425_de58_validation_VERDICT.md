@@ -158,18 +158,28 @@ Does the de58 image-size rank predict solver behavior on cascade-DP CNFs?
 **msb_cert (mid de58, mid hard_lb) has HIGHEST kissat dec/conf.**
 This is **the OPPOSITE of what either predictor would forecast.**
 
-### Wall time at 10M conflicts
+### Wall time at 10M conflicts (CLEAN, all cells uncontended)
 
-| Candidate            | de58 image | kissat 10M wall                                  |
-|----------------------|-----------:|--------------------------------------------------|
-| bit-19 (CONTENDED)   |        256 | 289s — ran during M12 startup (CONTAMINATED)    |
-| bit-25 (CONTENDED)   |       4096 | 562s — under M12 contention                      |
-| msb_surp (CONTENDED) |       4096 | 552s — under M12 contention                      |
-| msb_bot (UNCONTENDED)|    130,049 | **281s — clean CPU; comparable to bit-19**       |
-| msb_cert             |     82,826 | pending                                          |
+| Candidate | de58 image | wall (clean kissat 10M) |
+|-----------|-----------:|------------------------:|
+| bit-19    |        256 | **282s** (re-run clean) |
+| bit-25    |      4,096 | **300s** (re-run clean) |
+| msb_surp  |      4,096 | **314s** (re-run clean) |
+| msb_bot   |    130,049 | **281s** (orig uncontended) |
+| msb_cert  |     82,826 | **315s** (orig uncontended) |
 
-The bit-19 vs others wall difference at 10M was likely **contention noise**.
-When uncontended (msb_bot), wall is comparable to bit-19's contended 289s.
+**Range: 281-315s = 34s spread = 12% variation. Essentially flat.**
+**Spearman ρ(de58, clean_wall) = +0.000 — perfectly null.**
+
+bit-19 and msb_bot (extremes of the predictor) have nearly identical wall
+(282 vs 281s). The contention pattern in the original Phase B masked the
+true wall picture, which is FLAT across candidates. The factor-500 variation
+in de58 image size translates to <12% variation in clean wall time.
+
+Original "Phase B contended" wall numbers were noise — re-run delta:
+  bit-19:    289s → 282s  (-7s, ~3%)
+  bit-25:    562s → 300s  (-262s, ~47% from contention)
+  msb_surp:  552s → 314s  (-238s, ~43% from contention)
 
 ## Final verdict (10 of 10 cells complete; CLOSED)
 

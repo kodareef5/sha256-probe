@@ -1135,3 +1135,34 @@ gap was tiny noise. WALL TIME at 10M kissat is FLAT across candidates
 uncontended. Confirms predictor null at wall level too, not just dec/conf.
 
 Pushed: ef7261a, 3b9ed36, 72c621d, db6905f, ea32aa8.
+
+## 23:32 EDT — Clean wall re-run COMPLETE: 282-315s flat across candidates
+
+3 contended cells re-run uncontended:
+  bit-19:    289s → 282s  (clean re-run, -7s)
+  bit-25:    562s → 300s  (-262s, contention was big)
+  msb_surp:  552s → 314s  (-238s)
+
+Final clean wall picture at kissat 10M (5 candidates uncontended):
+  bit-19   (de58= 256):  282s
+  bit-25   (4096):       300s
+  msb_surp (4096):       314s
+  msb_bot  (130049):     281s
+  msb_cert (82826):      315s
+
+Range 281-315s = 12% spread. Spearman ρ(de58, wall) = +0.000.
+
+Wall confirms what dec/conf already showed: predictors are search-irrelevant
+across all measurable axes (dec/conf, wall, conf/sec).
+
+Bonus sr=60 Mode B sanity (cert): TIMEOUT at 1M (19s) and 10M (278s).
+Confirms Mode B encoder healthy; 12h-class budget needed for sr=60 SAT find
+historically.
+
+Cross-encoding insight (apples-to-oranges due to sr-level mismatch):
+  sr=61 standard cascade kissat 10M cert: 315s wall, 3.45 dec/conf
+  sr=60 Mode B aux force kissat 10M cert: 278s wall, 3.81 dec/conf
+Mode B is 12% faster wall but 10% higher dec/conf — speedup is in CPU
+throughput, not search efficiency.
+
+Pushed: 6e02ded.
