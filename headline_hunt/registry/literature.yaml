@@ -218,11 +218,15 @@
   arxiv_or_eprint: null
   confidence: classical_no_id
   relevance: Carry differential analysis fundamentals. Underpins everything we measure with carry-state analyses.
-  read_status: should_read
-  key_takeaway: null
-  action_items: []
-  owner: unassigned
-  last_updated: '2026-04-24'
+  read_status: read
+  key_takeaway: "Modular-domain differential analysis is deterministic (linear); XOR-domain is probabilistic via xdp+. Our\
+    \ unified Theorem 4 lives in modular domain by design \u2014 explains 100% empirical match."
+  action_items:
+  - 'Phase 2C propagator: implement xdp+ in C++ for trail-extension scoring.'
+  - 'block2_wang: use xdp+ to rank residual templates by trail-feasibility.'
+  owner: macbook
+  last_updated: '2026-04-25'
+  notes_path: headline_hunt/literature/notes/lipmaa_moriai_modular_add.md
 - id: classical_mouha_arx_framework
   citation: "Mouha et al. \u2014 ARX differential trail frameworks"
   year: 2010
