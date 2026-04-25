@@ -1,17 +1,21 @@
 #!/bin/bash
-# Regenerate the 36-CNF cross-kernel cascade_aux test set.
+# Regenerate the 36-CNF cross-kernel cascade_aux test set, with varmap sidecars.
 #
-# Output: ./aux_{expose,force}_sr{60,61}_n32_bit{B}_m{M}_fill{F}.cnf for 9 kernel families.
-# Total: 9 × 2 × 2 = 36 CNFs, ~33 MB.
+# Output (per kernel × {sr=60,sr=61} × {expose,force}):
+#   aux_{mode}_sr{sr}_n32_bit{B}_m{M}_fill{F}.cnf              — DIMACS CNF
+#   aux_{mode}_sr{sr}_n32_bit{B}_m{M}_fill{F}.cnf.varmap.json  — SAT-var → diff-bit map
+#
+# Total: 9 × 2 × 2 = 36 CNFs + 36 varmap sidecars (~33 MB CNFs, ~500 KB varmaps).
 # Runtime: ~3 minutes on macbook.
 #
 # Each CNF audit-CONFIRMs via headline_hunt/infra/audit_cnf.py.
+# The varmap is consumed by bets/programmatic_sat_propagator/propagators/varmap_loader.py.
 #
 # Usage:
 #   cd headline_hunt/bets/cascade_aux_encoding/cnfs
 #   bash regenerate.sh
 #
-# CNFs are gitignored — they're reproducible artifacts, not version-controlled state.
+# CNFs and varmaps are gitignored — they're reproducible artifacts.
 
 set -e
 
@@ -40,7 +44,8 @@ for entry in "${candidates[@]}"; do
     for mode in expose force; do
       out="aux_${mode}_sr${sr}_n32_bit${bit}_m${m0_short}_fill${fill_short}.cnf"
       python3 "$ENCODER" --sr "$sr" --m0 "$m0" --fill "$fill" \
-                          --kernel-bit "$bit" --mode "$mode" --out "$out" --quiet
+                          --kernel-bit "$bit" --mode "$mode" --out "$out" \
+                          --varmap + --quiet
       count=$((count + 1))
     done
   done
