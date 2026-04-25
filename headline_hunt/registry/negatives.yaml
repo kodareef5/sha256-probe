@@ -1,175 +1,188 @@
-# Closed doors. Each entry includes a "would_change_my_mind" trigger.
-# Schema: see ../infra/schemas/negative.schema.yaml
-# Adding to this list closes a mechanism. Removing requires meeting the trigger.
-
 - id: raw_carry_state_dp_near_injective
-  claim: "Raw carry-state DP provides no algorithmic speedup over brute force."
-  scope: "Cascade sr=60 search over all inputs; verified N=4 exhaustive."
+  claim: Raw carry-state DP provides no algorithmic speedup over brute force.
+  scope: Cascade sr=60 search over all inputs; verified N=4 exhaustive.
   status: closed
   evidence_level: VERIFIED
-  closed_date: "2026-04-15"
+  closed_date: '2026-04-15'
   evidence_files:
-    - "writeups/PROJECT_SUMMARY.md"
-    - "q5_alternative_attacks/carry_state_width.c"
-    - "q5_alternative_attacks/results/20260416_carry_elimination_negative.md"
-  why_closed: "Carry-diff state width is 89-99% of full search space 2^{4N}. Bounded width applies only to collisions (solution set), not to the search space."
+  - writeups/PROJECT_SUMMARY.md
+  - q5_alternative_attacks/carry_state_width.c
+  - q5_alternative_attacks/results/20260416_carry_elimination_negative.md
+  why_closed: Carry-diff state width is 89-99% of full search space 2^{4N}. Bounded width applies only to collisions (solution
+    set), not to the search space.
   would_change_my_mind:
-    - "A quotient state not based on raw carries gives >10x reduction at N=8 from scratch."
-    - "N=8 exact solver recovers 260 collisions with compact future-completion states."
+  - A quotient state not based on raw carries gives >10x reduction at N=8 from scratch.
+  - N=8 exact solver recovers 260 collisions with compact future-completion states.
   related_mechanisms:
-    - chunk_mode_dp_with_modes
+  - chunk_mode_dp_with_modes
   owner: macbook
-
 - id: gf2_linearization_carry_nonlinearity
-  claim: "GF(2) linearization of the collision function fails."
-  scope: "Cascade sr=60 at N=8; tested on 30+ slices."
+  claim: GF(2) linearization of the collision function fails.
+  scope: Cascade sr=60 at N=8; tested on 30+ slices.
   status: closed
   evidence_level: VERIFIED
-  closed_date: "2026-04-12"
+  closed_date: '2026-04-12'
   evidence_files:
-    - "writeups/PROJECT_SUMMARY.md"
-  why_closed: "Carry nonlinearity from modular additions is fundamental. 0/30 linear slices produce SAT; 90% of slices have power-of-2 collision counts but the function itself is not affine."
+  - writeups/PROJECT_SUMMARY.md
+  why_closed: Carry nonlinearity from modular additions is fundamental. 0/30 linear slices produce SAT; 90% of slices have
+    power-of-2 collision counts but the function itself is not affine.
   would_change_my_mind:
-    - "A GF(2)-equivalent quotient that absorbs the carry structure (probably via a different group)."
+  - A GF(2)-equivalent quotient that absorbs the carry structure (probably via a different group).
   related_mechanisms: []
   owner: macbook
-
 - id: carry_elimination_quadratic_maj
-  claim: "Carry elimination by affine projection is not productive — quadratic MAJ does all the pruning."
-  scope: "ANF analysis at N=4..8."
+  claim: "Carry elimination by affine projection is not productive \u2014 quadratic MAJ does all the pruning."
+  scope: ANF analysis at N=4..8.
   status: closed
   evidence_level: VERIFIED
-  closed_date: "2026-04-13"
+  closed_date: '2026-04-13'
   evidence_files:
-    - "writeups/anf_deep_dive.md"
-  why_closed: "Affine rank is maximal; the quadratic structure of MAJ/Ch is what does the actual work. Eliminating carries doesn't reduce the residual problem."
+  - writeups/anf_deep_dive.md
+  why_closed: Affine rank is maximal; the quadratic structure of MAJ/Ch is what does the actual work. Eliminating carries
+    doesn't reduce the residual problem.
   would_change_my_mind:
-    - "A quadratic-elimination technique that productively reduces MAJ/Ch beyond ANF folding."
+  - A quadratic-elimination technique that productively reduces MAJ/Ch beyond ANF folding.
   related_mechanisms: []
   owner: macbook
-
 - id: bottom_up_sdd_blowup
-  claim: "Bottom-up SDD compilation has exponential intermediate blowup on cascade CNFs."
-  scope: "N=4 measured: 10.5GB SDD."
+  claim: Bottom-up SDD compilation has exponential intermediate blowup on cascade CNFs.
+  scope: 'N=4 measured: 10.5GB SDD.'
   status: closed
   evidence_level: VERIFIED
-  closed_date: "2026-04-14"
+  closed_date: '2026-04-14'
   evidence_files:
-    - "writeups/PROJECT_SUMMARY.md"
-  why_closed: "Pure incremental BDD/SDD Apply has exponential intermediate blowup even though the final BDD is polynomial. This is the polynomial-BDD-paradox: the compact representation exists but bottom-up construction does not reach it."
+  - writeups/PROJECT_SUMMARY.md
+  why_closed: 'Pure incremental BDD/SDD Apply has exponential intermediate blowup even though the final BDD is polynomial.
+    This is the polynomial-BDD-paradox: the compact representation exists but bottom-up construction does not reach it.'
   would_change_my_mind:
-    - "An SDD vtree with custom learning that aligns with cascade structure and stays polynomial through Apply."
-    - "A top-down construction (e.g., d-DNNF via DPLL caching) that avoids Apply blowup."
+  - An SDD vtree with custom learning that aligns with cascade structure and stays polynomial through Apply.
+  - A top-down construction (e.g., d-DNNF via DPLL caching) that avoids Apply blowup.
   related_mechanisms:
-    - d4_xor_preprocessing
+  - d4_xor_preprocessing
   owner: macbook
-
 - id: bit_serial_dp_brute_force
-  claim: "Bit-serial DP (3 variants tested) is asymptotically equivalent to brute force on cascade collisions."
-  scope: "N=4..12 measured."
+  claim: Bit-serial DP (3 variants tested) is asymptotically equivalent to brute force on cascade collisions.
+  scope: N=4..12 measured.
   status: closed
   evidence_level: VERIFIED
-  closed_date: "2026-04-14"
+  closed_date: '2026-04-14'
   evidence_files:
-    - "writeups/PROJECT_SUMMARY.md"
-  why_closed: "Rotation frontier breaks the natural bit-serial decomposition; carry width is solution-set property not search-space property."
+  - writeups/PROJECT_SUMMARY.md
+  why_closed: Rotation frontier breaks the natural bit-serial decomposition; carry width is solution-set property not search-space
+    property.
   would_change_my_mind:
-    - "A bit-serial decomposition that respects the rotation frontier (e.g., chunked by 32-bit word slices with explicit mode variables)."
+  - A bit-serial decomposition that respects the rotation frontier (e.g., chunked by 32-bit word slices with explicit mode
+    variables).
   related_mechanisms:
-    - chunk_mode_dp_with_modes
+  - chunk_mode_dp_with_modes
   owner: macbook
-
 - id: bdd_marginals_uniform
-  claim: "BDD marginals at N >= 10 are uniform — provide no SAT branching heuristic signal."
-  scope: "Tested N=8, 10, 12."
+  claim: "BDD marginals at N >= 10 are uniform \u2014 provide no SAT branching heuristic signal."
+  scope: Tested N=8, 10, 12.
   status: closed
   evidence_level: EVIDENCE
-  closed_date: "2026-04-15"
+  closed_date: '2026-04-15'
   evidence_files:
-    - "writeups/paper_section4_bdd.md"
-  why_closed: "Marginal probabilities are within noise of 0.5 across all variables at N >= 10; no branching information available to a SAT solver."
+  - writeups/paper_section4_bdd.md
+  why_closed: Marginal probabilities are within noise of 0.5 across all variables at N >= 10; no branching information available
+    to a SAT solver.
   would_change_my_mind:
-    - "Conditional marginals (given a partial assignment) show structure that uniform marginals hide."
-    - "A different BDD variable ordering reveals non-uniform marginals."
+  - Conditional marginals (given a partial assignment) show structure that uniform marginals hide.
+  - A different BDD variable ordering reveals non-uniform marginals.
   related_mechanisms: []
   owner: macbook
-
 - id: d4_standard_n8_treewidth
-  claim: "d4 on standard N=8 cascade CNF does not complete within 67h (treewidth ~110 barrier)."
-  scope: "N=8 standard encoding, FlowCutter decomposition."
+  claim: d4 on standard N=8 cascade CNF does not complete within 67h (treewidth ~110 barrier).
+  scope: N=8 standard encoding, FlowCutter decomposition.
   status: closed
   evidence_level: VERIFIED
-  closed_date: "2026-04-16"
+  closed_date: '2026-04-16'
   evidence_files:
-    - "writeups/PROJECT_SUMMARY.md"
-  why_closed: "Treewidth ~110 at N=8 exceeds d4's practical compilation ceiling. Component cache thrashes."
+  - writeups/PROJECT_SUMMARY.md
+  why_closed: Treewidth ~110 at N=8 exceeds d4's practical compilation ceiling. Component cache thrashes.
   would_change_my_mind:
-    - "Cascade-auxiliary encoding (or other) drops treewidth below ~80 at N=8."
-    - "d4 with XOR-preserving preprocessing yields measurable component-cache improvement."
+  - Cascade-auxiliary encoding (or other) drops treewidth below ~80 at N=8.
+  - d4 with XOR-preserving preprocessing yields measurable component-cache improvement.
   related_mechanisms:
-    - d4_xor_preprocessing
-    - cascade_auxiliary_encoding
+  - d4_xor_preprocessing
+  - cascade_auxiliary_encoding
   owner: macbook
-
 - id: d4_derived_encoding_worse
-  claim: "Derived encoding INCREASES treewidth (181 vs standard 110 at N=8) and worsens d4 performance."
-  scope: "N=8 derived encoding (W2 substitution)."
+  claim: Derived encoding INCREASES treewidth (181 vs standard 110 at N=8) and worsens d4 performance.
+  scope: N=8 derived encoding (W2 substitution).
   status: closed
   evidence_level: VERIFIED
-  closed_date: "2026-04-17"
+  closed_date: '2026-04-17'
   evidence_files:
-    - "writeups/PROJECT_SUMMARY.md"
-  why_closed: "Substituting W2 explicitly creates more cross-constraints than it eliminates; FlowCutter measures treewidth 181."
+  - writeups/PROJECT_SUMMARY.md
+  why_closed: Substituting W2 explicitly creates more cross-constraints than it eliminates; FlowCutter measures treewidth
+    181.
   would_change_my_mind:
-    - "A different derived form (e.g., local cascade auxiliaries instead of full W2 substitution) gives treewidth < 110."
+  - A different derived form (e.g., local cascade auxiliaries instead of full W2 substitution) gives treewidth < 110.
   related_mechanisms:
-    - cascade_auxiliary_encoding
+  - cascade_auxiliary_encoding
   owner: gpu_laptop
-
 - id: naive_multiblock_hw_too_large
-  claim: "Naive Merkle-Damgaard second-block strategy fails — residual HW is too large for trivial absorption."
-  scope: "N=8 measured: minimum residual HW=7."
+  claim: "Naive Merkle-Damgaard second-block strategy fails \u2014 residual HW is too large for trivial absorption."
+  scope: 'N=8 measured: minimum residual HW=7.'
   status: closed
   evidence_level: VERIFIED
-  closed_date: "2026-04-12"
+  closed_date: '2026-04-12'
   evidence_files:
-    - "q4_mitm_geometry/results/"
-  why_closed: "Naive (untailored) block-2 cannot cancel HW=7+ residuals using only message freedom; differential trail required."
+  - q4_mitm_geometry/results/
+  why_closed: Naive (untailored) block-2 cannot cancel HW=7+ residuals using only message freedom; differential trail required.
   would_change_my_mind:
-    - "A Wang-style block-2 differential trail tailored to cascade residuals (this is `block2_wang_residual_absorption`)."
+  - A Wang-style block-2 differential trail tailored to cascade residuals (this is `block2_wang_residual_absorption`).
   related_mechanisms:
-    - block2_wang_residual_absorption
+  - block2_wang_residual_absorption
   owner: macbook
-
 - id: seed_farming_unchanged_sr61
-  claim: "More seeds on unchanged sr=61 CNF encodings yield no SAT and no information."
-  scope: "1800 CPU-hours post-audit on TRUE sr=61 CNFs across 36 seeds."
+  claim: More seeds on unchanged sr=61 CNF encodings yield no SAT and no information.
+  scope: 1800 CPU-hours post-audit on TRUE sr=61 CNFs across 36 seeds.
   status: closed
   evidence_level: VERIFIED
-  closed_date: "2026-04-20"
+  closed_date: '2026-04-20'
   evidence_files:
-    - "writeups/20260420_project_pause_summary.md"
-  why_closed: "Solver behavior is qualitatively the same across seeds at this CPU budget; no SAT, no UNSAT signal, no actionable timing variance."
+  - writeups/20260420_project_pause_summary.md
+  why_closed: Solver behavior is qualitatively the same across seeds at this CPU budget; no SAT, no UNSAT signal, no actionable
+    timing variance.
   would_change_my_mind:
-    - "A new encoding (cascade-aux, XOR preprocessing) demonstrably changes solver conflict count or restart pattern."
-    - "A predictor identifies promising candidates that have NOT been seed-farmed yet."
+  - A new encoding (cascade-aux, XOR preprocessing) demonstrably changes solver conflict count or restart pattern.
+  - A predictor identifies promising candidates that have NOT been seed-farmed yet.
   related_mechanisms:
-    - true_sr61_n32
-    - cascade_auxiliary_encoding
+  - true_sr61_n32
+  - cascade_auxiliary_encoding
   owner: fleet
-
 - id: rotation_aligned_kernels_not_structural
-  claim: "Rotation-aligned kernels give ~20% candidate yield boost but no structural advantage for SAT solving."
-  scope: "Tested at N=8 on bit-1, bit-7, etc."
+  claim: Rotation-aligned kernels give ~20% candidate yield boost but no structural advantage for SAT solving.
+  scope: Tested at N=8 on bit-1, bit-7, etc.
   status: closed
   evidence_level: EVIDENCE
-  closed_date: "2026-04-17"
+  closed_date: '2026-04-17'
   evidence_files:
-    - "writeups/rotation_aligned_kernels.md"
-  why_closed: "20% effect size is within noise for SAT solve-time variance; no qualitative change in solver behavior."
+  - writeups/rotation_aligned_kernels.md
+  why_closed: 20% effect size is within noise for SAT solve-time variance; no qualitative change in solver behavior.
   would_change_my_mind:
-    - "A specific (bit, fill, M[0]) combination shows >2x solve-time improvement on TRUE sr=61."
-    - "Kernel-pair theory matures to predict structural rather than statistical advantage."
+  - A specific (bit, fill, M[0]) combination shows >2x solve-time improvement on TRUE sr=61.
+  - Kernel-pair theory matures to predict structural rather than statistical advantage.
   related_mechanisms:
-    - sigma1_aligned_kernel_sweep
+  - sigma1_aligned_kernel_sweep
+  owner: macbook
+- id: boundary_carry_quotient_no_compression
+  claim: "Boundary-carry quotient at bit-4 boundary gives ~1x deduplication at N=8 \u2014 essentially unique fingerprint per\
+    \ config, not a quotient."
+  scope: chunk-mode DP with boundary-carry quotient design (specific to GPT-5.4 prescription).
+  status: closed
+  evidence_level: VERIFIED
+  closed_date: '2026-04-25'
+  evidence_files:
+  - q5_alternative_attacks/chunk_mode_dp.c
+  - bets/chunk_mode_dp/results/20260425_q5_chunkmode_baseline.md
+  why_closed: 'Empirical run of q5/chunk_mode_dp.c at N=8 MSB kernel: 88 of 98 boundary carries are variable, 99.99% of configs
+    have unique boundary states, all 260 collisions have unique reduced states. No compression at this quotient level.'
+  would_change_my_mind:
+  - A boundary-carry quotient at a DIFFERENT bit-boundary (not 4) gives >10x compression.
+  - A non-carry-based quotient (cascade status + modular register diffs) gives compression at similar scale.
+  related_mechanisms:
+  - chunk_mode_dp_with_modes
   owner: macbook
