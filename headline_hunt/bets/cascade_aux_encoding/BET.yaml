@@ -31,5 +31,42 @@ current_progress: |
   potential benefit is for non-Mode-B usage where structural propagation
   accelerates discovery without forcing the cascade interpretation.
 
-last_heartbeat: "2026-04-25T09:35:00Z"
+  COMPREHENSIVE EMPIRICAL FINDINGS (2026-04-25 macbook session):
+  - 36 cross-kernel CNFs generated (9 kernels × sr=60/61 × expose/force).
+    Reproducible via cnfs/regenerate.sh, all audit-CONFIRMED.
+  - Mode B is FRONT-LOADED 2-3.4x faster per conflict at small budgets:
+      kissat 50k:  2.0x speedup, CV=0.000 across 5 seeds
+      cadical 50k: 3.4x speedup, consistent across 8 enf0 kernels
+  - The advantage ERODES at higher budgets:
+      kissat 500k:  1.0-1.1x  (steady-state convergence)
+      cadical sr=60 1M: 1.08x
+  - Mode A (expose) is consistently SLOWER than standard on cadical
+    (8.5s vs 4.2s mean) — anti-recommend on cadical.
+  - Mode B benefit comes from preprocessing: ~3000 cascade-zero unit
+    clauses give a one-time speedup; CDCL's steady-state cost normalizes
+    across encodings after warmup.
+
+  NEGATIVE: sr=59 SANITY PROBE (2026-04-25):
+  - 28 runs (cadical + kissat) at sr=59 cascade-DP, 1M-10M conflict budgets,
+    37M total conflicts: ZERO SAT.
+  - Cascade-DP sr=59 is structurally HARDER than naive bit-counting suggests
+    (5 free W's × 32 = 160 bits, 4 d.o.f. × 32 = 128 constraint bits, naive
+    count predicts 2^32 SAT solutions; CDCL navigation cost is much higher).
+  - Important: our encoder's "sr=59" ≠ Viragh's sr=59. Ours = 5-W-freedom +
+    full 63-round collision; Viragh's = 59-round-truncated SHA-256.
+
+  REVISED HEADLINE-HUNT POSTURE: The original SPEC's "≥10x SAT speedup"
+  claim is empirically refuted at all tested budgets. Mode B is a useful
+  2-3.4x preprocessing tool, not a path to cascade-DP SAT discovery. Path
+  forward to a headline at any sr-level requires:
+    (1) different message-difference structure (block2_wang Wang trails),
+    (2) a propagator that navigates the modular variety more efficiently
+        than CDCL alone (programmatic_sat_propagator bet — SPEC + Phase 1
+        + varmap bridge all shipped today; Phase 2B C++ engineering ready),
+    (3) genuinely-multi-day compute on a single instance.
+
+  Total runs logged this session: 119 (cascade_aux_encoding-tagged).
+  Total CPU-h: 3.3 / 200 budget. Plenty of headroom.
+
+last_heartbeat: "2026-04-25T14:25:00Z"
 heartbeat_interval_days: 7
