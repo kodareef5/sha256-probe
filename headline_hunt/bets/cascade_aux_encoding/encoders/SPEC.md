@@ -251,6 +251,72 @@ criterion #1 fires → close the bet, write a kill memo in `graveyard/`.
   If this matters for solve time, add a lex-order breaking clause on dW[57][0..7].
   Out of scope for v1 but noted.
 
+## Per-chamber image structure (F-series, 2026-04-26)
+
+Empirical fact: at fixed `(m0, fill, kernel_bit, W57)`, the per-chamber
+image of `de58, de59, de60, ..., de63` has size **exactly 1**. That is:
+once W57 is fixed, varying the rest of the schedule (W58..W63) in a way
+that maintains cascade-1 (`W_k_2 = W_k_1 + cw_k`) yields a **single**
+value for each `de_k`. Verified across 7 chambers spanning 4 cands.
+
+Per-slot structure:
+
+| slot | per-chamber size | depends on W57? | implied 32-bit hint |
+|---|---:|---|---|
+| de58 | 1 | YES (chamber-specific) | 32-bit per-chamber hint |
+| de59 | 1 | NO (cand-level invariant) | 32-bit free hint |
+| de60 | 1 (= 0) | NO (structurally 0) | hints are redundant w/ Mode B |
+| de61 | 1 (= 0) | NO (structurally 0) | hints are redundant |
+| de62 | 1 (= 0) | NO | redundant |
+| de63 | 1 (= 0) | NO | redundant |
+
+### Structural derivation
+
+Under cascade-1 (`da[k]=0` for k ∈ {57, 58, 59, ...}):
+
+- `de_{k+1} = d_{k} + dT1_{k+1}` (state-vector position 4 update)
+- `d_{k} = e_{k-1}` (state shift), so `dd_{k} = de_{k-1}`
+- `dT1_{k+1}` after applying `cw_{k+1}` reduces to `dT2_{k+1}`
+- `dT2_{k+1} = dSigma0(a_k) + dMaj(a_k, a_{k-1}, a_{k-2})`
+- Under cascade-1, `da[k] = da[k-1] = da[k-2] = 0`, so `a` values are
+  side-equal — `dSigma0` and `dMaj` arguments collapse:
+  - `dSigma0(a_k) = 0`
+  - `dMaj(a_k, a_{k-1}, a_{k-2})` depends only on a-side values that
+    differ in a-side only when k-1 or k-2 is below the cascade start
+- For k = 58: `dMaj(a_57, a_56, a_55)` — a_56, a_55 are pre-cascade,
+  carry the original kernel difference. Result: dT2_58 ≠ 0 generally,
+  but is fixed by the slot-57 input state (which depends on W57).
+  Hence `de58` is W57-determined.
+- For k = 59: `dMaj(a_58, a_57, a_56)` — a_57, a_58 are cascade-1
+  forced equal. dMaj reduces to a_56-only contribution → cand-level
+  constant. Hence `de59` is cand-level invariant.
+- For k ≥ 60: cascade-1 has propagated long enough that all dT2/dSigma0
+  arguments are side-equal. `de_k = 0` exactly.
+
+### Practical implication
+
+- **de58-at-w57 hint**: 32 unit clauses fixing aux_reg[("e", 58)] to
+  the single value computable as `f(m0, fill, bit, W57)`. Useful at
+  preprocessing budgets ≤100k.
+- **de59 hint**: 32 unit clauses fixing aux_reg[("e", 59)] to a
+  cand-level constant. Free (no W57 needed). Stacks with de58.
+- **de60..de63 hints**: structurally 0 but Mode B's force clauses
+  already encode this; explicit unit clauses interact badly with
+  kissat propagation at some cands (F6 negative).
+
+### Caveats
+
+- The chamber-fixed `de58` value is **non-zero** for all observed
+  chambers, while sr=61 collision requires `de58 = 0`. So injecting
+  `de58 = chamber_value` constrains the search to a chamber that
+  contains NO sr=61 collision. The 50k speedup is in chamber-elimination
+  triage, not collision-finding.
+- This applies to Mode A "expose" CNFs. Mode B "force" CNFs already
+  pin de58 = 0 implicitly via cascade clauses; adding chamber-specific
+  hints there causes immediate UNSAT propagation (over-restriction).
+- Speedup decays past 200k conflicts (F8); regresses 0.85-0.97× at
+  500k+. Use only for short-budget triage.
+
 ## References
 
 - `writeups/sr60_sr61_boundary_proof.md` — Theorems 1-6, the source of truth for
@@ -259,3 +325,7 @@ criterion #1 fires → close the bet, write a kill memo in `graveyard/`.
   (sequential register zeroing via shift register + two aligned cascades).
 - `lib/cnf_encoder.py` — base encoder whose API this extends.
 - `bets/cascade_aux_encoding/encoders/cascade_aux_encoder.py` — implementation.
+- `bets/cascade_aux_encoding/results/20260426_de58_de59_stack_n18.md` —
+  n=18 deployment of the stack.
+- `bets/cascade_aux_encoding/results/20260426_f8_budget_decay.md` —
+  budget-dependent regression curve.
