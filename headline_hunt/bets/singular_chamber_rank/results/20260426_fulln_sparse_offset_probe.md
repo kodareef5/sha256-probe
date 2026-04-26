@@ -143,6 +143,59 @@ neighborhood over W57/W58/W59, radius <= 5: no exact hit
 
 The all-word radius-5 check tested 64,593,561 points around the HW1 point.
 
+## Exact sr=61 compatibility
+
+Allowing W58 and W59 to move together while holding the sparse `W57` chamber
+fixed found an exact `D=0` point.
+
+```text
+candidate idx 3: bit20_m294e1ea8_ff
+W57 = 0xe28da599
+W58 = 0xa3110717
+W59 = 0x1afa1270
+
+off57 = 0xa6a5a05c
+off58 = 0x00000802
+off59 = 0xf447ff7e
+off60 = 0x737574d8
+
+W1[60] = 0xb7d9b05f
+W2[60] = 0x2b4f2537
+W2[60] - W1[60] = 0x737574d8
+defect60 = 0
+```
+
+The trace confirms:
+
+```text
+sched_offset60 = 0x737574d8
+req_offset60   = 0x737574d8
+```
+
+This is the barrier event this bet was targeting: the schedule-derived round
+60 word agrees with the cascade-required round 60 word.
+
+## Tail check
+
+This is not a full compression collision. Running rounds 57..63 from the
+exact sr=61-compatible point gives final tail state difference HW 95.
+
+The tail defects are:
+
+```text
+round 57: 0x00000000
+round 58: 0x00000000
+round 59: 0x00000000
+round 60: 0x00000000
+round 61: 0x47f8a46f
+round 62: 0xd719bdfa
+round 63: 0xdde9f221
+```
+
+So the current result breaks the sr=61 compatibility barrier but lands at the
+next schedule/cascade wall. The next problem is extending the corridor beyond
+round 60, not proving a final collision from this point.
+
 ## Interpretation
 
 The full-N picture is now sharper:
@@ -153,19 +206,18 @@ The full-N picture is now sharper:
 3. The R side has local rank defects and can be descended to HW1, but the
    final bit sits behind a nonlocal carry transition.
 
-This is not yet a collision and not yet a formal collision-difficulty
-reduction. It is a reproducible full-N mechanism that gets the true sr=61
-defect from 32 random-looking bits down to 1 bit in a structured chamber.
+This is not yet a collision. It is a reproducible full-N mechanism that first
+gets the true sr=61 defect from 32 random-looking bits down to 1 bit, then to
+zero when W58 and W59 are allowed to move together inside the sparse `off58`
+chamber.
 
 ## Next
 
 The next useful direction is not larger random sampling. It is to model the
 final carry transition around the HW1 point:
 
-- identify which carry bit produces `0x20000000`,
-- trace that bit backward through the three additions in
-  `cascade_required_offset60`,
-- find a move that changes that carry without destroying the sparse
-  `off58/off59` chamber,
-- or deliberately choose S plateaus whose target differs from the reachable R
-  image by that carry bit.
+- characterize the exact `D=0` basin, not just the near misses,
+- write the analogous defect map for round 61,
+- test whether sparse-offset steering can also reduce the round-61 defect,
+- keep the proof boundary clear: sr=61 compatibility is solved here, final
+  compression collision is not.

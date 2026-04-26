@@ -7,13 +7,13 @@ structural_basis:
   - Ch and Maj have exact invisible directions on surfaces such as f=g and b=c.
   - Fill-specific candidate yield suggests carry chambers are shaped by boundary constants.
   - For fixed W57, S(W58) = C + sigma1(W58 + off58) - sigma1(W58), whose reduced-N image can be far smaller than 2^N.
-status: redirected
+status: hit_sr61_barrier
 priority: experimental
 expected_info_per_cpu_hour: high
 dependencies:
   - Existing cascade-eligible candidate registry.
   - CPU-only C probes; GPU optional once a rank/drop signal exists.
-next_action: Build a finite-difference/carry automaton for sigma1(w+delta)-sigma1(w), then search reachable off58/off59 chambers where compressed S targets align with fat R buckets.
+next_action: Formulate the analogous round-61 defect after the exact sr=61-compatible point and test whether sparse-offset steering extends the cascade corridor beyond round 60.
 kill_criteria:
   - No local defect-rank drop below 32 across representative candidates and structured fills.
   - No correlation between gate-degeneracy metrics and defect-rank or defect-HW after a bounded probe.
@@ -28,4 +28,4 @@ evidence:
   - results/20260426_fiber_count_probe.md
   - results/20260426_schedule_finite_difference_probe.md
   - results/20260426_fulln_sparse_offset_probe.md
-notes: Local rank stayed full, so the bet redirected toward nonlinear finite-difference/carry fibers. Full-N probes can steer sparse off58 chambers and reach a one-bit sr=61 defect, but the final bit appears to require a nonlocal carry transition.
+notes: Local rank stayed full, so the bet redirected toward nonlinear finite-difference/carry fibers. Full-N sparse off58 steering found an exact sr=61-compatible point with defect60=0; the 57..63 tail still has HW95 and fails again at round61.

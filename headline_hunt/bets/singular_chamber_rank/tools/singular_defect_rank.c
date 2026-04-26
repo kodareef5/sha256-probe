@@ -22,10 +22,13 @@
  *   /tmp/singular_defect_rank schedsample 0 0x370fef5f 1000000 22
  *   /tmp/singular_defect_rank reqsample 0 0x370fef5f 0xf0f7e442 1000000 22
  *   /tmp/singular_defect_rank rankfixed58 0 0x370fef5f 0xf0f7e442 1024 8
+ *   /tmp/singular_defect_rank defecthill57 3 0xe28da599 4096 8 48
  *   /tmp/singular_defect_rank defecthill58 0 0x370fef5f 0xf0f7e442 512 8 32
  *   /tmp/singular_defect_rank newtonpoint 0 0x370fef5f 0xf0f7e442 0x76712417 32
  *   /tmp/singular_defect_rank neighpoint 0 0x370fef5f 0xf0f7e442 0x76712417 4
  *   /tmp/singular_defect_rank neighallpoint 0 0x370fef5f 0xf0f7e442 0x76712417 4
+ *   /tmp/singular_defect_rank tracepoint 3 0xe28da599 0x233e4216 0xda9932f8
+ *   /tmp/singular_defect_rank tailpoint 3 0xe28da599 0xa3110717 0x1afa1270
  *   /tmp/singular_defect_rank newtonfixed58 0 0x370fef5f 0x12345678 512 8 24
  *   /tmp/singular_defect_rank off59hill 0 0x370fef5f 512 8 32
  *   /tmp/singular_defect_rank off58newton 0x0000000c 256 8 24
@@ -127,6 +130,35 @@ static inline uint32_t cascade1_offset(const uint32_t s1[8], const uint32_t s2[8
     uint32_t dT2 = (sha256_Sigma0(s1[0]) + sha256_Maj(s1[0], s1[1], s1[2])) -
                    (sha256_Sigma0(s2[0]) + sha256_Maj(s2[0], s2[1], s2[2]));
     return dh + dSig1 + dCh + dT2;
+}
+
+static inline uint32_t carry_mask_add(uint32_t a, uint32_t b) {
+    uint32_t carry = 0;
+    uint32_t mask = 0;
+    for (int i = 0; i < 32; i++) {
+        uint32_t ai = (a >> i) & 1U;
+        uint32_t bi = (b >> i) & 1U;
+        uint32_t co = (ai & bi) | (ai & carry) | (bi & carry);
+        if (co) mask |= 1U << i;
+        carry = co;
+    }
+    return mask;
+}
+
+static inline void cascade1_offset_parts(const uint32_t s1[8], const uint32_t s2[8],
+                                         uint32_t parts[4], uint32_t sums[3],
+                                         uint32_t carries[3]) {
+    parts[0] = s1[7] - s2[7];
+    parts[1] = sha256_Sigma1(s1[4]) - sha256_Sigma1(s2[4]);
+    parts[2] = sha256_Ch(s1[4], s1[5], s1[6]) - sha256_Ch(s2[4], s2[5], s2[6]);
+    parts[3] = (sha256_Sigma0(s1[0]) + sha256_Maj(s1[0], s1[1], s1[2])) -
+               (sha256_Sigma0(s2[0]) + sha256_Maj(s2[0], s2[1], s2[2]));
+    sums[0] = parts[0] + parts[1];
+    sums[1] = sums[0] + parts[2];
+    sums[2] = sums[1] + parts[3];
+    carries[0] = carry_mask_add(parts[0], parts[1]);
+    carries[1] = carry_mask_add(sums[0], parts[2]);
+    carries[2] = carry_mask_add(sums[1], parts[3]);
 }
 
 static inline void apply_round(uint32_t s[8], uint32_t w, int r) {
@@ -1560,6 +1592,128 @@ static void defect_hill_fixed58_candidate(int idx, uint32_t fixed_w57, uint32_t 
            best_w59, best_passes, total_evals);
 }
 
+static void defect_hill_fixed57_candidate(int idx, uint32_t fixed_w57,
+                                          int trials, int threads, int max_passes) {
+    int n_cands = (int)(sizeof(CANDIDATES) / sizeof(CANDIDATES[0]));
+    if (idx < 0 || idx >= n_cands) {
+        fprintf(stderr, "candidate index must be 0..%d.\n", n_cands - 1);
+        exit(2);
+    }
+    const candidate_t *cand = &CANDIDATES[idx];
+    sha256_precomp_t p1, p2;
+    if (!prepare_candidate(cand, &p1, &p2)) {
+        printf("{\"mode\":\"defecthill57\",\"candidate\":\"%s\",\"error\":\"not_cascade_eligible\"}\n",
+               cand->id);
+        return;
+    }
+
+    uint32_t off58_fixed = compute_off58_for_w57(&p1, &p2, fixed_w57);
+    int best_hw = 99;
+    uint32_t best_defect = 0;
+    uint32_t best_x[3] = {fixed_w57, 0, 0};
+    int best_passes = 0;
+    int total_evals = 0;
+    int exact_hits = 0;
+
+    #pragma omp parallel num_threads(threads)
+    {
+        int tid = omp_get_thread_num();
+        uint64_t rng = 0x57575757abcdef01ULL ^
+                       ((uint64_t)cand->m0 << 11) ^
+                       ((uint64_t)fixed_w57 << 25) ^
+                       (uint64_t)tid;
+        int local_best_hw = 99;
+        uint32_t local_best_defect = 0;
+        uint32_t local_best_x[3] = {fixed_w57, 0, 0};
+        int local_best_passes = 0;
+        int local_evals = 0;
+        int local_exact_hits = 0;
+
+        #pragma omp for schedule(dynamic, 4)
+        for (int i = 0; i < trials; i++) {
+            uint32_t x[3] = {fixed_w57, splitmix32(&rng), splitmix32(&rng)};
+            if (i < 8) {
+                static const uint32_t patterns[] = {
+                    0x00000000U, 0xffffffffU, 0x55555555U, 0xaaaaaaaaU,
+                    0x33333333U, 0xccccccccU, 0x0f0f0f0fU, 0xf0f0f0f0U
+                };
+                x[1] = patterns[(i + 3) & 7];
+                x[2] = patterns[(i + 5) & 7];
+            }
+
+            eval_t base = eval_defect(&p1, &p2, x);
+            local_evals++;
+            int cur_hw = base.defect_hw;
+            uint32_t cur_defect = base.defect;
+            int passes_used = 0;
+
+            for (int pass = 0; pass < max_passes && cur_hw > 0; pass++) {
+                uint32_t best_step_x[3] = {x[0], x[1], x[2]};
+                uint32_t best_step_defect = cur_defect;
+                int best_step_hw = cur_hw;
+
+                for (int bit = 0; bit < 64; bit++) {
+                    uint32_t xf[3] = {x[0], x[1], x[2]};
+                    if (bit < 32) xf[1] ^= 1U << bit;
+                    else xf[2] ^= 1U << (bit - 32);
+                    eval_t y = eval_defect(&p1, &p2, xf);
+                    local_evals++;
+                    if (y.defect_hw < best_step_hw ||
+                        (y.defect_hw == best_step_hw && y.defect < best_step_defect)) {
+                        best_step_hw = y.defect_hw;
+                        best_step_defect = y.defect;
+                        best_step_x[1] = xf[1];
+                        best_step_x[2] = xf[2];
+                    }
+                }
+
+                if (best_step_hw >= cur_hw) break;
+                x[1] = best_step_x[1];
+                x[2] = best_step_x[2];
+                cur_defect = best_step_defect;
+                cur_hw = best_step_hw;
+                passes_used = pass + 1;
+            }
+
+            if (cur_hw == 0) local_exact_hits++;
+            if (cur_hw < local_best_hw ||
+                (cur_hw == local_best_hw && cur_defect < local_best_defect)) {
+                local_best_hw = cur_hw;
+                local_best_defect = cur_defect;
+                memcpy(local_best_x, x, sizeof(local_best_x));
+                local_best_passes = passes_used;
+            }
+        }
+
+        #pragma omp critical
+        {
+            total_evals += local_evals;
+            exact_hits += local_exact_hits;
+            if (local_best_hw < best_hw ||
+                (local_best_hw == best_hw && local_best_defect < best_defect)) {
+                best_hw = local_best_hw;
+                best_defect = local_best_defect;
+                memcpy(best_x, local_best_x, sizeof(best_x));
+                best_passes = local_best_passes;
+            }
+        }
+    }
+
+    uint32_t best_off59 = compute_off59_for_w57_w58(&p1, &p2, best_x[0], best_x[1], NULL);
+    uint32_t best_sched = sched_offset60_for_w57_w58(&p1, &p2, best_x[0], best_x[1], NULL);
+    printf("{\"mode\":\"defecthill57\",\"candidate\":\"%s\",\"idx\":%d,"
+           "\"fixed_w57\":\"0x%08x\",\"off58\":\"0x%08x\",\"off58_hw\":%d,"
+           "\"trials\":%d,\"max_passes\":%d,\"exact_hits\":%d,"
+           "\"best_x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"best_hw\":%d,\"best_defect\":\"0x%08x\","
+           "\"best_off59\":\"0x%08x\",\"best_off59_hw\":%d,"
+           "\"best_sched\":\"0x%08x\",\"best_passes\":%d,\"evals\":%d}\n",
+           cand->id, idx, fixed_w57, off58_fixed, hw32(off58_fixed),
+           trials, max_passes, exact_hits,
+           best_x[0], best_x[1], best_x[2], best_hw, best_defect,
+           best_off59, hw32(best_off59), best_sched, best_passes, total_evals);
+}
+
 static uint64_t next_combination64(uint64_t x) {
     uint64_t u = x & (0ULL - x);
     uint64_t v = u + x;
@@ -1899,6 +2053,177 @@ static void newton_fixed58_candidate(int idx, uint32_t fixed_w57, uint32_t fixed
 }
 
 int main(int argc, char **argv) {
+    if (argc >= 2 && strcmp(argv[1], "tailpoint") == 0) {
+        int idx = (argc >= 3) ? atoi(argv[2]) : 0;
+        uint32_t x[3] = {
+            (argc >= 4) ? (uint32_t)strtoul(argv[3], NULL, 0) : 0,
+            (argc >= 5) ? (uint32_t)strtoul(argv[4], NULL, 0) : 0,
+            (argc >= 6) ? (uint32_t)strtoul(argv[5], NULL, 0) : 0,
+        };
+        int n_cands = (int)(sizeof(CANDIDATES) / sizeof(CANDIDATES[0]));
+        if (idx < 0 || idx >= n_cands) {
+            fprintf(stderr, "candidate index must be 0..%d.\n", n_cands - 1);
+            return 2;
+        }
+        sha256_init(32);
+        sha256_precomp_t p1, p2;
+        const candidate_t *cand = &CANDIDATES[idx];
+        if (!prepare_candidate(cand, &p1, &p2)) {
+            printf("{\"mode\":\"tailpoint\",\"candidate\":\"%s\",\"error\":\"not_cascade_eligible\"}\n",
+                   cand->id);
+            return 1;
+        }
+
+        uint32_t s1[8], s2[8];
+        memcpy(s1, p1.state, sizeof(s1));
+        memcpy(s2, p2.state, sizeof(s2));
+        uint32_t offsets[4];
+        for (int i = 0; i < 3; i++) {
+            offsets[i] = cascade1_offset(s1, s2);
+            apply_round(s1, x[i], 57 + i);
+            apply_round(s2, x[i] + offsets[i], 57 + i);
+        }
+        offsets[3] = cascade1_offset(s1, s2);
+
+        uint32_t w1[7], w2[7];
+        w1[0] = x[0];
+        w1[1] = x[1];
+        w1[2] = x[2];
+        w1[3] = sha256_sigma1(w1[1]) + p1.W[53] +
+                sha256_sigma0(p1.W[45]) + p1.W[44];
+        w2[0] = x[0] + offsets[0];
+        w2[1] = x[1] + offsets[1];
+        w2[2] = x[2] + offsets[2];
+        w2[3] = sha256_sigma1(w2[1]) + p2.W[53] +
+                sha256_sigma0(p2.W[45]) + p2.W[44];
+        w1[4] = sha256_sigma1(w1[2]) + p1.W[54] +
+                sha256_sigma0(p1.W[46]) + p1.W[45];
+        w2[4] = sha256_sigma1(w2[2]) + p2.W[54] +
+                sha256_sigma0(p2.W[46]) + p2.W[45];
+        w1[5] = sha256_sigma1(w1[3]) + p1.W[55] +
+                sha256_sigma0(p1.W[47]) + p1.W[46];
+        w2[5] = sha256_sigma1(w2[3]) + p2.W[55] +
+                sha256_sigma0(p2.W[47]) + p2.W[46];
+        w1[6] = sha256_sigma1(w1[4]) + p1.W[56] +
+                sha256_sigma0(p1.W[48]) + p1.W[47];
+        w2[6] = sha256_sigma1(w2[4]) + p2.W[56] +
+                sha256_sigma0(p2.W[48]) + p2.W[47];
+
+        int tail_hw = sha256_eval_tail(&p1, &p2, w1, w2);
+
+        uint32_t ts1[8], ts2[8], tail_offsets[7], tail_defects[7];
+        memcpy(ts1, p1.state, sizeof(ts1));
+        memcpy(ts2, p2.state, sizeof(ts2));
+        for (int i = 0; i < 7; i++) {
+            tail_offsets[i] = cascade1_offset(ts1, ts2);
+            tail_defects[i] = (w2[i] - w1[i]) - tail_offsets[i];
+            apply_round(ts1, w1[i], 57 + i);
+            apply_round(ts2, w2[i], 57 + i);
+        }
+
+        printf("{\"mode\":\"tailpoint\",\"candidate_index\":%d,\"candidate\":\"%s\","
+               "\"x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+               "\"tail_offsets\":[\"0x%08x\",\"0x%08x\",\"0x%08x\",\"0x%08x\","
+               "\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+               "\"tail_defects\":[\"0x%08x\",\"0x%08x\",\"0x%08x\",\"0x%08x\","
+               "\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+               "\"w1_tail\":[\"0x%08x\",\"0x%08x\",\"0x%08x\",\"0x%08x\","
+               "\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+               "\"w2_tail\":[\"0x%08x\",\"0x%08x\",\"0x%08x\",\"0x%08x\","
+               "\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+               "\"tail_hw\":%d}\n",
+               idx, cand->id, x[0], x[1], x[2],
+               tail_offsets[0], tail_offsets[1], tail_offsets[2], tail_offsets[3],
+               tail_offsets[4], tail_offsets[5], tail_offsets[6],
+               tail_defects[0], tail_defects[1], tail_defects[2], tail_defects[3],
+               tail_defects[4], tail_defects[5], tail_defects[6],
+               w1[0], w1[1], w1[2], w1[3], w1[4], w1[5], w1[6],
+               w2[0], w2[1], w2[2], w2[3], w2[4], w2[5], w2[6],
+               tail_hw);
+        return 0;
+    }
+
+    if (argc >= 2 && strcmp(argv[1], "defecthill57") == 0) {
+        int idx = (argc >= 3) ? atoi(argv[2]) : 0;
+        uint32_t fixed_w57 = (argc >= 4) ? (uint32_t)strtoul(argv[3], NULL, 0) : 0;
+        int trials = (argc >= 5) ? atoi(argv[4]) : 4096;
+        int threads = (argc >= 6) ? atoi(argv[5]) : 8;
+        int max_passes = (argc >= 7) ? atoi(argv[6]) : 48;
+        sha256_init(32);
+        defect_hill_fixed57_candidate(idx, fixed_w57, trials, threads, max_passes);
+        return 0;
+    }
+
+    if (argc >= 2 && strcmp(argv[1], "tracepoint") == 0) {
+        int idx = (argc >= 3) ? atoi(argv[2]) : 0;
+        uint32_t x[3] = {
+            (argc >= 4) ? (uint32_t)strtoul(argv[3], NULL, 0) : 0,
+            (argc >= 5) ? (uint32_t)strtoul(argv[4], NULL, 0) : 0,
+            (argc >= 6) ? (uint32_t)strtoul(argv[5], NULL, 0) : 0,
+        };
+        int n_cands = (int)(sizeof(CANDIDATES) / sizeof(CANDIDATES[0]));
+        if (idx < 0 || idx >= n_cands) {
+            fprintf(stderr, "candidate index must be 0..%d.\n", n_cands - 1);
+            return 2;
+        }
+        sha256_init(32);
+        sha256_precomp_t p1, p2;
+        const candidate_t *cand = &CANDIDATES[idx];
+        if (!prepare_candidate(cand, &p1, &p2)) {
+            printf("{\"mode\":\"tracepoint\",\"candidate\":\"%s\",\"error\":\"not_cascade_eligible\"}\n",
+                   cand->id);
+            return 1;
+        }
+
+        uint32_t s1[8], s2[8];
+        memcpy(s1, p1.state, sizeof(s1));
+        memcpy(s2, p2.state, sizeof(s2));
+        uint32_t offsets[3];
+        for (int i = 0; i < 3; i++) {
+            offsets[i] = cascade1_offset(s1, s2);
+            apply_round(s1, x[i], 57 + i);
+            apply_round(s2, x[i] + offsets[i], 57 + i);
+        }
+
+        uint32_t w1_sched60 = sha256_sigma1(x[1]) + p1.W[53] +
+                               sha256_sigma0(p1.W[45]) + p1.W[44];
+        uint32_t w2_58 = x[1] + offsets[1];
+        uint32_t w2_sched60 = sha256_sigma1(w2_58) + p2.W[53] +
+                               sha256_sigma0(p2.W[45]) + p2.W[44];
+        uint32_t sched_offset60 = w2_sched60 - w1_sched60;
+
+        uint32_t parts[4], sums[3], carries[3];
+        cascade1_offset_parts(s1, s2, parts, sums, carries);
+        uint32_t req_offset60 = sums[2];
+        uint32_t defect = sched_offset60 - req_offset60;
+        uint32_t delta_to_req = req_offset60 - sched_offset60;
+
+        printf("{\"mode\":\"tracepoint\",\"candidate_index\":%d,\"candidate\":\"%s\","
+               "\"x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+               "\"offsets57_59\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+               "\"sched_offset60\":\"0x%08x\",\"req_offset60\":\"0x%08x\","
+               "\"defect\":\"0x%08x\",\"defect_hw\":%d,"
+               "\"delta_req_minus_sched\":\"0x%08x\","
+               "\"req_parts\":{\"dh\":\"0x%08x\",\"dSig1\":\"0x%08x\","
+               "\"dCh\":\"0x%08x\",\"dT2\":\"0x%08x\"},"
+               "\"req_sums\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+               "\"req_carries\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+               "\"req_carry_hw\":[%d,%d,%d],"
+               "\"state_xor_hw_after59\":[%d,%d,%d,%d,%d,%d,%d,%d]}\n",
+               idx, cand->id, x[0], x[1], x[2],
+               offsets[0], offsets[1], offsets[2],
+               sched_offset60, req_offset60, defect, hw32(defect), delta_to_req,
+               parts[0], parts[1], parts[2], parts[3],
+               sums[0], sums[1], sums[2],
+               carries[0], carries[1], carries[2],
+               hw32(carries[0]), hw32(carries[1]), hw32(carries[2]),
+               hw32(s1[0] ^ s2[0]), hw32(s1[1] ^ s2[1]),
+               hw32(s1[2] ^ s2[2]), hw32(s1[3] ^ s2[3]),
+               hw32(s1[4] ^ s2[4]), hw32(s1[5] ^ s2[5]),
+               hw32(s1[6] ^ s2[6]), hw32(s1[7] ^ s2[7]));
+        return 0;
+    }
+
     if (argc >= 2 && strcmp(argv[1], "neighallpoint") == 0) {
         int idx = (argc >= 3) ? atoi(argv[2]) : 0;
         uint32_t x[3] = {

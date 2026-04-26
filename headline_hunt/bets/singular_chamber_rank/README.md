@@ -116,6 +116,7 @@ gcc -O3 -march=native -fopenmp -I. \
 /tmp/singular_defect_rank off58hill 512 8 32
 /tmp/singular_defect_rank schedsample 0 0x370fef5f 1000000 22
 /tmp/singular_defect_rank defecthill58 3 0xe28da599 0x233e4216 2048 8 32
+/tmp/singular_defect_rank tailpoint 3 0xe28da599 0xa3110717 0x1afa1270
 ```
 
 Key result notes:
@@ -126,5 +127,6 @@ Key result notes:
 - `results/20260426_schedule_finite_difference_probe.md`: schedule-side
   finite-difference collapse and `S`/`R` target alignment.
 - `results/20260426_fulln_sparse_offset_probe.md`: full-N sparse `off58`
-  steering, sampled schedule collapse, R-side falsification, and a one-bit
-  sr=61 defect near miss.
+  steering, sampled schedule collapse, R-side falsification, one-bit near
+  misses, and an exact sr=61-compatible point whose tail fails again at
+  round 61.
