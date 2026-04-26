@@ -770,6 +770,32 @@ The tail-HW70 point's radius-6 neighborhood found six exact points, no lower
 tail, and a best non-exact ridge at D60 HW5 / D61 HW5. Repairing that ridge
 returned to known exact basins.
 
+The next shell around the HW7 point was also checked. Radius 7 enumerated
+704,494,193 points:
+
+```text
+exact defect60 points: 16
+exact defect61 points: 0
+best exact defect61: HW7 (the base point)
+best exact tail: HW79
+```
+
+The low-D60 ridge continued to improve in the non-exact layer:
+
+```text
+around HW7, best D60 HW7 ridge:
+W58=0x569a93da, W59=0x1f813291
+defect60 = 0x88400a30
+defect61 = 0x00020040 (HW 2)
+```
+
+But this is still not a smooth path to an exact point. One-wall Newton from
+that ridge diverges to a HW19 `defect60`, and greedy/side-objective repair
+returns to the known HW7 basin or the one-bit HW8/tail81 neighbor. The radius-7
+result makes the next obstruction sharper: there are very low-D61 shelves
+nearby, but repairing seven D60 carry bits without losing the D61 gain remains
+the wall.
+
 Current frontier:
 
 | objective | point | value |
