@@ -1227,3 +1227,21 @@ The 36-candidate pool is sufficient per the validation matrix verdict
 (predictor null across 12 cells). #36 is not the bottleneck for sr61_n32.
 
 Full memo: registry/notes/20260425_uncovered_bits_scan.md
+
+## 0:18 EDT — Sweep tool built; testing Σ1/σ1 alignment hypothesis
+
+Wrote cascade_eligibility_sweep.c (~125 LOC, M5-tuned, 10-thread OMP).
+Performs 2^32 m0 sweep at given (kernel_bit, fill) at N=32 to count
+cascade-eligible candidates exhaustively.
+
+Launched sequential test:
+1. bit=31 fill=0xff (known-eligible MSB family — sanity check, expect hits)
+2. bit=7 fill=0xff (σ0-aligned, predicted non-eligible by Σ1/σ1 hypothesis)
+
+ETA ~10-15 min wall total. Hypothesis falsifiable:
+  - bit=31 hits 0 → tool broken
+  - bit=7 hits 0 → hypothesis strengthened
+  - bit=7 hits >0 → hypothesis falsified, σ0 bits ARE eligible
+
+This is the falsifier from registry/notes/20260425_covered_bits_pattern.md.
+Authorized routine: ~15 min compute, no contention.
