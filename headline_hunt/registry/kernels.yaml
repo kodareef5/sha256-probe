@@ -145,22 +145,22 @@
   bit: 18
   diff_hex: "0x00040000"
   scan_coverage:
-    fills: ["0xffffffff"]
-    m0_range: "exhaustive 2^32 at fill=0xff"
-    complete: true
-    n32_random_scan: "exhaustive 2^32 at fill=0xff: 2 eligible (m=0x99bf552b, m=0xcbe11dc1)"
-  candidates_found: 2
+    fills: ["0xffffffff", "0x00000000"]
+    m0_range: "exhaustive 2^32 at fill=0xff and fill=0x00"
+    complete: false
+    n32_random_scan: "fill=0xff: 2 eligible. fill=0x00: 3 eligible. Other fills (0x55, 0xaa, 0x80) untested or queued."
+  candidates_found: 5
   best_results_by_n:
-    n32: "2 candidates at fill=0xff (FALSIFIED Σ1/σ1 alignment hypothesis)"
+    n32: "5 candidates so far (bit=18 fill=0xff: 2; fill=0x00: 3). FALSIFIED Σ1/σ1 alignment hypothesis."
   sr61_partial:
     n32_true_sr61:
       status: untested
-      candidates: 2
+      candidates: 5
       cpu_hours: 0
   status: open
   last_updated: "2026-04-26"
   owner: macbook
-  notes: "Discovered 2026-04-26 via cascade_eligibility_sweep. σ0-aligned bit (sigma0 amounts {7, 18, 3}). FALSIFIES the Σ1/σ1 alignment hypothesis from registry/notes/20260425_covered_bits_pattern.md. See registry/notes/20260425_uncovered_bits_scan.md for context."
+  notes: "Discovered 2026-04-26 via cascade_eligibility_sweep. σ0-aligned bit. FALSIFIES Σ1/σ1 hypothesis from 20260425_covered_bits_pattern.md. fill=0xff: 2 cands, fill=0x00: 3 cands. fill=0x55 sweep queued."
 
 - id: kernel_0_9_bit17
   name: "bit-17 kernel at word-pair (0,9) — sigma1-aligned"
