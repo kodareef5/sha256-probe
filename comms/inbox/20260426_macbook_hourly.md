@@ -272,3 +272,28 @@ avoiding macOS scheduler starvation.
 
 **Coordination**: no fleet activity since last pull. Solo pursuit of sweep
 coverage continues. queue10 ready to launch when queue9 finishes.
+
+## 07:25 EDT — Queue9 DONE, queue10 launched. Aux variants for bit=20.
+
+**Queue9 final** (bit=21, 23, 24, 26 at fill=0xff): +2 NEW
+  bit=21: 0
+  bit=23: 0
+  bit=24: 1 NEW (m=0xdc27e18c)
+  bit=26: 1 NEW (m=0x11f9d4c7)
+
+**Queue10 launched immediately** (bit=27, 28, 29, 30 at fill=0xff). ~48 min.
+
+**Cross-bet shipped this pulse**:
+- `[cascade_aux_encoding]` aux-expose + aux-force sr=61 CNFs for bit=20 cand
+  (m=0x294e1ea8). 13472 vars / 55967 clauses each, both audit CONFIRMED.
+  Adds bit=20 to the cascade_aux solver-comparison surface — Mode B's
+  preprocessing-effect can be empirically tested on a high-hardlock kernel
+  new to the registry.
+
+**Session totals at 07:25**:
+  Registry: 36 → **62** (+26, +72%)
+  Cells exhaustively swept: 34 (queue10 in flight, 4 more cells)
+  Audit failure rate: **0.00%** across 199 logged runs
+  Bets touched this session: registry/sweeps, block2_wang (M16-MITM forward
+    validation, backward design-gap critique), cascade_aux_encoding (audit-rot
+    fix, +2 new aux CNFs), sr61_n32 (smoke tests across new cands).
