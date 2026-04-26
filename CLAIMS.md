@@ -230,21 +230,27 @@ produced 32 collisions; algorithm validated at N=12 (full sweep ETA ~8 hr clean)
 - **Significance:** block2_wang Path B foundation is real, scaling per-w57 work as
   1024× per +2 N-bit. M16 single-machine pure-BC is INFEASIBLE (~80 days uncontended).
 
-### Σ1/σ1 alignment hypothesis: σ0-aligned bit=7 has 0 cascade-eligible m0 at fill=0xff
-Exhaustive 2^32 m0 sweep at (0,9) bit=7 fill=0xffffffff returned 0 eligible
-candidates. Compared to bit=31 fill=0xff at 2^32 (returned exactly 2 eligible:
-m=0xa22dc6c7 + m=0x17149975, both registered). The 9 covered bit positions
-{0, 6, 10, 11, 13, 17, 19, 25, 31} concentrate at Σ1+σ1 rotation amounts
-(8 of 9 fit Σ1∪σ1∪{boundary}); σ0-aligned bits {3, 7, 18} have 0 covered.
+### Σ1/σ1 alignment hypothesis FALSIFIED — σ0-aligned bits CAN have eligible m0
+Exhaustive 2^32 m0 sweeps at (0,9) fill=0xffffffff:
+  bit=31 (boundary):     2 eligible (cert + a22dc6c7, both registered)
+  bit=7  (σ0-aligned):   0 eligible (consistent with 2^-31 baseline Poisson)
+  bit=18 (σ0-aligned):   **2 eligible** (m=0x99bf552b + m=0xcbe11dc1, BOTH NEW)
+  bit=22 (Σ0-aligned):   0 eligible
+  bit=3  (σ0-aligned):   **≥1 eligible** (m=0x33ec77ca, NEW)
+
+The Σ1/σ1 alignment hypothesis predicted 0 eligible at σ0-aligned bits
+{3, 7, 18}. FALSIFIED at bit=3 and bit=18.
 - **Tool:** `headline_hunt/registry/notes/cascade_eligibility_sweep.c`
   (M5-tuned, 10-thread OMP, ~12 min wall per full 2^32 sweep).
-- **Status:** EVIDENCE at bit=7. bit=18 (σ0) and bit=22 (Σ0) sweeps queued
-  to confirm pattern. bit=31 sweep ALSO confirms registry is EXHAUSTIVE
-  for that (bit, fill) cell.
-- **Significance:** the registered 36-candidate pool may be CLOSE TO COMPLETE
-  for cascade-DP at N=32. The bit-position structure of cascade-eligibility
-  is now empirically grounded, not just curated.
-- **Reference:** `headline_hunt/registry/notes/20260425_covered_bits_pattern.md`,
+- **Significance:** the curated 36-candidate registry was an
+  OBSERVATION ARTIFACT, not a structural ceiling. σ0-aligned bits have
+  ~2^-31 cascade-eligibility rate, same baseline as boundary bits.
+  Registry expanded **36 → 39 candidates** in 2026-04-26 session.
+- **Implication for sr61_n32**: candidate-base expansion is feasible.
+  ~92 (bit, fill) cells uncovered; full sweep ~18 hr would find ~180
+  new candidates if uniform 2-per-cell.
+- **References:** `headline_hunt/registry/notes/20260426_alignment_hypothesis_falsified.md`,
+  `20260425_covered_bits_pattern.md`,
   `20260425_uncovered_bits_scan.md`.
 
 ### de58 image-size and hard_bit_total_lb predictors are SEARCH-IRRELEVANT
