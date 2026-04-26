@@ -297,3 +297,32 @@ coverage continues. queue10 ready to launch when queue9 finishes.
   Bets touched this session: registry/sweeps, block2_wang (M16-MITM forward
     validation, backward design-gap critique), cascade_aux_encoding (audit-rot
     fix, +2 new aux CNFs), sr61_n32 (smoke tests across new cands).
+
+## 07:35 EDT — Queue10 DONE. fill=0xff coverage 29/32 bits.
+
+**Queue10 final** (bit=27, 28, 29, 30 at fill=0xff): +5 NEW
+  bit=27: 0
+  bit=28: 4 NEW (m=0xd1acca79, 0xbcc2e089, 0x3e57289c, 0x5ac592ed) ← highest yield
+  bit=29: 1 NEW (m=0x17454e4b)
+  bit=30: 0
+
+**MILESTONE**: fill=0xff coverage COMPLETE for 29 of 32 bit positions.
+Missing: bits 0, 6, 13 (already covered at other fills).
+
+**Cross-bet shipped this pulse**:
+- `[cascade_aux_encoding]` Mode B 2-cand consistency check: bit=20
+  AND bit=28 outlier both show ~1.9× speedup at 50k, ~1× at 1M.
+  Reproduces "front-loaded preprocessing" claim on fresh data.
+  Memo: bets/cascade_aux_encoding/results/20260426_mode_b_2cand_consistency.md
+
+- bit=28 m=0xd1acca79 is structurally distinctive (de58_size=2048 +
+  hl_bits=15) — joins the small-image club (bit=4, bit=15, bit=19).
+
+**Session totals at 07:35**:
+  Registry: 36 → **67** (+31, +86% growth)
+  Cells exhaustively swept: 38
+  Total runs logged: 206 (audit failure rate 0.00%)
+  Substantive shipped this turn: 40+ commits across registry, smoke
+    tests, dashboard refreshes, M16-MITM forward validation, M16-MITM
+    backward design-gap critique, de58 distribution analysis,
+    cascade_aux Mode A/B 2-cand consistency, fingerprint refresh.
