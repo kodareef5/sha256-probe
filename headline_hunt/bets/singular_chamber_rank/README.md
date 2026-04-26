@@ -123,6 +123,8 @@ gcc -O3 -march=native -fopenmp -I. \
 /tmp/singular_defect_rank kernel61linearpoint 8 0xaf07f044 0xe98d86d0 0xc778e588
 /tmp/singular_defect_rank tailhill58 0 0x370fef5f 0x0e4363c9 65536 8 64
 /tmp/singular_defect_rank surface61walk 8 0xaf07f044 0xe98d86d0 0xc778e588 32768 8 24 12
+/tmp/singular_defect_rank surface61sample 8 0xaf07f044 65536 8 24
+/tmp/singular_defect_rank surface61greedywalk 8 0xaf07f044 0xe98d86d0 0xc778e588 65536 8 80 24
 ```
 
 Key result notes:
@@ -141,4 +143,6 @@ Key result notes:
   Newton jumps are carry-chamber transitions. Local perturb/project walks
   return to the same exact-point attractor basin rather than moving freely on
   the surface; codimension-one kernel corrections exist linearly but require
-  high-Hamming deltas that break the exact carry chamber.
+  high-Hamming deltas that break the exact carry chamber. Greedy one-bit
+  repair can cross exact basins, but the neighboring basins found so far do
+  not beat the HW11 round-61 defect floor.

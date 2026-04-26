@@ -478,6 +478,66 @@ under these local perturb/project moves. To move between basins, the next
 operator likely has to preserve selected carry/lane invariants explicitly
 rather than relying on unconstrained defect60 Newton repair.
 
+Starting from arbitrary random `(W58,W59)` values in the same sparse `W57`
+chambers and projecting with one-wall Boolean Newton was even harsher:
+
+```text
+surface61sample, 65,536 random starts per sparse W57 chamber:
+idx 0 successes: 0
+idx 3 successes: 0
+idx 8 successes: 0
+```
+
+So Newton is not a global projector onto the exact surface. It is a local
+attractor map around already-known exact points.
+
+## Greedy Surface Walk
+
+A more carry-safe projector was then tested:
+
+1. perturb an exact point,
+2. repair only `defect60` by greedy one-bit descent in the real arithmetic
+   map,
+3. score the repaired exact point's `defect61`.
+
+This does cross exact-point basins, unlike Newton projection. Around the HW11
+idx 3 point, 65,536 local greedy walks produced 190 changed exact points; the
+best changed basin had HW12 at round 61:
+
+```text
+idx 3 changed exact:
+W58 = 0x5e0770a7
+W59 = 0x28c59a35
+defect61 = 0x7c428416 (HW 12)
+tail HW = 103
+```
+
+Around the HW11 idx 8 point, changed exact basins were rarer but one gave a
+better checked tail despite a worse round-61 miss:
+
+```text
+idx 8 changed exact:
+W58 = 0xe98d8ed0
+W59 = 0xc77ced69
+defect61 = 0xfb82a228 (HW 14)
+tail HW = 88
+```
+
+The sparse-`off59` idx 0 control moved from HW17 to HW14:
+
+```text
+idx 0 changed exact:
+W58 = 0x0e4363cd
+W59 = 0x7a267a31
+defect61 = 0xba0a9983 (HW 14)
+tail HW = 100
+```
+
+Wider greedy walks with 262,144 trials and up to 24 perturbation flips around
+the HW11 centers did not find HW10. Current evidence: greedy repair can cross
+basins, but the known HW11 basins remain local minima for the round-61
+defect.
+
 ## Kernel-linear one-bit targets
 
 The rank-31 kernel result suggests a tempting linear strategy: stay inside the
