@@ -1592,6 +1592,50 @@ static void defect_hill_fixed58_candidate(int idx, uint32_t fixed_w57, uint32_t 
            best_w59, best_passes, total_evals);
 }
 
+static void tail_defects_for_x(const sha256_precomp_t *p1, const sha256_precomp_t *p2,
+                               const uint32_t x[3], uint32_t defects[7]) {
+    uint32_t s1[8], s2[8];
+    memcpy(s1, p1->state, sizeof(s1));
+    memcpy(s2, p2->state, sizeof(s2));
+
+    uint32_t w1[7], w2[7], offsets[7];
+    for (int i = 0; i < 3; i++) {
+        offsets[i] = cascade1_offset(s1, s2);
+        w1[i] = x[i];
+        w2[i] = x[i] + offsets[i];
+        apply_round(s1, w1[i], 57 + i);
+        apply_round(s2, w2[i], 57 + i);
+        defects[i] = 0;
+    }
+    offsets[3] = cascade1_offset(s1, s2);
+
+    w1[3] = sha256_sigma1(w1[1]) + p1->W[53] +
+            sha256_sigma0(p1->W[45]) + p1->W[44];
+    w2[3] = sha256_sigma1(w2[1]) + p2->W[53] +
+            sha256_sigma0(p2->W[45]) + p2->W[44];
+    w1[4] = sha256_sigma1(w1[2]) + p1->W[54] +
+            sha256_sigma0(p1->W[46]) + p1->W[45];
+    w2[4] = sha256_sigma1(w2[2]) + p2->W[54] +
+            sha256_sigma0(p2->W[46]) + p2->W[45];
+    w1[5] = sha256_sigma1(w1[3]) + p1->W[55] +
+            sha256_sigma0(p1->W[47]) + p1->W[46];
+    w2[5] = sha256_sigma1(w2[3]) + p2->W[55] +
+            sha256_sigma0(p2->W[47]) + p2->W[46];
+    w1[6] = sha256_sigma1(w1[4]) + p1->W[56] +
+            sha256_sigma0(p1->W[48]) + p1->W[47];
+    w2[6] = sha256_sigma1(w2[4]) + p2->W[56] +
+            sha256_sigma0(p2->W[48]) + p2->W[47];
+
+    memcpy(s1, p1->state, sizeof(s1));
+    memcpy(s2, p2->state, sizeof(s2));
+    for (int i = 0; i < 7; i++) {
+        offsets[i] = cascade1_offset(s1, s2);
+        defects[i] = (w2[i] - w1[i]) - offsets[i];
+        apply_round(s1, w1[i], 57 + i);
+        apply_round(s2, w2[i], 57 + i);
+    }
+}
+
 static void defect_hill_fixed57_candidate(int idx, uint32_t fixed_w57,
                                           int trials, int threads, int max_passes) {
     int n_cands = (int)(sizeof(CANDIDATES) / sizeof(CANDIDATES[0]));
@@ -1614,6 +1658,9 @@ static void defect_hill_fixed57_candidate(int idx, uint32_t fixed_w57,
     int best_passes = 0;
     int total_evals = 0;
     int exact_hits = 0;
+    int best_exact_d61_hw = 99;
+    uint32_t best_exact_d61 = 0;
+    uint32_t best_exact_x[3] = {fixed_w57, 0, 0};
 
     #pragma omp parallel num_threads(threads)
     {
@@ -1628,6 +1675,9 @@ static void defect_hill_fixed57_candidate(int idx, uint32_t fixed_w57,
         int local_best_passes = 0;
         int local_evals = 0;
         int local_exact_hits = 0;
+        int local_best_exact_d61_hw = 99;
+        uint32_t local_best_exact_d61 = 0;
+        uint32_t local_best_exact_x[3] = {fixed_w57, 0, 0};
 
         #pragma omp for schedule(dynamic, 4)
         for (int i = 0; i < trials; i++) {
@@ -1675,7 +1725,18 @@ static void defect_hill_fixed57_candidate(int idx, uint32_t fixed_w57,
                 passes_used = pass + 1;
             }
 
-            if (cur_hw == 0) local_exact_hits++;
+            if (cur_hw == 0) {
+                uint32_t defects[7];
+                local_exact_hits++;
+                tail_defects_for_x(&p1, &p2, x, defects);
+                int d61_hw = hw32(defects[4]);
+                if (d61_hw < local_best_exact_d61_hw ||
+                    (d61_hw == local_best_exact_d61_hw && defects[4] < local_best_exact_d61)) {
+                    local_best_exact_d61_hw = d61_hw;
+                    local_best_exact_d61 = defects[4];
+                    memcpy(local_best_exact_x, x, sizeof(local_best_exact_x));
+                }
+            }
             if (cur_hw < local_best_hw ||
                 (cur_hw == local_best_hw && cur_defect < local_best_defect)) {
                 local_best_hw = cur_hw;
@@ -1689,6 +1750,13 @@ static void defect_hill_fixed57_candidate(int idx, uint32_t fixed_w57,
         {
             total_evals += local_evals;
             exact_hits += local_exact_hits;
+            if (local_best_exact_d61_hw < best_exact_d61_hw ||
+                (local_best_exact_d61_hw == best_exact_d61_hw &&
+                 local_best_exact_d61 < best_exact_d61)) {
+                best_exact_d61_hw = local_best_exact_d61_hw;
+                best_exact_d61 = local_best_exact_d61;
+                memcpy(best_exact_x, local_best_exact_x, sizeof(best_exact_x));
+            }
             if (local_best_hw < best_hw ||
                 (local_best_hw == best_hw && local_best_defect < best_defect)) {
                 best_hw = local_best_hw;
@@ -1707,11 +1775,17 @@ static void defect_hill_fixed57_candidate(int idx, uint32_t fixed_w57,
            "\"best_x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
            "\"best_hw\":%d,\"best_defect\":\"0x%08x\","
            "\"best_off59\":\"0x%08x\",\"best_off59_hw\":%d,"
-           "\"best_sched\":\"0x%08x\",\"best_passes\":%d,\"evals\":%d}\n",
+           "\"best_sched\":\"0x%08x\",\"best_passes\":%d,"
+           "\"best_exact_d61\":\"0x%08x\",\"best_exact_d61_hw\":%d,"
+           "\"best_exact_x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"evals\":%d}\n",
            cand->id, idx, fixed_w57, off58_fixed, hw32(off58_fixed),
            trials, max_passes, exact_hits,
            best_x[0], best_x[1], best_x[2], best_hw, best_defect,
-           best_off59, hw32(best_off59), best_sched, best_passes, total_evals);
+           best_off59, hw32(best_off59), best_sched, best_passes,
+           best_exact_d61, best_exact_d61_hw,
+           best_exact_x[0], best_exact_x[1], best_exact_x[2],
+           total_evals);
 }
 
 static uint64_t next_combination64(uint64_t x) {

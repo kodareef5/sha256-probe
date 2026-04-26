@@ -196,6 +196,47 @@ So the current result breaks the sr=61 compatibility barrier but lands at the
 next schedule/cascade wall. The next problem is extending the corridor beyond
 round 60, not proving a final collision from this point.
 
+## Additional exact chamber
+
+The same fixed-W57 descent found another exact sr=61-compatible point in a
+different sparse chamber:
+
+```text
+candidate idx 8: bit3_m33ec77ca_ff
+W57 = 0xaf07f044
+W58 = 0x9d3ceba8
+W59 = 0xc3da20d1
+
+off58 = 0x00010002
+off60 = 0xee2b15a3
+defect60 = 0
+```
+
+Tail defects:
+
+```text
+round 57: 0x00000000
+round 58: 0x00000000
+round 59: 0x00000000
+round 60: 0x00000000
+round 61: 0xc1bf6e60
+round 62: 0x4d9baa10
+round 63: 0x3a098d96
+tail HW: 93
+```
+
+In the same 65,536-start pass:
+
+```text
+idx 3 exact hits: 1, best round-61 defect HW: 18
+idx 8 exact hits: 2, best round-61 defect HW: 17
+idx 0 exact hits: 0, best defect60: 0x00000001
+```
+
+This suggests exact sr61 compatibility is not a single lucky point. It is a
+reachable class of sparse-offset chambers, while round 61 is the next real
+barrier.
+
 ## Interpretation
 
 The full-N picture is now sharper:
