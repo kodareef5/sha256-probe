@@ -746,3 +746,30 @@ updated with naming convention. Future workers can deploy via:
     --out cnfs/aux_expose_sr61_n32_..._lbh.cnf
 
 CNF will audit CONFIRMED automatically.
+
+## 19:55 EDT — F-series structural-hint discovery + budget caveat + 132-run backfill
+
+Shipped this evening (8 commits since 15:35):
+
+- **3bc3da9 → 7be3536**: Per-chamber de58_size = 1 (verified across 7 chambers).
+  At fixed (m0, fill, bit, W57) de58 is one specific 32-bit value. Plus de59
+  is cand-level invariant (free 32 hints, no W57 needed). Stacked 64-bit
+  hint deployment at n=18: **1.87× median, 0% regressions, 1.45× floor**.
+- **9427f17**: Wrapper v3 ships `--hint-mode de58-de59-stack` flag.
+- **dcd477d / dc9f88b**: F6 (de60..de63=0 zero-hints) NEGATIVE, idx8 regresses
+  0.57×. F7 (Mode B + stack composition) +6% only — diminishing.
+- **b073497 (CRITICAL)**: F8 budget sweep (3 cands × 4 budgets × 2 seeds)
+  shows stack speedup is **preprocessing-only**: 50k → 1.80–2.55×, 200k →
+  1.03–1.27×, 500k–1M → 0.88–0.97× (REGRESSIONS, 6 of 9 high-budget runs).
+  Wrapper docstring corrected with budget-dependent guidance.
+- **Discipline backfill**: 132 F-series kissat runs logged via `append_run.py`
+  (108 F1 + 24 F8) — symlinked F-series CNFs into runs/ folder under audit-
+  pattern names; all CONFIRMED. Dashboard regenerated: 519 total runs, 0%
+  audit-failure rate maintained.
+
+Net structural finding: cascade-1's da[k]=0 propagation forces dT2_{k+1}=0,
+making de_{k+1} a delayed copy of de_{k-1}. de58 = chamber-specific (W57
+distinguishes); de59 = cand-level (free); de60..de63 = structurally 0.
+
+Practical: stack hints at ≤100k for "warm-start triage"; Mode B for deep
+search. Don't mix high-budget with stack — measurable regression.
