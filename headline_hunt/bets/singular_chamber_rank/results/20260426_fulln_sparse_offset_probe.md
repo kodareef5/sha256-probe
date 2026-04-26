@@ -718,17 +718,70 @@ defect61 = 0x60714614 (HW 11)
 tail HW = 85
 ```
 
+Extending exact/ridge enumeration to radius 6 changed the picture again. The
+HW8 point still had no better exact neighbor in 83,278,001 checked states, but
+the low-D60 ridge improved:
+
+```text
+around HW8, best D60 HW6 ridge:
+W58=0x6f831247, W59=0xbf047ab1
+defect60 = 0xc2002024
+defect61 = 0x18002801 (HW 5)
+```
+
+Greedy repair from that ridge found a new exact round-61 frontier:
+
+```text
+idx 8, W57=0xaf07f044, W58=0x478a938a, W59=0x1f833295
+defect60 = 0
+defect61 = 0x04200874 (HW 7)
+tail defects = 0,0,0,0,0x04200874,0x5ee5771e,0xcc3500b6
+tail HW = 85
+off59 = 0x7ae6e91d (HW 19)
+```
+
+The HW7 point has `rank_pair=64`, but the full Newton correction is still a
+carry jump: the linear solve uses a HW23 delta and lands at
+`defect60=0xbabe756f`, `defect61=0xd19b157f`.
+
+Radius-6 enumeration around the HW7 point found eight exact `defect60=0`
+points, but no exact D61 below HW7. It did expose a lower non-exact ridge:
+
+```text
+around HW7, best D60 HW6 ridge:
+W58=0x478a8182, W59=0x1f8b1215
+defect60 = 0x10438040
+defect61 = 0x21204000 (HW 4)
+```
+
+Repairing that ridge did not lower the round-61 defect, but it found a new
+checked-tail frontier:
+
+```text
+idx 8, W57=0xaf07f044, W58=0x65aa818a, W59=0x31103285
+defect60 = 0
+defect61 = 0x05b0702c (HW 11)
+tail defects = 0,0,0,0,0x05b0702c,0xb9d4141e,0x00111e04
+tail HW = 70
+off59 = 0xbb36e035 (HW 17)
+```
+
+The tail-HW70 point's radius-6 neighborhood found six exact points, no lower
+tail, and a best non-exact ridge at D60 HW5 / D61 HW5. Repairing that ridge
+returned to known exact basins.
+
 Current frontier:
 
 | objective | point | value |
 |---|---|---:|
-| round-61 defect | `W58=0x7fc3124f,W59=0xbf245aa1` | HW8 |
-| checked 57..63 tail | `W58=0x5cbb3d5e,W59=0x29a4dea3` | HW74, D61 HW12 |
+| round-61 defect | `W58=0x478a938a,W59=0x1f833295` | HW7 |
+| checked 57..63 tail | `W58=0x65aa818a,W59=0x31103285` | HW70, D61 HW11 |
 
-The conclusion changed quantitatively, not qualitatively: the HW10 floor was
-not structural, but the exact `defect60=0` surface is still fractured into
-thin carry-linked basins. The useful moves continue to look like rare
-low-Hamming carry transitions with one-bit `defect60` ridges nearby.
+The conclusion changed quantitatively, not qualitatively: neither the HW10 nor
+HW8 floor was structural, but the exact `defect60=0` surface is still
+fractured into thin carry-linked basins. The productive pattern is now clear:
+enumerate low-D60 ridges around the exact frontier, then repair those ridges
+back onto the exact surface.
 
 ## Kernel-linear one-bit targets
 
