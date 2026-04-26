@@ -93,3 +93,53 @@ done
 EVIDENCE-level finding: Mode A baseline wall is a strong predictor
 (ρ=+0.94 for absolute saving, ρ=+0.75 for speedup) for Mode B's
 value-add at the 50k early-conflict regime.
+
+## ADDENDUM (07:55 EDT) — Multi-seed shows large variance per-cand
+
+Tested 3 cands across the speedup range at seeds 1, 5, 42:
+
+| candidate | seed=5 | seed=1 | seed=42 | CV(speedup) |
+|---|---:|---:|---:|---:|
+| bit24 m=0xdc27e18c | **1.44×** | 3.24× | 3.59× | **0.42** |
+| bit4  m=0x39a03c2d | 2.17× | 1.96× | 2.45× | 0.11 |
+| bit18 m=0x99bf552b | 3.09× | 2.15× | 2.20× | 0.21 |
+
+**Critical caveat**: bit24's seed=5 "1.44×" was a major outlier. At
+seeds 1 and 42, bit24 actually scored 3.24× and 3.59× — among the
+HIGHEST speedups, not the lowest.
+
+Coefficient of variation in speedup ranges 11%-42% per cand. The n=16
+single-seed correlation (ρ=+0.75) is contaminated by per-cand
+seed-noise that on bit24 specifically was ~42% relative.
+
+Median-of-3-seeds for the 3-cand subset:
+| candidate | A median | speedup median |
+|---|---:|---:|
+| bit4  | 2.65s | 2.17× |
+| bit18 | 2.75s | 2.20× |
+| bit24 | 3.08s | 3.24× |
+
+Ordering by A wall: bit4 < bit18 < bit24.
+Ordering by speedup: bit4 < bit18 < bit24.
+**The directional finding (more A wall → more Mode B speedup)
+HOLDS at median, but the n=16 ρ=+0.75 was inflated** by bit24
+seed=5 happening to be unusually fast for Mode A (1.78s vs ~3.0s
+median).
+
+## Refined EVIDENCE-level claim
+
+- Mode B speedup IS positively correlated with Mode A baseline wall.
+  Direction is robust across multi-seed validation.
+- The ρ=+0.75 estimate from single-seed n=16 OVERSTATES the
+  predictor strength because per-cand seed-CV is 11-42%.
+- A multi-seed (n_seeds ≥ 3) averaged dataset would yield a more
+  honest correlation. Likely smaller ρ but more reliable.
+- Mode A baseline wall remains the BEST predictor among hl_bits,
+  de58_size, hw56 (all weak or null).
+
+## Updated actionable
+
+Predicting per-cand Mode B value-add: run quick 50k Mode A at multiple
+seeds first, take median wall, multiply by ~0.6 for expected Mode B
+saving. Single-seed estimates are unreliable for cands with CV > 0.2
+in early-conflict regimes.
