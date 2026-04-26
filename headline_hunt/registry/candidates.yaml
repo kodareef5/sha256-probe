@@ -2574,3 +2574,45 @@
   last_updated: '2026-04-26'
   owner: macbook
   evidence_level: VERIFIED
+- id: cand_n32_bit20_m294e1ea8_fillffffffff
+  n: 32
+  m0: '0x294e1ea8'
+  fill: '0xffffffff'
+  kernel:
+    word_pair:
+    - 0
+    - 9
+    bit: 20
+    diff_hex: '0x00100000'
+  source: 2026-04-26 cascade_eligibility_sweep at bit=20 fill=0xff (NEW first-time-tested
+    bit, queue8) — hardlock_bits=15 (high)
+  da56:
+    status: verified
+    state_hash: null
+  metrics:
+    hw56: 115
+    db56_hw: null
+    de58_size: 8187
+    w60_mismatch_hw: null
+    de58_hardlock_mask: '0x413b0cf3'
+    de58_hardlock_value: '0x00090443'
+    de58_hardlock_bits: 15
+  statuses:
+    sr60:
+      status: unknown
+      evidence: []
+      cert_id: null
+      notes: null
+    true_sr61:
+      status: unknown
+      evidence: []
+      cpu_hours: 0
+  artifacts:
+    cnfs:
+    - cnfs_n32/sr61_cascade_m294e1ea8_fffffffff_bit20.cnf
+    certs: []
+    logs: []
+  last_tested: '2026-04-26'
+  last_updated: '2026-04-26'
+  owner: macbook
+  evidence_level: VERIFIED

@@ -30,9 +30,10 @@ Each cell = one (bit, fill) combination. Exhaustive 2^32 m0 sweep ≈ 12 min wal
 | 14       | 3 ✓  | 0 ✓  | 0 ✓  |      |      |  3 (NEW)    |
 | 15       | 3 ✓  |      |      |      |      |  3 (NEW)    |
 | 16       | 0 ✓  |      |      |      |      |  0          |
-| OTHER (20,21,23,24,26,27,28,29,30) | | | | | | unknown |
+| 20       | 1 ✓  |      |      |      |      |  1 (NEW)    |
+| OTHER (21,23,24,26,27,28,29,30) | | | | | | unknown |
 
-**Cells exhaustively swept** (29 as of 2026-04-26 07:00):
+**Cells exhaustively swept** (30 as of 2026-04-26 07:10):
   bit=31 fill=0xff (2),  bit=22 fill=0xff (0),
   bit=18 fill=0xff (2),  bit=18 fill=0x00 (3),  bit=18 fill=0x55 (0),
   bit=7  fill=0xff (0),
@@ -44,12 +45,12 @@ Each cell = one (bit, fill) combination. Exhaustive 2^32 m0 sweep ≈ 12 min wal
   bit=10 fill=0xff (0),  bit=2 fill=0xff (3),  bit=17 fill=0xff (0),  bit=13 fill=0x80 (1),
   bit=1  fill=0xff (1),  bit=5 fill=0xff (0),  bit=8 fill=0xff (0),  bit=14 fill=0xff (3),
   bit=14 fill=0x00 (0),  bit=14 fill=0x55 (0),  bit=2 fill=0x00 (0),  bit=9 fill=0xff (0),
-  bit=12 fill=0xff (1),  bit=15 fill=0xff (3),  bit=16 fill=0xff (0).
+  bit=12 fill=0xff (1),  bit=15 fill=0xff (3),  bit=16 fill=0xff (0),  bit=20 fill=0xff (1).
 
-**Currently running**: bit=20 fill=0xff (queue8 last cell).
-**Total NEW candidates discovered via sweep this session**: **23** (bit=18×5,
+**Currently running**: none.
+**Total NEW candidates discovered via sweep this session**: **24** (bit=18×5,
 bit=3×2, bit=4×2, bit=25×2, bit=2×3, bit=13×1, bit=1×1, bit=14×3,
-bit=12×1, bit=15×3). Registry expanded **36 → 59** (+64% growth).
+bit=12×1, bit=15×3, bit=20×1). Registry expanded **36 → 60** (+67% growth).
 
 **Key observation**: bit=14 produces 3 eligibles ONLY at fill=0xff;
 fill=0x00 and fill=0x55 yield 0. Same pattern observed at bit=18 and
@@ -88,8 +89,9 @@ predictions are unreliable.
 | bit=12 fill=0xff       | 2^32   | 1        | 0.50 |
 | bit=15 fill=0xff       | 2^32   | 3        | 1.50 |
 | bit=16 fill=0xff       | 2^32   | 0        | 0.00 |
+| bit=20 fill=0xff       | 2^32   | 1        | 0.50 |
 
-**Average**: 23 eligible / 29 cells = 0.79 per cell. Expected at uniform 2^-31
+**Average**: 24 eligible / 30 cells = 0.80 per cell. Expected at uniform 2^-31
 baseline = 2 per cell. Observed slightly LOWER, but consistent with Poisson(2)
 variance which has 14% chance of 0 per cell.
 
