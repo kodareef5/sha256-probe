@@ -608,3 +608,18 @@ round-61 follows.
 Dashboard: 387 runs, 0% audit failure (no new solver runs this hour —
 all activity on singular_chamber tools, not kissat). Registry validate
 clean. No fleet activity from non-macbook+non-yale machines.
+
+## 12:15 EDT — singular_chamber: cross-cand HW5 confirmed; yale at HW59 tail
+
+State: pushed b69d5c4 (3-cand sweep memo) — D61 HW5 reproduces on idx=0
+and idx=8. idx=3 floors at HW6. Yale concurrently pushed 3335040 with
+new tail HW59 frontier on idx=8 (was our HW60).
+
+Joint frontier: D61 HW5 / tail HW59. ~7 1B-trial M5 walks shipped today
+(~7B trials processed). idx=0 HW5-base 1B walk in flight (PID 21158,
+~1 min remaining). Will roll subsequent walks into next substantive
+commit per user guidance (no per-walk play-by-play).
+
+Dashboard: 387 runs, 0% audit fail (no new kissat/cadical solver runs
+this hour — all M5 compute on singular_chamber tools). Registry
+validates clean.
