@@ -78,18 +78,25 @@
   owner: macbook
 - id: bdd_marginals_uniform
   claim: "BDD marginals at N >= 10 are uniform \u2014 provide no SAT branching heuristic signal."
-  scope: Tested N=8, 10, 12.
-  status: closed
+  scope: "Tested N=8, 10, 12 on generic candidates. REOPENED 2026-04-26 (see notes)."
+  status: reopened
   evidence_level: EVIDENCE
   closed_date: '2026-04-15'
+  reopened_date: '2026-04-26'
   evidence_files:
   - writeups/paper_section4_bdd.md
+  - headline_hunt/bets/singular_chamber_rank/results/20260426_D2_bit19_marginals_nonuniform.md
   why_closed: Marginal probabilities are within noise of 0.5 across all variables at N >= 10; no branching information available
     to a SAT solver.
+  why_reopened: "On bit=19 m=0x51ca0b34 (de58_size=256, structurally distinguished cand), de58 image marginals are STRONGLY non-uniform: 13 of 32 bits fully locked (marginal in {0,1}), 5 additional bits at marginals 0.125/0.25/0.75/0.875. 18 of 32 bits structurally distinguished. The original closure tested generic cands and missed structurally distinguished ones."
   would_change_my_mind:
   - Conditional marginals (given a partial assignment) show structure that uniform marginals hide.
   - A different BDD variable ordering reveals non-uniform marginals.
-  related_mechanisms: []
+  - "Non-uniform marginals on a structurally distinguished candidate (de58_size << median, e.g., bit=19 family). [FIRED 2026-04-26]"
+  refined_scope_after_reopen: "Claim holds for GENERIC cands at N>=10 (de58_size near population median). Claim is FALSIFIED on structurally distinguished cands (de58_size << median). SAT branching heuristic that prioritizes locked-bit positions on structured cands is untested but mathematically supported."
+  related_mechanisms:
+  - singular_chamber_rank
+  - mitm_residue
   owner: macbook
 - id: d4_standard_n8_treewidth
   claim: d4 on standard N=8 cascade CNF does not complete within 67h (treewidth ~110 barrier).
