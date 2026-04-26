@@ -122,3 +122,58 @@ bit=19 cand give 1.71× Mode A speedup at 50k kissat conflicts.
 First demonstrated structure-aware speedup on a structurally
 distinguished cand. Confirms `bdd_marginals_uniform` reopen criterion
 is correct and the structure is extractable.
+
+## ADDENDUM (14:38 EDT) — scaling test across 5 cands
+
+Tested locked-bit hints on 5 cands spanning de58_size 256–51k:
+
+| cand | de58_size | hl | A base | A+hint | speedup |
+|---|---:|---:|---:|---:|---:|
+| bit19 m=0x51ca0b34 | **256** | 13 | 3.09s | 1.77s | **1.75×** |
+| bit15 m=0x28c09a5a | 4096 | 14 | 3.15s | 2.34s | 1.35× |
+| bit20 m=0x294e1ea8 | 8187 | 15 | 2.33s | 1.82s | 1.28× |
+| msb m=0x17149975 | 51563 | 10 | 2.12s | 1.74s | 1.22× |
+| bit3 m=0x33ec77ca | 51654 | 6 | 1.97s | 1.95s | 1.01× |
+
+Spearman ρ(hl, speedup) = +0.60. **But de58_size is the dominant
+predictor**: speedup ranks almost perfectly inversely with de58 image
+size (Spearman ρ would be ≈ -0.9 by inspection).
+
+**Intuition**: smaller de58 image means each locked bit is a larger
+fraction of the image's entropy. bit=19's 13 locked bits in a 2^8
+image = 1.6 bits of entropy per locked-bit hint. bit=3's 6 locked
+bits in a 2^16 image = much less informational impact per hint.
+
+## Cross-bet revision: bit=19 IS structurally distinguished
+
+This addendum REVISES the B1 finding's interpretation. B1 (b760423)
+showed bit=19 floors HIGHER at HW5 D61 under random-flip walks —
+"mitm_residue's priority target framing is invalidated."
+
+This locked-bit-hint scaling test shows bit=19 IS the BEST candidate
+for SAT preprocessing speedup (largest hint benefit, 1.75× vs others'
+1.0-1.4×).
+
+So: **bit=19 has real structural distinction, but it lives in the SAT
+preprocessing layer, not the random-flip-walker layer.** The mitm_residue
+"priority MITM target" framing was correct in spirit (bit=19 has real
+structure), wrong in attack vector (forward-table doesn't help; SAT
+branching with locked-bit hints does).
+
+The G1 synthesis (ef56416) should be read with this addendum — the
+mitm_residue invalidation was partial. The bet's de58_size=256 emphasis
+points at REAL structure usable by SAT, just not at the cascade-walker
+or forward-table objectives.
+
+## Productive deployment story for cascade_aux
+
+| Mode | Solution set | Preprocessing speedup |
+|---|---|---|
+| A (expose) | unchanged | 1× (control) |
+| A + locked-bit hints | unchanged | 1.0-1.75× (de58-dependent) |
+| B (force) | restricted to cascade-DP solutions | 1.5-3× |
+
+Mode A + locked-bit hints is the new option: comparable speedup to
+Mode B without restricting the solution set. Cheapest implementation:
+a Python wrapper around cascade_aux_encoder that injects unit clauses
+based on de58 image marginals.
