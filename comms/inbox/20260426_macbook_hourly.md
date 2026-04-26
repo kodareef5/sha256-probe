@@ -65,3 +65,24 @@ bit=13 fill=0x80 (Σ0 amount, registered at 0x00,0x55,0xaa,0xff — missing 0x80
 
 Targeting gaps in registry coverage. Expected ~6-8 more candidates.
 Will register + audit + smoke-test as discovered.
+
+## 03:15 EDT — DISCIPLINE FIX: 16 stale aux sr=61 CNFs regenerated
+
+Audit-sweep of all 100 cascade_aux CNFs found 16 with CRITICAL_MISMATCH
+verdicts. Root cause: encoder was updated 2026-04-25 (modular-diff aux
+added for Phase 2C); old sr=61 CNFs no longer match new sr=61 fingerprint
+range — they fall in sr=60 range.
+
+These 16 had been used in runs.jsonl with sr_audit=CONFIRMED at
+generation time but became MISMATCH after fingerprint update.
+
+Fix: regenerated all 16 using current encoder. All 16 now CONFIRMED.
+Final audit: 100/100 cascade_aux CNFs CONFIRMED.
+
+Past Mode B speedup characterization may have ~12% sr-level misattribution
+(16 of 130 runs hit sr=60 content tagged sr=61). Needs re-verification
+before bet's "2-3.4× front-loaded" claim is taken as sr=61 specific.
+
+Memo: bets/cascade_aux_encoding/results/20260426_audit_rot_fix.md
+
+bit=10 sweep also done: 0 eligible. bit=2 starting.
