@@ -89,7 +89,7 @@
 - id: true_sr61_n32
   name: TRUE sr=61 semi-free-start collision at N=32
   headline_if_success: Direct extension of public SHA-256 collision boundary from sr=60 to sr=61 (94/64 rounds).
-  hypothesis: Among the 29+ TRUE sr=61 candidates in cnfs_n32/, at least one has a SAT instance reachable in under 10k CPU-hours
+  hypothesis: Among the 45+ TRUE sr=61 candidates in cnfs_n32/ (expanded 2026-04-26), at least one has a SAT instance reachable in under 10k CPU-hours
     given new encoding/candidate diversity.
   structural_basis:
   - Cascade boundary theorem says sr=61 is structurally ~2^N harder, but not impossible.
@@ -116,7 +116,7 @@
   - A new mechanism (cascade_auxiliary_encoding succeeds, or programmatic propagator gives early termination signals) materially
     changes solver behavior.
   evidence:
-  - "cnfs_n32/sr61_n32_*.cnf \u2014 29 audited candidates"
+  - "cnfs_n32/sr61_*.cnf \u2014 45 audited candidates (was 29 pre-2026-04-25, expanded via 2026-04-26 cascade_eligibility_sweep)"
   - "writeups/20260420_project_pause_summary.md \u2014 1800 CPU-h with zero SAT post-audit"
   owner: fleet
   last_updated: '2026-04-24'
