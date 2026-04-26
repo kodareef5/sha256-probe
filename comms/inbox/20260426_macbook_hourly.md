@@ -439,3 +439,31 @@ are unreliable for cands with CV > 0.2.
 
 12 logged runs, dashboard refreshed (251 total runs, 0% audit fails).
 Memo: bets/cascade_aux_encoding/results/20260426_mode_b_predictor_n16.md
+
+## 08:00 EDT — PREDICTOR VERDICT: ρ=+0.976 at 3-seed median (n=16)
+
+Extended multi-seed validation to ALL 16 cands × 3 seeds (1, 5, 42) =
+96 measurements at 50k kissat. 3-seed-median Spearman:
+
+  Mode A wall → Mode B speedup: ρ = +0.976 (was +0.750 single-seed)
+  Mode A wall → absolute saving: ρ = +0.994 (was +0.941 single-seed)
+  hl_bits → speedup:             ρ = -0.215
+  hw56 → speedup:                ρ = +0.350
+
+**Multi-seed averaging STRENGTHENED the predictor signal**. ρ jumped
+from +0.750 to +0.976. Mode A wall is essentially a perfect predictor
+of Mode B's 50k speedup.
+
+Per-cand CV: A=19% mean, B=9% mean (Mode B forces convergent solver
+behavior — much more stable than Mode A). Speedup CV=19%.
+
+Verdict memo: bets/cascade_aux_encoding/results/20260426_mode_b_predictor_3seed_VERDICT.md
+
+Practical: run quick 50k Mode A on a new cand, multiply by ~0.6, get
+expected Mode B absolute saving with high accuracy.
+
+52 logged runs this pulse + cleanup of 4 garbage files (zsh typo).
+Total runs: 304. Audit failure rate: 0.00%.
+
+This is a **substantive cascade_aux predictor finding** — the bet now
+has a quantitative model for when Mode B helps and by how much.
