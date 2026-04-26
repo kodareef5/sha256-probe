@@ -185,3 +185,44 @@ Per-turn: 5 commits pushed. Concrete forward motion across:
   - Visibility (dashboard refresh)
   - Analytic (de58 image-size distribution memo)
   - Implementation (M16-MITM forward enumerator validated)
+
+## 04:25 EDT — queue7 DONE: 0 NEW (4/4 cells empty)
+
+Final queue7 results:
+  bit=14 fill=0x00: 0 eligible
+  bit=14 fill=0x55: 0 eligible  
+  bit=2  fill=0x00: 0 eligible
+  bit=9  fill=0xff: 0 eligible (NEW first-time-tested bit)
+
+bit=14 produces eligibles ONLY at fill=0xff. The same pattern observed
+at bit=18 and bit=3 — each (bit, fill) cell has its own eligibility
+character; cells with high yield at fill=0xff often produce 0 at
+fill=0x00 or fill=0x55. The (bit, fill) granularity is fundamental.
+
+bit=9 fill=0xff (newly tested): 0 eligible. Adds another data point
+to the falsified Σ1/σ1 alignment hypothesis.
+
+Session totals (final, at this turn):
+  Registry: 36 → **55** (+19, +53%)
+  Cells exhaustively swept: **26** (up from 22 at start of turn)
+  Substantive shipped this turn: 9 commits — registry expansion,
+    smoke-tests, dashboard, distribution analysis, M16-MITM forward
+    validation (N=8 + N=10), M16-MITM design-gap critique, queue7
+    sweep results.
+
+## 04:30 EDT — Strategic update
+
+The queue7 result REINFORCES that follow-up sweeps at non-fill=0xff
+cells of productive bits are LOW EV. Each bit's "winning fill" appears
+unique. Future sweep effort should target NEW bits at fill=0xff
+(remaining: 12, 15, 16, 20, 21, 23, 24, 26, 27, 28, 29, 30) rather
+than re-scan productive bits at other fills.
+
+Concrete deliverables this session beyond registry growth:
+- M16-MITM forward enumerator validated (200/200 at both N=8 + N=10)
+- M16-MITM backward enumerator design-gap identified (NOT viable
+  as written — match key saturated)
+- de58 image-size distribution documented (2^8 outlier at bit=19)
+
+The block2_wang bet now has CRISP design intel: forward is solid,
+backward needs redesign before any further C implementation.
