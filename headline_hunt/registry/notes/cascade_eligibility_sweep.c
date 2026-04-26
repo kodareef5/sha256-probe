@@ -44,14 +44,15 @@ static const uint32_t IV[8] = {
     0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19
 };
 
-/* Returns a-register at slot 56 (after 56 rounds) for message M (16 32-bit words). */
-static uint32_t a_at_slot56(const uint32_t M[16]) {
+/* Returns a-register at slot 57 (after 57 rounds) for message M (16 32-bit words).
+ * This matches lib.sha256.precompute_state which loops `for i in range(57)`. */
+static uint32_t a_at_slot57(const uint32_t M[16]) {
     uint32_t W[57];
     for (int i = 0; i < 16; i++) W[i] = M[i];
     for (int i = 16; i < 57; i++)
         W[i] = sigma1(W[i-2]) + W[i-7] + sigma0(W[i-15]) + W[i-16];
     uint32_t a=IV[0], b=IV[1], c=IV[2], d=IV[3], e=IV[4], f=IV[5], g=IV[6], h=IV[7];
-    for (int i = 0; i < 56; i++) {
+    for (int i = 0; i < 57; i++) {
         uint32_t T1 = h + Sigma1(e) + Ch(e,f,g) + K[i] + W[i];
         uint32_t T2 = Sigma0(a) + Maj(a,b,c);
         h=g; g=f; f=e; e=d+T1; d=c; c=b; b=a; a=T1+T2;
@@ -82,8 +83,8 @@ int main(int argc, char *argv[]) {
         for (long long m = 0; m <= 0xFFFFFFFFLL; m++) {
             M1[0] = (uint32_t)m;
             M2[0] = (uint32_t)m ^ kernel_diff;
-            uint32_t a1 = a_at_slot56(M1);
-            uint32_t a2 = a_at_slot56(M2);
+            uint32_t a1 = a_at_slot57(M1);
+            uint32_t a2 = a_at_slot57(M2);
             if (a1 == a2) {
                 local_eligible++;
                 if (local_eligible <= 10) {

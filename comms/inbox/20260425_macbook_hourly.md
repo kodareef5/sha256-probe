@@ -1245,3 +1245,23 @@ ETA ~10-15 min wall total. Hypothesis falsifiable:
 
 This is the falsifier from registry/notes/20260425_covered_bits_pattern.md.
 Authorized routine: ~15 min compute, no contention.
+
+## 0:35 EDT (Apr 26) — Sweep tool BUG fixed: was using 56 rounds, should be 57
+
+Initial sweep result was 0 eligible at bit=31 — IMPOSSIBLE (cert m17149975 is
+known eligible). Root cause: a_at_slot56 ran 56 rounds of compression but
+cascade-eligibility requires 57 rounds (matches lib.sha256.precompute_state).
+
+Fixed in cascade_eligibility_sweep.c (a_at_slot56 → a_at_slot57). Verified
+on standalone cert m=0x17149975: a equal at slot 57 = 0x6996ce4b ✓.
+
+Verified narrow-band scan [0x17000000, 0x17200000): 1 eligible found
+(m=0x17149975). Tool produces correct output now.
+
+Re-launched full bit=31 sweep (~3 min wall ETA at 25M m/s × 10 threads).
+
+Earlier "FINAL: bit=31 eligible=0" reported in monitor was the BUGGY version.
+DELETING that result and re-running with the fix.
+
+ALSO shipped: comms/inbox/20260425_macbook_session_digest.md — comprehensive
+end-of-session handoff for tomorrow.
