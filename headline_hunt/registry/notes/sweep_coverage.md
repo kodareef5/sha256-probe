@@ -13,7 +13,7 @@ Each cell = one (bit, fill) combination. Exhaustive 2^32 m0 sweep ≈ 12 min wal
 |  6       |      |      |      |      |      |  curated 6  |
 |  7       | 0 ✓  |      |      |      |      |  0          |
 | 10       |      |      |      |      |      |  curated 7  |
-| 11       |      |      |      |      |      |  curated 2  |
+| 11       | 0 ✓  |      |      |      |      |  curated 2 + 0 swept |
 | 13       |      |      |      |      |      |  curated 6  |
 | 17       |      |      |      |      |      |  curated 3  |
 | 18       | 2 ✓  | 3 ✓  | 0 ✓  |      |      |  5 (NEW)    |
@@ -23,9 +23,17 @@ Each cell = one (bit, fill) combination. Exhaustive 2^32 m0 sweep ≈ 12 min wal
 | 31       | 2 ✓  |      |      |      |      |  curated 6  |
 | OTHER (1,2,5,8,9,12,14,15,16,20,21,23,24,26,27,28,29,30) | | | | | | unknown |
 
-**Cells exhaustively swept**: 7 (bit=31, 22, 18-{0xff,0x00}, 7, 3-{0xff,0x00}).
-**Currently running**: bit=3 fill=0x55, bit=18 fill=0x55, bit=4 fill=0xff.
-**Total NEW candidates discovered via sweep this session**: 7 (across 4 productive cells).
+**Cells exhaustively swept** (12 as of 2026-04-26 02:50):
+  bit=31 fill=0xff (2),  bit=22 fill=0xff (0),
+  bit=18 fill=0xff (2),  bit=18 fill=0x00 (3),  bit=18 fill=0x55 (0),
+  bit=7  fill=0xff (0),
+  bit=3  fill=0xff (2),  bit=3 fill=0x00 (0),  bit=3 fill=0x55 (0),
+  bit=4  fill=0xff (2),
+  bit=19 fill=0xff (0).
+
+**Currently running**: bit=11 fill=0xff (in flight); bit=25 fill=0xff (queued).
+**Total NEW candidates discovered via sweep this session**: **9** (bit=18×5,
+bit=3×2, bit=4×2). Registry expanded 36 → 45.
 
 ## Per-cell statistics
 
@@ -42,6 +50,7 @@ Each cell = one (bit, fill) combination. Exhaustive 2^32 m0 sweep ≈ 12 min wal
 | bit=18 fill=0x55       | 2^32   | 0        | 0.00 |
 | bit=4  fill=0xff       | 2^32   | 2        | 1.00 |
 | bit=19 fill=0xff       | 2^32   | 0        | 0.00 |
+| bit=11 fill=0xff       | 2^32   | 0        | 0.00 |
 
 **Average**: 9 eligible / 7 cells = 1.29 per cell. Expected at uniform 2^-31
 baseline = 2 per cell. Observed slightly LOWER, but consistent with Poisson(2)
