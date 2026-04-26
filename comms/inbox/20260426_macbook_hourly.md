@@ -643,3 +643,27 @@ family.
 Dashboard 387 runs, 0% audit fail (no kissat/cadical this hour — all M5
 compute on singular_chamber tools). Yale concurrently developing carry-aware
 repair operators per their last commits.
+
+## 13:55 EDT — singular_chamber raw-depth campaign complete
+
+Pushed 96a5c18 — third-cand HW4 confirmation on idx=17 (off58=0x00000001,
+sparsest in registry). Joint frontier holds at D61 HW4 / tail HW59.
+
+13 1B-trial M5 walks total, ~13B trials, ~3 hours wall. 5 convergent
+attack vectors (M5 raw, M5 radius=64, yale GPU off58 scan, yale kernel-rep
+linear enumeration, M5 sparsest-off58 chamber) all bottom at HW4/HW59.
+
+Empirically: HW4 D61 reproduces across 3 cands at 3 maximally-distinct
+sparse-off58 chambers (HW1 single-bit + 2 different HW2 patterns). Even
+the geometrically extreme HW1 chamber doesn't break HW4. This eliminates
+'sparser off58 = lower D61' as a hypothesis.
+
+idx=11 (off58=0x00000040 HW1) tested and found to have 0 cascade-eligible
+exact-D60 starts in 65k tailhill57 trials — its chamber has different
+geometry (sparse off58 alone is not enough to give an exact surface).
+
+Stopping raw-depth campaign here. The greedy-flip + Newton-repair operator
+family has reached its information limit. Next-stage work (carry-aware
+proposals, trail-search) is yale's structural track or requires new ops.
+
+Total committed today on singular_chamber: 12 commits (cddef23 → 96a5c18).
