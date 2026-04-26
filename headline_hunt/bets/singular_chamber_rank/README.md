@@ -113,6 +113,9 @@ gcc -O3 -march=native -fopenmp -I. \
 /tmp/defect_fiber_counter reqhist 12 11 0xfff 0x666 0x393
 /tmp/defect_fiber_counter schedscan 12 11 0xfff 0x666
 /tmp/defect_fiber_counter sigmadiff 16 0x8000
+/tmp/singular_defect_rank off58hill 512 8 32
+/tmp/singular_defect_rank schedsample 0 0x370fef5f 1000000 22
+/tmp/singular_defect_rank defecthill58 3 0xe28da599 0x233e4216 2048 8 32
 ```
 
 Key result notes:
@@ -122,3 +125,6 @@ Key result notes:
   signatures appeared at reduced N.
 - `results/20260426_schedule_finite_difference_probe.md`: schedule-side
   finite-difference collapse and `S`/`R` target alignment.
+- `results/20260426_fulln_sparse_offset_probe.md`: full-N sparse `off58`
+  steering, sampled schedule collapse, R-side falsification, and a one-bit
+  sr=61 defect near miss.

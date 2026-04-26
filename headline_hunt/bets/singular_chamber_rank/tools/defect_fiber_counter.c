@@ -27,6 +27,8 @@
  *   /tmp/defect_fiber_counter reqhist N BIT FILL_HEX W57 W58
  *   /tmp/defect_fiber_counter schedscan N BIT FILL_HEX W57
  *   /tmp/defect_fiber_counter sigmadiff N DELTA_HEX
+ *   /tmp/defect_fiber_counter sigmaparts N DELTA_HEX
+ *   /tmp/defect_fiber_counter sigmasample N DELTA_HEX SAMPLES TABLE_BITS
  *   /tmp/defect_fiber_counter off58scan N BIT FILL_HEX W57_LIMIT
  *   /tmp/defect_fiber_counter off58find N BIT FILL_HEX OFF58_HEX
  *
@@ -44,6 +46,12 @@
 #include "lib/sha256.h"
 
 typedef struct {
+    uint32_t key;
+    uint32_t count;
+    uint8_t used;
+} sample_bucket_t;
+
+typedef struct {
     uint64_t total_pairs;
     uint64_t total_hits;
     long double sum_hits_sq;
@@ -56,6 +64,14 @@ typedef struct {
 
 static inline uint32_t maskn(void) {
     return sha256_MASK;
+}
+
+static inline uint32_t splitmix32_local(uint64_t *state) {
+    uint64_t z = (*state += 0x9e3779b97f4a7c15ULL);
+    z = (z ^ (z >> 30)) * 0xbf58476d1ce4e5b9ULL;
+    z = (z ^ (z >> 27)) * 0x94d049bb133111ebULL;
+    z ^= z >> 31;
+    return (uint32_t)z;
 }
 
 static inline int hw(uint32_t x) {
@@ -1364,6 +1380,174 @@ static void sigma_diff_scan(int N, uint32_t delta) {
     free(first_w);
 }
 
+static void sigma_diff_parts_scan(int N, uint32_t delta) {
+    if (N < 4 || N > 22) {
+        fprintf(stderr, "sigmaparts mode requires N=4..22.\n");
+        exit(2);
+    }
+    sha256_init(N);
+    delta &= maskn();
+    uint32_t limit = 1U << N;
+    uint64_t *q_hist = calloc((size_t)limit, sizeof(uint64_t));
+    uint64_t *lin_hist = calloc((size_t)limit, sizeof(uint64_t));
+    uint64_t *arith_hist = calloc((size_t)limit, sizeof(uint64_t));
+    if (!q_hist || !lin_hist || !arith_hist) {
+        fprintf(stderr, "allocation failed\n");
+        exit(2);
+    }
+
+    for (uint32_t w = 0; w < limit; w++) {
+        uint32_t wp = (w + delta) & maskn();
+        uint32_t q = (wp ^ w) & maskn();
+        uint32_t lin = (sha256_sigma1(wp) ^ sha256_sigma1(w)) & maskn();
+        uint32_t arith = subn(sha256_sigma1(wp), sha256_sigma1(w));
+        q_hist[q]++;
+        lin_hist[lin]++;
+        arith_hist[arith]++;
+    }
+
+    uint64_t q_occ = 0, lin_occ = 0, arith_occ = 0;
+    uint64_t q_max = 0, lin_max = 0, arith_max = 0;
+    uint32_t q_max_v = 0, lin_max_v = 0, arith_max_v = 0;
+    long double q_sq = 0.0L, lin_sq = 0.0L, arith_sq = 0.0L;
+
+    for (uint32_t v = 0; v < limit; v++) {
+        uint64_t c = q_hist[v];
+        q_sq += (long double)c * (long double)c;
+        if (c) q_occ++;
+        if (c > q_max) {
+            q_max = c;
+            q_max_v = v;
+        }
+
+        c = lin_hist[v];
+        lin_sq += (long double)c * (long double)c;
+        if (c) lin_occ++;
+        if (c > lin_max) {
+            lin_max = c;
+            lin_max_v = v;
+        }
+
+        c = arith_hist[v];
+        arith_sq += (long double)c * (long double)c;
+        if (c) arith_occ++;
+        if (c > arith_max) {
+            arith_max = c;
+            arith_max_v = v;
+        }
+    }
+
+    long double mean = 1.0L;
+    long double q_fano = q_sq / (long double)limit - mean * mean;
+    long double lin_fano = lin_sq / (long double)limit - mean * mean;
+    long double arith_fano = arith_sq / (long double)limit - mean * mean;
+    if (q_fano < 0.0L) q_fano = 0.0L;
+    if (lin_fano < 0.0L) lin_fano = 0.0L;
+    if (arith_fano < 0.0L) arith_fano = 0.0L;
+
+    printf("{\"mode\":\"sigmaparts\",\"N\":%d,\"delta\":\"0x%x\","
+           "\"q_occupied\":%llu,\"q_fraction\":%.9Lf,\"q_max\":\"0x%x\",\"q_max_count\":%llu,\"q_fano\":%.6Lf,"
+           "\"lin_occupied\":%llu,\"lin_fraction\":%.9Lf,\"lin_max\":\"0x%x\",\"lin_max_count\":%llu,\"lin_fano\":%.6Lf,"
+           "\"arith_occupied\":%llu,\"arith_fraction\":%.9Lf,\"arith_max\":\"0x%x\",\"arith_max_count\":%llu,\"arith_fano\":%.6Lf}\n",
+           N, delta,
+           (unsigned long long)q_occ, (long double)q_occ / (long double)limit,
+           q_max_v, (unsigned long long)q_max, q_fano,
+           (unsigned long long)lin_occ, (long double)lin_occ / (long double)limit,
+           lin_max_v, (unsigned long long)lin_max, lin_fano,
+           (unsigned long long)arith_occ, (long double)arith_occ / (long double)limit,
+           arith_max_v, (unsigned long long)arith_max, arith_fano);
+
+    free(q_hist);
+    free(lin_hist);
+    free(arith_hist);
+}
+
+static uint32_t sample_table_insert(sample_bucket_t *table, uint32_t table_mask,
+                                    uint32_t key, uint32_t *unique) {
+    uint32_t pos = (key * 2654435761U) & table_mask;
+    while (table[pos].used && table[pos].key != key) {
+        pos = (pos + 1U) & table_mask;
+    }
+    if (!table[pos].used) {
+        table[pos].used = 1;
+        table[pos].key = key;
+        table[pos].count = 1;
+        (*unique)++;
+        return 1;
+    }
+    table[pos].count++;
+    return table[pos].count;
+}
+
+static void sigma_diff_sample(int N, uint32_t delta, uint32_t samples, int table_bits) {
+    if (N < 4 || N > 32) {
+        fprintf(stderr, "sigmasample mode requires N=4..32.\n");
+        exit(2);
+    }
+    if (table_bits < 10) table_bits = 10;
+    if (table_bits > 28) table_bits = 28;
+    if (samples == 0) samples = 1;
+    uint32_t table_size = 1U << table_bits;
+    if (samples * 2U > table_size && table_bits < 28) {
+        fprintf(stderr, "warning: table load factor may be high; increase TABLE_BITS\n");
+    }
+
+    sha256_init(N);
+    delta &= maskn();
+
+    sample_bucket_t *q_table = calloc((size_t)table_size, sizeof(sample_bucket_t));
+    sample_bucket_t *lin_table = calloc((size_t)table_size, sizeof(sample_bucket_t));
+    sample_bucket_t *arith_table = calloc((size_t)table_size, sizeof(sample_bucket_t));
+    if (!q_table || !lin_table || !arith_table) {
+        fprintf(stderr, "allocation failed\n");
+        exit(2);
+    }
+
+    uint32_t table_mask = table_size - 1U;
+    uint32_t q_unique = 0, lin_unique = 0, arith_unique = 0;
+    uint32_t q_max = 0, lin_max = 0, arith_max = 0;
+    uint32_t q_max_key = 0, lin_max_key = 0, arith_max_key = 0;
+    uint64_t rng = 0x1234abcd9876fedcULL ^ ((uint64_t)delta << 17) ^ (uint64_t)N;
+
+    for (uint32_t i = 0; i < samples; i++) {
+        uint32_t w = splitmix32_local(&rng) & maskn();
+        uint32_t wp = (w + delta) & maskn();
+        uint32_t q = (wp ^ w) & maskn();
+        uint32_t lin = (sha256_sigma1(wp) ^ sha256_sigma1(w)) & maskn();
+        uint32_t arith = subn(sha256_sigma1(wp), sha256_sigma1(w));
+
+        uint32_t c = sample_table_insert(q_table, table_mask, q, &q_unique);
+        if (c > q_max) {
+            q_max = c;
+            q_max_key = q;
+        }
+        c = sample_table_insert(lin_table, table_mask, lin, &lin_unique);
+        if (c > lin_max) {
+            lin_max = c;
+            lin_max_key = lin;
+        }
+        c = sample_table_insert(arith_table, table_mask, arith, &arith_unique);
+        if (c > arith_max) {
+            arith_max = c;
+            arith_max_key = arith;
+        }
+    }
+
+    printf("{\"mode\":\"sigmasample\",\"N\":%d,\"delta\":\"0x%x\","
+           "\"samples\":%u,\"table_bits\":%d,"
+           "\"q_unique\":%u,\"q_unique_rate\":%.9f,\"q_max\":\"0x%x\",\"q_max_count\":%u,"
+           "\"lin_unique\":%u,\"lin_unique_rate\":%.9f,\"lin_max\":\"0x%x\",\"lin_max_count\":%u,"
+           "\"arith_unique\":%u,\"arith_unique_rate\":%.9f,\"arith_max\":\"0x%x\",\"arith_max_count\":%u}\n",
+           N, delta, samples, table_bits,
+           q_unique, (double)q_unique / (double)samples, q_max_key, q_max,
+           lin_unique, (double)lin_unique / (double)samples, lin_max_key, lin_max,
+           arith_unique, (double)arith_unique / (double)samples, arith_max_key, arith_max);
+
+    free(q_table);
+    free(lin_table);
+    free(arith_table);
+}
+
 static void off58_scan(int N, int bit, uint32_t fill, int w57_limit_arg) {
     sha256_precomp_t p1, p2;
     uint32_t m0 = 0;
@@ -1507,6 +1691,22 @@ static void off58_find(int N, int bit, uint32_t fill, uint32_t target_off58) {
 }
 
 int main(int argc, char **argv) {
+    if (argc >= 2 && strcmp(argv[1], "sigmasample") == 0) {
+        int N = (argc >= 3) ? atoi(argv[2]) : 32;
+        uint32_t delta = (argc >= 4) ? (uint32_t)strtoul(argv[3], NULL, 0) : 1;
+        uint32_t samples = (argc >= 5) ? (uint32_t)strtoul(argv[4], NULL, 0) : 1000000U;
+        int table_bits = (argc >= 6) ? atoi(argv[5]) : 22;
+        sigma_diff_sample(N, delta, samples, table_bits);
+        return 0;
+    }
+
+    if (argc >= 2 && strcmp(argv[1], "sigmaparts") == 0) {
+        int N = (argc >= 3) ? atoi(argv[2]) : 12;
+        uint32_t delta = (argc >= 4) ? (uint32_t)strtoul(argv[3], NULL, 0) : 1;
+        sigma_diff_parts_scan(N, delta);
+        return 0;
+    }
+
     if (argc >= 2 && strcmp(argv[1], "off58find") == 0) {
         int N = (argc >= 3) ? atoi(argv[2]) : 12;
         int bit = (argc >= 4) ? atoi(argv[3]) : (N - 1);
