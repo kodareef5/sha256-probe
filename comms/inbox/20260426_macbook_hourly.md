@@ -364,3 +364,27 @@ structural targeting we didn't know about.
     - Mode B inverse-hardlock hypothesis (3-cand evidence)
     - Audit-rot fix for 16 cascade_aux CNFs (earlier in session)
   Commits this turn: 48+ pushed to master
+
+## 07:42 EDT — Inverse-hardlock hypothesis REFUTED at n=5 (honest negative)
+
+Extended Mode A vs B from n=3 to n=5 by testing two mid-hardlock cands
+(bit=24 hl=8, bit=29 hl=12) at 50k+1M kissat. Generated 4 new aux
+CNFs (all CONFIRMED).
+
+Speedup vs hardlock_bits at 50k:
+  hl=3:  3.01x  (outlier high)
+  hl=8:  1.44x  ← LOWER than hl=15
+  hl=12: 1.72x
+  hl=15: 1.89x, 1.97x
+
+NOT monotonic. Inverse-hl hypothesis CLOSED.
+
+Refined observation (untested): absolute time savings track Mode A
+baseline; Mode B value ≈ proportional to baseline solver effort, not
+fixed preprocessing constant, not hl-predictable.
+
+8 logged runs. Memo: bets/cascade_aux_encoding/results/20260426_mode_b_2cand_consistency.md
+
+This is honest negative result substantive shipping. n=3 hypothesis
+refuted at n=5 — exactly the kind of self-correction the validation
+matrix discipline is for.
