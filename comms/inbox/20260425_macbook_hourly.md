@@ -1430,3 +1430,25 @@ Now we have TWO structural extremes:
 
 Both extremes worth solver experiments at higher budgets. Currently both
 are TIMEOUT at standard budgets (per validation matrix predictor closure).
+
+## 2:30 EDT (Apr 26) — Session shipping summary: registry 36→45 (+9 NEW cands)
+
+bit=4 fill=0xff sweep: 2 NEW (m=0x39a03c2d, m=0xd41b678d).
+m=0x39a03c2d has de58_image=2048 = 2^11 — SECOND-MOST-COMPRESSED in
+the registry (only bit-19's 2^8 is smaller). 21-bit compression at
+non-aligned bit position. Σ1/σ1 alignment hypothesis FULLY closed:
+σ0-aligned, Σ0-aligned, AND non-aligned all show baseline ~2^-31 rate.
+
+All 5 remaining new cands smoke-tested at 1M kissat: TIMEOUT, dec/conf
+4.81-5.22 (normal range). No exotic solver behavior at expanded registry.
+
+28 cascade_aux variants generated for the 7 prior new cands (4 modes ×
+sr-levels each), all 28 audit CONFIRMED.
+
+Total session deliverables:
+  Registry: 36 → 45 (+9 new cascade-eligible candidates)
+  CNFs: +9 cascade_explicit + 28 aux_explicit = 37 new audited CNFs
+  Sweeps: 9 cells exhaustively swept (~108 min compute)
+  Hypothesis: Σ1/σ1 alignment FULLY FALSIFIED across σ0, Σ0, non-aligned bits
+  Structural extremes identified: bit-19 (most compressed) vs bit-18 m99bf552b
+    (most spread, hardlock=1 vs prev min=3); bit-4 m39a03c2d 2nd most compressed
