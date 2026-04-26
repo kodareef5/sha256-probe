@@ -55,3 +55,13 @@ Random-fill sampling at a bit yields nothing if you miss the productive fills.
 Notable structural unique: m=0x99bf552b is the ONLY candidate of 45 whose
 hardlock_mask equals exactly 2^kernel_bit (just the kernel bit locked,
 31 of 32 de58 bits vary). The "anti-bit-19" structural extreme.
+
+## 03:05 EDT — Launched 4 more strategic sweeps (~48 min wall total)
+
+bit=10 fill=0xff (σ1 shift, registered at 0x00,0x55,0x80 — missing 0xff)
+bit=2  fill=0xff (Σ0 amount, FULLY untested)
+bit=17 fill=0xff (σ1 amount, registered at 0x00,0x80 — missing 0xff)
+bit=13 fill=0x80 (Σ0 amount, registered at 0x00,0x55,0xaa,0xff — missing 0x80)
+
+Targeting gaps in registry coverage. Expected ~6-8 more candidates.
+Will register + audit + smoke-test as discovered.
