@@ -13,7 +13,7 @@ expected_info_per_cpu_hour: high
 dependencies:
   - Existing cascade-eligible candidate registry.
   - CPU C probes in bets/singular_chamber_rank/tools; GPU optional only if a suitable parallel ridge kernel is built.
-next_action: "Continue from the M5 HW5/tail-HW68 frontier with carry-aware repair. Deep walks found dense exact HW5/HW6 basins; ridge enumeration around HW5 exposes D60-HW7/D61-HW3 shelves, so the next local target is repair that preserves sub-HW5 D61 while closing D60."
+next_action: "Continue from the M5 HW5/tail-HW67 frontier with carry-aware repair. Capped-D61 probing found a D60-HW4/D61-HW4 terrace with no exact-D60 neighbor through radius 7; the next local target is an operator that closes those four D60 bits without leaving the D61 cap-4 carry chamber."
 kill_criteria:
   - No local defect-rank drop below 32 across representative candidates and structured fills.
   - No correlation between gate-degeneracy metrics and defect-rank or defect-HW after a bounded probe.
@@ -31,29 +31,35 @@ current_progress: |
   Joint linux_gpu_laptop + macbook campaign. The full-N sparse-off58 chamber
   at idx 8 (off58=0x00010002) has moved from initial exact sr=61 compatibility
   through HW10/HW76, HW8/HW74, HW7/HW70, and now M5 1B-trial HW5 round-61 /
-  tail-HW68 verified frontiers.
+  tail-HW67 verified frontiers.
 
   The HW7 floor was an under-search artifact; HW5/HW6 are dense at 1B trials.
   Local radius-7 enumeration found a D60-HW7/D61-HW2 shelf, and weighted ridge
-  repair found an exact HW6 basin. Around the M5 HW5 point, radius-6 enumeration
-  exposes a D60-HW7/D61-HW3 shelf, but standard repair returns to the known HW5
-  exact basin. Open question: can carry-aware repair close D60 while preserving
-  sub-HW5 D61, or does raw depth need to find HW4/HW3 exact basins directly?
+  repair found an exact HW6 basin. Around the M5 HW5 point, capped-D61 probing
+  now maps a stepped terrace: cap 5 returns the known exact HW5 point, cap 4
+  bottoms at D60-HW4/D61-HW4, and cap 3/2 bottom at D60-HW7. Radius-7
+  enumeration around the HW4/HW4 terrace checked 704M neighbors with no exact
+  D60 point. A later M5 1B walk from the HW5 base found no D61 HW4/HW3, but
+  improved checked tail to HW67. Open question: can carry-aware repair close
+  those four D60 bits while preserving the D61 cap-4 terrace?
 evidence:
   - results/20260426_local_rank_probe.md
   - results/20260426_fiber_count_probe.md
   - results/20260426_schedule_finite_difference_probe.md
   - results/20260426_fulln_sparse_offset_probe.md
   - results/20260426_m5_1B_deep_descent.md
+  - results/20260426_m5_1B_from_HW5.md
 notes: |
   Local rank stayed full, so the bet redirected toward nonlinear
   finite-difference/carry fibers. Full-N sparse off58 steering found multiple
   exact sr=61-compatible points with defect60=0. Iterative descent, combining
   linux ridge-repair and M5 raw 1B-trial walks, drove the joint frontier from
   defect61 HW10 / tail HW76 through HW8/HW74 and HW7/HW70 to defect61 HW5 /
-  tail HW68.
+  tail HW67.
 
   Round61 traces show exact defect60 synchronizes a,b,c,e, reducing required61
   to dh+dCh. Radius-7 enumeration revealed a D60-HW7/D61-HW2 shelf that ordinary
   Newton/greedy repair cannot land exactly; weighted ridge repair can find nearby
-  exact HW6, but the HW5-local shelf still returns to the known exact HW5 basin.
+  exact HW6. A capped-D61 objective exposed a cleaner D60-HW4/D61-HW4 terrace,
+  but pair-residual linear solves still leave the carry chamber, and no exact
+  D60 point appeared within radius 7 of the terrace.

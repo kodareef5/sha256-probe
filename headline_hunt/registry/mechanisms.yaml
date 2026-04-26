@@ -245,20 +245,21 @@
   - The current cascade proof establishes a 2^-32 barrier under apparent uniformity, not a formal lower bound on every local chamber.
   - For fixed W57, S(W58) = C + sigma1(W58 + off58) - sigma1(W58); reduced-N image can be far smaller than 2^N.
   - Iterative descent (linux ridge-repair + macbook M5 raw 1B-trial walks) drove the joint frontier from defect61 HW10/tail HW76
-    down to defect61 HW5/tail HW68 at full N=32 on idx 8 (bit3_m33ec77ca_ff) via the sparse off58=0x00010002 chamber.
+    down to defect61 HW5/tail HW67 at full N=32 on idx 8 (bit3_m33ec77ca_ff) via the sparse off58=0x00010002 chamber.
   - HW5/HW6 are dense at 1B trials (millions of hits each); the prior HW7 'floor' was an under-search artifact.
   - Reduced-N exact fibers and full-N sparse-off58 steering show nonlinear carry chambers with fat preimages.
   - Exact defect60=0 synchronizes a,b,c,e at round 61, reducing required61 to dh+dCh and exposing a carry-repair wall.
   - Radius-6/radius-7 ridge enumeration finds low-D60 shelves with lower D61 than the exact frontier, including
     D60-HW7/D61-HW2 and HW5-local D60-HW7/D61-HW3 shelves.
+  - Capped-D61 probing maps a stepped terrace: exact D60 at D61 HW5, D60 HW4 at D61 cap 4, and D60 HW7 at D61 cap 3/2.
   status: in_flight
   priority: 8
   expected_info_per_cpu_hour: very_high
   dependencies:
   - Existing cascade-eligible candidate registry.
   - CPU C probes in bets/singular_chamber_rank/tools; GPU optional if a suitable parallel ridge kernel is built.
-  next_action: Walk from new HW5 base + HW68 tail base at 1B trials each; if HW4/HW3 reachable, push further. In parallel,
-    test carry-aware ridge repair on D60-low/D61-low shelves and sweep idx=0/3 for cross-candidate descent.
+  next_action: Walk from new HW5 base + HW67 tail base at 1B trials each; if HW4/HW3 reachable, push further. In parallel,
+    test carry-aware repair on the D60-HW4/D61-HW4 capped terrace and sweep idx=0/3 for cross-candidate descent.
   kill_criteria:
   - All representative candidates plateau at the same defect61 floor across deep walks AND structural mapping fails to
     identify a carry-aware repair operator.
@@ -272,9 +273,10 @@
   - bets/singular_chamber_rank/results/20260426_schedule_finite_difference_probe.md
   - bets/singular_chamber_rank/results/20260426_fulln_sparse_offset_probe.md
   - bets/singular_chamber_rank/results/20260426_m5_1B_deep_descent.md
+  - bets/singular_chamber_rank/results/20260426_m5_1B_from_HW5.md
   owner: linux_gpu_laptop
   last_updated: '2026-04-26'
   notes: "Joint linux_gpu_laptop + macbook bet. Linux shipped the original mathematical decomposition, bridge enumeration,
     ridge analysis, and ridge-repair tooling; macbook M5 ran raw 1B-trial deep walks. Together: defect61 HW10 -> HW5, tail
-    HW76 -> HW68 verified at full N=32. The exact surface is carry-fractured; low-D60 shelves below the exact D61 frontier
-    are visible but hard to repair without losing D61. Open: HW4/HW3 reachable, or carry-aware repair operator?"
+    HW76 -> HW67 verified at full N=32. The exact surface is carry-fractured; capped-D61 probing found a D60-HW4/D61-HW4
+    terrace with no exact-D60 neighbor through radius 7. Open: HW4/HW3 exact basin reachable, or carry-aware repair operator?"

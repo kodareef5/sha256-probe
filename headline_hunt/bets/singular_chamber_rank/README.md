@@ -128,6 +128,8 @@ gcc -O3 -march=native -fopenmp -I. \
 /tmp/singular_defect_rank frontier61pool 8 262144 8 80 32 0xaf07f044 0xdd73a9d7 0x57046fad 0xaf07f044 0x464b2c4c 0xef7b2fae
 /tmp/singular_defect_rank nearexact61point 8 0xaf07f044 0xdd73a9d7 0x57046fad 6
 /tmp/singular_defect_rank ridge61walk 8 0xaf07f044 0xddf3a9d3 0x76046f0d 1048576 8 128 24 8
+/tmp/singular_defect_rank capped61walk 8 0xaf07f044 0xdd55ab86 0x1d9ca68f 1048576 8 128 24 4
+/tmp/singular_defect_rank pair61residualpoint 8 0xaf07f044 0xdd55ab86 0x1d9ca68f 4
 /tmp/singular_defect_rank bridge61point 8 0xaf07f044 0x1cbb355e 0xad34d2a3 0x7fc3124f 0xbf245aa1 1
 ```
 
@@ -154,6 +156,13 @@ Key result notes:
   ridges nearby, not by broad local exact sheets. Radius-6/7 ridge enumeration
   is now a productive way to find non-exact low-D61 shelves that repair into
   new exact basins; weighted `ridge61walk` preserves low D61 during D60 repair
-  and found an exact HW6 point from the radius-7 shelf.
+  and found an exact HW6 point from the radius-7 shelf. Capped-D61 walks now
+  expose a discrete terrace: exact D60 is available at D61 HW5, but D61 cap 4
+  bottoms at D60 HW4/D61 HW4, and D61 cap 3/2 bottoms at D60 HW7. Radius-7
+  enumeration around the HW4/HW4 terrace checked 704M neighbors with no exact
+  D60 point. A later M5 1B walk from the HW5 base found no D61 HW4/HW3, but
+  improved the checked tail frontier to HW67.
 - `results/20260426_m5_1B_deep_descent.md`: macbook M5 1B-trial walk that
   verified the current HW5 round-61 and tail-HW68 frontiers.
+- `results/20260426_m5_1B_from_HW5.md`: macbook M5 1B-trial walk from the HW5
+  base; no D61 HW4/HW3 found, but checked tail improved to HW67.

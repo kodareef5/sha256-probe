@@ -855,7 +855,17 @@ Current frontier:
 | objective | point | value |
 |---|---|---:|
 | round-61 defect | `W58=0xdd73a9d7,W59=0x57046fad` | HW5 |
-| checked 57..63 tail | `W58=0x464b2c4c,W59=0xef7b2fae` | HW68 |
+| checked 57..63 tail | `W58=0xfd772dd7,W59=0xc30e0ff7` | HW67 |
+
+A later M5 1B-trial walk from the HW5 exact point did not find D61 HW4/HW3,
+but it did improve the checked-tail frontier from HW68 to HW67:
+
+```text
+W58 = 0xfd772dd7
+W59 = 0xc30e0ff7
+tail defects = 0,0,0,0,0x0d0024fd,0x1393c0fe,0xc0403e84
+tail HW = 67
+```
 
 The conclusion changed quantitatively, not qualitatively: neither the HW10,
 HW8, nor HW7 floor was structural, but the exact `defect60=0` surface is still
@@ -863,6 +873,56 @@ fractured into thin carry-linked basins. The productive pattern is now a
 two-track loop: deep greedy walking finds new exact basins, then ridge
 enumeration and weighted ridge repair explain and locally extend the shelves
 around them.
+
+## Capped-D61 terrace
+
+The weighted ridge objective was still too willing to trade D61 bits for exact
+D60: from the HW5-local D60-HW7/D61-HW3 shelf it snaps back to the known HW5
+exact basin. A capped objective was added to ask the sharper question: keep
+D61 below a chosen cap first, then minimize D60.
+
+From the M5 HW5 exact point:
+
+```text
+cap 5: exact D60 is reachable, but only at the known D61 HW5 point
+cap 4: best point has D60 HW4 and D61 HW4
+cap 3: best point has D60 HW7 and D61 HW3
+cap 2: best point has D60 HW7 and D61 HW2
+```
+
+The new cap-4 terrace point is:
+
+```text
+W58 = 0xdd55ab86
+W59 = 0x1d9ca68f
+defect60 = 0x04042100 (HW 4)
+defect61 = 0x00098100 (HW 4)
+```
+
+A 2,097,152-trial cap-4 walk from that point found 75,844 cap hits but no
+exact `defect60=0` points. A 704,494,193-neighbor radius-7 enumeration around
+the same point also found no exact D60 point. Its best non-exact tradeoff curve
+was:
+
+| D60 HW | best D61 HW | point |
+|---:|---:|---|
+| 1 | 12 | `W58=0xf955ab86,W59=0x0ddca3af` |
+| 2 | 7 | `W58=0x9dd5ab87,W59=0x19dca60e` |
+| 3 | 7 | `W58=0xdd15b386,W59=0x1d98a6c5` |
+| 4 | 4 | `W58=0xdd55ab86,W59=0x1d9ca68f` |
+| 7 | 3 | `W58=0x8555b986,W59=0x1d9ca28e` |
+
+The local linear image does not explain the repair failure away. At the cap-4
+point, 20,812 residual targets with desired D61 HW<=4 are linearly solvable,
+but the best actual arithmetic representative lands at D60 HW17 / D61 HW5.
+At the D60-HW2/D61-HW7 point, the full two-wall linear system has rank 64 and
+a unique zeroing step, but the HW25 delta lands at D60 HW15 / D61 HW17. The
+tangent equations see many solving directions; the carry chamber rejects them.
+
+This gives a more concrete next target than raw HW4 hunting: find an operator
+that closes the four D60 bits of `0x04042100` while preserving the D61 cap-4
+carry terrace, or prove that leaving that terrace necessarily reintroduces the
+known HW5 exact basin.
 
 ## Kernel-linear one-bit targets
 

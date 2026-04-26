@@ -44,6 +44,8 @@
  *   /tmp/singular_defect_rank bridge61point 8 0xaf07f044 0x73db5f4f 0xa7679a23 0x73db5ecf 0xb767da21 1
  *   /tmp/singular_defect_rank nearexact61point 8 0xaf07f044 0x73db5ecf 0xb767da21 7
  *   /tmp/singular_defect_rank ridge61walk 8 0xaf07f044 0x569a93da 0x1f813291 1048576 8 128 24 8
+ *   /tmp/singular_defect_rank capped61walk 8 0xaf07f044 0xddf3a9d3 0x76046f0d 1048576 8 128 24 3
+ *   /tmp/singular_defect_rank pair61residualpoint 8 0xaf07f044 0xddf3a9d3 0x76046f0d 3
  *   /tmp/singular_defect_rank newton61fixed57 3 0xe28da599 2048 8 32
  *   /tmp/singular_defect_rank newtonfixed58 0 0x370fef5f 0x12345678 512 8 24
  *   /tmp/singular_defect_rank off59hill 0 0x370fef5f 512 8 32
@@ -4679,6 +4681,522 @@ static void ridge61_walk_candidate(int idx, const uint32_t base_x[3],
     printf("}\n");
 }
 
+static int capped61_over(const frontier61_eval_t *e, int cap) {
+    return (e->d61_hw > cap) ? (e->d61_hw - cap) : 0;
+}
+
+static int capped61_eval_better(const frontier61_eval_t *a,
+                                const frontier61_eval_t *b,
+                                int cap) {
+    int ao = capped61_over(a, cap);
+    int bo = capped61_over(b, cap);
+    if (ao != bo) return ao < bo;
+    if (a->d60_hw != b->d60_hw) return a->d60_hw < b->d60_hw;
+    if (a->d61_hw != b->d61_hw) return a->d61_hw < b->d61_hw;
+    if (a->tail_defect_hw != b->tail_defect_hw) {
+        return a->tail_defect_hw < b->tail_defect_hw;
+    }
+    if (a->defects[3] != b->defects[3]) return a->defects[3] < b->defects[3];
+    return a->defects[4] < b->defects[4];
+}
+
+static void capped61_walk_candidate(int idx, const uint32_t base_x[3],
+                                    int trials, int threads,
+                                    int max_passes, int max_flips,
+                                    int cap) {
+    int n_cands = (int)(sizeof(CANDIDATES) / sizeof(CANDIDATES[0]));
+    if (idx < 0 || idx >= n_cands) {
+        fprintf(stderr, "candidate index must be 0..%d.\n", n_cands - 1);
+        exit(2);
+    }
+    if (max_flips < 1) max_flips = 1;
+    if (max_flips > 32) max_flips = 32;
+    if (cap < 0) cap = 0;
+    if (cap > 32) cap = 32;
+
+    const candidate_t *cand = &CANDIDATES[idx];
+    sha256_precomp_t p1, p2;
+    if (!prepare_candidate(cand, &p1, &p2)) {
+        printf("{\"mode\":\"capped61walk\",\"candidate\":\"%s\",\"error\":\"not_cascade_eligible\"}\n",
+               cand->id);
+        return;
+    }
+
+    frontier61_eval_t base_eval;
+    frontier61_eval_point(&p1, &p2, base_x, base_x[0] == 0 ? 0 : 1, &base_eval);
+
+    uint32_t best_any_x[3] = {base_x[0], base_x[1], base_x[2]};
+    frontier61_eval_t best_any_eval = base_eval;
+    int best_any_distance = 0;
+    int best_any_passes = 0;
+
+    uint32_t best_cap_x[3] = {base_x[0], base_x[1], base_x[2]};
+    frontier61_eval_t best_cap_eval = base_eval;
+    int best_cap_distance = 0;
+    int best_cap_passes = 0;
+    int have_cap = base_eval.d61_hw <= cap;
+
+    uint32_t best_exact_x[3] = {base_x[0], base_x[1], base_x[2]};
+    frontier61_eval_t best_exact_eval = base_eval;
+    int best_exact_distance = 0;
+    int best_exact_passes = 0;
+    int best_exact_tail_hw = 999;
+    int have_exact = 0;
+    if (base_eval.defects[3] == 0) {
+        have_exact = 1;
+        best_exact_tail_hw = base_eval.tail_hw;
+    }
+
+    int cap_hits = have_cap ? 1 : 0;
+    int exact60_hits = (base_eval.defects[3] == 0) ? 1 : 0;
+    int exact_cap_hits = (base_eval.defects[3] == 0 && base_eval.d61_hw <= cap) ? 1 : 0;
+    int changed_exact_cap_hits = 0;
+    int cap_d60_hist[33];
+    int exact_d61_hist[33];
+    memset(cap_d60_hist, 0, sizeof(cap_d60_hist));
+    memset(exact_d61_hist, 0, sizeof(exact_d61_hist));
+    if (have_cap && base_eval.d60_hw >= 0 && base_eval.d60_hw <= 32) {
+        cap_d60_hist[base_eval.d60_hw]++;
+    }
+    if (base_eval.defects[3] == 0 && base_eval.d61_hw >= 0 &&
+        base_eval.d61_hw <= 32) {
+        exact_d61_hist[base_eval.d61_hw]++;
+    }
+
+    #pragma omp parallel num_threads(threads)
+    {
+        int tid = omp_get_thread_num();
+        uint64_t rng = 0x636170363177616cULL ^
+                       ((uint64_t)cand->m0 << 11) ^
+                       ((uint64_t)base_x[1] << 23) ^
+                       ((uint64_t)base_x[2] << 5) ^
+                       (uint64_t)tid;
+
+        uint32_t local_best_any_x[3] = {base_x[0], base_x[1], base_x[2]};
+        frontier61_eval_t local_best_any_eval = base_eval;
+        int local_best_any_distance = 0;
+        int local_best_any_passes = 0;
+
+        uint32_t local_best_cap_x[3] = {base_x[0], base_x[1], base_x[2]};
+        frontier61_eval_t local_best_cap_eval = base_eval;
+        int local_best_cap_distance = 0;
+        int local_best_cap_passes = 0;
+        int local_have_cap = have_cap;
+
+        uint32_t local_best_exact_x[3] = {base_x[0], base_x[1], base_x[2]};
+        frontier61_eval_t local_best_exact_eval = base_eval;
+        int local_best_exact_distance = 0;
+        int local_best_exact_passes = 0;
+        int local_best_exact_tail_hw = best_exact_tail_hw;
+        int local_have_exact = have_exact;
+
+        int local_cap_hits = 0;
+        int local_exact60_hits = 0;
+        int local_exact_cap_hits = 0;
+        int local_changed_exact_cap_hits = 0;
+        int local_cap_d60_hist[33];
+        int local_exact_d61_hist[33];
+        memset(local_cap_d60_hist, 0, sizeof(local_cap_d60_hist));
+        memset(local_exact_d61_hist, 0, sizeof(local_exact_d61_hist));
+
+        #pragma omp for schedule(dynamic, 8)
+        for (int i = 0; i < trials; i++) {
+            uint32_t x[3];
+            if ((splitmix32(&rng) & 3U) == 0U && local_have_cap) {
+                memcpy(x, local_best_cap_x, sizeof(x));
+            } else {
+                memcpy(x, base_x, 3 * sizeof(uint32_t));
+            }
+
+            int flips = 1 + (int)(splitmix32(&rng) % (uint32_t)max_flips);
+            for (int f = 0; f < flips; f++) {
+                int bit = (int)(splitmix32(&rng) & 63U);
+                if (bit < 32) x[1] ^= 1U << bit;
+                else x[2] ^= 1U << (bit - 32);
+            }
+
+            frontier61_eval_t cur;
+            frontier61_eval_point(&p1, &p2, x, 0, &cur);
+            int passes_used = 0;
+
+            for (int pass = 0; pass < max_passes; pass++) {
+                uint32_t best_step_x[3] = {x[0], x[1], x[2]};
+                frontier61_eval_t best_step = cur;
+
+                for (int bit = 0; bit < 64; bit++) {
+                    uint32_t xf[3] = {x[0], x[1], x[2]};
+                    if (bit < 32) xf[1] ^= 1U << bit;
+                    else xf[2] ^= 1U << (bit - 32);
+
+                    frontier61_eval_t y;
+                    frontier61_eval_point(&p1, &p2, xf, 0, &y);
+                    if (capped61_eval_better(&y, &best_step, cap)) {
+                        best_step = y;
+                        best_step_x[1] = xf[1];
+                        best_step_x[2] = xf[2];
+                    }
+                }
+
+                if (!capped61_eval_better(&best_step, &cur, cap)) break;
+                x[1] = best_step_x[1];
+                x[2] = best_step_x[2];
+                cur = best_step;
+                passes_used = pass + 1;
+            }
+
+            int distance = hw32(x[1] ^ base_x[1]) + hw32(x[2] ^ base_x[2]);
+            if (capped61_eval_better(&cur, &local_best_any_eval, cap)) {
+                local_best_any_eval = cur;
+                memcpy(local_best_any_x, x, sizeof(local_best_any_x));
+                local_best_any_distance = distance;
+                local_best_any_passes = passes_used;
+            }
+
+            if (cur.d61_hw <= cap) {
+                local_cap_hits++;
+                if (cur.d60_hw >= 0 && cur.d60_hw <= 32) {
+                    local_cap_d60_hist[cur.d60_hw]++;
+                }
+                if (!local_have_cap ||
+                    capped61_eval_better(&cur, &local_best_cap_eval, cap)) {
+                    local_have_cap = 1;
+                    local_best_cap_eval = cur;
+                    memcpy(local_best_cap_x, x, sizeof(local_best_cap_x));
+                    local_best_cap_distance = distance;
+                    local_best_cap_passes = passes_used;
+                }
+            }
+
+            if (cur.defects[3] == 0) {
+                frontier61_eval_point(&p1, &p2, x, 1, &cur);
+                local_exact60_hits++;
+                if (cur.d61_hw >= 0 && cur.d61_hw <= 32) {
+                    local_exact_d61_hist[cur.d61_hw]++;
+                }
+                if (cur.d61_hw <= cap) {
+                    local_exact_cap_hits++;
+                    if (distance > 0) local_changed_exact_cap_hits++;
+                }
+                if (!local_have_exact ||
+                    cur.d61_hw < local_best_exact_eval.d61_hw ||
+                    (cur.d61_hw == local_best_exact_eval.d61_hw &&
+                     cur.tail_hw < local_best_exact_tail_hw)) {
+                    local_have_exact = 1;
+                    local_best_exact_eval = cur;
+                    memcpy(local_best_exact_x, x, sizeof(local_best_exact_x));
+                    local_best_exact_distance = distance;
+                    local_best_exact_passes = passes_used;
+                    local_best_exact_tail_hw = cur.tail_hw;
+                }
+            }
+        }
+
+        #pragma omp critical
+        {
+            cap_hits += local_cap_hits;
+            exact60_hits += local_exact60_hits;
+            exact_cap_hits += local_exact_cap_hits;
+            changed_exact_cap_hits += local_changed_exact_cap_hits;
+            for (int h = 0; h <= 32; h++) {
+                cap_d60_hist[h] += local_cap_d60_hist[h];
+                exact_d61_hist[h] += local_exact_d61_hist[h];
+            }
+            if (capped61_eval_better(&local_best_any_eval, &best_any_eval, cap)) {
+                best_any_eval = local_best_any_eval;
+                memcpy(best_any_x, local_best_any_x, sizeof(best_any_x));
+                best_any_distance = local_best_any_distance;
+                best_any_passes = local_best_any_passes;
+            }
+            if (local_have_cap &&
+                (!have_cap ||
+                 capped61_eval_better(&local_best_cap_eval, &best_cap_eval, cap))) {
+                have_cap = 1;
+                best_cap_eval = local_best_cap_eval;
+                memcpy(best_cap_x, local_best_cap_x, sizeof(best_cap_x));
+                best_cap_distance = local_best_cap_distance;
+                best_cap_passes = local_best_cap_passes;
+            }
+            if (local_have_exact &&
+                (!have_exact ||
+                 local_best_exact_eval.d61_hw < best_exact_eval.d61_hw ||
+                 (local_best_exact_eval.d61_hw == best_exact_eval.d61_hw &&
+                  local_best_exact_tail_hw < best_exact_tail_hw))) {
+                have_exact = 1;
+                best_exact_eval = local_best_exact_eval;
+                memcpy(best_exact_x, local_best_exact_x, sizeof(best_exact_x));
+                best_exact_distance = local_best_exact_distance;
+                best_exact_passes = local_best_exact_passes;
+                best_exact_tail_hw = local_best_exact_tail_hw;
+            }
+        }
+    }
+
+    printf("{\"mode\":\"capped61walk\",\"candidate\":\"%s\",\"idx\":%d,"
+           "\"base_x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"cap\":%d,\"trials\":%d,\"threads\":%d,"
+           "\"max_passes\":%d,\"max_flips\":%d,"
+           "\"cap_hits\":%d,\"exact60_hits\":%d,\"exact_cap_hits\":%d,"
+           "\"changed_exact_cap_hits\":%d,"
+           "\"cap_d60_hw_hist\":[%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,"
+           "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d],"
+           "\"exact_d61_hw_hist\":[%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,"
+           "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d],"
+           "\"best_any\":",
+           cand->id, idx,
+           base_x[0], base_x[1], base_x[2],
+           cap, trials, threads, max_passes, max_flips,
+           cap_hits, exact60_hits, exact_cap_hits, changed_exact_cap_hits,
+           cap_d60_hist[0], cap_d60_hist[1], cap_d60_hist[2], cap_d60_hist[3],
+           cap_d60_hist[4], cap_d60_hist[5], cap_d60_hist[6], cap_d60_hist[7],
+           cap_d60_hist[8], cap_d60_hist[9], cap_d60_hist[10], cap_d60_hist[11],
+           cap_d60_hist[12], cap_d60_hist[13], cap_d60_hist[14], cap_d60_hist[15],
+           cap_d60_hist[16], cap_d60_hist[17], cap_d60_hist[18], cap_d60_hist[19],
+           cap_d60_hist[20], cap_d60_hist[21], cap_d60_hist[22], cap_d60_hist[23],
+           cap_d60_hist[24], cap_d60_hist[25], cap_d60_hist[26], cap_d60_hist[27],
+           cap_d60_hist[28], cap_d60_hist[29], cap_d60_hist[30], cap_d60_hist[31],
+           cap_d60_hist[32],
+           exact_d61_hist[0], exact_d61_hist[1], exact_d61_hist[2],
+           exact_d61_hist[3], exact_d61_hist[4], exact_d61_hist[5],
+           exact_d61_hist[6], exact_d61_hist[7], exact_d61_hist[8],
+           exact_d61_hist[9], exact_d61_hist[10], exact_d61_hist[11],
+           exact_d61_hist[12], exact_d61_hist[13], exact_d61_hist[14],
+           exact_d61_hist[15], exact_d61_hist[16], exact_d61_hist[17],
+           exact_d61_hist[18], exact_d61_hist[19], exact_d61_hist[20],
+           exact_d61_hist[21], exact_d61_hist[22], exact_d61_hist[23],
+           exact_d61_hist[24], exact_d61_hist[25], exact_d61_hist[26],
+           exact_d61_hist[27], exact_d61_hist[28], exact_d61_hist[29],
+           exact_d61_hist[30], exact_d61_hist[31], exact_d61_hist[32]);
+    ridge61_print_point(best_any_x, &best_any_eval,
+                        best_any_eval.d60_hw * 64 + best_any_eval.d61_hw,
+                        best_any_distance, best_any_passes,
+                        best_any_eval.tail_hw);
+    printf(",\"best_cap\":");
+    if (have_cap) {
+        ridge61_print_point(best_cap_x, &best_cap_eval,
+                            best_cap_eval.d60_hw * 64 + best_cap_eval.d61_hw,
+                            best_cap_distance, best_cap_passes,
+                            best_cap_eval.tail_hw);
+    } else {
+        printf("null");
+    }
+    printf(",\"best_exact\":");
+    if (have_exact) {
+        ridge61_print_point(best_exact_x, &best_exact_eval,
+                            best_exact_eval.d60_hw * 64 + best_exact_eval.d61_hw,
+                            best_exact_distance, best_exact_passes,
+                            best_exact_tail_hw);
+    } else {
+        printf("null");
+    }
+    printf("}\n");
+}
+
+static void pair61_residual_point(int idx, const uint32_t x[3], int cap) {
+    int n_cands = (int)(sizeof(CANDIDATES) / sizeof(CANDIDATES[0]));
+    if (idx < 0 || idx >= n_cands) {
+        fprintf(stderr, "candidate index must be 0..%d.\n", n_cands - 1);
+        exit(2);
+    }
+    if (cap < 0) cap = 0;
+    if (cap > 8) cap = 8;
+
+    const candidate_t *cand = &CANDIDATES[idx];
+    sha256_precomp_t p1, p2;
+    if (!prepare_candidate(cand, &p1, &p2)) {
+        printf("{\"mode\":\"pair61residualpoint\",\"candidate\":\"%s\",\"error\":\"not_cascade_eligible\"}\n",
+               cand->id);
+        return;
+    }
+
+    uint32_t cols60[64], cols61[64];
+    uint64_t cols_pair[64];
+    uint32_t d60 = 0, d61 = 0;
+    defect60_61_columns(&p1, &p2, x, &d60, &d61, cols60, cols61, cols_pair);
+    int rank_pair = rank64_vectors(cols_pair, 64);
+
+    int residual_count_by_hw[17];
+    int solvable_by_hw[17];
+    memset(residual_count_by_hw, 0, sizeof(residual_count_by_hw));
+    memset(solvable_by_hw, 0, sizeof(solvable_by_hw));
+
+    int solvable = 0;
+    int min_delta_hw = 99;
+    uint32_t min_delta_residual = 0;
+    uint64_t min_delta = 0;
+    uint32_t min_delta_x[3] = {x[0], x[1], x[2]};
+    frontier61_eval_t min_delta_eval;
+    memset(&min_delta_eval, 0, sizeof(min_delta_eval));
+
+    int have_best_actual = 0;
+    uint32_t best_actual_residual = 0;
+    uint64_t best_actual_delta = 0;
+    uint32_t best_actual_x[3] = {x[0], x[1], x[2]};
+    frontier61_eval_t best_actual_eval;
+    memset(&best_actual_eval, 0, sizeof(best_actual_eval));
+
+    int have_best_cap = 0;
+    uint32_t best_cap_residual = 0;
+    uint64_t best_cap_delta = 0;
+    uint32_t best_cap_x[3] = {x[0], x[1], x[2]};
+    frontier61_eval_t best_cap_eval;
+    memset(&best_cap_eval, 0, sizeof(best_cap_eval));
+
+    int have_best_exact_cap = 0;
+    uint32_t best_exact_cap_residual = 0;
+    uint64_t best_exact_cap_delta = 0;
+    uint32_t best_exact_cap_x[3] = {x[0], x[1], x[2]};
+    frontier61_eval_t best_exact_cap_eval;
+    memset(&best_exact_cap_eval, 0, sizeof(best_exact_cap_eval));
+
+    for (int k = 0; k <= cap; k++) {
+        uint64_t combo = (k == 0) ? 0ULL : ((1ULL << k) - 1ULL);
+        while (1) {
+            uint32_t residual = (uint32_t)combo;
+            uint64_t target = ((uint64_t)(d61 ^ residual) << 32) | d60;
+            uint64_t delta = 0;
+            int rank = 0;
+            residual_count_by_hw[k]++;
+            int ok = solve_linear_columns64(target, cols_pair, 64, &delta, &rank);
+            if (ok) {
+                uint32_t y[3];
+                frontier61_eval_t e;
+                int dhw = hw32((uint32_t)delta) + hw32((uint32_t)(delta >> 32));
+                apply_delta58_59(x, delta, y);
+                frontier61_eval_point(&p1, &p2, y, 1, &e);
+                solvable++;
+                solvable_by_hw[k]++;
+
+                if (dhw < min_delta_hw ||
+                    (dhw == min_delta_hw && residual < min_delta_residual)) {
+                    min_delta_hw = dhw;
+                    min_delta_residual = residual;
+                    min_delta = delta;
+                    memcpy(min_delta_x, y, sizeof(min_delta_x));
+                    min_delta_eval = e;
+                }
+                if (!have_best_actual ||
+                    capped61_eval_better(&e, &best_actual_eval, cap)) {
+                    have_best_actual = 1;
+                    best_actual_residual = residual;
+                    best_actual_delta = delta;
+                    memcpy(best_actual_x, y, sizeof(best_actual_x));
+                    best_actual_eval = e;
+                }
+                if (e.d61_hw <= cap &&
+                    (!have_best_cap ||
+                     capped61_eval_better(&e, &best_cap_eval, cap))) {
+                    have_best_cap = 1;
+                    best_cap_residual = residual;
+                    best_cap_delta = delta;
+                    memcpy(best_cap_x, y, sizeof(best_cap_x));
+                    best_cap_eval = e;
+                }
+                if (e.defects[3] == 0 && e.d61_hw <= cap &&
+                    (!have_best_exact_cap ||
+                     e.d61_hw < best_exact_cap_eval.d61_hw ||
+                     (e.d61_hw == best_exact_cap_eval.d61_hw &&
+                      e.tail_hw < best_exact_cap_eval.tail_hw))) {
+                    have_best_exact_cap = 1;
+                    best_exact_cap_residual = residual;
+                    best_exact_cap_delta = delta;
+                    memcpy(best_exact_cap_x, y, sizeof(best_exact_cap_x));
+                    best_exact_cap_eval = e;
+                }
+            }
+
+            if (k == 0) break;
+            uint64_t next = next_combination64(combo);
+            if (!next || next < combo || next >= (1ULL << 32)) break;
+            combo = next;
+        }
+    }
+
+    frontier61_eval_t base_eval;
+    frontier61_eval_point(&p1, &p2, x, 1, &base_eval);
+
+    printf("{\"mode\":\"pair61residualpoint\",\"candidate\":\"%s\",\"idx\":%d,"
+           "\"x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"cap\":%d,\"rank_pair\":%d,"
+           "\"base_d60\":\"0x%08x\",\"base_d60_hw\":%d,"
+           "\"base_d61\":\"0x%08x\",\"base_d61_hw\":%d,"
+           "\"solvable\":%d,"
+           "\"residual_count_by_hw\":[%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d],"
+           "\"solvable_by_hw\":[%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d],"
+           "\"min_delta_hw\":%d,\"min_delta_residual\":\"0x%08x\","
+           "\"min_delta\":\"0x%016llx\",\"min_delta_point\":",
+           cand->id, idx, x[0], x[1], x[2], cap, rank_pair,
+           d60, hw32(d60), d61, hw32(d61), solvable,
+           residual_count_by_hw[0], residual_count_by_hw[1],
+           residual_count_by_hw[2], residual_count_by_hw[3],
+           residual_count_by_hw[4], residual_count_by_hw[5],
+           residual_count_by_hw[6], residual_count_by_hw[7],
+           residual_count_by_hw[8], residual_count_by_hw[9],
+           residual_count_by_hw[10], residual_count_by_hw[11],
+           residual_count_by_hw[12], residual_count_by_hw[13],
+           residual_count_by_hw[14], residual_count_by_hw[15],
+           residual_count_by_hw[16],
+           solvable_by_hw[0], solvable_by_hw[1], solvable_by_hw[2],
+           solvable_by_hw[3], solvable_by_hw[4], solvable_by_hw[5],
+           solvable_by_hw[6], solvable_by_hw[7], solvable_by_hw[8],
+           solvable_by_hw[9], solvable_by_hw[10], solvable_by_hw[11],
+           solvable_by_hw[12], solvable_by_hw[13], solvable_by_hw[14],
+           solvable_by_hw[15], solvable_by_hw[16],
+           min_delta_hw, min_delta_residual, (unsigned long long)min_delta);
+    if (solvable) {
+        ridge61_print_point(min_delta_x, &min_delta_eval,
+                            min_delta_eval.d60_hw * 64 + min_delta_eval.d61_hw,
+                            min_delta_hw, 0, min_delta_eval.tail_hw);
+    } else {
+        printf("null");
+    }
+    printf(",\"best_actual\":");
+    if (have_best_actual) {
+        printf("{\"linear_residual\":\"0x%08x\",\"delta\":\"0x%016llx\",\"delta_hw\":%d,\"point\":",
+               best_actual_residual, (unsigned long long)best_actual_delta,
+               hw32((uint32_t)best_actual_delta) +
+               hw32((uint32_t)(best_actual_delta >> 32)));
+        ridge61_print_point(best_actual_x, &best_actual_eval,
+                            best_actual_eval.d60_hw * 64 + best_actual_eval.d61_hw,
+                            hw32((uint32_t)best_actual_delta) +
+                            hw32((uint32_t)(best_actual_delta >> 32)),
+                            0, best_actual_eval.tail_hw);
+        printf("}");
+    } else {
+        printf("null");
+    }
+    printf(",\"best_cap\":");
+    if (have_best_cap) {
+        printf("{\"linear_residual\":\"0x%08x\",\"delta\":\"0x%016llx\",\"delta_hw\":%d,\"point\":",
+               best_cap_residual, (unsigned long long)best_cap_delta,
+               hw32((uint32_t)best_cap_delta) +
+               hw32((uint32_t)(best_cap_delta >> 32)));
+        ridge61_print_point(best_cap_x, &best_cap_eval,
+                            best_cap_eval.d60_hw * 64 + best_cap_eval.d61_hw,
+                            hw32((uint32_t)best_cap_delta) +
+                            hw32((uint32_t)(best_cap_delta >> 32)),
+                            0, best_cap_eval.tail_hw);
+        printf("}");
+    } else {
+        printf("null");
+    }
+    printf(",\"best_exact_cap\":");
+    if (have_best_exact_cap) {
+        printf("{\"linear_residual\":\"0x%08x\",\"delta\":\"0x%016llx\",\"delta_hw\":%d,\"point\":",
+               best_exact_cap_residual, (unsigned long long)best_exact_cap_delta,
+               hw32((uint32_t)best_exact_cap_delta) +
+               hw32((uint32_t)(best_exact_cap_delta >> 32)));
+        ridge61_print_point(best_exact_cap_x, &best_exact_cap_eval,
+                            best_exact_cap_eval.d60_hw * 64 + best_exact_cap_eval.d61_hw,
+                            hw32((uint32_t)best_exact_cap_delta) +
+                            hw32((uint32_t)(best_exact_cap_delta >> 32)),
+                            0, best_exact_cap_eval.tail_hw);
+        printf("}");
+    } else {
+        printf("null");
+    }
+    printf("}\n");
+}
+
 static int newton61_fixed57_once(const sha256_precomp_t *p1, const sha256_precomp_t *p2,
                                  uint32_t x[3], int max_iters, int *iters_out,
                                  int *last_rank_out, uint64_t *last_vec_out) {
@@ -5379,6 +5897,37 @@ static void newton_fixed58_candidate(int idx, uint32_t fixed_w57, uint32_t fixed
 }
 
 int main(int argc, char **argv) {
+    if (argc >= 2 && strcmp(argv[1], "pair61residualpoint") == 0) {
+        int idx = (argc >= 3) ? atoi(argv[2]) : 0;
+        uint32_t x[3] = {
+            (argc >= 4) ? (uint32_t)strtoul(argv[3], NULL, 0) : 0,
+            (argc >= 5) ? (uint32_t)strtoul(argv[4], NULL, 0) : 0,
+            (argc >= 6) ? (uint32_t)strtoul(argv[5], NULL, 0) : 0,
+        };
+        int cap = (argc >= 7) ? atoi(argv[6]) : 3;
+        sha256_init(32);
+        pair61_residual_point(idx, x, cap);
+        return 0;
+    }
+
+    if (argc >= 2 && strcmp(argv[1], "capped61walk") == 0) {
+        int idx = (argc >= 3) ? atoi(argv[2]) : 0;
+        uint32_t x[3] = {
+            (argc >= 4) ? (uint32_t)strtoul(argv[3], NULL, 0) : 0,
+            (argc >= 5) ? (uint32_t)strtoul(argv[4], NULL, 0) : 0,
+            (argc >= 6) ? (uint32_t)strtoul(argv[5], NULL, 0) : 0,
+        };
+        int trials = (argc >= 7) ? atoi(argv[6]) : 65536;
+        int threads = (argc >= 8) ? atoi(argv[7]) : 8;
+        int max_passes = (argc >= 9) ? atoi(argv[8]) : 64;
+        int max_flips = (argc >= 10) ? atoi(argv[9]) : 12;
+        int cap = (argc >= 11) ? atoi(argv[10]) : 3;
+        sha256_init(32);
+        capped61_walk_candidate(idx, x, trials, threads,
+                                max_passes, max_flips, cap);
+        return 0;
+    }
+
     if (argc >= 2 && strcmp(argv[1], "ridge61walk") == 0) {
         int idx = (argc >= 3) ? atoi(argv[2]) : 0;
         uint32_t x[3] = {
