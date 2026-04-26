@@ -1,4 +1,4 @@
-# Block2_wang trails/ — Milestone status as of 2026-04-25 evening
+# Block2_wang trails/ — Milestone status as of 2026-04-26 04:30 EDT
 
 | Milestone | Status        | Result / Outcome                                           |
 |-----------|---------------|------------------------------------------------------------|
@@ -9,7 +9,8 @@
 | Hardlock  | ✅ EVIDENCE    | de58 hardlock fraction is candidate-specific (8-57%), not N-specific. |
 | M12       | ⏸️ PARTIAL PASS | 32 collisions in first 1/128 of W57 space at N=12 over 43 wall-min on contended M5; ALGORITHMICALLY VALIDATED. Full sweep aborted (extrapolated 92hr contended / 8hr clean). Schedule overnight when CPU is quiet, with buffer cap raised. |
 | M16       | ⏸️ DESIGN-STUCK | Naive enumerate-all has 6.6 PB storage at N=16. Signature reduction needed before implementation. |
-| M16-MITM  | ⏸️ DESIGN      | q5/mitm_cascade_sr60.py is the prototype; signature sparseness (state_59 too wide) blocks naive port. |
+| M16-MITM forward | ✅ VALIDATED  | m16_mitm_forward at N=8 + N=10: 200/200 records pass cascade-1 + state_59 verification. State_59 is full-resolution (10K samples → 100% distinct). 2026-04-26. |
+| M16-MITM backward | ❌ DESIGN-GAP | Foundation memo design fails: cascade-2 trigger is 1-bit modular constraint on (pair1.s59, pair2.s59), giving codim-1 surface as "required state." No filtering advantage. Do NOT implement as written. 2026-04-26. |
 | M32-MITM  | ⏸️ FUTURE      | Multi-machine compute, multi-day. Needs M16-MITM design first. |
 
 ## Open question (the BET's hard problem right now)
@@ -54,6 +55,10 @@ Either is a real result. The DESIGN is the gate.
 - M12 is feasible single-machine in ~8 hr.
 - M16 single-machine pure-BC is INFEASIBLE (350+ days).
 - MITM at N=16+ requires SIGNATURE REDUCTION, not naive port.
+- M16-MITM forward enumerator IS correct at N=8 + N=10 (200/200 each;
+  10K samples confirm state_59 is full-resolution = 100% distinct).
+- M16-MITM backward design as foundation-memo-written: filter has 0 power.
+  See M16_BACKWARD_DESIGN_GAP.md.
 
 ## What we DON'T yet know
 
@@ -66,7 +71,10 @@ Either is a real result. The DESIGN is the gate.
 - `backward_construct_n10.c` / `_n10` — N=10 BC solver (M10 PASS).
 - `backward_construct_n10_strat.c` / `_strat` — stratified BF + BC for speedup verification.
 - `backward_construct_n12.c` / `_n12` — N=12 source + binary (M12 in flight).
-- `m16_mitm_forward.c` / `_n10` — M16 forward enumerator skeleton (NOT VALIDATED — signature design pending).
+- `m16_mitm_forward.c` / `_n10` / `_n8` — M16 forward enumerator (VALIDATED 2026-04-26; m16_mitm_forward_validator.py + M16_FORWARD_VALIDATED.md).
+- `m16_mitm_forward_validator.py` — independent Python re-runs each forward record's cascade-1 chain to confirm correctness.
+- `M16_FORWARD_VALIDATED.md` — N=8 + N=10 validation memo (200/200 each).
+- `M16_BACKWARD_DESIGN_GAP.md` — explicit critique of foundation-memo backward design; recommends NOT implementing as written.
 - `n_invariants.py` — parameterized N invariant probe (Theorem 4, R63.1, R63.3).
 - `n10_invariants.py`, `n10_hardlock.py` — N=10-specific scripts.
 - `M10_RESULT.md` — M10 outcome with stratified-BF speedup VERIFIED.
