@@ -773,3 +773,24 @@ distinguishes); de59 = cand-level (free); de60..de63 = structurally 0.
 
 Practical: stack hints at ≤100k for "warm-start triage"; Mode B for deep
 search. Don't mix high-budget with stack — measurable regression.
+
+## 19:58 EDT — Autonomous-loop continuation: SPEC + BET + CNF-header caveats
+
+3 more commits this turn:
+
+- **4a7e349**: wrapper CNF headers now embed F8 budget caveat directly,
+  so any worker who finds a stack CNF on disk sees "use ≤100k, regresses
+  at 500k+" without having to chase the docstring or memo.
+- **e8642a8**: BET.yaml evening_progress now includes F8/F9 + DEPLOYMENT
+  GUIDANCE table (≤100k vs ≥500k) + WHAT THE SPEEDUP MEANS clarification
+  (chamber-elimination triage, NOT collision-finding).
+- **4d253ae**: SPEC.md v1.1 adds 'Per-chamber image structure' section
+  documenting de58 (chamber) / de59 (cand-level free) / de60..de63
+  (structural 0) with structural derivation from cascade-1.
+
+Sweep audit: all 78 cnfs_n32/ files audit CONFIRMED. 0 problems.
+Registry validates clean (0 errors, 0 warnings).
+
+Net: the bet's self-documentation is now coherent across SPEC.md →
+BET.yaml → wrapper docstring → CNF comment headers. No future worker
+should over-interpret the 1.87× number as "collision-finding speedup."
