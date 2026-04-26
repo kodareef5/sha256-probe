@@ -97,25 +97,41 @@ is already short, and de58 fixing doesn't speed it up further.
   or any other HW4-reaching W57. Canonical W57 also valid.
 - Recommended default for new cascade_aux runs at sr=61.
 
-## Open questions / next steps
+## F3 follow-up: Mode A wall predictor on de58-only
 
-1. **F3: Mode A wall predictor**. Is the Mode A wall a good predictor
-   of de58-only speedup (analogous to ρ=+0.792 for 13-bit, +0.976 for
-   Mode B)? If yes, the predictor is now unified across 3 variants.
-   With base_med ranging 1.95-3.20s and speedups 1.05-2.04×, there's
-   visible signal — needs Spearman ρ computation.
+Computed Spearman ρ(base_med, de58_speedup) over the n=18 walls above:
 
-2. **F4: de59 free hint**. Per-chamber de59 is ALSO size = 1, AND
+| variant | Spearman ρ | Pearson r |
+|---|---:|---:|
+| Mode B (force) | +0.976 | (very strong) |
+| 13-bit marginal-locked | +0.792 | (strong) |
+| **de58-at-w57** | **+0.569** | +0.660 |
+
+The Mode A wall predictor IS positive for de58-only — but weaker
+than for the other two variants. Hypothesis for why: de58-at-w57 is
+more uniformly effective (0% regressions, 1.05× floor) so the
+between-cand variance in speedup reflects cand-specific mechanics
+more than the gross "how hard is the Mode A search" signal.
+
+The predictor remains a useful coarse filter (cands with high Mode A
+walls *will* benefit), but not a fine-grained ranking tool for this
+variant. The unified-predictor narrative now reads: Mode A wall
+positively correlates with all 3 expose-side hint variants, with the
+correlation weakening as the hint gets more comprehensive.
+
+## Other open questions / next steps
+
+1. **F4: de59 free hint**. Per-chamber de59 is ALSO size = 1, AND
    de59 is **cand-level invariant** (verified: 64 random W57s → 1
    distinct de59 per cand). So 32 more "free" hint bits stack with
    de58-at-w57 → 64 bits per chamber. Could push median speedup
    further with no W57 commitment cost.
 
-3. **F5: budget sweep**. The 13-bit hint's sweet spot was 50k. Where
+2. **F5: budget sweep**. The 13-bit hint's sweet spot was 50k. Where
    is de58-at-w57's sweet spot? Could degrade slower (more info
    means more useful at higher budgets).
 
-4. **Open-question: would Mode B + de58-at-w57 stack?** Mode B gives
+3. **Open-question: would Mode B + de58-at-w57 stack?** Mode B gives
    ~1.50× via solution-set restriction. If Mode A + de58-at-w57 also
    gives 1.43× via constraint propagation, what does Mode B + de58
    look like? Risk: collide / over-constrain.
