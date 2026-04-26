@@ -388,3 +388,32 @@ fixed preprocessing constant, not hl-predictable.
 This is honest negative result substantive shipping. n=3 hypothesis
 refuted at n=5 — exactly the kind of self-correction the validation
 matrix discipline is for.
+
+## 07:48 EDT — PREDICTOR FOUND: Mode A wall ρ=+0.75 → Mode B speedup (n=16)
+
+Extended Mode A vs B 50k sweep from n=5 to n=16 across ALL cands with
+existing aux variants. Spearman analysis discovers:
+
+  Mode A wall  → Mode B speedup: ρ=+0.750  ← STRONGEST
+  Mode A wall  → absolute saving: ρ=+0.941 ← VERY STRONG
+  hl_bits      → speedup:        ρ=-0.444 (weak inverse)
+  de58_size    → speedup:        ρ=+0.185
+  hw56         → speedup:        ρ=-0.074
+
+EVIDENCE-level finding: The harder a cand is for Mode A baseline at
+50k, the MORE Mode B helps. Mode B's structural-hint propagation
+provides more value where solver wastes more early effort.
+
+**Actionable**: predict per-cand Mode B value-add by running quick
+50k Mode A first, multiply wall × ~0.6 for expected saving.
+
+This refines (does NOT contradict) the n=5 inverse-hl observation:
+hl_bits IS weakly anti-correlated, but Mode A wall is much better.
+
+Memo: bets/cascade_aux_encoding/results/20260426_mode_b_predictor_n16.md
+
+Plus: 10M kissat on bit=28 m=0xd1acca79 (most-constrained cand):
+TIMEOUT 303s. Predictor closure stands — no candidate-shortcut for SAT.
+
+23 logged runs this pulse (22 Mode A/B + 1 high-budget). Total runs
+in registry: 239+. Audit failure rate: still 0.00%.
