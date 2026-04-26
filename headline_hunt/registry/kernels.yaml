@@ -93,6 +93,30 @@
   owner: macbook
   notes: "N=16 partial sr=61 breakthrough on bit-11 may indicate scaling potential."
 
+- id: kernel_0_9_bit3
+  name: "bit-3 kernel at word-pair (0,9) — σ0-aligned (NEW 2026-04-26)"
+  n_scope: [32]
+  word_pair: [0, 9]
+  bit: 3
+  diff_hex: "0x00000008"
+  scan_coverage:
+    fills: ["0xffffffff"]
+    m0_range: "exhaustive 2^32 at fill=0xff"
+    complete: true
+    n32_random_scan: "exhaustive 2^32 at fill=0xff: 1 eligible (m=0x33ec77ca)"
+  candidates_found: 1
+  best_results_by_n:
+    n32: "1 candidate at fill=0xff (FALSIFIES Σ1/σ1 hypothesis at 2nd σ0 bit)"
+  sr61_partial:
+    n32_true_sr61:
+      status: untested
+      candidates: 1
+      cpu_hours: 0
+  status: open
+  last_updated: "2026-04-26"
+  owner: macbook
+  notes: "Discovered 2026-04-26 via cascade_eligibility_sweep. σ0-aligned bit (sigma0 amounts {7, 18, 3}). Combined with bit=18 result, FALSIFIES the Σ1/σ1 alignment hypothesis at TWO σ0-aligned bits."
+
 - id: kernel_0_9_bit13
   name: "bit-13 kernel at word-pair (0,9)"
   n_scope: [32]
