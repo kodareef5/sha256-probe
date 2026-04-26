@@ -490,6 +490,128 @@ static uint64_t combine_kernel_selection(uint64_t selection,
     return out;
 }
 
+typedef struct {
+    uint64_t lo;
+    uint32_t hi;
+} delta96_t;
+
+static inline delta96_t delta96_zero(void) {
+    delta96_t z = {0, 0};
+    return z;
+}
+
+static inline delta96_t delta96_bit(int bit) {
+    delta96_t z = {0, 0};
+    if (bit < 64) z.lo = 1ULL << bit;
+    else z.hi = 1U << (bit - 64);
+    return z;
+}
+
+static inline delta96_t delta96_xor(delta96_t a, delta96_t b) {
+    delta96_t z = {a.lo ^ b.lo, a.hi ^ b.hi};
+    return z;
+}
+
+static inline int delta96_hw(delta96_t d) {
+    return __builtin_popcountll(d.lo) + hw32(d.hi);
+}
+
+static delta96_t combine_kernel_selection96(uint64_t selection,
+                                            const delta96_t *kernel_basis) {
+    delta96_t out = delta96_zero();
+    while (selection) {
+        int bit = __builtin_ctzll(selection);
+        out = delta96_xor(out, kernel_basis[bit]);
+        selection &= selection - 1;
+    }
+    return out;
+}
+
+static int solve_linear_columns96(uint32_t target, const uint32_t *cols,
+                                  int ncols, delta96_t *solution,
+                                  int *rank_out) {
+    uint32_t basis[32];
+    delta96_t combo[32];
+    memset(basis, 0, sizeof(basis));
+    for (int i = 0; i < 32; i++) combo[i] = delta96_zero();
+    int rank = 0;
+
+    for (int i = 0; i < ncols; i++) {
+        uint32_t v = cols[i];
+        delta96_t c = delta96_bit(i);
+        for (int b = 31; b >= 0 && v; b--) {
+            if (((v >> b) & 1U) == 0) continue;
+            if (basis[b]) {
+                v ^= basis[b];
+                c = delta96_xor(c, combo[b]);
+            } else {
+                basis[b] = v;
+                combo[b] = c;
+                rank++;
+                break;
+            }
+        }
+    }
+
+    uint32_t t = target;
+    delta96_t sol = delta96_zero();
+    for (int b = 31; b >= 0 && t; b--) {
+        if (((t >> b) & 1U) == 0) continue;
+        if (!basis[b]) {
+            if (rank_out) *rank_out = rank;
+            return 0;
+        }
+        t ^= basis[b];
+        sol = delta96_xor(sol, combo[b]);
+    }
+
+    if (rank_out) *rank_out = rank;
+    *solution = sol;
+    return 1;
+}
+
+static int kernel_basis_columns32_96(const uint32_t *cols, int ncols,
+                                     delta96_t *kernel, int *rank_out) {
+    uint32_t basis[32];
+    delta96_t combo[32];
+    memset(basis, 0, sizeof(basis));
+    for (int i = 0; i < 32; i++) combo[i] = delta96_zero();
+    int rank = 0;
+    int kernel_dim = 0;
+
+    for (int i = 0; i < ncols; i++) {
+        uint32_t v = cols[i];
+        delta96_t c = delta96_bit(i);
+        int inserted = 0;
+        for (int b = 31; b >= 0 && v; b--) {
+            if (((v >> b) & 1U) == 0) continue;
+            if (basis[b]) {
+                v ^= basis[b];
+                c = delta96_xor(c, combo[b]);
+            } else {
+                basis[b] = v;
+                combo[b] = c;
+                rank++;
+                inserted = 1;
+                break;
+            }
+        }
+        if (!inserted) {
+            kernel[kernel_dim++] = c;
+        }
+    }
+
+    if (rank_out) *rank_out = rank;
+    return kernel_dim;
+}
+
+static void apply_delta57_59(const uint32_t in[3], delta96_t delta,
+                             uint32_t out[3]) {
+    out[0] = in[0] ^ (uint32_t)(delta.lo & 0xffffffffULL);
+    out[1] = in[1] ^ (uint32_t)(delta.lo >> 32);
+    out[2] = in[2] ^ delta.hi;
+}
+
 static int solve_d60_d61_via_d60_kernel(uint32_t target60, uint32_t target61,
                                         const uint32_t cols60[64],
                                         const uint32_t cols61[64],
@@ -2015,6 +2137,27 @@ static void defect60_61_columns(const sha256_precomp_t *p1, const sha256_precomp
         uint32_t xf[3] = {x[0], x[1], x[2]};
         if (bit < 32) xf[1] ^= 1U << bit;
         else xf[2] ^= 1U << (bit - 32);
+        uint64_t col = base ^ defect60_61_vec(p1, p2, xf);
+        cols60[bit] = (uint32_t)col;
+        cols61[bit] = (uint32_t)(col >> 32);
+        cols_pair[bit] = col;
+    }
+}
+
+static void defect60_61_columns96(const sha256_precomp_t *p1,
+                                  const sha256_precomp_t *p2,
+                                  const uint32_t x[3], uint32_t *d60_out,
+                                  uint32_t *d61_out, uint32_t cols60[96],
+                                  uint32_t cols61[96], uint64_t cols_pair[96]) {
+    uint64_t base = defect60_61_vec(p1, p2, x);
+    if (d60_out) *d60_out = (uint32_t)base;
+    if (d61_out) *d61_out = (uint32_t)(base >> 32);
+
+    for (int bit = 0; bit < 96; bit++) {
+        uint32_t xf[3] = {x[0], x[1], x[2]};
+        if (bit < 32) xf[0] ^= 1U << bit;
+        else if (bit < 64) xf[1] ^= 1U << (bit - 32);
+        else xf[2] ^= 1U << (bit - 64);
         uint64_t col = base ^ defect60_61_vec(p1, p2, xf);
         cols60[bit] = (uint32_t)col;
         cols61[bit] = (uint32_t)(col >> 32);
@@ -5922,6 +6065,517 @@ static void d60_repair_fiber_candidate(int idx, const uint32_t base_x[3],
     printf("}\n");
 }
 
+static void d60_repair_fiber96_candidate(int idx, const uint32_t base_x[3],
+                                         long long samples, int threads, int cap,
+                                         int policy, int part_weight,
+                                         int carry_weight) {
+    int n_cands = (int)(sizeof(CANDIDATES) / sizeof(CANDIDATES[0]));
+    if (idx < 0 || idx >= n_cands) {
+        fprintf(stderr, "candidate index must be 0..%d.\n", n_cands - 1);
+        exit(2);
+    }
+    if (samples < 1) samples = 1;
+    if (cap < 0) cap = 0;
+    if (cap > 32) cap = 32;
+    if (part_weight < 0) part_weight = 0;
+    if (carry_weight < 0) carry_weight = 0;
+
+    const candidate_t *cand = &CANDIDATES[idx];
+    sha256_precomp_t p1, p2;
+    if (!prepare_candidate(cand, &p1, &p2)) {
+        printf("{\"mode\":\"d60repairfiber96\",\"candidate\":\"%s\",\"error\":\"not_cascade_eligible\"}\n",
+               cand->id);
+        return;
+    }
+
+    uint32_t cols60[96], cols61[96];
+    uint64_t cols_pair[96];
+    uint32_t d60 = 0, d61 = 0;
+    defect60_61_columns96(&p1, &p2, base_x, &d60, &d61,
+                          cols60, cols61, cols_pair);
+
+    delta96_t particular = delta96_zero();
+    int rank60 = 0;
+    int solvable = solve_linear_columns96(d60, cols60, 96,
+                                          &particular, &rank60);
+    delta96_t kernel[96];
+    int kernel_rank = 0;
+    int kernel_dim = kernel_basis_columns32_96(cols60, 96, kernel, &kernel_rank);
+    int sampled_kernel_dim = kernel_dim > 64 ? 64 : kernel_dim;
+
+    tail_trace_t target;
+    tail_trace_for_x(&p1, &p2, base_x, &target);
+    chart61_eval_t base_eval;
+    chart61_eval_point(&p1, &p2, base_x, &target, 1, &base_eval);
+
+    if (!solvable) {
+        printf("{\"mode\":\"d60repairfiber96\",\"candidate\":\"%s\",\"idx\":%d,"
+               "\"base_x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+               "\"error\":\"d60_linear_unsolvable\",\"rank60\":%d,"
+               "\"kernel_dim\":%d,\"base_d60\":\"0x%08x\","
+               "\"base_d61\":\"0x%08x\"}\n",
+               cand->id, idx, base_x[0], base_x[1], base_x[2],
+               rank60, kernel_dim, d60, d61);
+        return;
+    }
+
+    uint32_t best_any_x[3] = {base_x[0], base_x[1], base_x[2]};
+    chart61_eval_t best_any_eval = base_eval;
+    int best_any_delta_hw = 0;
+
+    uint32_t best_cap_x[3] = {base_x[0], base_x[1], base_x[2]};
+    chart61_eval_t best_cap_eval = base_eval;
+    int best_cap_delta_hw = 0;
+    int have_cap = base_eval.f.d61_hw <= cap;
+
+    uint32_t best_exact_x[3] = {base_x[0], base_x[1], base_x[2]};
+    chart61_eval_t best_exact_eval = base_eval;
+    int best_exact_delta_hw = 0;
+    int have_exact = base_eval.f.defects[3] == 0;
+
+    uint32_t best_exact_cap_x[3] = {base_x[0], base_x[1], base_x[2]};
+    chart61_eval_t best_exact_cap_eval = base_eval;
+    int best_exact_cap_delta_hw = 0;
+    int have_exact_cap = have_exact && base_eval.f.d61_hw <= cap;
+
+    long long cap_hits = have_cap ? 1 : 0;
+    long long exact60_hits = have_exact ? 1 : 0;
+    long long exact_cap_hits = have_exact_cap ? 1 : 0;
+    long long actual_d60_hist[33], cap_d60_hist[33], exact_d61_hist[33];
+    memset(actual_d60_hist, 0, sizeof(actual_d60_hist));
+    memset(cap_d60_hist, 0, sizeof(cap_d60_hist));
+    memset(exact_d61_hist, 0, sizeof(exact_d61_hist));
+    if (base_eval.f.d60_hw >= 0 && base_eval.f.d60_hw <= 32) {
+        actual_d60_hist[base_eval.f.d60_hw]++;
+    }
+    if (have_cap && base_eval.f.d60_hw >= 0 && base_eval.f.d60_hw <= 32) {
+        cap_d60_hist[base_eval.f.d60_hw]++;
+    }
+    if (have_exact && base_eval.f.d61_hw >= 0 && base_eval.f.d61_hw <= 32) {
+        exact_d61_hist[base_eval.f.d61_hw]++;
+    }
+
+    #pragma omp parallel num_threads(threads)
+    {
+        int tid = omp_get_thread_num();
+        uint64_t rng = 0x6639367265706169ULL ^
+                       ((uint64_t)cand->m0 << 9) ^
+                       ((uint64_t)base_x[0] << 21) ^
+                       ((uint64_t)base_x[1] << 5) ^
+                       ((uint64_t)base_x[2] << 37) ^
+                       (uint64_t)tid;
+
+        uint32_t local_best_any_x[3] = {base_x[0], base_x[1], base_x[2]};
+        chart61_eval_t local_best_any_eval = base_eval;
+        int local_best_any_delta_hw = 0;
+
+        uint32_t local_best_cap_x[3] = {base_x[0], base_x[1], base_x[2]};
+        chart61_eval_t local_best_cap_eval = base_eval;
+        int local_best_cap_delta_hw = 0;
+        int local_have_cap = have_cap;
+
+        uint32_t local_best_exact_x[3] = {base_x[0], base_x[1], base_x[2]};
+        chart61_eval_t local_best_exact_eval = base_eval;
+        int local_best_exact_delta_hw = 0;
+        int local_have_exact = have_exact;
+
+        uint32_t local_best_exact_cap_x[3] = {base_x[0], base_x[1], base_x[2]};
+        chart61_eval_t local_best_exact_cap_eval = base_eval;
+        int local_best_exact_cap_delta_hw = 0;
+        int local_have_exact_cap = have_exact_cap;
+
+        long long local_cap_hits = 0;
+        long long local_exact60_hits = 0;
+        long long local_exact_cap_hits = 0;
+        long long local_actual_d60_hist[33], local_cap_d60_hist[33], local_exact_d61_hist[33];
+        memset(local_actual_d60_hist, 0, sizeof(local_actual_d60_hist));
+        memset(local_cap_d60_hist, 0, sizeof(local_cap_d60_hist));
+        memset(local_exact_d61_hist, 0, sizeof(local_exact_d61_hist));
+
+        #pragma omp for schedule(dynamic, 256)
+        for (long long i = 0; i < samples; i++) {
+            uint64_t selection = 0;
+            if (i != 0) {
+                selection = ((uint64_t)splitmix32(&rng) << 32) |
+                            (uint64_t)splitmix32(&rng);
+                if (sampled_kernel_dim < 64) {
+                    selection &= (1ULL << sampled_kernel_dim) - 1ULL;
+                }
+            }
+            delta96_t delta = delta96_xor(particular,
+                                          combine_kernel_selection96(selection, kernel));
+
+            uint32_t x[3];
+            apply_delta57_59(base_x, delta, x);
+            chart61_eval_t e;
+            chart61_eval_point(&p1, &p2, x, &target, 1, &e);
+            int dhw = delta96_hw(delta);
+
+            if (e.f.d60_hw >= 0 && e.f.d60_hw <= 32) {
+                local_actual_d60_hist[e.f.d60_hw]++;
+            }
+            if (chart61_eval_better(&e, &local_best_any_eval, cap, policy,
+                                    part_weight, carry_weight)) {
+                local_best_any_eval = e;
+                memcpy(local_best_any_x, x, sizeof(local_best_any_x));
+                local_best_any_delta_hw = dhw;
+            }
+            if (e.f.d61_hw <= cap) {
+                local_cap_hits++;
+                if (e.f.d60_hw >= 0 && e.f.d60_hw <= 32) {
+                    local_cap_d60_hist[e.f.d60_hw]++;
+                }
+                if (!local_have_cap || chart61_cap_better(&e, &local_best_cap_eval)) {
+                    local_have_cap = 1;
+                    local_best_cap_eval = e;
+                    memcpy(local_best_cap_x, x, sizeof(local_best_cap_x));
+                    local_best_cap_delta_hw = dhw;
+                }
+            }
+            if (e.f.defects[3] == 0) {
+                local_exact60_hits++;
+                if (e.f.d61_hw >= 0 && e.f.d61_hw <= 32) {
+                    local_exact_d61_hist[e.f.d61_hw]++;
+                }
+                if (!local_have_exact ||
+                    e.f.d61_hw < local_best_exact_eval.f.d61_hw ||
+                    (e.f.d61_hw == local_best_exact_eval.f.d61_hw &&
+                     e.f.tail_hw < local_best_exact_eval.f.tail_hw)) {
+                    local_have_exact = 1;
+                    local_best_exact_eval = e;
+                    memcpy(local_best_exact_x, x, sizeof(local_best_exact_x));
+                    local_best_exact_delta_hw = dhw;
+                }
+                if (e.f.d61_hw <= cap) {
+                    local_exact_cap_hits++;
+                    if (!local_have_exact_cap ||
+                        e.f.d61_hw < local_best_exact_cap_eval.f.d61_hw ||
+                        (e.f.d61_hw == local_best_exact_cap_eval.f.d61_hw &&
+                         e.f.tail_hw < local_best_exact_cap_eval.f.tail_hw)) {
+                        local_have_exact_cap = 1;
+                        local_best_exact_cap_eval = e;
+                        memcpy(local_best_exact_cap_x, x,
+                               sizeof(local_best_exact_cap_x));
+                        local_best_exact_cap_delta_hw = dhw;
+                    }
+                }
+            }
+        }
+
+        #pragma omp critical
+        {
+            cap_hits += local_cap_hits;
+            exact60_hits += local_exact60_hits;
+            exact_cap_hits += local_exact_cap_hits;
+            for (int h = 0; h <= 32; h++) {
+                actual_d60_hist[h] += local_actual_d60_hist[h];
+                cap_d60_hist[h] += local_cap_d60_hist[h];
+                exact_d61_hist[h] += local_exact_d61_hist[h];
+            }
+            if (chart61_eval_better(&local_best_any_eval, &best_any_eval, cap,
+                                    policy, part_weight, carry_weight)) {
+                best_any_eval = local_best_any_eval;
+                memcpy(best_any_x, local_best_any_x, sizeof(best_any_x));
+                best_any_delta_hw = local_best_any_delta_hw;
+            }
+            if (local_have_cap &&
+                (!have_cap || chart61_cap_better(&local_best_cap_eval,
+                                                 &best_cap_eval))) {
+                have_cap = 1;
+                best_cap_eval = local_best_cap_eval;
+                memcpy(best_cap_x, local_best_cap_x, sizeof(best_cap_x));
+                best_cap_delta_hw = local_best_cap_delta_hw;
+            }
+            if (local_have_exact &&
+                (!have_exact ||
+                 local_best_exact_eval.f.d61_hw < best_exact_eval.f.d61_hw ||
+                 (local_best_exact_eval.f.d61_hw == best_exact_eval.f.d61_hw &&
+                  local_best_exact_eval.f.tail_hw < best_exact_eval.f.tail_hw))) {
+                have_exact = 1;
+                best_exact_eval = local_best_exact_eval;
+                memcpy(best_exact_x, local_best_exact_x, sizeof(best_exact_x));
+                best_exact_delta_hw = local_best_exact_delta_hw;
+            }
+            if (local_have_exact_cap &&
+                (!have_exact_cap ||
+                 local_best_exact_cap_eval.f.d61_hw <
+                 best_exact_cap_eval.f.d61_hw ||
+                 (local_best_exact_cap_eval.f.d61_hw ==
+                  best_exact_cap_eval.f.d61_hw &&
+                  local_best_exact_cap_eval.f.tail_hw <
+                  best_exact_cap_eval.f.tail_hw))) {
+                have_exact_cap = 1;
+                best_exact_cap_eval = local_best_exact_cap_eval;
+                memcpy(best_exact_cap_x, local_best_exact_cap_x,
+                       sizeof(best_exact_cap_x));
+                best_exact_cap_delta_hw = local_best_exact_cap_delta_hw;
+            }
+        }
+    }
+
+    printf("{\"mode\":\"d60repairfiber96\",\"candidate\":\"%s\",\"idx\":%d,"
+           "\"base_x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"cap\":%d,\"policy\":%d,\"part_weight\":%d,\"carry_weight\":%d,"
+           "\"samples\":%lld,\"threads\":%d,\"rank60\":%d,"
+           "\"kernel_dim\":%d,\"sampled_kernel_dim\":%d,"
+           "\"particular_delta_lo\":\"0x%016llx\","
+           "\"particular_delta_hi\":\"0x%08x\",\"particular_delta_hw\":%d,"
+           "\"base_d60\":\"0x%08x\",\"base_d60_hw\":%d,"
+           "\"base_d61\":\"0x%08x\",\"base_d61_hw\":%d,"
+           "\"cap_hits\":%lld,\"exact60_hits\":%lld,\"exact_cap_hits\":%lld,"
+           "\"actual_d60_hw_hist\":[",
+           cand->id, idx, base_x[0], base_x[1], base_x[2],
+           cap, policy, part_weight, carry_weight, samples, threads,
+           rank60, kernel_dim, sampled_kernel_dim,
+           (unsigned long long)particular.lo, particular.hi,
+           delta96_hw(particular), d60, hw32(d60), d61, hw32(d61),
+           cap_hits, exact60_hits, exact_cap_hits);
+    for (int h = 0; h <= 32; h++) {
+        if (h) printf(",");
+        printf("%lld", actual_d60_hist[h]);
+    }
+    printf("],\"cap_d60_hw_hist\":[");
+    for (int h = 0; h <= 32; h++) {
+        if (h) printf(",");
+        printf("%lld", cap_d60_hist[h]);
+    }
+    printf("],\"exact_d61_hw_hist\":[");
+    for (int h = 0; h <= 32; h++) {
+        if (h) printf(",");
+        printf("%lld", exact_d61_hist[h]);
+    }
+    printf("],\"best_any\":");
+    chart61_print_point(best_any_x, &best_any_eval,
+                        chart61_score(&best_any_eval, cap, policy,
+                                      part_weight, carry_weight),
+                        best_any_delta_hw, 0);
+    printf(",\"best_cap\":");
+    if (have_cap) {
+        chart61_print_point(best_cap_x, &best_cap_eval,
+                            chart61_score(&best_cap_eval, cap, policy,
+                                          part_weight, carry_weight),
+                            best_cap_delta_hw, 0);
+    } else {
+        printf("null");
+    }
+    printf(",\"best_exact\":");
+    if (have_exact) {
+        chart61_print_point(best_exact_x, &best_exact_eval,
+                            chart61_score(&best_exact_eval, cap, policy,
+                                          part_weight, carry_weight),
+                            best_exact_delta_hw, 0);
+    } else {
+        printf("null");
+    }
+    printf(",\"best_exact_cap\":");
+    if (have_exact_cap) {
+        chart61_print_point(best_exact_cap_x, &best_exact_cap_eval,
+                            chart61_score(&best_exact_cap_eval, cap, policy,
+                                          part_weight, carry_weight),
+                            best_exact_cap_delta_hw, 0);
+    } else {
+        printf("null");
+    }
+    printf("}\n");
+}
+
+static void d60_repair_fiber96_low_candidate(int idx, const uint32_t base_x[3],
+                                             int max_k, int cap, int policy,
+                                             int part_weight, int carry_weight) {
+    int n_cands = (int)(sizeof(CANDIDATES) / sizeof(CANDIDATES[0]));
+    if (idx < 0 || idx >= n_cands) {
+        fprintf(stderr, "candidate index must be 0..%d.\n", n_cands - 1);
+        exit(2);
+    }
+    if (max_k < 0) max_k = 0;
+    if (max_k > 8) max_k = 8;
+    if (cap < 0) cap = 0;
+    if (cap > 32) cap = 32;
+    if (part_weight < 0) part_weight = 0;
+    if (carry_weight < 0) carry_weight = 0;
+
+    const candidate_t *cand = &CANDIDATES[idx];
+    sha256_precomp_t p1, p2;
+    if (!prepare_candidate(cand, &p1, &p2)) {
+        printf("{\"mode\":\"d60repairfiber96low\",\"candidate\":\"%s\",\"error\":\"not_cascade_eligible\"}\n",
+               cand->id);
+        return;
+    }
+
+    uint32_t cols60[96], cols61[96];
+    uint64_t cols_pair[96];
+    uint32_t d60 = 0, d61 = 0;
+    defect60_61_columns96(&p1, &p2, base_x, &d60, &d61,
+                          cols60, cols61, cols_pair);
+
+    delta96_t particular = delta96_zero();
+    int rank60 = 0;
+    int solvable = solve_linear_columns96(d60, cols60, 96,
+                                          &particular, &rank60);
+    delta96_t kernel[96];
+    int kernel_rank = 0;
+    int kernel_dim = kernel_basis_columns32_96(cols60, 96, kernel, &kernel_rank);
+    int enum_dim = kernel_dim > 64 ? 64 : kernel_dim;
+
+    tail_trace_t target;
+    tail_trace_for_x(&p1, &p2, base_x, &target);
+    chart61_eval_t base_eval;
+    chart61_eval_point(&p1, &p2, base_x, &target, 1, &base_eval);
+
+    if (!solvable) {
+        printf("{\"mode\":\"d60repairfiber96low\",\"candidate\":\"%s\",\"idx\":%d,"
+               "\"base_x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+               "\"error\":\"d60_linear_unsolvable\",\"rank60\":%d,"
+               "\"kernel_dim\":%d,\"base_d60\":\"0x%08x\","
+               "\"base_d61\":\"0x%08x\"}\n",
+               cand->id, idx, base_x[0], base_x[1], base_x[2],
+               rank60, kernel_dim, d60, d61);
+        return;
+    }
+
+    uint32_t best_any_x[3] = {base_x[0], base_x[1], base_x[2]};
+    chart61_eval_t best_any_eval = base_eval;
+    int best_any_delta_hw = 0;
+    int best_any_k = 0;
+
+    uint32_t best_cap_x[3] = {base_x[0], base_x[1], base_x[2]};
+    chart61_eval_t best_cap_eval = base_eval;
+    int best_cap_delta_hw = 0;
+    int best_cap_k = 0;
+    int have_cap = base_eval.f.d61_hw <= cap;
+
+    uint32_t best_exact_x[3] = {base_x[0], base_x[1], base_x[2]};
+    chart61_eval_t best_exact_eval = base_eval;
+    int best_exact_delta_hw = 0;
+    int best_exact_k = 0;
+    int have_exact = base_eval.f.defects[3] == 0;
+
+    uint32_t best_exact_cap_x[3] = {base_x[0], base_x[1], base_x[2]};
+    chart61_eval_t best_exact_cap_eval = base_eval;
+    int best_exact_cap_delta_hw = 0;
+    int best_exact_cap_k = 0;
+    int have_exact_cap = have_exact && base_eval.f.d61_hw <= cap;
+
+    unsigned long long checked = 0;
+    unsigned long long cap_hits = have_cap ? 1ULL : 0ULL;
+    unsigned long long exact60_hits = have_exact ? 1ULL : 0ULL;
+    unsigned long long exact_cap_hits = have_exact_cap ? 1ULL : 0ULL;
+
+    for (int k = 0; k <= max_k; k++) {
+        uint64_t combo = (k == 0) ? 0ULL : ((1ULL << k) - 1ULL);
+        while (1) {
+            delta96_t delta = delta96_xor(particular,
+                                          combine_kernel_selection96(combo, kernel));
+            uint32_t x[3];
+            apply_delta57_59(base_x, delta, x);
+            chart61_eval_t e;
+            chart61_eval_point(&p1, &p2, x, &target, 1, &e);
+            int dhw = delta96_hw(delta);
+            checked++;
+
+            if (chart61_eval_better(&e, &best_any_eval, cap, policy,
+                                    part_weight, carry_weight)) {
+                best_any_eval = e;
+                memcpy(best_any_x, x, sizeof(best_any_x));
+                best_any_delta_hw = dhw;
+                best_any_k = k;
+            }
+            if (e.f.d61_hw <= cap) {
+                cap_hits++;
+                if (!have_cap || chart61_cap_better(&e, &best_cap_eval)) {
+                    have_cap = 1;
+                    best_cap_eval = e;
+                    memcpy(best_cap_x, x, sizeof(best_cap_x));
+                    best_cap_delta_hw = dhw;
+                    best_cap_k = k;
+                }
+            }
+            if (e.f.defects[3] == 0) {
+                exact60_hits++;
+                if (!have_exact ||
+                    e.f.d61_hw < best_exact_eval.f.d61_hw ||
+                    (e.f.d61_hw == best_exact_eval.f.d61_hw &&
+                     e.f.tail_hw < best_exact_eval.f.tail_hw)) {
+                    have_exact = 1;
+                    best_exact_eval = e;
+                    memcpy(best_exact_x, x, sizeof(best_exact_x));
+                    best_exact_delta_hw = dhw;
+                    best_exact_k = k;
+                }
+                if (e.f.d61_hw <= cap) {
+                    exact_cap_hits++;
+                    if (!have_exact_cap ||
+                        e.f.d61_hw < best_exact_cap_eval.f.d61_hw ||
+                        (e.f.d61_hw == best_exact_cap_eval.f.d61_hw &&
+                         e.f.tail_hw < best_exact_cap_eval.f.tail_hw)) {
+                        have_exact_cap = 1;
+                        best_exact_cap_eval = e;
+                        memcpy(best_exact_cap_x, x,
+                               sizeof(best_exact_cap_x));
+                        best_exact_cap_delta_hw = dhw;
+                        best_exact_cap_k = k;
+                    }
+                }
+            }
+
+            if (k == 0) break;
+            uint64_t next = next_combination64(combo);
+            if (!next || next < combo || (enum_dim < 64 && (next >> enum_dim))) break;
+            combo = next;
+        }
+    }
+
+    printf("{\"mode\":\"d60repairfiber96low\",\"candidate\":\"%s\",\"idx\":%d,"
+           "\"base_x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"max_k\":%d,\"cap\":%d,\"policy\":%d,"
+           "\"part_weight\":%d,\"carry_weight\":%d,"
+           "\"checked\":%llu,\"rank60\":%d,\"kernel_dim\":%d,"
+           "\"enum_dim\":%d,\"particular_delta_lo\":\"0x%016llx\","
+           "\"particular_delta_hi\":\"0x%08x\",\"particular_delta_hw\":%d,"
+           "\"base_d60\":\"0x%08x\",\"base_d60_hw\":%d,"
+           "\"base_d61\":\"0x%08x\",\"base_d61_hw\":%d,"
+           "\"cap_hits\":%llu,\"exact60_hits\":%llu,\"exact_cap_hits\":%llu,"
+           "\"best_any_k\":%d,\"best_any\":",
+           cand->id, idx, base_x[0], base_x[1], base_x[2],
+           max_k, cap, policy, part_weight, carry_weight,
+           checked, rank60, kernel_dim, enum_dim,
+           (unsigned long long)particular.lo, particular.hi,
+           delta96_hw(particular), d60, hw32(d60), d61, hw32(d61),
+           cap_hits, exact60_hits, exact_cap_hits, best_any_k);
+    chart61_print_point(best_any_x, &best_any_eval,
+                        chart61_score(&best_any_eval, cap, policy,
+                                      part_weight, carry_weight),
+                        best_any_delta_hw, 0);
+    printf(",\"best_cap_k\":%d,\"best_cap\":", best_cap_k);
+    if (have_cap) {
+        chart61_print_point(best_cap_x, &best_cap_eval,
+                            chart61_score(&best_cap_eval, cap, policy,
+                                          part_weight, carry_weight),
+                            best_cap_delta_hw, 0);
+    } else {
+        printf("null");
+    }
+    printf(",\"best_exact_k\":%d,\"best_exact\":", best_exact_k);
+    if (have_exact) {
+        chart61_print_point(best_exact_x, &best_exact_eval,
+                            chart61_score(&best_exact_eval, cap, policy,
+                                          part_weight, carry_weight),
+                            best_exact_delta_hw, 0);
+    } else {
+        printf("null");
+    }
+    printf(",\"best_exact_cap_k\":%d,\"best_exact_cap\":", best_exact_cap_k);
+    if (have_exact_cap) {
+        chart61_print_point(best_exact_cap_x, &best_exact_cap_eval,
+                            chart61_score(&best_exact_cap_eval, cap, policy,
+                                          part_weight, carry_weight),
+                            best_exact_cap_delta_hw, 0);
+    } else {
+        printf("null");
+    }
+    printf("}\n");
+}
+
 static void chart61_pair_descent_candidate(int idx, const uint32_t base_x[3],
                                            int max_passes, int max_k,
                                            int cap, int policy,
@@ -7630,6 +8284,43 @@ int main(int argc, char **argv) {
         d60_repair_fiber_candidate(idx, x, samples, threads, cap,
                                    policy, part_weight, carry_weight,
                                    1, start);
+        return 0;
+    }
+
+    if (argc >= 2 && strcmp(argv[1], "d60repairfiber96") == 0) {
+        int idx = (argc >= 3) ? atoi(argv[2]) : 0;
+        uint32_t x[3] = {
+            (argc >= 4) ? (uint32_t)strtoul(argv[3], NULL, 0) : 0,
+            (argc >= 5) ? (uint32_t)strtoul(argv[4], NULL, 0) : 0,
+            (argc >= 6) ? (uint32_t)strtoul(argv[5], NULL, 0) : 0,
+        };
+        long long samples = (argc >= 7) ? strtoll(argv[6], NULL, 0) : 1048576LL;
+        int threads = (argc >= 8) ? atoi(argv[7]) : 8;
+        int cap = (argc >= 9) ? atoi(argv[8]) : 4;
+        int policy = (argc >= 10) ? atoi(argv[9]) : 2;
+        int part_weight = (argc >= 11) ? atoi(argv[10]) : 1;
+        int carry_weight = (argc >= 12) ? atoi(argv[11]) : 1;
+        sha256_init(32);
+        d60_repair_fiber96_candidate(idx, x, samples, threads, cap,
+                                     policy, part_weight, carry_weight);
+        return 0;
+    }
+
+    if (argc >= 2 && strcmp(argv[1], "d60repairfiber96low") == 0) {
+        int idx = (argc >= 3) ? atoi(argv[2]) : 0;
+        uint32_t x[3] = {
+            (argc >= 4) ? (uint32_t)strtoul(argv[3], NULL, 0) : 0,
+            (argc >= 5) ? (uint32_t)strtoul(argv[4], NULL, 0) : 0,
+            (argc >= 6) ? (uint32_t)strtoul(argv[5], NULL, 0) : 0,
+        };
+        int max_k = (argc >= 7) ? atoi(argv[6]) : 4;
+        int cap = (argc >= 8) ? atoi(argv[7]) : 4;
+        int policy = (argc >= 9) ? atoi(argv[8]) : 2;
+        int part_weight = (argc >= 10) ? atoi(argv[9]) : 1;
+        int carry_weight = (argc >= 11) ? atoi(argv[10]) : 1;
+        sha256_init(32);
+        d60_repair_fiber96_low_candidate(idx, x, max_k, cap, policy,
+                                         part_weight, carry_weight);
         return 0;
     }
 

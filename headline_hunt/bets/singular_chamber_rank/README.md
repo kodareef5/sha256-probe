@@ -178,7 +178,8 @@ Key result notes:
   the low-D61 caps. Additional GPU-found off58-HW1 charts on idx9/13/14/15
   did not beat the known exact-D61 frontier. W57-free beam/greedy probes found
   new exact-D60 landings and low-D60 terraces, but did not improve D61 HW4 or
-  tail HW59.
+  tail HW59. W57-free affine-fiber sampling and low-weight kernel enumeration
+  reached D60-HW1, but found no exact D60 and no cap-preserving bridge.
 - `results/20260426_m5_1B_deep_descent.md`: macbook M5 1B-trial walk that
   verified the HW5 round-61 and tail-HW68 frontiers.
 - `results/20260426_m5_1B_from_HW5.md`: macbook M5 1B-trial walk from the HW5
@@ -204,3 +205,7 @@ Key result notes:
 - `results/20260426_w57_free_operator_probe.md`: beam and greedy repair with
   W57 allowed to move; new exact-D60 landings appear, but the useful carry
   chart is not preserved and neither D61 nor tail improves.
+- `results/20260426_w57_affine_fiber_probe.md`: 96-bit D60 affine-fiber
+  sampling and low-weight kernel enumeration over W57/W58/W59; D60 can be
+  reduced to HW1, but D61 rises sharply and no exact/cap-preserving bridge is
+  found.
