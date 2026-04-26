@@ -1609,3 +1609,87 @@
   last_updated: '2026-04-25'
   owner: fleet
   evidence_level: UNTESTED
+- id: cand_n32_bit18_m99bf552b_fillffffffff
+  n: 32
+  m0: '0x99bf552b'
+  fill: '0xffffffff'
+  kernel:
+    word_pair:
+    - 0
+    - 9
+    bit: 18
+    diff_hex: '0x00040000'
+  source: 2026-04-26 cascade_eligibility_sweep at bit=18 fill=0xff (full 2^32 m0);
+    first new candidate found
+  da56:
+    status: verified
+    state_hash: null
+  metrics:
+    hw56: 127
+    db56_hw: null
+    de58_size: 130086
+    w60_mismatch_hw: null
+    de58_hardlock_mask: '0x00040000'
+    de58_hardlock_value: '0x00040000'
+    de58_hardlock_bits: 1
+  statuses:
+    sr60:
+      status: unknown
+      evidence: []
+      cert_id: null
+      notes: null
+    true_sr61:
+      status: unknown
+      evidence: []
+      cpu_hours: 0
+  artifacts:
+    cnfs:
+    - cnfs_n32/sr61_cascade_m99bf552b_fffffffff_bit18.cnf
+    certs: []
+    logs: []
+  last_tested: '2026-04-26'
+  last_updated: '2026-04-26'
+  owner: macbook
+  evidence_level: VERIFIED
+- id: cand_n32_bit18_mcbe11dc1_fillffffffff
+  n: 32
+  m0: '0xcbe11dc1'
+  fill: '0xffffffff'
+  kernel:
+    word_pair:
+    - 0
+    - 9
+    bit: 18
+    diff_hex: '0x00040000'
+  source: 2026-04-26 cascade_eligibility_sweep at bit=18 fill=0xff (2nd of 2 eligible
+    in 2^32)
+  da56:
+    status: verified
+    state_hash: null
+  metrics:
+    hw56: 146
+    db56_hw: null
+    de58_size: 102922
+    w60_mismatch_hw: null
+    de58_hardlock_mask: '0x024e1601'
+    de58_hardlock_value: '0x00001200'
+    de58_hardlock_bits: 9
+  statuses:
+    sr60:
+      status: unknown
+      evidence: []
+      cert_id: null
+      notes: null
+    true_sr61:
+      status: unknown
+      evidence: []
+      cpu_hours: 0
+  artifacts:
+    cnfs:
+    - cnfs_n32/sr61_cascade_mcbe11dc1_fffffffff_bit18.cnf
+    certs: []
+    logs: []
+  last_tested: '2026-04-26'
+  last_updated: '2026-04-26'
+  owner: macbook
+  evidence_level: VERIFIED

@@ -114,6 +114,30 @@
   last_updated: "2026-04-20"
   owner: fleet
 
+- id: kernel_0_9_bit18
+  name: "bit-18 kernel at word-pair (0,9) — σ0-aligned (NEW 2026-04-26)"
+  n_scope: [32]
+  word_pair: [0, 9]
+  bit: 18
+  diff_hex: "0x00040000"
+  scan_coverage:
+    fills: ["0xffffffff"]
+    m0_range: "exhaustive 2^32 at fill=0xff"
+    complete: true
+    n32_random_scan: "exhaustive 2^32 at fill=0xff: 2 eligible (m=0x99bf552b, m=0xcbe11dc1)"
+  candidates_found: 2
+  best_results_by_n:
+    n32: "2 candidates at fill=0xff (FALSIFIED Σ1/σ1 alignment hypothesis)"
+  sr61_partial:
+    n32_true_sr61:
+      status: untested
+      candidates: 2
+      cpu_hours: 0
+  status: open
+  last_updated: "2026-04-26"
+  owner: macbook
+  notes: "Discovered 2026-04-26 via cascade_eligibility_sweep. σ0-aligned bit (sigma0 amounts {7, 18, 3}). FALSIFIES the Σ1/σ1 alignment hypothesis from registry/notes/20260425_covered_bits_pattern.md. See registry/notes/20260425_uncovered_bits_scan.md for context."
+
 - id: kernel_0_9_bit17
   name: "bit-17 kernel at word-pair (0,9) — sigma1-aligned"
   n_scope: [32]
