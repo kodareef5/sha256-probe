@@ -8,7 +8,7 @@ Each cell = one (bit, fill) combination. Exhaustive 2^32 m0 sweep ≈ 12 min wal
 | bit\fill | 0xff | 0x00 | 0x55 | 0xaa | 0x80 | total found |
 |---------:|:-----|:-----|:-----|:-----|:-----|:------------|
 |  0       |      |      |      |      |      |  curated 4  |
-|  3       | 2 ✓  | 0 ✓  | run  |      |      |  2 (NEW)    |
+|  3       | 2 ✓  | 0 ✓  | 0 ✓  |      |      |  2 (NEW)    |
 |  4       | run  |      |      |      |      |  ?          |
 |  6       |      |      |      |      |      |  curated 6  |
 |  7       | 0 ✓  |      |      |      |      |  0          |
@@ -38,6 +38,7 @@ Each cell = one (bit, fill) combination. Exhaustive 2^32 m0 sweep ≈ 12 min wal
 | bit=7  fill=0xff       | 2^32   | 0        | 0.00 |
 | bit=3  fill=0xff       | 2^32   | 2        | 1.00 |
 | bit=3  fill=0x00       | 2^32   | 0        | 0.00 |
+| bit=3  fill=0x55       | 2^32   | 0        | 0.00 |
 
 **Average**: 9 eligible / 7 cells = 1.29 per cell. Expected at uniform 2^-31
 baseline = 2 per cell. Observed slightly LOWER, but consistent with Poisson(2)
