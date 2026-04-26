@@ -9,6 +9,7 @@ Each cell = one (bit, fill) combination. Exhaustive 2^32 m0 sweep ≈ 12 min wal
 |---------:|:-----|:-----|:-----|:-----|:-----|:------------|
 |  0       |      |      |      |      |      |  curated 4  |
 |  1       | 1 ✓  |      |      |      |      |  1 (NEW)    |
+|  5       | 0 ✓  |      |      |      |      |  0          |
 |  2       | 3 ✓  |      |      |      |      |  3 (NEW)    |
 |  3       | 2 ✓  | 0 ✓  | 0 ✓  |      |      |  2 (NEW)    |
 |  4       | 2 ✓  |      |      |      |      |  2 (NEW)    |
@@ -61,6 +62,7 @@ bit=3×2, bit=4×2, bit=25×2). Registry expanded **36 → 47** (+31% growth).
 | bit=17 fill=0xff       | 2^32   | 0        | 0.00 |
 | bit=13 fill=0x80       | 2^32   | 1        | 0.50 |
 | bit=1  fill=0xff       | 2^32   | 1        | 0.50 |
+| bit=5  fill=0xff       | 2^32   | 0        | 0.00 |
 
 **Average**: 9 eligible / 7 cells = 1.29 per cell. Expected at uniform 2^-31
 baseline = 2 per cell. Observed slightly LOWER, but consistent with Poisson(2)
