@@ -75,7 +75,7 @@ current_progress: |
   = 72 CNFs, all CONFIRMED. Bet remains characterized (Mode B 2-3.4× front-
   loaded preprocessing, not a path to cascade-DP SAT discovery).
 
-last_heartbeat: "2026-04-26T13:30:00Z"
+last_heartbeat: "2026-04-26T23:40:00Z"
 heartbeat_interval_days: 7
 recent_progress_2026-04-26: |
   Predictor work shipped this session:
@@ -103,3 +103,47 @@ recent_progress_2026-04-26: |
   - results/20260426_predictor_prospective_validation.md
   - results/20260426_sr60_predictor_generalization.md
   - results/20260426_cadical_predictor_generalization.md
+
+evening_progress_2026-04-26: |
+  F-series structural-hint discovery and deployment (commits 3bc3da9,
+  52390db, d0d35e2, 2a9205f, 7be3536, 9427f17, dcd477d, dc9f88b):
+
+  STRUCTURAL FINDINGS:
+  - Per-chamber de58_size = 1 (verified across 7 chambers): at fixed
+    (m0, fill, kernel_bit, W57), de58 takes exactly one 32-bit value.
+    Mechanism: under cascade-1, dT1_58 = -dT2_58 = 0 (since da[57]=0
+    eliminates Sigma0/Maj differences); de58 reduces to slot-57 inputs
+    only.
+  - de59 is CAND-LEVEL invariant (same across 64 random W57s for 5
+    cands): a 32-bit free hint with no W57 commitment.
+  - de60..de63 are structurally 0 under cascade-1.
+
+  HINT VARIANT LADDER (n=18 deployment, kissat 50k, 3 seeds):
+                          median  floor  regression-rate
+    Mode A (baseline)      1.00x    -        -
+    13-bit marginal-locked 1.16x   0.7x     ~25%   (commit a95a267)
+    Mode B (force)         ~1.50x  1.0x     low
+    de58-at-w57 (32 bits)  1.43x   1.05x    0%     (commit d0d35e2)
+    de58+de59 stack (64)   1.87x   1.45x    0%     (commit 7be3536) ← new default
+
+  WRAPPER v3 (commit 9427f17): adds --hint-mode de58-at-w57 and
+  --hint-mode de58-de59-stack. Stack is the recommended default for
+  new sr=61 cascade_aux runs.
+
+  NEGATIVE FINDINGS:
+  - F6 (de60..de63 = 0 zero-hints): mixed/negative, idx8 regresses
+    0.57x. Don't ship. (commit dcd477d)
+  - F7 (Mode B + stack composition): composes (no contradiction) but
+    only +6% over Mode B alone. Diminishing returns. (commit dc9f88b)
+
+  Memos:
+  - results/20260426_de58_only_per_chamber_hints.md
+  - results/20260426_de58_only_n18_deployment.md
+  - results/20260426_de58_de59_stack_n18.md
+  - results/20260426_f6_zero_hints_negative.md
+  - results/20260426_f7_modeB_stack_compose.md
+
+  OPEN: F8 budget-sweep running (does 1.87x hold past 50k or decay
+  like 13-bit?), F9 10M-conflict verdict probe (are these CNFs SAT
+  or UNSAT? — determines whether speedup is on collision-finding or
+  UNSAT-proving path).
