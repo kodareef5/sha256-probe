@@ -210,6 +210,41 @@ slices at N=4, but is NOT affine — GF(2) Jacobian linearization finds 0 of
 
 ## EVIDENCE
 
+### Theorem 4 + R63 modular relations hold across N ∈ {8, 10, 12, 14, 16, 18, 32}
+At N=32, 1,048,576 random samples verify `da_61 ≡ de_61 (mod 2^32)` with 0 violations.
+At N ∈ {8, 10, 12, 14, 16, 18}, 8192 samples each verify Theorem 4 + R63.1 (dc=dg) +
+R63.3 (da-de=dT2) with 0 violations across all six N values.
+At N=10, 10/10 cascade-eligible candidates × 3 invariants × 4096 samples each = 30 checks, 100% pass.
+- **Scripts:** `headline_hunt/bets/block2_wang/trails/n_invariants.py`,
+  `n_invariants_cross_candidate.py`
+- **Significance:** Cascade structural picture is N-INVARIANT and candidate-INVARIANT.
+  Strong support for the bet's algorithmic foundation regardless of which N is chosen.
+
+### Backward-construction algorithm is correct at N=8, N=10, partial-pass at N=12
+At N=10, q5/backward_construct.c port produces 946 collisions (100% Phase-4 verified)
+in 117s wall on 10 OMP threads. Stratified BF speedup VERIFIED 15.67× (vs N=8's 17.12×;
+decay rate ~0.92 per N-bit increment). N=12 partial sweep (32 of 4096 W57 in 43 wall-min)
+produced 32 collisions; algorithm validated at N=12 (full sweep ETA ~8 hr clean).
+- **Scripts:** `headline_hunt/bets/block2_wang/trails/backward_construct_n10*.c`,
+  `backward_construct_n12.c`
+- **Significance:** block2_wang Path B foundation is real, scaling per-w57 work as
+  1024× per +2 N-bit. M16 single-machine pure-BC is INFEASIBLE (~80 days uncontended).
+
+### de58 image-size and hard_bit_total_lb predictors are SEARCH-IRRELEVANT
+20-cell validation matrix (5 candidates × 2 solvers × 2 budgets) + 5-cell seed=7
+replicate at 1M kissat + 5-cell cadical seed=7 1M = 30 sr61_n32 runs.
+Spearman ρ vs solver dec/conf at 10M conflicts:
+- de58_size:         +0.000 (kissat) / +0.000 (cadical)
+- hard_bit_total_lb: -0.100 (kissat) / -0.100 (cadical)
+At 1M conflicts, ρ ranges -0.1 to -0.8 (mildly INVERSE). NEVER positive across
+12 (solver, seed, budget) cells.
+- **Evidence files:** `headline_hunt/bets/sr61_n32/results/20260425_de58_validation_VERDICT.md`,
+  `20260425_predictor_correlation.md`
+- **Significance:** de58 image and hard_bit_total_lb describe real cascade-DP
+  structure but do NOT predict CDCL search efficiency at the tested budgets.
+  Future sr61_n32 compute should distribute by candidate COVERAGE (disjoint
+  de58 regions) not RANK.
+
 ### sr=60 is UNSAT for M[0]=0x17149975 (MSB kernel, all-ones padding)
 29 of 32 randomly sampled 5-bit dual partitions are UNSAT with:
 - Kissat UNSAT + DRAT proof verified
