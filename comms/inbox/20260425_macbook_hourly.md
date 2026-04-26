@@ -1452,3 +1452,27 @@ Total session deliverables:
   Hypothesis: Σ1/σ1 alignment FULLY FALSIFIED across σ0, Σ0, non-aligned bits
   Structural extremes identified: bit-19 (most compressed) vs bit-18 m99bf552b
     (most spread, hardlock=1 vs prev min=3); bit-4 m39a03c2d 2nd most compressed
+
+## 2:35 EDT (Apr 26) — bit-4 m=0x39a03c2d 10M kissat: SAME wall + dec/conf as middle-compression cands
+
+10M kissat on the new 2nd-most-compressed candidate:
+  m=0x39a03c2d (image=2^11): 314s wall, 3.39 dec/conf
+  bit-19 m51ca0b34 (image=2^8): 282s wall, 3.29 dec/conf
+  msb_surp m9cfea9ce (image=2^12): 314s wall, 3.41 dec/conf
+
+The 2nd-most-compressed cand performs IDENTICALLY to msb_surp (12-bit
+compression). Compression in de58 image-size doesn't translate to
+solver advantage at 10M, even at the new candidate.
+
+Predictor closure (de58 + hard_bit search-irrelevant) holds at expanded
+registry across boundary, σ0, Σ0, σ1, AND non-aligned bits.
+
+3 more sweeps queued: bit=19, bit=11, bit=25 each at fill=0xff (currently
+under-covered for these bits). Could find ~6 more cands. ~36 min.
+
+Total session shipping (so far):
+  Registry: 36 → 45 (+9)
+  CNFs: +37 (9 cascade + 28 aux)
+  Sweeps: 9 cells exhaustive + 3 queued
+  Hypothesis: Σ1/σ1 alignment FULLY FALSIFIED
+  Solver tests: 7 new cands smoke-tested + 1 deep-tested at 10M
