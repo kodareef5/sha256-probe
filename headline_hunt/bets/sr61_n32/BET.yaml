@@ -22,6 +22,26 @@ current_progress: |
   Caveat: initial cost-estimate ("brute force in 30s") was wrong — encoder
   demands FULL slot-64 collision, not just da_61=0. 1800 CPU-h baseline is real
   problem hardness, not encoding waste.
-last_heartbeat: "2026-04-25T19:46:00Z"
+
+  2026-04-25 evening — predictor validation matrix (5 candidates × 2 solvers ×
+  2 budgets = 20 runs + 5+5 seed=7 replicates + 3 clean re-runs = 33 total runs).
+  RESULT: de58_size and hard_bit_total_lb predictors are SEARCH-IRRELEVANT.
+  Spearman ρ vs kissat 10M dec/conf:
+    de58_size           = +0.000
+    hard_bit_total_lb   = -0.100
+  Across 12 (solver, seed, budget) cells: ALL ρ ≤ 0. NEVER positively correlated.
+  Wall time (clean re-run, 5 candidates uncontended at 10M): 281-315s = 12% spread.
+  Spearman ρ(de58, clean_wall) = +0.000.
+  CONCLUSION: distribute future compute by candidate COVERAGE (disjoint de58
+  regions per the disjointness finding) rather than RANK. bit-19's structural
+  extreme is real but does NOT translate to solver advantage.
+  Verdict: bets/sr61_n32/results/20260425_de58_validation_VERDICT.md.
+
+  2026-04-26 — exhaustive full 2^32 sweep at bit=31 fill=0xff: 2 eligible m0
+  found, BOTH already registered (m=0xa22dc6c7 cert + m=0x17149975). Registry
+  is EXHAUSTIVE for this (kernel_bit, fill) cell. Σ1/σ1 alignment hypothesis
+  (registry/notes/20260425_covered_bits_pattern.md) still being tested at
+  σ0-aligned bits {7, 18} and Σ0-aligned bit 22.
+last_heartbeat: "2026-04-26T00:38:00Z"
 heartbeat_interval_days: 3      # higher cadence — this is the most-likely-to-drift bet
 audit_required: true
