@@ -1397,3 +1397,18 @@ Each expected ~2 eligible per cell. Could add another ~8 candidates.
 
 Strategic memo: registry/notes/20260426_candidate_base_expansion.md
 estimates 32 hr → ~360 candidates total (10× expansion).
+
+## 2:00 EDT (Apr 26) — 7 new cands are 100% pairwise disjoint, 96.4% disjoint vs original 36
+
+de58 disjoint check including 7 new candidates (16k samples each, 11.7s total):
+  Original 36: 96.7% pairwise disjoint (existing finding)
+  New 7 vs original 36: 9/252 pair overlaps (3.6%) — 96.4% disjoint
+  New 7 vs new 7: 0/21 pair overlaps — 100% disjoint
+
+Total registry de58 coverage: 563,022 / 2^32 = 0.0131% (was 0.0094% pre-expansion).
+Each new candidate adds NON-REDUNDANT search space coverage.
+
+Substantive: candidate-base expansion is genuinely productive. The new cells
+hit different de58 regions, not just more of the same.
+
+Sweeps continuing: bit=3 fill=0x55 running.
