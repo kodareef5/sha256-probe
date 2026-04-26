@@ -112,3 +112,52 @@ hardlock_bits range {3, 5, 8, 11, 15}.
 This is a NEW substantive hypothesis emerging from the consistency
 check. Worth proper validation before resourcing further Mode B
 work.
+
+## ADDENDUM 2 (07:42 EDT) — n=5 REFUTES the inverse-hardlock hypothesis
+
+Extended to n=5 by testing two mid-hardlock candidates:
+
+| candidate | bit | hl_bits | 50k Mode B speedup |
+|---|---:|---:|---:|
+| m=0x3e57289c | 28 | 3  | **3.01×** |
+| m=0xdc27e18c | 24 | 8  | 1.44× |
+| m=0x17454e4b | 29 | 12 | 1.72× |
+| m=0x294e1ea8 | 20 | 15 | 1.89× |
+| m=0xd1acca79 | 28 | 15 | 1.97× |
+
+**The trend is NOT monotonic in hardlock_bits**. The hl=8 candidate
+gives 1.44× — LOWER than the hl=15 cands (1.89×, 1.97×). The hl=3
+candidate's 3.01× is an outlier, not the start of a clean trend.
+
+**The inverse-hardlock hypothesis is REFUTED at n=5.**
+
+Looking at absolute time savings (Mode A wall − Mode B wall):
+| candidate | hl | A wall | savings |
+|---|---:|---:|---:|
+| 0x3e57289c | 3  | 3.10s | 2.07s |
+| 0xdc27e18c | 8  | 1.78s | 0.54s |
+| 0x17454e4b | 12 | 2.08s | 0.87s |
+| 0x294e1ea8 | 15 | 3.93s | 1.85s |
+| 0xd1acca79 | 15 | 4.00s | 1.97s |
+
+Pattern emerges differently: **absolute savings track Mode A baseline
+wall**. When Mode A is fast (1.78s for hl=8), Mode B saves less in
+absolute terms. This suggests Mode B's value is NOT a fixed
+preprocessing constant — it's roughly proportional to baseline
+solver effort.
+
+Possible refined hypothesis (n=5, untested): Mode B's preprocessing
+provides a fractional reduction in early-conflict CDCL effort. The
+fraction is candidate-dependent but not cleanly hl-correlated.
+
+What might predict the fraction? Possibilities:
+- de58_size (image cardinality)
+- HW(de58_hardlock_value) (locked-bit count of locked-mask intersection)
+- de56 hw or some other state feature
+
+This is the substantive shipping result: **the inverse-hardlock
+hypothesis is closed**. Mode B preprocessing helps, but the gain is
+not predictable from candidate hardlock alone. Future predictor work
+should consider richer features.
+
+EVIDENCE-level closure of the n=3 hypothesis. Honest negative result.
