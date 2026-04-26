@@ -70,6 +70,33 @@ static inline uint32_t cascade1_offset(const uint32_t s1[8], const uint32_t s2[8
     return (dh + dSig1 + dCh + dT2) & maskn();
 }
 
+static inline uint32_t carry_mask_add(uint32_t a, uint32_t b) {
+    uint32_t carry = 0;
+    uint32_t mask = 0;
+    for (int i = 0; i < sha256_N; i++) {
+        uint32_t ai = (a >> i) & 1U;
+        uint32_t bi = (b >> i) & 1U;
+        uint32_t co = (ai & bi) | (ai & carry) | (bi & carry);
+        if (co) mask |= 1U << i;
+        carry = co;
+    }
+    return mask & maskn();
+}
+
+static inline void cascade1_offset_carry_masks(const uint32_t s1[8], const uint32_t s2[8],
+                                               uint32_t cm[3]) {
+    uint32_t dh = subn(s1[7], s2[7]);
+    uint32_t dSig1 = subn(sha256_Sigma1(s1[4]), sha256_Sigma1(s2[4]));
+    uint32_t dCh = subn(sha256_Ch(s1[4], s1[5], s1[6]), sha256_Ch(s2[4], s2[5], s2[6]));
+    uint32_t dT2 = subn(addn(sha256_Sigma0(s1[0]), sha256_Maj(s1[0], s1[1], s1[2])),
+                        addn(sha256_Sigma0(s2[0]), sha256_Maj(s2[0], s2[1], s2[2])));
+    uint32_t s01 = addn(dh, dSig1);
+    uint32_t s012 = addn(s01, dCh);
+    cm[0] = carry_mask_add(dh, dSig1);
+    cm[1] = carry_mask_add(s01, dCh);
+    cm[2] = carry_mask_add(s012, dT2);
+}
+
 static inline void apply_round(uint32_t s[8], uint32_t w, int r) {
     uint32_t a = s[0], b = s[1], c = s[2], d = s[3];
     uint32_t e = s[4], f = s[5], g = s[6], h = s[7];
@@ -355,6 +382,10 @@ static void list_hits_for_w57_w58(int N, int bit, uint32_t fill, uint32_t w57, u
     uint64_t hits = 0;
     uint64_t all_ch_inv = 0, all_maj_a_inv = 0, all_maj_b_inv = 0, all_maj_c_inv = 0;
     uint64_t hit_ch_inv = 0, hit_maj_a_inv = 0, hit_maj_b_inv = 0, hit_maj_c_inv = 0;
+    uint32_t all_cm_or[3] = {0, 0, 0};
+    uint32_t all_cm_and[3] = {maskn(), maskn(), maskn()};
+    uint32_t hit_cm_or[3] = {0, 0, 0};
+    uint32_t hit_cm_and[3] = {maskn(), maskn(), maskn()};
     for (uint32_t w59 = 0; w59 < limit; w59++) {
         uint32_t s1_59[8], s2_59[8];
         memcpy(s1_59, s1_58, sizeof(s1_59));
@@ -370,6 +401,12 @@ static void list_hits_for_w57_w58(int N, int bit, uint32_t fill, uint32_t w57, u
         all_maj_a_inv += (uint64_t)maj_a_inv;
         all_maj_b_inv += (uint64_t)maj_b_inv;
         all_maj_c_inv += (uint64_t)maj_c_inv;
+        uint32_t cm[3];
+        cascade1_offset_carry_masks(s1_59, s2_59, cm);
+        for (int j = 0; j < 3; j++) {
+            all_cm_or[j] |= cm[j];
+            all_cm_and[j] &= cm[j];
+        }
         uint32_t req_offset60 = cascade1_offset(s1_59, s2_59);
         uint32_t defect = subn(sched_offset60, req_offset60);
         if (defect == 0) {
@@ -381,13 +418,26 @@ static void list_hits_for_w57_w58(int N, int bit, uint32_t fill, uint32_t w57, u
             hit_maj_a_inv += (uint64_t)maj_a_inv;
             hit_maj_b_inv += (uint64_t)maj_b_inv;
             hit_maj_c_inv += (uint64_t)maj_c_inv;
+            for (int j = 0; j < 3; j++) {
+                hit_cm_or[j] |= cm[j];
+                hit_cm_and[j] &= cm[j];
+            }
         }
+    }
+    int all_carry_inv[3];
+    int hit_carry_inv[3];
+    for (int j = 0; j < 3; j++) {
+        all_carry_inv[j] = sha256_N - hw((all_cm_or[j] ^ all_cm_and[j]) & maskn());
+        hit_carry_inv[j] = hits ? sha256_N - hw((hit_cm_or[j] ^ hit_cm_and[j]) & maskn()) : 0;
     }
     printf("],\"count\":%llu,"
            "\"avg_all_ch_inv\":%.3f,\"avg_hit_ch_inv\":%.3f,"
            "\"avg_all_maj_a_inv\":%.3f,\"avg_hit_maj_a_inv\":%.3f,"
            "\"avg_all_maj_b_inv\":%.3f,\"avg_hit_maj_b_inv\":%.3f,"
-           "\"avg_all_maj_c_inv\":%.3f,\"avg_hit_maj_c_inv\":%.3f}\n",
+           "\"avg_all_maj_c_inv\":%.3f,\"avg_hit_maj_c_inv\":%.3f,"
+           "\"all_carry_inv\":[%d,%d,%d],\"hit_carry_inv\":[%d,%d,%d],"
+           "\"hit_carry_and\":[\"0x%x\",\"0x%x\",\"0x%x\"],"
+           "\"hit_carry_or\":[\"0x%x\",\"0x%x\",\"0x%x\"]}\n",
            (unsigned long long)hits,
            (double)all_ch_inv / (double)limit,
            hits ? (double)hit_ch_inv / (double)hits : 0.0,
@@ -396,7 +446,11 @@ static void list_hits_for_w57_w58(int N, int bit, uint32_t fill, uint32_t w57, u
            (double)all_maj_b_inv / (double)limit,
            hits ? (double)hit_maj_b_inv / (double)hits : 0.0,
            (double)all_maj_c_inv / (double)limit,
-           hits ? (double)hit_maj_c_inv / (double)hits : 0.0);
+           hits ? (double)hit_maj_c_inv / (double)hits : 0.0,
+           all_carry_inv[0], all_carry_inv[1], all_carry_inv[2],
+           hit_carry_inv[0], hit_carry_inv[1], hit_carry_inv[2],
+           hit_cm_and[0], hit_cm_and[1], hit_cm_and[2],
+           hit_cm_or[0], hit_cm_or[1], hit_cm_or[2]);
 }
 
 int main(int argc, char **argv) {

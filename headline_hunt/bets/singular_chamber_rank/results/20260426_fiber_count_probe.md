@@ -95,6 +95,37 @@ This is a useful correction to the first-principles guess: the singular
 object appears to live in the carry language induced by modular additions,
 not in the raw Boolean selector surfaces of `Ch`/`Maj`.
 
+## Carry signature check
+
+For the same nested fat fibers, the carry masks of the modular additions
+inside `cascade_required_offset60` are strongly more invariant on hits than
+on all `W59` values.
+
+The three masks are from:
+
+```text
+c0: carry mask of dh + dSigma1
+c1: carry mask of (dh + dSigma1) + dCh
+c2: carry mask of previous + dT2
+```
+
+| N | chamber | all carry invariant bits | hit carry invariant bits |
+|---:|---|---:|---:|
+| 8 | `W57=0x27,W58=0x0c` | `[0,0,8]` | `[2,4,8]` |
+| 10 | `W57=0x50,W58=0x099` | `[0,2,10]` | `[6,7,10]` |
+| 12 | `W57=0x666,W58=0x393` | `[0,0,12]` | `[10,8,12]` |
+
+For N=12, hit carries satisfy:
+
+```text
+hit_carry_and = [0x347, 0xc22, 0x000]
+hit_carry_or  = [0x757, 0xe3e, 0x000]
+```
+
+That is the first concrete mechanism signal: the fat fibers are not explained
+by Ch/Maj selector equality, but they do sit inside constrained carry masks
+for the arithmetic that computes the round-60 cascade requirement.
+
 ## Interpretation
 
 This does not yet give a severe reduction at full N. The mean remains exactly
@@ -109,6 +140,20 @@ But it does show the defect map has exploitable-looking nonlinear fibers:
 
 The next useful target is a carry-chamber classifier for the fat
 `(W57,W58)` fibers, not another CDCL run.
+
+## Full-N periodic lift check
+
+I also tested a naive lift: repeat the N=12 fat chamber language periodically
+into 32-bit words and evaluate the actual N=32 defect on the representative
+candidate list.
+
+Result: best lifted defects were HW 6-10 across 18 candidates, always full
+rank. That is not better than the random 2048-point local-rank probe, which
+already found defects in the HW 4-9 range depending on candidate.
+
+So the N=12 carry language does not transfer to N=32 by simple periodic
+repetition. If it transfers at all, the embedding has to respect the 32-bit
+rotation/carry geometry rather than repeat the 12-bit suffix grammar.
 
 ## Next
 

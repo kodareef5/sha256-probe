@@ -18,6 +18,8 @@
  * Run:
  *   /tmp/singular_defect_rank 512
  *   /tmp/singular_defect_rank newton 1000 8 16
+ *   /tmp/singular_defect_rank point 0 0x66666666 0x39339339 0x8bb8bb8b
+ *   /tmp/singular_defect_rank lift12 0
  */
 
 #include <stdint.h>
@@ -574,6 +576,101 @@ static void newton_candidate(const candidate_t *cand, int trials, int threads, i
 }
 
 int main(int argc, char **argv) {
+    if (argc >= 2 && strcmp(argv[1], "lift12") == 0) {
+        int idx = (argc >= 3) ? atoi(argv[2]) : 0;
+        int n_cands = (int)(sizeof(CANDIDATES) / sizeof(CANDIDATES[0]));
+        if (idx < 0 || idx >= n_cands) {
+            fprintf(stderr, "candidate index must be 0..%d.\n", n_cands - 1);
+            return 2;
+        }
+        sha256_init(32);
+        sha256_precomp_t p1, p2;
+        const candidate_t *cand = &CANDIDATES[idx];
+        if (!prepare_candidate(cand, &p1, &p2)) {
+            printf("{\"mode\":\"lift12\",\"candidate\":\"%s\",\"error\":\"not_cascade_eligible\"}\n", cand->id);
+            return 1;
+        }
+        uint32_t w58_12[] = {
+            0x393,0x3b3,0x793,0x7b3,0x6b3,0x493,0x293,0x392,
+            0x7f3,0x7d3,0x88d,0xbbe,0x8f3,0xd89,0x093,0x773
+        };
+        uint32_t w59_12[] = {
+            0x369,0x8bb,0x8c3,0x8d3,0x8da,0x8e2,0x9bb,0x9c3,
+            0x9d3,0x9da,0x9e2,0xcbb,0xcc3,0xcca,0xcda,0xce2,
+            0xdbb,0xdc3,0xdca,0xdda,0xde2
+        };
+        #define REP12(x) (((uint32_t)(x) & 0xfffU) | (((uint32_t)(x) & 0xfffU) << 12) | (((uint32_t)(x) & 0xffU) << 24))
+        uint32_t best_x[3] = {REP12(0x666), 0, 0};
+        uint32_t best_defect = 0;
+        int best_hw = 99;
+        int best_rank = 0;
+        int best_wr[3] = {0,0,0};
+        int best_pr[3] = {0,0,0};
+        for (size_t i = 0; i < sizeof(w58_12)/sizeof(w58_12[0]); i++) {
+            for (size_t j = 0; j < sizeof(w59_12)/sizeof(w59_12[0]); j++) {
+                uint32_t x[3] = {REP12(0x666), REP12(w58_12[i]), REP12(w59_12[j])};
+                eval_t base;
+                int wr[3], pr[3];
+                int rank = local_defect_rank(&p1, &p2, x, &base, wr, pr);
+                if (base.defect_hw < best_hw) {
+                    best_hw = base.defect_hw;
+                    best_defect = base.defect;
+                    best_rank = rank;
+                    memcpy(best_x, x, sizeof(best_x));
+                    memcpy(best_wr, wr, sizeof(best_wr));
+                    memcpy(best_pr, pr, sizeof(best_pr));
+                }
+            }
+        }
+        printf("{\"mode\":\"lift12\",\"candidate_index\":%d,\"candidate\":\"%s\","
+               "\"tested\":%zu,\"best_x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+               "\"best_defect\":\"0x%08x\",\"best_hw\":%d,\"rank\":%d,"
+               "\"word_rank\":[%d,%d,%d],\"pair_rank_without_word\":[%d,%d,%d]}\n",
+               idx, cand->id,
+               (sizeof(w58_12)/sizeof(w58_12[0])) * (sizeof(w59_12)/sizeof(w59_12[0])),
+               best_x[0], best_x[1], best_x[2],
+               best_defect, best_hw, best_rank,
+               best_wr[0], best_wr[1], best_wr[2],
+               best_pr[0], best_pr[1], best_pr[2]);
+        return 0;
+    }
+
+    if (argc >= 2 && strcmp(argv[1], "point") == 0) {
+        int idx = (argc >= 3) ? atoi(argv[2]) : 0;
+        uint32_t x[3] = {
+            (argc >= 4) ? (uint32_t)strtoul(argv[3], NULL, 0) : 0,
+            (argc >= 5) ? (uint32_t)strtoul(argv[4], NULL, 0) : 0,
+            (argc >= 6) ? (uint32_t)strtoul(argv[5], NULL, 0) : 0,
+        };
+        int n_cands = (int)(sizeof(CANDIDATES) / sizeof(CANDIDATES[0]));
+        if (idx < 0 || idx >= n_cands) {
+            fprintf(stderr, "candidate index must be 0..%d.\n", n_cands - 1);
+            return 2;
+        }
+        sha256_init(32);
+        sha256_precomp_t p1, p2;
+        const candidate_t *cand = &CANDIDATES[idx];
+        if (!prepare_candidate(cand, &p1, &p2)) {
+            printf("{\"mode\":\"point\",\"candidate\":\"%s\",\"error\":\"not_cascade_eligible\"}\n", cand->id);
+            return 1;
+        }
+        eval_t base;
+        int word_rank[3], pair_rank_without_word[3];
+        int rank = local_defect_rank(&p1, &p2, x, &base, word_rank, pair_rank_without_word);
+        printf("{\"mode\":\"point\",\"candidate_index\":%d,\"candidate\":\"%s\","
+               "\"x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+               "\"defect\":\"0x%08x\",\"defect_hw\":%d,\"rank\":%d,"
+               "\"word_rank\":[%d,%d,%d],\"pair_rank_without_word\":[%d,%d,%d],"
+               "\"ch_inv\":%d,\"maj_a_inv\":%d,\"maj_b_inv\":%d,\"maj_c_inv\":%d}\n",
+               idx, cand->id, x[0], x[1], x[2],
+               base.defect, base.defect_hw, rank,
+               word_rank[0], word_rank[1], word_rank[2],
+               pair_rank_without_word[0], pair_rank_without_word[1], pair_rank_without_word[2],
+               base.ch_invisible_bits, base.maj_a_invisible_bits,
+               base.maj_b_invisible_bits, base.maj_c_invisible_bits);
+        return 0;
+    }
+
     if (argc >= 2 && strcmp(argv[1], "newton") == 0) {
         int trials = (argc >= 3) ? atoi(argv[2]) : 100;
         int threads = (argc >= 4) ? atoi(argv[3]) : 8;
