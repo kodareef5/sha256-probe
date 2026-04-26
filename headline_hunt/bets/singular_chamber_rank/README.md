@@ -144,5 +144,5 @@ Key result notes:
   return to the same exact-point attractor basin rather than moving freely on
   the surface; codimension-one kernel corrections exist linearly but require
   high-Hamming deltas that break the exact carry chamber. Greedy one-bit
-  repair can cross exact basins, but the neighboring basins found so far do
-  not beat the HW11 round-61 defect floor.
+  repair can cross exact basins; the current frontier is round-61 defect HW10
+  and a separate checked 57..63 tail HW76 basin.

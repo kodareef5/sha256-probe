@@ -3205,6 +3205,12 @@ static void surface61_greedy_walk_candidate(int idx, const uint32_t base_x[3],
     uint32_t best_changed_x[3] = {base_x[0], base_x[1], base_x[2]};
     uint32_t best_changed_defects[7] = {0};
     int best_changed_passes = 0;
+    int best_exact_tail_hw = 999;
+    uint32_t best_exact_tail_x[3] = {base_x[0], base_x[1], base_x[2]};
+    uint32_t best_exact_tail_defects[7] = {0};
+    int best_changed_tail_hw = 999;
+    uint32_t best_changed_tail_x[3] = {base_x[0], base_x[1], base_x[2]};
+    uint32_t best_changed_tail_defects[7] = {0};
     int exact60_hits = (base_defects[3] == 0) ? 1 : 0;
     int exact61_hits = (base_defects[3] == 0 && base_defects[4] == 0) ? 1 : 0;
     int changed_exact60_hits = 0;
@@ -3231,6 +3237,12 @@ static void surface61_greedy_walk_candidate(int idx, const uint32_t base_x[3],
         uint32_t local_best_changed_x[3] = {base_x[0], base_x[1], base_x[2]};
         uint32_t local_best_changed_defects[7] = {0};
         int local_best_changed_passes = 0;
+        int local_best_exact_tail_hw = 999;
+        uint32_t local_best_exact_tail_x[3] = {base_x[0], base_x[1], base_x[2]};
+        uint32_t local_best_exact_tail_defects[7] = {0};
+        int local_best_changed_tail_hw = 999;
+        uint32_t local_best_changed_tail_x[3] = {base_x[0], base_x[1], base_x[2]};
+        uint32_t local_best_changed_tail_defects[7] = {0};
         int local_exact60_hits = 0;
         int local_exact61_hits = 0;
         int local_changed_exact60_hits = 0;
@@ -3289,6 +3301,9 @@ static void surface61_greedy_walk_candidate(int idx, const uint32_t base_x[3],
 
             uint32_t defects[7];
             tail_defects_for_x(&p1, &p2, x, defects);
+            tail_trace_t trace;
+            tail_trace_for_x(&p1, &p2, x, &trace);
+            int tail_hw = sha256_eval_tail(&p1, &p2, trace.w1, trace.w2);
             local_exact60_hits++;
             int d61_hw = hw32(defects[4]);
             local_d61_hw_hist[d61_hw]++;
@@ -3297,6 +3312,21 @@ static void surface61_greedy_walk_candidate(int idx, const uint32_t base_x[3],
             if (exact_distance > 0) local_changed_exact60_hits++;
             if (exact_distance > local_max_exact_distance) {
                 local_max_exact_distance = exact_distance;
+            }
+            if (tail_hw < local_best_exact_tail_hw ||
+                (tail_hw == local_best_exact_tail_hw &&
+                 d61_hw < hw32(local_best_exact_tail_defects[4]))) {
+                local_best_exact_tail_hw = tail_hw;
+                memcpy(local_best_exact_tail_x, x, sizeof(local_best_exact_tail_x));
+                memcpy(local_best_exact_tail_defects, defects, sizeof(local_best_exact_tail_defects));
+            }
+            if (exact_distance > 0 &&
+                (tail_hw < local_best_changed_tail_hw ||
+                 (tail_hw == local_best_changed_tail_hw &&
+                  d61_hw < hw32(local_best_changed_tail_defects[4])))) {
+                local_best_changed_tail_hw = tail_hw;
+                memcpy(local_best_changed_tail_x, x, sizeof(local_best_changed_tail_x));
+                memcpy(local_best_changed_tail_defects, defects, sizeof(local_best_changed_tail_defects));
             }
             if (exact_distance > 0 &&
                 (d61_hw < local_best_changed_d61_hw ||
@@ -3344,6 +3374,20 @@ static void surface61_greedy_walk_candidate(int idx, const uint32_t base_x[3],
                 memcpy(best_changed_defects, local_best_changed_defects, sizeof(best_changed_defects));
                 best_changed_passes = local_best_changed_passes;
             }
+            if (local_best_exact_tail_hw < best_exact_tail_hw ||
+                (local_best_exact_tail_hw == best_exact_tail_hw &&
+                 hw32(local_best_exact_tail_defects[4]) < hw32(best_exact_tail_defects[4]))) {
+                best_exact_tail_hw = local_best_exact_tail_hw;
+                memcpy(best_exact_tail_x, local_best_exact_tail_x, sizeof(best_exact_tail_x));
+                memcpy(best_exact_tail_defects, local_best_exact_tail_defects, sizeof(best_exact_tail_defects));
+            }
+            if (local_best_changed_tail_hw < best_changed_tail_hw ||
+                (local_best_changed_tail_hw == best_changed_tail_hw &&
+                 hw32(local_best_changed_tail_defects[4]) < hw32(best_changed_tail_defects[4]))) {
+                best_changed_tail_hw = local_best_changed_tail_hw;
+                memcpy(best_changed_tail_x, local_best_changed_tail_x, sizeof(best_changed_tail_x));
+                memcpy(best_changed_tail_defects, local_best_changed_tail_defects, sizeof(best_changed_tail_defects));
+            }
         }
     }
 
@@ -3357,10 +3401,10 @@ static void surface61_greedy_walk_candidate(int idx, const uint32_t base_x[3],
     tail_trace_t trace;
     tail_trace_for_x(&p1, &p2, best_x, &trace);
     int best_tail_hw = sha256_eval_tail(&p1, &p2, trace.w1, trace.w2);
-    int best_changed_tail_hw = 999;
+    int best_changed_d61_tail_hw = 999;
     if (best_changed_d61_hw < 99) {
         tail_trace_for_x(&p1, &p2, best_changed_x, &trace);
-        best_changed_tail_hw = sha256_eval_tail(&p1, &p2, trace.w1, trace.w2);
+        best_changed_d61_tail_hw = sha256_eval_tail(&p1, &p2, trace.w1, trace.w2);
     }
 
     printf("{\"mode\":\"surface61greedywalk\",\"candidate\":\"%s\",\"idx\":%d,"
@@ -3384,6 +3428,14 @@ static void surface61_greedy_walk_candidate(int idx, const uint32_t base_x[3],
            "\"best_changed_off58\":\"0x%08x\",\"best_changed_off59\":\"0x%08x\","
            "\"best_changed_tail_hw\":%d,"
            "\"best_changed_tail_defects\":[\"0x%08x\",\"0x%08x\",\"0x%08x\",\"0x%08x\","
+           "\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"best_exact_tail_hw\":%d,"
+           "\"best_exact_tail_x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"best_exact_tail_point_defects\":[\"0x%08x\",\"0x%08x\",\"0x%08x\",\"0x%08x\","
+           "\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"best_changed_tail_selected_hw\":%d,"
+           "\"best_changed_tail_x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"best_changed_tail_selected_defects\":[\"0x%08x\",\"0x%08x\",\"0x%08x\",\"0x%08x\","
            "\"0x%08x\",\"0x%08x\",\"0x%08x\"]}\n",
            cand->id, idx,
            base_x[0], base_x[1], base_x[2],
@@ -3407,10 +3459,22 @@ static void surface61_greedy_walk_candidate(int idx, const uint32_t base_x[3],
            best_defects[4], best_defects[5], best_defects[6],
            best_changed_d61_hw, best_changed_passes,
            best_changed_x[0], best_changed_x[1], best_changed_x[2],
-           changed_off58, changed_off59, best_changed_tail_hw,
+           changed_off58, changed_off59, best_changed_d61_tail_hw,
            best_changed_defects[0], best_changed_defects[1], best_changed_defects[2],
            best_changed_defects[3], best_changed_defects[4],
-           best_changed_defects[5], best_changed_defects[6]);
+           best_changed_defects[5], best_changed_defects[6],
+           best_exact_tail_hw,
+           best_exact_tail_x[0], best_exact_tail_x[1], best_exact_tail_x[2],
+           best_exact_tail_defects[0], best_exact_tail_defects[1],
+           best_exact_tail_defects[2], best_exact_tail_defects[3],
+           best_exact_tail_defects[4], best_exact_tail_defects[5],
+           best_exact_tail_defects[6],
+           best_changed_tail_hw,
+           best_changed_tail_x[0], best_changed_tail_x[1], best_changed_tail_x[2],
+           best_changed_tail_defects[0], best_changed_tail_defects[1],
+           best_changed_tail_defects[2], best_changed_tail_defects[3],
+           best_changed_tail_defects[4], best_changed_tail_defects[5],
+           best_changed_tail_defects[6]);
 }
 
 static int newton61_fixed57_once(const sha256_precomp_t *p1, const sha256_precomp_t *p2,

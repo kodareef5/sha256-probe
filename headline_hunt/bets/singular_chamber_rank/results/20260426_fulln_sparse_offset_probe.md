@@ -538,6 +538,51 @@ the HW11 centers did not find HW10. Current evidence: greedy repair can cross
 basins, but the known HW11 basins remain local minima for the round-61
 defect.
 
+Tracking the final 57..63 tail rather than only `defect61` found a better
+tail basin. From the previous idx 8 tail-HW82 point:
+
+```text
+base: W58=0x12df1f0f, W59=0x2734feeb
+tail HW = 82
+
+changed exact:
+W58 = 0x73db5f4f
+W59 = 0xa7679a23
+defect61 = 0xf2f94011 (HW 14)
+tail defects = 0,0,0,0,0xf2f94011,0xeb952ff1,0xa1688000
+tail HW = 76
+```
+
+That tail-HW76 basin then led to the first HW10 round-61 defect found in this
+line:
+
+```text
+idx 8, W57=0xaf07f044, W58=0x73db5ecf, W59=0xb767da21
+defect60 = 0
+defect61 = 0x0259b011 (HW 10)
+tail defects = 0,0,0,0,0x0259b011,0x75bd6dbf,0x97dae53f
+tail HW = 91
+```
+
+The HW10 basin is stable under another 262,144-trial greedy walk; no HW9 was
+found, and the best changed basin from it had HW13. This shows the previous
+HW11 floor was not structural. Basin crossing can reduce round 61 further,
+but the best round-61 basin and the best checked-tail basin are currently
+different.
+
+The HW10 point still shows the same carry-jump failure mode. Boolean Newton
+finds a rank-62 correction of HW28 that solves the linearized pair
+`(defect60, defect61)`, but the true arithmetic lands at:
+
+```text
+actual after Newton delta:
+defect60 = 0x84c306f9
+defect61 = 0xaaed9cbd
+```
+
+So even after lowering the next wall to HW10, high-Hamming linear corrections
+still leave the carry chamber.
+
 ## Kernel-linear one-bit targets
 
 The rank-31 kernel result suggests a tempting linear strategy: stay inside the
