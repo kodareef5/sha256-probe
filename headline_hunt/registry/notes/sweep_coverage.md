@@ -35,28 +35,27 @@ Each cell = one (bit, fill) combination. Exhaustive 2^32 m0 sweep ≈ 12 min wal
 | 23       | 0 ✓  |      |      |      |      |  0          |
 | 24       | 1 ✓  |      |      |      |      |  1 (NEW)    |
 | 26       | 1 ✓  |      |      |      |      |  1 (NEW)    |
-| OTHER (27,28,29,30) | | | | | | unknown (queue10) |
+| 27       | 0 ✓  |      |      |      |      |  0          |
+| 28       | 4 ✓  |      |      |      |      |  4 (NEW)    |
+| 29       | 1 ✓  |      |      |      |      |  1 (NEW)    |
+| 30       | 0 ✓  |      |      |      |      |  0          |
+| MISSING at fill=0xff | bits 0, 6, 13 only | | | | | (already covered at other fills) |
 
-**Cells exhaustively swept** (34 as of 2026-04-26 07:21):
-  bit=31 fill=0xff (2),  bit=22 fill=0xff (0),
-  bit=18 fill=0xff (2),  bit=18 fill=0x00 (3),  bit=18 fill=0x55 (0),
-  bit=7  fill=0xff (0),
-  bit=3  fill=0xff (2),  bit=3 fill=0x00 (0),  bit=3 fill=0x55 (0),
-  bit=4  fill=0xff (2),
-  bit=19 fill=0xff (0),
-  bit=11 fill=0xff (0),
-  bit=25 fill=0xff (2),
-  bit=10 fill=0xff (0),  bit=2 fill=0xff (3),  bit=17 fill=0xff (0),  bit=13 fill=0x80 (1),
-  bit=1  fill=0xff (1),  bit=5 fill=0xff (0),  bit=8 fill=0xff (0),  bit=14 fill=0xff (3),
-  bit=14 fill=0x00 (0),  bit=14 fill=0x55 (0),  bit=2 fill=0x00 (0),  bit=9 fill=0xff (0),
-  bit=12 fill=0xff (1),  bit=15 fill=0xff (3),  bit=16 fill=0xff (0),  bit=20 fill=0xff (1),
-  bit=21 fill=0xff (0),  bit=23 fill=0xff (0),  bit=24 fill=0xff (1),  bit=26 fill=0xff (1).
+**Cells exhaustively swept** (38 as of 2026-04-26 07:35):
+All 32 kernel-bit positions tested at fill=0xff EXCEPT bits {0, 6, 13}
+(those are already covered at other fills via curated kernels).
 
-**Currently running**: bit=27 fill=0xff (queue10 1/4).
-**Total NEW candidates discovered via sweep this session**: **26** (bit=18×5,
+  Bits 0-5,7-12,14-30: tested at fill=0xff
+  Plus extra fill coverage at: bit=18 (0x00,0x55), bit=3 (0x00,0x55),
+    bit=14 (0x00,0x55), bit=2 (0x00), bit=13 (0x80).
+
+**FILL=0xFF COVERAGE COMPLETE for 29 of 32 bit positions.**
+
+**Currently running**: none.
+**Total NEW candidates discovered via sweep this session**: **31** (bit=18×5,
 bit=3×2, bit=4×2, bit=25×2, bit=2×3, bit=13×1, bit=1×1, bit=14×3,
-bit=12×1, bit=15×3, bit=20×1, bit=24×1, bit=26×1).
-Registry expanded **36 → 62** (+72% growth).
+bit=12×1, bit=15×3, bit=20×1, bit=24×1, bit=26×1, bit=28×4, bit=29×1).
+Registry expanded **36 → 67** (+86% growth).
 
 **Key observation**: bit=14 produces 3 eligibles ONLY at fill=0xff;
 fill=0x00 and fill=0x55 yield 0. Same pattern observed at bit=18 and
@@ -100,8 +99,12 @@ predictions are unreliable.
 | bit=23 fill=0xff       | 2^32   | 0        | 0.00 |
 | bit=24 fill=0xff       | 2^32   | 1        | 0.50 |
 | bit=26 fill=0xff       | 2^32   | 1        | 0.50 |
+| bit=27 fill=0xff       | 2^32   | 0        | 0.00 |
+| bit=28 fill=0xff       | 2^32   | 4        | 2.00 |
+| bit=29 fill=0xff       | 2^32   | 1        | 0.50 |
+| bit=30 fill=0xff       | 2^32   | 0        | 0.00 |
 
-**Average**: 26 eligible / 34 cells = 0.76 per cell. Expected at uniform 2^-31
+**Average**: 31 eligible / 38 cells = 0.82 per cell. Expected at uniform 2^-31
 baseline = 2 per cell. Observed slightly LOWER, but consistent with Poisson(2)
 variance which has 14% chance of 0 per cell.
 
