@@ -176,7 +176,9 @@ Key result notes:
   `2^32` D60 kernels for the HW2 shelf, cap-4 terrace, a local HW3 shelf, and
   the idx17 D60-HW7/D61-HW1 shelf; exact D60 landings exist, but none preserve
   the low-D61 caps. Additional GPU-found off58-HW1 charts on idx9/13/14/15
-  did not beat the known exact-D61 frontier.
+  did not beat the known exact-D61 frontier. W57-free beam/greedy probes found
+  new exact-D60 landings and low-D60 terraces, but did not improve D61 HW4 or
+  tail HW59.
 - `results/20260426_m5_1B_deep_descent.md`: macbook M5 1B-trial walk that
   verified the HW5 round-61 and tail-HW68 frontiers.
 - `results/20260426_m5_1B_from_HW5.md`: macbook M5 1B-trial walk from the HW5
@@ -199,3 +201,6 @@ Key result notes:
   D61-HW1 shelf; no exact low-cap representative appears inside the
   D60-linear fibers. The same note records GPU-discovered off58-HW1 charts
   whose downstream D61 floors remain worse than the known frontier.
+- `results/20260426_w57_free_operator_probe.md`: beam and greedy repair with
+  W57 allowed to move; new exact-D60 landings appear, but the useful carry
+  chart is not preserved and neither D61 nor tail improves.

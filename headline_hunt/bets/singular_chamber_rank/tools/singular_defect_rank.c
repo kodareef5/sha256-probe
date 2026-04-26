@@ -3300,7 +3300,8 @@ static void surface61_sample_fixed57_candidate(int idx, uint32_t fixed_w57,
 
 static void surface61_greedy_walk_candidate(int idx, const uint32_t base_x[3],
                                             int trials, int threads,
-                                            int max_passes, int max_flips) {
+                                            int max_passes, int max_flips,
+                                            int free_w57) {
     int n_cands = (int)(sizeof(CANDIDATES) / sizeof(CANDIDATES[0]));
     if (idx < 0 || idx >= n_cands) {
         fprintf(stderr, "candidate index must be 0..%d.\n", n_cands - 1);
@@ -3308,6 +3309,7 @@ static void surface61_greedy_walk_candidate(int idx, const uint32_t base_x[3],
     }
     if (max_flips < 1) max_flips = 1;
     if (max_flips > 64) max_flips = 64;
+    int move_bits = free_w57 ? 96 : 64;
 
     const candidate_t *cand = &CANDIDATES[idx];
     sha256_precomp_t p1, p2;
@@ -3385,8 +3387,11 @@ static void surface61_greedy_walk_candidate(int idx, const uint32_t base_x[3],
 
             int flips = 1 + (int)(splitmix32(&rng) % (uint32_t)max_flips);
             for (int f = 0; f < flips; f++) {
-                int bit = (int)(splitmix32(&rng) & 63U);
-                if (bit < 32) x[1] ^= 1U << bit;
+                int bit = (int)(splitmix32(&rng) % (uint32_t)move_bits);
+                if (free_w57 && bit < 32) x[0] ^= 1U << bit;
+                else if (free_w57 && bit < 64) x[1] ^= 1U << (bit - 32);
+                else if (free_w57) x[2] ^= 1U << (bit - 64);
+                else if (bit < 32) x[1] ^= 1U << bit;
                 else x[2] ^= 1U << (bit - 32);
             }
 
@@ -3396,21 +3401,26 @@ static void surface61_greedy_walk_candidate(int idx, const uint32_t base_x[3],
                 uint32_t best_step_x[3] = {x[0], x[1], x[2]};
                 eval_t best_step = cur;
 
-                for (int bit = 0; bit < 64; bit++) {
+                for (int bit = 0; bit < move_bits; bit++) {
                     uint32_t xf[3] = {x[0], x[1], x[2]};
-                    if (bit < 32) xf[1] ^= 1U << bit;
+                    if (free_w57 && bit < 32) xf[0] ^= 1U << bit;
+                    else if (free_w57 && bit < 64) xf[1] ^= 1U << (bit - 32);
+                    else if (free_w57) xf[2] ^= 1U << (bit - 64);
+                    else if (bit < 32) xf[1] ^= 1U << bit;
                     else xf[2] ^= 1U << (bit - 32);
                     eval_t y = eval_defect(&p1, &p2, xf);
                     if (y.defect_hw < best_step.defect_hw ||
                         (y.defect_hw == best_step.defect_hw &&
                          y.defect < best_step.defect)) {
                         best_step = y;
+                        best_step_x[0] = xf[0];
                         best_step_x[1] = xf[1];
                         best_step_x[2] = xf[2];
                     }
                 }
 
                 if (best_step.defect_hw >= cur.defect_hw) break;
+                x[0] = best_step_x[0];
                 x[1] = best_step_x[1];
                 x[2] = best_step_x[2];
                 cur = best_step;
@@ -3431,7 +3441,9 @@ static void surface61_greedy_walk_candidate(int idx, const uint32_t base_x[3],
             int d61_hw = hw32(defects[4]);
             local_d61_hw_hist[d61_hw]++;
             if (defects[4] == 0) local_exact61_hits++;
-            int exact_distance = hw32(x[1] ^ base_x[1]) + hw32(x[2] ^ base_x[2]);
+            int exact_distance = hw32(x[0] ^ base_x[0]) +
+                                 hw32(x[1] ^ base_x[1]) +
+                                 hw32(x[2] ^ base_x[2]);
             if (exact_distance > 0) local_changed_exact60_hits++;
             if (exact_distance > local_max_exact_distance) {
                 local_max_exact_distance = exact_distance;
@@ -3535,6 +3547,7 @@ static void surface61_greedy_walk_candidate(int idx, const uint32_t base_x[3],
            "\"base_tail_defects\":[\"0x%08x\",\"0x%08x\",\"0x%08x\",\"0x%08x\","
            "\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
            "\"trials\":%d,\"max_passes\":%d,\"max_flips\":%d,"
+           "\"free_w57\":%d,"
            "\"exact60_hits\":%d,\"exact61_hits\":%d,"
            "\"changed_exact60_hits\":%d,\"max_exact_distance\":%d,"
            "\"projection_failures\":%d,"
@@ -3564,7 +3577,7 @@ static void surface61_greedy_walk_candidate(int idx, const uint32_t base_x[3],
            base_x[0], base_x[1], base_x[2],
            base_defects[0], base_defects[1], base_defects[2], base_defects[3],
            base_defects[4], base_defects[5], base_defects[6],
-           trials, max_passes, max_flips,
+           trials, max_passes, max_flips, free_w57,
            exact60_hits, exact61_hits, changed_exact60_hits,
            max_exact_distance, projection_failures,
            d61_hw_hist[0], d61_hw_hist[1], d61_hw_hist[2], d61_hw_hist[3],
@@ -6013,6 +6026,208 @@ static void chart61_pair_descent_candidate(int idx, const uint32_t base_x[3],
     printf("}\n");
 }
 
+typedef struct {
+    uint32_t x[3];
+    chart61_eval_t e;
+    int score;
+    int distance;
+    int depth;
+} chart61_beam_state_t;
+
+static int chart61_beam_cmp(const void *va, const void *vb) {
+    const chart61_beam_state_t *a = (const chart61_beam_state_t *)va;
+    const chart61_beam_state_t *b = (const chart61_beam_state_t *)vb;
+    if (a->score != b->score) return (a->score < b->score) ? -1 : 1;
+    if (a->e.f.d60_hw != b->e.f.d60_hw) return a->e.f.d60_hw - b->e.f.d60_hw;
+    if (a->e.f.d61_hw != b->e.f.d61_hw) return a->e.f.d61_hw - b->e.f.d61_hw;
+    if (a->e.chart_dist != b->e.chart_dist) return a->e.chart_dist - b->e.chart_dist;
+    if (a->distance != b->distance) return a->distance - b->distance;
+    if (a->x[0] != b->x[0]) return (a->x[0] < b->x[0]) ? -1 : 1;
+    if (a->x[1] != b->x[1]) return (a->x[1] < b->x[1]) ? -1 : 1;
+    if (a->x[2] != b->x[2]) return (a->x[2] < b->x[2]) ? -1 : 1;
+    return 0;
+}
+
+static int chart61_exact_better(const chart61_eval_t *a,
+                                const chart61_eval_t *b) {
+    if (a->f.d61_hw != b->f.d61_hw) return a->f.d61_hw < b->f.d61_hw;
+    if (a->chart_dist != b->chart_dist) return a->chart_dist < b->chart_dist;
+    if (a->f.tail_defect_hw != b->f.tail_defect_hw) {
+        return a->f.tail_defect_hw < b->f.tail_defect_hw;
+    }
+    return a->f.defects[4] < b->f.defects[4];
+}
+
+static void chart61_beam_candidate(int idx, const uint32_t base_x[3],
+                                   int depth, int beam_size,
+                                   int cap, int policy,
+                                   int part_weight, int carry_weight,
+                                   int free_w57) {
+    int n_cands = (int)(sizeof(CANDIDATES) / sizeof(CANDIDATES[0]));
+    if (idx < 0 || idx >= n_cands) {
+        fprintf(stderr, "candidate index must be 0..%d.\n", n_cands - 1);
+        exit(2);
+    }
+    if (depth < 1) depth = 1;
+    if (depth > 64) depth = 64;
+    if (beam_size < 1) beam_size = 1;
+    if (beam_size > 16384) beam_size = 16384;
+    if (cap < 0) cap = 0;
+    if (cap > 32) cap = 32;
+    if (part_weight < 0) part_weight = 0;
+    if (carry_weight < 0) carry_weight = 0;
+
+    const candidate_t *cand = &CANDIDATES[idx];
+    sha256_precomp_t p1, p2;
+    if (!prepare_candidate(cand, &p1, &p2)) {
+        printf("{\"mode\":\"chart61beam\",\"candidate\":\"%s\",\"error\":\"not_cascade_eligible\"}\n",
+               cand->id);
+        return;
+    }
+
+    tail_trace_t target;
+    tail_trace_for_x(&p1, &p2, base_x, &target);
+
+    int move_bits = free_w57 ? 96 : 64;
+    size_t max_next = (size_t)beam_size * (size_t)move_bits;
+    chart61_beam_state_t *beam =
+        (chart61_beam_state_t *)calloc((size_t)beam_size, sizeof(*beam));
+    chart61_beam_state_t *next =
+        (chart61_beam_state_t *)calloc(max_next, sizeof(*next));
+    if (!beam || !next) {
+        fprintf(stderr, "chart61beam allocation failed\n");
+        free(beam);
+        free(next);
+        exit(1);
+    }
+
+    memcpy(beam[0].x, base_x, sizeof(beam[0].x));
+    chart61_eval_point(&p1, &p2, beam[0].x, &target, 1, &beam[0].e);
+    beam[0].score = chart61_score(&beam[0].e, cap, policy,
+                                  part_weight, carry_weight);
+    beam[0].distance = 0;
+    beam[0].depth = 0;
+    int beam_count = 1;
+
+    chart61_beam_state_t best_any = beam[0];
+    chart61_beam_state_t best_cap = beam[0];
+    chart61_beam_state_t best_exact = beam[0];
+    chart61_beam_state_t best_exact_cap = beam[0];
+    int have_cap = (beam[0].e.f.d61_hw <= cap);
+    int have_exact = (beam[0].e.f.defects[3] == 0);
+    int have_exact_cap = have_exact && have_cap;
+    uint64_t evals = 1;
+
+    for (int d = 1; d <= depth; d++) {
+        size_t next_count = 0;
+        for (int i = 0; i < beam_count; i++) {
+            for (int bit = 0; bit < move_bits; bit++) {
+                chart61_beam_state_t *s = &next[next_count++];
+                s->x[0] = beam[i].x[0];
+                s->x[1] = beam[i].x[1];
+                s->x[2] = beam[i].x[2];
+                if (free_w57 && bit < 32) {
+                    s->x[0] ^= 1U << bit;
+                } else if (free_w57 && bit < 64) {
+                    s->x[1] ^= 1U << (bit - 32);
+                } else if (free_w57) {
+                    s->x[2] ^= 1U << (bit - 64);
+                } else if (bit < 32) {
+                    s->x[1] ^= 1U << bit;
+                } else {
+                    s->x[2] ^= 1U << (bit - 32);
+                }
+                chart61_eval_point(&p1, &p2, s->x, &target, 0, &s->e);
+                s->score = chart61_score(&s->e, cap, policy,
+                                         part_weight, carry_weight);
+                s->distance = hw32(s->x[0] ^ base_x[0]) +
+                              hw32(s->x[1] ^ base_x[1]) +
+                              hw32(s->x[2] ^ base_x[2]);
+                s->depth = d;
+                evals++;
+            }
+        }
+
+        qsort(next, next_count, sizeof(*next), chart61_beam_cmp);
+        beam_count = 0;
+        for (size_t i = 0; i < next_count && beam_count < beam_size; i++) {
+            if (beam_count > 0 &&
+                next[i].x[0] == beam[beam_count - 1].x[0] &&
+                next[i].x[1] == beam[beam_count - 1].x[1] &&
+                next[i].x[2] == beam[beam_count - 1].x[2]) {
+                continue;
+            }
+            beam[beam_count++] = next[i];
+        }
+
+        for (int i = 0; i < beam_count; i++) {
+            if (chart61_eval_better(&beam[i].e, &best_any.e, cap, policy,
+                                    part_weight, carry_weight)) {
+                best_any = beam[i];
+            }
+            if (beam[i].e.f.d61_hw <= cap &&
+                (!have_cap || chart61_cap_better(&beam[i].e, &best_cap.e))) {
+                best_cap = beam[i];
+                have_cap = 1;
+            }
+            if (beam[i].e.f.defects[3] == 0 &&
+                (!have_exact || chart61_exact_better(&beam[i].e, &best_exact.e))) {
+                best_exact = beam[i];
+                have_exact = 1;
+            }
+            if (beam[i].e.f.defects[3] == 0 && beam[i].e.f.d61_hw <= cap &&
+                (!have_exact_cap ||
+                 chart61_exact_better(&beam[i].e, &best_exact_cap.e))) {
+                best_exact_cap = beam[i];
+                have_exact_cap = 1;
+            }
+        }
+    }
+
+    chart61_eval_point(&p1, &p2, best_any.x, &target, 1, &best_any.e);
+    if (have_cap) chart61_eval_point(&p1, &p2, best_cap.x, &target, 1, &best_cap.e);
+    if (have_exact) chart61_eval_point(&p1, &p2, best_exact.x, &target, 1, &best_exact.e);
+    if (have_exact_cap) chart61_eval_point(&p1, &p2, best_exact_cap.x, &target, 1, &best_exact_cap.e);
+
+    printf("{\"mode\":\"chart61beam\",\"candidate\":\"%s\",\"idx\":%d,"
+           "\"base_x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"depth\":%d,\"beam_size\":%d,\"cap\":%d,\"policy\":%d,"
+           "\"free_w57\":%d,"
+           "\"part_weight\":%d,\"carry_weight\":%d,\"evals\":%llu,"
+           "\"final_beam_count\":%d,\"best_any\":",
+           cand->id, idx, base_x[0], base_x[1], base_x[2],
+           depth, beam_size, cap, policy, free_w57, part_weight, carry_weight,
+           (unsigned long long)evals, beam_count);
+    chart61_print_point(best_any.x, &best_any.e, best_any.score,
+                        best_any.distance, best_any.depth);
+    printf(",\"best_cap\":");
+    if (have_cap) {
+        chart61_print_point(best_cap.x, &best_cap.e, best_cap.score,
+                            best_cap.distance, best_cap.depth);
+    } else {
+        printf("null");
+    }
+    printf(",\"best_exact\":");
+    if (have_exact) {
+        chart61_print_point(best_exact.x, &best_exact.e, best_exact.score,
+                            best_exact.distance, best_exact.depth);
+    } else {
+        printf("null");
+    }
+    printf(",\"best_exact_cap\":");
+    if (have_exact_cap) {
+        chart61_print_point(best_exact_cap.x, &best_exact_cap.e,
+                            best_exact_cap.score, best_exact_cap.distance,
+                            best_exact_cap.depth);
+    } else {
+        printf("null");
+    }
+    printf("}\n");
+
+    free(beam);
+    free(next);
+}
+
 static void pair61_residual_point(int idx, const uint32_t x[3], int cap) {
     int n_cands = (int)(sizeof(CANDIDATES) / sizeof(CANDIDATES[0]));
     if (idx < 0 || idx >= n_cands) {
@@ -7437,6 +7652,26 @@ int main(int argc, char **argv) {
         return 0;
     }
 
+    if (argc >= 2 && strcmp(argv[1], "chart61beam") == 0) {
+        int idx = (argc >= 3) ? atoi(argv[2]) : 0;
+        uint32_t x[3] = {
+            (argc >= 4) ? (uint32_t)strtoul(argv[3], NULL, 0) : 0,
+            (argc >= 5) ? (uint32_t)strtoul(argv[4], NULL, 0) : 0,
+            (argc >= 6) ? (uint32_t)strtoul(argv[5], NULL, 0) : 0,
+        };
+        int depth = (argc >= 7) ? atoi(argv[6]) : 16;
+        int beam_size = (argc >= 8) ? atoi(argv[7]) : 2048;
+        int cap = (argc >= 9) ? atoi(argv[8]) : 4;
+        int policy = (argc >= 10) ? atoi(argv[9]) : 0;
+        int part_weight = (argc >= 11) ? atoi(argv[10]) : 1;
+        int carry_weight = (argc >= 12) ? atoi(argv[11]) : 1;
+        int free_w57 = (argc >= 13) ? atoi(argv[12]) : 0;
+        sha256_init(32);
+        chart61_beam_candidate(idx, x, depth, beam_size, cap, policy,
+                               part_weight, carry_weight, free_w57);
+        return 0;
+    }
+
     if (argc >= 2 && strcmp(argv[1], "ridge61walk") == 0) {
         int idx = (argc >= 3) ? atoi(argv[2]) : 0;
         uint32_t x[3] = {
@@ -7524,9 +7759,10 @@ int main(int argc, char **argv) {
         int threads = (argc >= 8) ? atoi(argv[7]) : 8;
         int max_passes = (argc >= 9) ? atoi(argv[8]) : 64;
         int max_flips = (argc >= 10) ? atoi(argv[9]) : 12;
+        int free_w57 = (argc >= 11) ? atoi(argv[10]) : 0;
         sha256_init(32);
         surface61_greedy_walk_candidate(idx, x, trials, threads,
-                                        max_passes, max_flips);
+                                        max_passes, max_flips, free_w57);
         return 0;
     }
 
