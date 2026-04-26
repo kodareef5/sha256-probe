@@ -1371,3 +1371,29 @@ bit-3 ×2). New kernel entries kernel_0_9_bit3, kernel_0_9_bit18.
 
 Now sweeping bit=18 fill=0x00 to find more bit-18 candidates at different
 fills. ETA ~12 min.
+
+## 1:50 EDT (Apr 26) — Registry 36→43; bit=18 fill=0x00 sweep DONE (3 NEW)
+
+bit=18 fill=0x00 final: 3 eligible (m=0x347b0144, m=0xeed512bc, m=0xafaaaf9e).
+All registered, CNFs generated + audited.
+
+Total this session: 7 NEW candidates added in 4 exhaustive sweeps:
+  bit=18 fill=0xff: 2
+  bit=18 fill=0x00: 3
+  bit=3 fill=0xff:  2
+  bit=22 fill=0xff: 0 (Σ0-aligned)
+  bit=7 fill=0xff:  0 (σ0-aligned, Poisson noise)
+
+Σ1/σ1 alignment hypothesis FALSIFIED: σ0-aligned bits CAN have eligible
+candidates at the ~2^-31 baseline rate.
+
+Now sweeping 4 more cells in parallel queue (~48 min ETA):
+  bit=3 fill=0x00
+  bit=3 fill=0x55 (alternating)
+  bit=18 fill=0x55
+  bit=4 fill=0xff (NEW bit, neither σ0 nor σ1 aligned)
+
+Each expected ~2 eligible per cell. Could add another ~8 candidates.
+
+Strategic memo: registry/notes/20260426_candidate_base_expansion.md
+estimates 32 hr → ~360 candidates total (10× expansion).
