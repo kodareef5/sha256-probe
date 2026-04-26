@@ -1412,3 +1412,21 @@ Substantive: candidate-base expansion is genuinely productive. The new cells
 hit different de58 regions, not just more of the same.
 
 Sweeps continuing: bit=3 fill=0x55 running.
+
+## 2:10 EDT (Apr 26) — bit=18 fill=0x55 0 eligible; m=0x99bf552b is NEW structural extreme
+
+Sweep updates:
+  bit=18 fill=0x55: 0 eligible (heterogeneous fill effect: bit-18 productive
+    at fill={0xff:2, 0x00:3} but not 0x55:0)
+  bit=4 fill=0xff: running
+
+NEW EXTREME on de58 spread axis:
+  m=0x99bf552b (bit=18 fill=0xff): hardlock_bits=1, de58_size=130086
+  31 of 32 de58 bits VARYING — opposite extreme of bit-19 (image=256, lock=13)
+
+Now we have TWO structural extremes:
+  Most compressed: bit-19 m51ca0b34 (image 256, lock 13) — original 36
+  Most spread:     bit-18 m99bf552b (image 130086, lock 1) — NEW today
+
+Both extremes worth solver experiments at higher budgets. Currently both
+are TIMEOUT at standard budgets (per validation matrix predictor closure).
