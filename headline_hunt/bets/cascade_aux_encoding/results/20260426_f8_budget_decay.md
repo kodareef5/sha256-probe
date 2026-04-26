@@ -86,3 +86,23 @@ EVIDENCE-level: VERIFIED (3 cands × 4 budgets × 2 seeds; budget-decay
 pattern is consistent across all 3 cands). Together with the prior
 13-bit decay curve, this confirms expose-side hint speedups are
 fundamentally preprocessing-only.
+
+## F9 addendum: 10M-conflict probe confirms decay deepens
+
+Single seed at 10M conflicts on bit19_m51ca0b34_55:
+  base:   283.10s  status=UNKNOWN (10M conflict limit hit)
+  stack:  332.55s  status=UNKNOWN (10M conflict limit hit)
+  ratio:  0.85× (stack 17% SLOWER than base)
+
+Neither base nor stack found SAT or UNSAT in 10M conflicts. The
+regression at 1M (0.93×) deepens to 0.85× at 10M, ruling out the
+"both converge to similar wall" hypothesis. Stack consistently does
+MORE work per conflict at high budgets due to the unit clauses
+constraining solver decisions away from kissat's natural restart
+heuristic preferences.
+
+10M-conflict UNKNOWN means: at this kernel chamber, neither solver
+mode finds a collision (or proves no collision exists) within
+~5 minutes of CDCL search. This is consistent with the broader
+finding that cascade_aux Mode A CNFs at TRUE-sr=61 cands appear to
+need much deeper search to terminate.
