@@ -696,3 +696,27 @@ next-stage path. Yale on structural track. M5 stands ready when yale
 ships specific carry-preserving moves to brute-force-verify.
 
 Frontier holds: D61=HW4 / tail=HW59. 6+17 bit improvement from yale's start.
+
+## 14:50 EDT (cont) — locked-bit-hint encoder packaged for deployment
+
+Concrete hourly ship: moved the locked-bit-hint discovery from /tmp/
+lab artifact to deployable encoder under cascade_aux_encoding/encoders/.
+
+  headline_hunt/bets/cascade_aux_encoding/encoders/locked_bit_hint_wrapper.py
+
+Usage:
+  python3 locked_bit_hint_wrapper.py --cand-id <cand_n32_...> \
+      --mode expose --out OUT.cnf
+
+Or directly:
+  python3 locked_bit_hint_wrapper.py --m0 0xMMM --fill 0xFFF --bit B \
+      --mode expose --out OUT.cnf
+
+Smoke test on bit=19 reproduces the multi-seed pattern: 1.77x at seed=5,
+0.70x at seed=1, 1.56x median across 3 seeds. Caveats embedded in CNF
+header + tool docstring: speedup is preprocessing-only, gone by 500k;
+high seed-variance with ~25% regression chance; inversely scales with
+de58_size; DON'T encode full image as Tseitin disjunction (worse).
+
+This makes the locked-bit-hint discovery actually usable. Future
+workers can deploy via single command from any registered cand.
