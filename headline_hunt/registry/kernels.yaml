@@ -93,6 +93,30 @@
   owner: macbook
   notes: "N=16 partial sr=61 breakthrough on bit-11 may indicate scaling potential."
 
+- id: kernel_0_9_bit4
+  name: "bit-4 kernel at word-pair (0,9) — UNALIGNED (NEW 2026-04-26)"
+  n_scope: [32]
+  word_pair: [0, 9]
+  bit: 4
+  diff_hex: "0x00000010"
+  scan_coverage:
+    fills: ["0xffffffff"]
+    m0_range: "exhaustive 2^32 at fill=0xff"
+    complete: true
+    n32_random_scan: "fill=0xff: 2 eligible (m=0x39a03c2d image=2^11, m=0xd41b678d image=32k)"
+  candidates_found: 2
+  best_results_by_n:
+    n32: "2 candidates at fill=0xff. m=0x39a03c2d has de58_image=2^11 = SECOND MOST COMPRESSED in registry (bit-19 has 2^8)."
+  sr61_partial:
+    n32_true_sr61:
+      status: untested
+      candidates: 2
+      cpu_hours: 0
+  status: open
+  last_updated: "2026-04-26"
+  owner: macbook
+  notes: "bit=4 is NOT rotation-aligned (not in Σ0={2,13,22}, Σ1={6,11,25}, σ0={3,7,18}, σ1={17,19,10}). Cascade-eligibility EXISTS at non-aligned bits — fully closes Σ1/σ1 alignment hypothesis. m=0x39a03c2d is second-most-compressed candidate (image=2^11 vs bit-19's 2^8)."
+
 - id: kernel_0_9_bit3
   name: "bit-3 kernel at word-pair (0,9) — σ0-aligned (NEW 2026-04-26)"
   n_scope: [32]
