@@ -623,3 +623,23 @@ commit per user guidance (no per-walk play-by-play).
 Dashboard: 387 runs, 0% audit fail (no new kissat/cadical solver runs
 this hour — all M5 compute on singular_chamber tools). Registry
 validates clean.
+
+## 13:18 EDT — singular_chamber: HW4 floor checkpoint
+
+Pushed:
+- 37b721a — first sub-HW5 D61: HW4 found on idx=0 (W58=0x6ced4182, W59=0x9af03606)
+- c14c587 — cross-cand HW4: reproduces on idx=8 (W58=0x63f723cf, W59=0x10990224)
+- 570bd4a — checkpoint memo: HW4 trap is 99%+ across 3 distinct basins (1 idx=0,
+  2 idx=8); HW3/HW2/HW1 not seen in 1B-trial walks.
+
+Joint frontier: D61 HW4 / tail HW59. 6-bit total D61 + 17-bit tail improvement
+from yale's HW10/HW76 start.
+
+In flight: 1B walk from HW4 base at max_flips=64 (PID 22994, ~10 more min).
+Tests if wider perturbation radius escapes the HW4 trap — if yes, HW3 reachable;
+if no, even stronger evidence HW4 is structural at the random-flip operator
+family.
+
+Dashboard 387 runs, 0% audit fail (no kissat/cadical this hour — all M5
+compute on singular_chamber tools). Yale concurrently developing carry-aware
+repair operators per their last commits.
