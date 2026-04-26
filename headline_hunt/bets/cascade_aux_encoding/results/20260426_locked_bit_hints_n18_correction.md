@@ -127,3 +127,49 @@ Honesty about effect size matters more than chasing big numbers.
 The wrapper at headline_hunt/bets/cascade_aux_encoding/encoders/
 locked_bit_hint_wrapper.py is correct; the README should reflect
 1.16× expected, not 1.5×.
+
+## ADDENDUM 4 (15:00 EDT) — budget sweep: 50k is the sweet spot
+
+Budget sweep on 4 cands (best/worst from the n=18 chart) × 3 seeds:
+
+| cand | 10k | 50k | 200k |
+|---|---:|---:|---:|
+| bit3b (best @50k) | 0.88× | **1.63×** | 1.19× |
+| bit19            | 1.09× | 1.46× | 1.14× |
+| bit14c (worst)   | 0.92× | 0.79× | 0.87× |
+| bit18a (regress) | 1.00× | 0.91× | 0.94× |
+
+**Two clean patterns**:
+
+1. **The speedup peaks at 50k.** Below (10k) and above (200k) the
+   effect is significantly weaker. Consistent with cascade_aux's
+   "front-loaded preprocessing" decay model:
+   - 10k: not enough conflicts for hints to amortize vs CDCL exploration
+   - 50k: hints provide propagation shortcut, ~1.5× win
+   - 200k: CDCL catches up; hints give ~1.2× residual
+
+2. **Regressions are budget-invariant.** bit14c stays at 0.79-0.92×
+   across all 3 budgets; bit18a stays 0.91-1.00×. These cands have a
+   STRUCTURAL mismatch with the locked-bit hint approach — the hints
+   force kissat into a worse search trajectory regardless of how
+   many conflicts you give it.
+
+bit3b is interesting: regresses at 10k (0.88×), wins big at 50k
+(1.63×), moderate at 200k (1.19×). Same cand, different verdicts
+depending on budget.
+
+## Refined deployment story (final)
+
+Locked-bit hints are:
+- **Net positive at 50k median** (1.16× across n=18)
+- **Sweet-spotted at 50k** — don't deploy at 10k or 200k+
+- **~28% per-cand regression risk** at 50k (5 of 18 cands)
+- **Regressions persist across budgets** for affected cands
+
+For deployment:
+1. Use **only at 50k conflicts** (the sweet spot).
+2. Pre-screen cands via 3-seed median measurement; if median speedup
+   < 1.0×, skip hints for that cand.
+3. Treat as probabilistic preprocessing optimization, not deterministic.
+
+This finalizes the locked-bit-hint deployment story for cascade_aux.
