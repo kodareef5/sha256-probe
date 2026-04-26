@@ -117,6 +117,30 @@
   owner: macbook
   notes: "bit=4 is NOT rotation-aligned (not in Σ0={2,13,22}, Σ1={6,11,25}, σ0={3,7,18}, σ1={17,19,10}). Cascade-eligibility EXISTS at non-aligned bits — fully closes Σ1/σ1 alignment hypothesis. m=0x39a03c2d is second-most-compressed candidate (image=2^11 vs bit-19's 2^8)."
 
+- id: kernel_0_9_bit2
+  name: "bit-2 kernel at word-pair (0,9) — Σ0-aligned (NEW 2026-04-26)"
+  n_scope: [32]
+  word_pair: [0, 9]
+  bit: 2
+  diff_hex: "0x00000004"
+  scan_coverage:
+    fills: ["0xffffffff"]
+    m0_range: "exhaustive 2^32 at fill=0xff"
+    complete: true
+    n32_random_scan: "fill=0xff: 3 eligible (m=0x67dd2607, m=0xea9df976, m=0xa896ee41)"
+  candidates_found: 3
+  best_results_by_n:
+    n32: "3 candidates at fill=0xff (Σ0-aligned, hypothesis falsified)"
+  sr61_partial:
+    n32_true_sr61:
+      status: untested
+      candidates: 3
+      cpu_hours: 0
+  status: open
+  last_updated: "2026-04-26"
+  owner: macbook
+  notes: "Discovered 2026-04-26 via cascade_eligibility_sweep. Σ0-aligned (Σ0 amounts {2, 13, 22}). FALSIFIES Σ1/σ1 alignment hypothesis at THIRD type of bit position (Σ0)."
+
 - id: kernel_0_9_bit3
   name: "bit-3 kernel at word-pair (0,9) — σ0-aligned (NEW 2026-04-26)"
   n_scope: [32]
