@@ -1322,3 +1322,28 @@ bit=22 (Σ0-aligned) sweep continues. Final test.
 
 CLAIMS.md, kernels.yaml, candidates.yaml all updated.
 Full memo: registry/notes/20260426_alignment_hypothesis_falsified.md
+
+## 1:05 EDT (Apr 26) — 2 new bit=18 candidates SMOKE TESTED at 1M kissat
+
+  m99bf552b: TIMEOUT 22s, dec/conf 5.14
+  mcbe11dc1: TIMEOUT 21s, dec/conf 5.23
+
+Both behave like typical cascade-DP candidates at 1M conflict budget.
+dec/conf 5.14-5.23 is MIDDLE of validation matrix range (4.73 to 5.24).
+No special headline signal at this budget.
+
+Consistent with predictor closure verdict: candidate-level characteristics
+don't translate to solver friendliness. The new bit-18 cands are simply
+2 more search-space points, not structurally privileged.
+
+bit=22 (Σ0-aligned) full sweep also COMPLETE: 0 eligible. The hypothesis
+landscape:
+  bit=31 (boundary): 2
+  bit=7  (σ0):       0
+  bit=18 (σ0):       2  ← FALSIFIES strict σ0=0 prediction
+  bit=22 (Σ0):       0
+  
+σ0/Σ0 are LOW-rate but not zero. At ~1-2 per 2^32, all consistent with
+2^-31 baseline; can't structurally distinguish with single-cell sweeps.
+
+Dashboard: 175 runs.
