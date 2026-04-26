@@ -37,6 +37,23 @@ The usual sr=61 cascade compatibility event is `D=0`.
 The first tool measures the GF(2) rank of the local Boolean derivative of
 `D` with respect to the 96 input bits of `(W57,W58,W59)`.
 
+The second-stage result decomposes the defect as:
+
+```text
+D(W57,W58,W59) = S(W57,W58) - R(W57,W58,W59)
+```
+
+For fixed `W57`, the schedule target is:
+
+```text
+S(W58) = C + sigma1(W58 + off58) - sigma1(W58)
+```
+
+This additive finite-difference map has a highly compressed image for many
+`off58` values. The current best mechanism is not low local derivative rank,
+but alignment between a compressed `S(W58)` plateau and a fat preimage bucket
+of the round-required map `R(W59)`.
+
 ## Why this is not the same as de58/hardlock
 
 `de58_size` and hardlock bits measure projection structure in the cascade
@@ -93,4 +110,15 @@ gcc -O3 -march=native -fopenmp -I. \
 /tmp/defect_fiber_counter 12 11 0xfff 0
 /tmp/defect_fiber_counter single 12 11 0xfff 0x666
 /tmp/defect_fiber_counter hits 12 11 0xfff 0x666 0x393
+/tmp/defect_fiber_counter reqhist 12 11 0xfff 0x666 0x393
+/tmp/defect_fiber_counter schedscan 12 11 0xfff 0x666
+/tmp/defect_fiber_counter sigmadiff 16 0x8000
 ```
+
+Key result notes:
+
+- `results/20260426_local_rank_probe.md`: local rank stayed full.
+- `results/20260426_fiber_count_probe.md`: nonlinear fibers and carry
+  signatures appeared at reduced N.
+- `results/20260426_schedule_finite_difference_probe.md`: schedule-side
+  finite-difference collapse and `S`/`R` target alignment.
