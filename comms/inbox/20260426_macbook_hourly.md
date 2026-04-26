@@ -667,3 +667,32 @@ family has reached its information limit. Next-stage work (carry-aware
 proposals, trail-search) is yale's structural track or requires new ops.
 
 Total committed today on singular_chamber: 12 commits (cddef23 → 96a5c18).
+
+## 14:50 EDT — End of grind. 52 commits today, G2 wrap shipped.
+
+Today's task-list grind is complete. Pushed 197243d (G2 campaign wrap memo).
+
+Day's narrative arc (52 commits, yale ~14, macbook ~38):
+- Morning: cascade_aux predictor extends cross-solver + cross-sr + cross-budget
+- Afternoon early: yale ships singular_chamber_rank bet from scratch with full
+  mathematical decomposition D = S(W58) - R(W59); exact D60=0 surfaces broken
+- Afternoon mid: 13 1B-trial M5 walks push frontier HW10/HW76 → HW4/HW59
+  across 5 convergent attack vectors. Structural floor at HW4 confirmed.
+- Afternoon late: 3 cross-bet probes (B1/C1/D2) refine 3 bets and reopen
+  one negative (bdd_marginals_uniform with scoped criterion).
+- Locked-bit hints test: 1.5× median Mode A speedup at 50k, scaling test
+  shows speedup ∝ 1/de58_size, full-image disjunction WORSE than simple
+  unit clauses, multi-seed reveals 0.7×-1.75× variance (honesty addendum).
+
+Bragable: NOT a collision, but real cross-bet leverage. bit=19 IS
+structurally distinguished (de58_size=256 + 18/32 non-uniform marginals);
+the structure helps SAT preprocessing via locked-bit hints (1.5× median),
+NOT the attack vectors mitm_residue assumed. Predictor models extend
+across structurally-related CNFs. The "amazing" piece is the systematic
+restructuring of attack-vector beliefs across 4 bets in one afternoon.
+
+Operator-family change (E1/E2 carry-aware perturbation) is the natural
+next-stage path. Yale on structural track. M5 stands ready when yale
+ships specific carry-preserving moves to brute-force-verify.
+
+Frontier holds: D61=HW4 / tail=HW59. 6+17 bit improvement from yale's start.
