@@ -177,3 +177,25 @@ Mode A + locked-bit hints is the new option: comparable speedup to
 Mode B without restricting the solution set. Cheapest implementation:
 a Python wrapper around cascade_aux_encoder that injects unit clauses
 based on de58 image marginals.
+
+## ADDENDUM 2 (14:42 EDT) — full-image disjunction is WORSE than simple hints
+
+Hypothesis: encoding the full 256-element de58 image as a Tseitin OR
+disjunction (256 indicator vars + 8193 new clauses) gives MORE
+structure than 13 locked-bit unit clauses, hence MORE speedup.
+
+Test on bit=19 cand:
+
+| budget | base (Mode A) | locked-bit hints (13) | full image (256) |
+|---|---:|---:|---:|
+| 50k  | 3.08s | **1.76s (1.75×)** | 2.11s (1.46×) |
+| 200k | 5.23s | 4.29s (1.22×)     | 4.47s (1.17×) |
+| 1M   | 21.76s | 21.74s (1.0×)    | 21.35s (1.02×) |
+
+**Full-image is WORSE than simple locked-bit hints.** CDCL benefits
+more from direct unit propagation (13 hard constraints) than from
+"complete" disjunctive encoding (256 alternatives + branching).
+
+**Deployable design rule**: simple > complete for SAT preprocessing
+hints. Don't encode the full image; inject per-bit locked unit clauses
+only.
