@@ -37,3 +37,21 @@ Strategic priority for headline path:
 - Backward-modification design needs implementation (~2-3 days)
 - de58/hard_bit predictors confirmed search-irrelevant; new cands add
   search space but not solver-friendliness
+
+## 02:55 EDT — bit=11 fill=0xff: 0 eligible. bit=25 fill=0xff at 6% with 1 ELIGIBLE found
+
+bit=11 fill=0xff full 2^32: 0 eligible (registered cands at this bit are
+fill=0x00 and fill=0x55 only).
+
+bit=25 fill=0xff: at least 1 found so far (m=0xa2f498b1, verified eligible
+via Python). Sweep 6% done, more may emerge.
+
+Session running total: 14 cells exhaustively swept. Each ~12 min wall.
+Registry 36 → 45 (+9 candidates from 4 productive cells; 10 cells found 0).
+
+Pattern emerging: each bit has SPECIFIC fills that produce eligibility.
+Random-fill sampling at a bit yields nothing if you miss the productive fills.
+
+Notable structural unique: m=0x99bf552b is the ONLY candidate of 45 whose
+hardlock_mask equals exactly 2^kernel_bit (just the kernel bit locked,
+31 of 32 de58 bits vary). The "anti-bit-19" structural extreme.
