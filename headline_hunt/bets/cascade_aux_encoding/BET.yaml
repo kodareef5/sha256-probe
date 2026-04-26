@@ -128,13 +128,23 @@ evening_progress_2026-04-26: |
 
   WRAPPER v3 (commit 9427f17): adds --hint-mode de58-at-w57 and
   --hint-mode de58-de59-stack. Stack is the recommended default for
-  new sr=61 cascade_aux runs.
+  new sr=61 cascade_aux runs AT 50k BUDGET ONLY (see F8 below).
 
   NEGATIVE FINDINGS:
   - F6 (de60..de63 = 0 zero-hints): mixed/negative, idx8 regresses
     0.57x. Don't ship. (commit dcd477d)
   - F7 (Mode B + stack composition): composes (no contradiction) but
     only +6% over Mode B alone. Diminishing returns. (commit dc9f88b)
+  - F8 BUDGET DECAY (commit b073497): stack speedup is preprocessing-
+    only. Budget sweep on 3 cands × 4 budgets × 2 seeds:
+        50k:   1.80-2.55x (sweet spot)
+        200k:  1.03-1.27x (modest)
+        500k:  0.88-0.96x REGRESSION (6 of 9 high-budget runs)
+        1M:    0.93-0.97x REGRESSION
+    Past ~200k base catches up; stack hurts via restart-heuristic
+    interference.
+  - F9 10M-conflict probe (commit c59025a): bit19 base 283s vs stack
+    332s — stack 17% SLOWER at 10M. Decay deepens; both UNKNOWN.
 
   Memos:
   - results/20260426_de58_only_per_chamber_hints.md
@@ -142,8 +152,22 @@ evening_progress_2026-04-26: |
   - results/20260426_de58_de59_stack_n18.md
   - results/20260426_f6_zero_hints_negative.md
   - results/20260426_f7_modeB_stack_compose.md
+  - results/20260426_f8_budget_decay.md (with F9 addendum)
 
-  OPEN: F8 budget-sweep running (does 1.87x hold past 50k or decay
-  like 13-bit?), F9 10M-conflict verdict probe (are these CNFs SAT
-  or UNSAT? — determines whether speedup is on collision-finding or
-  UNSAT-proving path).
+  DEPLOYMENT GUIDANCE (post-F8):
+    Budget ≤100k:   use de58-de59-stack (~1.5-2.5x speedup)
+    Budget 100k-300k: stack still positive but modest (~1.0-1.3x)
+    Budget ≥500k:   do NOT use stack; use Mode B (force) instead.
+    Budget ≥1M:     Mode B is the right tool; stack hurts.
+
+  WHAT THE SPEEDUP MEANS:
+    Mode A cascade_aux CNFs preserve the standard encoding's solution
+    set (sr=61 collision iff one exists). Stack hints fix de58/de59
+    to chamber-specific NON-ZERO values, which contradicts the
+    de58=de59=0 needed for collision — so SAT-side they over-restrict.
+    The 50k speedup is in proving "no collision in this chamber"
+    faster (chamber-elimination triage), not finding collisions.
+
+  Discipline: 134 F-series runs backfilled into runs.jsonl (commit
+  c90b4c0 + c59025a). Symlinks at runs/20260426_f_series_n18/ for
+  audit-pattern names; all CONFIRMED.
