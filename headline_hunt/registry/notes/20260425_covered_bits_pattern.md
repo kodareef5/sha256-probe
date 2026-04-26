@@ -37,6 +37,36 @@ zero via cascade extension; e-path carries the differential). Bits aligned
 with Σ1 and σ1 rotation amounts may be MORE likely to be cascade-eligible
 because they synchronize with the e-path's mixing function.
 
+### Algebraic note (2026-04-26)
+
+For kernel_bit = b and the SHA-256 mixing functions:
+- Σ1(1<<b) has bits set at positions (b-6)%32, (b-11)%32, (b-25)%32.
+  When b ∈ {6, 11, 25}: ONE of these positions is bit 0 (the LSB).
+- σ1(1<<b) has bits set at (b-17)%32, (b-19)%32, (b-10)%32.
+  When b ∈ {17, 19, 10}: ONE of these is bit 0.
+- Σ0(1<<b) ∋ bit 0 when b ∈ {2, 13, 22}.
+- σ0(1<<b) ∋ bit 0 when b ∈ {7, 18, 3}.
+
+So "kernel_bit is a rotation amount" ↔ "rotation output contains LSB".
+In the cascade-DP construction, the e-path active register's differential
+runs through Σ1 and σ1 (the message-expansion). Σ0 acts on `a` which
+cascade forces to be zero — so Σ0 alignment doesn't matter for e-path.
+σ0 acts on message expansion too, but the schedule routes σ0 through
+W[i-15] (much earlier slots) while σ1 acts on W[i-2] (closer to the
+cascade boundary at r=57). σ1's kernel-bit alignment is structurally
+closer to the cascade than σ0's.
+
+This is a HEURISTIC explanation, not a derivation. The covered-bits
+empirical pattern (8/9 at Σ1+σ1+boundary, 1 at Σ0, 0 at σ0) is
+consistent with it.
+
+### Testable prediction
+
+If the hypothesis holds: σ0-aligned bits {3, 7, 18} should have 0
+cascade-eligible m0 at full N=32 sweep. Σ0-amount bits {2, 22} (excl.
+13 which is covered) should also have 0 (or very few). Tested by
+`cascade_eligibility_sweep.c` running tonight on bit=7.
+
 This is a STRUCTURAL HYPOTHESIS that explains why curated candidates
 cluster at specific bits:
 - LSB/MSB: trivial overflow/underflow handling for modular arithmetic.
