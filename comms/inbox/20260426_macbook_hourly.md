@@ -587,3 +587,24 @@ are dense at 1B trials (5.9M and 4.8M hits per 1B respectively).
 
 Currently running: 1B-trial walk from new HW5 base (PID 17937, ~14 min).
 Goal: HW4/HW3 round-61 reachable?
+
+## 11:23 EDT — singular_chamber descent ongoing; M5 raw + yale structural
+
+State of joint singular_chamber_rank campaign (yale + macbook):
+- Frontier: D61 round-61 = HW5, checked tail = **HW60** (16-bit improvement
+  from yale's initial HW76 across the joint descent).
+- 4 of 5 1B-trial M5 walks shipped today (cddef23 → ffc01c3 → c28c1bb).
+  Walk #5 in flight: 1B trials from yale's cap-4 terrace with max_flips=48
+  to test if widely-perturbed walks can close D60=HW4 while preserving
+  D61=HW4. PID 19734, ~10 more min.
+- Per-walk results that were null-or-tiny rolled into running narrative
+  rather than committed standalone (per user guidance: substantive moves only).
+
+Yale's parallel structural work: capped-D61 walker (5f5e06a) found
+D60-HW4/D61-HW4 and D60-HW7/D61-HW2 near-miss terraces. If carry-aware
+repair can close the residual D60 bits while preserving D61, sub-HW5
+round-61 follows.
+
+Dashboard: 387 runs, 0% audit failure (no new solver runs this hour —
+all activity on singular_chamber tools, not kissat). Registry validate
+clean. No fleet activity from non-macbook+non-yale machines.
