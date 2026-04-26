@@ -13,7 +13,7 @@ expected_info_per_cpu_hour: high
 dependencies:
   - Existing cascade-eligible candidate registry.
   - CPU C probes in bets/singular_chamber_rank/tools; GPU optional only if a suitable parallel ridge kernel is built.
-next_action: "Continue from the M5 HW5/tail-HW67 frontier with carry-aware repair. Capped-D61 probing found a D60-HW4/D61-HW4 terrace with no exact-D60 neighbor through radius 7; the next local target is an operator that closes those four D60 bits without leaving the D61 cap-4 carry chamber."
+next_action: "Keep a Pareto frontier over exact D61 and checked tail while remapping round-61 in carry coordinates. Cross-chamber pooled walks now show idx8 HW5/tail-HW59, idx0 HW6/tail-HW67, and idx3 HW7/tail-HW72; next target is either mixed-chart compensation for HW4/HW3 or a better exact-D60 Ch chart."
 kill_criteria:
   - No local defect-rank drop below 32 across representative candidates and structured fills.
   - No correlation between gate-degeneracy metrics and defect-rank or defect-HW after a bounded probe.
@@ -30,8 +30,8 @@ milestone_marker: hit_sr61_barrier
 current_progress: |
   Joint linux_gpu_laptop + macbook campaign. The full-N sparse-off58 chamber
   at idx 8 (off58=0x00010002) has moved from initial exact sr=61 compatibility
-  through HW10/HW76, HW8/HW74, HW7/HW70, and now M5 1B-trial HW5 round-61 /
-  tail-HW67 verified frontiers.
+  through HW10/HW76, HW8/HW74, HW7/HW70, HW5/tail-HW67, and now pooled
+  exact-surface tail-HW59 verified frontiers.
 
   The HW7 floor was an under-search artifact; HW5/HW6 are dense at 1B trials.
   Local radius-7 enumeration found a D60-HW7/D61-HW2 shelf, and weighted ridge
@@ -40,8 +40,12 @@ current_progress: |
   bottoms at D60-HW4/D61-HW4, and cap 3/2 bottom at D60-HW7. Radius-7
   enumeration around the HW4/HW4 terrace checked 704M neighbors with no exact
   D60 point. A later M5 1B walk from the HW5 base found no D61 HW4/HW3, but
-  improved checked tail to HW67. Open question: can carry-aware repair close
-  those four D60 bits while preserving the D61 cap-4 terrace?
+  improved checked tail to HW67. Cross-chamber pooled walks now show the
+  mechanism is not unique to idx8: idx0 reaches exact D61 HW6 and idx3 reaches
+  exact D61 HW7. Carry-coordinate comparison shows exact HW5/HW67 basin moves
+  are round-61 Ch-only, while the cap-4 terrace lowers D61 by activating
+  Sigma1/T2 terms outside the exact-D60 chart. Open question: can a
+  compensation operator preserve those mixed terms while closing D60?
 evidence:
   - results/20260426_local_rank_probe.md
   - results/20260426_fiber_count_probe.md
@@ -49,17 +53,21 @@ evidence:
   - results/20260426_fulln_sparse_offset_probe.md
   - results/20260426_m5_1B_deep_descent.md
   - results/20260426_m5_1B_from_HW5.md
+  - results/20260426_cross_chamber_pool.md
 notes: |
   Local rank stayed full, so the bet redirected toward nonlinear
   finite-difference/carry fibers. Full-N sparse off58 steering found multiple
   exact sr=61-compatible points with defect60=0. Iterative descent, combining
   linux ridge-repair and M5 raw 1B-trial walks, drove the joint frontier from
   defect61 HW10 / tail HW76 through HW8/HW74 and HW7/HW70 to defect61 HW5 /
-  tail HW67.
+  tail HW59. Cross-chamber pooled walks found idx0 exact D61 HW6 and idx3
+  exact D61 HW7, showing the low-D61 exact mechanism is not unique to idx8.
 
   Round61 traces show exact defect60 synchronizes a,b,c,e, reducing required61
   to dh+dCh. Radius-7 enumeration revealed a D60-HW7/D61-HW2 shelf that ordinary
   Newton/greedy repair cannot land exactly; weighted ridge repair can find nearby
   exact HW6. A capped-D61 objective exposed a cleaner D60-HW4/D61-HW4 terrace,
   but pair-residual linear solves still leave the carry chamber, and no exact
-  D60 point appeared within radius 7 of the terrace.
+  D60 point appeared within radius 7 of the terrace. Carry-coordinate comparison
+  indicates this terrace is a mixed Sigma1/Ch/T2 chart, not a small move along
+  the exact-D60 Ch-only chart.

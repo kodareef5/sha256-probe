@@ -46,6 +46,7 @@
  *   /tmp/singular_defect_rank ridge61walk 8 0xaf07f044 0x569a93da 0x1f813291 1048576 8 128 24 8
  *   /tmp/singular_defect_rank capped61walk 8 0xaf07f044 0xddf3a9d3 0x76046f0d 1048576 8 128 24 3
  *   /tmp/singular_defect_rank pair61residualpoint 8 0xaf07f044 0xddf3a9d3 0x76046f0d 3
+ *   /tmp/singular_defect_rank carrycmp61point 8 0xaf07f044 0xdd73a9d7 0x57046fad 0xaf07f044 0xdd55ab86 0x1d9ca68f
  *   /tmp/singular_defect_rank newton61fixed57 3 0xe28da599 2048 8 32
  *   /tmp/singular_defect_rank newtonfixed58 0 0x370fef5f 0x12345678 512 8 24
  *   /tmp/singular_defect_rank off59hill 0 0x370fef5f 512 8 32
@@ -5197,6 +5198,113 @@ static void pair61_residual_point(int idx, const uint32_t x[3], int cap) {
     printf("}\n");
 }
 
+static void carrycmp61_print_round(const tail_trace_t *a,
+                                   const tail_trace_t *b,
+                                   int r_index) {
+    printf("{\"sched_a\":\"0x%08x\",\"req_a\":\"0x%08x\","
+           "\"defect_a\":\"0x%08x\","
+           "\"sched_b\":\"0x%08x\",\"req_b\":\"0x%08x\","
+           "\"defect_b\":\"0x%08x\","
+           "\"sched_xor_hw\":%d,\"req_xor_hw\":%d,\"defect_xor_hw\":%d,"
+           "\"parts_a\":[\"0x%08x\",\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"parts_b\":[\"0x%08x\",\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"parts_xor_hw\":[%d,%d,%d,%d],"
+           "\"carries_a\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"carries_b\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"carry_xor_hw\":[%d,%d,%d],"
+           "\"pairdiff_xor_hw\":[%d,%d,%d,%d,%d,%d,%d,%d]}",
+           a->w2[r_index] - a->w1[r_index], a->offsets[r_index],
+           a->defects[r_index],
+           b->w2[r_index] - b->w1[r_index], b->offsets[r_index],
+           b->defects[r_index],
+           hw32((a->w2[r_index] - a->w1[r_index]) ^
+                (b->w2[r_index] - b->w1[r_index])),
+           hw32(a->offsets[r_index] ^ b->offsets[r_index]),
+           hw32(a->defects[r_index] ^ b->defects[r_index]),
+           a->parts[r_index][0], a->parts[r_index][1],
+           a->parts[r_index][2], a->parts[r_index][3],
+           b->parts[r_index][0], b->parts[r_index][1],
+           b->parts[r_index][2], b->parts[r_index][3],
+           hw32(a->parts[r_index][0] ^ b->parts[r_index][0]),
+           hw32(a->parts[r_index][1] ^ b->parts[r_index][1]),
+           hw32(a->parts[r_index][2] ^ b->parts[r_index][2]),
+           hw32(a->parts[r_index][3] ^ b->parts[r_index][3]),
+           a->carries[r_index][0], a->carries[r_index][1],
+           a->carries[r_index][2],
+           b->carries[r_index][0], b->carries[r_index][1],
+           b->carries[r_index][2],
+           hw32(a->carries[r_index][0] ^ b->carries[r_index][0]),
+           hw32(a->carries[r_index][1] ^ b->carries[r_index][1]),
+           hw32(a->carries[r_index][2] ^ b->carries[r_index][2]),
+           hw32(a->pairdiff[r_index][0] ^ b->pairdiff[r_index][0]),
+           hw32(a->pairdiff[r_index][1] ^ b->pairdiff[r_index][1]),
+           hw32(a->pairdiff[r_index][2] ^ b->pairdiff[r_index][2]),
+           hw32(a->pairdiff[r_index][3] ^ b->pairdiff[r_index][3]),
+           hw32(a->pairdiff[r_index][4] ^ b->pairdiff[r_index][4]),
+           hw32(a->pairdiff[r_index][5] ^ b->pairdiff[r_index][5]),
+           hw32(a->pairdiff[r_index][6] ^ b->pairdiff[r_index][6]),
+           hw32(a->pairdiff[r_index][7] ^ b->pairdiff[r_index][7]));
+}
+
+static void carrycmp61_point(int idx, const uint32_t xa[3],
+                             const uint32_t xb[3]) {
+    int n_cands = (int)(sizeof(CANDIDATES) / sizeof(CANDIDATES[0]));
+    if (idx < 0 || idx >= n_cands) {
+        fprintf(stderr, "candidate index must be 0..%d.\n", n_cands - 1);
+        exit(2);
+    }
+
+    const candidate_t *cand = &CANDIDATES[idx];
+    sha256_precomp_t p1, p2;
+    if (!prepare_candidate(cand, &p1, &p2)) {
+        printf("{\"mode\":\"carrycmp61point\",\"candidate\":\"%s\",\"error\":\"not_cascade_eligible\"}\n",
+               cand->id);
+        return;
+    }
+
+    tail_trace_t a, b;
+    tail_trace_for_x(&p1, &p2, xa, &a);
+    tail_trace_for_x(&p1, &p2, xb, &b);
+
+    uint32_t off58_a = 0, off58_b = 0;
+    uint32_t off59_a = compute_off59_for_w57_w58(&p1, &p2, xa[0], xa[1],
+                                                 &off58_a);
+    uint32_t off59_b = compute_off59_for_w57_w58(&p1, &p2, xb[0], xb[1],
+                                                 &off58_b);
+    int dist = hw32(xa[1] ^ xb[1]) + hw32(xa[2] ^ xb[2]);
+
+    printf("{\"mode\":\"carrycmp61point\",\"candidate\":\"%s\",\"idx\":%d,"
+           "\"x_a\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"x_b\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"distance58_59\":%d,"
+           "\"off58_a\":\"0x%08x\",\"off58_b\":\"0x%08x\","
+           "\"off58_xor_hw\":%d,"
+           "\"off59_a\":\"0x%08x\",\"off59_b\":\"0x%08x\","
+           "\"off59_xor_hw\":%d,"
+           "\"defects_a\":[\"0x%08x\",\"0x%08x\",\"0x%08x\",\"0x%08x\","
+           "\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"defects_b\":[\"0x%08x\",\"0x%08x\",\"0x%08x\",\"0x%08x\","
+           "\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"tail_defect_hw_a\":%d,\"tail_defect_hw_b\":%d,"
+           "\"round60\":",
+           cand->id, idx,
+           xa[0], xa[1], xa[2],
+           xb[0], xb[1], xb[2],
+           dist,
+           off58_a, off58_b, hw32(off58_a ^ off58_b),
+           off59_a, off59_b, hw32(off59_a ^ off59_b),
+           a.defects[0], a.defects[1], a.defects[2], a.defects[3],
+           a.defects[4], a.defects[5], a.defects[6],
+           b.defects[0], b.defects[1], b.defects[2], b.defects[3],
+           b.defects[4], b.defects[5], b.defects[6],
+           hw32(a.defects[4]) + hw32(a.defects[5]) + hw32(a.defects[6]),
+           hw32(b.defects[4]) + hw32(b.defects[5]) + hw32(b.defects[6]));
+    carrycmp61_print_round(&a, &b, 3);
+    printf(",\"round61\":");
+    carrycmp61_print_round(&a, &b, 4);
+    printf("}\n");
+}
+
 static int newton61_fixed57_once(const sha256_precomp_t *p1, const sha256_precomp_t *p2,
                                  uint32_t x[3], int max_iters, int *iters_out,
                                  int *last_rank_out, uint64_t *last_vec_out) {
@@ -5897,6 +6005,23 @@ static void newton_fixed58_candidate(int idx, uint32_t fixed_w57, uint32_t fixed
 }
 
 int main(int argc, char **argv) {
+    if (argc >= 2 && strcmp(argv[1], "carrycmp61point") == 0) {
+        int idx = (argc >= 3) ? atoi(argv[2]) : 0;
+        uint32_t xa[3] = {
+            (argc >= 4) ? (uint32_t)strtoul(argv[3], NULL, 0) : 0,
+            (argc >= 5) ? (uint32_t)strtoul(argv[4], NULL, 0) : 0,
+            (argc >= 6) ? (uint32_t)strtoul(argv[5], NULL, 0) : 0,
+        };
+        uint32_t xb[3] = {
+            (argc >= 7) ? (uint32_t)strtoul(argv[6], NULL, 0) : 0,
+            (argc >= 8) ? (uint32_t)strtoul(argv[7], NULL, 0) : 0,
+            (argc >= 9) ? (uint32_t)strtoul(argv[8], NULL, 0) : 0,
+        };
+        sha256_init(32);
+        carrycmp61_point(idx, xa, xb);
+        return 0;
+    }
+
     if (argc >= 2 && strcmp(argv[1], "pair61residualpoint") == 0) {
         int idx = (argc >= 3) ? atoi(argv[2]) : 0;
         uint32_t x[3] = {

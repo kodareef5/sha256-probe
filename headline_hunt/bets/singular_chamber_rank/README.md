@@ -130,6 +130,7 @@ gcc -O3 -march=native -fopenmp -I. \
 /tmp/singular_defect_rank ridge61walk 8 0xaf07f044 0xddf3a9d3 0x76046f0d 1048576 8 128 24 8
 /tmp/singular_defect_rank capped61walk 8 0xaf07f044 0xdd55ab86 0x1d9ca68f 1048576 8 128 24 4
 /tmp/singular_defect_rank pair61residualpoint 8 0xaf07f044 0xdd55ab86 0x1d9ca68f 4
+/tmp/singular_defect_rank carrycmp61point 8 0xaf07f044 0xdd73a9d7 0x57046fad 0xaf07f044 0xfd772dd7 0xc30e0ff7
 /tmp/singular_defect_rank bridge61point 8 0xaf07f044 0x1cbb355e 0xad34d2a3 0x7fc3124f 0xbf245aa1 1
 ```
 
@@ -151,7 +152,7 @@ Key result notes:
   the surface; codimension-one kernel corrections exist linearly but require
   high-Hamming deltas that break the exact carry chamber. Greedy one-bit
   repair can cross exact basins; the current frontier is round-61 defect HW5
-  and a separate checked 57..63 tail HW68 basin. Bridge enumeration shows the
+  and a separate checked 57..63 tail HW59 basin. Bridge enumeration shows the
   new basins are connected by thin carry transitions with one-bit `defect60`
   ridges nearby, not by broad local exact sheets. Radius-6/7 ridge enumeration
   is now a productive way to find non-exact low-D61 shelves that repair into
@@ -161,8 +162,16 @@ Key result notes:
   bottoms at D60 HW4/D61 HW4, and D61 cap 3/2 bottoms at D60 HW7. Radius-7
   enumeration around the HW4/HW4 terrace checked 704M neighbors with no exact
   D60 point. A later M5 1B walk from the HW5 base found no D61 HW4/HW3, but
-  improved the checked tail frontier to HW67.
+  improved the checked tail frontier to HW67. Carry-coordinate comparison
+  shows exact HW5/HW67 basin moves are round-61 Ch-only, while the cap-4
+  terrace activates Sigma1 and T2 terms that exact D60 repair tends to remove.
+  Cross-chamber pooled walks show the mechanism is not unique to idx8: idx0
+  reaches exact D61 HW6, idx3 reaches exact D61 HW7, and idx8 tail improves to
+  HW59.
 - `results/20260426_m5_1B_deep_descent.md`: macbook M5 1B-trial walk that
-  verified the current HW5 round-61 and tail-HW68 frontiers.
+  verified the HW5 round-61 and tail-HW68 frontiers.
 - `results/20260426_m5_1B_from_HW5.md`: macbook M5 1B-trial walk from the HW5
   base; no D61 HW4/HW3 found, but checked tail improved to HW67.
+- `results/20260426_cross_chamber_pool.md`: pooled exact-surface walks over
+  idx8/idx0/idx3; current best exact frontiers are idx8 HW5/tail-HW59, idx0
+  HW6/tail-HW67, and idx3 HW7/tail-HW72.

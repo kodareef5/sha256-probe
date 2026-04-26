@@ -867,6 +867,16 @@ tail defects = 0,0,0,0,0x0d0024fd,0x1393c0fe,0xc0403e84
 tail HW = 67
 ```
 
+A later pooled exact-surface walk over the idx 8 basin family improved the
+checked-tail frontier again:
+
+```text
+W58 = 0xe537c1c7
+W59 = 0x598feb25
+tail defects = 0,0,0,0,0x6f5fc000,0xa833c118,0x2f3427d1
+tail HW = 59
+```
+
 The conclusion changed quantitatively, not qualitatively: neither the HW10,
 HW8, nor HW7 floor was structural, but the exact `defect60=0` surface is still
 fractured into thin carry-linked basins. The productive pattern is now a
@@ -923,6 +933,75 @@ This gives a more concrete next target than raw HW4 hunting: find an operator
 that closes the four D60 bits of `0x04042100` while preserving the D61 cap-4
 carry terrace, or prove that leaving that terrace necessarily reintroduces the
 known HW5 exact basin.
+
+## Carry-coordinate atlas
+
+The capped terrace raised a coordinate question: are the shelves part of the
+same exact-surface geometry, or are they using degrees of freedom that exact
+D60 later removes? A point comparator was added to compare two points by
+round-60/61 required-offset parts and carry masks, not just by bit distance in
+`(W58,W59)`.
+
+The answer is asymmetric. Exact-to-exact moves in the HW5/HW67 family stay
+inside a narrow round-61 Ch-only chart:
+
+```text
+HW5 exact -> HW67 tail frontier
+distance(W58,W59) = 15
+round60: defect remains 0
+round61 parts_xor_hw = [0,0,13,0]
+round61 carry_xor_hw = [0,8,0]
+```
+
+The second HW5 basin found by the M5 walk has the same signature:
+
+```text
+HW5 exact -> second HW5 basin
+distance(W58,W59) = 17
+round60: defect remains 0
+round61 parts_xor_hw = [0,0,9,0]
+round61 carry_xor_hw = [0,10,0]
+```
+
+So the exact surface is not featureless. Once D60 is exact, the round-61
+required side has synchronized enough state that only the Ch component moves
+in these basin-to-basin transitions.
+
+The cap-4 terrace is different:
+
+```text
+HW5 exact -> D60-HW4/D61-HW4 terrace
+distance(W58,W59) = 19
+round60 defect becomes 0x04042100
+round61 parts_xor_hw = [0,16,9,15]
+round61 carry_xor_hw = [23,13,11]
+```
+
+That D61 improvement is not a small move along the exact-surface Ch chart. It
+activates `dSigma1` and `dT2` at round 61, which are precisely the components
+that exact D60 tends to remove by synchronizing state lanes. This explains why
+ordinary repair loses the gain: closing D60 pushes the point back into the
+Ch-only chart, where the known floor is currently HW5.
+
+This reframes the remapping effort. The useful terrain is not one scalar
+ridge. It is at least two charts:
+
+- an exact-D60 Ch-fiber chart, where HW5 basins and tail improvements live,
+- a mixed Sigma1/Ch/T2 terrace chart, where D61 can drop to HW4/HW3 but D60
+  becomes nonzero.
+
+The next operator should not just descend Hamming distance. It should either
+find a compensation that keeps the mixed chart while closing D60, or search for
+a different exact-D60 chart where the Ch-only image itself admits HW4/HW3.
+
+Cross-chamber pooled walks then showed that the low-D61 exact mechanism is
+portable across sparse-offset chambers, although idx 8 remains strongest:
+
+| candidate | sparse off58 | best exact D61 | best checked tail |
+|---:|---:|---:|---:|
+| idx 8 | `0x00010002` | HW5 | HW59 |
+| idx 0 | `0x00000021` | HW6 | HW67 |
+| idx 3 | `0x00000802` | HW7 | HW72 |
 
 ## Kernel-linear one-bit targets
 
