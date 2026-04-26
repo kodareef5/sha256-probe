@@ -1212,3 +1212,18 @@ Next sr61_n32 candidate hunt should focus on alternate bit positions for
 (0,9) (not yet exhaustively covered by the 36 registered candidates).
 
 Full memo: registry/notes/20260425_exotic_kernels_n32_search.md
+
+## 0:00 EDT (Apr 26) — (0,9) uncovered bits at N=32: 0/942k random eligible
+
+23 uncovered (0,9) bit positions × 5 fills × 8192 random m0 = 942k trials,
+0 cascade-eligible. Expected at 2^-32 baseline: 0.0002 hits — observed 0
+is consistent with normal eligibility rate (NOT a structural negative).
+
+Implication: random sampling at uncovered bits is not productive. To
+expand candidate base, would need exhaustive 2^32 sweep per bit (~5 min
+in C) OR theoretical analysis of why specific bits dominate.
+
+The 36-candidate pool is sufficient per the validation matrix verdict
+(predictor null across 12 cells). #36 is not the bottleneck for sr61_n32.
+
+Full memo: registry/notes/20260425_uncovered_bits_scan.md
