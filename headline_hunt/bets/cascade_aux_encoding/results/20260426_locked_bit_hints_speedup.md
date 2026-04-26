@@ -199,3 +199,40 @@ more from direct unit propagation (13 hard constraints) than from
 **Deployable design rule**: simple > complete for SAT preprocessing
 hints. Don't encode the full image; inject per-bit locked unit clauses
 only.
+
+## ADDENDUM 3 (14:45 EDT) — multi-seed verification reveals HIGH variance
+
+The single-seed (seed=5) 1.75× speedup claim was incomplete. Re-ran
+across 3 seeds:
+
+| seed | base | hints | speedup |
+|---:|---:|---:|---:|
+| 1  | 1.93s | 2.76s | **0.70×** (hints SLOWER) |
+| 5  | 3.12s | 1.78s | 1.75× |
+| 42 | 3.29s | 2.10s | 1.57× |
+
+**Median speedup = 1.57×; seed-CV is enormous (0.70× to 1.75×).**
+
+Implication: locked-bit hints have HIGH seed-variance like the morning's
+cascade_aux predictor work showed. Single-seed tests overstate the
+benefit. Some seeds are HURT by the hints (seed=1: 2.76s with hints vs
+1.93s without — 30% slower).
+
+This refines the "amazing finding" to a more nuanced one:
+- **In expectation**, locked-bit hints help (median 1.57× speedup).
+- **Variance is high**: seed-dependent whether they help or hurt.
+- **Simple unit clauses** are still better than full-image disjunction
+  on average (Addendum 2 holds at seed=5; needs multi-seed verification
+  but pattern likely robust).
+
+For deployment: locked-bit hints are a probabilistic preprocessing
+optimization with median ~1.5× speedup but ~25% chance of regression.
+Net positive expected value but not a guaranteed win per-cand-per-run.
+
+The previous single-seed claim (1.75× from seed=5) should be read as
+the **upper end of the speedup distribution**, not the typical case.
+
+The scaling test (Addendum 1) similarly used single-seed=5; the 5-cand
+ranking by de58_size still likely holds in median, but the absolute
+speedup numbers should be discounted by ~10% to reach 3-seed median
+estimate.
