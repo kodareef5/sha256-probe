@@ -326,3 +326,41 @@ Missing: bits 0, 6, 13 (already covered at other fills).
     tests, dashboard refreshes, M16-MITM forward validation, M16-MITM
     backward design-gap critique, de58 distribution analysis,
     cascade_aux Mode A/B 2-cand consistency, fingerprint refresh.
+
+## 07:38 EDT — NEW HYPOTHESIS: Mode B speedup INVERSELY correlates with hardlock_bits
+
+Tested 3rd candidate (bit=28 m=0x3e57289c, hl_bits=3 = LOWEST in registry):
+  Mode B speedup at 50k = **3.01×**
+
+Compared to two hl=15 cands tested earlier:
+  bit=20 m=0x294e1ea8 (hl=15): 1.89× at 50k
+  bit=28 m=0xd1acca79 (hl=15): 1.97× at 50k
+  bit=28 m=0x3e57289c (hl=3):  **3.01×** at 50k
+
+n=3 evidence SUGGESTS Mode B speedup is INVERSELY correlated with
+candidate's intrinsic hardlock_bits. Intuition: Mode B's force clauses
+add structural constraints that overlap with high-hl cands' baked-in
+structure (redundant) but provide more new info on low-hl cands.
+
+If confirmed (5-cand follow-up across hl ∈ {3, 5, 8, 11, 15}), this
+would refine cascade_aux's targeting strategy.
+
+Memo: bets/cascade_aux_encoding/results/20260426_mode_b_2cand_consistency.md
+(now 3-cand with addendum hypothesis).
+
+This is a NEW substantive finding from this hour's work — Mode B has
+structural targeting we didn't know about.
+
+## Session totals at 07:38 EDT (turn end)
+
+  Registry: 36 → **67** (+31, +86% growth)
+  Cells exhaustively swept: **38** (fill=0xff coverage 29/32 bits)
+  Total runs logged: **210** (audit failure rate 0.00%)
+  Substantive memos this turn:
+    - M16-MITM forward validated (200/200 at N=8 + N=10)
+    - M16-MITM backward design-gap identified
+    - de58 image-size distribution analyzed
+    - Mode B 2-cand consistency check (1.9× → 1× decay)
+    - Mode B inverse-hardlock hypothesis (3-cand evidence)
+    - Audit-rot fix for 16 cascade_aux CNFs (earlier in session)
+  Commits this turn: 48+ pushed to master
