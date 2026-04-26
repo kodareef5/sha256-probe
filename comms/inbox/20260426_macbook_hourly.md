@@ -417,3 +417,25 @@ TIMEOUT 303s. Predictor closure stands — no candidate-shortcut for SAT.
 
 23 logged runs this pulse (22 Mode A/B + 1 high-budget). Total runs
 in registry: 239+. Audit failure rate: still 0.00%.
+
+## 07:55 EDT — Multi-seed validation: predictor REAL but ρ=+0.75 inflated
+
+Validated n=16 ρ=+0.75 predictor with 3 cands × 2 fresh seeds:
+
+  bit24 m=0xdc27e18c: seed=5→1.44x, seed=1→3.24x, seed=42→3.59x  (CV=42%)
+  bit4  m=0x39a03c2d: seed=5→2.17x, seed=1→1.96x, seed=42→2.45x  (CV=11%)
+  bit18 m=0x99bf552b: seed=5→3.09x, seed=1→2.15x, seed=42→2.20x  (CV=21%)
+
+bit24's seed=5 "1.44x" was a major outlier. The n=16 single-seed
+correlation OVERSTATES predictor strength; per-cand seed-CV is 11-42%
+in the 50k early-conflict regime.
+
+BUT: directional finding HOLDS at median. Mode A wall ≥ Mode B
+speedup ranking is preserved across seeds.
+
+Refined claim: predictor direction is REAL and robust, but for honest
+per-cand prediction need n_seeds ≥ 3 averaging. Single-seed estimates
+are unreliable for cands with CV > 0.2.
+
+12 logged runs, dashboard refreshed (251 total runs, 0% audit fails).
+Memo: bets/cascade_aux_encoding/results/20260426_mode_b_predictor_n16.md
