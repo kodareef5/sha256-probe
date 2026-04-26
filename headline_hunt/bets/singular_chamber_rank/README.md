@@ -119,6 +119,8 @@ gcc -O3 -march=native -fopenmp -I. \
 /tmp/singular_defect_rank tailpoint 3 0xe28da599 0xa3110717 0x1afa1270
 /tmp/singular_defect_rank manifold61point 3 0xe28da599 0x5e06f0a7 0x28859825
 /tmp/singular_defect_rank tailhill57 8 0xaf07f044 524288 8 64
+/tmp/singular_defect_rank carryjump61point 0 0x370fef5f 0x0e4363c9 0xfe337af3
+/tmp/singular_defect_rank tailhill58 0 0x370fef5f 0x0e4363c9 65536 8 64
 ```
 
 Key result notes:
@@ -132,4 +134,6 @@ Key result notes:
   steering, sampled schedule collapse, R-side falsification, one-bit near
   misses, and an exact sr=61-compatible point whose tail fails again at
   round 61. Follow-up probes map the round-61 tangent/kernel geometry and
-  show that sparse `off59` is reachable but not sufficient by itself.
+  show that sparse `off59` is reachable but not sufficient by itself; exact
+  `defect60=0` reduces the round-61 required offset to `dh+dCh`, and failed
+  Newton jumps are carry-chamber transitions.

@@ -356,6 +356,84 @@ At this point the local pair rank is 64 and `defect61` has full rank on the
 Newton step still fails in the real arithmetic map because it jumps into a
 different carry chamber and destroys `defect60`.
 
+## Carry-chamber jump
+
+Tracing the failed Newton step makes the carry transition concrete. At exact
+`defect60=0` points, the state lanes synchronized by the cascade force the
+round-61 required-offset parts:
+
+```text
+dSigma1(e) = 0
+dT2(a,b,c) = 0
+```
+
+So the next required offset is reduced to:
+
+```text
+required61 = dh + dCh
+```
+
+The remaining difficulty is not an unconstrained four-term SHA-256 round. It
+is a two-term arithmetic/carry problem after the cascade has synchronized
+`a,b,c,e` at the round-61 boundary.
+
+At the sparse-`off59` idx 0 point:
+
+```text
+idx 0, W57=0x370fef5f, W58=0x0e4363c9, W59=0xfe337af3
+defect60 = 0
+defect61 = 0x3347fca2
+pair rank = 64
+Newton delta HW = 29
+linearized result = (0,0)
+actual result     = (0x8049d05d, 0x277c5ddf)
+```
+
+The jump changes the carry chamber instead of solving the real arithmetic
+system. At round 60, the `dSigma1` and `dCh` parts change by HW 13 and 14,
+and the two active carry masks change by HW 14 and 18. At round 61, the
+source had only the `dh+dCh` carry active, while the jump turns on all three
+carry additions:
+
+```text
+round61 source parts:
+dh=0xefef3e30, dSigma1=0, dCh=0x57388593, dT2=0
+
+round61 jump parts:
+dh=0xefef3e30, dSigma1=0x83a8bdd5, dCh=0x56ca3e8f, dT2=0x4b6a385a
+
+round61 carry-mask XOR HW:
+19, 15, 11
+```
+
+The same pattern appears at the earlier idx 3 HW11 point: the linearized
+delta predicts `(0,0)`, but the actual move lands at
+`(0xa69c6528, 0x7f97bd8f)` and turns on large round-61 `dSigma1`/`dT2`
+parts.
+
+This reframes the next problem: do not take high-Hamming Newton jumps across
+carry chambers. Instead, search for moves that preserve the round-61 lane
+equalities and tune the reduced `dh+dCh` equation.
+
+## Fixed-W58 sparse-off59 test
+
+A fixed-`W58` two-wall hill-climber was added to test whether sparse `off59`
+sheets can directly produce better exact round-60 launch points.
+
+On the three sparse `off59` sheets above, 65,536-start fixed-W58 passes found
+no exact `defect60=0` point under the two-wall score. They did find low
+near-misses:
+
+| idx | W58 | off59 | best defect60 | HW60 | best defect61 | HW61 |
+|---:|---:|---:|---:|---:|---:|---:|
+| 0 | `0x0e4363c9` | `0x00000300` | `0x00004000` | 1 | `0x1490709b` | 12 |
+| 8 | `0xc62feb96` | `0x00000000` | `0x20000000` | 1 | `0x5600853b` | 12 |
+| 3 | `0xa59469ce` | `0x20000000` | `0x00408000` | 2 | `0x4a9a0c84` | 11 |
+
+So sparse `off59` is useful but insufficient by itself. The exact `defect60`
+surface remains the gate; once crossed, round 61 is best viewed as a reduced
+carry equation constrained by synchronized state lanes.
+
 ## Interpretation
 
 The full-N picture is now sharper:
