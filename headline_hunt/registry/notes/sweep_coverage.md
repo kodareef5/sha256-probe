@@ -19,21 +19,23 @@ Each cell = one (bit, fill) combination. Exhaustive 2^32 m0 sweep ≈ 12 min wal
 | 18       | 2 ✓  | 3 ✓  | 0 ✓  |      |      |  5 (NEW)    |
 | 19       | 0 ✓  |      |      |      |      |  curated 1 + 0 swept |
 | 22       | 0 ✓  |      |      |      |      |  0          |
-| 25       |      |      |      |      |      |  curated 1  |
+| 25       | 2 ✓  |      |      |      |      |  2 (NEW) + curated 1 |
 | 31       | 2 ✓  |      |      |      |      |  curated 6  |
 | OTHER (1,2,5,8,9,12,14,15,16,20,21,23,24,26,27,28,29,30) | | | | | | unknown |
 
-**Cells exhaustively swept** (12 as of 2026-04-26 02:50):
+**Cells exhaustively swept** (14 as of 2026-04-26 03:00):
   bit=31 fill=0xff (2),  bit=22 fill=0xff (0),
   bit=18 fill=0xff (2),  bit=18 fill=0x00 (3),  bit=18 fill=0x55 (0),
   bit=7  fill=0xff (0),
   bit=3  fill=0xff (2),  bit=3 fill=0x00 (0),  bit=3 fill=0x55 (0),
   bit=4  fill=0xff (2),
-  bit=19 fill=0xff (0).
+  bit=19 fill=0xff (0),
+  bit=11 fill=0xff (0),
+  bit=25 fill=0xff (2).
 
-**Currently running**: bit=11 fill=0xff (in flight); bit=25 fill=0xff (queued).
-**Total NEW candidates discovered via sweep this session**: **9** (bit=18×5,
-bit=3×2, bit=4×2). Registry expanded 36 → 45.
+**Currently running**: none.
+**Total NEW candidates discovered via sweep this session**: **11** (bit=18×5,
+bit=3×2, bit=4×2, bit=25×2). Registry expanded **36 → 47** (+31% growth).
 
 ## Per-cell statistics
 
@@ -51,6 +53,7 @@ bit=3×2, bit=4×2). Registry expanded 36 → 45.
 | bit=4  fill=0xff       | 2^32   | 2        | 1.00 |
 | bit=19 fill=0xff       | 2^32   | 0        | 0.00 |
 | bit=11 fill=0xff       | 2^32   | 0        | 0.00 |
+| bit=25 fill=0xff       | 2^32   | 2        | 1.00 |
 
 **Average**: 9 eligible / 7 cells = 1.29 per cell. Expected at uniform 2^-31
 baseline = 2 per cell. Observed slightly LOWER, but consistent with Poisson(2)
