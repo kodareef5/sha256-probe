@@ -76,6 +76,23 @@ for ALL message word combinations.
 - da60=db60=dc60=0, so dSigma0=0 and dMaj=0, giving dT2_61=0.
 - Therefore da61 = dT1_61 + 0 = dT1_61 = de61. ∎
 
+**Empirical verification (2026-04-25)**: at N=32 across 1,048,576 random
+W57 samples (cascade-DP construction with cascade-extending W2[58..60]),
+da_61 ≡ de_61 (mod 2^32) for ALL samples — 0 violations. Theorem 4 is
+empirically confirmed at full N=32. See
+`headline_hunt/bets/block2_wang/trails/n_invariants.py` for the test;
+also verified at N ∈ {8, 10, 12, 14, 16, 18} (8192 samples each, 0
+violations). The structural picture is N-invariant.
+
+**Extension (R63 modular relations, 2026-04-25)**: more general statements
+also hold modularly at r ∈ {62, 63}:
+- R63.1: dc_63 ≡ dg_63 (mod 2^32)
+- R63.3: da_63 - de_63 ≡ dT2_63 (mod 2^32)
+
+Both verified 8192/8192 across N ∈ {8, 10, 12, 14, 16, 18}. References:
+`bets/mitm_residue/results/20260425_residual_structure_complete.md` and
+`bets/mitm_residue/results/20260425_theorem4_unified.md`.
+
 ## Theorem 5: sr=61 Cascade Break
 
 **Statement**: For sr=61, the probability that the cascade's a-path
