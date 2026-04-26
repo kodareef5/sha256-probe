@@ -259,6 +259,103 @@ tail defects:
 tail HW = 82
 ```
 
+## Round-61 manifold probes
+
+The next wall is not a fresh uniform 32-bit obstruction. At exact
+`defect60=0` points, the local derivative of `(defect60, defect61)` with
+respect to `(W58,W59)` is usually rank 63, and the restriction of `defect61`
+to the `defect60` tangent kernel has rank 31.
+
+Example at the best earlier idx 3 next-wall point:
+
+```text
+idx 3, W57=0xe28da599, W58=0x5e06f0a7, W59=0x28859825
+defect60 = 0
+defect61 = 0x4aa48446 (HW 11)
+rank60 = 32
+rank_pair(defect60,defect61) = 63
+dim ker(d defect60) = 32
+rank defect61 on that kernel = 31
+```
+
+So the exact `defect60=0` surface still has substantial tangent freedom, but
+one Boolean obstruction bit remains visible at round 61 in these chambers.
+
+The nonlinear exact surface is much thinner than the tangent space suggests.
+Enumerating radius <= 6 combinations in the local `defect60` kernel around
+the HW11 idx 3 point checked 1,149,017 tangent-kernel moves; only two
+preserved exact `defect60=0`, and none improved `defect61`.
+
+Natural bit neighborhoods are similarly sparse. Radius <= 5 in `(W58,W59)`
+around the best exact points checks 8,303,633 points per center. It found one
+additional idx 0 exact point improving that chamber's round-61 defect from
+HW15 to HW11:
+
+```text
+idx 0, W57=0x370fef5f, W58=0x6a2c226f, W59=0xc08413e6
+defect61 = 0xd0460515 (HW 11)
+tail HW = 105
+```
+
+This improves the chamber's next-wall defect but not the final tail.
+
+## Two-wall objective
+
+A direct hill-climber scored candidates by:
+
+```text
+score = 64 * HW(defect60) + HW(defect61)
+```
+
+This can find exact `defect60=0` points, but it often parks at one-bit
+`defect60` near misses instead of entering the exact corridor. A 524,288-start
+pass found no point below HW11 for `defect61`, but did find another HW11 point
+in idx 8:
+
+```text
+idx 8, W57=0xaf07f044, W58=0xe98d86d0, W59=0xc778e588
+defect60 = 0
+defect61 = 0x015aa22a (HW 11)
+tail HW = 91
+```
+
+This is not better than the previous best tail, but it is a cleaner
+low-valued round-61 miss and shows HW11 is reproducible across sparse
+chambers and objectives.
+
+## Sparse off59 check
+
+The round-61 schedule side has the analogous finite-difference form:
+
+```text
+S61(W59) = C + sigma1(W59 + off59) - sigma1(W59)
+```
+
+Sparse `off59` chambers are reachable after fixing sparse `off58`:
+
+| idx | W57 | W58 | off59 | HW |
+|---:|---:|---:|---:|---:|
+| 8 | `0xaf07f044` | `0xc62feb96` | `0x00000000` | 0 |
+| 3 | `0xe28da599` | `0xa59469ce` | `0x20000000` | 1 |
+| 0 | `0x370fef5f` | `0x0e4363c9` | `0x00000300` | 2 |
+
+But sparse `off59` alone is not sufficient. Fixed-W58 descent found exact
+`defect60=0` only for the idx 0 `off59=0x00000300` sheet:
+
+```text
+idx 0, W57=0x370fef5f, W58=0x0e4363c9, W59=0xfe337af3
+off58 = 0x00000021
+off59 = 0x00000300
+defect60 = 0
+defect61 = 0x3347fca2 (HW 17)
+tail HW = 89
+```
+
+At this point the local pair rank is 64 and `defect61` has full rank on the
+`defect60` kernel, so the linearized system can solve both walls. The full
+Newton step still fails in the real arithmetic map because it jumps into a
+different carry chamber and destroys `defect60`.
+
 ## Interpretation
 
 The full-N picture is now sharper:
@@ -266,8 +363,12 @@ The full-N picture is now sharper:
 1. The schedule side can be forced into a severe finite-difference collapse
    by steering `off58` sparse.
 2. Sparse `off59` by itself does not collapse the round-required side.
-3. The R side has local rank defects and can be descended to HW1, but the
-   final bit sits behind a nonlocal carry transition.
+3. The exact `defect60=0` surface has useful tangent freedom for round 61,
+   usually losing only one Boolean dimension, but the exact nonlinear basin is
+   thin.
+4. The next obstruction is a nonlocal carry transition: Boolean Newton can
+   predict a solving move, but the required high-Hamming delta crosses into a
+   different arithmetic chamber.
 
 This is not yet a collision. It is a reproducible full-N mechanism that first
 gets the true sr=61 defect from 32 random-looking bits down to 1 bit, then to

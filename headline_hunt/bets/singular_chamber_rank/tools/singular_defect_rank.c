@@ -29,6 +29,12 @@
  *   /tmp/singular_defect_rank neighallpoint 0 0x370fef5f 0xf0f7e442 0x76712417 4
  *   /tmp/singular_defect_rank tracepoint 3 0xe28da599 0x233e4216 0xda9932f8
  *   /tmp/singular_defect_rank tailpoint 3 0xe28da599 0xa3110717 0x1afa1270
+ *   /tmp/singular_defect_rank manifold61point 3 0xe28da599 0x5e06f0a7 0x28859825
+ *   /tmp/singular_defect_rank kernel61neighpoint 3 0xe28da599 0x5e06f0a7 0x28859825 4
+ *   /tmp/singular_defect_rank tailneighpoint 3 0xe28da599 0x5e06f0a7 0x28859825 5
+ *   /tmp/singular_defect_rank tailhill57 3 0xe28da599 4096 8 64
+ *   /tmp/singular_defect_rank newton61point 0 0x370fef5f 0x0e4363c9 0xfe337af3 32
+ *   /tmp/singular_defect_rank newton61fixed57 3 0xe28da599 2048 8 32
  *   /tmp/singular_defect_rank newtonfixed58 0 0x370fef5f 0x12345678 512 8 24
  *   /tmp/singular_defect_rank off59hill 0 0x370fef5f 512 8 32
  *   /tmp/singular_defect_rank off58newton 0x0000000c 256 8 24
@@ -261,6 +267,26 @@ static int rank32_vectors(const uint32_t *vecs, int n) {
     return rank;
 }
 
+static int rank64_vectors(const uint64_t *vecs, int n) {
+    uint64_t basis[64];
+    memset(basis, 0, sizeof(basis));
+    int rank = 0;
+    for (int i = 0; i < n; i++) {
+        uint64_t v = vecs[i];
+        for (int b = 63; b >= 0 && v; b--) {
+            if (((v >> b) & 1ULL) == 0) continue;
+            if (basis[b]) {
+                v ^= basis[b];
+            } else {
+                basis[b] = v;
+                rank++;
+                break;
+            }
+        }
+    }
+    return rank;
+}
+
 static int solve_linear_columns(uint32_t target, const uint32_t *cols, int ncols,
                                 uint64_t *solution, int *rank_out) {
     uint32_t basis[32];
@@ -300,6 +326,147 @@ static int solve_linear_columns(uint32_t target, const uint32_t *cols, int ncols
 
     if (rank_out) *rank_out = rank;
     *solution = sol;
+    return 1;
+}
+
+static int kernel_basis_columns32(const uint32_t *cols, int ncols,
+                                  uint64_t *kernel, int *rank_out) {
+    uint32_t basis[32];
+    uint64_t combo[32];
+    memset(basis, 0, sizeof(basis));
+    memset(combo, 0, sizeof(combo));
+    int rank = 0;
+    int kernel_dim = 0;
+
+    for (int i = 0; i < ncols; i++) {
+        uint32_t v = cols[i];
+        uint64_t c = 1ULL << i;
+        int inserted = 0;
+        for (int b = 31; b >= 0 && v; b--) {
+            if (((v >> b) & 1U) == 0) continue;
+            if (basis[b]) {
+                v ^= basis[b];
+                c ^= combo[b];
+            } else {
+                basis[b] = v;
+                combo[b] = c;
+                rank++;
+                inserted = 1;
+                break;
+            }
+        }
+        if (!inserted) {
+            kernel[kernel_dim++] = c;
+        }
+    }
+
+    if (rank_out) *rank_out = rank;
+    return kernel_dim;
+}
+
+static int solve_linear_columns64(uint64_t target, const uint64_t *cols, int ncols,
+                                  uint64_t *solution, int *rank_out) {
+    uint64_t basis[64];
+    uint64_t combo[64];
+    memset(basis, 0, sizeof(basis));
+    memset(combo, 0, sizeof(combo));
+    int rank = 0;
+
+    for (int i = 0; i < ncols; i++) {
+        uint64_t v = cols[i];
+        uint64_t c = 1ULL << i;
+        for (int b = 63; b >= 0 && v; b--) {
+            if (((v >> b) & 1ULL) == 0) continue;
+            if (basis[b]) {
+                v ^= basis[b];
+                c ^= combo[b];
+            } else {
+                basis[b] = v;
+                combo[b] = c;
+                rank++;
+                break;
+            }
+        }
+    }
+
+    uint64_t t = target;
+    uint64_t sol = 0;
+    for (int b = 63; b >= 0 && t; b--) {
+        if (((t >> b) & 1ULL) == 0) continue;
+        if (!basis[b]) {
+            if (rank_out) *rank_out = rank;
+            return 0;
+        }
+        t ^= basis[b];
+        sol ^= combo[b];
+    }
+
+    if (rank_out) *rank_out = rank;
+    *solution = sol;
+    return 1;
+}
+
+static uint32_t combo_effect32(uint64_t combo, const uint32_t *cols) {
+    uint32_t out = 0;
+    while (combo) {
+        int bit = __builtin_ctzll(combo);
+        out ^= cols[bit];
+        combo &= combo - 1;
+    }
+    return out;
+}
+
+static uint64_t combine_kernel_selection(uint64_t selection,
+                                         const uint64_t *kernel_basis) {
+    uint64_t out = 0;
+    while (selection) {
+        int bit = __builtin_ctzll(selection);
+        out ^= kernel_basis[bit];
+        selection &= selection - 1;
+    }
+    return out;
+}
+
+static int solve_d60_d61_via_d60_kernel(uint32_t target60, uint32_t target61,
+                                        const uint32_t cols60[64],
+                                        const uint32_t cols61[64],
+                                        uint64_t *delta_out,
+                                        int *rank60_out,
+                                        int *kernel_dim_out,
+                                        int *rank61_kernel_out) {
+    uint64_t particular = 0;
+    int rank60 = 0;
+    if (!solve_linear_columns(target60, cols60, 64, &particular, &rank60)) {
+        if (rank60_out) *rank60_out = rank60;
+        if (kernel_dim_out) *kernel_dim_out = 0;
+        if (rank61_kernel_out) *rank61_kernel_out = 0;
+        *delta_out = 0;
+        return 0;
+    }
+
+    uint64_t kernel[64];
+    int kernel_rank = 0;
+    int kernel_dim = kernel_basis_columns32(cols60, 64, kernel, &kernel_rank);
+    uint32_t kernel_cols61[64];
+    for (int i = 0; i < kernel_dim; i++) {
+        kernel_cols61[i] = combo_effect32(kernel[i], cols61);
+    }
+
+    uint32_t residual61 = target61 ^ combo_effect32(particular, cols61);
+    uint64_t kernel_selection = 0;
+    int rank61_kernel = 0;
+    int ok = solve_linear_columns(residual61, kernel_cols61, kernel_dim,
+                                  &kernel_selection, &rank61_kernel);
+
+    if (rank60_out) *rank60_out = rank60;
+    if (kernel_dim_out) *kernel_dim_out = kernel_dim;
+    if (rank61_kernel_out) *rank61_kernel_out = rank61_kernel;
+    if (!ok) {
+        *delta_out = particular;
+        return 0;
+    }
+
+    *delta_out = particular ^ combine_kernel_selection(kernel_selection, kernel);
     return 1;
 }
 
@@ -1636,6 +1803,615 @@ static void tail_defects_for_x(const sha256_precomp_t *p1, const sha256_precomp_
     }
 }
 
+static inline uint64_t defect60_61_vec(const sha256_precomp_t *p1,
+                                       const sha256_precomp_t *p2,
+                                       const uint32_t x[3]) {
+    uint32_t defects[7];
+    tail_defects_for_x(p1, p2, x, defects);
+    return ((uint64_t)defects[4] << 32) | (uint64_t)defects[3];
+}
+
+static void defect60_61_columns(const sha256_precomp_t *p1, const sha256_precomp_t *p2,
+                                const uint32_t x[3], uint32_t *d60_out,
+                                uint32_t *d61_out, uint32_t cols60[64],
+                                uint32_t cols61[64], uint64_t cols_pair[64]) {
+    uint64_t base = defect60_61_vec(p1, p2, x);
+    if (d60_out) *d60_out = (uint32_t)base;
+    if (d61_out) *d61_out = (uint32_t)(base >> 32);
+
+    for (int bit = 0; bit < 64; bit++) {
+        uint32_t xf[3] = {x[0], x[1], x[2]};
+        if (bit < 32) xf[1] ^= 1U << bit;
+        else xf[2] ^= 1U << (bit - 32);
+        uint64_t col = base ^ defect60_61_vec(p1, p2, xf);
+        cols60[bit] = (uint32_t)col;
+        cols61[bit] = (uint32_t)(col >> 32);
+        cols_pair[bit] = col;
+    }
+}
+
+static void apply_delta58_59(const uint32_t in[3], uint64_t delta, uint32_t out[3]) {
+    out[0] = in[0];
+    out[1] = in[1] ^ (uint32_t)(delta & 0xffffffffULL);
+    out[2] = in[2] ^ (uint32_t)(delta >> 32);
+}
+
+static uint64_t next_combination64(uint64_t x);
+static void apply_combo_to_x(const uint32_t base[3], uint64_t combo, uint32_t x[3]);
+
+static void manifold61_point(int idx, const uint32_t x[3]) {
+    int n_cands = (int)(sizeof(CANDIDATES) / sizeof(CANDIDATES[0]));
+    if (idx < 0 || idx >= n_cands) {
+        fprintf(stderr, "candidate index must be 0..%d.\n", n_cands - 1);
+        exit(2);
+    }
+    const candidate_t *cand = &CANDIDATES[idx];
+    sha256_precomp_t p1, p2;
+    if (!prepare_candidate(cand, &p1, &p2)) {
+        printf("{\"mode\":\"manifold61point\",\"candidate\":\"%s\",\"error\":\"not_cascade_eligible\"}\n",
+               cand->id);
+        return;
+    }
+
+    uint32_t defects[7];
+    tail_defects_for_x(&p1, &p2, x, defects);
+
+    uint32_t cols60[64], cols61[64];
+    uint64_t cols_pair[64];
+    uint32_t d60 = 0, d61 = 0;
+    defect60_61_columns(&p1, &p2, x, &d60, &d61, cols60, cols61, cols_pair);
+
+    int rank60 = rank32_vectors(cols60, 64);
+    int rank61 = rank32_vectors(cols61, 64);
+    int rank_pair = rank64_vectors(cols_pair, 64);
+
+    uint64_t kernel[64];
+    int kernel_rank = 0;
+    int kernel_dim = kernel_basis_columns32(cols60, 64, kernel, &kernel_rank);
+    uint32_t kernel_cols61[64];
+    for (int i = 0; i < kernel_dim; i++) {
+        kernel_cols61[i] = combo_effect32(kernel[i], cols61);
+    }
+    int rank61_kernel = rank32_vectors(kernel_cols61, kernel_dim);
+
+    uint64_t pair_delta = 0;
+    int pair_solve_rank = 0;
+    int pair_solvable = solve_linear_columns64(((uint64_t)d61 << 32) | d60,
+                                               cols_pair, 64,
+                                               &pair_delta, &pair_solve_rank);
+    uint32_t pair_step[3] = {x[0], x[1], x[2]};
+    uint32_t pair_step_defects[7] = {0};
+    if (pair_solvable) {
+        apply_delta58_59(x, pair_delta, pair_step);
+        tail_defects_for_x(&p1, &p2, pair_step, pair_step_defects);
+    }
+
+    uint64_t kernel_delta = 0;
+    int k_rank60 = 0, k_dim = 0, k_rank61 = 0;
+    int kernel_solvable = solve_d60_d61_via_d60_kernel(0, d61, cols60, cols61,
+                                                       &kernel_delta, &k_rank60,
+                                                       &k_dim, &k_rank61);
+    uint32_t kernel_step[3] = {x[0], x[1], x[2]};
+    uint32_t kernel_step_defects[7] = {0};
+    if (kernel_solvable) {
+        apply_delta58_59(x, kernel_delta, kernel_step);
+        tail_defects_for_x(&p1, &p2, kernel_step, kernel_step_defects);
+    }
+
+    uint32_t off58 = 0;
+    uint32_t off59 = compute_off59_for_w57_w58(&p1, &p2, x[0], x[1], &off58);
+    printf("{\"mode\":\"manifold61point\",\"candidate\":\"%s\",\"idx\":%d,"
+           "\"x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"off58\":\"0x%08x\",\"off58_hw\":%d,"
+           "\"off59\":\"0x%08x\",\"off59_hw\":%d,"
+           "\"defect60\":\"0x%08x\",\"defect60_hw\":%d,"
+           "\"defect61\":\"0x%08x\",\"defect61_hw\":%d,"
+           "\"tail_defects\":[\"0x%08x\",\"0x%08x\",\"0x%08x\",\"0x%08x\","
+           "\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"rank60\":%d,\"rank61\":%d,\"rank_pair\":%d,"
+           "\"kernel_dim\":%d,\"rank61_on_kernel\":%d,"
+           "\"pair_solvable\":%d,\"pair_solve_rank\":%d,\"pair_delta_hw\":%d,"
+           "\"pair_step_defect60\":\"0x%08x\",\"pair_step_defect61\":\"0x%08x\","
+           "\"kernel_solvable\":%d,\"kernel_delta_hw\":%d,"
+           "\"kernel_step_defect60\":\"0x%08x\",\"kernel_step_defect61\":\"0x%08x\"}\n",
+           cand->id, idx,
+           x[0], x[1], x[2],
+           off58, hw32(off58), off59, hw32(off59),
+           d60, hw32(d60), d61, hw32(d61),
+           defects[0], defects[1], defects[2], defects[3],
+           defects[4], defects[5], defects[6],
+           rank60, rank61, rank_pair, kernel_dim, rank61_kernel,
+           pair_solvable, pair_solve_rank, pair_solvable ? hw32((uint32_t)pair_delta) + hw32((uint32_t)(pair_delta >> 32)) : 0,
+           pair_step_defects[3], pair_step_defects[4],
+           kernel_solvable, kernel_solvable ? hw32((uint32_t)kernel_delta) + hw32((uint32_t)(kernel_delta >> 32)) : 0,
+           kernel_step_defects[3], kernel_step_defects[4]);
+}
+
+static void kernel61_neighbor_point(int idx, const uint32_t x[3], int max_k) {
+    int n_cands = (int)(sizeof(CANDIDATES) / sizeof(CANDIDATES[0]));
+    if (idx < 0 || idx >= n_cands) {
+        fprintf(stderr, "candidate index must be 0..%d.\n", n_cands - 1);
+        exit(2);
+    }
+    if (max_k < 1) max_k = 1;
+    if (max_k > 6) max_k = 6;
+
+    const candidate_t *cand = &CANDIDATES[idx];
+    sha256_precomp_t p1, p2;
+    if (!prepare_candidate(cand, &p1, &p2)) {
+        printf("{\"mode\":\"kernel61neighpoint\",\"candidate\":\"%s\",\"error\":\"not_cascade_eligible\"}\n",
+               cand->id);
+        return;
+    }
+
+    uint32_t cols60[64], cols61[64];
+    uint64_t cols_pair[64];
+    uint32_t d60 = 0, d61 = 0;
+    defect60_61_columns(&p1, &p2, x, &d60, &d61, cols60, cols61, cols_pair);
+
+    uint64_t kernel[64];
+    int rank60 = 0;
+    int kernel_dim = kernel_basis_columns32(cols60, 64, kernel, &rank60);
+
+    uint64_t checked = 1;
+    uint64_t exact60 = (d60 == 0) ? 1 : 0;
+    int best_exact_d61_hw = (d60 == 0) ? hw32(d61) : 99;
+    uint32_t best_exact_d61 = d61;
+    uint64_t best_exact_selection = 0;
+    uint64_t best_exact_delta = 0;
+    uint32_t best_exact_x[3] = {x[0], x[1], x[2]};
+    uint32_t best_exact_defects[7] = {0};
+    if (d60 == 0) {
+        tail_defects_for_x(&p1, &p2, x, best_exact_defects);
+    }
+
+    int best_score = hw32(d60) * 64 + hw32(d61);
+    uint32_t best_any_defects[7] = {0};
+    uint32_t best_any_x[3] = {x[0], x[1], x[2]};
+    uint64_t best_any_selection = 0;
+    uint64_t best_any_delta = 0;
+    tail_defects_for_x(&p1, &p2, x, best_any_defects);
+
+    uint64_t limit = (kernel_dim >= 64) ? 0 : (1ULL << kernel_dim);
+    for (int k = 1; k <= max_k && k <= kernel_dim; k++) {
+        uint64_t selection = (1ULL << k) - 1ULL;
+        while (selection && (limit == 0 || selection < limit)) {
+            uint64_t delta = combine_kernel_selection(selection, kernel);
+            uint32_t y[3];
+            uint32_t defects[7];
+            apply_delta58_59(x, delta, y);
+            tail_defects_for_x(&p1, &p2, y, defects);
+            checked++;
+
+            int score = hw32(defects[3]) * 64 + hw32(defects[4]);
+            if (score < best_score ||
+                (score == best_score && defects[4] < best_any_defects[4])) {
+                best_score = score;
+                best_any_selection = selection;
+                best_any_delta = delta;
+                memcpy(best_any_x, y, sizeof(best_any_x));
+                memcpy(best_any_defects, defects, sizeof(best_any_defects));
+            }
+
+            if (defects[3] == 0) {
+                exact60++;
+                int d61_hw = hw32(defects[4]);
+                if (d61_hw < best_exact_d61_hw ||
+                    (d61_hw == best_exact_d61_hw && defects[4] < best_exact_d61)) {
+                    best_exact_d61_hw = d61_hw;
+                    best_exact_d61 = defects[4];
+                    best_exact_selection = selection;
+                    best_exact_delta = delta;
+                    memcpy(best_exact_x, y, sizeof(best_exact_x));
+                    memcpy(best_exact_defects, defects, sizeof(best_exact_defects));
+                }
+            }
+
+            selection = next_combination64(selection);
+        }
+    }
+
+    printf("{\"mode\":\"kernel61neighpoint\",\"candidate\":\"%s\",\"idx\":%d,"
+           "\"x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"base_defect60\":\"0x%08x\",\"base_defect61\":\"0x%08x\","
+           "\"base_hw\":[%d,%d],\"rank60\":%d,\"kernel_dim\":%d,"
+           "\"max_k\":%d,\"checked\":%llu,\"exact60\":%llu,"
+           "\"best_exact_d61\":\"0x%08x\",\"best_exact_d61_hw\":%d,"
+           "\"best_exact_selection\":\"0x%016llx\",\"best_exact_delta\":\"0x%016llx\","
+           "\"best_exact_x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"best_exact_tail_defects\":[\"0x%08x\",\"0x%08x\",\"0x%08x\",\"0x%08x\","
+           "\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"best_any_score\":%d,\"best_any_selection\":\"0x%016llx\","
+           "\"best_any_delta\":\"0x%016llx\","
+           "\"best_any_x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"best_any_tail_defects\":[\"0x%08x\",\"0x%08x\",\"0x%08x\",\"0x%08x\","
+           "\"0x%08x\",\"0x%08x\",\"0x%08x\"]}\n",
+           cand->id, idx,
+           x[0], x[1], x[2],
+           d60, d61, hw32(d60), hw32(d61), rank60, kernel_dim,
+           max_k, (unsigned long long)checked, (unsigned long long)exact60,
+           best_exact_d61, best_exact_d61_hw,
+           (unsigned long long)best_exact_selection,
+           (unsigned long long)best_exact_delta,
+           best_exact_x[0], best_exact_x[1], best_exact_x[2],
+           best_exact_defects[0], best_exact_defects[1], best_exact_defects[2],
+           best_exact_defects[3], best_exact_defects[4], best_exact_defects[5],
+           best_exact_defects[6],
+           best_score,
+           (unsigned long long)best_any_selection,
+           (unsigned long long)best_any_delta,
+           best_any_x[0], best_any_x[1], best_any_x[2],
+           best_any_defects[0], best_any_defects[1], best_any_defects[2],
+           best_any_defects[3], best_any_defects[4], best_any_defects[5],
+           best_any_defects[6]);
+}
+
+static void tail_neighbor_point(int idx, const uint32_t base_x[3], int max_k) {
+    int n_cands = (int)(sizeof(CANDIDATES) / sizeof(CANDIDATES[0]));
+    if (idx < 0 || idx >= n_cands) {
+        fprintf(stderr, "candidate index must be 0..%d.\n", n_cands - 1);
+        exit(2);
+    }
+    if (max_k < 1) max_k = 1;
+    if (max_k > 5) max_k = 5;
+
+    const candidate_t *cand = &CANDIDATES[idx];
+    sha256_precomp_t p1, p2;
+    if (!prepare_candidate(cand, &p1, &p2)) {
+        printf("{\"mode\":\"tailneighpoint\",\"candidate\":\"%s\",\"error\":\"not_cascade_eligible\"}\n",
+               cand->id);
+        return;
+    }
+
+    uint32_t base_defects[7];
+    tail_defects_for_x(&p1, &p2, base_x, base_defects);
+    uint64_t checked = 1;
+    uint64_t exact60 = (base_defects[3] == 0) ? 1 : 0;
+
+    int best_exact_d61_hw = (base_defects[3] == 0) ? hw32(base_defects[4]) : 99;
+    uint32_t best_exact_d61 = base_defects[4];
+    uint32_t best_exact_x[3] = {base_x[0], base_x[1], base_x[2]};
+    uint32_t best_exact_defects[7];
+    memcpy(best_exact_defects, base_defects, sizeof(best_exact_defects));
+    int best_exact_k = 0;
+    uint64_t best_exact_combo = 0;
+
+    int best_score = hw32(base_defects[3]) * 64 + hw32(base_defects[4]);
+    uint32_t best_any_x[3] = {base_x[0], base_x[1], base_x[2]};
+    uint32_t best_any_defects[7];
+    memcpy(best_any_defects, base_defects, sizeof(best_any_defects));
+    int best_any_k = 0;
+    uint64_t best_any_combo = 0;
+
+    for (int k = 1; k <= max_k; k++) {
+        uint64_t combo = (1ULL << k) - 1ULL;
+        while (combo) {
+            uint32_t x[3];
+            uint32_t defects[7];
+            apply_combo_to_x(base_x, combo, x);
+            tail_defects_for_x(&p1, &p2, x, defects);
+            checked++;
+
+            int score = hw32(defects[3]) * 64 + hw32(defects[4]);
+            if (score < best_score ||
+                (score == best_score && defects[4] < best_any_defects[4])) {
+                best_score = score;
+                best_any_k = k;
+                best_any_combo = combo;
+                memcpy(best_any_x, x, sizeof(best_any_x));
+                memcpy(best_any_defects, defects, sizeof(best_any_defects));
+            }
+
+            if (defects[3] == 0) {
+                exact60++;
+                int d61_hw = hw32(defects[4]);
+                if (d61_hw < best_exact_d61_hw ||
+                    (d61_hw == best_exact_d61_hw && defects[4] < best_exact_d61)) {
+                    best_exact_d61_hw = d61_hw;
+                    best_exact_d61 = defects[4];
+                    best_exact_k = k;
+                    best_exact_combo = combo;
+                    memcpy(best_exact_x, x, sizeof(best_exact_x));
+                    memcpy(best_exact_defects, defects, sizeof(best_exact_defects));
+                }
+            }
+
+            uint64_t next = next_combination64(combo);
+            if (!next || next < combo) break;
+            combo = next;
+        }
+    }
+
+    printf("{\"mode\":\"tailneighpoint\",\"candidate\":\"%s\",\"idx\":%d,"
+           "\"base_x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"base_tail_defects\":[\"0x%08x\",\"0x%08x\",\"0x%08x\",\"0x%08x\","
+           "\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"max_k\":%d,\"checked\":%llu,\"exact60\":%llu,"
+           "\"best_exact_k\":%d,\"best_exact_combo\":\"0x%016llx\","
+           "\"best_exact_x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"best_exact_tail_defects\":[\"0x%08x\",\"0x%08x\",\"0x%08x\",\"0x%08x\","
+           "\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"best_exact_d61_hw\":%d,"
+           "\"best_any_score\":%d,\"best_any_k\":%d,"
+           "\"best_any_combo\":\"0x%016llx\","
+           "\"best_any_x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"best_any_tail_defects\":[\"0x%08x\",\"0x%08x\",\"0x%08x\",\"0x%08x\","
+           "\"0x%08x\",\"0x%08x\",\"0x%08x\"]}\n",
+           cand->id, idx,
+           base_x[0], base_x[1], base_x[2],
+           base_defects[0], base_defects[1], base_defects[2], base_defects[3],
+           base_defects[4], base_defects[5], base_defects[6],
+           max_k, (unsigned long long)checked, (unsigned long long)exact60,
+           best_exact_k, (unsigned long long)best_exact_combo,
+           best_exact_x[0], best_exact_x[1], best_exact_x[2],
+           best_exact_defects[0], best_exact_defects[1], best_exact_defects[2],
+           best_exact_defects[3], best_exact_defects[4], best_exact_defects[5],
+           best_exact_defects[6],
+           best_exact_d61_hw,
+           best_score, best_any_k, (unsigned long long)best_any_combo,
+           best_any_x[0], best_any_x[1], best_any_x[2],
+           best_any_defects[0], best_any_defects[1], best_any_defects[2],
+           best_any_defects[3], best_any_defects[4], best_any_defects[5],
+           best_any_defects[6]);
+}
+
+static inline int score60_61(uint32_t d60, uint32_t d61) {
+    return hw32(d60) * 64 + hw32(d61);
+}
+
+static void tail_hill_fixed57_candidate(int idx, uint32_t fixed_w57,
+                                        int trials, int threads, int max_passes) {
+    int n_cands = (int)(sizeof(CANDIDATES) / sizeof(CANDIDATES[0]));
+    if (idx < 0 || idx >= n_cands) {
+        fprintf(stderr, "candidate index must be 0..%d.\n", n_cands - 1);
+        exit(2);
+    }
+    const candidate_t *cand = &CANDIDATES[idx];
+    sha256_precomp_t p1, p2;
+    if (!prepare_candidate(cand, &p1, &p2)) {
+        printf("{\"mode\":\"tailhill57\",\"candidate\":\"%s\",\"error\":\"not_cascade_eligible\"}\n",
+               cand->id);
+        return;
+    }
+
+    uint32_t off58_fixed = compute_off58_for_w57(&p1, &p2, fixed_w57);
+    int best_score = 9999;
+    uint32_t best_x[3] = {fixed_w57, 0, 0};
+    uint32_t best_defects[7] = {0};
+    int best_passes = 0;
+    int best_exact_d61_hw = 99;
+    uint32_t best_exact_x[3] = {fixed_w57, 0, 0};
+    uint32_t best_exact_defects[7] = {0};
+    int exact60_hits = 0;
+    int exact61_hits = 0;
+    int total_evals = 0;
+
+    #pragma omp parallel num_threads(threads)
+    {
+        int tid = omp_get_thread_num();
+        uint64_t rng = 0x616d706c69667921ULL ^
+                       ((uint64_t)cand->m0 << 17) ^
+                       ((uint64_t)fixed_w57 << 5) ^
+                       (uint64_t)tid;
+        int local_best_score = 9999;
+        uint32_t local_best_x[3] = {fixed_w57, 0, 0};
+        uint32_t local_best_defects[7] = {0};
+        int local_best_passes = 0;
+        int local_best_exact_d61_hw = 99;
+        uint32_t local_best_exact_x[3] = {fixed_w57, 0, 0};
+        uint32_t local_best_exact_defects[7] = {0};
+        int local_exact60_hits = 0;
+        int local_exact61_hits = 0;
+        int local_evals = 0;
+
+        #pragma omp for schedule(dynamic, 4)
+        for (int i = 0; i < trials; i++) {
+            uint32_t x[3] = {fixed_w57, splitmix32(&rng), splitmix32(&rng)};
+            if (i < 8) {
+                static const uint32_t patterns[] = {
+                    0x00000000U, 0xffffffffU, 0x55555555U, 0xaaaaaaaaU,
+                    0x33333333U, 0xccccccccU, 0x0f0f0f0fU, 0xf0f0f0f0U
+                };
+                x[1] = patterns[(i + 3) & 7];
+                x[2] = patterns[(i + 5) & 7];
+            }
+
+            uint32_t cur_defects[7];
+            tail_defects_for_x(&p1, &p2, x, cur_defects);
+            local_evals++;
+            int cur_score = score60_61(cur_defects[3], cur_defects[4]);
+            int passes_used = 0;
+
+            for (int pass = 0; pass < max_passes && cur_score > 0; pass++) {
+                uint32_t best_step_x[3] = {x[0], x[1], x[2]};
+                uint32_t best_step_defects[7];
+                memcpy(best_step_defects, cur_defects, sizeof(best_step_defects));
+                int best_step_score = cur_score;
+
+                for (int bit = 0; bit < 64; bit++) {
+                    uint32_t xf[3] = {x[0], x[1], x[2]};
+                    if (bit < 32) xf[1] ^= 1U << bit;
+                    else xf[2] ^= 1U << (bit - 32);
+                    uint32_t defects[7];
+                    tail_defects_for_x(&p1, &p2, xf, defects);
+                    local_evals++;
+                    int score = score60_61(defects[3], defects[4]);
+                    if (score < best_step_score ||
+                        (score == best_step_score && defects[4] < best_step_defects[4])) {
+                        best_step_score = score;
+                        memcpy(best_step_x, xf, sizeof(best_step_x));
+                        memcpy(best_step_defects, defects, sizeof(best_step_defects));
+                    }
+                }
+
+                if (best_step_score >= cur_score) break;
+                memcpy(x, best_step_x, sizeof(x));
+                memcpy(cur_defects, best_step_defects, sizeof(cur_defects));
+                cur_score = best_step_score;
+                passes_used = pass + 1;
+            }
+
+            if (cur_defects[3] == 0) {
+                local_exact60_hits++;
+                int d61_hw = hw32(cur_defects[4]);
+                if (cur_defects[4] == 0) local_exact61_hits++;
+                if (d61_hw < local_best_exact_d61_hw ||
+                    (d61_hw == local_best_exact_d61_hw &&
+                     cur_defects[4] < local_best_exact_defects[4])) {
+                    local_best_exact_d61_hw = d61_hw;
+                    memcpy(local_best_exact_x, x, sizeof(local_best_exact_x));
+                    memcpy(local_best_exact_defects, cur_defects, sizeof(local_best_exact_defects));
+                }
+            }
+
+            if (cur_score < local_best_score ||
+                (cur_score == local_best_score && cur_defects[4] < local_best_defects[4])) {
+                local_best_score = cur_score;
+                memcpy(local_best_x, x, sizeof(local_best_x));
+                memcpy(local_best_defects, cur_defects, sizeof(local_best_defects));
+                local_best_passes = passes_used;
+            }
+        }
+
+        #pragma omp critical
+        {
+            total_evals += local_evals;
+            exact60_hits += local_exact60_hits;
+            exact61_hits += local_exact61_hits;
+            if (local_best_exact_d61_hw < best_exact_d61_hw ||
+                (local_best_exact_d61_hw == best_exact_d61_hw &&
+                 local_best_exact_defects[4] < best_exact_defects[4])) {
+                best_exact_d61_hw = local_best_exact_d61_hw;
+                memcpy(best_exact_x, local_best_exact_x, sizeof(best_exact_x));
+                memcpy(best_exact_defects, local_best_exact_defects, sizeof(best_exact_defects));
+            }
+            if (local_best_score < best_score ||
+                (local_best_score == best_score &&
+                 local_best_defects[4] < best_defects[4])) {
+                best_score = local_best_score;
+                memcpy(best_x, local_best_x, sizeof(best_x));
+                memcpy(best_defects, local_best_defects, sizeof(best_defects));
+                best_passes = local_best_passes;
+            }
+        }
+    }
+
+    printf("{\"mode\":\"tailhill57\",\"candidate\":\"%s\",\"idx\":%d,"
+           "\"fixed_w57\":\"0x%08x\",\"off58\":\"0x%08x\",\"off58_hw\":%d,"
+           "\"trials\":%d,\"max_passes\":%d,\"exact60_hits\":%d,"
+           "\"exact61_hits\":%d,\"best_score\":%d,"
+           "\"best_x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"best_tail_defects\":[\"0x%08x\",\"0x%08x\",\"0x%08x\",\"0x%08x\","
+           "\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"best_hw60_61\":[%d,%d],\"best_passes\":%d,"
+           "\"best_exact_d61_hw\":%d,"
+           "\"best_exact_x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"best_exact_tail_defects\":[\"0x%08x\",\"0x%08x\",\"0x%08x\",\"0x%08x\","
+           "\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"evals\":%d}\n",
+           cand->id, idx, fixed_w57, off58_fixed, hw32(off58_fixed),
+           trials, max_passes, exact60_hits, exact61_hits, best_score,
+           best_x[0], best_x[1], best_x[2],
+           best_defects[0], best_defects[1], best_defects[2], best_defects[3],
+           best_defects[4], best_defects[5], best_defects[6],
+           hw32(best_defects[3]), hw32(best_defects[4]), best_passes,
+           best_exact_d61_hw,
+           best_exact_x[0], best_exact_x[1], best_exact_x[2],
+           best_exact_defects[0], best_exact_defects[1], best_exact_defects[2],
+           best_exact_defects[3], best_exact_defects[4], best_exact_defects[5],
+           best_exact_defects[6],
+           total_evals);
+}
+
+static int newton61_fixed57_once(const sha256_precomp_t *p1, const sha256_precomp_t *p2,
+                                 uint32_t x[3], int max_iters, int *iters_out,
+                                 int *last_rank_out, uint64_t *last_vec_out) {
+    for (int iter = 0; iter < max_iters; iter++) {
+        uint64_t base = defect60_61_vec(p1, p2, x);
+        if (base == 0) {
+            if (iters_out) *iters_out = iter;
+            if (last_rank_out) *last_rank_out = 64;
+            if (last_vec_out) *last_vec_out = 0;
+            return 1;
+        }
+
+        uint64_t cols[64];
+        for (int bit = 0; bit < 64; bit++) {
+            uint32_t xf[3] = {x[0], x[1], x[2]};
+            if (bit < 32) xf[1] ^= 1U << bit;
+            else xf[2] ^= 1U << (bit - 32);
+            cols[bit] = base ^ defect60_61_vec(p1, p2, xf);
+        }
+
+        uint64_t delta = 0;
+        int rank = 0;
+        int solvable = solve_linear_columns64(base, cols, 64, &delta, &rank);
+        if (last_rank_out) *last_rank_out = rank;
+        if (last_vec_out) *last_vec_out = base;
+        if (!solvable || delta == 0) {
+            if (iters_out) *iters_out = iter;
+            return 0;
+        }
+
+        x[1] ^= (uint32_t)(delta & 0xffffffffULL);
+        x[2] ^= (uint32_t)(delta >> 32);
+    }
+
+    uint64_t last = defect60_61_vec(p1, p2, x);
+    if (iters_out) *iters_out = max_iters;
+    if (last_vec_out) *last_vec_out = last;
+    return last == 0;
+}
+
+static void newton61_point(int idx, uint32_t x[3], int max_iters) {
+    int n_cands = (int)(sizeof(CANDIDATES) / sizeof(CANDIDATES[0]));
+    if (idx < 0 || idx >= n_cands) {
+        fprintf(stderr, "candidate index must be 0..%d.\n", n_cands - 1);
+        exit(2);
+    }
+    const candidate_t *cand = &CANDIDATES[idx];
+    sha256_precomp_t p1, p2;
+    if (!prepare_candidate(cand, &p1, &p2)) {
+        printf("{\"mode\":\"newton61point\",\"candidate\":\"%s\",\"error\":\"not_cascade_eligible\"}\n",
+               cand->id);
+        return;
+    }
+
+    uint32_t start_x[3] = {x[0], x[1], x[2]};
+    uint64_t start_vec = defect60_61_vec(&p1, &p2, x);
+    int iters = 0, last_rank = 0;
+    uint64_t last_vec = 0;
+    int ok = newton61_fixed57_once(&p1, &p2, x, max_iters,
+                                   &iters, &last_rank, &last_vec);
+    uint32_t final_defects[7];
+    tail_defects_for_x(&p1, &p2, x, final_defects);
+    uint32_t off58 = 0;
+    uint32_t off59 = compute_off59_for_w57_w58(&p1, &p2, x[0], x[1], &off58);
+
+    printf("{\"mode\":\"newton61point\",\"candidate\":\"%s\",\"idx\":%d,"
+           "\"start_x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"start_defect60\":\"0x%08x\",\"start_defect61\":\"0x%08x\","
+           "\"start_hw60_61\":[%d,%d],"
+           "\"ok\":%d,\"iters\":%d,\"last_rank\":%d,"
+           "\"last_defect60\":\"0x%08x\",\"last_defect61\":\"0x%08x\","
+           "\"final_x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"final_off58\":\"0x%08x\",\"final_off59\":\"0x%08x\","
+           "\"final_tail_defects\":[\"0x%08x\",\"0x%08x\",\"0x%08x\",\"0x%08x\","
+           "\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"final_hw60_61\":[%d,%d]}\n",
+           cand->id, idx,
+           start_x[0], start_x[1], start_x[2],
+           (uint32_t)start_vec, (uint32_t)(start_vec >> 32),
+           hw32((uint32_t)start_vec), hw32((uint32_t)(start_vec >> 32)),
+           ok, iters, last_rank,
+           (uint32_t)last_vec, (uint32_t)(last_vec >> 32),
+           x[0], x[1], x[2], off58, off59,
+           final_defects[0], final_defects[1], final_defects[2],
+           final_defects[3], final_defects[4], final_defects[5],
+           final_defects[6],
+           hw32(final_defects[3]), hw32(final_defects[4]));
+}
+
 static void defect_hill_fixed57_candidate(int idx, uint32_t fixed_w57,
                                           int trials, int threads, int max_passes) {
     int n_cands = (int)(sizeof(CANDIDATES) / sizeof(CANDIDATES[0]));
@@ -1786,6 +2562,126 @@ static void defect_hill_fixed57_candidate(int idx, uint32_t fixed_w57,
            best_exact_d61, best_exact_d61_hw,
            best_exact_x[0], best_exact_x[1], best_exact_x[2],
            total_evals);
+}
+
+static void newton61_fixed57_candidate(int idx, uint32_t fixed_w57,
+                                       int trials, int threads, int max_iters) {
+    int n_cands = (int)(sizeof(CANDIDATES) / sizeof(CANDIDATES[0]));
+    if (idx < 0 || idx >= n_cands) {
+        fprintf(stderr, "candidate index must be 0..%d.\n", n_cands - 1);
+        exit(2);
+    }
+    const candidate_t *cand = &CANDIDATES[idx];
+    sha256_precomp_t p1, p2;
+    if (!prepare_candidate(cand, &p1, &p2)) {
+        printf("{\"mode\":\"newton61fixed57\",\"candidate\":\"%s\",\"error\":\"not_cascade_eligible\"}\n",
+               cand->id);
+        return;
+    }
+
+    uint32_t off58 = compute_off58_for_w57(&p1, &p2, fixed_w57);
+    int successes = 0;
+    int rank_failures = 0;
+    int total_success_iters = 0;
+    int best_pair_hw = 99;
+    uint64_t best_vec = 0;
+    uint32_t best_x[3] = {fixed_w57, 0, 0};
+    uint32_t first_success_x[3] = {fixed_w57, 0, 0};
+    int first_success_iters = -1;
+
+    #pragma omp parallel num_threads(threads)
+    {
+        int tid = omp_get_thread_num();
+        uint64_t rng = 0x616161615eedf00dULL ^
+                       ((uint64_t)cand->m0 << 13) ^
+                       ((uint64_t)fixed_w57 << 3) ^
+                       (uint64_t)tid;
+        int local_successes = 0;
+        int local_rank_failures = 0;
+        int local_iters = 0;
+        int local_best_pair_hw = 99;
+        uint64_t local_best_vec = 0;
+        uint32_t local_best_x[3] = {fixed_w57, 0, 0};
+        uint32_t local_first_x[3] = {fixed_w57, 0, 0};
+        int local_first_iters = -1;
+
+        #pragma omp for schedule(dynamic, 4)
+        for (int i = 0; i < trials; i++) {
+            uint32_t x[3] = {fixed_w57, splitmix32(&rng), splitmix32(&rng)};
+            if (i < 8) {
+                static const uint32_t patterns[] = {
+                    0x00000000U, 0xffffffffU, 0x55555555U, 0xaaaaaaaaU,
+                    0x33333333U, 0xccccccccU, 0x0f0f0f0fU, 0xf0f0f0f0U
+                };
+                x[1] = patterns[(i + 3) & 7];
+                x[2] = patterns[(i + 5) & 7];
+            }
+
+            int iters = 0, last_rank = 0;
+            uint64_t last_vec = 0;
+            int ok = newton61_fixed57_once(&p1, &p2, x, max_iters,
+                                           &iters, &last_rank, &last_vec);
+            if (ok) {
+                local_successes++;
+                local_iters += iters;
+                if (local_first_iters < 0) {
+                    local_first_iters = iters;
+                    memcpy(local_first_x, x, sizeof(local_first_x));
+                }
+            } else {
+                if (last_rank < 64) local_rank_failures++;
+                int h = hw32((uint32_t)last_vec) + hw32((uint32_t)(last_vec >> 32));
+                if (h < local_best_pair_hw) {
+                    local_best_pair_hw = h;
+                    local_best_vec = last_vec;
+                    memcpy(local_best_x, x, sizeof(local_best_x));
+                }
+            }
+        }
+
+        #pragma omp critical
+        {
+            successes += local_successes;
+            rank_failures += local_rank_failures;
+            total_success_iters += local_iters;
+            if (local_best_pair_hw < best_pair_hw) {
+                best_pair_hw = local_best_pair_hw;
+                best_vec = local_best_vec;
+                memcpy(best_x, local_best_x, sizeof(best_x));
+            }
+            if (first_success_iters < 0 && local_first_iters >= 0) {
+                first_success_iters = local_first_iters;
+                memcpy(first_success_x, local_first_x, sizeof(first_success_x));
+            }
+        }
+    }
+
+    uint32_t first_off59 = 0;
+    if (first_success_iters >= 0) {
+        first_off59 = compute_off59_for_w57_w58(&p1, &p2,
+                                                first_success_x[0],
+                                                first_success_x[1], NULL);
+    }
+    printf("{\"mode\":\"newton61fixed57\",\"candidate\":\"%s\",\"idx\":%d,"
+           "\"fixed_w57\":\"0x%08x\",\"off58\":\"0x%08x\",\"off58_hw\":%d,"
+           "\"trials\":%d,\"max_iters\":%d,\"successes\":%d,"
+           "\"success_rate\":%.6f,\"avg_success_iters\":%.3f,"
+           "\"rank_failures\":%d,\"best_pair_hw\":%d,"
+           "\"best_defect60\":\"0x%08x\",\"best_defect61\":\"0x%08x\","
+           "\"best_x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"first_success_iters\":%d,"
+           "\"first_success_x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"first_success_off59\":\"0x%08x\"}\n",
+           cand->id, idx, fixed_w57, off58, hw32(off58),
+           trials, max_iters, successes,
+           trials ? (double)successes / (double)trials : 0.0,
+           successes ? (double)total_success_iters / (double)successes : 0.0,
+           rank_failures, best_pair_hw,
+           (uint32_t)best_vec, (uint32_t)(best_vec >> 32),
+           best_x[0], best_x[1], best_x[2],
+           first_success_iters,
+           first_success_x[0], first_success_x[1], first_success_x[2],
+           first_off59);
 }
 
 static uint64_t next_combination64(uint64_t x) {
@@ -2127,6 +3023,79 @@ static void newton_fixed58_candidate(int idx, uint32_t fixed_w57, uint32_t fixed
 }
 
 int main(int argc, char **argv) {
+    if (argc >= 2 && strcmp(argv[1], "newton61point") == 0) {
+        int idx = (argc >= 3) ? atoi(argv[2]) : 0;
+        uint32_t x[3] = {
+            (argc >= 4) ? (uint32_t)strtoul(argv[3], NULL, 0) : 0,
+            (argc >= 5) ? (uint32_t)strtoul(argv[4], NULL, 0) : 0,
+            (argc >= 6) ? (uint32_t)strtoul(argv[5], NULL, 0) : 0,
+        };
+        int max_iters = (argc >= 7) ? atoi(argv[6]) : 32;
+        sha256_init(32);
+        newton61_point(idx, x, max_iters);
+        return 0;
+    }
+
+    if (argc >= 2 && strcmp(argv[1], "tailhill57") == 0) {
+        int idx = (argc >= 3) ? atoi(argv[2]) : 0;
+        uint32_t fixed_w57 = (argc >= 4) ? (uint32_t)strtoul(argv[3], NULL, 0) : 0;
+        int trials = (argc >= 5) ? atoi(argv[4]) : 4096;
+        int threads = (argc >= 6) ? atoi(argv[5]) : 8;
+        int max_passes = (argc >= 7) ? atoi(argv[6]) : 64;
+        sha256_init(32);
+        tail_hill_fixed57_candidate(idx, fixed_w57, trials, threads, max_passes);
+        return 0;
+    }
+
+    if (argc >= 2 && strcmp(argv[1], "tailneighpoint") == 0) {
+        int idx = (argc >= 3) ? atoi(argv[2]) : 0;
+        uint32_t x[3] = {
+            (argc >= 4) ? (uint32_t)strtoul(argv[3], NULL, 0) : 0,
+            (argc >= 5) ? (uint32_t)strtoul(argv[4], NULL, 0) : 0,
+            (argc >= 6) ? (uint32_t)strtoul(argv[5], NULL, 0) : 0,
+        };
+        int max_k = (argc >= 7) ? atoi(argv[6]) : 5;
+        sha256_init(32);
+        tail_neighbor_point(idx, x, max_k);
+        return 0;
+    }
+
+    if (argc >= 2 && strcmp(argv[1], "kernel61neighpoint") == 0) {
+        int idx = (argc >= 3) ? atoi(argv[2]) : 0;
+        uint32_t x[3] = {
+            (argc >= 4) ? (uint32_t)strtoul(argv[3], NULL, 0) : 0,
+            (argc >= 5) ? (uint32_t)strtoul(argv[4], NULL, 0) : 0,
+            (argc >= 6) ? (uint32_t)strtoul(argv[5], NULL, 0) : 0,
+        };
+        int max_k = (argc >= 7) ? atoi(argv[6]) : 4;
+        sha256_init(32);
+        kernel61_neighbor_point(idx, x, max_k);
+        return 0;
+    }
+
+    if (argc >= 2 && strcmp(argv[1], "manifold61point") == 0) {
+        int idx = (argc >= 3) ? atoi(argv[2]) : 0;
+        uint32_t x[3] = {
+            (argc >= 4) ? (uint32_t)strtoul(argv[3], NULL, 0) : 0,
+            (argc >= 5) ? (uint32_t)strtoul(argv[4], NULL, 0) : 0,
+            (argc >= 6) ? (uint32_t)strtoul(argv[5], NULL, 0) : 0,
+        };
+        sha256_init(32);
+        manifold61_point(idx, x);
+        return 0;
+    }
+
+    if (argc >= 2 && strcmp(argv[1], "newton61fixed57") == 0) {
+        int idx = (argc >= 3) ? atoi(argv[2]) : 0;
+        uint32_t fixed_w57 = (argc >= 4) ? (uint32_t)strtoul(argv[3], NULL, 0) : 0;
+        int trials = (argc >= 5) ? atoi(argv[4]) : 2048;
+        int threads = (argc >= 6) ? atoi(argv[5]) : 8;
+        int max_iters = (argc >= 7) ? atoi(argv[6]) : 32;
+        sha256_init(32);
+        newton61_fixed57_candidate(idx, fixed_w57, trials, threads, max_iters);
+        return 0;
+    }
+
     if (argc >= 2 && strcmp(argv[1], "tailpoint") == 0) {
         int idx = (argc >= 3) ? atoi(argv[2]) : 0;
         uint32_t x[3] = {
