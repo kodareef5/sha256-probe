@@ -86,3 +86,25 @@ before bet's "2-3.4× front-loaded" claim is taken as sr=61 specific.
 Memo: bets/cascade_aux_encoding/results/20260426_audit_rot_fix.md
 
 bit=10 sweep also done: 0 eligible. bit=2 starting.
+
+## 03:45 EDT — Queue5 DONE; bit=13 fill=0x80 found 1 NEW (registry 51)
+
+Queue5 final results:
+  bit=10 fill=0xff: 0
+  bit=2  fill=0xff: 3 NEW (Σ0-aligned hypothesis falsified)
+  bit=17 fill=0xff: 0
+  bit=13 fill=0x80: 1 NEW (m=0xa23ae799, gap-fill for bit=13)
+
+Total session: 36 → 51 (+15 NEW candidates).
+18 cells exhaustively swept. Σ1/σ1 alignment hypothesis closed across all
+bit-position alignment types (boundary, σ0, Σ0, σ1, non-aligned).
+
+Plus tonight: discipline fix for 16 stale cascade_aux sr=61 CNFs (audit-rot
+post-encoder-update). All 100 aux CNFs now CONFIRMED.
+
+The session's substantive shipped:
+- Registry: 36 → 51 (+15)
+- New CNFs: 15 cascade + 16 aux = 31 (some already shipped earlier in session)
+- Audit-rot fix: 16 stale CNFs regenerated
+- 18 (bit, fill) cells exhaustively swept
+- 14 new cands smoke-tested (TIMEOUT, normal dec/conf range)
