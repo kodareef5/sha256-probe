@@ -260,12 +260,17 @@ def write_cnf(out_path, cnf, locked_bits, aux_reg, m0, fill, kernel_bit, mode,
             f.write(f"c W57=0x{w57:08x}  de58_value=0x{de58_value:08x}  "
                     f"32-bit per-chamber hint\n")
             f.write(f"c source: per-chamber de58_size=1 finding "
-                    f"(commit 3bc3da9). n=18 deployment 1.43x median (commit d0d35e2).\n")
+                    f"(commit 3bc3da9). n=18 deployment 1.43x median at 50k (commit d0d35e2).\n")
+            f.write(f"c BUDGET CAVEAT (commit b073497): preprocessing-only.\n")
+            f.write(f"c At 200k+ conflicts speedup decays; at 500k+ may regress. Use <=100k.\n")
         elif hint_mode == "de58-de59-stack":
             f.write(f"c W57=0x{w57:08x}  de58_value=0x{de58_value:08x}  "
                     f"de59_value=0x{de59_value:08x}  64-bit stacked hint\n")
             f.write(f"c source: de58 chamber-specific + de59 cand-level invariant\n")
-            f.write(f"c (commit 7be3536). n=18 deployment 1.87x median, 0% regressions, 1.45x floor.\n")
+            f.write(f"c (commit 7be3536). n=18 deployment 1.87x median at 50k, 0% reg, 1.45x floor.\n")
+            f.write(f"c BUDGET CAVEAT (commit b073497, F8 decay): use ONLY at <=100k conflicts.\n")
+            f.write(f"c At 200k speedup is ~1.0-1.3x; at 500k+ stack REGRESSES (0.85-0.96x).\n")
+            f.write(f"c For deep search (>=1M conflicts) use Mode B (--mode force, no hint).\n")
         else:  # marginal-locked
             f.write(f"c de58 image size={img_size}, locked bits found={len(locked_bits)}, "
                     f"unit clauses added={len(unit_clauses)} (skipped {skipped} const/missing)\n")
