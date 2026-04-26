@@ -720,3 +720,29 @@ de58_size; DON'T encode full image as Tseitin disjunction (worse).
 
 This makes the locked-bit-hint discovery actually usable. Future
 workers can deploy via single command from any registered cand.
+
+## 15:35 EDT — locked-bit-hint encoder fingerprint registered + Mode A wall predictor
+
+Pushed dd48690 (budget sweep: 50k is sweet spot, regressions are budget-invariant)
+and c110556 (THE central finding: Mode A 50k base wall predicts locked-bit-hint
+speedup at ρ=+0.792, n=18).
+
+The cascade_aux Mode A 50k wall is now established as a UNIFIED ranking
+function across THREE preprocessing interventions:
+  Mode B (force):    ρ=+0.976
+  Locked-bit hints:  ρ=+0.792
+  Combined:          (untested, likely small marginal)
+
+Deployment rule: hints when base > 2.7s (expected 1.3-1.6×), skip when < 2.3s.
+
+Hour-end ship: registered locked-bit-hint encoder fingerprint in
+infra/cnf_fingerprints.yaml. CNFs named `aux_<mode>_sr61_*_lbh.cnf` audit
+CONFIRMED via existing cascade_aux fingerprint range (vars/clauses tested
+across n=18 fall within 13360-14000 / 55400-56500). Wrapper docstring
+updated with naming convention. Future workers can deploy via:
+
+  python3 headline_hunt/bets/cascade_aux_encoding/encoders/locked_bit_hint_wrapper.py \
+    --cand-id <cand_n32_...> --mode expose \
+    --out cnfs/aux_expose_sr61_n32_..._lbh.cnf
+
+CNF will audit CONFIRMED automatically.

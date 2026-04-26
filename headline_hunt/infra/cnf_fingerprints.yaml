@@ -118,7 +118,14 @@
   observed_vars: [12816, 13900]    # before / after modular-diff aux
   observed_clauses: [53698, 55834]
   example_file: "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_expose_sr61_n32_bit31_m17149975_fillffffffff.cnf"
-  last_audited: "2026-04-25"
+  last_audited: "2026-04-26"
+  notes: |
+    2026-04-26: locked-bit-hint wrapper output (locked_bit_hint_wrapper.py)
+    SHARES this fingerprint range. Naming convention:
+    aux_expose_sr61_n32_bit<B>_m<M0>_fill<FILL>_lbh.cnf
+    Adds 6-13 unit clauses on aux_reg[("e",58)] vs base. n=18 LBH-augmented
+    CNFs measured: vars [13463, 13536], clauses [55891, 56218] — within
+    range. Audits CONFIRMED with current pattern.
 
 - bucket_id: sr61_n32_cascade_aux_force
   sr_level: 61
@@ -130,7 +137,10 @@
   observed_vars: [12816, 13900]
   observed_clauses: [53698, 55834]
   example_file: "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr61_n32_bit31_m17149975_fillffffffff.cnf"
-  last_audited: "2026-04-25"
+  last_audited: "2026-04-26"
+  notes: |
+    2026-04-26: locked-bit-hint wrapper output (Mode B + hints) shares this
+    fingerprint range when named aux_force_sr61_*_lbh.cnf. n=18 verified.
 
 # sr=59 cascade-aux: 5 free rounds (57-61). Smaller search space than sr=60.
 # Viragh's published 2026 collision is at sr=59, so SAT-finding here serves as

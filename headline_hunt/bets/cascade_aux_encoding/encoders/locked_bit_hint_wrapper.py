@@ -17,6 +17,15 @@ Usage:
 Or from registry:
   python3 locked_bit_hint_wrapper.py --cand-id <cand_n32_...> --mode expose --out OUT.cnf
 
+NAMING CONVENTION (for audit_cnf.py compatibility):
+  Use filename `aux_<mode>_sr61_n32_bit<B>_m<M0>_fill<FILL>_lbh.cnf`
+  - The `aux_<mode>_sr61_*` prefix matches existing cascade_aux audit pattern
+  - The `_lbh` suffix denotes "locked-bit hints"
+  - Output CNFs share the cascade_aux_<mode> fingerprint range
+    (vars ~13360-14000, clauses ~55400-56500)
+  Example:
+    aux_expose_sr61_n32_bit19_m51ca0b34_fill55555555_lbh.cnf
+
 Behavior:
   - Computes de58 image marginals (1M-sample image).
   - Identifies fully-locked bits (marginal exactly 0 or 1).
