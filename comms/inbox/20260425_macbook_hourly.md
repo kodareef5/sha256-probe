@@ -1297,3 +1297,28 @@ Significance: registered 36-candidate pool may be CLOSE TO COMPLETE for
 cascade-DP at N=32. bit-position structure is empirically grounded.
 
 CLAIMS.md updated with new EVIDENCE-level entry.
+
+## 1:00 EDT (Apr 26) — Σ1/σ1 hypothesis FALSIFIED at bit=18: 2 NEW candidates
+
+bit=18 sweep at (0,9) fill=0xffffffff, full 2^32 m0:
+  ELIGIBLE: m=0x99bf552b (hw56=127, de58=130086, hardlock_bits=1)
+  ELIGIBLE: m=0xcbe11dc1 (hw56=146, de58=102922, hardlock_bits=9)
+  FINAL: 2 eligible total
+  HYPOTHESIS FALSIFIED: bit=18 (σ0-aligned, predicted 0) → 2 eligible
+
+REGISTRY EXPANDED 36 → 38 candidates. Both new cands have CNFs
+(cnfs_n32/sr61_cascade_m99bf552b_fffffffff_bit18.cnf, _mcbe11dc1_*).
+New kernel entry kernel_0_9_bit18 added.
+
+Implications:
+- σ0-alignment is NOT a structural blocker; bit=18 has ~2-per-2^32
+  rate same as bit=31.
+- The 9 covered bits {0,6,10,11,13,17,19,25,31} were a CURATION
+  ARTIFACT, not a structural ceiling.
+- Future candidate-base expansion: exhaustive sweeps at additional
+  (bit, fill) cells. ~12 min/cell on M5; ~92 cells uncovered.
+
+bit=22 (Σ0-aligned) sweep continues. Final test.
+
+CLAIMS.md, kernels.yaml, candidates.yaml all updated.
+Full memo: registry/notes/20260426_alignment_hypothesis_falsified.md
