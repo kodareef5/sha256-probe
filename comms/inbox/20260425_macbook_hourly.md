@@ -1279,3 +1279,21 @@ EXHAUSTIVE for this (bit, fill) cell. No new candidates discoverable here.
 Throughput on M5: ~12 min wall for full 2^32 with 10-thread OMP.
 
 Now sweeping bit=7 (σ0-aligned, hypothesis predicts 0 eligible). ETA ~12 min.
+
+## 0:50 EDT (Apr 26) — bit=7 sweep COMPLETE: 0 eligible at σ0-aligned bit (HYPOTHESIS HOLDS)
+
+Full 2^32 m0 sweep at (0,9) bit=7 fill=0xffffffff: 0 cascade-eligible.
+
+Combined with bit=31 result (2 eligible, both registered):
+  bit=31 (boundary):  2 eligible / 2^32  (rate 2^-31)
+  bit=7  (σ0-aligned): 0 eligible / 2^32  (rate < 2^-32)
+
+Σ1/σ1 alignment hypothesis HOLDS at σ0-aligned bit=7.
+
+Queued: bit=18 (σ0-aligned, predicted 0) and bit=22 (Σ0-aligned, predicted 0)
+running sequentially. Total ~24 min more wall.
+
+Significance: registered 36-candidate pool may be CLOSE TO COMPLETE for
+cascade-DP at N=32. bit-position structure is empirically grounded.
+
+CLAIMS.md updated with new EVIDENCE-level entry.
