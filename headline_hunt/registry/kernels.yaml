@@ -137,6 +137,26 @@
   owner: macbook
   notes: "First time tested. Non-aligned bit (not in any rotation amount set). 1 of 2^32 eligible at fill=0xff."
 
+- id: kernel_0_9_bit28
+  name: "bit-28 kernel at word-pair (0,9) — non-aligned (NEW 2026-04-26)"
+  n_scope: [32]
+  word_pair: [0, 9]
+  bit: 28
+  diff_hex: "0x10000000"
+  scan_coverage:
+    fills: ["0xffffffff"]
+    m0_range: "exhaustive 2^32 at fill=0xff"
+    complete: true
+    n32_random_scan: "fill=0xff: 4 eligible (m=0xd1acca79, 0xbcc2e089, 0x3e57289c, 0x5ac592ed)"
+  candidates_found: 4
+  best_results_by_n: {n32: "4 candidates at fill=0xff (highest single-cell yield this session)"}
+  sr61_partial:
+    n32_true_sr61: {status: untested, candidates: 4, cpu_hours: 0}
+  status: open
+  last_updated: "2026-04-26"
+  owner: macbook
+  notes: "First time tested. Non-aligned bit. 4 of 2^32 eligible at fill=0xff (queue10) — highest single-cell yield. m=0xd1acca79 has de58_size=2048 + hl_bits=15 (compressed AND constrained outlier)."
+
 - id: kernel_0_9_bit26
   name: "bit-26 kernel at word-pair (0,9) — non-aligned (NEW 2026-04-26)"
   n_scope: [32]
