@@ -73,10 +73,45 @@ tested tonight.
   19, 25, 31} concentrate at Σ1 + σ1 rotation amounts. Falsifier C tool
   built and running (sweeps bit=31 known-good then bit=7 σ0-aligned).
 
-## Active background jobs (as of 2026-04-26 00:25)
+## Active background jobs (as of 2026-04-26 02:35)
 
-- cascade_eligibility_sweep: 2^32 m0 sweep at bit=31 then bit=7. ETA ~1
-  hr wall on M5 (10 threads). Validates Σ1/σ1 alignment hypothesis.
+- queue4 sweeps: bit=19, bit=11, bit=25 each at fill=0xff. ETA ~36 min wall.
+  Could add ~6 more candidates to registry.
+
+## Late-session candidate-base expansion (2026-04-26 ~00:30 - 02:35)
+
+- Σ1/σ1 alignment hypothesis: FALSIFIED at σ0-aligned (bit=18, bit=3) AND
+  non-aligned (bit=4). Cascade-eligibility rate ~2^-31 per random m at any
+  bit position. The covered-bit set was a CURATION ARTIFACT.
+- Registry expanded **36 → 45 candidates** (+9 NEW) via 9 exhaustive 2^32
+  m0 sweeps:
+  - bit=18 fill=0xff: 2 (m99bf552b, mcbe11dc1)
+  - bit=18 fill=0x00: 3 (m347b0144, meed512bc, mafaaaf9e)
+  - bit=18 fill=0x55: 0 (heterogeneous fill effect)
+  - bit=3 fill=0xff: 2 (m33ec77ca, m5fa301aa)
+  - bit=3 fill=0x00: 0
+  - bit=3 fill=0x55: 0
+  - bit=22 fill=0xff: 0
+  - bit=7 fill=0xff: 0 (Poisson lower tail at baseline)
+  - bit=4 fill=0xff: 2 (m39a03c2d image=2^11, mD41b678d)
+  - bit=31 fill=0xff: 2 (already registered, sanity check OK)
+- 28 cascade_aux variants generated for the 7 new cands (4 modes × 2 sr-levels),
+  all 28 audit CONFIRMED.
+- Two new structural extremes:
+  - m=0x99bf552b: hardlock=1, image=130086 (most-spread; opposite of bit-19)
+  - m=0x39a03c2d: image=2^11 (2nd-most-compressed; bit-19 has 2^8)
+- Smoke-tested all 7 new cands at 1M kissat: TIMEOUT, dec/conf 4.81-5.23 —
+  same range as original 36. Predictor closure verdict holds at expanded registry.
+- 10M kissat on m=0x39a03c2d: TIMEOUT 314s, dec/conf 3.39 — same as msb_surp.
+  2nd-most-compressed cand has NO solver advantage.
+
+Sweep coverage tracker: `headline_hunt/registry/notes/sweep_coverage.md`.
+Hypothesis falsification memo: `headline_hunt/registry/notes/20260426_alignment_hypothesis_falsified.md`.
+Candidate-base expansion strategy: `headline_hunt/registry/notes/20260426_candidate_base_expansion.md`.
+
+## Earlier-session background jobs (now completed)
+
+- cascade_eligibility_sweep at multiple cells: completed 2026-04-26 02:30.
 
 ## Bet portfolio status
 
