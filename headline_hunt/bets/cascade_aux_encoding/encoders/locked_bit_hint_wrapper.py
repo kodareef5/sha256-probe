@@ -15,11 +15,18 @@ optionally de59) unit clauses on aux_reg. Three hint variants:
     all 32 de58 bits as unit clauses. Median speedup 1.43x at 50k
     (n=18, commit d0d35e2), 0% regression rate, 1.05x floor.
 
-  --hint-mode de58-de59-stack (the 64-bit stacked variant; STRONGEST):
+  --hint-mode de58-de59-stack (the 64-bit stacked variant; STRONGEST AT 50k):
     User supplies a W57. Inject 32 de58 bits (chamber) + 32 de59 bits
     (cand-level invariant; same value across all W57s). Median speedup
     1.87x at 50k (n=18, commit 7be3536), 0% regression rate, 1.45x
-    floor. Recommended default for new sr=61 cascade_aux runs.
+    floor.
+
+    BUDGET-DEPENDENT CAVEAT (commit pending, F8 finding):
+      ≤100k:   1.5-2.5x speedup (USE THIS)
+      ~200k:   1.0-1.3x speedup (modest)
+      ≥500k:   0.88-0.97x — REGRESSION; do NOT use, use Mode B instead.
+    The stack is preprocessing-only. For deep search (1M+ conflicts)
+    use Mode B (--mode force, no hint).
 
 Usage (marginal-locked, default):
   python3 locked_bit_hint_wrapper.py --m0 0xMMM --fill 0xFFF --bit B \\
