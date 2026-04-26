@@ -24,9 +24,11 @@ Each cell = one (bit, fill) combination. Exhaustive 2^32 m0 sweep ≈ 12 min wal
 | 22       | 0 ✓  |      |      |      |      |  0          |
 | 25       | 2 ✓  |      |      |      |      |  2 (NEW) + curated 1 |
 | 31       | 2 ✓  |      |      |      |      |  curated 6  |
-| OTHER (1,2,5,8,9,12,14,15,16,20,21,23,24,26,27,28,29,30) | | | | | | unknown |
+|  8       | 0 ✓  |      |      |      |      |  0          |
+| 14       | 3 ✓  |      |      |      |      |  3 (NEW)    |
+| OTHER (9,12,15,16,20,21,23,24,26,27,28,29,30) | | | | | | unknown |
 
-**Cells exhaustively swept** (14 as of 2026-04-26 03:00):
+**Cells exhaustively swept** (22 as of 2026-04-26 04:00):
   bit=31 fill=0xff (2),  bit=22 fill=0xff (0),
   bit=18 fill=0xff (2),  bit=18 fill=0x00 (3),  bit=18 fill=0x55 (0),
   bit=7  fill=0xff (0),
@@ -34,11 +36,14 @@ Each cell = one (bit, fill) combination. Exhaustive 2^32 m0 sweep ≈ 12 min wal
   bit=4  fill=0xff (2),
   bit=19 fill=0xff (0),
   bit=11 fill=0xff (0),
-  bit=25 fill=0xff (2).
+  bit=25 fill=0xff (2),
+  bit=10 fill=0xff (0),  bit=2 fill=0xff (3),  bit=17 fill=0xff (0),  bit=13 fill=0x80 (1),
+  bit=1  fill=0xff (1),  bit=5 fill=0xff (0),  bit=8 fill=0xff (0),  bit=14 fill=0xff (3).
 
 **Currently running**: none.
-**Total NEW candidates discovered via sweep this session**: **11** (bit=18×5,
-bit=3×2, bit=4×2, bit=25×2). Registry expanded **36 → 47** (+31% growth).
+**Total NEW candidates discovered via sweep this session**: **19** (bit=18×5,
+bit=3×2, bit=4×2, bit=25×2, bit=2×3, bit=13×1, bit=1×1, bit=14×3).
+Registry expanded **36 → 55** (+53% growth).
 
 ## Per-cell statistics
 
@@ -63,8 +68,10 @@ bit=3×2, bit=4×2, bit=25×2). Registry expanded **36 → 47** (+31% growth).
 | bit=13 fill=0x80       | 2^32   | 1        | 0.50 |
 | bit=1  fill=0xff       | 2^32   | 1        | 0.50 |
 | bit=5  fill=0xff       | 2^32   | 0        | 0.00 |
+| bit=8  fill=0xff       | 2^32   | 0        | 0.00 |
+| bit=14 fill=0xff       | 2^32   | 3        | 1.50 |
 
-**Average**: 9 eligible / 7 cells = 1.29 per cell. Expected at uniform 2^-31
+**Average**: 19 eligible / 22 cells = 0.86 per cell. Expected at uniform 2^-31
 baseline = 2 per cell. Observed slightly LOWER, but consistent with Poisson(2)
 variance which has 14% chance of 0 per cell.
 
