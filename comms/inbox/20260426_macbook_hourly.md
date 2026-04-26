@@ -117,3 +117,71 @@ Expected ~4 new cands at Poisson(1.0) rate. Substantive forward motion.
 Session running total (post-queue6 fully populates if it finds ~4):
   Registry: 36 → 51+ (likely 55+)
   Cells swept: 18+ → 22
+
+## 04:00 EDT — Queue6 DONE; bit=14 fill=0xff found 3 NEW (registry 55)
+
+Queue6 (4 never-tested bits at fill=0xff) final tally:
+  bit=1  fill=0xff: 1 NEW (m=0x6fbc8d8e)
+  bit=5  fill=0xff: 0
+  bit=8  fill=0xff: 0
+  bit=14 fill=0xff: 3 NEW (m=0x67043cdd, 0xb5541a6e, 0x40fde4d2) ← strongest yield
+Total: +4 NEW from queue6.
+
+Session running totals (post-queue6):
+  Registry: 36 → **55** (+19, +53% growth)
+  Cells exhaustively swept: 22
+  All audits CONFIRMED. 0% audit failure rate maintained.
+
+Pattern: 4 first-time-tested non-aligned bits (1, 2, 8, 14) at fill=0xff:
+  bit=1  yield 1 (Poisson lower)
+  bit=2  yield 3 (high)
+  bit=8  yield 0 (Poisson lower)
+  bit=14 yield 3 (high)
+Bit=5 (non-aligned) and bits 7,10,11,17,19,22 (variously aligned) all
+yielded 0 at fill=0xff. **No correlation between rotation alignment and
+eligibility yield**, confirming Σ1/σ1-alignment-irrelevant for the
+hardlock_mask ≠ 2^kernel_bit case.
+
+Pushed `299f95d`. bit=14 is the productive surprise of queue6.
+
+## 04:15 EDT — M16-MITM forward enumerator VALIDATED at N=10
+
+While queue7 runs in background, validated `m16_mitm_forward.c` at N=10:
+- Compiled binary emits 2^30 records / 23.6 GB in ~37s on M5.
+- Independent Python validator (200 random samples, seed=42) checks:
+  da[57]=da[58]=da[59]=0 modular AND state matches record.
+- **200/200 PASS** — EVIDENCE-level validation.
+
+Until tonight m16_mitm_forward.c was source-only. Now it's a working
+ground-truth artifact. block2_wang bet's M16_MITM_FOUNDATION step 3
+complete; steps 4 (backward) + 5 (match) remain.
+
+Pushed `a021d1e`. M16_FORWARD_VALIDATED.md memo + validator.py committed.
+
+## 04:18 EDT — queue7 partial: bit=14 fill={0,55} both 0 eligible
+
+Queue7 partial (2/4 cells done):
+  bit=14 fill=0x00: 0 eligible
+  bit=14 fill=0x55: 0 eligible
+  bit=2  fill=0x00: running ~6%
+  bit=9  fill=0xff: queued
+
+bit=14 candidates clustered at fill=0xff; other fills produce 0. Pattern
+matches earlier observation: each (bit, fill) pair has its own
+eligibility character; same bit at different fill yields very different
+counts. This further reinforces the falsified Σ1/σ1 alignment hypothesis.
+
+Session running totals (post-this-turn):
+  Registry: 36 → **55** (+19)
+  Cells exhaustively swept: 24 (queue7 +2 done so far)
+  Substantive shipped: 5 commits this turn (registry, smoke-tests,
+    dashboard, distribution analysis, M16-MITM forward validation)
+
+## 04:20 EDT — Per-pulse summary
+
+Per-turn: 5 commits pushed. Concrete forward motion across:
+  - Registry expansion (queue6 finish: bit=14 +3 NEW)
+  - Discipline (4 smoke-tests via append_run.py)
+  - Visibility (dashboard refresh)
+  - Analytic (de58 image-size distribution memo)
+  - Implementation (M16-MITM forward enumerator validated)
