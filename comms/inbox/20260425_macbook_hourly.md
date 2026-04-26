@@ -1265,3 +1265,17 @@ DELETING that result and re-running with the fix.
 
 ALSO shipped: comms/inbox/20260425_macbook_session_digest.md — comprehensive
 end-of-session handoff for tomorrow.
+
+## 0:42 EDT (Apr 26) — bit=31 sweep COMPLETE: 2 eligible (both registered)
+
+Full 2^32 m0 sweep at (0,9) bit=31 fill=0xffffffff (post-bugfix):
+  ELIGIBLE: m=0xa22dc6c7 (registered: cand_n32_msb_ma22dc6c7_fillffffffff)
+  ELIGIBLE: m=0x17149975 (registered: cand_n32_msb_m17149975_fillffffffff, cert)
+  FINAL: 2 eligible at bit=31 fill=0xffffffff trials=2^32
+
+The TWO eligible m0 at fill=0xff are BOTH already registered. Registry is
+EXHAUSTIVE for this (bit, fill) cell. No new candidates discoverable here.
+
+Throughput on M5: ~12 min wall for full 2^32 with 10-thread OMP.
+
+Now sweeping bit=7 (σ0-aligned, hypothesis predicts 0 eligible). ETA ~12 min.
