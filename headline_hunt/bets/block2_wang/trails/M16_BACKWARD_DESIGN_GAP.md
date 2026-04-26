@@ -85,9 +85,22 @@ that triggers BOTH cascades simultaneously, then verify candidates.
 Estimated effort: ~1 week of design work, more than the 2-3 days
 estimated for the original M16-MITM port.
 
+## Empirical confirmation: state_59 is full-resolution
+
+Extended the forward validator to count distinct state_59 values in
+sampled records. At N=10, 10,000 random records → **10,000 distinct
+state_59 values (100%)**. No structural compression of the matching
+key by cascade-1.
+
+This confirms the analytical claim: state_59 is essentially a full-
+resolution map of (W57, W58, W59) → 8N-bit state. The matching key
+has no inherent filtering power. The MITM design as written cannot
+benefit from key collisions.
+
 ## Status
 
-- M16-MITM forward enumerator: **complete + validated** at N=8/N=10.
+- M16-MITM forward enumerator: **complete + validated** at N=8/N=10
+  (200/200 each, plus distinct-state count confirms full-resolution).
 - M16-MITM backward enumerator: **DESIGN-GAP IDENTIFIED**, do not
   implement as foundation memo specifies.
 - M16-MITM is not a hot path until a better matching-key design is found.

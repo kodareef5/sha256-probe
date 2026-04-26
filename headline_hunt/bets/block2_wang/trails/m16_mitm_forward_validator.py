@@ -157,6 +157,7 @@ def main():
         return v & MASK
 
     fails = 0
+    state_set = set()
     with open(args.fwd_file, "rb") as f:
         for idx in sample_idxs:
             f.seek(idx * rec_size)
@@ -197,8 +198,11 @@ def main():
                 fails += 1
                 print(f"  FAIL idx={idx}: state mismatch  rec={state_rec}  computed={s1}")
 
+            state_set.add(tuple(state_rec))
+
     n = len(sample_idxs)
     print(f"\nVerified {n - fails}/{n} sampled records.")
+    print(f"Distinct state_59 in sample: {len(state_set)}/{n} ({100*len(state_set)/n:.1f}%)")
     if fails == 0:
         print("ALL PASS — forward enumerator output validated.")
         return 0
