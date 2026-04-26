@@ -131,3 +131,58 @@ specific carry-preserving proposals when they're ready.
 
 Status: HW4 looks like the structural greedy-flip floor. Next move
 is operator change or cross-cand survey, not more of the same.
+
+## Addendum: 13:30 EDT — radius=64 + yale's cf9cd74 converge
+
+Two additional probes since the original 11-walk checkpoint:
+
+### Wider perturbation radius (M5)
+
+Re-ran the idx=0 HW4 base 1B walk at **max_flips=64** (double the
+default radius=32). Result:
+
+```text
+best_d61_hw    = 4 (no improvement)
+HW4 hits       : 55,644,835 (99.36% of exact-D60 hits)
+HW3-or-lower   : 0
+```
+
+Radius doubling does not escape the HW4 trap. **Same structural floor.**
+
+### Yale's kernel-rep + GPU chart scan (cf9cd74)
+
+Yale extended the search to:
+- **Kernel-rep enumeration**: searched the small affine kernel of the
+  linearized two-wall map for hidden HW3/HW2 representatives. Result:
+  **0 exact cap representatives** across cap-4 terrace, HW59 tail,
+  D61-HW2 shelf, and idx=0 HW4 point. The HW3/HW2 path is NOT hidden
+  in the linear kernel.
+- **GPU OpenCL off58 chart scan** on RTX 4070: bulk-discovered new
+  sparse off58 charts on idx=0/3/8. Walked the best ones at 100-250M
+  trials. Best frontier reached: HW7 D61 / HW71 tail — **none beat
+  HW4/HW59**.
+
+Yale's negative result is incisive: "off58 sparsity by itself is not
+the ranking function. The productive charts are selected by downstream
+carry geometry, not merely by the Hamming weight or small numeric
+value of off58."
+
+### Convergent evidence for HW4/HW59 floor
+
+Three independent attack vectors all bottom out at the same frontier:
+
+1. M5 raw 1B greedy-flip walks (×11): HW4 / HW59
+2. M5 radius=64 walks: HW4 (this addendum)
+3. Linux GPU sparse-off58 chart discovery + 100-250M walks: HW4-equiv
+4. Yale kernel-rep enumeration: 0 hidden HW3/HW2 reps in linear kernel
+
+This is **strong convergent evidence** that HW4 D61 / HW59 tail is the
+structural floor of the current operator family on idx 0/3/8 cands.
+
+To go below HW4 / HW59, the operator family must change:
+- Carry-aware proposal moves (preserve specific carry mask invariants)
+- Multi-candidate survey extending to cands 4-17
+- Trail-search style differential characteristic construction (not local)
+
+This is the natural pivot point. The greedy-flip + Newton-repair
+campaign has reached its information limit.
