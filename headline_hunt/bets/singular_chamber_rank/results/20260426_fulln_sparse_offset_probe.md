@@ -995,13 +995,35 @@ find a compensation that keeps the mixed chart while closing D60, or search for
 a different exact-D60 chart where the Ch-only image itself admits HW4/HW3.
 
 Cross-chamber pooled walks then showed that the low-D61 exact mechanism is
-portable across sparse-offset chambers, although idx 8 remains strongest:
+portable across sparse-offset chambers, although idx 8 remains strongest on
+checked tail. Later M5 walks improved idx 0's exact D61 frontier first to HW5,
+then to HW4:
 
 | candidate | sparse off58 | best exact D61 | best checked tail |
 |---:|---:|---:|---:|
 | idx 8 | `0x00010002` | HW5 | HW59 |
-| idx 0 | `0x00000021` | HW6 | HW67 |
+| idx 0 | `0x00000021` | HW4 | HW66 |
 | idx 3 | `0x00000802` | HW7 | HW72 |
+
+The idx 0 HW4 point is:
+
+```text
+W58 = 0x6ced4182
+W59 = 0x9af03606
+defect61 = 0x80110200 (HW 4)
+tail HW = 77
+```
+
+A 100M linux mixed-seed pool with `max_flips=64` included exact HW59/HW60/HW67
+and HW5 seeds plus non-exact cap-4 and low-D60/D61 terrace seeds. It did not
+improve the frontier: best D61 stayed HW5, best tail stayed HW59, and best
+changed D61 was HW7. Wider random-flip repair therefore does not currently
+bridge the mixed Sigma1/Ch/T2 terrace back to exact D60.
+
+A linux 1B follow-up from the idx 0 HW4 point did not find HW3, but it improved
+idx 0's checked tail to HW66. Residual-fiber enumeration around the HW4 point
+and the earlier terraces found no hidden low-HW exact representative inside the
+linear affine fibers.
 
 ## Kernel-linear one-bit targets
 

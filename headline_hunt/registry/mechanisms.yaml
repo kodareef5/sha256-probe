@@ -245,25 +245,26 @@
   - The current cascade proof establishes a 2^-32 barrier under apparent uniformity, not a formal lower bound on every local chamber.
   - For fixed W57, S(W58) = C + sigma1(W58 + off58) - sigma1(W58); reduced-N image can be far smaller than 2^N.
   - Iterative descent (linux ridge-repair/pooling + macbook M5 raw 1B-trial walks) drove the joint frontier from
-    defect61 HW10/tail HW76 down to defect61 HW5/tail HW59 at full N=32 on idx 8 (bit3_m33ec77ca_ff) via the sparse
-    off58=0x00010002 chamber.
-  - Cross-chamber pooled walks found exact D61 HW6 on idx0 and HW7 on idx3, so the low-D61 exact mechanism is not unique to idx8.
-  - HW5/HW6 are dense at 1B trials (millions of hits each); the prior HW7 'floor' was an under-search artifact.
+    defect61 HW10/tail HW76 down to defect61 HW4/tail HW59 at full N=32.
+  - Cross-candidate walks found exact D61 HW4 on idx0, HW5 on idx8, and HW7 on idx3, so the low-D61 exact mechanism is not unique to idx8.
+  - HW5/HW6 are dense at 1B trials (millions of hits each); the prior HW7 and HW5 'floors' were under-search artifacts.
   - Reduced-N exact fibers and full-N sparse-off58 steering show nonlinear carry chambers with fat preimages.
   - Exact defect60=0 synchronizes a,b,c,e at round 61, reducing required61 to dh+dCh and exposing a carry-repair wall.
   - Radius-6/radius-7 ridge enumeration finds low-D60 shelves with lower D61 than the exact frontier, including
     D60-HW7/D61-HW2 and HW5-local D60-HW7/D61-HW3 shelves.
   - Capped-D61 probing maps a stepped terrace: exact D60 at D61 HW5, D60 HW4 at D61 cap 4, and D60 HW7 at D61 cap 3/2.
   - Carry-coordinate comparison separates an exact-D60 Ch-only chart from a mixed Sigma1/Ch/T2 terrace chart.
+  - A 64-flip mixed-seed pool did not bridge the mixed terrace back to exact D60; it returned to the known HW5/HW59 exact basins.
+  - OpenCL GPU W57/off58 scanning is available; first scans show sparse off58 alone is not the ranking function.
   status: in_flight
   priority: 8
   expected_info_per_cpu_hour: very_high
   dependencies:
   - Existing cascade-eligible candidate registry.
-  - CPU C probes in bets/singular_chamber_rank/tools; GPU optional if a suitable parallel ridge kernel is built.
+  - CPU C probes in bets/singular_chamber_rank/tools; OpenCL GPU chart scanner available for W57/off58 bulk discovery.
   next_action: "Keep a Pareto frontier over exact D61 and checked tail while remapping round-61 in carry coordinates:
-    compensate mixed Sigma1/Ch/T2 terrace terms while closing D60, or find a different exact-D60 Ch chart whose image
-    admits HW4/HW3."
+    compensate mixed Sigma1/Ch/T2 terrace terms while closing D60, or identify productive exact-D60 charts whose image
+    admits HW3/HW2. Plain wider random-flip repair is now lower priority after the 64-flip mixed-seed null."
   kill_criteria:
   - All representative candidates plateau at the same defect61 floor across deep walks AND structural mapping fails to
     identify a carry-aware repair operator.
@@ -278,11 +279,16 @@
   - bets/singular_chamber_rank/results/20260426_fulln_sparse_offset_probe.md
   - bets/singular_chamber_rank/results/20260426_m5_1B_deep_descent.md
   - bets/singular_chamber_rank/results/20260426_m5_1B_from_HW5.md
+  - bets/singular_chamber_rank/results/20260426_m5_3cand_HW5_reproduces.md
+  - bets/singular_chamber_rank/results/20260426_HW4_D61_breakthrough.md
   - bets/singular_chamber_rank/results/20260426_cross_chamber_pool.md
+  - bets/singular_chamber_rank/results/20260426_linux_hw4_gpu_followup.md
   owner: linux_gpu_laptop
   last_updated: '2026-04-26'
   notes: "Joint linux_gpu_laptop + macbook bet. Linux shipped the original mathematical decomposition, bridge enumeration,
-    ridge analysis, and ridge-repair/pooling tooling; macbook M5 ran raw 1B-trial deep walks. Together: defect61 HW10 -> HW5,
-    tail HW76 -> HW59 verified at full N=32. Cross-chamber pooled walks reached idx0 HW6 and idx3 HW7. The exact surface is
-    carry-fractured; capped-D61 probing found a D60-HW4/D61-HW4 terrace with no exact-D60 neighbor through radius 7. Open:
-    mixed-chart compensation or a better exact-D60 Ch chart?"
+    ridge analysis, and ridge-repair/pooling tooling; macbook M5 ran raw 1B-trial deep walks. Together: defect61 HW10 -> HW4,
+    tail HW76 -> HW59 verified at full N=32. Cross-candidate walks reached idx0 HW4, idx8 HW5, and idx3 HW7. The exact
+    surface is carry-fractured; capped-D61 probing found a D60-HW4/D61-HW4 terrace with no exact-D60 neighbor through
+    radius 7, residual-fiber enumeration did not rescue it, and 64-flip mixed-seed repair still returned to known exact
+    basins. OpenCL GPU scans are working for W57/off58 chart discovery, but first tests show sparse off58 alone is not
+    enough. Open: mixed-chart compensation or a productive-chart predictor?"

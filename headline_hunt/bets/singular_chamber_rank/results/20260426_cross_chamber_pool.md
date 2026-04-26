@@ -57,6 +57,28 @@ defect61 = 0x60081002 (HW 5)
 tail HW = 74
 ```
 
+A later 100M mixed-seed pool raised the repair flip cap from 32 to 64 and
+included exact HW59/HW60/HW67/HW5 seeds plus non-exact cap-4 and low-D60/D61
+terrace seeds. It also did not improve either exact frontier:
+
+```text
+trials: 100,000,000
+max_flips: 64
+exact60 hits: 1,855,242
+changed exact60 hits: 37,585
+projection failures: 98,144,764
+
+best D61: HW5 (existing seed)
+best tail: HW59 (existing seed)
+best changed D61: HW7
+best changed tail: HW72
+```
+
+The wider jump budget mainly made repair harder. None of the mixed-chart
+terrace seeds crossed back to exact `D60=0` with a better D61 or tail, which
+supports treating the terrace as a different chart rather than merely a distant
+part of the same exact surface.
+
 ## idx 3: D61 HW7
 
 Seeds included the prior HW11 point, the original exact sr61 point, and a
@@ -94,7 +116,7 @@ tail HW = 72
 
 A 50M follow-up including both new points did not improve either frontier.
 
-## idx 0: D61 HW6
+## idx 0: D61 HW6, then M5 HW5
 
 Seeds included the prior HW11 point, the sparse-off59 HW17 point, and a
 changed exact HW14 basin.
@@ -131,6 +153,41 @@ tail HW = 67
 
 A 50M follow-up including both new points did not improve either frontier.
 
+Macbook then ran a 1B-trial single-candidate walk from an idx 0 HW8 base and
+found that idx 0 also reaches the exact D61 HW5 floor:
+
+```text
+W57 = 0x370fef5f
+W58 = 0x4c4dc123
+W59 = 0x9ad3f074
+
+defect60 = 0
+defect61 = 0x02081030 (HW 5)
+tail HW = 89
+```
+
+The same M5 memo reports an idx 0 checked-tail floor of HW64. Macbook later
+found exact D61 HW4 on idx 0:
+
+```text
+W58 = 0x6ced4182
+W59 = 0x9af03606
+defect61 = 0x80110200 (HW 4)
+tail HW = 77
+```
+
+A linux 1B follow-up from that HW4 point found no HW3, but improved idx0's
+checked-tail floor to HW66:
+
+```text
+W58 = 0x38fd0196
+W59 = 0x9372cea1
+tail HW = 66
+```
+
+These supersede the 50M pooled idx 0 frontier numerically, but not
+qualitatively: the D61 and tail optima remain distinct points.
+
 ## Interpretation
 
 The low-D61 exact phenomenon is not unique to idx 8:
@@ -138,13 +195,13 @@ The low-D61 exact phenomenon is not unique to idx 8:
 | candidate | sparse off58 | best exact D61 | best checked tail |
 |---:|---:|---:|---:|
 | idx 8 | `0x00010002` | HW5 | HW59 |
-| idx 0 | `0x00000021` | HW6 | HW67 |
+| idx 0 | `0x00000021` | HW4 | HW66 |
 | idx 3 | `0x00000802` | HW7 | HW72 |
 
 This strengthens the collision-difficulty-reduction picture: after sparse
 schedule-offset steering, multiple independent full-N chambers reach exact D60
-with D61 defects far below random 32-bit weight. The best chamber remains idx
-8, but the mechanism is now cross-chamber.
+with D61 defects far below random 32-bit weight. The former HW5 D61 floor is
+now broken on idx 0, while the best checked tail remains idx 8.
 
 The runs also sharpen the shape question. D61 and tail optimization are
 separate objectives: idx 8's tail HW59 point has D61 HW14, while its D61 HW5

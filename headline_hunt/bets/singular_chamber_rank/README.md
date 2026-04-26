@@ -151,7 +151,7 @@ Key result notes:
   return to the same exact-point attractor basin rather than moving freely on
   the surface; codimension-one kernel corrections exist linearly but require
   high-Hamming deltas that break the exact carry chamber. Greedy one-bit
-  repair can cross exact basins; the current frontier is round-61 defect HW5
+  repair can cross exact basins; the current frontier is round-61 defect HW4
   and a separate checked 57..63 tail HW59 basin. Bridge enumeration shows the
   new basins are connected by thin carry transitions with one-bit `defect60`
   ridges nearby, not by broad local exact sheets. Radius-6/7 ridge enumeration
@@ -161,17 +161,29 @@ Key result notes:
   expose a discrete terrace: exact D60 is available at D61 HW5, but D61 cap 4
   bottoms at D60 HW4/D61 HW4, and D61 cap 3/2 bottoms at D60 HW7. Radius-7
   enumeration around the HW4/HW4 terrace checked 704M neighbors with no exact
-  D60 point. A later M5 1B walk from the HW5 base found no D61 HW4/HW3, but
-  improved the checked tail frontier to HW67. Carry-coordinate comparison
+  D60 point. A later M5 1B walk from the HW5 base found exact D61 HW4 on idx0.
+  A linux 1B follow-up from that HW4 point found no HW3, but improved idx0's
+  checked tail to HW66. Carry-coordinate comparison
   shows exact HW5/HW67 basin moves are round-61 Ch-only, while the cap-4
   terrace activates Sigma1 and T2 terms that exact D60 repair tends to remove.
-  Cross-chamber pooled walks show the mechanism is not unique to idx8: idx0
-  reaches exact D61 HW6, idx3 reaches exact D61 HW7, and idx8 tail improves to
-  HW59.
+  Cross-candidate walks show the mechanism is not unique to idx8: idx0 reaches
+  exact D61 HW4, idx3 reaches exact D61 HW7, and idx8 tail improves to HW59.
+  A 64-flip mixed-seed pool and residual-fiber enumeration did not repair the
+  cap terrace back to exact D60 with a better D61 or tail. OpenCL GPU W57/off58
+  scans are working; first chart tests show sparse off58 alone is not the
+  ranking function.
 - `results/20260426_m5_1B_deep_descent.md`: macbook M5 1B-trial walk that
   verified the HW5 round-61 and tail-HW68 frontiers.
 - `results/20260426_m5_1B_from_HW5.md`: macbook M5 1B-trial walk from the HW5
   base; no D61 HW4/HW3 found, but checked tail improved to HW67.
+- `results/20260426_m5_3cand_HW5_reproduces.md`: macbook M5 cross-candidate
+  1B sweep; idx0 also reaches exact D61 HW5, while idx3 floors at HW6 in that
+  raw-walk batch.
+- `results/20260426_HW4_D61_breakthrough.md`: macbook M5 1B-trial walk from
+  the idx0 HW5 base; first exact D61 HW4 point at full N.
 - `results/20260426_cross_chamber_pool.md`: pooled exact-surface walks over
-  idx8/idx0/idx3; current best exact frontiers are idx8 HW5/tail-HW59, idx0
-  HW6/tail-HW67, and idx3 HW7/tail-HW72.
+  idx8/idx0/idx3; later updates put the current best exact/tail frontiers at
+  idx0 HW4/tail-HW66, idx8 HW5/tail-HW59, and idx3 HW7/tail-HW72.
+- `results/20260426_linux_hw4_gpu_followup.md`: linux verification and
+  follow-up after HW4, including no HW3 in a 1B HW4 walk, idx0 tail-HW66,
+  residual-fiber negative checks, and first OpenCL GPU chart scans.

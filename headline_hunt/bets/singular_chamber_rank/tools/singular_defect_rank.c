@@ -155,6 +155,8 @@ static inline int hw32(uint32_t x) {
     return __builtin_popcount(x);
 }
 
+static uint64_t next_combination64(uint64_t x);
+
 static inline uint32_t cascade1_offset(const uint32_t s1[8], const uint32_t s2[8]) {
     uint32_t dh = s1[7] - s2[7];
     uint32_t dSig1 = sha256_Sigma1(s1[4]) - sha256_Sigma1(s2[4]);
@@ -370,6 +372,41 @@ static int kernel_basis_columns32(const uint32_t *cols, int ncols,
         int inserted = 0;
         for (int b = 31; b >= 0 && v; b--) {
             if (((v >> b) & 1U) == 0) continue;
+            if (basis[b]) {
+                v ^= basis[b];
+                c ^= combo[b];
+            } else {
+                basis[b] = v;
+                combo[b] = c;
+                rank++;
+                inserted = 1;
+                break;
+            }
+        }
+        if (!inserted) {
+            kernel[kernel_dim++] = c;
+        }
+    }
+
+    if (rank_out) *rank_out = rank;
+    return kernel_dim;
+}
+
+static int kernel_basis_columns64(const uint64_t *cols, int ncols,
+                                  uint64_t *kernel, int *rank_out) {
+    uint64_t basis[64];
+    uint64_t combo[64];
+    memset(basis, 0, sizeof(basis));
+    memset(combo, 0, sizeof(combo));
+    int rank = 0;
+    int kernel_dim = 0;
+
+    for (int i = 0; i < ncols; i++) {
+        uint64_t v = cols[i];
+        uint64_t c = 1ULL << i;
+        int inserted = 0;
+        for (int b = 63; b >= 0 && v; b--) {
+            if (((v >> b) & 1ULL) == 0) continue;
             if (basis[b]) {
                 v ^= basis[b];
                 c ^= combo[b];
@@ -1119,6 +1156,85 @@ static void off58_hill_candidate(const candidate_t *cand, int trials, int thread
            "\"best_passes\":%d,\"evals\":%d}\n",
            cand->id, cand->m0, cand->fill, cand->bit, trials, max_passes,
            best_hw, best_off58, best_w57, best_passes, total_evals);
+}
+
+static void off58_neighborhood_candidate(int idx, uint32_t base_w57, int max_k) {
+    int n_cands = (int)(sizeof(CANDIDATES) / sizeof(CANDIDATES[0]));
+    if (idx < 0 || idx >= n_cands) {
+        fprintf(stderr, "candidate index must be 0..%d.\n", n_cands - 1);
+        exit(2);
+    }
+    if (max_k < 0) max_k = 0;
+    if (max_k > 8) max_k = 8;
+
+    const candidate_t *cand = &CANDIDATES[idx];
+    sha256_precomp_t p1, p2;
+    if (!prepare_candidate(cand, &p1, &p2)) {
+        printf("{\"mode\":\"off58neighbors\",\"candidate\":\"%s\",\"error\":\"not_cascade_eligible\"}\n",
+               cand->id);
+        return;
+    }
+
+    uint64_t checked = 0;
+    int hist[33];
+    uint32_t best_w57_by_hw[33];
+    uint32_t best_off58_by_hw[33];
+    uint32_t best_w57 = base_w57;
+    uint32_t best_off58 = compute_off58_for_w57(&p1, &p2, base_w57);
+    int best_hw = hw32(best_off58);
+    memset(hist, 0, sizeof(hist));
+    memset(best_w57_by_hw, 0, sizeof(best_w57_by_hw));
+    memset(best_off58_by_hw, 0, sizeof(best_off58_by_hw));
+    for (int h = 0; h <= 32; h++) best_off58_by_hw[h] = 0xffffffffU;
+
+    for (int k = 0; k <= max_k; k++) {
+        uint64_t combo = (k == 0) ? 0ULL : ((1ULL << k) - 1ULL);
+        while (1) {
+            uint32_t w57 = base_w57 ^ (uint32_t)combo;
+            uint32_t off58 = compute_off58_for_w57(&p1, &p2, w57);
+            int h = hw32(off58);
+            checked++;
+            hist[h]++;
+            if (h < best_hw || (h == best_hw && off58 < best_off58)) {
+                best_hw = h;
+                best_off58 = off58;
+                best_w57 = w57;
+            }
+            if (off58 < best_off58_by_hw[h]) {
+                best_off58_by_hw[h] = off58;
+                best_w57_by_hw[h] = w57;
+            }
+
+            if (k == 0) break;
+            uint64_t next = next_combination64(combo);
+            if (!next || next < combo || next >= (1ULL << 32)) break;
+            combo = next;
+        }
+    }
+
+    printf("{\"mode\":\"off58neighbors\",\"candidate\":\"%s\",\"idx\":%d,"
+           "\"base_w57\":\"0x%08x\",\"base_off58\":\"0x%08x\","
+           "\"base_off58_hw\":%d,\"max_k\":%d,\"checked\":%llu,"
+           "\"best_w57\":\"0x%08x\",\"best_off58\":\"0x%08x\","
+           "\"best_hw\":%d,\"hist\":[",
+           cand->id, idx, base_w57,
+           compute_off58_for_w57(&p1, &p2, base_w57),
+           hw32(compute_off58_for_w57(&p1, &p2, base_w57)),
+           max_k, (unsigned long long)checked,
+           best_w57, best_off58, best_hw);
+    for (int h = 0; h <= 32; h++) {
+        if (h) printf(",");
+        printf("%d", hist[h]);
+    }
+    printf("],\"best_by_hw\":[");
+    int printed = 0;
+    for (int h = 0; h <= 8; h++) {
+        if (best_off58_by_hw[h] == 0xffffffffU) continue;
+        if (printed++) printf(",");
+        printf("{\"hw\":%d,\"w57\":\"0x%08x\",\"off58\":\"0x%08x\"}",
+               h, best_w57_by_hw[h], best_off58_by_hw[h]);
+    }
+    printf("]}\n");
 }
 
 static void newton_fixed_w57_candidate(int idx, uint32_t fixed_w57,
@@ -3191,7 +3307,7 @@ static void surface61_greedy_walk_candidate(int idx, const uint32_t base_x[3],
         exit(2);
     }
     if (max_flips < 1) max_flips = 1;
-    if (max_flips > 32) max_flips = 32;
+    if (max_flips > 64) max_flips = 64;
 
     const candidate_t *cand = &CANDIDATES[idx];
     sha256_precomp_t p1, p2;
@@ -3755,7 +3871,7 @@ static void frontier61_pool_candidate(int idx, const uint32_t *seeds, int seed_c
         exit(2);
     }
     if (max_flips < 1) max_flips = 1;
-    if (max_flips > 32) max_flips = 32;
+    if (max_flips > 64) max_flips = 64;
 
     const candidate_t *cand = &CANDIDATES[idx];
     sha256_precomp_t p1, p2;
@@ -4449,7 +4565,7 @@ static void ridge61_walk_candidate(int idx, const uint32_t base_x[3],
         exit(2);
     }
     if (max_flips < 1) max_flips = 1;
-    if (max_flips > 32) max_flips = 32;
+    if (max_flips > 64) max_flips = 64;
     if (weight < 1) weight = 1;
 
     const candidate_t *cand = &CANDIDATES[idx];
@@ -4711,7 +4827,7 @@ static void capped61_walk_candidate(int idx, const uint32_t base_x[3],
         exit(2);
     }
     if (max_flips < 1) max_flips = 1;
-    if (max_flips > 32) max_flips = 32;
+    if (max_flips > 64) max_flips = 64;
     if (cap < 0) cap = 0;
     if (cap > 32) cap = 32;
 
@@ -5176,6 +5292,264 @@ static void pair61_residual_point(int idx, const uint32_t x[3], int cap) {
                             hw32((uint32_t)best_cap_delta) +
                             hw32((uint32_t)(best_cap_delta >> 32)),
                             0, best_cap_eval.tail_hw);
+        printf("}");
+    } else {
+        printf("null");
+    }
+    printf(",\"best_exact_cap\":");
+    if (have_best_exact_cap) {
+        printf("{\"linear_residual\":\"0x%08x\",\"delta\":\"0x%016llx\",\"delta_hw\":%d,\"point\":",
+               best_exact_cap_residual, (unsigned long long)best_exact_cap_delta,
+               hw32((uint32_t)best_exact_cap_delta) +
+               hw32((uint32_t)(best_exact_cap_delta >> 32)));
+        ridge61_print_point(best_exact_cap_x, &best_exact_cap_eval,
+                            best_exact_cap_eval.d60_hw * 64 + best_exact_cap_eval.d61_hw,
+                            hw32((uint32_t)best_exact_cap_delta) +
+                            hw32((uint32_t)(best_exact_cap_delta >> 32)),
+                            0, best_exact_cap_eval.tail_hw);
+        printf("}");
+    } else {
+        printf("null");
+    }
+    printf("}\n");
+}
+
+static void pair61_residual_fiber_point(int idx, const uint32_t x[3],
+                                        int cap, int max_kernel_dim) {
+    int n_cands = (int)(sizeof(CANDIDATES) / sizeof(CANDIDATES[0]));
+    if (idx < 0 || idx >= n_cands) {
+        fprintf(stderr, "candidate index must be 0..%d.\n", n_cands - 1);
+        exit(2);
+    }
+    if (cap < 0) cap = 0;
+    if (cap > 8) cap = 8;
+    if (max_kernel_dim < 0) max_kernel_dim = 0;
+    if (max_kernel_dim > 24) max_kernel_dim = 24;
+
+    const candidate_t *cand = &CANDIDATES[idx];
+    sha256_precomp_t p1, p2;
+    if (!prepare_candidate(cand, &p1, &p2)) {
+        printf("{\"mode\":\"pair61residualfiber\",\"candidate\":\"%s\",\"error\":\"not_cascade_eligible\"}\n",
+               cand->id);
+        return;
+    }
+
+    uint32_t cols60[64], cols61[64];
+    uint64_t cols_pair[64];
+    uint32_t d60 = 0, d61 = 0;
+    defect60_61_columns(&p1, &p2, x, &d60, &d61, cols60, cols61, cols_pair);
+
+    uint64_t kernel[64];
+    int rank_pair = 0;
+    int kernel_dim = kernel_basis_columns64(cols_pair, 64, kernel, &rank_pair);
+    int enum_dim = kernel_dim;
+    if (enum_dim > max_kernel_dim) enum_dim = max_kernel_dim;
+    uint64_t enum_count = (enum_dim >= 64) ? 0 : (1ULL << enum_dim);
+
+    int residual_count_by_hw[17];
+    int solvable_by_hw[17];
+    memset(residual_count_by_hw, 0, sizeof(residual_count_by_hw));
+    memset(solvable_by_hw, 0, sizeof(solvable_by_hw));
+
+    uint64_t linear_targets = 0;
+    uint64_t solvable_targets = 0;
+    uint64_t representatives = 0;
+    uint64_t exact60_representatives = 0;
+    uint64_t cap_representatives = 0;
+    uint64_t exact_cap_representatives = 0;
+
+    int have_best_actual = 0;
+    uint32_t best_actual_residual = 0;
+    uint64_t best_actual_delta = 0;
+    uint32_t best_actual_x[3] = {x[0], x[1], x[2]};
+    frontier61_eval_t best_actual_eval;
+    memset(&best_actual_eval, 0, sizeof(best_actual_eval));
+
+    int have_best_cap = 0;
+    uint32_t best_cap_residual = 0;
+    uint64_t best_cap_delta = 0;
+    uint32_t best_cap_x[3] = {x[0], x[1], x[2]};
+    frontier61_eval_t best_cap_eval;
+    memset(&best_cap_eval, 0, sizeof(best_cap_eval));
+
+    int have_best_exact = 0;
+    uint32_t best_exact_residual = 0;
+    uint64_t best_exact_delta = 0;
+    uint32_t best_exact_x[3] = {x[0], x[1], x[2]};
+    frontier61_eval_t best_exact_eval;
+    memset(&best_exact_eval, 0, sizeof(best_exact_eval));
+
+    int have_best_exact_cap = 0;
+    uint32_t best_exact_cap_residual = 0;
+    uint64_t best_exact_cap_delta = 0;
+    uint32_t best_exact_cap_x[3] = {x[0], x[1], x[2]};
+    frontier61_eval_t best_exact_cap_eval;
+    memset(&best_exact_cap_eval, 0, sizeof(best_exact_cap_eval));
+
+    for (int k = 0; k <= cap; k++) {
+        uint64_t combo = (k == 0) ? 0ULL : ((1ULL << k) - 1ULL);
+        while (1) {
+            uint32_t residual = (uint32_t)combo;
+            uint64_t target = ((uint64_t)(d61 ^ residual) << 32) | d60;
+            uint64_t particular = 0;
+            int rank = 0;
+            linear_targets++;
+            residual_count_by_hw[k]++;
+            int ok = solve_linear_columns64(target, cols_pair, 64,
+                                            &particular, &rank);
+            if (ok) {
+                solvable_targets++;
+                solvable_by_hw[k]++;
+                for (uint64_t sel = 0; sel < enum_count; sel++) {
+                    uint64_t delta = particular ^ combine_kernel_selection(sel, kernel);
+                    uint32_t y[3];
+                    frontier61_eval_t e;
+                    apply_delta58_59(x, delta, y);
+                    frontier61_eval_point(&p1, &p2, y, 1, &e);
+                    representatives++;
+
+                    if (e.d61_hw <= cap) cap_representatives++;
+                    if (e.defects[3] == 0) exact60_representatives++;
+                    if (e.defects[3] == 0 && e.d61_hw <= cap) {
+                        exact_cap_representatives++;
+                    }
+
+                    if (!have_best_actual ||
+                        capped61_eval_better(&e, &best_actual_eval, cap)) {
+                        have_best_actual = 1;
+                        best_actual_residual = residual;
+                        best_actual_delta = delta;
+                        memcpy(best_actual_x, y, sizeof(best_actual_x));
+                        best_actual_eval = e;
+                    }
+                    if (e.d61_hw <= cap &&
+                        (!have_best_cap ||
+                         capped61_eval_better(&e, &best_cap_eval, cap))) {
+                        have_best_cap = 1;
+                        best_cap_residual = residual;
+                        best_cap_delta = delta;
+                        memcpy(best_cap_x, y, sizeof(best_cap_x));
+                        best_cap_eval = e;
+                    }
+                    if (e.defects[3] == 0 &&
+                        (!have_best_exact ||
+                         e.d61_hw < best_exact_eval.d61_hw ||
+                         (e.d61_hw == best_exact_eval.d61_hw &&
+                          e.tail_hw < best_exact_eval.tail_hw))) {
+                        have_best_exact = 1;
+                        best_exact_residual = residual;
+                        best_exact_delta = delta;
+                        memcpy(best_exact_x, y, sizeof(best_exact_x));
+                        best_exact_eval = e;
+                    }
+                    if (e.defects[3] == 0 && e.d61_hw <= cap &&
+                        (!have_best_exact_cap ||
+                         e.d61_hw < best_exact_cap_eval.d61_hw ||
+                         (e.d61_hw == best_exact_cap_eval.d61_hw &&
+                          e.tail_hw < best_exact_cap_eval.tail_hw))) {
+                        have_best_exact_cap = 1;
+                        best_exact_cap_residual = residual;
+                        best_exact_cap_delta = delta;
+                        memcpy(best_exact_cap_x, y, sizeof(best_exact_cap_x));
+                        best_exact_cap_eval = e;
+                    }
+                }
+            }
+
+            if (k == 0) break;
+            uint64_t next = next_combination64(combo);
+            if (!next || next < combo || next >= (1ULL << 32)) break;
+            combo = next;
+        }
+    }
+
+    frontier61_eval_t base_eval;
+    frontier61_eval_point(&p1, &p2, x, 1, &base_eval);
+
+    printf("{\"mode\":\"pair61residualfiber\",\"candidate\":\"%s\",\"idx\":%d,"
+           "\"x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"cap\":%d,\"rank_pair\":%d,\"kernel_dim\":%d,"
+           "\"enum_dim\":%d,\"enum_count\":%llu,"
+           "\"base_d60\":\"0x%08x\",\"base_d60_hw\":%d,"
+           "\"base_d61\":\"0x%08x\",\"base_d61_hw\":%d,"
+           "\"linear_targets\":%llu,\"solvable_targets\":%llu,"
+           "\"representatives\":%llu,\"exact60_representatives\":%llu,"
+           "\"cap_representatives\":%llu,\"exact_cap_representatives\":%llu,"
+           "\"residual_count_by_hw\":[%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d],"
+           "\"solvable_by_hw\":[%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d],"
+           "\"base_point\":",
+           cand->id, idx, x[0], x[1], x[2],
+           cap, rank_pair, kernel_dim, enum_dim,
+           (unsigned long long)enum_count,
+           d60, hw32(d60), d61, hw32(d61),
+           (unsigned long long)linear_targets,
+           (unsigned long long)solvable_targets,
+           (unsigned long long)representatives,
+           (unsigned long long)exact60_representatives,
+           (unsigned long long)cap_representatives,
+           (unsigned long long)exact_cap_representatives,
+           residual_count_by_hw[0], residual_count_by_hw[1],
+           residual_count_by_hw[2], residual_count_by_hw[3],
+           residual_count_by_hw[4], residual_count_by_hw[5],
+           residual_count_by_hw[6], residual_count_by_hw[7],
+           residual_count_by_hw[8], residual_count_by_hw[9],
+           residual_count_by_hw[10], residual_count_by_hw[11],
+           residual_count_by_hw[12], residual_count_by_hw[13],
+           residual_count_by_hw[14], residual_count_by_hw[15],
+           residual_count_by_hw[16],
+           solvable_by_hw[0], solvable_by_hw[1],
+           solvable_by_hw[2], solvable_by_hw[3],
+           solvable_by_hw[4], solvable_by_hw[5],
+           solvable_by_hw[6], solvable_by_hw[7],
+           solvable_by_hw[8], solvable_by_hw[9],
+           solvable_by_hw[10], solvable_by_hw[11],
+           solvable_by_hw[12], solvable_by_hw[13],
+           solvable_by_hw[14], solvable_by_hw[15],
+           solvable_by_hw[16]);
+    ridge61_print_point(x, &base_eval,
+                        base_eval.d60_hw * 64 + base_eval.d61_hw,
+                        0, 0, base_eval.tail_hw);
+    printf(",\"best_actual\":");
+    if (have_best_actual) {
+        printf("{\"linear_residual\":\"0x%08x\",\"delta\":\"0x%016llx\",\"delta_hw\":%d,\"point\":",
+               best_actual_residual, (unsigned long long)best_actual_delta,
+               hw32((uint32_t)best_actual_delta) +
+               hw32((uint32_t)(best_actual_delta >> 32)));
+        ridge61_print_point(best_actual_x, &best_actual_eval,
+                            best_actual_eval.d60_hw * 64 + best_actual_eval.d61_hw,
+                            hw32((uint32_t)best_actual_delta) +
+                            hw32((uint32_t)(best_actual_delta >> 32)),
+                            0, best_actual_eval.tail_hw);
+        printf("}");
+    } else {
+        printf("null");
+    }
+    printf(",\"best_cap\":");
+    if (have_best_cap) {
+        printf("{\"linear_residual\":\"0x%08x\",\"delta\":\"0x%016llx\",\"delta_hw\":%d,\"point\":",
+               best_cap_residual, (unsigned long long)best_cap_delta,
+               hw32((uint32_t)best_cap_delta) +
+               hw32((uint32_t)(best_cap_delta >> 32)));
+        ridge61_print_point(best_cap_x, &best_cap_eval,
+                            best_cap_eval.d60_hw * 64 + best_cap_eval.d61_hw,
+                            hw32((uint32_t)best_cap_delta) +
+                            hw32((uint32_t)(best_cap_delta >> 32)),
+                            0, best_cap_eval.tail_hw);
+        printf("}");
+    } else {
+        printf("null");
+    }
+    printf(",\"best_exact\":");
+    if (have_best_exact) {
+        printf("{\"linear_residual\":\"0x%08x\",\"delta\":\"0x%016llx\",\"delta_hw\":%d,\"point\":",
+               best_exact_residual, (unsigned long long)best_exact_delta,
+               hw32((uint32_t)best_exact_delta) +
+               hw32((uint32_t)(best_exact_delta >> 32)));
+        ridge61_print_point(best_exact_x, &best_exact_eval,
+                            best_exact_eval.d60_hw * 64 + best_exact_eval.d61_hw,
+                            hw32((uint32_t)best_exact_delta) +
+                            hw32((uint32_t)(best_exact_delta >> 32)),
+                            0, best_exact_eval.tail_hw);
         printf("}");
     } else {
         printf("null");
@@ -6032,6 +6406,29 @@ int main(int argc, char **argv) {
         int cap = (argc >= 7) ? atoi(argv[6]) : 3;
         sha256_init(32);
         pair61_residual_point(idx, x, cap);
+        return 0;
+    }
+
+    if (argc >= 2 && strcmp(argv[1], "pair61residualfiber") == 0) {
+        int idx = (argc >= 3) ? atoi(argv[2]) : 0;
+        uint32_t x[3] = {
+            (argc >= 4) ? (uint32_t)strtoul(argv[3], NULL, 0) : 0,
+            (argc >= 5) ? (uint32_t)strtoul(argv[4], NULL, 0) : 0,
+            (argc >= 6) ? (uint32_t)strtoul(argv[5], NULL, 0) : 0,
+        };
+        int cap = (argc >= 7) ? atoi(argv[6]) : 4;
+        int max_kernel_dim = (argc >= 8) ? atoi(argv[7]) : 20;
+        sha256_init(32);
+        pair61_residual_fiber_point(idx, x, cap, max_kernel_dim);
+        return 0;
+    }
+
+    if (argc >= 2 && strcmp(argv[1], "off58neighbors") == 0) {
+        int idx = (argc >= 3) ? atoi(argv[2]) : 0;
+        uint32_t base_w57 = (argc >= 4) ? (uint32_t)strtoul(argv[3], NULL, 0) : 0;
+        int max_k = (argc >= 5) ? atoi(argv[4]) : 5;
+        sha256_init(32);
+        off58_neighborhood_candidate(idx, base_w57, max_k);
         return 0;
     }
 
