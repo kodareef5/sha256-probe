@@ -36,6 +36,7 @@
  *   /tmp/singular_defect_rank tailhill58 0 0x370fef5f 0x0e4363c9 4096 8 64
  *   /tmp/singular_defect_rank newton61point 0 0x370fef5f 0x0e4363c9 0xfe337af3 32
  *   /tmp/singular_defect_rank carryjump61point 0 0x370fef5f 0x0e4363c9 0xfe337af3
+ *   /tmp/singular_defect_rank surface61walk 8 0xaf07f044 0xe98d86d0 0xc778e588 65536 8 24 6
  *   /tmp/singular_defect_rank newton61fixed57 3 0xe28da599 2048 8 32
  *   /tmp/singular_defect_rank newtonfixed58 0 0x370fef5f 0x12345678 512 8 24
  *   /tmp/singular_defect_rank off59hill 0 0x370fef5f 512 8 32
@@ -2661,6 +2662,179 @@ static void tail_hill_fixed58_candidate(int idx, uint32_t fixed_w57, uint32_t fi
            total_evals);
 }
 
+static void surface61_walk_candidate(int idx, const uint32_t base_x[3],
+                                     int trials, int threads, int max_iters,
+                                     int max_flips) {
+    int n_cands = (int)(sizeof(CANDIDATES) / sizeof(CANDIDATES[0]));
+    if (idx < 0 || idx >= n_cands) {
+        fprintf(stderr, "candidate index must be 0..%d.\n", n_cands - 1);
+        exit(2);
+    }
+    if (max_flips < 1) max_flips = 1;
+    if (max_flips > 16) max_flips = 16;
+
+    const candidate_t *cand = &CANDIDATES[idx];
+    sha256_precomp_t p1, p2;
+    if (!prepare_candidate(cand, &p1, &p2)) {
+        printf("{\"mode\":\"surface61walk\",\"candidate\":\"%s\",\"error\":\"not_cascade_eligible\"}\n",
+               cand->id);
+        return;
+    }
+
+    uint32_t base_defects[7];
+    tail_defects_for_x(&p1, &p2, base_x, base_defects);
+    int best_d61_hw = (base_defects[3] == 0) ? hw32(base_defects[4]) : 99;
+    uint32_t best_x[3] = {base_x[0], base_x[1], base_x[2]};
+    uint32_t best_defects[7];
+    memcpy(best_defects, base_defects, sizeof(best_defects));
+    int best_iters = 0;
+    int exact60_hits = (base_defects[3] == 0) ? 1 : 0;
+    int exact61_hits = (base_defects[3] == 0 && base_defects[4] == 0) ? 1 : 0;
+    int projection_failures = 0;
+    int total_iters = 0;
+    int changed_exact60_hits = 0;
+    int max_exact_distance = 0;
+    int d61_hw_hist[33];
+    memset(d61_hw_hist, 0, sizeof(d61_hw_hist));
+    if (base_defects[3] == 0) d61_hw_hist[hw32(base_defects[4])]++;
+
+    #pragma omp parallel num_threads(threads)
+    {
+        int tid = omp_get_thread_num();
+        uint64_t rng = 0x7375726661636531ULL ^
+                       ((uint64_t)cand->m0 << 15) ^
+                       ((uint64_t)base_x[1] << 7) ^
+                       ((uint64_t)base_x[2] << 29) ^
+                       (uint64_t)tid;
+        int local_best_d61_hw = best_d61_hw;
+        uint32_t local_best_x[3] = {base_x[0], base_x[1], base_x[2]};
+        uint32_t local_best_defects[7];
+        memcpy(local_best_defects, base_defects, sizeof(local_best_defects));
+        int local_best_iters = 0;
+        int local_exact60_hits = 0;
+        int local_exact61_hits = 0;
+        int local_projection_failures = 0;
+        int local_total_iters = 0;
+        int local_changed_exact60_hits = 0;
+        int local_max_exact_distance = 0;
+        int local_d61_hw_hist[33];
+        memset(local_d61_hw_hist, 0, sizeof(local_d61_hw_hist));
+
+        #pragma omp for schedule(dynamic, 8)
+        for (int i = 0; i < trials; i++) {
+            uint32_t x[3];
+            if (local_best_d61_hw < 99 && (splitmix32(&rng) & 1U)) {
+                memcpy(x, local_best_x, sizeof(x));
+            } else {
+                memcpy(x, base_x, 3 * sizeof(uint32_t));
+            }
+
+            int flips = 1 + (int)(splitmix32(&rng) % (uint32_t)max_flips);
+            for (int f = 0; f < flips; f++) {
+                int bit = (int)(splitmix32(&rng) & 63U);
+                if (bit < 32) x[1] ^= 1U << bit;
+                else x[2] ^= 1U << (bit - 32);
+            }
+
+            int iters = 0, last_rank = 0;
+            uint32_t last_defect = 0;
+            int ok = defect_newton_once(&p1, &p2, x, max_iters,
+                                        &iters, &last_rank, &last_defect);
+            local_total_iters += iters;
+            if (!ok) {
+                local_projection_failures++;
+                continue;
+            }
+
+            uint32_t defects[7];
+            tail_defects_for_x(&p1, &p2, x, defects);
+            if (defects[3] != 0) {
+                local_projection_failures++;
+                continue;
+            }
+
+            local_exact60_hits++;
+            int d61_hw = hw32(defects[4]);
+            int exact_distance = hw32(x[1] ^ base_x[1]) + hw32(x[2] ^ base_x[2]);
+            if (exact_distance > 0) local_changed_exact60_hits++;
+            if (exact_distance > local_max_exact_distance) {
+                local_max_exact_distance = exact_distance;
+            }
+            local_d61_hw_hist[d61_hw]++;
+            if (defects[4] == 0) local_exact61_hits++;
+            if (d61_hw < local_best_d61_hw ||
+                (d61_hw == local_best_d61_hw && defects[4] < local_best_defects[4])) {
+                local_best_d61_hw = d61_hw;
+                memcpy(local_best_x, x, sizeof(local_best_x));
+                memcpy(local_best_defects, defects, sizeof(local_best_defects));
+                local_best_iters = iters;
+            }
+        }
+
+        #pragma omp critical
+        {
+            exact60_hits += local_exact60_hits;
+            exact61_hits += local_exact61_hits;
+            projection_failures += local_projection_failures;
+            total_iters += local_total_iters;
+            changed_exact60_hits += local_changed_exact60_hits;
+            if (local_max_exact_distance > max_exact_distance) {
+                max_exact_distance = local_max_exact_distance;
+            }
+            for (int h = 0; h <= 32; h++) {
+                d61_hw_hist[h] += local_d61_hw_hist[h];
+            }
+            if (local_best_d61_hw < best_d61_hw ||
+                (local_best_d61_hw == best_d61_hw &&
+                 local_best_defects[4] < best_defects[4])) {
+                best_d61_hw = local_best_d61_hw;
+                memcpy(best_x, local_best_x, sizeof(best_x));
+                memcpy(best_defects, local_best_defects, sizeof(best_defects));
+                best_iters = local_best_iters;
+            }
+        }
+    }
+
+    uint32_t off58 = 0;
+    uint32_t off59 = compute_off59_for_w57_w58(&p1, &p2, best_x[0], best_x[1], &off58);
+    printf("{\"mode\":\"surface61walk\",\"candidate\":\"%s\",\"idx\":%d,"
+           "\"base_x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"base_tail_defects\":[\"0x%08x\",\"0x%08x\",\"0x%08x\",\"0x%08x\","
+           "\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"trials\":%d,\"max_iters\":%d,\"max_flips\":%d,"
+           "\"exact60_hits\":%d,\"exact61_hits\":%d,"
+           "\"changed_exact60_hits\":%d,\"max_exact_distance\":%d,"
+           "\"projection_failures\":%d,\"avg_projection_iters\":%.3f,"
+           "\"d61_hw_hist\":[%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,"
+           "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d],"
+           "\"best_d61_hw\":%d,\"best_iters\":%d,"
+           "\"best_x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"best_off58\":\"0x%08x\",\"best_off59\":\"0x%08x\","
+           "\"best_tail_defects\":[\"0x%08x\",\"0x%08x\",\"0x%08x\",\"0x%08x\","
+           "\"0x%08x\",\"0x%08x\",\"0x%08x\"]}\n",
+           cand->id, idx,
+           base_x[0], base_x[1], base_x[2],
+           base_defects[0], base_defects[1], base_defects[2], base_defects[3],
+           base_defects[4], base_defects[5], base_defects[6],
+           trials, max_iters, max_flips, exact60_hits, exact61_hits,
+           changed_exact60_hits, max_exact_distance,
+           projection_failures,
+           trials ? (double)total_iters / (double)trials : 0.0,
+           d61_hw_hist[0], d61_hw_hist[1], d61_hw_hist[2], d61_hw_hist[3],
+           d61_hw_hist[4], d61_hw_hist[5], d61_hw_hist[6], d61_hw_hist[7],
+           d61_hw_hist[8], d61_hw_hist[9], d61_hw_hist[10], d61_hw_hist[11],
+           d61_hw_hist[12], d61_hw_hist[13], d61_hw_hist[14], d61_hw_hist[15],
+           d61_hw_hist[16], d61_hw_hist[17], d61_hw_hist[18], d61_hw_hist[19],
+           d61_hw_hist[20], d61_hw_hist[21], d61_hw_hist[22], d61_hw_hist[23],
+           d61_hw_hist[24], d61_hw_hist[25], d61_hw_hist[26], d61_hw_hist[27],
+           d61_hw_hist[28], d61_hw_hist[29], d61_hw_hist[30], d61_hw_hist[31],
+           d61_hw_hist[32],
+           best_d61_hw, best_iters,
+           best_x[0], best_x[1], best_x[2], off58, off59,
+           best_defects[0], best_defects[1], best_defects[2], best_defects[3],
+           best_defects[4], best_defects[5], best_defects[6]);
+}
+
 static int newton61_fixed57_once(const sha256_precomp_t *p1, const sha256_precomp_t *p2,
                                  uint32_t x[3], int max_iters, int *iters_out,
                                  int *last_rank_out, uint64_t *last_vec_out) {
@@ -3361,6 +3535,22 @@ static void newton_fixed58_candidate(int idx, uint32_t fixed_w57, uint32_t fixed
 }
 
 int main(int argc, char **argv) {
+    if (argc >= 2 && strcmp(argv[1], "surface61walk") == 0) {
+        int idx = (argc >= 3) ? atoi(argv[2]) : 0;
+        uint32_t x[3] = {
+            (argc >= 4) ? (uint32_t)strtoul(argv[3], NULL, 0) : 0,
+            (argc >= 5) ? (uint32_t)strtoul(argv[4], NULL, 0) : 0,
+            (argc >= 6) ? (uint32_t)strtoul(argv[5], NULL, 0) : 0,
+        };
+        int trials = (argc >= 7) ? atoi(argv[6]) : 65536;
+        int threads = (argc >= 8) ? atoi(argv[7]) : 8;
+        int max_iters = (argc >= 9) ? atoi(argv[8]) : 24;
+        int max_flips = (argc >= 10) ? atoi(argv[9]) : 6;
+        sha256_init(32);
+        surface61_walk_candidate(idx, x, trials, threads, max_iters, max_flips);
+        return 0;
+    }
+
     if (argc >= 2 && strcmp(argv[1], "tailhill58") == 0) {
         int idx = (argc >= 3) ? atoi(argv[2]) : 0;
         uint32_t fixed_w57 = (argc >= 4) ? (uint32_t)strtoul(argv[3], NULL, 0) : 0;

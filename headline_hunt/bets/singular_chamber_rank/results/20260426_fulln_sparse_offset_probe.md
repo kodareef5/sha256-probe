@@ -434,6 +434,50 @@ So sparse `off59` is useful but insufficient by itself. The exact `defect60`
 surface remains the gate; once crossed, round 61 is best viewed as a reduced
 carry equation constrained by synchronized state lanes.
 
+## Exact-surface projection walk
+
+To avoid high-Hamming two-wall Newton jumps, a surface walk was added:
+
+1. start from an exact `defect60=0` point,
+2. perturb `(W58,W59)` by a bounded number of bit flips,
+3. project back to `defect60=0` using the old one-wall Newton repair,
+4. score only the repaired point's `defect61`.
+
+This is a better question than random descent: can we walk the exact
+round-60 surface while preserving the synchronized lane geometry?
+
+The first answer is negative but informative. Around the HW11 idx 8 point,
+32,768 trials with up to 12 perturbation flips produced 1,493 exact
+`defect60=0` repairs, but every successful repair returned to the original
+point:
+
+```text
+idx 8 base: W58=0xe98d86d0, W59=0xc778e588
+defect61 = 0x015aa22a (HW 11)
+exact60 repairs = 1,493 / 32,768
+changed exact repairs = 0
+max exact distance from base = 0
+```
+
+The same pattern held for the other HW11 centers in smaller and larger
+passes: the one-wall Newton projection has strong local attractors. It is not
+currently a surface-walk operator.
+
+As a control, the sparse-`off59` idx 0 exact point at HW17 also projected
+back to its own HW17 basin:
+
+```text
+idx 0 base: W58=0x0e4363c9, W59=0xfe337af3
+defect61 = 0x3347fca2 (HW 17)
+exact60 repairs = 2,991 / 65,536
+d61 HW histogram: all 17
+```
+
+So the exact round-60 surface appears as separated Newton-attractor basins
+under these local perturb/project moves. To move between basins, the next
+operator likely has to preserve selected carry/lane invariants explicitly
+rather than relying on unconstrained defect60 Newton repair.
+
 ## Interpretation
 
 The full-N picture is now sharper:
