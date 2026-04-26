@@ -75,5 +75,31 @@ current_progress: |
   = 72 CNFs, all CONFIRMED. Bet remains characterized (Mode B 2-3.4× front-
   loaded preprocessing, not a path to cascade-DP SAT discovery).
 
-last_heartbeat: "2026-04-25T22:05:00Z"
+last_heartbeat: "2026-04-26T13:30:00Z"
 heartbeat_interval_days: 7
+recent_progress_2026-04-26: |
+  Predictor work shipped this session:
+  - n=16 × 3-seed kissat sr=61 50k: Mode A wall → Mode B speedup ρ=+0.976,
+    Mode A → saving ρ=+0.994. Multi-seed VERDICT memo.
+  - Held-out prospective validation on bit=26 m=0x11f9d4c7: predicted 1.54x
+    speedup, actual 1.55x — 0.8% error. Predictor generalizes.
+  - sr=60 generalization (n=5 × 3-seed): ρ(saving)=+1.000. Mode B converges
+    to ~0.94s at sr=60 vs ~1.20s at sr=61.
+  - cadical sr=61 generalization (n=5 × 3-seed): ρ(speedup)=+1.000,
+    ρ(saving)=+1.000. Mode B converges to ~1.24s under cadical (similar
+    to kissat ~1.20s); speedups 5.4-9.4× under cadical (vs 1.6-3.2× kissat).
+
+  Mechanism is solver-agnostic AND sr-level-invariant; only the converged
+  Mode B constant changes. Cross-solver predictor model:
+    sr=60: speedup ≈ A/0.94, saving ≈ A − 0.94
+    sr=61: speedup ≈ A/1.22, saving ≈ A − 1.22  (works for kissat AND cadical)
+
+  16 new aux CNFs generated this session (sr=60 + sr=61 for new cands), all
+  audit CONFIRMED. ~80 new logged runs across (kissat sr=61 multi-seed,
+  prospective bit=26, sr=60 cross-level, cadical cross-solver).
+
+  Memos:
+  - results/20260426_mode_b_predictor_3seed_VERDICT.md
+  - results/20260426_predictor_prospective_validation.md
+  - results/20260426_sr60_predictor_generalization.md
+  - results/20260426_cadical_predictor_generalization.md
