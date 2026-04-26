@@ -80,3 +80,35 @@ done
 EVIDENCE-level claim: Mode B's 50k preprocessing speedup is a real,
 candidate-stable phenomenon at ~2× magnitude, decaying to 1× by 1M
 conflicts.
+
+## ADDENDUM (07:37 EDT) — inverse hardlock correlation EMERGING
+
+Tested a 3rd candidate from same bit=28 cell with LOW hardlock_bits:
+
+| candidate | bit | de58 | hl_bits | 50k Mode B speedup | 1M speedup |
+|---|---:|---:|---:|---:|---:|
+| m=0x294e1ea8 | 20 | 8187  | 15 | 1.89× | 1.03× |
+| m=0xd1acca79 | 28 | 2048  | 15 | 1.97× | 1.04× |
+| m=0x3e57289c | 28 | 64487 | 3  | **3.01×** | 0.98× |
+
+The hl=3 candidate (lowest hardlock in the registry) shows
+**3.01× speedup at 50k** — significantly higher than the hl=15 cands.
+
+**EMERGING HYPOTHESIS**: Mode B speedup is INVERSELY correlated with
+the candidate's intrinsic hardlock_bits. Why?
+- Mode B's "force clauses" add cascade-structural constraints.
+- If the candidate ALREADY has high de58 hardlock (constraints baked
+  in by the candidate's own structure), Mode B's added constraints
+  are partially redundant — solver doesn't need them as much.
+- If the candidate has LOW hardlock (free de58 image), Mode B's
+  constraints provide more new structural information — solver
+  benefits more from preprocessing.
+
+This would mean Mode B is most valuable on candidates with LOW
+intrinsic structure constraints, not high. **n=3 evidence is
+suggestive, not confirmed**. Worth a 5-cand follow-up across
+hardlock_bits range {3, 5, 8, 11, 15}.
+
+This is a NEW substantive hypothesis emerging from the consistency
+check. Worth proper validation before resourcing further Mode B
+work.
