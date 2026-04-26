@@ -108,3 +108,12 @@ The session's substantive shipped:
 - Audit-rot fix: 16 stale CNFs regenerated
 - 18 (bit, fill) cells exhaustively swept
 - 14 new cands smoke-tested (TIMEOUT, normal dec/conf range)
+
+## 03:55 EDT — Queue6: 4 never-tested bits at fill=0xff (~48 min)
+
+bit=1, bit=5, bit=8, bit=14 — never tested at ANY fill.
+Expected ~4 new cands at Poisson(1.0) rate. Substantive forward motion.
+
+Session running total (post-queue6 fully populates if it finds ~4):
+  Registry: 36 → 51+ (likely 55+)
+  Cells swept: 18+ → 22
