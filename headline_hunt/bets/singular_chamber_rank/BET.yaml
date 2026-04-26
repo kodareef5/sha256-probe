@@ -1,4 +1,5 @@
 id: singular_chamber_rank
+mechanism_id: singular_chamber_rank
 name: Lower-rank / finite-difference sr=61 defect chambers
 headline_if_success: Severe structural reduction of TRUE sr=61 cascade compatibility by targeting compressed schedule finite-difference plateaus aligned with fat carry-preimage buckets.
 hypothesis: The sr=61 schedule-defect map can be decomposed into a compressed schedule finite-difference target S(W58) and a round-required image R(W59); useful chambers occur when S plateaus align with fat R preimage buckets.
@@ -7,13 +8,13 @@ structural_basis:
   - Ch and Maj have exact invisible directions on surfaces such as f=g and b=c.
   - Fill-specific candidate yield suggests carry chambers are shaped by boundary constants.
   - For fixed W57, S(W58) = C + sigma1(W58 + off58) - sigma1(W58), whose reduced-N image can be far smaller than 2^N.
-status: hit_sr61_barrier
+status: in_flight
 priority: experimental
 expected_info_per_cpu_hour: high
 dependencies:
   - Existing cascade-eligible candidate registry.
   - CPU-only C probes; GPU optional once a rank/drop signal exists.
-next_action: Continue from the HW7/tail-HW70 frontier with carry-aware repair: radius-7 found a D60-HW7/D61-HW2 shelf, but ordinary Newton/greedy repair loses the D61 gain.
+next_action: "Continue from the M5 HW5/tail-HW68 frontier (cddef23) with carry-aware repair. Yale's radius-7 enumeration found a D60-HW7/D61-HW2 shelf, but ordinary Newton/greedy repair loses the D61 gain. M5 1B-trial walks reach D61=HW5 directly; next is whether HW4/HW3 are reachable from the new HW5 base."
 kill_criteria:
   - No local defect-rank drop below 32 across representative candidates and structured fills.
   - No correlation between gate-degeneracy metrics and defect-rank or defect-HW after a bounded probe.
@@ -22,10 +23,28 @@ reopen_criteria:
   - A nonlinear fiber-size probe shows nonuniform preimage size even when local rank is full.
   - A nonzero Ch/Maj-invisible trail construction gives a specific chamber to test.
 owner: linux_gpu_laptop
+machines_assigned: [linux_gpu_laptop, macbook]
 last_updated: '2026-04-26'
+last_heartbeat: '2026-04-26T14:25:00Z'
+heartbeat_interval_days: 7
+milestone_marker: hit_sr61_barrier
+current_progress: |
+  Joint yale + macbook campaign. Frontier descended through:
+    yale's HW10 round-61 / HW76 tail (initial)
+    -> M5 100M-trial walk: HW8 / HW74
+    -> joint HW7 / HW72 (M5 raw + yale ridge-repair)
+    -> yale radius-6 ridge: HW7 + tail HW70
+    -> M5 1B-trial walk (cddef23): HW5 round-61, tail HW68 (verified).
+  The HW7 'floor' was an under-search artifact; HW5/HW6 are dense at 1B.
+  Yale's complementary structural work: bridge enumeration, radius-7
+  ridges, D60-HW7/D61-HW2 shelf (non-repairable). Carry-aware repair is
+  the open path. Same sparse off58=0x00010002 chamber on idx=8
+  (bit3_m33ec77ca_ff). Other cands (idx=0, 3) reach HW8 with same method.
+  Open frontier: HW4/HW3 round-61 reachable from new HW5 base?
 evidence:
   - results/20260426_local_rank_probe.md
   - results/20260426_fiber_count_probe.md
   - results/20260426_schedule_finite_difference_probe.md
   - results/20260426_fulln_sparse_offset_probe.md
-notes: Local rank stayed full, so the bet redirected toward nonlinear finite-difference/carry fibers. Full-N sparse off58 steering found multiple exact sr=61-compatible points with defect60=0; selecting among exact hits reduced the next round-61 defect to HW11 and the checked 57..63 tail to HW82. Round61 traces show exact defect60 synchronizes a,b,c,e, reducing required61 to dh+dCh; high-Hamming Newton corrections turn dSigma1/dT2 back on and cross carry chambers. Sparse off59 sheets are reachable but not sufficient. Newton projection is only local, while greedy one-bit repair can cross exact basins. Deeper walks and radius-6 ridge repair have now moved the frontier to defect61 HW7 and checked tail HW70. Radius-7 enumeration found a D60-HW7/D61-HW2 near shelf, but standard repair returns to the known exact basins.
+  - results/20260426_m5_1B_deep_descent.md
+notes: "Local rank stayed full, so the bet redirected toward nonlinear finite-difference/carry fibers. Full-N sparse off58 steering found multiple exact sr=61-compatible points with defect60=0. Iterative descent (yale ridge-repair + M5 raw 1B-trial walks) has driven the joint frontier from yale's initial defect61 HW10 / tail HW76 down through HW8/HW74, HW7/HW70, to defect61 HW5 / tail HW68 (M5 1B walk, commit cddef23). Round61 traces show exact defect60 synchronizes a,b,c,e, reducing required61 to dh+dCh. Radius-7 enumeration revealed a D60-HW7/D61-HW2 shelf that standard Newton/greedy repair cannot land on. M5 1B-trial walks reach D61=HW5 directly via the exact D60=0 surface; HW5/HW6 are dense (millions of hits per 1B), confirming the prior HW7 'floor' was an under-search artifact, not structural."

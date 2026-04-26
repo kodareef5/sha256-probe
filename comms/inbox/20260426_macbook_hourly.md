@@ -558,3 +558,32 @@ but solver-invariant**.
 30 logged runs (370 total, 0% audit failure). BET.yaml heartbeat
 refreshed with the 4 predictor memos shipped this session. Memo:
 bets/cascade_aux_encoding/results/20260426_cadical_predictor_generalization.md
+
+## 10:25 EDT — yale joined fleet; deep collaborative push on singular_chamber_rank
+
+**Fleet activity**: yale shipped a NEW bet `singular_chamber_rank` (14 commits
+in 2 hours) — first-principles mathematical decomposition of the sr=61 defect
+map as D = S(W58) - R(W59), then radius-6/7 ridge enumeration around exact
+defect60=0 points.
+
+**M5 contribution**: running the same `surface61greedywalk` tool with
+`-mcpu=apple-m4` + 10 OMP threads, ran a 1,000,000,000-trial deep walk
+from the M5-discovered HW7 base. ~14 min wall on M5.
+
+**Joint frontier (committed cddef23)**:
+  yale's HW10 round-61 / HW76 tail (initial)
+  -> joint HW7 / HW70  (yale ridge-repair + M5 100M)
+  -> M5 1B-trial walk: **defect61 HW5 / tail HW68 (verified)**
+
+The HW7 'floor' was an under-search artifact, not structural. HW5 and HW6
+are dense at 1B trials (5.9M and 4.8M hits per 1B respectively).
+
+**Concrete shippable this hour**: registry fix.
+- yale's `singular_chamber_rank/BET.yaml` had: YAML parse error (unquoted colon
+  in next_action), `status='hit_sr61_barrier'` not in enum, missing
+  `last_heartbeat`, `mechanism_id`, `current_progress` fields.
+- Plus `singular_chamber_rank` was not registered in `mechanisms.yaml`.
+- Fixed all 6 issues; validate_registry.py now returns 0 errors, 0 warnings.
+
+Currently running: 1B-trial walk from new HW5 base (PID 17937, ~14 min).
+Goal: HW4/HW3 round-61 reachable?

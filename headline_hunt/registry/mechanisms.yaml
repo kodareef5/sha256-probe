@@ -235,3 +235,41 @@
     \ continuous, decision-shaping). Rule 4 caps at finite ~977 fires regardless of trigger \u2014 algebra has finite implied\
     \ literal set. Engineering substrate (~750 LOC + tests + varmap v3 + cb_decide framework) preserved at bets/programmatic_sat_propagator/\
     \ for future generative-rule reuse."
+- id: singular_chamber_rank
+  name: Lower-rank / finite-difference sr=61 defect chambers
+  headline_if_success: Severe structural reduction of TRUE sr=61 cascade compatibility by targeting compressed schedule
+    finite-difference plateaus aligned with fat carry-preimage buckets.
+  hypothesis: The sr=61 schedule-defect map decomposes as D=S(W58)-R(W59); useful chambers occur when sparse-off58 forces
+    a compressed S plateau that aligns with a fat R preimage bucket.
+  structural_basis:
+  - The current cascade proof establishes a 2^-32 barrier under apparent uniformity, not a formal lower bound on every local chamber.
+  - For fixed W57, S(W58) = C + sigma1(W58 + off58) - sigma1(W58); reduced-N image can be far smaller than 2^N.
+  - Iterative descent (yale ridge-repair + macbook M5 raw 1B-trial walks) drove the joint frontier from defect61 HW10/tail HW76
+    down to defect61 HW5/tail HW68 at full N=32 on idx 8 (bit3_m33ec77ca_ff) via the sparse off58=0x00010002 chamber.
+  - HW5/HW6 are dense at 1B trials (millions of hits each); the prior HW7 'floor' was an under-search artifact.
+  status: in_flight
+  priority: 8
+  expected_info_per_cpu_hour: very_high
+  dependencies:
+  - Existing cascade-eligible candidate registry.
+  - CPU-only C probes; full-N sparse-off58 chamber tooling (singular_defect_rank.c + defect_fiber_counter.c).
+  next_action: Walk from new HW5 base + HW68 tail base at 1B trials each; if HW4/HW3 reachable, push further. Sweep idx=0
+    and idx=3 at 1B for cross-cand check.
+  kill_criteria:
+  - All representative candidates plateau at the same defect61 floor across deep walks AND yale's structural mapping
+    fails to identify a carry-aware repair operator.
+  - Reduced-N posterior carry filters fail to transfer into any pre-hit classifier on held-out chambers.
+  reopen_criteria:
+  - A nonlinear fiber-size probe shows nonuniform preimage size even when local rank is full.
+  - A nonzero Ch/Maj-invisible trail construction gives a specific chamber to test.
+  evidence:
+  - bets/singular_chamber_rank/results/20260426_local_rank_probe.md
+  - bets/singular_chamber_rank/results/20260426_fiber_count_probe.md
+  - bets/singular_chamber_rank/results/20260426_schedule_finite_difference_probe.md
+  - bets/singular_chamber_rank/results/20260426_fulln_sparse_offset_probe.md
+  - bets/singular_chamber_rank/results/20260426_m5_1B_deep_descent.md
+  owner: linux_gpu_laptop
+  last_updated: '2026-04-26'
+  notes: "Joint yale + macbook bet. yale shipped the original mathematical decomposition + structural mapping (bridge enumeration,
+    radius-7 ridge analysis); macbook M5 ran raw 1B-trial deep walks. Together: defect61 HW10 -> HW5, tail HW76 -> HW68 verified
+    at full N=32. Open: HW4/HW3 reachable? Carry-aware repair operator?"
