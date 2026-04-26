@@ -478,6 +478,41 @@ under these local perturb/project moves. To move between basins, the next
 operator likely has to preserve selected carry/lane invariants explicitly
 rather than relying on unconstrained defect60 Newton repair.
 
+## Kernel-linear one-bit targets
+
+The rank-31 kernel result suggests a tempting linear strategy: stay inside the
+`defect60` tangent kernel and correct `defect61` down to a single remaining
+bit. For a codimension-one image, one of those 32 one-bit residual targets
+should be linearly reachable whenever full zero is not.
+
+The linear algebra works, but the arithmetic move is still too disruptive.
+At the HW11 idx 8 point:
+
+```text
+rank60 = 32
+dim ker(d defect60) = 32
+rank defect61 on kernel = 31
+solvable one-bit residual targets = 16
+best nonzero tangent delta HW = 27
+linear residual target = 0x10000000
+actual after move:
+  defect60 = 0x2b938360
+  defect61 = 0x6bb5b8d6
+```
+
+At the HW11 idx 3 point, the best nonzero kernel-linear correction similarly
+uses a HW32 delta and lands at:
+
+```text
+defect60 = 0x50244c0e
+defect61 = 0x398a090b
+```
+
+So even the gentler "leave one bit unsolved" tangent move crosses out of the
+exact carry chamber. The missing object is not a linear correction; it is a
+low-disruption representative of a correction, or a different coordinate
+system where the carry chamber is part of the state.
+
 ## Interpretation
 
 The full-N picture is now sharper:

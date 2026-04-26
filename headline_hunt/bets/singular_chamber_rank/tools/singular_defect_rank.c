@@ -36,6 +36,7 @@
  *   /tmp/singular_defect_rank tailhill58 0 0x370fef5f 0x0e4363c9 4096 8 64
  *   /tmp/singular_defect_rank newton61point 0 0x370fef5f 0x0e4363c9 0xfe337af3 32
  *   /tmp/singular_defect_rank carryjump61point 0 0x370fef5f 0x0e4363c9 0xfe337af3
+ *   /tmp/singular_defect_rank kernel61linearpoint 8 0xaf07f044 0xe98d86d0 0xc778e588
  *   /tmp/singular_defect_rank surface61walk 8 0xaf07f044 0xe98d86d0 0xc778e588 65536 8 24 6
  *   /tmp/singular_defect_rank newton61fixed57 3 0xe28da599 2048 8 32
  *   /tmp/singular_defect_rank newtonfixed58 0 0x370fef5f 0x12345678 512 8 24
@@ -1904,6 +1905,7 @@ static void apply_delta58_59(const uint32_t in[3], uint64_t delta, uint32_t out[
 
 static uint64_t next_combination64(uint64_t x);
 static void apply_combo_to_x(const uint32_t base[3], uint64_t combo, uint32_t x[3]);
+static inline int score60_61(uint32_t d60, uint32_t d61);
 
 static void manifold61_point(int idx, const uint32_t x[3]) {
     int n_cands = (int)(sizeof(CANDIDATES) / sizeof(CANDIDATES[0]));
@@ -2106,6 +2108,158 @@ static void carryjump61_point(int idx, const uint32_t x[3]) {
            hw32(src.pairdiff[r61][5] ^ jump.pairdiff[r61][5]),
            hw32(src.pairdiff[r61][6] ^ jump.pairdiff[r61][6]),
            hw32(src.pairdiff[r61][7] ^ jump.pairdiff[r61][7]));
+}
+
+static void kernel61_linear_point(int idx, const uint32_t x[3]) {
+    int n_cands = (int)(sizeof(CANDIDATES) / sizeof(CANDIDATES[0]));
+    if (idx < 0 || idx >= n_cands) {
+        fprintf(stderr, "candidate index must be 0..%d.\n", n_cands - 1);
+        exit(2);
+    }
+    const candidate_t *cand = &CANDIDATES[idx];
+    sha256_precomp_t p1, p2;
+    if (!prepare_candidate(cand, &p1, &p2)) {
+        printf("{\"mode\":\"kernel61linearpoint\",\"candidate\":\"%s\",\"error\":\"not_cascade_eligible\"}\n",
+               cand->id);
+        return;
+    }
+
+    uint32_t cols60[64], cols61[64];
+    uint64_t cols_pair[64];
+    uint32_t d60 = 0, d61 = 0;
+    defect60_61_columns(&p1, &p2, x, &d60, &d61, cols60, cols61, cols_pair);
+
+    uint64_t kernel[64];
+    int rank60 = 0;
+    int kernel_dim = kernel_basis_columns32(cols60, 64, kernel, &rank60);
+    uint32_t kernel_cols61[64];
+    for (int i = 0; i < kernel_dim; i++) {
+        kernel_cols61[i] = combo_effect32(kernel[i], cols61);
+    }
+    int rank61_kernel = rank32_vectors(kernel_cols61, kernel_dim);
+
+    int solvable_targets = 0;
+    int best_actual_score = score60_61(d60, d61);
+    int best_linear_residual_hw = hw32(d61);
+    uint32_t best_linear_residual = d61;
+    uint64_t best_selection = 0;
+    uint64_t best_delta = 0;
+    uint32_t best_x[3] = {x[0], x[1], x[2]};
+    uint32_t best_defects[7];
+    tail_defects_for_x(&p1, &p2, x, best_defects);
+
+    int best_exact_d61_hw = (d60 == 0) ? hw32(d61) : 99;
+    uint32_t best_exact_x[3] = {x[0], x[1], x[2]};
+    uint32_t best_exact_defects[7];
+    memcpy(best_exact_defects, best_defects, sizeof(best_exact_defects));
+    uint64_t best_exact_delta = 0;
+    uint32_t best_exact_linear_residual = d61;
+    int best_moved_score = 9999;
+    uint32_t best_moved_linear_residual = 0;
+    uint64_t best_moved_delta = 0;
+    uint32_t best_moved_x[3] = {x[0], x[1], x[2]};
+    uint32_t best_moved_defects[7] = {0};
+
+    for (int residual_bit = -1; residual_bit < 32; residual_bit++) {
+        uint32_t residual = (residual_bit < 0) ? 0U : (1U << residual_bit);
+        uint32_t target = d61 ^ residual;
+        uint64_t selection = 0;
+        int rank = 0;
+        int ok = solve_linear_columns(target, kernel_cols61, kernel_dim,
+                                      &selection, &rank);
+        if (!ok) continue;
+        solvable_targets++;
+        uint64_t delta = combine_kernel_selection(selection, kernel);
+        uint32_t y[3];
+        uint32_t defects[7];
+        apply_delta58_59(x, delta, y);
+        tail_defects_for_x(&p1, &p2, y, defects);
+
+        int actual_score = score60_61(defects[3], defects[4]);
+        if (delta != 0 && (actual_score < best_moved_score ||
+                           (actual_score == best_moved_score &&
+                            defects[4] < best_moved_defects[4]))) {
+            best_moved_score = actual_score;
+            best_moved_linear_residual = residual;
+            best_moved_delta = delta;
+            memcpy(best_moved_x, y, sizeof(best_moved_x));
+            memcpy(best_moved_defects, defects, sizeof(best_moved_defects));
+        }
+        int residual_hw = hw32(residual);
+        if (actual_score < best_actual_score ||
+            (actual_score == best_actual_score && residual_hw < best_linear_residual_hw) ||
+            (actual_score == best_actual_score && residual_hw == best_linear_residual_hw &&
+             defects[4] < best_defects[4])) {
+            best_actual_score = actual_score;
+            best_linear_residual_hw = residual_hw;
+            best_linear_residual = residual;
+            best_selection = selection;
+            best_delta = delta;
+            memcpy(best_x, y, sizeof(best_x));
+            memcpy(best_defects, defects, sizeof(best_defects));
+        }
+
+        if (defects[3] == 0) {
+            int d61_hw = hw32(defects[4]);
+            if (d61_hw < best_exact_d61_hw ||
+                (d61_hw == best_exact_d61_hw && defects[4] < best_exact_defects[4])) {
+                best_exact_d61_hw = d61_hw;
+                best_exact_delta = delta;
+                best_exact_linear_residual = residual;
+                memcpy(best_exact_x, y, sizeof(best_exact_x));
+                memcpy(best_exact_defects, defects, sizeof(best_exact_defects));
+            }
+        }
+    }
+
+    printf("{\"mode\":\"kernel61linearpoint\",\"candidate\":\"%s\",\"idx\":%d,"
+           "\"x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"base_defect60\":\"0x%08x\",\"base_defect61\":\"0x%08x\","
+           "\"rank60\":%d,\"kernel_dim\":%d,\"rank61_on_kernel\":%d,"
+           "\"solvable_targets\":%d,"
+           "\"best_actual_score\":%d,\"best_linear_residual\":\"0x%08x\","
+           "\"best_linear_residual_hw\":%d,"
+           "\"best_delta\":\"0x%016llx\",\"best_delta_hw\":%d,"
+           "\"best_x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"best_tail_defects\":[\"0x%08x\",\"0x%08x\",\"0x%08x\",\"0x%08x\","
+           "\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"best_moved_score\":%d,"
+           "\"best_moved_linear_residual\":\"0x%08x\","
+           "\"best_moved_delta\":\"0x%016llx\","
+           "\"best_moved_delta_hw\":%d,"
+           "\"best_moved_x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"best_moved_tail_defects\":[\"0x%08x\",\"0x%08x\",\"0x%08x\",\"0x%08x\","
+           "\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"best_exact_d61_hw\":%d,"
+           "\"best_exact_linear_residual\":\"0x%08x\","
+           "\"best_exact_delta\":\"0x%016llx\","
+           "\"best_exact_x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"best_exact_tail_defects\":[\"0x%08x\",\"0x%08x\",\"0x%08x\",\"0x%08x\","
+           "\"0x%08x\",\"0x%08x\",\"0x%08x\"]}\n",
+           cand->id, idx,
+           x[0], x[1], x[2],
+           d60, d61, rank60, kernel_dim, rank61_kernel, solvable_targets,
+           best_actual_score, best_linear_residual, best_linear_residual_hw,
+           (unsigned long long)best_delta,
+           hw32((uint32_t)best_delta) + hw32((uint32_t)(best_delta >> 32)),
+           best_x[0], best_x[1], best_x[2],
+           best_defects[0], best_defects[1], best_defects[2], best_defects[3],
+           best_defects[4], best_defects[5], best_defects[6],
+           best_moved_score,
+           best_moved_linear_residual,
+           (unsigned long long)best_moved_delta,
+           hw32((uint32_t)best_moved_delta) + hw32((uint32_t)(best_moved_delta >> 32)),
+           best_moved_x[0], best_moved_x[1], best_moved_x[2],
+           best_moved_defects[0], best_moved_defects[1], best_moved_defects[2],
+           best_moved_defects[3], best_moved_defects[4], best_moved_defects[5],
+           best_moved_defects[6],
+           best_exact_d61_hw,
+           best_exact_linear_residual,
+           (unsigned long long)best_exact_delta,
+           best_exact_x[0], best_exact_x[1], best_exact_x[2],
+           best_exact_defects[0], best_exact_defects[1], best_exact_defects[2],
+           best_exact_defects[3], best_exact_defects[4], best_exact_defects[5],
+           best_exact_defects[6]);
 }
 
 static void kernel61_neighbor_point(int idx, const uint32_t x[3], int max_k) {
@@ -3535,6 +3689,18 @@ static void newton_fixed58_candidate(int idx, uint32_t fixed_w57, uint32_t fixed
 }
 
 int main(int argc, char **argv) {
+    if (argc >= 2 && strcmp(argv[1], "kernel61linearpoint") == 0) {
+        int idx = (argc >= 3) ? atoi(argv[2]) : 0;
+        uint32_t x[3] = {
+            (argc >= 4) ? (uint32_t)strtoul(argv[3], NULL, 0) : 0,
+            (argc >= 5) ? (uint32_t)strtoul(argv[4], NULL, 0) : 0,
+            (argc >= 6) ? (uint32_t)strtoul(argv[5], NULL, 0) : 0,
+        };
+        sha256_init(32);
+        kernel61_linear_point(idx, x);
+        return 0;
+    }
+
     if (argc >= 2 && strcmp(argv[1], "surface61walk") == 0) {
         int idx = (argc >= 3) ? atoi(argv[2]) : 0;
         uint32_t x[3] = {
