@@ -13,7 +13,7 @@ expected_info_per_cpu_hour: high
 dependencies:
   - Existing cascade-eligible candidate registry.
   - CPU-only C probes; GPU optional once a rank/drop signal exists.
-next_action: Use carry-safe basin crossing to alternate between low round61-HW basins and low tail-HW basins; the current frontier is defect61 HW10 and checked tail HW76, but they occur in different exact defect60 basins.
+next_action: Add a true two-objective frontier search over exact defect60 basins; the current carry-safe walker links the HW10 round61 basin and HW76 tail basin but does not move past either in 1M local trials.
 kill_criteria:
   - No local defect-rank drop below 32 across representative candidates and structured fills.
   - No correlation between gate-degeneracy metrics and defect-rank or defect-HW after a bounded probe.
@@ -28,4 +28,4 @@ evidence:
   - results/20260426_fiber_count_probe.md
   - results/20260426_schedule_finite_difference_probe.md
   - results/20260426_fulln_sparse_offset_probe.md
-notes: Local rank stayed full, so the bet redirected toward nonlinear finite-difference/carry fibers. Full-N sparse off58 steering found multiple exact sr=61-compatible points with defect60=0; selecting among exact hits reduced the next round-61 defect to HW11 and the checked 57..63 tail to HW82. Round61 traces show exact defect60 synchronizes a,b,c,e, reducing required61 to dh+dCh; high-Hamming Newton corrections turn dSigma1/dT2 back on and cross carry chambers. Sparse off59 sheets are reachable but not sufficient. Newton projection is only local, while greedy one-bit repair can cross exact basins; it has now found defect61 HW10 and a separate checked tail HW76 basin.
+notes: Local rank stayed full, so the bet redirected toward nonlinear finite-difference/carry fibers. Full-N sparse off58 steering found multiple exact sr=61-compatible points with defect60=0; selecting among exact hits reduced the next round-61 defect to HW11 and the checked 57..63 tail to HW82. Round61 traces show exact defect60 synchronizes a,b,c,e, reducing required61 to dh+dCh; high-Hamming Newton corrections turn dSigma1/dT2 back on and cross carry chambers. Sparse off59 sheets are reachable but not sufficient. Newton projection is only local, while greedy one-bit repair can cross exact basins; it has now found a linked frontier pair: defect61 HW10 and checked tail HW76.

@@ -570,6 +570,22 @@ HW11 floor was not structural. Basin crossing can reduce round 61 further,
 but the best round-61 basin and the best checked-tail basin are currently
 different.
 
+A larger 1,048,576-trial frontier pass with up to 32 perturbation flips tested
+the linked HW10 and tail-HW76 basins directly. It found no HW9 and no checked
+tail below 76. The two basins map into each other:
+
+```text
+HW10 basin -> best changed round61: HW11, best tail: HW76
+HW76 basin -> best changed round61: HW10, best changed tail: HW79
+```
+
+So the current frontier is a two-basin pair:
+
+| objective | point | value |
+|---|---|---:|
+| round-61 defect | `W58=0x73db5ecf,W59=0xb767da21` | HW10 |
+| checked 57..63 tail | `W58=0x73db5f4f,W59=0xa7679a23` | HW76 |
+
 The HW10 point still shows the same carry-jump failure mode. Boolean Newton
 finds a rank-62 correction of HW28 that solves the linearized pair
 `(defect60, defect61)`, but the true arithmetic lands at:
