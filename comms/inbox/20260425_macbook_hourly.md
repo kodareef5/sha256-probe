@@ -1347,3 +1347,27 @@ landscape:
 2^-31 baseline; can't structurally distinguish with single-cell sweeps.
 
 Dashboard: 175 runs.
+
+## 1:25 EDT (Apr 26) — bit=3 sweep COMPLETE: 2 NEW candidates (registry 36→40)
+
+bit=3 fill=0xff full 2^32:
+  m=0x33ec77ca  hw56=130  de58=82943  hardlock=6
+  m=0x5fa301aa  hw56=134  de58=82835  hardlock=6
+  FINAL: 2 eligible
+
+Combined sweep results (all (0,9) at fill=0xffffffff):
+  bit=3   (σ0): 2 eligible (NEW)
+  bit=7   (σ0): 0 eligible (Poisson noise)
+  bit=18  (σ0): 2 eligible (NEW)
+  bit=22  (Σ0): 0 eligible (Poisson noise)
+  bit=31  (boundary): 2 eligible (both registered)
+
+ALL bit positions exhibit similar ~2-per-2^32 rate. The Σ1/σ1 alignment
+hypothesis is structurally FALSIFIED. The 36-candidate registry was a
+CURATION ARTIFACT, not a structural ceiling.
+
+Registry expansion this session: 36 → 40 candidates (+4 NEW: bit-18 ×2,
+bit-3 ×2). New kernel entries kernel_0_9_bit3, kernel_0_9_bit18.
+
+Now sweeping bit=18 fill=0x00 to find more bit-18 candidates at different
+fills. ETA ~12 min.
