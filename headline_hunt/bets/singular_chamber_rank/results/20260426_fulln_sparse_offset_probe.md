@@ -237,6 +237,28 @@ This suggests exact sr61 compatibility is not a single lucky point. It is a
 reachable class of sparse-offset chambers, while round 61 is the next real
 barrier.
 
+A larger 524,288-start selection pass found exact sr61 hits in all three
+tested sparse chambers and improved the next-wall defect:
+
+| idx | exact hits | best round-61 defect | HW | exact point |
+|---:|---:|---:|---:|---|
+| 0 | 4 | `0x754a07d8` | 15 | `W58=0x6a2c226f,W59=0xc08397e6` |
+| 3 | 6 | `0x4aa48446` | 11 | `W58=0x5e06f0a7,W59=0x28859825` |
+| 8 | 5 | `0x143f400e` | 12 | `W58=0x12df1f0f,W59=0x2734feeb` |
+
+The best final tail HW among these checked points is currently the idx 8
+point:
+
+```text
+idx 8, W57=0xaf07f044, W58=0x12df1f0f, W59=0x2734feeb
+tail defects:
+57..60 = 0
+61 = 0x143f400e
+62 = 0xdcd5f3ee
+63 = 0x98bf2413
+tail HW = 82
+```
+
 ## Interpretation
 
 The full-N picture is now sharper:
