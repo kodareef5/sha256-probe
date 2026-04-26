@@ -253,3 +253,22 @@ avoiding macOS scheduler starvation.
     M16-MITM forward validation (N=8 + N=10), M16-MITM backward
     design-gap critique, de58 distribution analysis, sweep tracker.
   All audits CONFIRMED. 0% audit failure rate maintained across 194 runs.
+
+## 07:15 EDT — Fingerprint refresh + queue9 mid-stream
+
+**Shipped this pulse**:
+- `[infra] cnf_fingerprints` (06540e7): observed_n 13 → 37 across 37 sr61_cascade
+  CNFs in cnfs_n32/. Vars/clauses bounds UNCHANGED — encoder output
+  structurally stable across queue6/7/8 expansion's new kernel-bits.
+- `[sr61_n32] cadical smoke` (37e291a): bit=20 cand 50.12s c UNKNOWN at 1M
+  conflicts. cadical 2.4x slower than kissat per conflict here; both UNKNOWN
+  consistent with predictor-closure verdict.
+
+**Queue9 partial**:
+- bit=21 fill=0xff: 0 eligible
+- bit=23 fill=0xff: 0 eligible
+- bit=24 fill=0xff: 1 ELIGIBLE found (m=0xdc27e18c) at ~6% sweep — continuing
+- bit=26 fill=0xff: queued
+
+**Coordination**: no fleet activity since last pull. Solo pursuit of sweep
+coverage continues. queue10 ready to launch when queue9 finishes.
