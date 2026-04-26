@@ -599,6 +599,97 @@ defect61 = 0xaaed9cbd
 So even after lowering the next wall to HW10, high-Hamming linear corrections
 still leave the carry chamber.
 
+## Deep frontier update
+
+A follow-up deep greedy run from the HW10 idx 8 basin pushed the round-61
+frontier again:
+
+```text
+idx 8, W57=0xaf07f044, W58=0x7fc3124f, W59=0xbf245aa1
+defect60 = 0
+defect61 = 0x42818308 (HW 8)
+tail defects = 0,0,0,0,0x42818308,0x95989667,0x9a99ef91
+tail HW = 92
+off59 = 0x6474ce42 (HW 14)
+```
+
+The same search stream also improved the checked tail frontier:
+
+```text
+idx 8, W57=0xaf07f044, W58=0x1cbb355e, W59=0xad34d2a3
+defect60 = 0
+defect61 = 0xffd3e7fa (HW 25)
+tail defects = 0,0,0,0,0xffd3e7fa,0x469fed24,0xf787dbea
+tail HW = 74
+off59 = 0xab66b434 (HW 16)
+```
+
+The HW8 point has the same tangent signature as the earlier frontier:
+
+```text
+rank60 = 32
+kernel_dim = 32
+rank_pair = 63
+rank61_on_kernel = 31
+pair_solvable = 0
+```
+
+The tail-HW74 point also has `rank_pair=63`, but the linear correction is again
+too disruptive: the rank-63 solve uses a HW31 delta and lands at
+`defect60=0x2a5d0425`, `defect61=0x4e02bc31`.
+
+Local exact-neighborhood enumeration shows the new points are sparse basins,
+not broad sheets:
+
+| base | radius | exact `defect60=0` points | best exact neighbor |
+|---|---:|---:|---|
+| HW8 | 5 | 2 | one-bit `W59=0xbf245ea1`, `defect61` HW17, tail HW88 |
+| tail HW74 | 5 | 1 | isolated |
+
+Affine bridge checks sharpen that picture. The tail-HW74 to HW8 XOR bridge has
+HW20. Enumerating every bridge subset plus every one-bit excursion outside the
+bridge checked 47,185,920 points and found only three exact points: the two
+endpoints and the one-bit HW8 neighbor. The best non-exact bridge point still
+missed `defect60` by one bit:
+
+```text
+W58=0x1cbb355e, W59=0xad24d283
+defect60 = 0x08000000 (HW 1)
+defect61 HW = 15
+```
+
+The old HW10 to new HW8 bridge behaves similarly. Its bridge has HW14; checking
+20,905,984 bridge-plus-two-extra points again found only the two endpoints plus
+the HW8 one-bit neighbor. The best non-exact bridge point was:
+
+```text
+W58=0x73db5ecf, W59=0x3767da31
+defect60 = 0x04000000 (HW 1)
+defect61 HW = 13
+```
+
+A pooled six-seed frontier walk over the HW8, tail-HW74, HW8-neighbor, HW10,
+tail-HW76, and HW11 basins did not improve either frontier in 262,144 trials.
+It did find a dominated changed basin:
+
+```text
+W58=0x7fc3824f, W59=0xbf541be3
+defect61 = 0x60714614 (HW 11)
+tail HW = 85
+```
+
+Current frontier:
+
+| objective | point | value |
+|---|---|---:|
+| round-61 defect | `W58=0x7fc3124f,W59=0xbf245aa1` | HW8 |
+| checked 57..63 tail | `W58=0x1cbb355e,W59=0xad34d2a3` | HW74 |
+
+The conclusion changed quantitatively, not qualitatively: the HW10 floor was
+not structural, but the exact `defect60=0` surface is still fractured into
+thin carry-linked basins. The useful moves continue to look like rare
+low-Hamming carry transitions with one-bit `defect60` ridges nearby.
+
 ## Kernel-linear one-bit targets
 
 The rank-31 kernel result suggests a tempting linear strategy: stay inside the

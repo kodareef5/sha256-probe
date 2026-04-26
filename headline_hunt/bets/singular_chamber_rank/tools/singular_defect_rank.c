@@ -40,6 +40,9 @@
  *   /tmp/singular_defect_rank surface61walk 8 0xaf07f044 0xe98d86d0 0xc778e588 65536 8 24 6
  *   /tmp/singular_defect_rank surface61sample 8 0xaf07f044 65536 8 24
  *   /tmp/singular_defect_rank surface61greedywalk 8 0xaf07f044 0xe98d86d0 0xc778e588 65536 8 64 12
+ *   /tmp/singular_defect_rank frontier61pool 8 65536 8 72 32 0xaf07f044 0x73db5ecf 0xb767da21 0xaf07f044 0x73db5f4f 0xa7679a23
+ *   /tmp/singular_defect_rank bridge61point 8 0xaf07f044 0x73db5f4f 0xa7679a23 0x73db5ecf 0xb767da21 1
+ *   /tmp/singular_defect_rank nearexact61point 8 0xaf07f044 0x73db5ecf 0xb767da21 5
  *   /tmp/singular_defect_rank newton61fixed57 3 0xe28da599 2048 8 32
  *   /tmp/singular_defect_rank newtonfixed58 0 0x370fef5f 0x12345678 512 8 24
  *   /tmp/singular_defect_rank off59hill 0 0x370fef5f 512 8 32
@@ -3477,6 +3480,880 @@ static void surface61_greedy_walk_candidate(int idx, const uint32_t base_x[3],
            best_changed_tail_defects[6]);
 }
 
+typedef struct {
+    uint32_t defects[7];
+    int d60_hw;
+    int d61_hw;
+    int d62_hw;
+    int d63_hw;
+    int tail_defect_hw;
+    int tail_hw;
+} frontier61_eval_t;
+
+typedef struct {
+    int used;
+    uint32_t x[3];
+    uint32_t defects[7];
+    int d61_hw;
+    int tail_defect_hw;
+    int tail_hw;
+    int distance;
+    int passes;
+    int source_seed;
+    int policy;
+} frontier61_entry_t;
+
+static void frontier61_eval_point(const sha256_precomp_t *p1,
+                                  const sha256_precomp_t *p2,
+                                  const uint32_t x[3],
+                                  int want_tail_hw,
+                                  frontier61_eval_t *out) {
+    tail_defects_for_x(p1, p2, x, out->defects);
+    out->d60_hw = hw32(out->defects[3]);
+    out->d61_hw = hw32(out->defects[4]);
+    out->d62_hw = hw32(out->defects[5]);
+    out->d63_hw = hw32(out->defects[6]);
+    out->tail_defect_hw = out->d61_hw + out->d62_hw + out->d63_hw;
+    out->tail_hw = 999;
+    if (want_tail_hw && out->defects[3] == 0) {
+        tail_trace_t trace;
+        tail_trace_for_x(p1, p2, x, &trace);
+        out->tail_hw = sha256_eval_tail(p1, p2, trace.w1, trace.w2);
+    }
+}
+
+static int frontier61_side_score(const frontier61_eval_t *e, int policy) {
+    switch (policy & 3) {
+        case 0:
+            return e->defects[3] ? (e->defects[3] & 0x7fffffff) : 0;
+        case 1:
+            return e->d61_hw * 128 + e->d62_hw * 4 + e->d63_hw;
+        case 2:
+            return e->tail_defect_hw * 8 + e->d61_hw;
+        default:
+            return e->d61_hw * 64 + e->tail_defect_hw * 3;
+    }
+}
+
+static int frontier61_eval_better(const frontier61_eval_t *a,
+                                  const frontier61_eval_t *b,
+                                  int policy) {
+    if (a->d60_hw != b->d60_hw) return a->d60_hw < b->d60_hw;
+    int as = frontier61_side_score(a, policy);
+    int bs = frontier61_side_score(b, policy);
+    if (as != bs) return as < bs;
+    if (a->d61_hw != b->d61_hw) return a->d61_hw < b->d61_hw;
+    if (a->tail_defect_hw != b->tail_defect_hw) {
+        return a->tail_defect_hw < b->tail_defect_hw;
+    }
+    if (a->defects[3] != b->defects[3]) return a->defects[3] < b->defects[3];
+    if (a->defects[4] != b->defects[4]) return a->defects[4] < b->defects[4];
+    return 0;
+}
+
+static int frontier61_min_seed_distance(const uint32_t *seeds, int seed_count,
+                                        const uint32_t x[3], int *source_out) {
+    int best = 999;
+    int best_idx = -1;
+    for (int i = 0; i < seed_count; i++) {
+        const uint32_t *s = seeds + 3 * i;
+        int d = hw32(x[0] ^ s[0]) + hw32(x[1] ^ s[1]) + hw32(x[2] ^ s[2]);
+        if (d < best) {
+            best = d;
+            best_idx = i;
+        }
+    }
+    if (source_out) *source_out = best_idx;
+    return best;
+}
+
+static void frontier61_make_entry(const uint32_t x[3],
+                                  const frontier61_eval_t *e,
+                                  int distance, int passes,
+                                  int source_seed, int policy,
+                                  frontier61_entry_t *out) {
+    out->used = 1;
+    memcpy(out->x, x, 3 * sizeof(uint32_t));
+    memcpy(out->defects, e->defects, sizeof(out->defects));
+    out->d61_hw = e->d61_hw;
+    out->tail_defect_hw = e->tail_defect_hw;
+    out->tail_hw = e->tail_hw;
+    out->distance = distance;
+    out->passes = passes;
+    out->source_seed = source_seed;
+    out->policy = policy;
+}
+
+static int frontier61_better_d61(const frontier61_entry_t *a,
+                                 const frontier61_entry_t *b) {
+    if (!a->used) return 0;
+    if (!b->used) return 1;
+    if (a->d61_hw != b->d61_hw) return a->d61_hw < b->d61_hw;
+    if (a->tail_hw != b->tail_hw) return a->tail_hw < b->tail_hw;
+    if (a->tail_defect_hw != b->tail_defect_hw) {
+        return a->tail_defect_hw < b->tail_defect_hw;
+    }
+    return a->defects[4] < b->defects[4];
+}
+
+static int frontier61_better_tail(const frontier61_entry_t *a,
+                                  const frontier61_entry_t *b) {
+    if (!a->used) return 0;
+    if (!b->used) return 1;
+    if (a->tail_hw != b->tail_hw) return a->tail_hw < b->tail_hw;
+    if (a->d61_hw != b->d61_hw) return a->d61_hw < b->d61_hw;
+    if (a->tail_defect_hw != b->tail_defect_hw) {
+        return a->tail_defect_hw < b->tail_defect_hw;
+    }
+    return a->defects[4] < b->defects[4];
+}
+
+static int frontier61_better_blend(const frontier61_entry_t *a,
+                                   const frontier61_entry_t *b) {
+    if (!a->used) return 0;
+    if (!b->used) return 1;
+    int as = a->d61_hw * 8 + a->tail_hw;
+    int bs = b->d61_hw * 8 + b->tail_hw;
+    if (as != bs) return as < bs;
+    if (a->tail_defect_hw != b->tail_defect_hw) {
+        return a->tail_defect_hw < b->tail_defect_hw;
+    }
+    return a->defects[4] < b->defects[4];
+}
+
+static int frontier61_dominates(const frontier61_entry_t *a,
+                                const frontier61_entry_t *b) {
+    return a->used && b->used &&
+           a->d61_hw <= b->d61_hw &&
+           a->tail_hw <= b->tail_hw &&
+           (a->d61_hw < b->d61_hw || a->tail_hw < b->tail_hw);
+}
+
+static int frontier61_same_point(const frontier61_entry_t *a,
+                                 const frontier61_entry_t *b) {
+    return a->used && b->used &&
+           a->x[0] == b->x[0] && a->x[1] == b->x[1] && a->x[2] == b->x[2];
+}
+
+static void frontier61_add_entry(frontier61_entry_t entries[16],
+                                 const frontier61_entry_t *entry) {
+    if (!entry->used) return;
+    for (int i = 0; i < 16; i++) {
+        if (entries[i].used &&
+            (frontier61_same_point(&entries[i], entry) ||
+             frontier61_dominates(&entries[i], entry))) {
+            return;
+        }
+    }
+
+    for (int i = 0; i < 16; i++) {
+        if (entries[i].used && frontier61_dominates(entry, &entries[i])) {
+            entries[i].used = 0;
+        }
+    }
+
+    for (int i = 0; i < 16; i++) {
+        if (!entries[i].used) {
+            entries[i] = *entry;
+            return;
+        }
+    }
+
+    int worst = 0;
+    int worst_score = entries[0].d61_hw * 8 + entries[0].tail_hw;
+    for (int i = 1; i < 16; i++) {
+        int score = entries[i].d61_hw * 8 + entries[i].tail_hw;
+        if (score > worst_score) {
+            worst = i;
+            worst_score = score;
+        }
+    }
+    int entry_score = entry->d61_hw * 8 + entry->tail_hw;
+    if (entry_score < worst_score) entries[worst] = *entry;
+}
+
+static void frontier61_print_entry(const frontier61_entry_t *e) {
+    printf("{\"x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"d61\":\"0x%08x\",\"d61_hw\":%d,"
+           "\"tail_defects\":[\"0x%08x\",\"0x%08x\",\"0x%08x\",\"0x%08x\","
+           "\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"tail_defect_hw\":%d,\"tail_hw\":%d,"
+           "\"distance\":%d,\"passes\":%d,\"source_seed\":%d,\"policy\":%d}",
+           e->x[0], e->x[1], e->x[2],
+           e->defects[4], e->d61_hw,
+           e->defects[0], e->defects[1], e->defects[2], e->defects[3],
+           e->defects[4], e->defects[5], e->defects[6],
+           e->tail_defect_hw, e->tail_hw,
+           e->distance, e->passes, e->source_seed, e->policy);
+}
+
+static void frontier61_print_entries(const frontier61_entry_t entries[16]) {
+    printf("[");
+    int printed = 0;
+    for (int i = 0; i < 16; i++) {
+        if (!entries[i].used) continue;
+        if (printed++) printf(",");
+        frontier61_print_entry(&entries[i]);
+    }
+    printf("]");
+}
+
+static int frontier61_repair(const sha256_precomp_t *p1, const sha256_precomp_t *p2,
+                             uint32_t x[3], int max_passes, int policy,
+                             int *passes_out, frontier61_eval_t *eval_out) {
+    frontier61_eval_t cur;
+    frontier61_eval_point(p1, p2, x, 0, &cur);
+    int passes_used = 0;
+
+    for (int pass = 0; pass < max_passes && cur.defects[3] != 0; pass++) {
+        uint32_t best_x[3] = {x[0], x[1], x[2]};
+        frontier61_eval_t best = cur;
+
+        for (int bit = 0; bit < 64; bit++) {
+            uint32_t xf[3] = {x[0], x[1], x[2]};
+            if (bit < 32) xf[1] ^= 1U << bit;
+            else xf[2] ^= 1U << (bit - 32);
+
+            frontier61_eval_t y;
+            frontier61_eval_point(p1, p2, xf, 0, &y);
+            if (frontier61_eval_better(&y, &best, policy)) {
+                best = y;
+                best_x[1] = xf[1];
+                best_x[2] = xf[2];
+            }
+        }
+
+        if (!frontier61_eval_better(&best, &cur, policy)) break;
+        x[1] = best_x[1];
+        x[2] = best_x[2];
+        cur = best;
+        passes_used = pass + 1;
+    }
+
+    if (cur.defects[3] == 0) {
+        frontier61_eval_point(p1, p2, x, 1, &cur);
+    }
+    if (passes_out) *passes_out = passes_used;
+    if (eval_out) *eval_out = cur;
+    return cur.defects[3] == 0;
+}
+
+static void frontier61_pool_candidate(int idx, const uint32_t *seeds, int seed_count,
+                                      int trials, int threads,
+                                      int max_passes, int max_flips) {
+    int n_cands = (int)(sizeof(CANDIDATES) / sizeof(CANDIDATES[0]));
+    if (idx < 0 || idx >= n_cands) {
+        fprintf(stderr, "candidate index must be 0..%d.\n", n_cands - 1);
+        exit(2);
+    }
+    if (seed_count < 1) {
+        fprintf(stderr, "frontier61pool needs at least one W57,W58,W59 seed.\n");
+        exit(2);
+    }
+    if (max_flips < 1) max_flips = 1;
+    if (max_flips > 32) max_flips = 32;
+
+    const candidate_t *cand = &CANDIDATES[idx];
+    sha256_precomp_t p1, p2;
+    if (!prepare_candidate(cand, &p1, &p2)) {
+        printf("{\"mode\":\"frontier61pool\",\"candidate\":\"%s\",\"error\":\"not_cascade_eligible\"}\n",
+               cand->id);
+        return;
+    }
+
+    frontier61_entry_t global_best_d61 = {0};
+    frontier61_entry_t global_best_tail = {0};
+    frontier61_entry_t global_best_blend = {0};
+    frontier61_entry_t global_best_changed_d61 = {0};
+    frontier61_entry_t global_best_changed_tail = {0};
+    frontier61_entry_t global_best_changed_blend = {0};
+    frontier61_entry_t global_frontier[16];
+    memset(global_frontier, 0, sizeof(global_frontier));
+
+    int seed_exact60 = 0;
+    for (int i = 0; i < seed_count; i++) {
+        const uint32_t *x = seeds + 3 * i;
+        frontier61_eval_t e;
+        frontier61_eval_point(&p1, &p2, x, 1, &e);
+        if (e.defects[3] != 0) continue;
+        seed_exact60++;
+        frontier61_entry_t entry;
+        frontier61_make_entry(x, &e, 0, 0, i, -1, &entry);
+        if (frontier61_better_d61(&entry, &global_best_d61)) global_best_d61 = entry;
+        if (frontier61_better_tail(&entry, &global_best_tail)) global_best_tail = entry;
+        if (frontier61_better_blend(&entry, &global_best_blend)) global_best_blend = entry;
+        frontier61_add_entry(global_frontier, &entry);
+    }
+
+    long long exact60_hits = seed_exact60;
+    long long exact61_hits = 0;
+    long long changed_exact60_hits = 0;
+    long long projection_failures = 0;
+    long long total_passes = 0;
+    int max_exact_distance = 0;
+    int d61_hw_hist[33];
+    int policy_hits[4];
+    int policy_changed_hits[4];
+    memset(d61_hw_hist, 0, sizeof(d61_hw_hist));
+    memset(policy_hits, 0, sizeof(policy_hits));
+    memset(policy_changed_hits, 0, sizeof(policy_changed_hits));
+    for (int i = 0; i < seed_count; i++) {
+        frontier61_eval_t e;
+        frontier61_eval_point(&p1, &p2, seeds + 3 * i, 0, &e);
+        if (e.defects[3] == 0) {
+            int h = e.d61_hw;
+            if (h >= 0 && h <= 32) d61_hw_hist[h]++;
+            if (e.defects[4] == 0) exact61_hits++;
+        }
+    }
+
+    #pragma omp parallel num_threads(threads)
+    {
+        int tid = omp_get_thread_num();
+        uint64_t rng = 0x66726f6e74363170ULL ^
+                       ((uint64_t)cand->m0 << 7) ^
+                       ((uint64_t)seed_count << 41) ^
+                       (uint64_t)tid;
+        frontier61_entry_t local_best_d61 = global_best_d61;
+        frontier61_entry_t local_best_tail = global_best_tail;
+        frontier61_entry_t local_best_blend = global_best_blend;
+        frontier61_entry_t local_best_changed_d61 = {0};
+        frontier61_entry_t local_best_changed_tail = {0};
+        frontier61_entry_t local_best_changed_blend = {0};
+        frontier61_entry_t local_frontier[16];
+        memset(local_frontier, 0, sizeof(local_frontier));
+        for (int i = 0; i < 16; i++) {
+            if (global_frontier[i].used) local_frontier[i] = global_frontier[i];
+        }
+
+        long long local_exact60_hits = 0;
+        long long local_exact61_hits = 0;
+        long long local_changed_exact60_hits = 0;
+        long long local_projection_failures = 0;
+        long long local_total_passes = 0;
+        int local_max_exact_distance = 0;
+        int local_d61_hw_hist[33];
+        int local_policy_hits[4];
+        int local_policy_changed_hits[4];
+        memset(local_d61_hw_hist, 0, sizeof(local_d61_hw_hist));
+        memset(local_policy_hits, 0, sizeof(local_policy_hits));
+        memset(local_policy_changed_hits, 0, sizeof(local_policy_changed_hits));
+
+        #pragma omp for schedule(dynamic, 8)
+        for (int i = 0; i < trials; i++) {
+            uint32_t x[3];
+            uint32_t choice = splitmix32(&rng);
+            if (local_best_d61.used && (choice & 15U) == 0U) {
+                memcpy(x, local_best_d61.x, sizeof(x));
+            } else if (local_best_tail.used && (choice & 15U) == 1U) {
+                memcpy(x, local_best_tail.x, sizeof(x));
+            } else if (local_best_blend.used && (choice & 15U) == 2U) {
+                memcpy(x, local_best_blend.x, sizeof(x));
+            } else {
+                int seed_idx = (int)(splitmix32(&rng) % (uint32_t)seed_count);
+                memcpy(x, seeds + 3 * seed_idx, 3 * sizeof(uint32_t));
+            }
+
+            int flips = 1 + (int)(splitmix32(&rng) % (uint32_t)max_flips);
+            for (int f = 0; f < flips; f++) {
+                int bit = (int)(splitmix32(&rng) & 63U);
+                if (bit < 32) x[1] ^= 1U << bit;
+                else x[2] ^= 1U << (bit - 32);
+            }
+
+            int policy = (int)(splitmix32(&rng) & 3U);
+            int passes_used = 0;
+            frontier61_eval_t e;
+            int ok = frontier61_repair(&p1, &p2, x, max_passes,
+                                       policy, &passes_used, &e);
+            if (!ok) {
+                local_projection_failures++;
+                continue;
+            }
+
+            int source_seed = -1;
+            int distance = frontier61_min_seed_distance(seeds, seed_count,
+                                                        x, &source_seed);
+            frontier61_entry_t entry;
+            frontier61_make_entry(x, &e, distance, passes_used,
+                                  source_seed, policy, &entry);
+
+            local_exact60_hits++;
+            local_total_passes += passes_used;
+            if (e.defects[4] == 0) local_exact61_hits++;
+            if (e.d61_hw >= 0 && e.d61_hw <= 32) local_d61_hw_hist[e.d61_hw]++;
+            local_policy_hits[policy]++;
+            if (distance > 0) {
+                local_changed_exact60_hits++;
+                local_policy_changed_hits[policy]++;
+                if (frontier61_better_d61(&entry, &local_best_changed_d61)) {
+                    local_best_changed_d61 = entry;
+                }
+                if (frontier61_better_tail(&entry, &local_best_changed_tail)) {
+                    local_best_changed_tail = entry;
+                }
+                if (frontier61_better_blend(&entry, &local_best_changed_blend)) {
+                    local_best_changed_blend = entry;
+                }
+            }
+            if (distance > local_max_exact_distance) {
+                local_max_exact_distance = distance;
+            }
+
+            if (frontier61_better_d61(&entry, &local_best_d61)) {
+                local_best_d61 = entry;
+            }
+            if (frontier61_better_tail(&entry, &local_best_tail)) {
+                local_best_tail = entry;
+            }
+            if (frontier61_better_blend(&entry, &local_best_blend)) {
+                local_best_blend = entry;
+            }
+            frontier61_add_entry(local_frontier, &entry);
+        }
+
+        #pragma omp critical
+        {
+            exact60_hits += local_exact60_hits;
+            exact61_hits += local_exact61_hits;
+            changed_exact60_hits += local_changed_exact60_hits;
+            projection_failures += local_projection_failures;
+            total_passes += local_total_passes;
+            if (local_max_exact_distance > max_exact_distance) {
+                max_exact_distance = local_max_exact_distance;
+            }
+            for (int h = 0; h <= 32; h++) {
+                d61_hw_hist[h] += local_d61_hw_hist[h];
+            }
+            for (int p = 0; p < 4; p++) {
+                policy_hits[p] += local_policy_hits[p];
+                policy_changed_hits[p] += local_policy_changed_hits[p];
+            }
+            if (frontier61_better_d61(&local_best_d61, &global_best_d61)) {
+                global_best_d61 = local_best_d61;
+            }
+            if (frontier61_better_tail(&local_best_tail, &global_best_tail)) {
+                global_best_tail = local_best_tail;
+            }
+            if (frontier61_better_blend(&local_best_blend, &global_best_blend)) {
+                global_best_blend = local_best_blend;
+            }
+            if (frontier61_better_d61(&local_best_changed_d61,
+                                      &global_best_changed_d61)) {
+                global_best_changed_d61 = local_best_changed_d61;
+            }
+            if (frontier61_better_tail(&local_best_changed_tail,
+                                       &global_best_changed_tail)) {
+                global_best_changed_tail = local_best_changed_tail;
+            }
+            if (frontier61_better_blend(&local_best_changed_blend,
+                                        &global_best_changed_blend)) {
+                global_best_changed_blend = local_best_changed_blend;
+            }
+            for (int i = 0; i < 16; i++) {
+                if (local_frontier[i].used) {
+                    frontier61_add_entry(global_frontier, &local_frontier[i]);
+                }
+            }
+        }
+    }
+
+    printf("{\"mode\":\"frontier61pool\",\"candidate\":\"%s\",\"idx\":%d,"
+           "\"seed_count\":%d,\"seed_exact60\":%d,"
+           "\"trials\":%d,\"threads\":%d,\"max_passes\":%d,\"max_flips\":%d,"
+           "\"exact60_hits\":%lld,\"exact61_hits\":%lld,"
+           "\"changed_exact60_hits\":%lld,\"projection_failures\":%lld,"
+           "\"avg_success_passes\":%.3f,\"max_exact_distance\":%d,"
+           "\"policy_hits\":[%d,%d,%d,%d],"
+           "\"policy_changed_hits\":[%d,%d,%d,%d],"
+           "\"d61_hw_hist\":[%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,"
+           "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d],"
+           "\"best_d61\":",
+           cand->id, idx, seed_count, seed_exact60,
+           trials, threads, max_passes, max_flips,
+           exact60_hits, exact61_hits, changed_exact60_hits,
+           projection_failures,
+           exact60_hits ? (double)total_passes / (double)exact60_hits : 0.0,
+           max_exact_distance,
+           policy_hits[0], policy_hits[1], policy_hits[2], policy_hits[3],
+           policy_changed_hits[0], policy_changed_hits[1],
+           policy_changed_hits[2], policy_changed_hits[3],
+           d61_hw_hist[0], d61_hw_hist[1], d61_hw_hist[2], d61_hw_hist[3],
+           d61_hw_hist[4], d61_hw_hist[5], d61_hw_hist[6], d61_hw_hist[7],
+           d61_hw_hist[8], d61_hw_hist[9], d61_hw_hist[10], d61_hw_hist[11],
+           d61_hw_hist[12], d61_hw_hist[13], d61_hw_hist[14], d61_hw_hist[15],
+           d61_hw_hist[16], d61_hw_hist[17], d61_hw_hist[18], d61_hw_hist[19],
+           d61_hw_hist[20], d61_hw_hist[21], d61_hw_hist[22], d61_hw_hist[23],
+           d61_hw_hist[24], d61_hw_hist[25], d61_hw_hist[26], d61_hw_hist[27],
+           d61_hw_hist[28], d61_hw_hist[29], d61_hw_hist[30], d61_hw_hist[31],
+           d61_hw_hist[32]);
+    if (global_best_d61.used) frontier61_print_entry(&global_best_d61);
+    else printf("null");
+    printf(",\"best_tail\":");
+    if (global_best_tail.used) frontier61_print_entry(&global_best_tail);
+    else printf("null");
+    printf(",\"best_blend\":");
+    if (global_best_blend.used) frontier61_print_entry(&global_best_blend);
+    else printf("null");
+    printf(",\"best_changed_d61\":");
+    if (global_best_changed_d61.used) frontier61_print_entry(&global_best_changed_d61);
+    else printf("null");
+    printf(",\"best_changed_tail\":");
+    if (global_best_changed_tail.used) frontier61_print_entry(&global_best_changed_tail);
+    else printf("null");
+    printf(",\"best_changed_blend\":");
+    if (global_best_changed_blend.used) frontier61_print_entry(&global_best_changed_blend);
+    else printf("null");
+    printf(",\"pareto\":");
+    frontier61_print_entries(global_frontier);
+    printf("}\n");
+}
+
+static void bridge61_consider_point(const sha256_precomp_t *p1,
+                                    const sha256_precomp_t *p2,
+                                    const uint32_t x[3],
+                                    int distance, int source_seed, int policy,
+                                    long long *exact60,
+                                    long long *exact61,
+                                    int d61_hw_hist[33],
+                                    frontier61_entry_t *best_d61,
+                                    frontier61_entry_t *best_tail,
+                                    frontier61_entry_t *best_blend,
+                                    frontier61_entry_t pareto[16],
+                                    int *best_any_score,
+                                    uint32_t best_any_x[3],
+                                    frontier61_eval_t *best_any_eval,
+                                    int *best_nonexact_score,
+                                    uint32_t best_nonexact_x[3],
+                                    frontier61_eval_t *best_nonexact_eval) {
+    frontier61_eval_t e;
+    frontier61_eval_point(p1, p2, x, 1, &e);
+    int score = score60_61(e.defects[3], e.defects[4]);
+    if (score < *best_any_score ||
+        (score == *best_any_score && e.defects[4] < best_any_eval->defects[4])) {
+        *best_any_score = score;
+        memcpy(best_any_x, x, 3 * sizeof(uint32_t));
+        *best_any_eval = e;
+    }
+    if (e.defects[3] != 0 &&
+        (score < *best_nonexact_score ||
+         (score == *best_nonexact_score &&
+          e.defects[4] < best_nonexact_eval->defects[4]))) {
+        *best_nonexact_score = score;
+        memcpy(best_nonexact_x, x, 3 * sizeof(uint32_t));
+        *best_nonexact_eval = e;
+    }
+    if (e.defects[3] != 0) return;
+
+    frontier61_entry_t entry;
+    frontier61_make_entry(x, &e, distance, 0, source_seed, policy, &entry);
+    (*exact60)++;
+    if (e.defects[4] == 0) (*exact61)++;
+    if (e.d61_hw >= 0 && e.d61_hw <= 32) d61_hw_hist[e.d61_hw]++;
+
+    if (frontier61_better_d61(&entry, best_d61)) *best_d61 = entry;
+    if (frontier61_better_tail(&entry, best_tail)) *best_tail = entry;
+    if (frontier61_better_blend(&entry, best_blend)) *best_blend = entry;
+    frontier61_add_entry(pareto, &entry);
+}
+
+static void bridge61_point(int idx, uint32_t fixed_w57,
+                           uint32_t w58_a, uint32_t w59_a,
+                           uint32_t w58_b, uint32_t w59_b,
+                           int max_extra) {
+    int n_cands = (int)(sizeof(CANDIDATES) / sizeof(CANDIDATES[0]));
+    if (idx < 0 || idx >= n_cands) {
+        fprintf(stderr, "candidate index must be 0..%d.\n", n_cands - 1);
+        exit(2);
+    }
+    if (max_extra < 0) max_extra = 0;
+    if (max_extra > 2) max_extra = 2;
+
+    const candidate_t *cand = &CANDIDATES[idx];
+    sha256_precomp_t p1, p2;
+    if (!prepare_candidate(cand, &p1, &p2)) {
+        printf("{\"mode\":\"bridge61point\",\"candidate\":\"%s\",\"error\":\"not_cascade_eligible\"}\n",
+               cand->id);
+        return;
+    }
+
+    uint64_t diff = ((uint64_t)(w59_a ^ w59_b) << 32) | (uint64_t)(w58_a ^ w58_b);
+    int bridge_bits[64];
+    int outside_bits[64];
+    int bridge_k = 0;
+    int outside_k = 0;
+    for (int bit = 0; bit < 64; bit++) {
+        if ((diff >> bit) & 1ULL) bridge_bits[bridge_k++] = bit;
+        else outside_bits[outside_k++] = bit;
+    }
+    if (bridge_k > 20) {
+        printf("{\"mode\":\"bridge61point\",\"candidate\":\"%s\",\"error\":\"bridge_too_wide\",\"bridge_hw\":%d}\n",
+               cand->id, bridge_k);
+        return;
+    }
+
+    long long checked = 0;
+    long long exact60 = 0;
+    long long exact61 = 0;
+    long long exact_by_extra[3] = {0, 0, 0};
+    int d61_hw_hist[33];
+    memset(d61_hw_hist, 0, sizeof(d61_hw_hist));
+    frontier61_entry_t best_d61 = {0};
+    frontier61_entry_t best_tail = {0};
+    frontier61_entry_t best_blend = {0};
+    frontier61_entry_t pareto[16];
+    memset(pareto, 0, sizeof(pareto));
+    int best_any_score = 9999;
+    uint32_t best_any_x[3] = {fixed_w57, w58_a, w59_a};
+    frontier61_eval_t best_any_eval;
+    memset(&best_any_eval, 0, sizeof(best_any_eval));
+    int best_nonexact_score = 9999;
+    uint32_t best_nonexact_x[3] = {fixed_w57, w58_a, w59_a};
+    frontier61_eval_t best_nonexact_eval;
+    memset(&best_nonexact_eval, 0, sizeof(best_nonexact_eval));
+
+    uint64_t bridge_subsets = 1ULL << bridge_k;
+    for (uint64_t subset = 0; subset < bridge_subsets; subset++) {
+        uint64_t bridge_delta = 0;
+        for (int j = 0; j < bridge_k; j++) {
+            if ((subset >> j) & 1ULL) bridge_delta |= 1ULL << bridge_bits[j];
+        }
+
+        for (int extra_n = 0; extra_n <= max_extra; extra_n++) {
+            if (extra_n == 0) {
+                uint64_t delta = bridge_delta;
+                uint32_t x[3] = {
+                    fixed_w57,
+                    w58_a ^ (uint32_t)(delta & 0xffffffffULL),
+                    w59_a ^ (uint32_t)(delta >> 32)
+                };
+                long long before = exact60;
+                bridge61_consider_point(&p1, &p2, x,
+                                        hw32((uint32_t)(delta & 0xffffffffULL)) +
+                                        hw32((uint32_t)(delta >> 32)),
+                                        0, extra_n, &exact60, &exact61,
+                                        d61_hw_hist, &best_d61, &best_tail,
+                                        &best_blend, pareto,
+                                        &best_any_score, best_any_x,
+                                        &best_any_eval,
+                                        &best_nonexact_score, best_nonexact_x,
+                                        &best_nonexact_eval);
+                if (exact60 > before) exact_by_extra[extra_n]++;
+                checked++;
+            } else if (extra_n == 1) {
+                for (int a = 0; a < outside_k; a++) {
+                    uint64_t delta = bridge_delta | (1ULL << outside_bits[a]);
+                    uint32_t x[3] = {
+                        fixed_w57,
+                        w58_a ^ (uint32_t)(delta & 0xffffffffULL),
+                        w59_a ^ (uint32_t)(delta >> 32)
+                    };
+                    long long before = exact60;
+                    bridge61_consider_point(&p1, &p2, x,
+                                            hw32((uint32_t)(delta & 0xffffffffULL)) +
+                                            hw32((uint32_t)(delta >> 32)),
+                                            0, extra_n, &exact60, &exact61,
+                                            d61_hw_hist, &best_d61, &best_tail,
+                                            &best_blend, pareto,
+                                            &best_any_score, best_any_x,
+                                            &best_any_eval,
+                                            &best_nonexact_score, best_nonexact_x,
+                                            &best_nonexact_eval);
+                    if (exact60 > before) exact_by_extra[extra_n]++;
+                    checked++;
+                }
+            } else {
+                for (int a = 0; a < outside_k; a++) {
+                    for (int b = a + 1; b < outside_k; b++) {
+                        uint64_t delta = bridge_delta |
+                                         (1ULL << outside_bits[a]) |
+                                         (1ULL << outside_bits[b]);
+                        uint32_t x[3] = {
+                            fixed_w57,
+                            w58_a ^ (uint32_t)(delta & 0xffffffffULL),
+                            w59_a ^ (uint32_t)(delta >> 32)
+                        };
+                        long long before = exact60;
+                        bridge61_consider_point(&p1, &p2, x,
+                                                hw32((uint32_t)(delta & 0xffffffffULL)) +
+                                                hw32((uint32_t)(delta >> 32)),
+                                                0, extra_n, &exact60, &exact61,
+                                                d61_hw_hist, &best_d61, &best_tail,
+                                                &best_blend, pareto,
+                                                &best_any_score, best_any_x,
+                                                &best_any_eval,
+                                                &best_nonexact_score, best_nonexact_x,
+                                                &best_nonexact_eval);
+                        if (exact60 > before) exact_by_extra[extra_n]++;
+                        checked++;
+                    }
+                }
+            }
+        }
+    }
+
+    printf("{\"mode\":\"bridge61point\",\"candidate\":\"%s\",\"idx\":%d,"
+           "\"fixed_w57\":\"0x%08x\","
+           "\"a\":[\"0x%08x\",\"0x%08x\"],"
+           "\"b\":[\"0x%08x\",\"0x%08x\"],"
+           "\"bridge_delta\":\"0x%016llx\",\"bridge_hw\":%d,"
+           "\"max_extra\":%d,\"checked\":%lld,\"exact60\":%lld,"
+           "\"exact61\":%lld,\"exact_by_extra\":[%lld,%lld,%lld],"
+           "\"d61_hw_hist\":[%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,"
+           "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d],"
+           "\"best_any_score\":%d,"
+           "\"best_any_x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"best_any_hw60_61\":[%d,%d],"
+           "\"best_any_tail_defects\":[\"0x%08x\",\"0x%08x\",\"0x%08x\",\"0x%08x\","
+           "\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"best_nonexact_score\":%d,"
+           "\"best_nonexact_x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"best_nonexact_hw60_61\":[%d,%d],"
+           "\"best_nonexact_tail_defects\":[\"0x%08x\",\"0x%08x\",\"0x%08x\",\"0x%08x\","
+           "\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"best_d61\":",
+           cand->id, idx, fixed_w57,
+           w58_a, w59_a, w58_b, w59_b,
+           (unsigned long long)diff, bridge_k,
+           max_extra, checked, exact60, exact61,
+           exact_by_extra[0], exact_by_extra[1], exact_by_extra[2],
+           d61_hw_hist[0], d61_hw_hist[1], d61_hw_hist[2], d61_hw_hist[3],
+           d61_hw_hist[4], d61_hw_hist[5], d61_hw_hist[6], d61_hw_hist[7],
+           d61_hw_hist[8], d61_hw_hist[9], d61_hw_hist[10], d61_hw_hist[11],
+           d61_hw_hist[12], d61_hw_hist[13], d61_hw_hist[14], d61_hw_hist[15],
+           d61_hw_hist[16], d61_hw_hist[17], d61_hw_hist[18], d61_hw_hist[19],
+           d61_hw_hist[20], d61_hw_hist[21], d61_hw_hist[22], d61_hw_hist[23],
+           d61_hw_hist[24], d61_hw_hist[25], d61_hw_hist[26], d61_hw_hist[27],
+           d61_hw_hist[28], d61_hw_hist[29], d61_hw_hist[30], d61_hw_hist[31],
+           d61_hw_hist[32],
+           best_any_score,
+           best_any_x[0], best_any_x[1], best_any_x[2],
+           best_any_eval.d60_hw, best_any_eval.d61_hw,
+           best_any_eval.defects[0], best_any_eval.defects[1],
+           best_any_eval.defects[2], best_any_eval.defects[3],
+           best_any_eval.defects[4], best_any_eval.defects[5],
+           best_any_eval.defects[6],
+           best_nonexact_score,
+           best_nonexact_x[0], best_nonexact_x[1], best_nonexact_x[2],
+           best_nonexact_eval.d60_hw, best_nonexact_eval.d61_hw,
+           best_nonexact_eval.defects[0], best_nonexact_eval.defects[1],
+           best_nonexact_eval.defects[2], best_nonexact_eval.defects[3],
+           best_nonexact_eval.defects[4], best_nonexact_eval.defects[5],
+           best_nonexact_eval.defects[6]);
+    if (best_d61.used) frontier61_print_entry(&best_d61);
+    else printf("null");
+    printf(",\"best_tail\":");
+    if (best_tail.used) frontier61_print_entry(&best_tail);
+    else printf("null");
+    printf(",\"best_blend\":");
+    if (best_blend.used) frontier61_print_entry(&best_blend);
+    else printf("null");
+    printf(",\"pareto\":");
+    frontier61_print_entries(pareto);
+    printf("}\n");
+}
+
+static void nearexact61_point(int idx, const uint32_t base_x[3], int max_k) {
+    int n_cands = (int)(sizeof(CANDIDATES) / sizeof(CANDIDATES[0]));
+    if (idx < 0 || idx >= n_cands) {
+        fprintf(stderr, "candidate index must be 0..%d.\n", n_cands - 1);
+        exit(2);
+    }
+    if (max_k < 0) max_k = 0;
+    if (max_k > 5) max_k = 5;
+
+    const candidate_t *cand = &CANDIDATES[idx];
+    sha256_precomp_t p1, p2;
+    if (!prepare_candidate(cand, &p1, &p2)) {
+        printf("{\"mode\":\"nearexact61point\",\"candidate\":\"%s\",\"error\":\"not_cascade_eligible\"}\n",
+               cand->id);
+        return;
+    }
+
+    long long checked = 0;
+    long long exact60 = 0;
+    long long exact61 = 0;
+    long long exact_by_k[6] = {0, 0, 0, 0, 0, 0};
+    int d61_hw_hist[33];
+    memset(d61_hw_hist, 0, sizeof(d61_hw_hist));
+    frontier61_entry_t best_d61 = {0};
+    frontier61_entry_t best_tail = {0};
+    frontier61_entry_t best_blend = {0};
+    frontier61_entry_t pareto[16];
+    frontier61_entry_t exact_list[64];
+    memset(pareto, 0, sizeof(pareto));
+    memset(exact_list, 0, sizeof(exact_list));
+    int exact_list_count = 0;
+
+    for (int k = 0; k <= max_k; k++) {
+        uint64_t combo = (k == 0) ? 0ULL : ((1ULL << k) - 1ULL);
+        while (1) {
+            uint32_t x[3];
+            if (k == 0) memcpy(x, base_x, 3 * sizeof(uint32_t));
+            else apply_combo_to_x(base_x, combo, x);
+
+            frontier61_eval_t e;
+            frontier61_eval_point(&p1, &p2, x, 1, &e);
+            checked++;
+            if (e.defects[3] == 0) {
+                frontier61_entry_t entry;
+                frontier61_make_entry(x, &e, k, 0, 0, k, &entry);
+                exact60++;
+                exact_by_k[k]++;
+                if (e.defects[4] == 0) exact61++;
+                if (e.d61_hw >= 0 && e.d61_hw <= 32) d61_hw_hist[e.d61_hw]++;
+                if (frontier61_better_d61(&entry, &best_d61)) best_d61 = entry;
+                if (frontier61_better_tail(&entry, &best_tail)) best_tail = entry;
+                if (frontier61_better_blend(&entry, &best_blend)) best_blend = entry;
+                frontier61_add_entry(pareto, &entry);
+                if (exact_list_count < 64) exact_list[exact_list_count++] = entry;
+            }
+
+            if (k == 0) break;
+            uint64_t next = next_combination64(combo);
+            if (!next || next < combo) break;
+            combo = next;
+        }
+    }
+
+    printf("{\"mode\":\"nearexact61point\",\"candidate\":\"%s\",\"idx\":%d,"
+           "\"base_x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"max_k\":%d,\"checked\":%lld,\"exact60\":%lld,"
+           "\"exact61\":%lld,\"exact_by_k\":[%lld,%lld,%lld,%lld,%lld,%lld],"
+           "\"d61_hw_hist\":[%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,"
+           "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d],"
+           "\"best_d61\":",
+           cand->id, idx, base_x[0], base_x[1], base_x[2],
+           max_k, checked, exact60, exact61,
+           exact_by_k[0], exact_by_k[1], exact_by_k[2],
+           exact_by_k[3], exact_by_k[4], exact_by_k[5],
+           d61_hw_hist[0], d61_hw_hist[1], d61_hw_hist[2], d61_hw_hist[3],
+           d61_hw_hist[4], d61_hw_hist[5], d61_hw_hist[6], d61_hw_hist[7],
+           d61_hw_hist[8], d61_hw_hist[9], d61_hw_hist[10], d61_hw_hist[11],
+           d61_hw_hist[12], d61_hw_hist[13], d61_hw_hist[14], d61_hw_hist[15],
+           d61_hw_hist[16], d61_hw_hist[17], d61_hw_hist[18], d61_hw_hist[19],
+           d61_hw_hist[20], d61_hw_hist[21], d61_hw_hist[22], d61_hw_hist[23],
+           d61_hw_hist[24], d61_hw_hist[25], d61_hw_hist[26], d61_hw_hist[27],
+           d61_hw_hist[28], d61_hw_hist[29], d61_hw_hist[30], d61_hw_hist[31],
+           d61_hw_hist[32]);
+    if (best_d61.used) frontier61_print_entry(&best_d61);
+    else printf("null");
+    printf(",\"best_tail\":");
+    if (best_tail.used) frontier61_print_entry(&best_tail);
+    else printf("null");
+    printf(",\"best_blend\":");
+    if (best_blend.used) frontier61_print_entry(&best_blend);
+    else printf("null");
+    printf(",\"pareto\":");
+    frontier61_print_entries(pareto);
+    printf(",\"exact_list\":[");
+    for (int i = 0; i < exact_list_count; i++) {
+        if (i) printf(",");
+        frontier61_print_entry(&exact_list[i]);
+    }
+    printf("]}\n");
+}
+
 static int newton61_fixed57_once(const sha256_precomp_t *p1, const sha256_precomp_t *p2,
                                  uint32_t x[3], int max_iters, int *iters_out,
                                  int *last_rank_out, uint64_t *last_vec_out) {
@@ -4177,6 +5054,64 @@ static void newton_fixed58_candidate(int idx, uint32_t fixed_w57, uint32_t fixed
 }
 
 int main(int argc, char **argv) {
+    if (argc >= 2 && strcmp(argv[1], "nearexact61point") == 0) {
+        int idx = (argc >= 3) ? atoi(argv[2]) : 0;
+        uint32_t x[3] = {
+            (argc >= 4) ? (uint32_t)strtoul(argv[3], NULL, 0) : 0,
+            (argc >= 5) ? (uint32_t)strtoul(argv[4], NULL, 0) : 0,
+            (argc >= 6) ? (uint32_t)strtoul(argv[5], NULL, 0) : 0,
+        };
+        int max_k = (argc >= 7) ? atoi(argv[6]) : 5;
+        sha256_init(32);
+        nearexact61_point(idx, x, max_k);
+        return 0;
+    }
+
+    if (argc >= 2 && strcmp(argv[1], "bridge61point") == 0) {
+        int idx = (argc >= 3) ? atoi(argv[2]) : 0;
+        uint32_t fixed_w57 = (argc >= 4) ? (uint32_t)strtoul(argv[3], NULL, 0) : 0;
+        uint32_t w58_a = (argc >= 5) ? (uint32_t)strtoul(argv[4], NULL, 0) : 0;
+        uint32_t w59_a = (argc >= 6) ? (uint32_t)strtoul(argv[5], NULL, 0) : 0;
+        uint32_t w58_b = (argc >= 7) ? (uint32_t)strtoul(argv[6], NULL, 0) : 0;
+        uint32_t w59_b = (argc >= 8) ? (uint32_t)strtoul(argv[7], NULL, 0) : 0;
+        int max_extra = (argc >= 9) ? atoi(argv[8]) : 0;
+        sha256_init(32);
+        bridge61_point(idx, fixed_w57, w58_a, w59_a,
+                       w58_b, w59_b, max_extra);
+        return 0;
+    }
+
+    if (argc >= 2 && strcmp(argv[1], "frontier61pool") == 0) {
+        if (argc < 10 || ((argc - 7) % 3) != 0) {
+            fprintf(stderr,
+                    "usage: %s frontier61pool IDX TRIALS THREADS PASSES FLIPS "
+                    "W57 W58 W59 [W57 W58 W59 ...]\n",
+                    argv[0]);
+            return 2;
+        }
+        int idx = atoi(argv[2]);
+        int trials = atoi(argv[3]);
+        int threads = atoi(argv[4]);
+        int max_passes = atoi(argv[5]);
+        int max_flips = atoi(argv[6]);
+        int seed_count = (argc - 7) / 3;
+        uint32_t *seeds = (uint32_t *)calloc((size_t)seed_count * 3, sizeof(uint32_t));
+        if (!seeds) {
+            fprintf(stderr, "seed allocation failed.\n");
+            return 2;
+        }
+        for (int i = 0; i < seed_count; i++) {
+            seeds[3 * i + 0] = (uint32_t)strtoul(argv[7 + 3 * i + 0], NULL, 0);
+            seeds[3 * i + 1] = (uint32_t)strtoul(argv[7 + 3 * i + 1], NULL, 0);
+            seeds[3 * i + 2] = (uint32_t)strtoul(argv[7 + 3 * i + 2], NULL, 0);
+        }
+        sha256_init(32);
+        frontier61_pool_candidate(idx, seeds, seed_count,
+                                  trials, threads, max_passes, max_flips);
+        free(seeds);
+        return 0;
+    }
+
     if (argc >= 2 && strcmp(argv[1], "surface61greedywalk") == 0) {
         int idx = (argc >= 3) ? atoi(argv[2]) : 0;
         uint32_t x[3] = {
