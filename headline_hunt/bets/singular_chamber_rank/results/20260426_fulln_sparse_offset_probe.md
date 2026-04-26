@@ -624,6 +624,21 @@ tail HW = 74
 off59 = 0xab66b434 (HW 16)
 ```
 
+Using the low-D60 ridge states around that point as seeds, the side-objective
+repair walk found a better representative of the same tail-HW74 frontier:
+
+```text
+idx 8, W57=0xaf07f044, W58=0x5cbb3d5e, W59=0x29a4dea3
+defect60 = 0
+defect61 = 0xc004d07e (HW 12)
+tail defects = 0,0,0,0,0xc004d07e,0x8a9168f0,0x63fcc7ec
+tail HW = 74
+off59 = 0x2976ac72 (HW 16)
+```
+
+This does not lower the checked tail below 74, but it dominates the first
+tail-HW74 representative on the round-61 objective.
+
 The HW8 point has the same tangent signature as the earlier frontier:
 
 ```text
@@ -644,7 +659,32 @@ not broad sheets:
 | base | radius | exact `defect60=0` points | best exact neighbor |
 |---|---:|---:|---|
 | HW8 | 5 | 2 | one-bit `W59=0xbf245ea1`, `defect61` HW17, tail HW88 |
-| tail HW74 | 5 | 1 | isolated |
+| first tail HW74 | 5 | 1 | isolated |
+| improved tail HW74 | 5 | 3 | base remains best, `defect61` HW12, tail HW74 |
+
+Tracking non-exact low-D60 ridges inside those same radius-5 balls found a
+consistent trade: as a few `defect60` bits are allowed to miss, `defect61`
+can drop below the exact frontier. Around the HW8 point:
+
+```text
+best D60 HW5 ridge:
+W58=0x7fe3124f, W59=0x9f255a21
+defect60 = 0x84088004
+defect61 = 0x4128c008 (HW 7)
+```
+
+Around the improved tail-HW74 point:
+
+```text
+best D60 HW5 ridge:
+W58=0x5cbb3d5e, W59=0x29a51e23
+defect60 = 0x2000c0a0
+defect61 = 0x08430208 (HW 6)
+```
+
+However, one-wall Newton fails from both ridge states, and greedy
+side-objective repair returns to the exact HW8 or tail-HW74 basins rather
+than preserving the D61 gain.
 
 Affine bridge checks sharpen that picture. The tail-HW74 to HW8 XOR bridge has
 HW20. Enumerating every bridge subset plus every one-bit excursion outside the
@@ -683,7 +723,7 @@ Current frontier:
 | objective | point | value |
 |---|---|---:|
 | round-61 defect | `W58=0x7fc3124f,W59=0xbf245aa1` | HW8 |
-| checked 57..63 tail | `W58=0x1cbb355e,W59=0xad34d2a3` | HW74 |
+| checked 57..63 tail | `W58=0x5cbb3d5e,W59=0x29a4dea3` | HW74, D61 HW12 |
 
 The conclusion changed quantitatively, not qualitatively: the HW10 floor was
 not structural, but the exact `defect60=0` surface is still fractured into

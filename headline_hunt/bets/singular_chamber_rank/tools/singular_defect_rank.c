@@ -4281,8 +4281,20 @@ static void nearexact61_point(int idx, const uint32_t base_x[3], int max_k) {
     frontier61_entry_t best_blend = {0};
     frontier61_entry_t pareto[16];
     frontier61_entry_t exact_list[64];
+    uint32_t best_nonexact_x[6][3];
+    uint32_t best_nonexact_defects[6][7];
+    int best_nonexact_k[6];
+    int best_nonexact_d61_hw[6];
+    int best_nonexact_tail_defect_hw[6];
     memset(pareto, 0, sizeof(pareto));
     memset(exact_list, 0, sizeof(exact_list));
+    memset(best_nonexact_x, 0, sizeof(best_nonexact_x));
+    memset(best_nonexact_defects, 0, sizeof(best_nonexact_defects));
+    for (int i = 0; i < 6; i++) {
+        best_nonexact_k[i] = -1;
+        best_nonexact_d61_hw[i] = 99;
+        best_nonexact_tail_defect_hw[i] = 999;
+    }
     int exact_list_count = 0;
 
     for (int k = 0; k <= max_k; k++) {
@@ -4307,6 +4319,17 @@ static void nearexact61_point(int idx, const uint32_t base_x[3], int max_k) {
                 if (frontier61_better_blend(&entry, &best_blend)) best_blend = entry;
                 frontier61_add_entry(pareto, &entry);
                 if (exact_list_count < 64) exact_list[exact_list_count++] = entry;
+            } else if (e.d60_hw >= 1 && e.d60_hw <= 5) {
+                if (e.d61_hw < best_nonexact_d61_hw[e.d60_hw] ||
+                    (e.d61_hw == best_nonexact_d61_hw[e.d60_hw] &&
+                     e.tail_defect_hw < best_nonexact_tail_defect_hw[e.d60_hw])) {
+                    best_nonexact_d61_hw[e.d60_hw] = e.d61_hw;
+                    best_nonexact_tail_defect_hw[e.d60_hw] = e.tail_defect_hw;
+                    best_nonexact_k[e.d60_hw] = k;
+                    memcpy(best_nonexact_x[e.d60_hw], x, 3 * sizeof(uint32_t));
+                    memcpy(best_nonexact_defects[e.d60_hw], e.defects,
+                           sizeof(e.defects));
+                }
             }
 
             if (k == 0) break;
@@ -4350,6 +4373,26 @@ static void nearexact61_point(int idx, const uint32_t base_x[3], int max_k) {
     for (int i = 0; i < exact_list_count; i++) {
         if (i) printf(",");
         frontier61_print_entry(&exact_list[i]);
+    }
+    printf("],\"best_nonexact_by_d60_hw\":[null");
+    for (int h = 1; h <= 5; h++) {
+        printf(",");
+        if (best_nonexact_k[h] < 0) {
+            printf("null");
+            continue;
+        }
+        printf("{\"d60_hw\":%d,\"d61_hw\":%d,\"tail_defect_hw\":%d,"
+               "\"k\":%d,\"x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+               "\"tail_defects\":[\"0x%08x\",\"0x%08x\",\"0x%08x\",\"0x%08x\","
+               "\"0x%08x\",\"0x%08x\",\"0x%08x\"]}",
+               h, best_nonexact_d61_hw[h], best_nonexact_tail_defect_hw[h],
+               best_nonexact_k[h],
+               best_nonexact_x[h][0], best_nonexact_x[h][1],
+               best_nonexact_x[h][2],
+               best_nonexact_defects[h][0], best_nonexact_defects[h][1],
+               best_nonexact_defects[h][2], best_nonexact_defects[h][3],
+               best_nonexact_defects[h][4], best_nonexact_defects[h][5],
+               best_nonexact_defects[h][6]);
     }
     printf("]}\n");
 }
