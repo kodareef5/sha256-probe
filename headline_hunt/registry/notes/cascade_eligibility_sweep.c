@@ -102,11 +102,19 @@ int main(int argc, char *argv[]) {
     }
 
     printf("FINAL: bit=%d fill=0x%08x trials=2^32 eligible=%lld\n", bit, fill, n_eligible);
-    if (n_eligible == 0) {
-        printf("HYPOTHESIS HOLDS: σ0/σ1 alignment matters at this bit.\n");
+    /* Σ1/σ1 alignment hypothesis from registry/notes/20260425_covered_bits_pattern.md
+     * predicts 0 eligible at σ0-aligned bits {3, 7, 18}. Print verdict ONLY for
+     * those bits where the hypothesis makes a prediction. */
+    int sigma0_aligned = (bit == 3 || bit == 7 || bit == 18);
+    if (sigma0_aligned) {
+        if (n_eligible == 0) {
+            printf("HYPOTHESIS HOLDS: bit=%d (σ0-aligned, predicted 0) → 0 eligible.\n", bit);
+        } else {
+            printf("HYPOTHESIS FALSIFIED: bit=%d (σ0-aligned, predicted 0) → %lld eligible.\n",
+                   bit, n_eligible);
+        }
     } else {
-        printf("HYPOTHESIS FALSIFIED: %lld eligible m0 found at bit=%d (predicted 0).\n",
-               n_eligible, bit);
+        printf("(bit=%d not in σ0-aligned prediction set; result is informational only.)\n", bit);
     }
     return 0;
 }
