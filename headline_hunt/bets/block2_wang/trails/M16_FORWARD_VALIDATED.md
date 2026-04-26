@@ -20,7 +20,16 @@ Independent Python validator `m16_mitm_forward_validator.py`:
 - Checks: da[57]=da[58]=da[59]=0 modular at each slot.
 - Checks: final state[57..59] matches the record's stored state_59.
 
-**Result: 200/200 PASS. ALL VALIDATED.**
+**Result: 200/200 PASS at N=10. ALL VALIDATED.**
+
+### Cross-validation at N=8
+
+Recompiled with `-DN_BITS=8`. Forward enumerator emits 16,777,216 records
+(2^24) / 184 MB in ~0.4s wall on M5 at N=8. Cascade-eligible: M0=0x67,
+fill=0xff. Validator: **200/200 PASS at N=8**.
+
+This confirms the C implementation is correctly N-parameterized — the
+N=10 result wasn't a coincidence of one specific N value.
 
 ## Implications
 
