@@ -173,16 +173,105 @@ tail HW = 103
 
 Again, the exact repair exists but destroys the low-D61 chart.
 
+## idx17 D60-HW7 / D61-HW1 Shelf
+
+Macbook found exact D61 HW4 on idx17, the sparsest known `off58` chart:
+
+```text
+idx = 17
+W57 = 0xa418c4ae
+off58 = 0x00000001
+```
+
+Radius-7 enumeration around that exact point exposed an even lower non-exact
+shelf:
+
+```text
+W58 = 0x46d3f03a
+W59 = 0x6cb9eeaa
+D60 = 0x14400229 (HW 7)
+D61 = 0x10000000 (HW 1)
+```
+
+This is the lowest-D61 shelf seen so far, so it is the cleanest test of the
+D60-linear repair hypothesis. The full `2^32` kernel was covered:
+
+| start | count | exact D60 hits | exact cap-HW1 hits | best exact D61 |
+|---:|---:|---:|---:|---:|
+| `0x00000000` | 1,000,000,000 | 0 | 0 | none |
+| `0x3b9aca00` | 1,000,000,000 | 2 | 0 | HW14 |
+| `0x77359400` | 1,000,000,000 | 2 | 0 | HW14 |
+| `0xb2d05e00` | 1,000,000,000 | 1 | 0 | HW15 |
+| `0xee6b2800` | 294,967,296 | 0 | 0 | none |
+
+Best exact landing by checked tail among the HW14 exact repairs:
+
+```text
+W58 = 0xdfb14481
+W59 = 0xfbf35806
+D60 = 0
+D61 = 0xfac02e12 (HW 14)
+tail HW = 88
+```
+
+The full fiber found five exact D60 representatives and zero exact
+cap-preserving representatives. Repairing the HW1 shelf through the D60-linear
+fiber does not land near the exact HW4 frontier; it jumps all the way back to
+double-digit D61.
+
+Local pair/triple/quad descent did not reveal a small combinatorial bridge
+either. Strict cap-preserving descent refused to move from the shelf; a
+closure-first policy could reduce D60 but lost the chart, ending at D60-HW3 /
+D61-HW13.
+
+## New HW1 off58 Charts
+
+The OpenCL W57 scanner was also run across more candidates while the CPU fiber
+sweeps were in flight. It found several additional `off58` HW1 charts:
+
+| idx | candidate | W57 | off58 | downstream test |
+|---:|---|---:|---:|---|
+| 9 | `bit3_m5fa301aa_ff` | `0x84dfb86e` | `0x00040000` | exact D60 found, best D61 HW16 in 262k starts |
+| 13 | `bit14_m40fde4d2_ff` | `0x52e8a9a4` | `0x80000000` | exact D60 found, 250M walk reached D61 HW7 and tail HW73 |
+| 14 | `bit25_ma2f498b1_ff` | `0x1a4c712e` | `0x00000080` | exact D60 found, best D61 HW13 in 262k starts |
+| 15 | `bit4_m39a03c2d_ff` | `0x24aed0bc` | `0x00080000` | exact D60 found, best D61 HW13 in 262k starts |
+
+The idx13 chart was the strongest new one:
+
+```text
+W57 = 0x52e8a9a4
+W58 = 0x7260a7ef
+W59 = 0xb72312aa
+off58 = 0x80000000
+D60 = 0
+D61 = 0x20040631 (HW 7)
+tail HW = 85
+```
+
+Its best checked-tail point in the same 250M walk was:
+
+```text
+W58 = 0x2ba6a6f9
+W59 = 0xa64e02fc
+D61 = 0x170aa400
+tail HW = 73
+```
+
+These scans strengthen the negative on simple sparse-offset ranking. `off58`
+HW1 is not sufficient: idx17 reaches HW4, while new HW1 charts tested here
+only reached HW7/HW13/HW16 under the same family of descent operators.
+
 ## Interpretation
 
 The D60-linear fiber is not empty. It contains rare exact nonlinear D60
-landings. But across three full 32-dimensional kernel sweeps:
+landings. But across four full 32-dimensional kernel sweeps:
 
 | source chart | base D60/D61 | exact low-cap representatives | best exact D61 |
 |---|---:|---:|---:|
 | original HW2 shelf | HW7 / HW2 | 0 | HW8 |
 | cap-4 terrace | HW4 / HW4 | 0 | HW17 |
 | local HW3 shelf | HW5 / HW3 | 0 | HW14 |
+| idx17 HW1 shelf | HW7 / HW1 | 0 | HW14 |
 
 This makes the obstruction sharper. The missing bridge is not simply hidden in
 the local D60-linear affine fiber. Closing D60 is possible, but the required

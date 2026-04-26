@@ -5909,6 +5909,110 @@ static void d60_repair_fiber_candidate(int idx, const uint32_t base_x[3],
     printf("}\n");
 }
 
+static void chart61_pair_descent_candidate(int idx, const uint32_t base_x[3],
+                                           int max_passes, int max_k,
+                                           int cap, int policy,
+                                           int part_weight, int carry_weight) {
+    int n_cands = (int)(sizeof(CANDIDATES) / sizeof(CANDIDATES[0]));
+    if (idx < 0 || idx >= n_cands) {
+        fprintf(stderr, "candidate index must be 0..%d.\n", n_cands - 1);
+        exit(2);
+    }
+    if (max_passes < 1) max_passes = 1;
+    if (max_passes > 256) max_passes = 256;
+    if (max_k < 1) max_k = 1;
+    if (max_k > 4) max_k = 4;
+    if (cap < 0) cap = 0;
+    if (cap > 32) cap = 32;
+    if (part_weight < 0) part_weight = 0;
+    if (carry_weight < 0) carry_weight = 0;
+
+    const candidate_t *cand = &CANDIDATES[idx];
+    sha256_precomp_t p1, p2;
+    if (!prepare_candidate(cand, &p1, &p2)) {
+        printf("{\"mode\":\"chart61pairdescent\",\"candidate\":\"%s\",\"error\":\"not_cascade_eligible\"}\n",
+               cand->id);
+        return;
+    }
+
+    tail_trace_t target;
+    tail_trace_for_x(&p1, &p2, base_x, &target);
+
+    uint32_t x[3] = {base_x[0], base_x[1], base_x[2]};
+    chart61_eval_t cur;
+    chart61_eval_point(&p1, &p2, x, &target, 0, &cur);
+
+    int passes_used = 0;
+    uint64_t accepted_combo[256];
+    int accepted_k[256];
+    memset(accepted_combo, 0, sizeof(accepted_combo));
+    memset(accepted_k, 0, sizeof(accepted_k));
+
+    for (int pass = 0; pass < max_passes; pass++) {
+        uint32_t best_x[3] = {x[0], x[1], x[2]};
+        chart61_eval_t best = cur;
+        uint64_t best_combo = 0;
+        int best_k = 0;
+
+        for (int k = 1; k <= max_k; k++) {
+            uint64_t combo = (k == 0) ? 0ULL : ((1ULL << k) - 1ULL);
+            while (1) {
+                uint32_t yx[3];
+                apply_combo_to_x(x, combo, yx);
+                chart61_eval_t y;
+                chart61_eval_point(&p1, &p2, yx, &target, 0, &y);
+                if (chart61_eval_better(&y, &best, cap, policy,
+                                        part_weight, carry_weight)) {
+                    best = y;
+                    memcpy(best_x, yx, sizeof(best_x));
+                    best_combo = combo;
+                    best_k = k;
+                }
+
+                uint64_t next = next_combination64(combo);
+                if (!next || next < combo) break;
+                combo = next;
+            }
+        }
+
+        if (!chart61_eval_better(&best, &cur, cap, policy,
+                                 part_weight, carry_weight)) {
+            break;
+        }
+        x[1] = best_x[1];
+        x[2] = best_x[2];
+        cur = best;
+        accepted_combo[passes_used] = best_combo;
+        accepted_k[passes_used] = best_k;
+        passes_used++;
+        if (cur.f.defects[3] == 0 && cur.f.d61_hw <= cap) break;
+    }
+
+    chart61_eval_t final_eval;
+    chart61_eval_point(&p1, &p2, x, &target, 1, &final_eval);
+
+    printf("{\"mode\":\"chart61pairdescent\",\"candidate\":\"%s\",\"idx\":%d,"
+           "\"base_x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"cap\":%d,\"policy\":%d,\"part_weight\":%d,\"carry_weight\":%d,"
+           "\"max_passes\":%d,\"max_k\":%d,\"passes_used\":%d,"
+           "\"accepted\":[",
+           cand->id, idx, base_x[0], base_x[1], base_x[2],
+           cap, policy, part_weight, carry_weight,
+           max_passes, max_k, passes_used);
+    for (int i = 0; i < passes_used; i++) {
+        if (i) printf(",");
+        printf("{\"k\":%d,\"combo\":\"0x%016llx\"}",
+               accepted_k[i], (unsigned long long)accepted_combo[i]);
+    }
+    printf("],\"final\":");
+    chart61_print_point(x, &final_eval,
+                        chart61_score(&final_eval, cap, policy,
+                                      part_weight, carry_weight),
+                        hw32(x[1] ^ base_x[1]) + hw32(x[2] ^ base_x[2]),
+                        passes_used);
+    printf("}\n");
+}
+
 static void pair61_residual_point(int idx, const uint32_t x[3], int cap) {
     int n_cands = (int)(sizeof(CANDIDATES) / sizeof(CANDIDATES[0]));
     if (idx < 0 || idx >= n_cands) {
@@ -7311,6 +7415,25 @@ int main(int argc, char **argv) {
         d60_repair_fiber_candidate(idx, x, samples, threads, cap,
                                    policy, part_weight, carry_weight,
                                    1, start);
+        return 0;
+    }
+
+    if (argc >= 2 && strcmp(argv[1], "chart61pairdescent") == 0) {
+        int idx = (argc >= 3) ? atoi(argv[2]) : 0;
+        uint32_t x[3] = {
+            (argc >= 4) ? (uint32_t)strtoul(argv[3], NULL, 0) : 0,
+            (argc >= 5) ? (uint32_t)strtoul(argv[4], NULL, 0) : 0,
+            (argc >= 6) ? (uint32_t)strtoul(argv[5], NULL, 0) : 0,
+        };
+        int max_passes = (argc >= 7) ? atoi(argv[6]) : 32;
+        int max_k = (argc >= 8) ? atoi(argv[7]) : 2;
+        int cap = (argc >= 9) ? atoi(argv[8]) : 4;
+        int policy = (argc >= 10) ? atoi(argv[9]) : 0;
+        int part_weight = (argc >= 11) ? atoi(argv[10]) : 1;
+        int carry_weight = (argc >= 12) ? atoi(argv[11]) : 1;
+        sha256_init(32);
+        chart61_pair_descent_candidate(idx, x, max_passes, max_k, cap,
+                                       policy, part_weight, carry_weight);
         return 0;
     }
 

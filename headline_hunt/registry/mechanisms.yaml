@@ -255,8 +255,9 @@
   - Capped-D61 probing maps a stepped terrace: exact D60 at D61 HW5, D60 HW4 at D61 cap 4, and D60 HW7 at D61 cap 3/2.
   - Carry-coordinate comparison separates an exact-D60 Ch-only chart from a mixed Sigma1/Ch/T2 terrace chart.
   - A 64-flip mixed-seed pool did not bridge the mixed terrace back to exact D60; it returned to the known HW5/HW59 exact basins.
-  - Deterministic full-kernel D60 repair-fiber sweeps over three low-D61 shelves found rare exact D60 landings, but no exact low-cap representative.
-  - OpenCL GPU W57/off58 scanning is available; first scans show sparse off58 alone is not the ranking function.
+  - Deterministic full-kernel D60 repair-fiber sweeps over four low-D61 shelves, including an idx17 D61-HW1 shelf,
+    found rare exact D60 landings but no exact low-cap representative.
+  - OpenCL GPU W57/off58 scanning is available; additional HW1 off58 charts still do not predict the D61 floor by themselves.
   status: in_flight
   priority: 8
   expected_info_per_cpu_hour: very_high
@@ -264,7 +265,8 @@
   - Existing cascade-eligible candidate registry.
   - CPU C probes in bets/singular_chamber_rank/tools; OpenCL GPU chart scanner available for W57/off58 bulk discovery.
   next_action: "Build a carry-bit compensation operator for the mixed Sigma1/Ch/T2 shelves. Deterministic D60-fiber
-    exhaustion shows exact D60 landings exist, but low-D61 caps are lost when the local D60 affine fiber is used directly."
+    exhaustion shows exact D60 landings exist, but low-D61 caps are lost when the local D60 affine fiber is used directly;
+    new off58-HW1 charts confirm sparse offset alone is not the ranking function."
   kill_criteria:
   - All representative candidates plateau at the same defect61 floor across deep walks AND structural mapping fails to
     identify a carry-aware repair operator.
@@ -292,6 +294,6 @@
     tail HW76 -> HW59 verified at full N=32. Cross-candidate walks reached idx0/idx8/idx17 HW4 and idx3 HW7. The exact
     surface is carry-fractured; capped-D61 probing found a D60-HW4/D61-HW4 terrace with no exact-D60 neighbor through
     radius 7, residual-fiber enumeration did not rescue it, deterministic D60-fiber exhaustion found no exact low-cap
-    representative in three full 2^32 kernels, and 64-flip mixed-seed repair still returned to known exact basins.
-    OpenCL GPU scans are working for W57/off58 chart discovery, but first tests show sparse off58 alone is not enough.
+    representative in four full 2^32 kernels including an idx17 D61-HW1 shelf, and 64-flip mixed-seed repair still returned to known exact basins.
+    OpenCL GPU scans are working for W57/off58 chart discovery, but new HW1 off58 charts still did not beat the known frontier.
     Open: carry-bit compensation or a productive-chart predictor?"

@@ -173,8 +173,10 @@ Key result notes:
   scans are working; first chart tests show sparse off58 alone is not the
   ranking function, and macbook confirmed idx17 reaches HW4 even with the
   sparsest known `off58=0x00000001`. Deterministic `d60repairfiberseq` sweeps now exhaust full
-  `2^32` D60 kernels for the HW2 shelf, cap-4 terrace, and a local HW3 shelf;
-  exact D60 landings exist, but none preserve the low-D61 caps.
+  `2^32` D60 kernels for the HW2 shelf, cap-4 terrace, a local HW3 shelf, and
+  the idx17 D60-HW7/D61-HW1 shelf; exact D60 landings exist, but none preserve
+  the low-D61 caps. Additional GPU-found off58-HW1 charts on idx9/13/14/15
+  did not beat the known exact-D61 frontier.
 - `results/20260426_m5_1B_deep_descent.md`: macbook M5 1B-trial walk that
   verified the HW5 round-61 and tail-HW68 frontiers.
 - `results/20260426_m5_1B_from_HW5.md`: macbook M5 1B-trial walk from the HW5
@@ -193,5 +195,7 @@ Key result notes:
   follow-up after HW4, including no HW3 in a 1B HW4 walk, idx0 tail-HW66,
   residual-fiber negative checks, and first OpenCL GPU chart scans.
 - `results/20260426_d60_fiber_exhaustion.md`: deterministic full-kernel
-  D60 repair-fiber sweeps over the low-D61 shelves; no exact low-cap
-  representative appears inside the D60-linear fibers.
+  D60 repair-fiber sweeps over the low-D61 shelves, including the idx17
+  D61-HW1 shelf; no exact low-cap representative appears inside the
+  D60-linear fibers. The same note records GPU-discovered off58-HW1 charts
+  whose downstream D61 floors remain worse than the known frontier.
