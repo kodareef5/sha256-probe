@@ -46,10 +46,10 @@
   vars_range: [11150, 11290]
   clauses_range: [47300, 47800]
   example_file: "cnfs_n32/sr61_cascade_m3304caa0_f80000000_bit10.cnf"
-  observed_n: 13
+  observed_n: 37
   observed_vars: [11184, 11283]
   observed_clauses: [47362, 47761]
-  last_audited: "2026-04-25"
+  last_audited: "2026-04-26"
   notes: |
     Range extended 2026-04-25 (clauses 47720 → 47800) when 5 new MSB CNFs
     were generated to cover registry candidates that previously had no CNF:
@@ -57,6 +57,10 @@
     m3f239926_fillaaaaaaaa (47600), m44b49bc3_fill80000000 (47761),
     m189b13c7_fill80000000 (47537). All produced by encode_sr61_cascade.py;
     structurally identical encoder family.
+    2026-04-26 update: re-aggregated across ALL 37 sr61_cascade CNFs in
+    cnfs_n32/ after queue6/7/8 expansion (registry 36 → 60). New cands at
+    bit={1,12,14,15,20} all land within prior vars/clauses bounds — no
+    range extension needed. observed_n: 13 → 37.
 
 - bucket_id: sr61_n32_true_explicit
   sr_level: 61
