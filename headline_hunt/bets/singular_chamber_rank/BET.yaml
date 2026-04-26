@@ -1,0 +1,26 @@
+id: singular_chamber_rank
+name: Lower-rank sr=61 defect chambers
+headline_if_success: Severe structural reduction of TRUE sr=61 cascade compatibility from 2^32 to 2^r via low-rank SHA-256 gate/carry chambers.
+hypothesis: The sr=61 schedule-defect map is not globally rank-32; SHA-256 Boolean-gate degeneracy and carry chambers create lower-rank local regions that can be targeted.
+structural_basis:
+  - The current cascade proof establishes a 2^-32 barrier under apparent uniformity, not a formal lower bound on every local chamber.
+  - Ch and Maj have exact invisible directions on surfaces such as f=g and b=c.
+  - Fill-specific candidate yield suggests carry chambers are shaped by boundary constants.
+status: open
+priority: experimental
+expected_info_per_cpu_hour: high
+dependencies:
+  - Existing cascade-eligible candidate registry.
+  - CPU-only C probes; GPU optional once a rank/drop signal exists.
+next_action: Run local-rank probe on representative candidates; if any rank drop appears, characterize its gate chamber and turn it into a directed search.
+kill_criteria:
+  - No local defect-rank drop below 32 across representative candidates and structured fills.
+  - No correlation between gate-degeneracy metrics and defect-rank or defect-HW after a bounded probe.
+reopen_criteria:
+  - A nonlinear fiber-size probe shows nonuniform preimage size even when local rank is full.
+  - A nonzero Ch/Maj-invisible trail construction gives a specific chamber to test.
+owner: linux_gpu_laptop
+last_updated: '2026-04-26'
+evidence: []
+notes: Created to pursue the first-principles "singular chamber" angle, separate from candidate sweeps and CDCL encoding work.
+
