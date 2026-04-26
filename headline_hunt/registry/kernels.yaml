@@ -137,6 +137,26 @@
   owner: macbook
   notes: "First time tested. Non-aligned bit (not in any rotation amount set). 1 of 2^32 eligible at fill=0xff."
 
+- id: kernel_0_9_bit15
+  name: "bit-15 kernel at word-pair (0,9) — non-aligned (NEW 2026-04-26)"
+  n_scope: [32]
+  word_pair: [0, 9]
+  bit: 15
+  diff_hex: "0x00008000"
+  scan_coverage:
+    fills: ["0xffffffff"]
+    m0_range: "exhaustive 2^32 at fill=0xff"
+    complete: true
+    n32_random_scan: "fill=0xff: 3 eligible (m=0x1a49a56a, 0x6a25c416, 0x28c09a5a)"
+  candidates_found: 3
+  best_results_by_n: {n32: "3 candidates at fill=0xff"}
+  sr61_partial:
+    n32_true_sr61: {status: untested, candidates: 3, cpu_hours: 0}
+  status: open
+  last_updated: "2026-04-26"
+  owner: macbook
+  notes: "First time tested. Non-aligned bit. 3 of 2^32 eligible at fill=0xff (queue8). m=0x28c09a5a has hardlock_bits=14, de58_size=4096 (compressed)."
+
 - id: kernel_0_9_bit12
   name: "bit-12 kernel at word-pair (0,9) — non-aligned (NEW 2026-04-26)"
   n_scope: [32]
