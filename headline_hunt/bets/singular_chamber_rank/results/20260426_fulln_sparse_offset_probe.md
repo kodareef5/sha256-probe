@@ -1025,6 +1025,22 @@ idx 0's checked tail to HW66. Residual-fiber enumeration around the HW4 point
 and the earlier terraces found no hidden low-HW exact representative inside the
 linear affine fibers.
 
+## D60 repair-fiber exhaustion
+
+The mixed-chart repair question was then sharpened by enumerating the full
+`2^32` D60-linear kernel for three low-D61 shelves:
+
+| source chart | base D60/D61 | exact low-cap representatives | best exact D61 |
+|---|---:|---:|---:|
+| original HW2 shelf | HW7 / HW2 | 0 | HW8 |
+| cap-4 terrace | HW4 / HW4 | 0 | HW17 |
+| local HW3 shelf near the HW8 landing | HW5 / HW3 | 0 | HW14 |
+
+This means the D60-linear fiber is not empty, but it does not contain the
+desired bridge. Exact D60 landings appear as rare representatives, yet every
+one found leaves the low-D61 mixed chart. The next operator needs to compensate
+the carry transition directly, not merely sample the D60 affine fiber.
+
 ## Kernel-linear one-bit targets
 
 The rank-31 kernel result suggests a tempting linear strategy: stay inside the

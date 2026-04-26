@@ -171,7 +171,10 @@ Key result notes:
   A 64-flip mixed-seed pool and residual-fiber enumeration did not repair the
   cap terrace back to exact D60 with a better D61 or tail. OpenCL GPU W57/off58
   scans are working; first chart tests show sparse off58 alone is not the
-  ranking function.
+  ranking function, and macbook confirmed idx17 reaches HW4 even with the
+  sparsest known `off58=0x00000001`. Deterministic `d60repairfiberseq` sweeps now exhaust full
+  `2^32` D60 kernels for the HW2 shelf, cap-4 terrace, and a local HW3 shelf;
+  exact D60 landings exist, but none preserve the low-D61 caps.
 - `results/20260426_m5_1B_deep_descent.md`: macbook M5 1B-trial walk that
   verified the HW5 round-61 and tail-HW68 frontiers.
 - `results/20260426_m5_1B_from_HW5.md`: macbook M5 1B-trial walk from the HW5
@@ -181,9 +184,14 @@ Key result notes:
   raw-walk batch.
 - `results/20260426_HW4_D61_breakthrough.md`: macbook M5 1B-trial walk from
   the idx0 HW5 base; first exact D61 HW4 point at full N.
+- `results/20260426_HW4_idx17_third_cand.md`: macbook confirmation that HW4
+  reproduces on idx17, the sparsest known off58 chamber (`0x00000001`).
 - `results/20260426_cross_chamber_pool.md`: pooled exact-surface walks over
   idx8/idx0/idx3; later updates put the current best exact/tail frontiers at
   idx0 HW4/tail-HW66, idx8 HW5/tail-HW59, and idx3 HW7/tail-HW72.
 - `results/20260426_linux_hw4_gpu_followup.md`: linux verification and
   follow-up after HW4, including no HW3 in a 1B HW4 walk, idx0 tail-HW66,
   residual-fiber negative checks, and first OpenCL GPU chart scans.
+- `results/20260426_d60_fiber_exhaustion.md`: deterministic full-kernel
+  D60 repair-fiber sweeps over the low-D61 shelves; no exact low-cap
+  representative appears inside the D60-linear fibers.

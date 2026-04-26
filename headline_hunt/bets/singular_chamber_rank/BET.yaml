@@ -13,7 +13,7 @@ expected_info_per_cpu_hour: high
 dependencies:
   - Existing cascade-eligible candidate registry.
   - CPU C probes in bets/singular_chamber_rank/tools; OpenCL GPU chart scanner now available for bulk W57/off58 discovery.
-next_action: "Keep a Pareto frontier over exact D61 and checked tail while remapping round-61 in carry coordinates. Current frontier: idx0 exact D61 HW4, idx8 checked tail HW59, idx0 checked tail HW66. HW4 did not descend to HW3 in a linux 1B follow-up; W57/off58 GPU scans show sparse off58 alone is not the ranking function. Next target is carry-aware mixed-chart compensation or a predictor for productive sparse charts."
+next_action: "Build a carry-bit compensation operator for the mixed Sigma1/Ch/T2 shelves. Full 2^32 D60-linear fiber sweeps show exact D60 landings exist, but none preserve the low-D61 caps; closing D60 leaves the mixed chart."
 kill_criteria:
   - No local defect-rank drop below 32 across representative candidates and structured fills.
   - No correlation between gate-degeneracy metrics and defect-rank or defect-HW after a bounded probe.
@@ -44,12 +44,16 @@ current_progress: |
   D60 point. A later M5 1B walk from the idx8 HW5 base found no D61 HW4/HW3,
   but improved checked tail to HW67, then a linux pooled walk improved idx8's
   checked tail to HW59. Cross-candidate walks now show the mechanism is not
-  unique to idx8: idx0 reaches exact D61 HW4 and idx3 reaches exact D61 HW7.
+  unique to idx8: idx0 and idx17 reach exact D61 HW4, while idx3 reaches
+  exact D61 HW7.
   A linux 1B follow-up from the idx0 HW4 point did not find HW3, but improved
   idx0 checked tail to HW66. Residual-fiber enumeration and 64-flip mixed-seed
-  pooling did not bridge the cap terrace back to exact D60. OpenCL GPU W57
-  scans found new sparse-off58 charts, but deeper CPU walks showed off58
-  sparsity alone is not the ranking function. Carry-coordinate comparison
+  pooling did not bridge the cap terrace back to exact D60. Deterministic
+  2^32 D60-kernel sweeps over the HW2 shelf, cap-4 terrace, and a local
+  HW3 shelf found rare exact D60 landings, but zero exact low-cap
+  representatives. OpenCL GPU W57 scans found new sparse-off58 charts, but
+  deeper CPU walks showed off58 sparsity alone is not the ranking function.
+  Carry-coordinate comparison
   shows exact HW5/HW67 basin moves are round-61 Ch-only, while the cap-4
   terrace lowers D61 by activating Sigma1/T2 terms outside the exact-D60 chart.
   Open question: can a compensation operator preserve those mixed terms while
@@ -63,16 +67,20 @@ evidence:
   - results/20260426_m5_1B_from_HW5.md
   - results/20260426_m5_3cand_HW5_reproduces.md
   - results/20260426_HW4_D61_breakthrough.md
+  - results/20260426_HW4_idx17_third_cand.md
   - results/20260426_cross_chamber_pool.md
   - results/20260426_linux_hw4_gpu_followup.md
+  - results/20260426_d60_fiber_exhaustion.md
 notes: |
   Local rank stayed full, so the bet redirected toward nonlinear
   finite-difference/carry fibers. Full-N sparse off58 steering found multiple
   exact sr=61-compatible points with defect60=0. Iterative descent, combining
   linux ridge-repair and M5 raw 1B-trial walks, drove the joint frontier from
   defect61 HW10 / tail HW76 through HW8/HW74 and HW7/HW70 to defect61 HW4 /
-  tail HW59. Cross-candidate walks found idx0 exact D61 HW4 and idx3 exact
-  D61 HW7, showing the low-D61 exact mechanism is not unique to idx8.
+  tail HW59. Cross-candidate walks found idx0 and idx17 exact D61 HW4 and
+  idx3 exact D61 HW7, showing the low-D61 exact mechanism is not unique to
+  idx8 and that even the sparsest known off58 chart still floors at HW4 under
+  the current operator.
 
   Round61 traces show exact defect60 synchronizes a,b,c,e, reducing required61
   to dh+dCh. Radius-7 enumeration revealed a D60-HW7/D61-HW2 shelf that ordinary
@@ -80,8 +88,10 @@ notes: |
   exact HW6. A capped-D61 objective exposed a cleaner D60-HW4/D61-HW4 terrace,
   but pair-residual linear solves still leave the carry chamber, and no exact
   D60 point appeared within radius 7 of the terrace. Residual-fiber
-  enumeration did not find a better representative inside the linear affine
-  fibers. GPU W57/off58 scans can find sparse charts quickly, but first tests
+  enumeration did not find a better representative inside the pair-linear
+  affine fibers, and deterministic D60-fiber exhaustion found no exact
+  low-cap representative in three full 2^32 kernel sweeps. GPU W57/off58
+  scans can find sparse charts quickly, but first tests
   show sparse off58 alone is not sufficient; downstream carry geometry selects
   the productive charts. Carry-coordinate comparison indicates this terrace is
   a mixed Sigma1/Ch/T2 chart, not a small move along the exact-D60 Ch-only

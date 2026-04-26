@@ -790,7 +790,7 @@ static void probe_candidate(const candidate_t *cand, int samples, int threads) {
                        (uint64_t)tid;
 
         #pragma omp for schedule(dynamic, 16)
-        for (int i = 0; i < samples; i++) {
+        for (long long i = 0; i < samples; i++) {
             uint32_t x[3] = {
                 splitmix32(&rng),
                 splitmix32(&rng),
@@ -5108,6 +5108,807 @@ static void capped61_walk_candidate(int idx, const uint32_t base_x[3],
     printf("}\n");
 }
 
+typedef struct {
+    frontier61_eval_t f;
+    int part_dist;
+    int carry_dist;
+    int chart_dist;
+} chart61_eval_t;
+
+static void chart61_eval_point(const sha256_precomp_t *p1,
+                               const sha256_precomp_t *p2,
+                               const uint32_t x[3],
+                               const tail_trace_t *target,
+                               int want_tail_hw,
+                               chart61_eval_t *out) {
+    tail_trace_t trace;
+    tail_trace_for_x(p1, p2, x, &trace);
+
+    memcpy(out->f.defects, trace.defects, sizeof(out->f.defects));
+    out->f.d60_hw = hw32(trace.defects[3]);
+    out->f.d61_hw = hw32(trace.defects[4]);
+    out->f.d62_hw = hw32(trace.defects[5]);
+    out->f.d63_hw = hw32(trace.defects[6]);
+    out->f.tail_defect_hw = out->f.d61_hw + out->f.d62_hw + out->f.d63_hw;
+    out->f.tail_hw = 999;
+    if (want_tail_hw && trace.defects[3] == 0) {
+        out->f.tail_hw = sha256_eval_tail(p1, p2, trace.w1, trace.w2);
+    }
+
+    int r61 = 4;
+    out->part_dist =
+        hw32(trace.parts[r61][1] ^ target->parts[r61][1]) +
+        hw32(trace.parts[r61][2] ^ target->parts[r61][2]) +
+        hw32(trace.parts[r61][3] ^ target->parts[r61][3]);
+    out->carry_dist =
+        hw32(trace.carries[r61][0] ^ target->carries[r61][0]) +
+        hw32(trace.carries[r61][1] ^ target->carries[r61][1]) +
+        hw32(trace.carries[r61][2] ^ target->carries[r61][2]);
+    out->chart_dist = out->part_dist + out->carry_dist;
+}
+
+static int chart61_over(const chart61_eval_t *e, int cap) {
+    return (e->f.d61_hw > cap) ? (e->f.d61_hw - cap) : 0;
+}
+
+static int chart61_score(const chart61_eval_t *e, int cap, int policy,
+                         int part_weight, int carry_weight) {
+    int over = chart61_over(e, cap);
+    int chart = e->part_dist * part_weight + e->carry_dist * carry_weight;
+    switch (policy & 3) {
+        case 0:
+            return over * 1000000 + e->f.d60_hw * 10000 +
+                   chart * 16 + e->f.d61_hw;
+        case 1:
+            return over * 1000000 + chart * 10000 +
+                   e->f.d60_hw * 64 + e->f.d61_hw;
+        case 2:
+            return e->f.d60_hw * 1000000 + over * 10000 +
+                   chart * 16 + e->f.d61_hw;
+        default:
+            return (e->f.d60_hw + over) * 100000 +
+                   e->f.d61_hw * 1000 + chart;
+    }
+}
+
+static int chart61_eval_better(const chart61_eval_t *a,
+                               const chart61_eval_t *b,
+                               int cap, int policy,
+                               int part_weight, int carry_weight) {
+    int as = chart61_score(a, cap, policy, part_weight, carry_weight);
+    int bs = chart61_score(b, cap, policy, part_weight, carry_weight);
+    if (as != bs) return as < bs;
+    if (a->f.d60_hw != b->f.d60_hw) return a->f.d60_hw < b->f.d60_hw;
+    if (a->f.d61_hw != b->f.d61_hw) return a->f.d61_hw < b->f.d61_hw;
+    if (a->chart_dist != b->chart_dist) return a->chart_dist < b->chart_dist;
+    if (a->f.tail_defect_hw != b->f.tail_defect_hw) {
+        return a->f.tail_defect_hw < b->f.tail_defect_hw;
+    }
+    if (a->f.defects[3] != b->f.defects[3]) {
+        return a->f.defects[3] < b->f.defects[3];
+    }
+    return a->f.defects[4] < b->f.defects[4];
+}
+
+static int chart61_cap_better(const chart61_eval_t *a,
+                              const chart61_eval_t *b) {
+    if (a->f.d60_hw != b->f.d60_hw) return a->f.d60_hw < b->f.d60_hw;
+    if (a->f.d61_hw != b->f.d61_hw) return a->f.d61_hw < b->f.d61_hw;
+    if (a->chart_dist != b->chart_dist) return a->chart_dist < b->chart_dist;
+    if (a->f.tail_defect_hw != b->f.tail_defect_hw) {
+        return a->f.tail_defect_hw < b->f.tail_defect_hw;
+    }
+    return a->f.defects[3] < b->f.defects[3];
+}
+
+static void chart61_print_point(const uint32_t x[3], const chart61_eval_t *e,
+                                int score, int distance, int passes) {
+    printf("{\"x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"score\":%d,\"d60\":\"0x%08x\",\"d60_hw\":%d,"
+           "\"d61\":\"0x%08x\",\"d61_hw\":%d,"
+           "\"tail_defects\":[\"0x%08x\",\"0x%08x\",\"0x%08x\",\"0x%08x\","
+           "\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"tail_defect_hw\":%d,\"tail_hw\":%d,"
+           "\"part_dist\":%d,\"carry_dist\":%d,\"chart_dist\":%d,"
+           "\"distance\":%d,\"passes\":%d}",
+           x[0], x[1], x[2], score,
+           e->f.defects[3], e->f.d60_hw, e->f.defects[4], e->f.d61_hw,
+           e->f.defects[0], e->f.defects[1], e->f.defects[2],
+           e->f.defects[3], e->f.defects[4], e->f.defects[5],
+           e->f.defects[6],
+           e->f.tail_defect_hw, e->f.tail_hw,
+           e->part_dist, e->carry_dist, e->chart_dist,
+           distance, passes);
+}
+
+static void chart61_walk_candidate(int idx, const uint32_t base_x[3],
+                                   int trials, int threads,
+                                   int max_passes, int max_flips,
+                                   int cap, int policy,
+                                   int part_weight, int carry_weight) {
+    int n_cands = (int)(sizeof(CANDIDATES) / sizeof(CANDIDATES[0]));
+    if (idx < 0 || idx >= n_cands) {
+        fprintf(stderr, "candidate index must be 0..%d.\n", n_cands - 1);
+        exit(2);
+    }
+    if (max_flips < 1) max_flips = 1;
+    if (max_flips > 64) max_flips = 64;
+    if (cap < 0) cap = 0;
+    if (cap > 32) cap = 32;
+    if (part_weight < 0) part_weight = 0;
+    if (carry_weight < 0) carry_weight = 0;
+
+    const candidate_t *cand = &CANDIDATES[idx];
+    sha256_precomp_t p1, p2;
+    if (!prepare_candidate(cand, &p1, &p2)) {
+        printf("{\"mode\":\"chart61walk\",\"candidate\":\"%s\",\"error\":\"not_cascade_eligible\"}\n",
+               cand->id);
+        return;
+    }
+
+    tail_trace_t target;
+    tail_trace_for_x(&p1, &p2, base_x, &target);
+
+    chart61_eval_t base_eval;
+    chart61_eval_point(&p1, &p2, base_x, &target, 1, &base_eval);
+
+    uint32_t best_any_x[3] = {base_x[0], base_x[1], base_x[2]};
+    chart61_eval_t best_any_eval = base_eval;
+    int best_any_distance = 0;
+    int best_any_passes = 0;
+
+    uint32_t best_cap_x[3] = {base_x[0], base_x[1], base_x[2]};
+    chart61_eval_t best_cap_eval = base_eval;
+    int best_cap_distance = 0;
+    int best_cap_passes = 0;
+    int have_cap = base_eval.f.d61_hw <= cap;
+
+    uint32_t best_exact_x[3] = {base_x[0], base_x[1], base_x[2]};
+    chart61_eval_t best_exact_eval = base_eval;
+    int best_exact_distance = 0;
+    int best_exact_passes = 0;
+    int have_exact = base_eval.f.defects[3] == 0;
+
+    uint32_t best_exact_cap_x[3] = {base_x[0], base_x[1], base_x[2]};
+    chart61_eval_t best_exact_cap_eval = base_eval;
+    int best_exact_cap_distance = 0;
+    int best_exact_cap_passes = 0;
+    int have_exact_cap = have_exact && base_eval.f.d61_hw <= cap;
+
+    int cap_hits = have_cap ? 1 : 0;
+    int exact60_hits = have_exact ? 1 : 0;
+    int exact_cap_hits = have_exact_cap ? 1 : 0;
+    int changed_exact_cap_hits = 0;
+    int cap_d60_hist[33];
+    int exact_d61_hist[33];
+    memset(cap_d60_hist, 0, sizeof(cap_d60_hist));
+    memset(exact_d61_hist, 0, sizeof(exact_d61_hist));
+    if (have_cap && base_eval.f.d60_hw >= 0 && base_eval.f.d60_hw <= 32) {
+        cap_d60_hist[base_eval.f.d60_hw]++;
+    }
+    if (have_exact && base_eval.f.d61_hw >= 0 && base_eval.f.d61_hw <= 32) {
+        exact_d61_hist[base_eval.f.d61_hw]++;
+    }
+
+    #pragma omp parallel num_threads(threads)
+    {
+        int tid = omp_get_thread_num();
+        uint64_t rng = 0x6368617274363177ULL ^
+                       ((uint64_t)cand->m0 << 11) ^
+                       ((uint64_t)base_x[1] << 19) ^
+                       ((uint64_t)base_x[2] << 3) ^
+                       (uint64_t)tid;
+
+        uint32_t local_best_any_x[3] = {base_x[0], base_x[1], base_x[2]};
+        chart61_eval_t local_best_any_eval = base_eval;
+        int local_best_any_distance = 0;
+        int local_best_any_passes = 0;
+
+        uint32_t local_best_cap_x[3] = {base_x[0], base_x[1], base_x[2]};
+        chart61_eval_t local_best_cap_eval = base_eval;
+        int local_best_cap_distance = 0;
+        int local_best_cap_passes = 0;
+        int local_have_cap = have_cap;
+
+        uint32_t local_best_exact_x[3] = {base_x[0], base_x[1], base_x[2]};
+        chart61_eval_t local_best_exact_eval = base_eval;
+        int local_best_exact_distance = 0;
+        int local_best_exact_passes = 0;
+        int local_have_exact = have_exact;
+
+        uint32_t local_best_exact_cap_x[3] = {base_x[0], base_x[1], base_x[2]};
+        chart61_eval_t local_best_exact_cap_eval = base_eval;
+        int local_best_exact_cap_distance = 0;
+        int local_best_exact_cap_passes = 0;
+        int local_have_exact_cap = have_exact_cap;
+
+        int local_cap_hits = 0;
+        int local_exact60_hits = 0;
+        int local_exact_cap_hits = 0;
+        int local_changed_exact_cap_hits = 0;
+        int local_cap_d60_hist[33];
+        int local_exact_d61_hist[33];
+        memset(local_cap_d60_hist, 0, sizeof(local_cap_d60_hist));
+        memset(local_exact_d61_hist, 0, sizeof(local_exact_d61_hist));
+
+        #pragma omp for schedule(dynamic, 8)
+        for (int i = 0; i < trials; i++) {
+            uint32_t x[3];
+            if ((splitmix32(&rng) & 3U) == 0U && local_have_cap) {
+                memcpy(x, local_best_cap_x, sizeof(x));
+            } else {
+                memcpy(x, base_x, 3 * sizeof(uint32_t));
+            }
+
+            int flips = 1 + (int)(splitmix32(&rng) % (uint32_t)max_flips);
+            for (int f = 0; f < flips; f++) {
+                int bit = (int)(splitmix32(&rng) & 63U);
+                if (bit < 32) x[1] ^= 1U << bit;
+                else x[2] ^= 1U << (bit - 32);
+            }
+
+            chart61_eval_t cur;
+            chart61_eval_point(&p1, &p2, x, &target, 0, &cur);
+            int passes_used = 0;
+
+            for (int pass = 0; pass < max_passes; pass++) {
+                uint32_t best_step_x[3] = {x[0], x[1], x[2]};
+                chart61_eval_t best_step = cur;
+
+                for (int bit = 0; bit < 64; bit++) {
+                    uint32_t xf[3] = {x[0], x[1], x[2]};
+                    if (bit < 32) xf[1] ^= 1U << bit;
+                    else xf[2] ^= 1U << (bit - 32);
+
+                    chart61_eval_t y;
+                    chart61_eval_point(&p1, &p2, xf, &target, 0, &y);
+                    if (chart61_eval_better(&y, &best_step, cap, policy,
+                                            part_weight, carry_weight)) {
+                        best_step = y;
+                        best_step_x[1] = xf[1];
+                        best_step_x[2] = xf[2];
+                    }
+                }
+
+                if (!chart61_eval_better(&best_step, &cur, cap, policy,
+                                         part_weight, carry_weight)) {
+                    break;
+                }
+                x[1] = best_step_x[1];
+                x[2] = best_step_x[2];
+                cur = best_step;
+                passes_used = pass + 1;
+            }
+
+            int distance = hw32(x[1] ^ base_x[1]) + hw32(x[2] ^ base_x[2]);
+            if (chart61_eval_better(&cur, &local_best_any_eval, cap, policy,
+                                    part_weight, carry_weight)) {
+                local_best_any_eval = cur;
+                memcpy(local_best_any_x, x, sizeof(local_best_any_x));
+                local_best_any_distance = distance;
+                local_best_any_passes = passes_used;
+            }
+
+            if (cur.f.d61_hw <= cap) {
+                local_cap_hits++;
+                if (cur.f.d60_hw >= 0 && cur.f.d60_hw <= 32) {
+                    local_cap_d60_hist[cur.f.d60_hw]++;
+                }
+                if (!local_have_cap ||
+                    chart61_cap_better(&cur, &local_best_cap_eval)) {
+                    local_have_cap = 1;
+                    local_best_cap_eval = cur;
+                    memcpy(local_best_cap_x, x, sizeof(local_best_cap_x));
+                    local_best_cap_distance = distance;
+                    local_best_cap_passes = passes_used;
+                }
+            }
+
+            if (cur.f.defects[3] == 0) {
+                chart61_eval_point(&p1, &p2, x, &target, 1, &cur);
+                local_exact60_hits++;
+                if (cur.f.d61_hw >= 0 && cur.f.d61_hw <= 32) {
+                    local_exact_d61_hist[cur.f.d61_hw]++;
+                }
+                if (!local_have_exact ||
+                    cur.f.d61_hw < local_best_exact_eval.f.d61_hw ||
+                    (cur.f.d61_hw == local_best_exact_eval.f.d61_hw &&
+                     cur.f.tail_hw < local_best_exact_eval.f.tail_hw)) {
+                    local_have_exact = 1;
+                    local_best_exact_eval = cur;
+                    memcpy(local_best_exact_x, x, sizeof(local_best_exact_x));
+                    local_best_exact_distance = distance;
+                    local_best_exact_passes = passes_used;
+                }
+                if (cur.f.d61_hw <= cap) {
+                    local_exact_cap_hits++;
+                    if (distance > 0) local_changed_exact_cap_hits++;
+                    if (!local_have_exact_cap ||
+                        cur.f.d61_hw < local_best_exact_cap_eval.f.d61_hw ||
+                        (cur.f.d61_hw == local_best_exact_cap_eval.f.d61_hw &&
+                         cur.f.tail_hw < local_best_exact_cap_eval.f.tail_hw)) {
+                        local_have_exact_cap = 1;
+                        local_best_exact_cap_eval = cur;
+                        memcpy(local_best_exact_cap_x, x, sizeof(local_best_exact_cap_x));
+                        local_best_exact_cap_distance = distance;
+                        local_best_exact_cap_passes = passes_used;
+                    }
+                }
+            }
+        }
+
+        #pragma omp critical
+        {
+            cap_hits += local_cap_hits;
+            exact60_hits += local_exact60_hits;
+            exact_cap_hits += local_exact_cap_hits;
+            changed_exact_cap_hits += local_changed_exact_cap_hits;
+            for (int h = 0; h <= 32; h++) {
+                cap_d60_hist[h] += local_cap_d60_hist[h];
+                exact_d61_hist[h] += local_exact_d61_hist[h];
+            }
+            if (chart61_eval_better(&local_best_any_eval, &best_any_eval, cap,
+                                    policy, part_weight, carry_weight)) {
+                best_any_eval = local_best_any_eval;
+                memcpy(best_any_x, local_best_any_x, sizeof(best_any_x));
+                best_any_distance = local_best_any_distance;
+                best_any_passes = local_best_any_passes;
+            }
+            if (local_have_cap &&
+                (!have_cap || chart61_cap_better(&local_best_cap_eval,
+                                                 &best_cap_eval))) {
+                have_cap = 1;
+                best_cap_eval = local_best_cap_eval;
+                memcpy(best_cap_x, local_best_cap_x, sizeof(best_cap_x));
+                best_cap_distance = local_best_cap_distance;
+                best_cap_passes = local_best_cap_passes;
+            }
+            if (local_have_exact &&
+                (!have_exact ||
+                 local_best_exact_eval.f.d61_hw < best_exact_eval.f.d61_hw ||
+                 (local_best_exact_eval.f.d61_hw == best_exact_eval.f.d61_hw &&
+                  local_best_exact_eval.f.tail_hw < best_exact_eval.f.tail_hw))) {
+                have_exact = 1;
+                best_exact_eval = local_best_exact_eval;
+                memcpy(best_exact_x, local_best_exact_x, sizeof(best_exact_x));
+                best_exact_distance = local_best_exact_distance;
+                best_exact_passes = local_best_exact_passes;
+            }
+            if (local_have_exact_cap &&
+                (!have_exact_cap ||
+                 local_best_exact_cap_eval.f.d61_hw < best_exact_cap_eval.f.d61_hw ||
+                 (local_best_exact_cap_eval.f.d61_hw ==
+                  best_exact_cap_eval.f.d61_hw &&
+                  local_best_exact_cap_eval.f.tail_hw <
+                  best_exact_cap_eval.f.tail_hw))) {
+                have_exact_cap = 1;
+                best_exact_cap_eval = local_best_exact_cap_eval;
+                memcpy(best_exact_cap_x, local_best_exact_cap_x,
+                       sizeof(best_exact_cap_x));
+                best_exact_cap_distance = local_best_exact_cap_distance;
+                best_exact_cap_passes = local_best_exact_cap_passes;
+            }
+        }
+    }
+
+    printf("{\"mode\":\"chart61walk\",\"candidate\":\"%s\",\"idx\":%d,"
+           "\"base_x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"cap\":%d,\"policy\":%d,\"part_weight\":%d,\"carry_weight\":%d,"
+           "\"trials\":%d,\"threads\":%d,\"max_passes\":%d,\"max_flips\":%d,"
+           "\"base_part_dist\":%d,\"base_carry_dist\":%d,"
+           "\"cap_hits\":%d,\"exact60_hits\":%d,\"exact_cap_hits\":%d,"
+           "\"changed_exact_cap_hits\":%d,"
+           "\"cap_d60_hw_hist\":[%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,"
+           "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d],"
+           "\"exact_d61_hw_hist\":[%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,"
+           "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d],"
+           "\"best_any\":",
+           cand->id, idx, base_x[0], base_x[1], base_x[2],
+           cap, policy, part_weight, carry_weight,
+           trials, threads, max_passes, max_flips,
+           base_eval.part_dist, base_eval.carry_dist,
+           cap_hits, exact60_hits, exact_cap_hits, changed_exact_cap_hits,
+           cap_d60_hist[0], cap_d60_hist[1], cap_d60_hist[2], cap_d60_hist[3],
+           cap_d60_hist[4], cap_d60_hist[5], cap_d60_hist[6], cap_d60_hist[7],
+           cap_d60_hist[8], cap_d60_hist[9], cap_d60_hist[10], cap_d60_hist[11],
+           cap_d60_hist[12], cap_d60_hist[13], cap_d60_hist[14], cap_d60_hist[15],
+           cap_d60_hist[16], cap_d60_hist[17], cap_d60_hist[18], cap_d60_hist[19],
+           cap_d60_hist[20], cap_d60_hist[21], cap_d60_hist[22], cap_d60_hist[23],
+           cap_d60_hist[24], cap_d60_hist[25], cap_d60_hist[26], cap_d60_hist[27],
+           cap_d60_hist[28], cap_d60_hist[29], cap_d60_hist[30], cap_d60_hist[31],
+           cap_d60_hist[32],
+           exact_d61_hist[0], exact_d61_hist[1], exact_d61_hist[2],
+           exact_d61_hist[3], exact_d61_hist[4], exact_d61_hist[5],
+           exact_d61_hist[6], exact_d61_hist[7], exact_d61_hist[8],
+           exact_d61_hist[9], exact_d61_hist[10], exact_d61_hist[11],
+           exact_d61_hist[12], exact_d61_hist[13], exact_d61_hist[14],
+           exact_d61_hist[15], exact_d61_hist[16], exact_d61_hist[17],
+           exact_d61_hist[18], exact_d61_hist[19], exact_d61_hist[20],
+           exact_d61_hist[21], exact_d61_hist[22], exact_d61_hist[23],
+           exact_d61_hist[24], exact_d61_hist[25], exact_d61_hist[26],
+           exact_d61_hist[27], exact_d61_hist[28], exact_d61_hist[29],
+           exact_d61_hist[30], exact_d61_hist[31], exact_d61_hist[32]);
+    chart61_print_point(best_any_x, &best_any_eval,
+                        chart61_score(&best_any_eval, cap, policy,
+                                      part_weight, carry_weight),
+                        best_any_distance, best_any_passes);
+    printf(",\"best_cap\":");
+    if (have_cap) {
+        chart61_print_point(best_cap_x, &best_cap_eval,
+                            chart61_score(&best_cap_eval, cap, policy,
+                                          part_weight, carry_weight),
+                            best_cap_distance, best_cap_passes);
+    } else {
+        printf("null");
+    }
+    printf(",\"best_exact\":");
+    if (have_exact) {
+        chart61_print_point(best_exact_x, &best_exact_eval,
+                            chart61_score(&best_exact_eval, cap, policy,
+                                          part_weight, carry_weight),
+                            best_exact_distance, best_exact_passes);
+    } else {
+        printf("null");
+    }
+    printf(",\"best_exact_cap\":");
+    if (have_exact_cap) {
+        chart61_print_point(best_exact_cap_x, &best_exact_cap_eval,
+                            chart61_score(&best_exact_cap_eval, cap, policy,
+                                          part_weight, carry_weight),
+                            best_exact_cap_distance, best_exact_cap_passes);
+    } else {
+        printf("null");
+    }
+    printf("}\n");
+}
+
+static void d60_repair_fiber_candidate(int idx, const uint32_t base_x[3],
+                                       long long samples, int threads, int cap,
+                                       int policy, int part_weight,
+                                       int carry_weight, int sequential,
+                                       uint64_t seq_start) {
+    int n_cands = (int)(sizeof(CANDIDATES) / sizeof(CANDIDATES[0]));
+    if (idx < 0 || idx >= n_cands) {
+        fprintf(stderr, "candidate index must be 0..%d.\n", n_cands - 1);
+        exit(2);
+    }
+    if (samples < 1) samples = 1;
+    if (cap < 0) cap = 0;
+    if (cap > 32) cap = 32;
+    if (part_weight < 0) part_weight = 0;
+    if (carry_weight < 0) carry_weight = 0;
+
+    const candidate_t *cand = &CANDIDATES[idx];
+    sha256_precomp_t p1, p2;
+    if (!prepare_candidate(cand, &p1, &p2)) {
+        printf("{\"mode\":\"d60repairfiber\",\"candidate\":\"%s\",\"error\":\"not_cascade_eligible\"}\n",
+               cand->id);
+        return;
+    }
+
+    uint32_t cols60[64], cols61[64];
+    uint64_t cols_pair[64];
+    uint32_t d60 = 0, d61 = 0;
+    defect60_61_columns(&p1, &p2, base_x, &d60, &d61,
+                        cols60, cols61, cols_pair);
+
+    uint64_t particular = 0;
+    int rank60 = 0;
+    int solvable = solve_linear_columns(d60, cols60, 64,
+                                        &particular, &rank60);
+    uint64_t kernel[64];
+    int kernel_rank = 0;
+    int kernel_dim = kernel_basis_columns32(cols60, 64, kernel, &kernel_rank);
+
+    tail_trace_t target;
+    tail_trace_for_x(&p1, &p2, base_x, &target);
+    chart61_eval_t base_eval;
+    chart61_eval_point(&p1, &p2, base_x, &target, 1, &base_eval);
+
+    if (!solvable) {
+        printf("{\"mode\":\"d60repairfiber\",\"candidate\":\"%s\",\"idx\":%d,"
+               "\"base_x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+               "\"error\":\"d60_linear_unsolvable\",\"rank60\":%d,"
+               "\"kernel_dim\":%d,\"base_d60\":\"0x%08x\","
+               "\"base_d61\":\"0x%08x\"}\n",
+               cand->id, idx, base_x[0], base_x[1], base_x[2],
+               rank60, kernel_dim, d60, d61);
+        return;
+    }
+
+    uint32_t best_any_x[3] = {base_x[0], base_x[1], base_x[2]};
+    chart61_eval_t best_any_eval = base_eval;
+    int best_any_delta_hw = 0;
+
+    uint32_t best_cap_x[3] = {base_x[0], base_x[1], base_x[2]};
+    chart61_eval_t best_cap_eval = base_eval;
+    int best_cap_delta_hw = 0;
+    int have_cap = base_eval.f.d61_hw <= cap;
+
+    uint32_t best_exact_x[3] = {base_x[0], base_x[1], base_x[2]};
+    chart61_eval_t best_exact_eval = base_eval;
+    int best_exact_delta_hw = 0;
+    int have_exact = base_eval.f.defects[3] == 0;
+
+    uint32_t best_exact_cap_x[3] = {base_x[0], base_x[1], base_x[2]};
+    chart61_eval_t best_exact_cap_eval = base_eval;
+    int best_exact_cap_delta_hw = 0;
+    int have_exact_cap = have_exact && base_eval.f.d61_hw <= cap;
+
+    long long cap_hits = have_cap ? 1 : 0;
+    long long exact60_hits = have_exact ? 1 : 0;
+    long long exact_cap_hits = have_exact_cap ? 1 : 0;
+    int actual_d60_hist[33], cap_d60_hist[33], exact_d61_hist[33];
+    memset(actual_d60_hist, 0, sizeof(actual_d60_hist));
+    memset(cap_d60_hist, 0, sizeof(cap_d60_hist));
+    memset(exact_d61_hist, 0, sizeof(exact_d61_hist));
+    if (base_eval.f.d60_hw >= 0 && base_eval.f.d60_hw <= 32) {
+        actual_d60_hist[base_eval.f.d60_hw]++;
+    }
+    if (have_cap && base_eval.f.d60_hw >= 0 && base_eval.f.d60_hw <= 32) {
+        cap_d60_hist[base_eval.f.d60_hw]++;
+    }
+    if (have_exact && base_eval.f.d61_hw >= 0 && base_eval.f.d61_hw <= 32) {
+        exact_d61_hist[base_eval.f.d61_hw]++;
+    }
+
+    #pragma omp parallel num_threads(threads)
+    {
+        int tid = omp_get_thread_num();
+        uint64_t rng = 0x6436306669626572ULL ^
+                       ((uint64_t)cand->m0 << 17) ^
+                       ((uint64_t)base_x[1] << 7) ^
+                       ((uint64_t)base_x[2] << 29) ^
+                       (uint64_t)tid;
+
+        uint32_t local_best_any_x[3] = {base_x[0], base_x[1], base_x[2]};
+        chart61_eval_t local_best_any_eval = base_eval;
+        int local_best_any_delta_hw = 0;
+
+        uint32_t local_best_cap_x[3] = {base_x[0], base_x[1], base_x[2]};
+        chart61_eval_t local_best_cap_eval = base_eval;
+        int local_best_cap_delta_hw = 0;
+        int local_have_cap = have_cap;
+
+        uint32_t local_best_exact_x[3] = {base_x[0], base_x[1], base_x[2]};
+        chart61_eval_t local_best_exact_eval = base_eval;
+        int local_best_exact_delta_hw = 0;
+        int local_have_exact = have_exact;
+
+        uint32_t local_best_exact_cap_x[3] = {base_x[0], base_x[1], base_x[2]};
+        chart61_eval_t local_best_exact_cap_eval = base_eval;
+        int local_best_exact_cap_delta_hw = 0;
+        int local_have_exact_cap = have_exact_cap;
+
+        long long local_cap_hits = 0;
+        long long local_exact60_hits = 0;
+        long long local_exact_cap_hits = 0;
+        int local_actual_d60_hist[33], local_cap_d60_hist[33], local_exact_d61_hist[33];
+        memset(local_actual_d60_hist, 0, sizeof(local_actual_d60_hist));
+        memset(local_cap_d60_hist, 0, sizeof(local_cap_d60_hist));
+        memset(local_exact_d61_hist, 0, sizeof(local_exact_d61_hist));
+
+        #pragma omp for schedule(dynamic, 256)
+        for (int i = 0; i < samples; i++) {
+            uint64_t selection = 0;
+            if (sequential) {
+                if (kernel_dim < 64) {
+                    uint64_t mask = (1ULL << kernel_dim) - 1ULL;
+                    selection = (seq_start + (uint64_t)i) & mask;
+                } else {
+                    selection = seq_start + (uint64_t)i;
+                }
+            } else if (i != 0) {
+                uint64_t r = ((uint64_t)splitmix32(&rng) << 32) |
+                             (uint64_t)splitmix32(&rng);
+                if (kernel_dim < 64) {
+                    uint64_t mask = (1ULL << kernel_dim) - 1ULL;
+                    selection = r & mask;
+                } else {
+                    selection = r;
+                }
+            }
+            uint64_t delta = particular ^ combine_kernel_selection(selection, kernel);
+
+            uint32_t x[3];
+            apply_delta58_59(base_x, delta, x);
+            chart61_eval_t e;
+            chart61_eval_point(&p1, &p2, x, &target, 1, &e);
+            int dhw = hw32((uint32_t)delta) + hw32((uint32_t)(delta >> 32));
+
+            if (e.f.d60_hw >= 0 && e.f.d60_hw <= 32) {
+                local_actual_d60_hist[e.f.d60_hw]++;
+            }
+            if (chart61_eval_better(&e, &local_best_any_eval, cap, policy,
+                                    part_weight, carry_weight)) {
+                local_best_any_eval = e;
+                memcpy(local_best_any_x, x, sizeof(local_best_any_x));
+                local_best_any_delta_hw = dhw;
+            }
+            if (e.f.d61_hw <= cap) {
+                local_cap_hits++;
+                if (e.f.d60_hw >= 0 && e.f.d60_hw <= 32) {
+                    local_cap_d60_hist[e.f.d60_hw]++;
+                }
+                if (!local_have_cap || chart61_cap_better(&e, &local_best_cap_eval)) {
+                    local_have_cap = 1;
+                    local_best_cap_eval = e;
+                    memcpy(local_best_cap_x, x, sizeof(local_best_cap_x));
+                    local_best_cap_delta_hw = dhw;
+                }
+            }
+            if (e.f.defects[3] == 0) {
+                local_exact60_hits++;
+                if (e.f.d61_hw >= 0 && e.f.d61_hw <= 32) {
+                    local_exact_d61_hist[e.f.d61_hw]++;
+                }
+                if (!local_have_exact ||
+                    e.f.d61_hw < local_best_exact_eval.f.d61_hw ||
+                    (e.f.d61_hw == local_best_exact_eval.f.d61_hw &&
+                     e.f.tail_hw < local_best_exact_eval.f.tail_hw)) {
+                    local_have_exact = 1;
+                    local_best_exact_eval = e;
+                    memcpy(local_best_exact_x, x, sizeof(local_best_exact_x));
+                    local_best_exact_delta_hw = dhw;
+                }
+                if (e.f.d61_hw <= cap) {
+                    local_exact_cap_hits++;
+                    if (!local_have_exact_cap ||
+                        e.f.d61_hw < local_best_exact_cap_eval.f.d61_hw ||
+                        (e.f.d61_hw == local_best_exact_cap_eval.f.d61_hw &&
+                         e.f.tail_hw < local_best_exact_cap_eval.f.tail_hw)) {
+                        local_have_exact_cap = 1;
+                        local_best_exact_cap_eval = e;
+                        memcpy(local_best_exact_cap_x, x,
+                               sizeof(local_best_exact_cap_x));
+                        local_best_exact_cap_delta_hw = dhw;
+                    }
+                }
+            }
+        }
+
+        #pragma omp critical
+        {
+            cap_hits += local_cap_hits;
+            exact60_hits += local_exact60_hits;
+            exact_cap_hits += local_exact_cap_hits;
+            for (int h = 0; h <= 32; h++) {
+                actual_d60_hist[h] += local_actual_d60_hist[h];
+                cap_d60_hist[h] += local_cap_d60_hist[h];
+                exact_d61_hist[h] += local_exact_d61_hist[h];
+            }
+            if (chart61_eval_better(&local_best_any_eval, &best_any_eval, cap,
+                                    policy, part_weight, carry_weight)) {
+                best_any_eval = local_best_any_eval;
+                memcpy(best_any_x, local_best_any_x, sizeof(best_any_x));
+                best_any_delta_hw = local_best_any_delta_hw;
+            }
+            if (local_have_cap &&
+                (!have_cap || chart61_cap_better(&local_best_cap_eval,
+                                                 &best_cap_eval))) {
+                have_cap = 1;
+                best_cap_eval = local_best_cap_eval;
+                memcpy(best_cap_x, local_best_cap_x, sizeof(best_cap_x));
+                best_cap_delta_hw = local_best_cap_delta_hw;
+            }
+            if (local_have_exact &&
+                (!have_exact ||
+                 local_best_exact_eval.f.d61_hw < best_exact_eval.f.d61_hw ||
+                 (local_best_exact_eval.f.d61_hw == best_exact_eval.f.d61_hw &&
+                  local_best_exact_eval.f.tail_hw < best_exact_eval.f.tail_hw))) {
+                have_exact = 1;
+                best_exact_eval = local_best_exact_eval;
+                memcpy(best_exact_x, local_best_exact_x, sizeof(best_exact_x));
+                best_exact_delta_hw = local_best_exact_delta_hw;
+            }
+            if (local_have_exact_cap &&
+                (!have_exact_cap ||
+                 local_best_exact_cap_eval.f.d61_hw <
+                 best_exact_cap_eval.f.d61_hw ||
+                 (local_best_exact_cap_eval.f.d61_hw ==
+                  best_exact_cap_eval.f.d61_hw &&
+                  local_best_exact_cap_eval.f.tail_hw <
+                  best_exact_cap_eval.f.tail_hw))) {
+                have_exact_cap = 1;
+                best_exact_cap_eval = local_best_exact_cap_eval;
+                memcpy(best_exact_cap_x, local_best_exact_cap_x,
+                       sizeof(best_exact_cap_x));
+                best_exact_cap_delta_hw = local_best_exact_cap_delta_hw;
+            }
+        }
+    }
+
+    printf("{\"mode\":\"d60repairfiber\",\"candidate\":\"%s\",\"idx\":%d,"
+           "\"base_x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"cap\":%d,\"policy\":%d,\"part_weight\":%d,\"carry_weight\":%d,"
+           "\"samples\":%lld,\"threads\":%d,\"rank60\":%d,\"kernel_dim\":%d,"
+           "\"sequential\":%d,\"seq_start\":\"0x%016llx\","
+           "\"particular_delta\":\"0x%016llx\",\"particular_delta_hw\":%d,"
+           "\"base_d60\":\"0x%08x\",\"base_d60_hw\":%d,"
+           "\"base_d61\":\"0x%08x\",\"base_d61_hw\":%d,"
+           "\"cap_hits\":%lld,\"exact60_hits\":%lld,\"exact_cap_hits\":%lld,"
+           "\"actual_d60_hw_hist\":[%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,"
+           "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d],"
+           "\"cap_d60_hw_hist\":[%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,"
+           "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d],"
+           "\"exact_d61_hw_hist\":[%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,"
+           "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d],"
+           "\"best_any\":",
+           cand->id, idx, base_x[0], base_x[1], base_x[2],
+           cap, policy, part_weight, carry_weight,
+           samples, threads, rank60, kernel_dim,
+           sequential, (unsigned long long)seq_start,
+           (unsigned long long)particular,
+           hw32((uint32_t)particular) + hw32((uint32_t)(particular >> 32)),
+           d60, hw32(d60), d61, hw32(d61),
+           cap_hits, exact60_hits, exact_cap_hits,
+           actual_d60_hist[0], actual_d60_hist[1], actual_d60_hist[2],
+           actual_d60_hist[3], actual_d60_hist[4], actual_d60_hist[5],
+           actual_d60_hist[6], actual_d60_hist[7], actual_d60_hist[8],
+           actual_d60_hist[9], actual_d60_hist[10], actual_d60_hist[11],
+           actual_d60_hist[12], actual_d60_hist[13], actual_d60_hist[14],
+           actual_d60_hist[15], actual_d60_hist[16], actual_d60_hist[17],
+           actual_d60_hist[18], actual_d60_hist[19], actual_d60_hist[20],
+           actual_d60_hist[21], actual_d60_hist[22], actual_d60_hist[23],
+           actual_d60_hist[24], actual_d60_hist[25], actual_d60_hist[26],
+           actual_d60_hist[27], actual_d60_hist[28], actual_d60_hist[29],
+           actual_d60_hist[30], actual_d60_hist[31], actual_d60_hist[32],
+           cap_d60_hist[0], cap_d60_hist[1], cap_d60_hist[2],
+           cap_d60_hist[3], cap_d60_hist[4], cap_d60_hist[5],
+           cap_d60_hist[6], cap_d60_hist[7], cap_d60_hist[8],
+           cap_d60_hist[9], cap_d60_hist[10], cap_d60_hist[11],
+           cap_d60_hist[12], cap_d60_hist[13], cap_d60_hist[14],
+           cap_d60_hist[15], cap_d60_hist[16], cap_d60_hist[17],
+           cap_d60_hist[18], cap_d60_hist[19], cap_d60_hist[20],
+           cap_d60_hist[21], cap_d60_hist[22], cap_d60_hist[23],
+           cap_d60_hist[24], cap_d60_hist[25], cap_d60_hist[26],
+           cap_d60_hist[27], cap_d60_hist[28], cap_d60_hist[29],
+           cap_d60_hist[30], cap_d60_hist[31], cap_d60_hist[32],
+           exact_d61_hist[0], exact_d61_hist[1], exact_d61_hist[2],
+           exact_d61_hist[3], exact_d61_hist[4], exact_d61_hist[5],
+           exact_d61_hist[6], exact_d61_hist[7], exact_d61_hist[8],
+           exact_d61_hist[9], exact_d61_hist[10], exact_d61_hist[11],
+           exact_d61_hist[12], exact_d61_hist[13], exact_d61_hist[14],
+           exact_d61_hist[15], exact_d61_hist[16], exact_d61_hist[17],
+           exact_d61_hist[18], exact_d61_hist[19], exact_d61_hist[20],
+           exact_d61_hist[21], exact_d61_hist[22], exact_d61_hist[23],
+           exact_d61_hist[24], exact_d61_hist[25], exact_d61_hist[26],
+           exact_d61_hist[27], exact_d61_hist[28], exact_d61_hist[29],
+           exact_d61_hist[30], exact_d61_hist[31], exact_d61_hist[32]);
+    chart61_print_point(best_any_x, &best_any_eval,
+                        chart61_score(&best_any_eval, cap, policy,
+                                      part_weight, carry_weight),
+                        best_any_delta_hw, 0);
+    printf(",\"best_cap\":");
+    if (have_cap) {
+        chart61_print_point(best_cap_x, &best_cap_eval,
+                            chart61_score(&best_cap_eval, cap, policy,
+                                          part_weight, carry_weight),
+                            best_cap_delta_hw, 0);
+    } else {
+        printf("null");
+    }
+    printf(",\"best_exact\":");
+    if (have_exact) {
+        chart61_print_point(best_exact_x, &best_exact_eval,
+                            chart61_score(&best_exact_eval, cap, policy,
+                                          part_weight, carry_weight),
+                            best_exact_delta_hw, 0);
+    } else {
+        printf("null");
+    }
+    printf(",\"best_exact_cap\":");
+    if (have_exact_cap) {
+        chart61_print_point(best_exact_cap_x, &best_exact_cap_eval,
+                            chart61_score(&best_exact_cap_eval, cap, policy,
+                                          part_weight, carry_weight),
+                            best_exact_cap_delta_hw, 0);
+    } else {
+        printf("null");
+    }
+    printf("}\n");
+}
+
 static void pair61_residual_point(int idx, const uint32_t x[3], int cap) {
     int n_cands = (int)(sizeof(CANDIDATES) / sizeof(CANDIDATES[0]));
     if (idx < 0 || idx >= n_cands) {
@@ -6447,6 +7248,69 @@ int main(int argc, char **argv) {
         sha256_init(32);
         capped61_walk_candidate(idx, x, trials, threads,
                                 max_passes, max_flips, cap);
+        return 0;
+    }
+
+    if (argc >= 2 && strcmp(argv[1], "chart61walk") == 0) {
+        int idx = (argc >= 3) ? atoi(argv[2]) : 0;
+        uint32_t x[3] = {
+            (argc >= 4) ? (uint32_t)strtoul(argv[3], NULL, 0) : 0,
+            (argc >= 5) ? (uint32_t)strtoul(argv[4], NULL, 0) : 0,
+            (argc >= 6) ? (uint32_t)strtoul(argv[5], NULL, 0) : 0,
+        };
+        int trials = (argc >= 7) ? atoi(argv[6]) : 65536;
+        int threads = (argc >= 8) ? atoi(argv[7]) : 8;
+        int max_passes = (argc >= 9) ? atoi(argv[8]) : 64;
+        int max_flips = (argc >= 10) ? atoi(argv[9]) : 12;
+        int cap = (argc >= 11) ? atoi(argv[10]) : 3;
+        int policy = (argc >= 12) ? atoi(argv[11]) : 0;
+        int part_weight = (argc >= 13) ? atoi(argv[12]) : 1;
+        int carry_weight = (argc >= 14) ? atoi(argv[13]) : 1;
+        sha256_init(32);
+        chart61_walk_candidate(idx, x, trials, threads,
+                               max_passes, max_flips, cap,
+                               policy, part_weight, carry_weight);
+        return 0;
+    }
+
+    if (argc >= 2 && strcmp(argv[1], "d60repairfiber") == 0) {
+        int idx = (argc >= 3) ? atoi(argv[2]) : 0;
+        uint32_t x[3] = {
+            (argc >= 4) ? (uint32_t)strtoul(argv[3], NULL, 0) : 0,
+            (argc >= 5) ? (uint32_t)strtoul(argv[4], NULL, 0) : 0,
+            (argc >= 6) ? (uint32_t)strtoul(argv[5], NULL, 0) : 0,
+        };
+        long long samples = (argc >= 7) ? strtoll(argv[6], NULL, 0) : 1048576LL;
+        int threads = (argc >= 8) ? atoi(argv[7]) : 8;
+        int cap = (argc >= 9) ? atoi(argv[8]) : 4;
+        int policy = (argc >= 10) ? atoi(argv[9]) : 0;
+        int part_weight = (argc >= 11) ? atoi(argv[10]) : 1;
+        int carry_weight = (argc >= 12) ? atoi(argv[11]) : 1;
+        sha256_init(32);
+        d60_repair_fiber_candidate(idx, x, samples, threads, cap,
+                                   policy, part_weight, carry_weight,
+                                   0, 0);
+        return 0;
+    }
+
+    if (argc >= 2 && strcmp(argv[1], "d60repairfiberseq") == 0) {
+        int idx = (argc >= 3) ? atoi(argv[2]) : 0;
+        uint32_t x[3] = {
+            (argc >= 4) ? (uint32_t)strtoul(argv[3], NULL, 0) : 0,
+            (argc >= 5) ? (uint32_t)strtoul(argv[4], NULL, 0) : 0,
+            (argc >= 6) ? (uint32_t)strtoul(argv[5], NULL, 0) : 0,
+        };
+        uint64_t start = (argc >= 7) ? strtoull(argv[6], NULL, 0) : 0ULL;
+        long long samples = (argc >= 8) ? strtoll(argv[7], NULL, 0) : 1048576LL;
+        int threads = (argc >= 9) ? atoi(argv[8]) : 8;
+        int cap = (argc >= 10) ? atoi(argv[9]) : 4;
+        int policy = (argc >= 11) ? atoi(argv[10]) : 0;
+        int part_weight = (argc >= 12) ? atoi(argv[11]) : 1;
+        int carry_weight = (argc >= 13) ? atoi(argv[12]) : 1;
+        sha256_init(32);
+        d60_repair_fiber_candidate(idx, x, samples, threads, cap,
+                                   policy, part_weight, carry_weight,
+                                   1, start);
         return 0;
     }
 
