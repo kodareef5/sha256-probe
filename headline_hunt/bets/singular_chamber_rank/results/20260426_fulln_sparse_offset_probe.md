@@ -796,18 +796,73 @@ result makes the next obstruction sharper: there are very low-D61 shelves
 nearby, but repairing seven D60 carry bits without losing the D61 gain remains
 the wall.
 
+## M5 deep descent and ridge repair
+
+The companion M5 worker then ran a 1,000,000,000-trial greedy walk from an
+independent HW7 point in the same idx 8 sparse-`off58` chamber. That depth
+moved both frontiers:
+
+```text
+round-61 frontier:
+W58 = 0xdd73a9d7
+W59 = 0x57046fad
+defect61 = 0x04240880 (HW 5)
+tail HW = 78
+
+checked-tail frontier:
+W58 = 0x464b2c4c
+W59 = 0xef7b2fae
+tail defects = 0,0,0,0,0xfa0735a3,0x15bfe278,0xc5ffbd08
+tail HW = 68
+```
+
+Both were verified locally with `tailpoint`. The HW5 point has the now-familiar
+rank profile:
+
+```text
+rank60 = 32
+kernel_dim = 32
+rank_pair = 63
+rank61_on_kernel = 31
+```
+
+Radius-6 enumeration around the HW5 point found only two exact `defect60=0`
+points and no exact HW4, but it did expose another low-D61 shelf:
+
+```text
+W58=0xddf3a9d3, W59=0x76046f0d
+defect60 = 0x64021108 (HW 7)
+defect61 = 0x10200020 (HW 3)
+```
+
+A new weighted ridge walker was added to preserve low D61 while still reducing
+D60. From the earlier radius-7 D60-HW7/D61-HW2 shelf it found an exact HW6
+point:
+
+```text
+W58=0x561b939a, W59=0x4db054d5
+defect60 = 0
+defect61 = 0x01020486 (HW 6)
+tail HW = 79
+```
+
+From the HW5-local D60-HW7/D61-HW3 shelf, the same ridge walker returned to
+the exact HW5 point rather than finding HW4. So HW5 is now the verified exact
+frontier, while D60-low shelves below HW5 remain visible nearby.
+
 Current frontier:
 
 | objective | point | value |
 |---|---|---:|
-| round-61 defect | `W58=0x478a938a,W59=0x1f833295` | HW7 |
-| checked 57..63 tail | `W58=0x65aa818a,W59=0x31103285` | HW70, D61 HW11 |
+| round-61 defect | `W58=0xdd73a9d7,W59=0x57046fad` | HW5 |
+| checked 57..63 tail | `W58=0x464b2c4c,W59=0xef7b2fae` | HW68 |
 
-The conclusion changed quantitatively, not qualitatively: neither the HW10 nor
-HW8 floor was structural, but the exact `defect60=0` surface is still
-fractured into thin carry-linked basins. The productive pattern is now clear:
-enumerate low-D60 ridges around the exact frontier, then repair those ridges
-back onto the exact surface.
+The conclusion changed quantitatively, not qualitatively: neither the HW10,
+HW8, nor HW7 floor was structural, but the exact `defect60=0` surface is still
+fractured into thin carry-linked basins. The productive pattern is now a
+two-track loop: deep greedy walking finds new exact basins, then ridge
+enumeration and weighted ridge repair explain and locally extend the shelves
+around them.
 
 ## Kernel-linear one-bit targets
 

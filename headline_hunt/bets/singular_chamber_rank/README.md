@@ -125,8 +125,9 @@ gcc -O3 -march=native -fopenmp -I. \
 /tmp/singular_defect_rank surface61walk 8 0xaf07f044 0xe98d86d0 0xc778e588 32768 8 24 12
 /tmp/singular_defect_rank surface61sample 8 0xaf07f044 65536 8 24
 /tmp/singular_defect_rank surface61greedywalk 8 0xaf07f044 0xe98d86d0 0xc778e588 65536 8 80 24
-/tmp/singular_defect_rank frontier61pool 8 262144 8 80 32 0xaf07f044 0x478a938a 0x1f833295 0xaf07f044 0x65aa818a 0x31103285
-/tmp/singular_defect_rank nearexact61point 8 0xaf07f044 0x478a938a 0x1f833295 7
+/tmp/singular_defect_rank frontier61pool 8 262144 8 80 32 0xaf07f044 0xdd73a9d7 0x57046fad 0xaf07f044 0x464b2c4c 0xef7b2fae
+/tmp/singular_defect_rank nearexact61point 8 0xaf07f044 0xdd73a9d7 0x57046fad 6
+/tmp/singular_defect_rank ridge61walk 8 0xaf07f044 0xddf3a9d3 0x76046f0d 1048576 8 128 24 8
 /tmp/singular_defect_rank bridge61point 8 0xaf07f044 0x1cbb355e 0xad34d2a3 0x7fc3124f 0xbf245aa1 1
 ```
 
@@ -147,9 +148,12 @@ Key result notes:
   return to the same exact-point attractor basin rather than moving freely on
   the surface; codimension-one kernel corrections exist linearly but require
   high-Hamming deltas that break the exact carry chamber. Greedy one-bit
-  repair can cross exact basins; the current frontier is round-61 defect HW7
-  and a separate checked 57..63 tail HW70 basin. Bridge enumeration shows the
+  repair can cross exact basins; the current frontier is round-61 defect HW5
+  and a separate checked 57..63 tail HW68 basin. Bridge enumeration shows the
   new basins are connected by thin carry transitions with one-bit `defect60`
   ridges nearby, not by broad local exact sheets. Radius-6/7 ridge enumeration
   is now a productive way to find non-exact low-D61 shelves that repair into
-  new exact basins.
+  new exact basins; weighted `ridge61walk` preserves low D61 during D60 repair
+  and found an exact HW6 point from the radius-7 shelf.
+- `results/20260426_m5_1B_deep_descent.md`: macbook M5 1B-trial walk that
+  verified the current HW5 round-61 and tail-HW68 frontiers.

@@ -43,6 +43,7 @@
  *   /tmp/singular_defect_rank frontier61pool 8 65536 8 72 32 0xaf07f044 0x73db5ecf 0xb767da21 0xaf07f044 0x73db5f4f 0xa7679a23
  *   /tmp/singular_defect_rank bridge61point 8 0xaf07f044 0x73db5f4f 0xa7679a23 0x73db5ecf 0xb767da21 1
  *   /tmp/singular_defect_rank nearexact61point 8 0xaf07f044 0x73db5ecf 0xb767da21 7
+ *   /tmp/singular_defect_rank ridge61walk 8 0xaf07f044 0x569a93da 0x1f813291 1048576 8 128 24 8
  *   /tmp/singular_defect_rank newton61fixed57 3 0xe28da599 2048 8 32
  *   /tmp/singular_defect_rank newtonfixed58 0 0x370fef5f 0x12345678 512 8 24
  *   /tmp/singular_defect_rank off59hill 0 0x370fef5f 512 8 32
@@ -4398,6 +4399,286 @@ static void nearexact61_point(int idx, const uint32_t base_x[3], int max_k) {
     printf("]}\n");
 }
 
+static int ridge61_score(const frontier61_eval_t *e, int weight) {
+    return e->d60_hw * weight + e->d61_hw;
+}
+
+static int ridge61_eval_better(const frontier61_eval_t *a,
+                               const frontier61_eval_t *b,
+                               int weight) {
+    int as = ridge61_score(a, weight);
+    int bs = ridge61_score(b, weight);
+    if (as != bs) return as < bs;
+    if (a->d61_hw != b->d61_hw) return a->d61_hw < b->d61_hw;
+    if (a->d60_hw != b->d60_hw) return a->d60_hw < b->d60_hw;
+    if (a->tail_defect_hw != b->tail_defect_hw) {
+        return a->tail_defect_hw < b->tail_defect_hw;
+    }
+    if (a->defects[3] != b->defects[3]) return a->defects[3] < b->defects[3];
+    return a->defects[4] < b->defects[4];
+}
+
+static void ridge61_print_point(const uint32_t x[3],
+                                const frontier61_eval_t *e,
+                                int score, int distance,
+                                int passes, int tail_hw) {
+    printf("{\"x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"score\":%d,\"d60\":\"0x%08x\",\"d60_hw\":%d,"
+           "\"d61\":\"0x%08x\",\"d61_hw\":%d,"
+           "\"tail_defects\":[\"0x%08x\",\"0x%08x\",\"0x%08x\",\"0x%08x\","
+           "\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"tail_defect_hw\":%d,\"tail_hw\":%d,"
+           "\"distance\":%d,\"passes\":%d}",
+           x[0], x[1], x[2],
+           score, e->defects[3], e->d60_hw, e->defects[4], e->d61_hw,
+           e->defects[0], e->defects[1], e->defects[2], e->defects[3],
+           e->defects[4], e->defects[5], e->defects[6],
+           e->tail_defect_hw, tail_hw, distance, passes);
+}
+
+static void ridge61_walk_candidate(int idx, const uint32_t base_x[3],
+                                   int trials, int threads,
+                                   int max_passes, int max_flips,
+                                   int weight) {
+    int n_cands = (int)(sizeof(CANDIDATES) / sizeof(CANDIDATES[0]));
+    if (idx < 0 || idx >= n_cands) {
+        fprintf(stderr, "candidate index must be 0..%d.\n", n_cands - 1);
+        exit(2);
+    }
+    if (max_flips < 1) max_flips = 1;
+    if (max_flips > 32) max_flips = 32;
+    if (weight < 1) weight = 1;
+
+    const candidate_t *cand = &CANDIDATES[idx];
+    sha256_precomp_t p1, p2;
+    if (!prepare_candidate(cand, &p1, &p2)) {
+        printf("{\"mode\":\"ridge61walk\",\"candidate\":\"%s\",\"error\":\"not_cascade_eligible\"}\n",
+               cand->id);
+        return;
+    }
+
+    frontier61_eval_t base_eval;
+    frontier61_eval_point(&p1, &p2, base_x, base_x[0] == 0 ? 0 : 1, &base_eval);
+
+    int best_any_score = ridge61_score(&base_eval, weight);
+    uint32_t best_any_x[3] = {base_x[0], base_x[1], base_x[2]};
+    frontier61_eval_t best_any_eval = base_eval;
+    int best_any_distance = 0;
+    int best_any_passes = 0;
+
+    int best_exact_d61_hw = (base_eval.defects[3] == 0) ? base_eval.d61_hw : 99;
+    uint32_t best_exact_x[3] = {base_x[0], base_x[1], base_x[2]};
+    frontier61_eval_t best_exact_eval = base_eval;
+    int best_exact_distance = 0;
+    int best_exact_passes = 0;
+    int best_exact_tail_hw = (base_eval.defects[3] == 0) ? base_eval.tail_hw : 999;
+
+    int exact60_hits = (base_eval.defects[3] == 0) ? 1 : 0;
+    int exact61_hits = (base_eval.defects[3] == 0 && base_eval.defects[4] == 0) ? 1 : 0;
+    int changed_exact60_hits = 0;
+    int d60_hw_hist[33];
+    int d61_hw_hist[33];
+    memset(d60_hw_hist, 0, sizeof(d60_hw_hist));
+    memset(d61_hw_hist, 0, sizeof(d61_hw_hist));
+    if (base_eval.d60_hw >= 0 && base_eval.d60_hw <= 32) {
+        d60_hw_hist[base_eval.d60_hw]++;
+    }
+    if (base_eval.defects[3] == 0 && base_eval.d61_hw >= 0 &&
+        base_eval.d61_hw <= 32) {
+        d61_hw_hist[base_eval.d61_hw]++;
+    }
+
+    #pragma omp parallel num_threads(threads)
+    {
+        int tid = omp_get_thread_num();
+        uint64_t rng = 0x7269646765363177ULL ^
+                       ((uint64_t)cand->m0 << 13) ^
+                       ((uint64_t)base_x[1] << 29) ^
+                       ((uint64_t)base_x[2] << 3) ^
+                       (uint64_t)tid;
+
+        int local_best_any_score = best_any_score;
+        uint32_t local_best_any_x[3] = {base_x[0], base_x[1], base_x[2]};
+        frontier61_eval_t local_best_any_eval = base_eval;
+        int local_best_any_distance = 0;
+        int local_best_any_passes = 0;
+
+        int local_best_exact_d61_hw = best_exact_d61_hw;
+        uint32_t local_best_exact_x[3] = {base_x[0], base_x[1], base_x[2]};
+        frontier61_eval_t local_best_exact_eval = base_eval;
+        int local_best_exact_distance = 0;
+        int local_best_exact_passes = 0;
+        int local_best_exact_tail_hw = best_exact_tail_hw;
+
+        int local_exact60_hits = 0;
+        int local_exact61_hits = 0;
+        int local_changed_exact60_hits = 0;
+        int local_d60_hw_hist[33];
+        int local_d61_hw_hist[33];
+        memset(local_d60_hw_hist, 0, sizeof(local_d60_hw_hist));
+        memset(local_d61_hw_hist, 0, sizeof(local_d61_hw_hist));
+
+        #pragma omp for schedule(dynamic, 8)
+        for (int i = 0; i < trials; i++) {
+            uint32_t x[3];
+            if ((splitmix32(&rng) & 3U) == 0U &&
+                local_best_any_score < best_any_score) {
+                memcpy(x, local_best_any_x, sizeof(x));
+            } else {
+                memcpy(x, base_x, 3 * sizeof(uint32_t));
+            }
+
+            int flips = 1 + (int)(splitmix32(&rng) % (uint32_t)max_flips);
+            for (int f = 0; f < flips; f++) {
+                int bit = (int)(splitmix32(&rng) & 63U);
+                if (bit < 32) x[1] ^= 1U << bit;
+                else x[2] ^= 1U << (bit - 32);
+            }
+
+            frontier61_eval_t cur;
+            frontier61_eval_point(&p1, &p2, x, 0, &cur);
+            int passes_used = 0;
+
+            for (int pass = 0; pass < max_passes; pass++) {
+                uint32_t best_step_x[3] = {x[0], x[1], x[2]};
+                frontier61_eval_t best_step = cur;
+
+                for (int bit = 0; bit < 64; bit++) {
+                    uint32_t xf[3] = {x[0], x[1], x[2]};
+                    if (bit < 32) xf[1] ^= 1U << bit;
+                    else xf[2] ^= 1U << (bit - 32);
+
+                    frontier61_eval_t y;
+                    frontier61_eval_point(&p1, &p2, xf, 0, &y);
+                    if (ridge61_eval_better(&y, &best_step, weight)) {
+                        best_step = y;
+                        best_step_x[1] = xf[1];
+                        best_step_x[2] = xf[2];
+                    }
+                }
+
+                if (!ridge61_eval_better(&best_step, &cur, weight)) break;
+                x[1] = best_step_x[1];
+                x[2] = best_step_x[2];
+                cur = best_step;
+                passes_used = pass + 1;
+            }
+
+            int distance = hw32(x[1] ^ base_x[1]) + hw32(x[2] ^ base_x[2]);
+            int score = ridge61_score(&cur, weight);
+            if (cur.d60_hw >= 0 && cur.d60_hw <= 32) {
+                local_d60_hw_hist[cur.d60_hw]++;
+            }
+            if (score < local_best_any_score ||
+                (score == local_best_any_score &&
+                 ridge61_eval_better(&cur, &local_best_any_eval, weight))) {
+                local_best_any_score = score;
+                memcpy(local_best_any_x, x, sizeof(local_best_any_x));
+                local_best_any_eval = cur;
+                local_best_any_distance = distance;
+                local_best_any_passes = passes_used;
+            }
+
+            if (cur.defects[3] == 0) {
+                frontier61_eval_point(&p1, &p2, x, 1, &cur);
+                local_exact60_hits++;
+                if (cur.defects[4] == 0) local_exact61_hits++;
+                if (distance > 0) local_changed_exact60_hits++;
+                if (cur.d61_hw >= 0 && cur.d61_hw <= 32) {
+                    local_d61_hw_hist[cur.d61_hw]++;
+                }
+                if (cur.d61_hw < local_best_exact_d61_hw ||
+                    (cur.d61_hw == local_best_exact_d61_hw &&
+                     cur.tail_hw < local_best_exact_tail_hw)) {
+                    local_best_exact_d61_hw = cur.d61_hw;
+                    memcpy(local_best_exact_x, x, sizeof(local_best_exact_x));
+                    local_best_exact_eval = cur;
+                    local_best_exact_tail_hw = cur.tail_hw;
+                    local_best_exact_distance = distance;
+                    local_best_exact_passes = passes_used;
+                }
+            }
+        }
+
+        #pragma omp critical
+        {
+            exact60_hits += local_exact60_hits;
+            exact61_hits += local_exact61_hits;
+            changed_exact60_hits += local_changed_exact60_hits;
+            for (int h = 0; h <= 32; h++) {
+                d60_hw_hist[h] += local_d60_hw_hist[h];
+                d61_hw_hist[h] += local_d61_hw_hist[h];
+            }
+            if (local_best_any_score < best_any_score ||
+                (local_best_any_score == best_any_score &&
+                 ridge61_eval_better(&local_best_any_eval, &best_any_eval, weight))) {
+                best_any_score = local_best_any_score;
+                memcpy(best_any_x, local_best_any_x, sizeof(best_any_x));
+                best_any_eval = local_best_any_eval;
+                best_any_distance = local_best_any_distance;
+                best_any_passes = local_best_any_passes;
+            }
+            if (local_best_exact_d61_hw < best_exact_d61_hw ||
+                (local_best_exact_d61_hw == best_exact_d61_hw &&
+                 local_best_exact_tail_hw < best_exact_tail_hw)) {
+                best_exact_d61_hw = local_best_exact_d61_hw;
+                memcpy(best_exact_x, local_best_exact_x, sizeof(best_exact_x));
+                best_exact_eval = local_best_exact_eval;
+                best_exact_tail_hw = local_best_exact_tail_hw;
+                best_exact_distance = local_best_exact_distance;
+                best_exact_passes = local_best_exact_passes;
+            }
+        }
+    }
+
+    printf("{\"mode\":\"ridge61walk\",\"candidate\":\"%s\",\"idx\":%d,"
+           "\"base_x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"base_score\":%d,\"weight\":%d,"
+           "\"trials\":%d,\"threads\":%d,\"max_passes\":%d,\"max_flips\":%d,"
+           "\"exact60_hits\":%d,\"exact61_hits\":%d,"
+           "\"changed_exact60_hits\":%d,"
+           "\"d60_hw_hist\":[%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,"
+           "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d],"
+           "\"exact_d61_hw_hist\":[%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,"
+           "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d],"
+           "\"best_any\":",
+           cand->id, idx,
+           base_x[0], base_x[1], base_x[2],
+           ridge61_score(&base_eval, weight), weight,
+           trials, threads, max_passes, max_flips,
+           exact60_hits, exact61_hits, changed_exact60_hits,
+           d60_hw_hist[0], d60_hw_hist[1], d60_hw_hist[2], d60_hw_hist[3],
+           d60_hw_hist[4], d60_hw_hist[5], d60_hw_hist[6], d60_hw_hist[7],
+           d60_hw_hist[8], d60_hw_hist[9], d60_hw_hist[10], d60_hw_hist[11],
+           d60_hw_hist[12], d60_hw_hist[13], d60_hw_hist[14], d60_hw_hist[15],
+           d60_hw_hist[16], d60_hw_hist[17], d60_hw_hist[18], d60_hw_hist[19],
+           d60_hw_hist[20], d60_hw_hist[21], d60_hw_hist[22], d60_hw_hist[23],
+           d60_hw_hist[24], d60_hw_hist[25], d60_hw_hist[26], d60_hw_hist[27],
+           d60_hw_hist[28], d60_hw_hist[29], d60_hw_hist[30], d60_hw_hist[31],
+           d60_hw_hist[32],
+           d61_hw_hist[0], d61_hw_hist[1], d61_hw_hist[2], d61_hw_hist[3],
+           d61_hw_hist[4], d61_hw_hist[5], d61_hw_hist[6], d61_hw_hist[7],
+           d61_hw_hist[8], d61_hw_hist[9], d61_hw_hist[10], d61_hw_hist[11],
+           d61_hw_hist[12], d61_hw_hist[13], d61_hw_hist[14], d61_hw_hist[15],
+           d61_hw_hist[16], d61_hw_hist[17], d61_hw_hist[18], d61_hw_hist[19],
+           d61_hw_hist[20], d61_hw_hist[21], d61_hw_hist[22], d61_hw_hist[23],
+           d61_hw_hist[24], d61_hw_hist[25], d61_hw_hist[26], d61_hw_hist[27],
+           d61_hw_hist[28], d61_hw_hist[29], d61_hw_hist[30], d61_hw_hist[31],
+           d61_hw_hist[32]);
+    ridge61_print_point(best_any_x, &best_any_eval, best_any_score,
+                        best_any_distance, best_any_passes, best_any_eval.tail_hw);
+    printf(",\"best_exact\":");
+    if (best_exact_d61_hw < 99) {
+        ridge61_print_point(best_exact_x, &best_exact_eval,
+                            ridge61_score(&best_exact_eval, weight),
+                            best_exact_distance, best_exact_passes,
+                            best_exact_tail_hw);
+    } else {
+        printf("null");
+    }
+    printf("}\n");
+}
+
 static int newton61_fixed57_once(const sha256_precomp_t *p1, const sha256_precomp_t *p2,
                                  uint32_t x[3], int max_iters, int *iters_out,
                                  int *last_rank_out, uint64_t *last_vec_out) {
@@ -5098,6 +5379,24 @@ static void newton_fixed58_candidate(int idx, uint32_t fixed_w57, uint32_t fixed
 }
 
 int main(int argc, char **argv) {
+    if (argc >= 2 && strcmp(argv[1], "ridge61walk") == 0) {
+        int idx = (argc >= 3) ? atoi(argv[2]) : 0;
+        uint32_t x[3] = {
+            (argc >= 4) ? (uint32_t)strtoul(argv[3], NULL, 0) : 0,
+            (argc >= 5) ? (uint32_t)strtoul(argv[4], NULL, 0) : 0,
+            (argc >= 6) ? (uint32_t)strtoul(argv[5], NULL, 0) : 0,
+        };
+        int trials = (argc >= 7) ? atoi(argv[6]) : 65536;
+        int threads = (argc >= 8) ? atoi(argv[7]) : 8;
+        int max_passes = (argc >= 9) ? atoi(argv[8]) : 64;
+        int max_flips = (argc >= 10) ? atoi(argv[9]) : 12;
+        int weight = (argc >= 11) ? atoi(argv[10]) : 8;
+        sha256_init(32);
+        ridge61_walk_candidate(idx, x, trials, threads,
+                               max_passes, max_flips, weight);
+        return 0;
+    }
+
     if (argc >= 2 && strcmp(argv[1], "nearexact61point") == 0) {
         int idx = (argc >= 3) ? atoi(argv[2]) : 0;
         uint32_t x[3] = {
