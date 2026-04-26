@@ -226,3 +226,30 @@ Concrete deliverables this session beyond registry growth:
 
 The block2_wang bet now has CRISP design intel: forward is solid,
 backward needs redesign before any further C implementation.
+
+## 07:05 EDT — Morning state. Queue8 still running (overnight contention)
+
+Status as of 2026-04-26 07:05 EDT (morning, ~9h after queue8 launched):
+
+**Queue8 progress (bit=12, 15, 16, 20 at fill=0xff)**:
+  bit=12 fill=0xff: 1 NEW (m=0x8cbb392c) — completed 22:24 EDT 2026-04-25
+  bit=15 fill=0xff: 3 NEW (m=0x1a49a56a, 0x6a25c416, 0x28c09a5a) — completed 22:31 EDT
+  bit=16 fill=0xff: 0 — completed 07:00 EDT 2026-04-26 (took 8.5h overnight)
+  bit=20 fill=0xff: ~6% done with 1 eligible (m=0x294e1ea8) — running
+
+**Why bit=16 took 8.5h**: I ran 4 kissat smoke tests (bit=12 + 3×bit=15)
+in parallel with bit=16 sweep. The m=0x28c09a5a kissat smoke (de58
+small-image cand) was heavily descheduled and ran ~8h wall vs ~45s CPU.
+This blocked bit=16 sweep from completing for the same period.
+
+**Lesson**: avoid running CPU-heavy smoke kissat tests parallel with
+exhaustive sweeps. Sequential is better for time accounting and
+avoiding macOS scheduler starvation.
+
+**Session totals as of 07:05**:
+  Registry: 36 → **59** (+23, +64% growth)
+  Cells exhaustively swept: **29** + bit=20 in flight
+  Substantive shipped: 16+ commits — registry growth, smoke tests,
+    M16-MITM forward validation (N=8 + N=10), M16-MITM backward
+    design-gap critique, de58 distribution analysis, sweep tracker.
+  All audits CONFIRMED. 0% audit failure rate maintained across 194 runs.
