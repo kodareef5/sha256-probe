@@ -962,3 +962,23 @@ collision search remains a kissat / chart-preserving-operator job.
 End of session for me — handing back to the fleet. Yale already
 acted on F12 (commit 2e9cf0f) within an hour. Tools ready for
 re-use.
+
+## 21:19 EDT — F17 cross-bet: bit13_m4e560940 distinguished on 2 metrics
+
+3 commits this loop:
+- dfbb1ed: F17 block2_wang residual scan (6 cands × 100M samples) —
+  bit13_m4e560940 has lowest round-63 residual HW=47 (vs 51-54 for
+  others). Tool: residuals/block2_residual_counter.c at 62M/s.
+- e0f5697: block2_wang BET heartbeat refresh.
+
+bit13_m4e560940 fill=0xaaaaaaaa kernel=13 is now structurally
+distinguished on TWO independent metrics:
+  - F12 cascade-1 chamber image: HW=3 min de58 (registry rank 2)
+  - F17 round-63 residual: HW=47 min (registry rank 1)
+
+Cross-bet leverage: previously block2_wang corpus was for msb_m17149975
+and msb_m9cfea9ce only. Now bit13_m4e560940 is shown structurally
+better. Worth registering as primary corpus target with extended (1B+)
+sample to find sub-HW-47 residuals.
+
+End of session activity. Hand-off to fleet — tools ready for re-use.
