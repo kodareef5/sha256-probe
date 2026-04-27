@@ -277,8 +277,15 @@
   arxiv_or_eprint: null
   confidence: classical_no_id
   relevance: ARX cipher analysis methodology relevant to SHA-256 structure.
-  read_status: should_read
-  key_takeaway: null
-  action_items: []
-  owner: unassigned
-  last_updated: '2026-04-24'
+  read_status: read
+  key_takeaway: "[STRUCTURAL_SUMMARY] Mouha's MILP-based trail search and S-function framework
+    are the third foundational pillar of automated ARX cryptanalysis (Wang hand-craft,
+    dCR guess-propagate, Mouha MILP-optimize). Maps directly to block2_wang's needs:
+    F32 deep-min residuals are MILP inputs, F-series 42% kernel-invariance maps to
+    S-function symmetry. Action items in note for paper Section 2/3/5/7."
+  action_items: ["Adapt Mouha-style MILP encoding for SHA-256 second-block trail search",
+    "Translate F-series carry-automaton work into S-function formalism",
+    "Compare MILP vs SAT for sr=60/61 trail search (programmatic_sat_propagator pilot)"]
+  notes_path: headline_hunt/literature/notes/classical_mouha_arx_framework.md
+  owner: macbook
+  last_updated: '2026-04-27'
