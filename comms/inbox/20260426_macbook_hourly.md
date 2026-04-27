@@ -937,3 +937,28 @@ The empirical data is sound; the framing was wrong. Self-corrected
 when realized via the verified sr=60 cert sanity check.
 
 Will send corrected comms to yale next.
+
+## 21:12 EDT — F-series wrap memo + F16 negative
+
+3 commits this loop:
+- e9924ef: cascade_max_slot_search.c + cascade_m15_sweep.c (C tools)
+- 877ec95: dw_xor_kernel.c (GF(2)-linear XOR-diff schedule per kernel)
+- 97fbb92: F16 NEGATIVE — 17.2B M[15] sweeps × 4 cands = 0 cascade-1 hits
+
+F16 result: 9 cascade-eligible / 17.2B sweeps (matches expected 4
+with binomial variance), 0 slot-57 alignments (matches conditional
+2^-32). Confirms random single-axis perturbation infeasible for
+cascade-1 search.
+
+F-series wrap memo committed: 20260427_F_SERIES_WRAP.md. Captures
+6 verified structural facts, 6 C tools, 134 backfilled runs, cross-
+bet messages with yale, and the F13 correction history.
+
+Honest summary: F-series characterized cascade-1 chamber dynamics
+exhaustively. Discovered cascade-1 7-slot = full collision (F14
+framing refinement). Did NOT find sr=61 SAT. The actual sr=61
+collision search remains a kissat / chart-preserving-operator job.
+
+End of session for me — handing back to the fleet. Yale already
+acted on F12 (commit 2e9cf0f) within an hour. Tools ready for
+re-use.
