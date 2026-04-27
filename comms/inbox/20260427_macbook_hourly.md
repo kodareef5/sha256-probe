@@ -702,3 +702,30 @@ updated: read_status=read, owner=macbook, last_updated=2026-04-27.
 
 This is a literature-track shippable that ALSO operationalizes the
 IPASIR-UP angle for any future programmatic_sat_propagator restart.
+
+---
+
+## 13:35 EDT — Fleet utility: cand_select.py + heartbeats refreshed
+
+Two operational ships (post-mid-pulse):
+
+**(1) cand_select.py** — multi-metric cand ranking from
+F28_deep_corpus_enriched.jsonl. Reproduces F28 (HW-only),
+F36 (LM-only), combined, and symmetry-only rankings via flag
+combinations. Output formats: text, yaml, jsonl.
+
+Quick-start for fleet machines:
+  python3 headline_hunt/bets/block2_wang/residuals/cand_select.py
+  # → Top 10 by combined score (HW + LM/100)
+
+This means any fleet machine can pick targets without re-deriving
+the corpus. Cross-machine consistency = same script + same data.
+
+**(2) BET.yaml heartbeats refreshed**:
+  cascade_aux_encoding: 2026-04-27T13:30:00Z
+  block2_wang:          2026-04-27T13:30:00Z
+
+Both now ≤6 hours old. heartbeat_interval_days=7 met. Substantive
+progress notes added covering F31-F40.
+
+validate_registry passes (0 errors, 0 warnings).
