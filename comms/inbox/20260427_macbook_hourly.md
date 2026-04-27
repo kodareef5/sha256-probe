@@ -526,3 +526,42 @@ trails (where probability ACTUALLY matters for absorption feasibility).
 That's what determines whether 256-bit M_2 freedom is enough.
 
 Tool: `active_adder_lm_bound.c`. Memo: F35.
+
+---
+
+## 12:05 EDT — F36: Global LM analysis (67 cands) — UNIVERSAL COMPATIBILITY + new champion
+
+Two breakthrough findings:
+
+**1. ALL 67 cascade-1 trails are LM-COMPATIBLE** (0 violators per cand,
+universal). Cascade isn't just an empirical low-HW sieve — it's a
+STRUCTURALLY VALID XOR-trail construction. Every distinguished cand
+(F28-screened) admits a cascade-1 trail with no hidden carry violation.
+This is a strong structural claim suitable for paper Section 4/5.
+
+**2. Global LM champion: cand_n32_msb_ma22dc6c7_fillffffffff at LM=773.**
+F28's HW + exact-symmetry filter MISSED this cand entirely (HW=48, not
+symmetric). LM is an independent structural metric.
+
+LM distribution across 67 cands:
+  min=773, max=890, mean=834.9, median=835, stdev=24
+
+Top 10 by LM (lowest first):
+  msb_ma22dc6c7        HW=48 LM=773  ← global champion
+  bit13_m4e560940      HW=47 LM=780
+  bit00_mf3a909cc      HW=51 LM=787
+  bit12_m8cbb392c      HW=49 LM=792
+  bit28_md1acca79      HW=47 LM=792
+  bit2_mea9df976       HW=48 LM=795
+  bit10_m9e157d24      HW=47 LM=805
+  bit00_m8299b36f      HW=48 LM=807
+  bit10_m3304caa0      HW=50 LM=807
+  bit13_m72f21093      HW=47 LM=813
+
+Note bit2_ma896ee41 (F28 NEW CHAMPION at HW=45) is mid-pack on LM (824).
+
+**Strategic implication**: optimal Wang target depends on whether HW
+or LM dominates the per-bitcondition construction effort. F36 expands
+the option space — bit2 wins on HW; msb_ma22dc6c7 wins on LM.
+
+Memo: F36. Tool: `active_adder_lm_bound.c`. Compute: ~6 sec.
