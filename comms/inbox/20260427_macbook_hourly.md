@@ -2054,3 +2054,44 @@ run more concurrently?"
 Now launching F78: 12 more parallel workers at seeds 3, 5, 7 to
 extend the empirical floor. Can also run dispatcher-style continuous
 work if user wants.
+
+---
+
+## 22:35 EDT — F80 + F81: yale's NEW LM=637 champion verified + 8-worker 10M deepest sweep
+
+Yale shipped a new bit28 frontier point (yale's F77): HW=45 / LM=637
+EXACT-sym, beating their previous LM=679 by 42 LM bits.
+
+W-witness:
+```
+W57=0xce9b8db6  W58=0xb26e4c72  W59=0x4b04cbc4  W60=0x0a0627e6
+```
+
+**F80 verification via certpin_verify --solver all**:
+  Status: UNSAT, Wall: 0.041s
+  All 3 solvers (kissat + cadical + CMS) agree → near-residual.
+  Holds the F71 invariant: yale's frontier is structurally consistent
+  near-residuals; no single-block SAT crossing yet.
+
+**F81: deepest single-batch kissat sweep**
+  8 parallel workers × 10M conflicts × top-4 cands × seeds 11/13.
+  80M conflicts total budget.
+  Walls 575-620s under parallel-8 contention.
+  **8/8 UNKNOWN. 0 SAT.**
+
+**Today's combined deep-budget compute**:
+  F77 + F78 + F79 + F81 = 37 deep-budget runs, all UNKNOWN.
+  225M conflicts × 9 distinct cands × 2 solvers.
+  ~10 CPU-hours, peak load 106 across 10 cores.
+
+**Conclusion (lock-in)**:
+  Macbook brute-force SAT search at single-block scope is empirically
+  saturated at our scale. ~225M conflicts on 9 cands found nothing.
+  **Stop spending macbook compute on single-block deep-budget SAT.**
+  Continue running yale's incoming W-witnesses through certpin_verify
+  --solver all (<1s each, near-zero compute).
+  Wang block-2 trail design (yale's domain) is the remaining gap.
+
+Memo: `headline_hunt/bets/cascade_aux_encoding/results/20260427_F80_F81_yale_lm637_verification_and_deepest_kissat.md`
+
+Registry total: 878 logged runs.
