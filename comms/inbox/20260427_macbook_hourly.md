@@ -365,3 +365,34 @@ Cross-cand comparison: bit2 finds lower-HW heads than bit13 even at
 moderate budgets. F28's deep-min ranking persists.
 
 Memo at `headline_hunt/bets/block2_wang/residuals/20260427_F31_corpus_extension_bit2_bit13.md`.
+
+---
+
+## 07:35 EDT — F32: deep corpus structured (3065 records, 67 cands, all queryable)
+
+Parsed F28_registry_1B archive (human-readable C-tool logs) into JSONL.
+Each record: candidate_id, m0/fill/kernel_bit, hw_total, hw_idx,
+W[57..60] witness, diff63[8], a61/e61 convenience fields, a61_eq_e61
+boolean.
+
+Cross-validation vs F28 memo:
+- 11 exact-symmetry cands at min HW              ✓ (matches F28)
+- bit2_ma896ee41 min HW=45                       ✓
+- bit2 a_61 = e_61 = 0x02000004                  ✓
+- Top 5 ranking preserved                        ✓
+
+Min-HW distribution: bell-shaped, mode HW=49, bit2 a 4σ outlier.
+
+Strategic unlock: every cand's deep-min residual + W-witness now
+queryable in 3 lines of Python. Trail-search engine input is ready
+WITHOUT additional sampling.
+
+Combined corpora:
+- F31 broad-head (1M Python): bit2/bit13 HW 57..80, 36k records, 100% distinct
+- F32 deep-tail (1B C, 67 cands): HW 45..60, 3k records, dense per-cand
+
+For block2_wang trail-design pilot, F32 is the input. The
+bit2_ma896ee41 HW=45 vector with W=0x91e0726f 0x6a166a99 0x4fe63e5b
+0x8d8e53ed is the highest-leverage Wang-target in the registry.
+
+Memo at `headline_hunt/bets/block2_wang/residuals/20260427_F32_deep_corpus_structured.md`.
