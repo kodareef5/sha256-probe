@@ -1127,3 +1127,37 @@ fiber, that combined with the project's sr=60 cert is genuinely the
 sr=61 frontier extended.
 
 Overnight: 6/156 done, all UNKNOWN at 30 min cap. Will keep grinding.
+
+## 23:25 EDT — sr=61 evidence synthesis shipped (~70% infeasible)
+
+headline_hunt/reports/20260427_sr61_evidence_synthesis.md consolidates
+ALL sr=61 evidence:
+
+EVIDENCE FOR INFEASIBILITY:
+- Viragh's slack-zero math (sr=60 = slack 0, sr=61 = slack -64)
+- 1800+ CPU-h UNSAT on TRUE sr=61 (project history)
+- Viragh's 47.9% XOR conflict argument (statistical)
+- F-series 287B-chamber enumeration (no de58=0)
+- Yale's guarded-fiber finding: a57=0 manifold appears to be ONE POINT
+  (5M trials, 0 changed-msg hits)
+
+EVIDENCE FOR FEASIBILITY:
+- Viragh's optimism + open kernel space
+- Project's sr=60 refuted his "sr=60 barrier" prediction; sr=61 might fall too
+
+Informal estimate: ~70% structurally infeasible, ~30% feasible with
+different approach.
+
+Project positioning for publication:
+- sr=60 = HEADLINE (+1 round over Viragh, verified 3 machines)
+- sr=61 = BOUNDARY (structural evidence + empirical UNSAT)
+
+Both directions publishable. Now we have:
+- Comparison memo (Viragh vs project sr=60)
+- Standalone C cert (verifies sr=60)
+- sr=61 evidence synthesis (this hour)
+- Verification scripts (Python)
+- Overnight kissat sweep (running, ~14:00 EDT ETA)
+
+Ready for an "outreach to Viragh / Li for collaboration" decision when
+we get back tomorrow.
