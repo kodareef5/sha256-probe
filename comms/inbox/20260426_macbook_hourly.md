@@ -856,3 +856,19 @@ register-wide-confirm cascade-1 closed/open status.
 went from "stack hints give 1.87× preprocessing speedup" → "cascade-1
 sr=61 collision DEFINITIVELY closed for at least 5 registry cands; HW=2
 is the registry's structural champion."
+
+## 20:24 EDT — F12c: residual structure mapped for 4 close cands
+
+Each cand's HW-minimum chambers produce a STRUCTURED, small set of de58 values:
+
+  msb_m189b13c7 HW=2: 1 value (0x00000108)
+  bit13_m4e560940 HW=3: 2 values (single-bit substitution)
+  bit17_m427c281d HW=3: 6 values (2×3 grid pattern)
+  bit18_m99bf552b HW=4: 4 values (2×2 grid pattern)
+
+Not random — algebraic regularity. Yale's chart-preserving operator
+target: hit specific bit positions per cand. bit13's 1-bit-of-2 flex
+might be easiest entry point if a generic operator exists.
+
+F13 (registry-wide full enum) at 36/67. No de58=0 anywhere yet, no
+cand below HW=2.
