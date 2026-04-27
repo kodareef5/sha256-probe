@@ -784,3 +784,38 @@ This was a hygiene gap (no kill_criteria) that any future picker-upper
 needed before claiming. Now any worker can read the bet and act.
 
 validate_registry: 0 errors, 0 warnings.
+
+---
+
+## 14:00 EDT — sr61_n32 dispatcher BUG FIX + partial progress memo
+
+Discovered while reviewing overnight kissat dispatcher (10h elapsed,
+126/156 jobs):
+
+**BUG**: Phase D budget = 5_000_000_000 exceeds kissat int32 max
+(~2.15B). All 6 Phase D runs (IDs 79-84) FAILED IMMEDIATELY with
+"kissat: error: invalid argument". wall=0.00 in results.tsv made
+the failure look like fast UNKNOWNs.
+
+**FIX**: Capped PHASE_D_BUDGET to 2_000_000_000 in build_queue.py.
+The 30-min wall cap fires before this anyway, so behavior is
+equivalent to "very deep" but actually executes.
+
+**Action needed**: re-run Phase D after current dispatcher completes
+(~5 hours from now, ETA 18:30 EDT). 6 stale Phase D entries should
+be excluded from runs.jsonl import.
+
+**Substantive findings so far**: 0 SAT, 0 UNSAT, 126 UNKNOWN across:
+  - Phase A (100M × 8 cands × 6 seeds = 48 jobs)
+  - Phase B (1B × 6 cands × 5 seeds = 30 jobs)
+  - Phase C (100M × 7 cands × 6 seeds = 42 jobs)
+  - Phase D (5B × 2 cands × 3 seeds = 6 jobs FAILED — bug above)
+
+Consistent with F20/F29 "TRUE sr=61 structurally infeasible for
+cascade-1 alone" finding. Stronger empirical confirmation of the
+same negative result.
+
+Compute used: ~60 CPU-hours (0.6% of 10,000-hour budget cap).
+Per-job mean wall: 1714s — most hit 30-min cap.
+
+Memo: bets/sr61_n32/results/20260427_overnight_dispatcher_partial_progress.md
