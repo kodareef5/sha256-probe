@@ -729,3 +729,34 @@ Both now ≤6 hours old. heartbeat_interval_days=7 met. Substantive
 progress notes added covering F31-F40.
 
 validate_registry passes (0 errors, 0 warnings).
+
+---
+
+## 13:42 EDT — F41: SEQUENTIAL kissat verdict — F39 doubly verified
+
+The F30→F37→F38→F39 reproducibility thread closes cleanly via
+SEQUENTIAL kissat measurement (1 process at a time):
+
+  bit2_ma896ee41  sequential: 27.08s  (parallel was 35.61s)
+  bit10_m9e157d24 sequential: 28.04s  (parallel was 34.28s)
+
+bit2 vs bit10 sequential: 0.96s diff (3.5%) — within seed noise.
+
+**Diagnosis**: parallelism slows kissat ~25-30% UNIFORMLY across cands.
+F30's 26.51s was sequential; F37/F38's plateau ~35s was parallel-5.
+F39 caught the apples-vs-oranges; F41 confirms via clean sequential.
+
+**Per-conflict equivalence is now DOUBLY verified** across:
+  - 6 cands (HW 45-51)
+  - 2 encoder modes (A and B)
+  - 2 measurement regimes (parallel-5 and sequential)
+  - 50 logged kissat runs total
+
+bit2's "structural advantage" is invisible at 1M conflicts in BOTH
+regimes. Untested: deep budgets (12h+, ~96 CPU-h, needs auth).
+
+For paper Section 4/5: solid claim that "cascade_aux Mode A walls at
+1M conflicts are cand-invariant within HW=45..51 range" with strong
+evidence base.
+
+10 sequential kissat runs logged. Both CNFs CONFIRMED.
