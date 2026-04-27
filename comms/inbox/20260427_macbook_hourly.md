@@ -495,3 +495,34 @@ Memo at `headline_hunt/bets/block2_wang/trails/20260427_F34_active_adder_count_v
 
 EVIDENCE-level: VERIFIED. The 43-cascade-invariant + 2^-43 universal
 bound is a real, reproducible finding.
+
+---
+
+## 11:50 EDT — F35: Lipmaa-Moriai per-cand cost reveals SURPRISE
+
+bit2_ma896ee41 wins on HW (45) but bit13_m4e560940 wins on LM-sum (780 vs
+824). HW-minimum cand ≠ LM-minimum cand. Spread 90 bits across 11 cands.
+
+**Three findings**:
+
+1. **Cascade-1 is LM-COMPATIBLE for ALL 11 exact-symmetry cands** —
+   zero LM-violating adders. The cascade mechanism gives structurally
+   consistent XOR-trails, not just empirically low-HW residuals.
+
+2. **LM-sum varies (780-870)** while active-adder count is invariant (43).
+   Cand selection matters at LM granularity but not at active-count.
+
+3. **F34 framing reinterpreted**: cascade-1 trail is DETERMINISTIC given
+   W-witness — there's no "trail probability" in the usual sense. The
+   43 adders count CONSTRAINTS (bitconditions), not probability events.
+   F35 fixes the framing.
+
+**For paper Section 5**: present both HW and LM rankings. They disagree.
+bit2 wins HW; bit13 wins LM. The "best target" depends on which axis
+dominates Wang construction effort.
+
+**Concrete next-step**: run LM analysis on hypothetical second-block
+trails (where probability ACTUALLY matters for absorption feasibility).
+That's what determines whether 256-bit M_2 freedom is enough.
+
+Tool: `active_adder_lm_bound.c`. Memo: F35.
