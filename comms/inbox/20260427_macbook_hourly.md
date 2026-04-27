@@ -1304,3 +1304,46 @@ structural exploitation). Worth testing.
   LM-axis: msb_ma22dc6c7 (or bit4_m39a03c2d at LM=757)
 
 5 cadical runs logged. F56 shipped.
+
+---
+
+## 11:16 EDT — F57: cadical-fast cluster DIVERGES from kissat-fast cluster
+
+**bit17_mb36375a2** (HW=48 EXACT-sym, kissat=42s SLOW tier!): cadical
+median **24.47s, range 2.04s** — cadical CHAMPION cand (lowest variance).
+
+**bit10_m9e157d24** (HW=47 NON-sym, kissat=28s): cadical 23.81s — fast
+on both solvers.
+
+**Two distinct fast clusters now mapped (8 cands × 2 solvers)**:
+
+  kissat-fast (5): bit2, bit25, bit3, bit10, bit13_m72f21093
+                   (27-29s, all HW≤47 NON-sym + HW=45 EXACT-sym)
+
+  cadical-fast (3): bit10, bit17, msb_ma22dc6c7
+                    (23-25s, HW=47-48 various sym)
+
+Overlap: ONLY bit10_m9e157d24.
+
+**Key findings:**
+- bit2 kissat-fastest (27s) but cadical-SLOW (41s)
+- bit17 + msb_ma22dc6c7 cadical-fastest (24-25s) but kissat slow/medium
+- **kissat-EXACT-sym penalty REVERSES on cadical at HW=48** (CONFIRMED
+  for both bit00 and bit17 — F54's reversal claim was correct, F55's
+  HW=47 control just showed it doesn't generalize to HW=47)
+
+**For paper Section 4**: substantial solver-architecture finding.
+The two CDCL solvers leverage DIFFERENT structural features of
+cascade-1 residuals.
+
+**For block2_wang 3-cand portfolio per axis**:
+  - bit2_ma896ee41: kissat + Wang sym-axis champion
+  - msb_ma22dc6c7: cadical + LM-axis champion (TRIPLE distinction)
+  - bit17_mb36375a2: cadical-axis (HW=48 EXACT-sym, fastest tested cadical)
+
+**For yale's manifold-search**: cadical's preference for HW=48 EXACT-sym
+might correlate with manifold-search efficiency. Concrete test: try
+guarded walks on bit17 vs F45 bit28 baseline.
+
+10 cadical runs logged. F-series F57 shipped. Pulse-aware: in continuous
+flow.
