@@ -75,7 +75,28 @@ current_progress: |
   = 72 CNFs, all CONFIRMED. Bet remains characterized (Mode B 2-3.4× front-
   loaded preprocessing, not a path to cascade-DP SAT discovery).
 
-last_heartbeat: "2026-04-27T15:25:00Z"
+last_heartbeat: "2026-04-27T22:40:00Z"
+recent_progress_2026-04-27_EVENING_F80_F81: |
+  F80: yale's bit28 HW=45/LM=637 EXACT-sym (NEW LM champion, beats
+  their previous LM=679 by 42 LM bits) verified via certpin_verify
+  --solver all in 0.041s. All 3 solvers (kissat+cadical+CMS) agree:
+  UNSAT → near-residual. Yale's frontier remains structurally
+  consistent with the F71 invariant.
+
+  F81: 8 parallel kissat workers × 10M conflicts × top-4 cands ×
+  seeds 11/13. 80M conflicts total. 8/8 UNKNOWN, walls 575-620s.
+
+  Today's combined deep-budget compute (F77+F78+F79+F81):
+    37 deep-budget runs, ~225M conflicts, 9 distinct cands, 0 SAT.
+    ~10 CPU-hours, peak load 106 across 10 cores during F78.
+
+  POSTURE LOCK-IN: Macbook brute-force SAT search at single-block
+  scope is empirically saturated at our compute scale. Stop spending
+  macbook compute on single-block deep-budget SAT. Continue cert-pin
+  verification of yale's incoming witnesses (<1s each, near-zero
+  compute). Wang block-2 trail design (yale's domain) remains the
+  structural gap.
+
 recent_progress_2026-04-27_LATE: |
   F37→F71 cross-solver thread + cert-pin verification pipeline.
   See F72 synthesis index for full navigation.
