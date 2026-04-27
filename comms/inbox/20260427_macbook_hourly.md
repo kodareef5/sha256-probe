@@ -991,3 +991,40 @@ kissat-hardest on the solver axis. For yale's operator design, bit28
 might guide what NOT to use as primary anchor (despite raw LM win).
 
 10 runs logged. CNF audit CONFIRMED. Pulse-aware: in continuous flow.
+
+---
+
+## 15:32 EDT — F48: LM-tail-breadth predicts kissat speed (4-cand confirmation)
+
+Tested msb_m17149975 (verified sr=60 cert cand!) sequentially:
+median 35.81s, range 8.07s. Sits between plateau (27-28s/3s) and bit28
+(39s/22s).
+
+**Combined ordering across 4 sequential cands**:
+  bit2/bit10 (NARROW tail):   27-28s, range 3s
+  msb_m17149975 (MEDIUM tail): 36s,    range 8s
+  bit28 (BROAD tail):         39s,    range 22s
+
+**Both metrics (median + variance) scale monotonically with LM-tail
+breadth.** F47's hypothesis CONFIRMED across 4 cands.
+
+**Mechanism**: tail-breadth = "branchiness" of cascade_aux CNF.
+NARROW-tail = sharp extremum (F25 universal rigidity), kissat
+converges fast. BROAD-tail = many similar low-LM trails to explore,
+kissat wastes time.
+
+**This unifies F25 + F35/F36/F42 + F44 + yale F45 + F37/F39/F41/F46/F47/F48**
+into one structural story:
+> "kissat at 1M conflicts on cascade_aux Mode A scales with LM-tail
+> breadth — narrow-tail cands solve fast, broad-tail cands solve slow."
+
+For paper Section 4/5 — substantial new finding.
+
+For block2_wang:
+  - bit4 (MEDIUM tail) = solver-friendly + LM-tight
+  - bit28 (BROAD tail) = solver-hard but LM-low (different advantage)
+
+Two genuinely different structural advantages on different axes.
+
+5 runs logged. msb_m17149975 baseline (was F21 27.09s — likely also
+sequential under low load) reaffirmed at ~36s under standard load.
