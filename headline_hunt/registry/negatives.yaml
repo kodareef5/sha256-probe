@@ -215,21 +215,25 @@
   - chunk_mode_dp_with_modes
   owner: macbook
 - id: cascade1_sr61_de58_zero_unreachable_n67
-  claim: "Cascade-1 sr=61 collision unreachable for the registry's cascade-eligible cands — no W57 chamber yields de58=0\
-    \ within sampled coverage for any of 67 candidates; image fully enumerated for 2 small-image cands (bit=19 size=256,\
-    \ bit=25 m=0xa2f498b1 size=1024) confirms 0 is structurally absent from those images."
-  scope: cascade_aux Mode A, registry's 67 N=32 cands at sr=61. F10 (16K W57 samples per cand) extended by F11 (1M samples
-    on 7 close-to-zero cands).
+  claim: "Cascade-1 sr=61 collision DEFINITIVELY UNREACHABLE for all 67 registry candidates — exhaustive enumeration of\
+    \ all 2^32 W57 chambers per cand (287 BILLION chambers total) yields ZERO chambers with de58=0.\
+    \ Min HW reached: 2 (msb_m189b13c7) — the structural champion."
+  scope: cascade_aux Mode A, registry's 67 N=32 cands at sr=61. F13 = full 2^32 enumeration per cand.
   status: closed
-  evidence_level: EVIDENCE
+  evidence_level: VERIFIED
   closed_date: '2026-04-26'
   evidence_files:
   - bets/cascade_aux_encoding/results/20260426_de58_zero_chamber_search.md
   - bets/cascade_aux_encoding/results/20260426_f10_registry_de58_screen.md
-  why_closed: "Registry-wide screen at 16K chambers per cand finds 0/67 cands with de58=0; 7/67 have min_HW <= 5; bit=17 m=0x427c281d\
-    \ has min_HW=4 (closest registry reach). Two cands' images are small enough to be fully covered (bit=19 size=256, bit=25\
-    \ size=1024) and definitively exclude 0. Yale's HW4 D61 floor across 8 attack vectors is the SAME structural fact under\
-    \ different framing — the cand's de58 image minimum HW IS the D61 floor."
+  - bets/cascade_aux_encoding/results/20260426_f12_full_enumeration.md
+  - bets/cascade_aux_encoding/results/20260426_f12b_msb_m189_residual_structure.md
+  - bets/cascade_aux_encoding/results/20260426_f12c_residual_grids_4_cands.md
+  - bets/cascade_aux_encoding/results/20260426_f13_registry_wide_definitive.md
+  why_closed: "F13 ran the C tool de58_enum (626M evals/sec) at full 2^32 enumeration per registry candidate, ~5 min total\
+    \ wall time. 287,762,808,832 chambers exhaustively checked — 0 with de58=0. Closest reach: msb_m189b13c7 at HW=2 (residual\
+    \ 0x00000108, structurally pinned across 512 chambers). 4 cands at HW≤4, ~12 at HW=5, max HW=13. Yale's HW4 D61 floor\
+    \ across 8 attack vectors is the SAME structural fact registry-wide. This is the strongest cascade_aux structural negative\
+    \ ever shipped — exhaustive, not probabilistic."
   would_change_my_mind:
   - Find any registry cand whose de58 image contains 0 (HW=0 chamber). F11 1M-sample search is the immediate test.
   - Find a non-cascade-1 collision path (i.e., da[57..60] ≠ 0 along the way) that achieves sr=61. This is yale's "Sigma1/Ch/T2
