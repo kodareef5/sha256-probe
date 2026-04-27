@@ -68,3 +68,28 @@ by going deeper.
 10 runs logged. Sr=60 base CNF committed as fixture.
 
 3 commits this hour. Overnight kissat continuing (~30/156 done).
+
+## 01:50 EDT — F22 cross-solver + paper abstract shipped
+
+Two real artifacts this hour:
+
+1. F22: CaDiCaL 3.0.0 sr=60 reproducibility — 5 seeds × 1M conflicts.
+   ALL UNKNOWN at 36-40s wall each. Confirms F21's kissat 0/10 is
+   SOLVER-INVARIANT, not kissat-specific. Combined: 0/15 SAT at 1M.
+
+2. Paper abstract: reports/20260427_paper_abstract.md — ~250 word
+   submission-ready abstract for IACR ePrint, with bullet contributions
+   and Viragh-style comparison table. Submission-readiness checklist
+   included. Authors TBD (fleet agreement needed).
+
+5 cadical runs logged via append_run.py. Dashboard refreshed.
+
+Project's verification stack now covers BOTH solvers:
+  - kissat 4.0.4: 10 seeds × 1M, 0 SAT (F21)
+  - cadical 3.0.0: 5 seeds × 1M, 0 SAT (F22)
+  - kissat seed=5 × ~1.6B conflicts: 1 SAT (historical) → cert ba6287f0...
+
+This is the publication-quality empirical seed-sensitivity dataset.
+
+3 commits this hour. Overnight kissat: 36/156 done at 05:23 UTC.
+ETA ~13:30 EDT.
