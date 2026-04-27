@@ -101,5 +101,20 @@ current_progress: |
     - bets/programmatic_sat_propagator/propagators/SPEC.md (rules 4,5,6)
     - bets/block2_wang/residuals/STRUCTURAL_RERANK_NOTE.md (4-d.o.f. ranking)
 
-last_heartbeat: "2026-04-25T09:35:00Z"
+  CROSS-BET UPDATE 2026-04-26 evening (from cascade_aux F12, commit b8a0a2e):
+  Priority MITM target bit=19 m=0x51ca0b34 has DEFINITIVE de58 image
+  min HW = 11 (full 2^32 enumeration). 0 chambers have de58=0.
+
+  This corroborates the empirical "cascade-sr=61 = 2^96" finding here:
+  the round-58 bottleneck (de58=0 needed) is unreachable for bit=19 via
+  cascade-1, even with all 4.3B chambers checked. Forward-table approach
+  alone cannot find cascade-sr=61 SAT — same structural fact.
+
+  Registry's structural champion for cascade-1 reach: msb_m189b13c7
+  (HW=2). NOT in this bet's priority target set, but it is the closest
+  registry cand to cascade-1 collision. If a backward analyzer is built,
+  msb_m189b13c7 should join bit=19 as a priority MITM target — its HW=2
+  cascade-1 residual is the smallest in registry.
+
+last_heartbeat: "2026-04-26T20:18:00Z"
 heartbeat_interval_days: 14
