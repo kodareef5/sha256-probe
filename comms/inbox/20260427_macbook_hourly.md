@@ -1028,3 +1028,40 @@ Two genuinely different structural advantages on different axes.
 
 5 runs logged. msb_m17149975 baseline (was F21 27.09s — likely also
 sequential under low load) reaffirmed at ~36s under standard load.
+
+---
+
+## 15:45 EDT — F49: F48 FALSIFIED via prediction test (honest correction)
+
+Quantified `cand_lm_breadth` across all 67 cands. Tested F48's "narrow
+breadth → fast solver" claim with 2 prediction-test cands at extremes:
+
+  bit11_m45b0a5f6 (NARROWEST untested, breadth=67): predicted ~27s
+    → observed median 37.79s (FAILED)
+  msb_m9cfea9ce (BROADEST untested, breadth=128): predicted >39s
+    → observed median 35.19s (FAILED)
+
+Both failed in SAME direction. Pearson r over 6 cands ≈ 0.20
+(essentially uncorrelated). **F48 is REFUTED.**
+
+What survives:
+  - bit2_ma896ee41 IS uniquely fast (~27s, registry-min)
+  - bit10 also ~28s; all other 4 measured cands at 35-39s
+  - bit28's high seed variance is orthogonal to breadth
+
+bit2's uniqueness might come from HW=45 + symmetry combo (only HW=45
+cand in registry). Mechanism untested.
+
+**DISCIPLINE LESSON (TWICE today)**:
+  F37/F38 cliff → F39 retraction (system load)
+  F48 monotonic → F49 retraction (small-N overclaim)
+
+**Going forward**: ALWAYS test prediction on out-of-sample cands
+BEFORE publishing cross-cand correlation. F49's "test 2 extremes"
+methodology = default for any future correlation claim.
+
+For paper Section 4: revised claim — bit2 is uniquely fast, mechanism
+unknown. NO cross-cand structural-axis solver predictor proven yet.
+
+10 kissat runs logged. Both new CNFs CONFIRMED. Honest retraction
+shipped within minutes of falsification.
