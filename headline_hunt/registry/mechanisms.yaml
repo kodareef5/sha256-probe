@@ -263,6 +263,7 @@
   - W57-free chart walks over exact HW4 bases found millions of exact-D60 landings but no exact D61 HW3; HW3 remains non-exact and chart-shifted.
   - Macbook F12 residual-grid candidates transfer only partially: direct GPU off58 scans find sparse singular charts, but best downstream result is HW6/tail-HW67.
   - Schedule-constrained message-space projection adds the required a57 guard; the guarded map has full rank 192, and corrected walks reach only slot-57 prefix HW8 so far.
+  - Guard-fiber repair variants now distinguish changed guard fibers from default returns; first corrected probes found no changed exact a57 guard fiber.
   status: in_flight
   priority: 8
   expected_info_per_cpu_hour: very_high
@@ -297,6 +298,7 @@
   - bets/singular_chamber_rank/results/20260426_w57_free_chart_walk.md
   - bets/singular_chamber_rank/results/20260426_f12_candidate_transfer.md
   - bets/singular_chamber_rank/results/20260427_message_space_guard_probe.md
+  - bets/singular_chamber_rank/results/20260427_gpu_sparse_chamber_scan.md
   owner: linux_gpu_laptop
   last_updated: '2026-04-26'
   notes: "Joint linux_gpu_laptop + macbook bet. Linux shipped the original mathematical decomposition, bridge enumeration,
@@ -311,5 +313,8 @@
     W57-free chart walks over idx0/idx8 exact HW4 points found millions of exact-D60 landings but no exact D61 HW3.
     Macbook F12 residual-grid candidates were added and GPU-scanned; they produced second-tier singular charts, best HW6/tail-HW67.
     After the F14/F15 correction, linux added a guarded message-space scorer; an unguarded D57=0 point was a false
-    positive with a57_xor HW13, while corrected multi-axis walks reached only guarded slot-57 prefix HW8.
+    positive with a57_xor HW13, while corrected multi-axis walks reached only guarded slot-57 prefix HW8. Follow-up
+    guard-fiber repair operators return to the default chart rather than changed exact a57 fibers. A 2026-04-27 GPU
+    sparse-chamber pass found exact-D60 footholds on bit13/bit15/bit19/bit14 and an off58-HW1 idx18 chamber, but none
+    beat D61 HW4/tail HW59.
     Open: carry-bit compensation that also preserves/repairs the message-space a57 guard?"

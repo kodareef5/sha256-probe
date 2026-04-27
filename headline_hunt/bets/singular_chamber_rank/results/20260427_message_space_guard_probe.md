@@ -164,6 +164,55 @@ message's `defect57` value. The operator repairs the guard by returning
 to the same unproductive guard chart; it does not find a lower-D57 guard
 fiber.
 
+After adding an explicit changed-vs-default counter, the idx 8 result became
+sharper. A 500k-trial rerun with the same deterministic repair found 385
+exact-guard landings and **zero** changed exact-guard landings:
+
+```text
+idx 8, trials=500,000, threads=24, jitter=96
+guard_hits = 385
+changed_guard_hits = 0
+exact_slot57 = 0
+best changed exact guard = none
+```
+
+So the basic repair is not merely finding an unhelpful nearby guard chart. In
+this chamber it literally repairs back to the default message.
+
+## Guard-fiber operator negatives
+
+Several follow-up operators tried to stop the `a57` repair from undoing the
+trial:
+
+- `msg61guardkernel`: choose a random drive vector, project it into the
+  linearized `a57` kernel at the base chart, then evaluate the nonlinear
+  point.
+- `msg61guardrepairgauge`: during Newton repair, inject a random gauge move
+  and solve only the compensating remainder.
+- `msg61guardwordrepair`: randomize 13 free message words and use one chosen
+  32-bit word as the `a57` repair coordinate.
+- `msg61guardchartrepair`: at each Newton step, try all 14 one-word repair
+  charts and apply the chart that best reduces `a57`.
+
+The first corrected idx 8 probes were negative:
+
+| operator | trials | setting | guard hits | changed guard hits | best changed guard |
+|---|---:|---|---:|---:|---:|
+| `guardkernel` | 1,000,000 | drive <= 4 | 0 | 0 | none |
+| `guardrepairgauge` | 100,000 | jitter 96, gauge <= 8 | 3 | 0 | none |
+| `guardrepairgauge` | 100,000 | jitter 96, gauge <= 32 | 3 | 0 | none |
+| `guardrepair` | 100,000 | far jitter 448 | 14 | 0 | none |
+| `guardwordrepair` | 100,000 | repair M15, jitter 96 | 1 | 0 | none |
+| `guardchartrepair` | 20,000 | all one-word charts, jitter 96 | 211 | 0 | none |
+
+The adaptive chart repair is informative despite failing: only about 28.8% of
+one-word charts had full local `a57` rank after random perturbation, and all
+successful exact-guard landings were still the default message. The practical
+lesson is that exact `a57=0` is not behaving like a smooth codimension-32
+manifold near the useful low-HW valleys. The repair operators can reduce
+off-manifold residuals, but the nonlinear carry chart pinches back to the
+fill-message guard point.
+
 ## Guarded Newton
 
 Boolean-Newton projection was updated to solve the guarded prefix

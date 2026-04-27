@@ -180,6 +180,13 @@ Key result notes:
   new exact-D60 landings and low-D60 terraces, but did not improve D61 HW4 or
   tail HW59. W57-free affine-fiber sampling and low-weight kernel enumeration
   reached D60-HW1, but found no exact D60 and no cap-preserving bridge.
+  Schedule-constrained message-space guard repair now has corrected
+  changed-vs-default counters: deterministic repair, randomized gauge repair,
+  linearized guard-kernel projection, one-word repair, and adaptive chart
+  repair all fail to find a changed exact `a57=0` guard fiber in the first
+  probes. New GPU sparse-chamber scans found exact-D60 footholds on several
+  macbook/F-series candidates and an off58-HW1 idx18 chamber, but sparse
+  `off58` still does not predict the D61 floor by itself.
 - `results/20260426_m5_1B_deep_descent.md`: macbook M5 1B-trial walk that
   verified the HW5 round-61 and tail-HW68 frontiers.
 - `results/20260426_m5_1B_from_HW5.md`: macbook M5 1B-trial walk from the HW5
@@ -222,4 +229,8 @@ Key result notes:
   `(a57_xor, defect57..61)` has full local rank 192 over the 14 free message
   words; unguarded D57 hits can be false positives when `a57_xor != 0`.
   Corrected multi-axis walks reduce the guarded slot-57 prefix to HW8 but
-  find no exact guarded cascade hit.
+  find no exact guarded cascade hit. Guard-fiber repair variants currently
+  return to the default chart rather than a changed exact guard fiber.
+- `results/20260427_gpu_sparse_chamber_scan.md`: RTX/OpenCL W57/off58 scans
+  plus exact-D60 CPU follow-up on bit13/bit15/bit19/bit14/idx18 sparse
+  chambers.
