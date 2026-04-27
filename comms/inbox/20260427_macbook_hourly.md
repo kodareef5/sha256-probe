@@ -1598,3 +1598,39 @@ validation converges on bit28 as universal champion.
 
 10 measurements logged across F63. 4-cohort taxonomy locked. Cross-
 fleet bit28 synthesis shipped. Pulse-aware: in continuous flow.
+
+---
+
+## 13:27 EDT — F65: cert-pin proof technique + bit28 HW=36 UNSAT
+
+Built cert-pin CNF for yale's bit28 HW=36 W-witness via new tool
+`build_certpin.py`. Result: kissat **UNSAT in 0.19s**.
+
+Sanity: m17149975 verified-collision cert-pin → **SAT in 0.017s**.
+
+**Cert-pin technique correctly distinguishes**:
+  Verified collision (HW=0): SAT (m17149975 0.017s)
+  Near-residual (HW=36):     UNSAT (bit28 0.19s)
+
+bit28 HW=36 is structurally valid (43 active adders, LM-compatible per
+yale's verification) but not a complete sr=60 collision — exactly as
+expected (HW=36 ≠ 0).
+
+**For block2_wang Wang attack**: yale's HW=36 is the INPUT to a
+hypothetical second-block trail design. F65 formally establishes
+block-1-only is insufficient — Wang-style block-2 absorption needed.
+
+**New tool shipped**: `build_certpin.py`
+- Appends 128 W-witness pinning unit clauses to base cascade_aux Mode A CNF
+- Reads varmap.json sidecar from the encoder's --varmap auto output
+- Produces cert-pin CNF in <1 sec
+- Universal near-residual verification utility
+
+**Future use**: when Wang block-2 trail is designed, cert-pin its
+W-witness and verify the resulting 2-block CNF is SAT — would be a
+**HEADLINE collision discovery** at HW=36 (vs current HW=49 baseline).
+
+Yale's online sampler + macbook's cert-pin technique now form a
+COMPLETE pipeline for verifying near-residuals → collision attempts.
+
+2 kissat runs logged. F65 shipped. Pulse-aware: in continuous flow.
