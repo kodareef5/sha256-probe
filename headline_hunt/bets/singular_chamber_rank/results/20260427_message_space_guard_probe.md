@@ -89,6 +89,81 @@ prefix_zero = 0
 
 The idx0 seeded 5M-trial run did not improve its HW9 point.
 
+## Exact-guard neighborhoods
+
+The next check enumerated all message-bit perturbations through radius 3
+around the default messages while retaining only exact `a57_xor=0` guard
+points. Each radius-3 enumeration checks 14,986,272 neighbors.
+
+| idx | seed | guard hits through radius 3 | slot-57 hits | best exact-guard prefix |
+|---:|---|---:|---:|---:|
+| 0 | default | 1 | 0 | HW19 (default) |
+| 8 | default | 1 | 0 | HW15 (default) |
+| 19 | default | 1 | 0 | HW14 (default) |
+
+For idx0 and idx8, the only exact-guard point within radius 3 of the
+default message is the default message itself. The best low-HW neighbors
+all leave the guard manifold:
+
+```text
+idx0 best any radius<=3: guarded prefix HW10, a57 HW5, defect57 HW5
+idx8 best any radius<=3: guarded prefix HW12, a57 HW6, defect57 HW6
+idx19 best any radius<=3: guarded prefix HW12, a57 HW6, defect57 HW6
+```
+
+Radius-3 enumeration around the seeded idx8 HW8 and idx0 HW9 near-miss
+points found no exact-guard point at all. These near-miss valleys are
+off the cascade manifold, not broad neighborhoods around hidden guarded
+solutions.
+
+## F17 bit13 target
+
+Macbook's F17 round-63 residual work distinguished `bit13_m4e560940_aa`
+as the lowest round-63 residual candidate in that metric. Adding it to
+the guarded probe:
+
+```text
+idx 19: bit13_m4e560940_aa
+rank_guarded = 192
+base guarded prefix HW = 14
+3M guarded walk best prefix HW = 9
+
+best walk:
+a57_xor = 0x1681000a  HW 7
+defect57 = 0x00001100  HW 2
+```
+
+This does not beat idx8's HW8 guarded-prefix frontier. It does show a
+different split: bit13 can make `defect57` very small while failing to
+repair the `a57` guard.
+
+## A57 guard repair
+
+The next operator separated the tasks:
+
+1. randomly perturb the 14 free message words,
+2. use a local 32-bit Boolean-Newton repair only for `a57_xor`,
+3. keep only repaired `a57_xor=0` points when scoring `defect57`.
+
+This tests whether the exact guard manifold is accessible, even if the
+low-HW valleys are off-manifold.
+
+Each 500k-trial run used 16 threads, up to 8 guard-repair iterations,
+and up to 96 initial random flips:
+
+| idx | candidate | repaired guard hits | best exact-guard prefix | exact slot-57 hits |
+|---:|---|---:|---:|---:|
+| 0 | `msb_cert_m17149975_ff_bit31` | 400 | HW19 (default) | 0 |
+| 8 | `bit3_m33ec77ca_ff` | 391 | HW15 (default) | 0 |
+| 18 | `msb_m189b13c7_80` | 434 | HW13 (default) | 0 |
+| 19 | `bit13_m4e560940_aa` | 347 | HW14 (default) | 0 |
+
+The repair step is effective at recovering `a57_xor=0` from off-manifold
+starts, but every best exact-guard representative stayed at the default
+message's `defect57` value. The operator repairs the guard by returning
+to the same unproductive guard chart; it does not find a lower-D57 guard
+fiber.
+
 ## Guarded Newton
 
 Boolean-Newton projection was updated to solve the guarded prefix
@@ -113,6 +188,10 @@ exact sr61 hits: 0
 
 This aligns with macbook's F16 result: single-axis message sweeps behave
 like brute force. Multi-axis heuristic walks can reduce the guarded
-slot-57 residual, but so far do not cross it. The next useful operator
-should preserve or repair the `a57` guard explicitly while steering
-`defect57`, rather than optimizing unguarded schedule defects.
+slot-57 residual, but so far do not cross it. Radius-3 exact-guard
+enumeration shows the local guard manifold is extremely thin near the
+default messages and absent near the best near-miss valleys. The next
+useful operator must do more than repair `a57` after the fact: it needs
+to move within a productive exact-guard fiber while steering `defect57`,
+rather than repairing back to the default guard chart or optimizing
+unguarded schedule defects.
