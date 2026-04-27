@@ -302,3 +302,40 @@ PRIMARY + bit13_m4e560940 SECONDARY. Both have exact-symmetry
 absorption advantage.
 
 67-log archive committed at residuals/F28_registry_1B/ (588 KB).
+
+---
+
+## 06:33 EDT — F29+F30 kissat: bit2_ma896ee41 1M conflicts
+
+Tested F28 NEW CHAMPION at moderate budget vs verified sr=60 cand:
+
+| Test | CNF | seeds | median | status |
+|---|---|:---:|---:|---|
+| F29 | TRUE sr=61 enf0 | 5 | 31.01s | all UNKNOWN |
+| F30 | cascade_aux Mode A sr=60 | 5 | 26.51s | all UNKNOWN |
+| F21 baseline | msb_m17149975 sr=60 Mode A | 5 | 27.09s | all UNKNOWN |
+
+bit2 vs msb at sr=60: 0.6s differential = 2.2% faster, within noise.
+
+**Finding:** F28's structural advantage (HW=45 + exact symmetry) does
+NOT translate to faster kissat-per-conflict at 1M. Both cands have
+effectively the same per-conflict cost at moderate budgets.
+
+The advantage is at the **combinatorial level** (Wang block2 absorption,
+deep-budget reproduction), not the heuristic level. For per-conflict
+speedup, would need 12h+ kissat — bigger compute decision.
+
+10 runs logged via append_run.py. Memo at
+`headline_hunt/bets/cascade_aux_encoding/results/20260427_F29_F30_bit2_ma896ee41_kissat.md`.
+
+**Implication:** all distinguished cands (msb_m17149975, msb_m189b13c7,
+bit13_m4e560940, bit17_m427c281d, bit18_m99bf552b, idx8_m33ec77ca, NEW
+bit2_ma896ee41) are in the same per-conflict family at 1M (25-32s wall).
+The cand-selection variable is structurally meaningful but
+solver-invisible at moderate budgets.
+
+For the paper's Section 4: this is the **per-conflict equivalence**
+baseline — distinguishes the structural axis from the solver axis.
+
+Overnight kissat dispatcher still healthy: PID 48954, 8h13m, 102 results.
+ETA ~13:30 EDT.
