@@ -16,8 +16,8 @@
   next_action: "Use the F42-F45 all-record and online LM/HW Pareto surface as the
     block2 trail target set. Current archetypes: bit2 minimum residual
     (HW45/exact symmetry/LM824), bit13 balanced exact-symmetry
-    (HW47/LM780), bit28 raw LM champion (HW73/LM718), and bit4
-    exact-symmetry LM champion (HW64/LM743). Next
+    (HW47/LM780), bit28 raw LM champion (HW73/LM687), and bit28
+    exact-symmetry LM champion (HW67/LM690). Next
     implementation target is a residual sampler/trail engine that keeps
     an online Pareto frontier over HW, LM, and symmetry instead of saving
     only min-HW records."
@@ -36,8 +36,9 @@
   notes: "GPT-5.5 ranked this #1 EV/CPU-hour. F34/F42 now make cascade-1
     a universal 43-active-adder, LM-compatible trail source across all
     3,065 sampled records. F43-F45 show target choice is a three-axis
-    Pareto problem, not a min-HW-only ranking; online sampling pushed the
-    raw LM frontier from 757 to 718."
+    Pareto problem, not a min-HW-only ranking; online sampling plus
+    seeded point-walk pushed the raw LM frontier from 757 to 687 and
+    the exact-symmetry LM frontier from 772 to 690."
 - id: cascade_auxiliary_encoding
   name: Cascade-auxiliary CNF encoding for SAT and KC
   headline_if_success: Reduced treewidth + improved SAT robustness, enabling either constructive d4 or sr=61 SAT solve.

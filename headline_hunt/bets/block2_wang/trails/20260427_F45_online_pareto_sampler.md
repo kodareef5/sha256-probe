@@ -136,6 +136,89 @@ exact a61=e61 = yes
 
 This improves the F43 exact-symmetry LM frontier from LM772 to LM743.
 
+## 100B follow-up
+
+Matched 100B random Pareto runs on bit28 and bit4 did not improve the
+10B frontiers:
+
+| candidate | samples | best HW | best raw LM | best exact-sym LM |
+|---|---:|---:|---:|---:|
+| `bit28_md1acca79` | 100B | HW47 / LM792 | HW73 / LM718 | HW81 / LM749 |
+| `bit4_m39a03c2d` | 100B | HW49 / LM796 | HW71 / LM720 | HW64 / LM743 |
+
+So random online sampling appears to hit a local floor around LM718 on
+bit28 and LM720 on bit4 at this budget.
+
+## Seeded point-walk
+
+The sampler's `pointwalk` mode starts from a known witness and applies
+small random bit-flip moves, accepting lower-LM moves and occasional
+near-neutral moves. This tests whether the low-LM records are isolated
+random tail events or sit on a locally navigable carry chart.
+
+Starting from the bit28 LM718 point immediately moved the frontier:
+
+```text
+candidate: bit28_md1acca79_fillffffffff
+W57 = 0xce9b8db6
+W58 = 0xb26e4c72
+W59 = 0x4b1debc4
+W60 = 0x69d0ab84
+
+residual HW = 65
+LM cost = 703
+exact a61=e61 = yes
+```
+
+Starting from that LM703 point moved again:
+
+```text
+candidate: bit28_md1acca79_fillffffffff
+W57 = 0xce9b8db6
+W58 = 0xb26e4c72
+W59 = 0x4b1debc4
+W60 = 0x65d4a9a4
+
+residual HW = 73
+LM cost = 687
+exact a61=e61 = no
+```
+
+The best exact-symmetry point from the same local basin is:
+
+```text
+candidate: bit28_md1acca79_fillffffffff
+W57 = 0xce9b8db6
+W58 = 0xb26e4c72
+W59 = 0x4b1de3c4
+W60 = 0x6dd8ab9d
+
+residual HW = 67
+LM cost = 690
+exact a61=e61 = yes
+```
+
+Independent `active_adder_lm_bound` checks verify all three points with
+43 active adders and zero LM incompatibilities.
+
+A further 514M-evaluation point-walk from LM687 did not reduce raw LM
+below 687. It did find a bit28 residual-HW improvement:
+
+```text
+candidate: bit28_md1acca79_fillffffffff
+W57 = 0xe82445f4
+W58 = 0xe32e013a
+W59 = 0x6816a172
+W60 = 0xd9e18932
+
+residual HW = 46
+LM cost = 800
+exact a61=e61 = no
+```
+
+This does not beat the global bit2 HW45 residual, but it moves bit28's
+own HW frontier from HW49 to HW46.
+
 ## Updated Pareto interpretation
 
 The new observed target set is:
@@ -144,12 +227,12 @@ The new observed target set is:
 |---|---|---|
 | minimum residual | `bit2_ma896ee41` | HW45 / LM824 / exact symmetry |
 | balanced exact symmetry | `bit13_m4e560940` | HW47 / LM780 / exact symmetry |
-| low HW, low LM | `bit28_md1acca79` | HW49 / LM765 |
-| raw LM champion | `bit28_md1acca79` | HW73 / LM718 |
-| exact-symmetry LM champion | `bit4_m39a03c2d` | HW64 / LM743 |
+| low HW, low LM | `bit28_md1acca79` | HW46 / LM800 and HW49 / LM765 |
+| raw LM champion | `bit28_md1acca79` | HW73 / LM687 |
+| exact-symmetry LM champion | `bit28_md1acca79` | HW67 / LM690 |
 
-The important conclusion is not that LM718 is directly exploitable. Even
-LM718 remains far beyond one-block random freedom (`256 - 718 = -462`).
+The important conclusion is not that LM687 is directly exploitable. Even
+LM687 remains far beyond one-block random freedom (`256 - 687 = -431`).
 The conclusion is that the first-block residual generator has a much
 broader trail-cost surface than the min-HW corpus exposed. Different
 objectives select different witnesses and, in some cases, different
@@ -157,9 +240,8 @@ candidates.
 
 ## Next
 
-- Run deeper on bit28 and bit4 to see whether the raw LM tail keeps
-  dropping below 718.
-- Add a score-biased sampler or mutation operator if random sampling
-  starts showing a stable LM floor.
+- Continue seeded point-walks from the bit28 LM687/LM690 basin with
+  different move radii and acceptance slack.
+- Add a score-biased sampler if the point-walk also stabilizes.
 - Preserve separate target classes for block2 trail design: min-HW,
   exact-symmetry, and raw low-LM.

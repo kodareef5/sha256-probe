@@ -363,22 +363,49 @@ static void print_rec_json(const char *name, const rec_t *r) {
 }
 
 static int run_walk(int argc, char **argv) {
-    if (argc < 10) {
-        fprintf(stderr,
-                "Usage: %s walk m0 fill bit restarts steps threads seed max_flips [slack]\n",
-                argv[0]);
-        return 1;
-    }
+    int point_mode = strcmp(argv[1], "pointwalk") == 0;
+    u32 baseW[4] = {0, 0, 0, 0};
+    u32 m0, fill, seed;
+    int bit, threads, max_flips, slack;
+    uint64_t restarts, steps;
 
-    u32 m0 = strtoul(argv[2], NULL, 0);
-    u32 fill = strtoul(argv[3], NULL, 0);
-    int bit = atoi(argv[4]);
-    uint64_t restarts = strtoull(argv[5], NULL, 0);
-    uint64_t steps = strtoull(argv[6], NULL, 0);
-    int threads = atoi(argv[7]);
-    u32 seed = strtoul(argv[8], NULL, 0);
-    int max_flips = atoi(argv[9]);
-    int slack = (argc >= 11) ? atoi(argv[10]) : 4;
+    if (point_mode) {
+        if (argc < 14) {
+            fprintf(stderr,
+                    "Usage: %s pointwalk m0 fill bit W57 W58 W59 W60 restarts steps threads seed max_flips [slack]\n",
+                    argv[0]);
+            return 1;
+        }
+        m0 = strtoul(argv[2], NULL, 0);
+        fill = strtoul(argv[3], NULL, 0);
+        bit = atoi(argv[4]);
+        baseW[0] = strtoul(argv[5], NULL, 0);
+        baseW[1] = strtoul(argv[6], NULL, 0);
+        baseW[2] = strtoul(argv[7], NULL, 0);
+        baseW[3] = strtoul(argv[8], NULL, 0);
+        restarts = strtoull(argv[9], NULL, 0);
+        steps = strtoull(argv[10], NULL, 0);
+        threads = atoi(argv[11]);
+        seed = strtoul(argv[12], NULL, 0);
+        max_flips = atoi(argv[13]);
+        slack = (argc >= 15) ? atoi(argv[14]) : 4;
+    } else {
+        if (argc < 10) {
+            fprintf(stderr,
+                    "Usage: %s walk m0 fill bit restarts steps threads seed max_flips [slack]\n",
+                    argv[0]);
+            return 1;
+        }
+        m0 = strtoul(argv[2], NULL, 0);
+        fill = strtoul(argv[3], NULL, 0);
+        bit = atoi(argv[4]);
+        restarts = strtoull(argv[5], NULL, 0);
+        steps = strtoull(argv[6], NULL, 0);
+        threads = atoi(argv[7]);
+        seed = strtoul(argv[8], NULL, 0);
+        max_flips = atoi(argv[9]);
+        slack = (argc >= 11) ? atoi(argv[10]) : 4;
+    }
     if (max_flips < 1) max_flips = 1;
     if (max_flips > 64) max_flips = 64;
     if (slack < 0) slack = 0;
@@ -418,10 +445,22 @@ static int run_walk(int argc, char **argv) {
 
 #pragma omp for schedule(static)
         for (uint64_t r = 0; r < restarts; r++) {
-            u32 curW[4] = {
-                xorshift32(&rng), xorshift32(&rng),
-                xorshift32(&rng), xorshift32(&rng)
-            };
+            u32 curW[4];
+            if (point_mode) {
+                memcpy(curW, baseW, sizeof(curW));
+                if (r != 0) {
+                    int warm = 1 + (int)(xorshift32(&rng) % (u32)max_flips);
+                    for (int f = 0; f < warm; f++) {
+                        u32 pick = xorshift32(&rng);
+                        curW[pick & 3U] ^= (u32)1 << ((pick >> 2) & 31U);
+                    }
+                }
+            } else {
+                curW[0] = xorshift32(&rng);
+                curW[1] = xorshift32(&rng);
+                curW[2] = xorshift32(&rng);
+                curW[3] = xorshift32(&rng);
+            }
             rec_t cur = evaluate_point(&ctx, curW);
             stats_add(&local, &cur);
 
@@ -461,11 +500,12 @@ static int run_walk(int argc, char **argv) {
     qsort(global.front, global.nfront, sizeof(rec_t), cmp_rec);
     uint64_t evals = restarts * (steps + 1);
 
-    printf("{\"mode\":\"block2_pareto_walk\",\"m0\":\"0x%08x\","
+    printf("{\"mode\":\"%s\",\"m0\":\"0x%08x\","
            "\"fill\":\"0x%08x\",\"bit\":%d,\"restarts\":%llu,"
            "\"steps\":%llu,\"evals\":%llu,\"threads\":%d,"
            "\"max_flips\":%d,\"slack\":%d,\"seconds\":%.3f,"
            "\"rate_mps\":%.3f,\"sym_count\":%llu,\"incompat_count\":%llu,",
+           point_mode ? "block2_pareto_pointwalk" : "block2_pareto_walk",
            m0, fill, bit, (unsigned long long)restarts,
            (unsigned long long)steps, (unsigned long long)evals,
            threads, max_flips, slack, t1 - t0,
@@ -491,7 +531,8 @@ static int run_walk(int argc, char **argv) {
 }
 
 int main(int argc, char **argv) {
-    if (argc > 1 && strcmp(argv[1], "walk") == 0) {
+    if (argc > 1 && (strcmp(argv[1], "walk") == 0 ||
+                     strcmp(argv[1], "pointwalk") == 0)) {
         return run_walk(argc, argv);
     }
 
