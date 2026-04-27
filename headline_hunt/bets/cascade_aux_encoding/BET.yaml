@@ -75,8 +75,42 @@ current_progress: |
   = 72 CNFs, all CONFIRMED. Bet remains characterized (Mode B 2-3.4× front-
   loaded preprocessing, not a path to cascade-DP SAT discovery).
 
-last_heartbeat: "2026-04-26T23:40:00Z"
+last_heartbeat: "2026-04-27T13:30:00Z"
 heartbeat_interval_days: 7
+recent_progress_2026-04-27: |
+  Active hour: 14 commits, 6 substantive findings.
+
+  Verified-and-shipped (paper-class):
+  - F34: 43-active-adder cascade-1 invariant across all 67 cands.
+    Universal structural property of cascade slots 57..60.
+  - F35: per-cand Lipmaa-Moriai cost varies (90-bit spread on 11
+    exact-symmetry cands). Real metric distinct from active count.
+  - F36: ALL 67 cascade-1 trails are LM-COMPATIBLE (zero violators
+    each). Universal cascade structural property. msb_ma22dc6c7
+    is global LM champion at LM=773 — F28 HW+symmetry filter
+    missed it entirely.
+  - F40: Mode A ≈ Mode B at 1M conflicts on bit2 (within 0.5%).
+    Encoder-level variations invisible to kissat at moderate budgets.
+
+  Voided (caught and corrected):
+  - F37/F38 "HW cliff": F39 reproducibility check showed bit2's
+    26.51s baseline was a system-load artifact. All distinguished
+    cands sit at ~35-36s plateau under same parallel conditions.
+
+  Tools shipped:
+  - active_adder_count.c (verified, reproduces F32 exactly)
+  - active_adder_lm_bound.c (per-adder Lipmaa-Moriai costing)
+  - cand_select.py (multi-metric ranking utility)
+  - F28_deep_corpus_enriched.jsonl (3065 records + LM/active fields)
+
+  Per-conflict kissat equivalence at ~35-36s reaffirmed across:
+    cands (HW 45-51), encoder modes (A/B), exact-symmetry vs not.
+
+  Net for paper Section 4/5: F34 universal-43 invariant + F36
+  universal-LM-compatibility are strongest publishable structural
+  claims. Cascade-1 isn't just an empirical low-HW sieve — it's a
+  STRUCTURE-PRESERVING construction that produces XOR-consistent
+  trails universally.
 recent_progress_2026-04-26: |
   Predictor work shipped this session:
   - n=16 × 3-seed kissat sr=61 50k: Mode A wall → Mode B speedup ρ=+0.976,

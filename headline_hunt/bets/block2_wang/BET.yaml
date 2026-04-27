@@ -29,7 +29,45 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-04-27T08:30:00Z'
+last_heartbeat: '2026-04-27T13:30:00Z'
+recent_progress_2026-04-27_PM: |
+  Major mid-day shipping: F31-F36 cross-bet structural cascade results.
+
+  F31 (corpus extension): bit2_ma896ee41 (PRIMARY) + bit13_m4e560940
+  (SECONDARY) corpora at 1M samples. Each ~18k records HW≤80.
+  Confirms F28 ranking persists at moderate budgets.
+
+  F32 (deep corpus structured): F28_registry_1B archive parsed into
+  3,065-record JSONL covering all 67 cands. Cross-validates F28 exactly
+  (11 exact-symmetry cands at min HW, bit2 HW=45 a_61=e_61=0x02000004,
+  etc.). bit2_ma896ee41 deep-min vector + W-witness now queryable.
+
+  F34 (active-adder cascade-invariant): EXACTLY 43 active modular adders
+  at every cand's deep-min residual. Universal cascade-1 structural
+  property: 49 max - 6 saved (rounds 59-61 Σ0+Maj/T2/e' inactive due
+  to cascade zeros) = 43.
+
+  F35 (per-cand LM cost): Lipmaa-Moriai sum varies 90 bits across 11
+  exact-symmetry cands, 117 bits across all 67. Real metric distinct
+  from active count.
+
+  F36 (universal LM compatibility): ALL 67 cascade-1 trails have ZERO
+  LM-violating adders. Cascade isn't just an empirical low-HW sieve —
+  it's a STRUCTURE-PRESERVING construction producing XOR-consistent
+  trails. msb_ma22dc6c7 is global LM champion at 773 (NOT in F28's
+  exact-symmetry list, missed by HW+sym filter).
+
+  Tools shipped:
+    parse_F28_archive.py      — corpus enrichment from F28 logs
+    active_adder_count.c      — verified, reproduces F32 exactly
+    active_adder_lm_bound.c   — per-adder Lipmaa-Moriai costing
+    cand_select.py            — multi-metric cand ranking utility
+    F28_deep_corpus_enriched.jsonl — 3065 records + LM/active fields
+
+  For paper Section 5: F34 (universal-43) + F36 (universal-LM-compat)
+  are the two strongest publishable structural cascade-1 claims.
+
+
 heartbeat_interval_days: 7
 recent_progress_2026-04-27: |
   Cross-bet F-series structural data shipped this session:
