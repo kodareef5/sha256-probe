@@ -1011,3 +1011,29 @@ sr=60 IS a real result extending Viragh. In the popular sense ("first SHA-256
 collision"), no — full SHA-256 has never been broken in any sense, and the
 project's structural evidence suggests the cascade approach hits sr=61 as
 likely UNSAT.
+
+## 21:55 EDT — F20: TRUE sr=61 kissat on 6 distinguished cands — all UNKNOWN
+
+Following yale's f2edeed strategic read (next moves: 1. true sr=61 kissat,
+2. guard-preserving operator, 3. Wang absorption).
+
+Executed #1: 6 distinguished cands × 3 budgets (100k, 1M, 10M with 300s cap)
+= 18 runs, all UNKNOWN.
+
+  cand              100k    1M      10M(cap)
+  msb_m17149975     2.2s   21.3s    300s
+  msb_m189b13c7     2.1s   19.6s    300s
+  bit13_m4e560940   3.9s   19.3s    300s
+  bit17_m427c281d   3.6s   18.9s    300s
+  bit18_m99bf552b   2.3s   21.7s    300s
+  idx8_m33ec77ca    2.3s   22.4s    300s
+
+All 18 runs logged via append_run.py. Dashboard refreshed.
+
+KEY FINDING: F12+F17 structural distinction (cascade-1 relaxation min HW)
+does NOT translate to faster TRUE sr=61 SAT. Confirms yale's f2edeed —
+"guarded a57_xor=0 makes the attractive valleys disappear." Distinguished-
+cand kissat at modest budgets is not the path.
+
+Yale's #2 + #3 remain open. Lower EV per compute hour seems to be more
+random kissat at higher budgets.
