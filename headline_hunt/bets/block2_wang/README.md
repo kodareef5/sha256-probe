@@ -82,10 +82,10 @@ current short list is:
 - `bit2_ma896ee41`: HW45, exact symmetry, LM824.
 - `bit13_m4e560940`: HW47, exact symmetry, LM780.
 - `msb_ma22dc6c7`: HW48, LM773.
-- `bit28_md1acca79`: HW49, LM765 in the F43 corpus; F44 online sampling
+- `bit28_md1acca79`: HW49, LM765 in the F43 corpus; F45 online sampling
   improves raw LM to HW73/LM718.
-- `bit4_m39a03c2d`: HW53, LM757 in the F43 corpus; F44 online sampling
+- `bit4_m39a03c2d`: HW53, LM757 in the F43 corpus; F45 online sampling
   improves raw LM to HW71/LM720 and exact-symmetry LM to HW64/LM743.
 
 See `trails/20260427_F43_recordwise_lm_pareto.md` and
-`trails/20260427_F44_online_pareto_sampler.md`.
+`trails/20260427_F45_online_pareto_sampler.md`.
