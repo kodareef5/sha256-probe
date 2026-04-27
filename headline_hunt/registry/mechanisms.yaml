@@ -13,26 +13,30 @@
   dependencies:
   - "Get block-1 residuals down to HW\u226416 (Wang differential threshold)."
   - Implement a bitcondition/trail-search engine (Wang-style, not just SAT).
-  next_action: "Stage-ladder progress 2026-04-25 (per GPT-5.5 review): SCALING_PLAN.md decomposes\
-    \ N=8 \u2192 N=32 into M10/M12/M16/MITM milestones with falsification gates. M10 PASSED: 946 collisions\
-    \ at N=10, 100% Phase-4 verified, 117s wall, 15.67\u00d7 stratified-BF speedup VERIFIED.\
-    \ M12 PARTIAL PASS (32 collisions at 32/4096 W57 in 43 wall-min; algorithmically validated;\
-    \ full sweep ~8hr clean wall, ~92hr contended). N-invariance probe + cross-candidate probe:\
-    \ Theorem 4, R63.1, R63.3 hold across N\u2208{8,10,12,14,16,18} AND across all 10 N=10 candidates.\
-    \ M16 single-machine pure-BC CONFIRMED INFEASIBLE (~80 days uncontended at 1024\u00d7-per-2N scaling);\
-    \ M16-MITM is the only viable path. Naive enumerate-all has signature-sparseness blocker;\
-    \ design memo needed before code. Random sampling closed across cert+SURPRISE+BOTTOM corpora\
-    \ (HW\u226562 floor universal); SURPRISE/BOTTOM mean per-register HW is 2 bits LOWER than cert."
+  next_action: "Use the F42/F43 all-record LM/HW Pareto surface as the
+    block2 trail target set. Current archetypes: bit2 minimum residual
+    (HW45/exact symmetry/LM824), bit13 balanced exact-symmetry
+    (HW47/LM780), msb_ma22dc6c7 low-LM min-HW record (HW48/LM773),
+    bit28 low-LM near-min (HW49/LM765), and bit4 raw LM champion
+    (HW53/LM757, with exact-symmetry variants at LM772/776). Next
+    implementation target is a residual sampler/trail engine that keeps
+    an online Pareto frontier over HW, LM, and symmetry instead of saving
+    only min-HW records."
   kill_criteria:
   - No residual cluster yields >18-round absorber after 1 week of dedicated trail search.
   - No improvement over naive block-2 SAT frontier on N=8/N=12 analogs after pilot phase.
   reopen_criteria:
   - New residual class with HW/register concentration substantially below current best.
   - New SHA-256 message-modification paper or tool becomes available.
-  evidence: []
+  evidence:
+  - bets/block2_wang/trails/20260427_F42_universal_LM_compat_all_3065.md
+  - bets/block2_wang/trails/20260427_F43_recordwise_lm_pareto.md
   owner: unassigned
   last_updated: '2026-04-24'
-  notes: "GPT-5.5 ranked this #1 EV/CPU-hour. Human-time expensive \u2014 only start if willing to build a real trail engine."
+  notes: "GPT-5.5 ranked this #1 EV/CPU-hour. F34/F42 now make cascade-1
+    a universal 43-active-adder, LM-compatible trail source across all
+    3,065 sampled records. F43 shows target choice is a three-axis
+    Pareto problem, not a min-HW-only ranking."
 - id: cascade_auxiliary_encoding
   name: Cascade-auxiliary CNF encoding for SAT and KC
   headline_if_success: Reduced treewidth + improved SAT robustness, enabling either constructive d4 or sr=61 SAT solve.

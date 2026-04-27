@@ -72,3 +72,18 @@ the engine exists, multiple machines can run cluster trail searches in parallel.
 - Closed by failure of: nothing — independent of other bets.
 - Reopens if: see `mechanisms.yaml` reopen_criteria.
 - Adjacent: `mitm_residue` (also bypasses single-block cascade boundary, different mechanism).
+
+## Current Trail Targets
+
+The F42/F43 all-record LM scan makes candidate selection a Pareto problem
+over residual HW, Lipmaa-Moriai cost, and exact `a61=e61` symmetry. The
+current short list is:
+
+- `bit2_ma896ee41`: HW45, exact symmetry, LM824.
+- `bit13_m4e560940`: HW47, exact symmetry, LM780.
+- `msb_ma22dc6c7`: HW48, LM773.
+- `bit28_md1acca79`: HW49, LM765.
+- `bit4_m39a03c2d`: HW53, LM757; also has exact-symmetry records at
+  HW52/LM772 and HW54/LM776.
+
+See `trails/20260427_F43_recordwise_lm_pareto.md`.

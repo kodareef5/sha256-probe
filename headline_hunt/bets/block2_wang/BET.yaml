@@ -57,15 +57,27 @@ recent_progress_2026-04-27_PM: |
   trails. msb_ma22dc6c7 is global LM champion at 773 (NOT in F28's
   exact-symmetry list, missed by HW+sym filter).
 
+  F42/F43 (all-record LM + Pareto surface): macbook extended LM
+  compatibility to all 3,065 F28 records with 0 incompatibilities.
+  linux_gpu_laptop joined those costs back to the witness corpus and
+  found only 5 global Pareto points on (HW, LM). The record-wise LM
+  champion is bit4_m39a03c2d at HW53/LM757, 16 LM bits below the prior
+  min-HW-record LM champion. The lowest-LM exact-symmetry record is also
+  bit4 (HW52/LM772). Candidate selection is now explicitly 3-axis:
+  residual HW, LM cost, and exact a61=e61 symmetry.
+
   Tools shipped:
     parse_F28_archive.py      — corpus enrichment from F28 logs
     active_adder_count.c      — verified, reproduces F32 exactly
     active_adder_lm_bound.c   — per-adder Lipmaa-Moriai costing
     cand_select.py            — multi-metric cand ranking utility
+    trails/scan_record_lm.py  — all-record LM/HW Pareto extractor
     F28_deep_corpus_enriched.jsonl — 3065 records + LM/active fields
 
   For paper Section 5: F34 (universal-43) + F36 (universal-LM-compat)
-  are the two strongest publishable structural cascade-1 claims.
+  are the two strongest publishable structural cascade-1 claims. F43
+  supplies the concrete target set for block2 trail design: bit2, bit13,
+  msb_ma22dc6c7, bit28, and bit4.
 
 
 heartbeat_interval_days: 7
