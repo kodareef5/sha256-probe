@@ -872,3 +872,36 @@ might be easiest entry point if a generic operator exists.
 
 F13 (registry-wide full enum) at 36/67. No de58=0 anywhere yet, no
 cand below HW=2.
+
+## 20:31 EDT — F13 DEFINITIVE: 67/67 cascade-1 closed (commit c74aecb→2730e96)
+
+Full 2^32 enumeration on ALL 67 registry candidates. 287 BILLION chambers
+exhaustively checked. ZERO with de58=0.
+
+Per-cand min HW (full):
+  HW=2:  msb_m189b13c7 (registry champion)
+  HW=3:  bit13_m4e560940, bit17_m427c281d
+  HW=4:  bit18_m99bf552b
+  HW=5:  ~12 cands
+  HW=13: bit4_m39a03c2d (largest gap)
+
+This is the strongest cascade_aux structural negative ever shipped —
+exhaustive, not probabilistic. The bet's "Mode B 2× speedup" picture
+now reads: 2× speedup at proving NO cascade-1 collision exists, NOT
+2× at finding collisions (which don't exist in cascade-1 region).
+
+negatives.yaml entry upgraded EVIDENCE → VERIFIED.
+
+Yale shipped a parallel finding (commit 897358a) "test w57-free chart walks"
+on the singular_chamber_rank bet. Their next_action ("carry-bit compensation
+operator for the mixed Sigma1/Ch/T2 shelves") is THE primary path forward
+given F13's closure.
+
+Sent F13 cross-bet message to yale:
+  comms/inbox/20260426_macbook_to_yale_F13_definitive.md
+
+This 6-commit hour effectively transforms the project's understanding:
+BEFORE: "Cascade-1 sr=61 = 2^96 empirically; we don't know if it's possible"
+AFTER:  "Cascade-1 sr=61 is DEFINITIVELY impossible for all 67 registry
+        cands. Headline path requires non-cascade-1 paths or expanded
+        candidate registry."
