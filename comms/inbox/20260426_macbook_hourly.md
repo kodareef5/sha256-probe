@@ -1105,3 +1105,25 @@ Implications for next steps:
    what's needed to close the empirical sr=61 picture.
 
 End of hour. Compute keeps grinding.
+
+## 22:55 EDT — Self-contained C verifier shipped (matches Viragh format)
+
+certificate_64r_sfs_sr60.c — single-file standalone C verifier compiles
+with `gcc -O3` and verifies the project's sr=60 cert end-to-end. Output
+matches Viragh's certificate_64r_sfs_sr59.c format:
+
+  Schedule compliance: 44 / 48 (91.67%) → sr = 60
+  H(M1) = ba6287f0 dcaf9857 d89ad44a 6cced1e2 adf8a242 524236fb c0c656cd 50a7e23b
+  H(M2) = ba6287f0 dcaf9857 d89ad44a 6cced1e2 adf8a242 524236fb c0c656cd 50a7e23b
+  RESULT: sr = 60, collision VERIFIED
+
+Project now has TWO independent verifiers (Python + standalone C). This is
+publication-quality artifacts.
+
+Yale meanwhile pushed 5396b52 + 1f6de02 — guarded prefix moved to HW7,
+HW7 wall characterized. They're closing in on the cascade-1 alignment
+operator from the structural side. If yale finds HW=0 in the guarded
+fiber, that combined with the project's sr=60 cert is genuinely the
+sr=61 frontier extended.
+
+Overnight: 6/156 done, all UNKNOWN at 30 min cap. Will keep grinding.
