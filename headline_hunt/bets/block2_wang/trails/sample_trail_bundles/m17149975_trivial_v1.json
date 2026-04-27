@@ -1,0 +1,60 @@
+{
+  "schema_version": "2blockcertpin/v1",
+  "cand_id": "cand_n32_msb_m17149975_fillffffffff",
+  "witness_id": "m17149975_trivial_block2_sanity",
+
+  "block1": {
+    "m0": "0x17149975",
+    "fill": "0xffffffff",
+    "kernel_bit": 31,
+    "W1_57_60": ["0x9ccfa55e", "0xd9d64416", "0x9e3ffb08", "0xb6befe82"],
+    "expected_status": "verified_collision_sat",
+    "residual_state_diff": {
+      "da63": "0x00000000",
+      "db63": "0x00000000",
+      "dc63": "0x00000000",
+      "dd63": "0x00000000",
+      "de63": "0x00000000",
+      "df63": "0x00000000",
+      "dg63": "0x00000000",
+      "dh63": "0x00000000"
+    },
+    "residual_hw": 0,
+    "residual_lm_cost": 0,
+    "comment": "m17149975 is a single-block sr=60 collision (datasets/certificates/sr60_n32_m17149975.yaml). Block-1 alone produces zero state diff at round 63. Block-2 is a no-op absorption: any message works because the chain-state diff entering block-2 is already zero."
+  },
+
+  "block2": {
+    "absorption_pattern": "trivial_zero_diff_passthrough",
+    "modified_message_words": [],
+    "W2_constraints": [],
+    "chain_state_input": {
+      "comment": "Block-1's residual_state_diff is all zero; block-2 starts with zero chain-state diff."
+    },
+    "target_diff_at_round_N": {
+      "round": 63,
+      "diff_a": "0x00000000",
+      "diff_b": "0x00000000",
+      "diff_c": "0x00000000",
+      "diff_d": "0x00000000",
+      "diff_e": "0x00000000",
+      "diff_f": "0x00000000",
+      "diff_g": "0x00000000",
+      "diff_h": "0x00000000",
+      "comment": "Block-2 round-63 zero target: trivially satisfied because zero diff in propagates to zero diff out under any (m2 = m2') choice."
+    },
+    "expected_status": "sat_if_trail_correct",
+    "expected_modular_paths": [],
+    "predicted_lm_cost_block2": 0
+  },
+
+  "metadata": {
+    "designer": "macbook (synthetic round-trip)",
+    "design_date": "2026-04-27",
+    "design_method": "trivial_construction_from_known_single_block_collision",
+    "confidence": "trivially_correct_by_construction",
+    "compat_with_block1_witness": true,
+    "smaller_N_validation": null,
+    "purpose": "Spec validation forcing function: instantiates v1 schema using the m17149975 verified collision (from headline_hunt/datasets/certificates/sr60_n32_m17149975.yaml). When build_2block_certpin.py is implemented, this bundle is the regression test — should return SAT trivially."
+  }
+}

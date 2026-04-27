@@ -2134,3 +2134,45 @@ trail bundle lands, the verification pipeline is ready to ingest it
 without reformatting. No more "yale ships → macbook can't read" risk.
 
 Spec is v1; future revisions bump `schema_version`.
+
+---
+
+## 23:25 EDT — F83: trail bundle validator + m17149975 sample (SPEC v1 forcing function)
+
+Mid-hour follow-up to F82 SPEC: instantiate the v1 schema with real data
+and ship a validator. Confirms the spec is well-formed before yale begins
+drafting against it.
+
+**Shipped**:
+- `headline_hunt/bets/block2_wang/trails/sample_trail_bundles/m17149975_trivial_v1.json`
+  — every v1 schema field instantiated from the m17149975 verified
+  collision (block-1 = single-block sr=60 collision; block-2 trivial
+  zero-diff passthrough).
+- `headline_hunt/bets/block2_wang/trails/validate_trail_bundle.py`
+  — strict v1 schema validator. Stdlib only, <10ms run time.
+
+**Self-test results**:
+- Positive: m17149975 sample → VALID, exit 0
+- Negative: synthetic bundle with 17 deliberate errors → INVALID,
+  17 errors caught, exit 1 (wrong schema version, missing fields,
+  invalid hex, out-of-range kernel_bit, unknown constraint type, etc.)
+
+**Validates about SPEC v1**:
+- Schema is COMPLETE enough to instantiate from existing collision
+  cert (no fields had to be invented or made ad-hoc optional).
+- Schema is STRICT enough that malformed bundles get specific
+  actionable errors per field, not just "schema invalid".
+- Validator is dependency-free (stdlib only) — suitable for CI /
+  pre-commit / fleet pre-flight checks.
+
+**For yale**: run `python3 validate_trail_bundle.py <your_draft.json>`
+on each trail iteration. Catches schema bugs before macbook touches them.
+
+**For fleet**: when `build_2block_certpin.py` is built (next session,
+~100 LOC after the encoder extension), it should call this validator
+at intake and refuse malformed bundles.
+
+Memo: `headline_hunt/bets/block2_wang/trails/20260427_F83_trail_bundle_validator_and_sample.md`
+
+No solver runs this hour (SPEC + validator + sample are all schema-side
+work, no compute). Registry total: 878 logged runs (unchanged).
