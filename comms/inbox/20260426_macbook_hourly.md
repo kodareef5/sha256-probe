@@ -982,3 +982,32 @@ better. Worth registering as primary corpus target with extended (1B+)
 sample to find sub-HW-47 residuals.
 
 End of session activity. Hand-off to fleet — tools ready for re-use.
+
+## 21:38 EDT — Cert verified end-to-end + clarification of model
+
+User asked sober question: are we close to a real collision? Re-verifying
+the cert end-to-end:
+
+VERIFIED FACTS:
+1. Cert M = [0x17149975, 0xff, ..., 0xff] under standard schedule does NOT
+   produce the cert's W[57..60]. Default schedule fails cascade-1 at slot 57.
+2. Cert IS a real hash collision under W[57..60]-free relaxation model:
+   M1 hash == M2 hash == ba6287f0dcaf9857d89ad44a6cced1e2adf8a242524236fbc0c656cd50a7e23b
+   8/8 state components match at slot 64.
+3. The "schedule_compliance: 60 of 64" framing means 4 W slots (W[57..60])
+   are picked freely; rest of schedule respected.
+
+The cert is a round-reduced semi-free-start collision at sr=60. Extends
+Viragh 2026 sr=59 to sr=60 IF Viragh used the same relaxation. NOT a
+"real" full SHA-256 collision in the strict sense (would require M[0..15]
+whose schedule produces the cert's W[57..60] — 1800+ CPU-h of kissat at
+sr=61 enf0 has not found that, per the impossibility argument).
+
+3 verification scripts + README shipped to headline_hunt/datasets/
+certificates/ for fleet reproducibility.
+
+Honest answer to user: in the academic sense (semi-free-start round-reduced),
+sr=60 IS a real result extending Viragh. In the popular sense ("first SHA-256
+collision"), no — full SHA-256 has never been broken in any sense, and the
+project's structural evidence suggests the cascade approach hits sr=61 as
+likely UNSAT.
