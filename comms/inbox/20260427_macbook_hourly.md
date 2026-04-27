@@ -1910,3 +1910,34 @@ For paper Section 4/5: F72 is the navigation document. Use F-numbers
 as citations within the synthesis index.
 
 Validate_registry: 0 errors, 0 warnings. F-series day arc complete.
+
+---
+
+## 15:38 EDT — F73 + F74: random W sweep + BVA mechanism test on bit28
+
+**F73**: 100 random W-witnesses on bit28 → 100/100 UNSAT in 13.74s.
+Empirical floor for "random W collision probability" is < 1/100
+(trivially expected per Wang complexity). Cert-pin pipeline confirmed
+robust on random inputs.
+
+**F74**: F60's "BVA exploits broad LM tail" mechanism speculation
+TESTED via CMS --bva 0 on bit28:
+  WITH BVA:    17.44s
+  WITHOUT BVA: 16.87s
+  Ratio: 0.96× — virtually identical
+
+**F60 BVA mechanism hypothesis REFUTED.** BVA is not the cause of
+bit28's CMS-only fastness. Other CMS components (variable ordering,
+restart schedule, intree, transred, distill) might be — not yet
+tested.
+
+**5th honest revision** of today's F-series (F39, F49, F55, F69, F74).
+Discipline pattern: speculative mechanism stories need targeted
+falsification before claiming confirmed.
+
+**Cohort taxonomy unchanged**: bit28 IS still CMS-only fast. The
+mechanism just isn't BVA. For paper Section 4, claim "CMS-specific
+heuristic, exact component unknown."
+
+103 solver runs logged this segment. F73+F74 shipped. Day's logged
+solver-run count: 250+. 0% audit failure rate maintained throughout.
