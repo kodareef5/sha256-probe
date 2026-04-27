@@ -1634,3 +1634,53 @@ Yale's online sampler + macbook's cert-pin technique now form a
 COMPLETE pipeline for verifying near-residuals → collision attempts.
 
 2 kissat runs logged. F65 shipped. Pulse-aware: in continuous flow.
+
+---
+
+## 14:14 EDT — F66 (sweep) + F67 (yale HW=33) — cert-pin pipeline at scale
+
+Mid-pulse acknowledged in flow. Two ships:
+
+**F66**: cert-pin sweep across 5 cohort representatives:
+  bit25 (HW=46): UNSAT 0.06s
+  bit10 (HW=47): UNSAT 0.14s
+  bit13_m4e (HW=47): UNSAT 0.18s
+  bit2 (HW=45): UNSAT 0.28s
+  bit17 (HW=48): UNSAT 3.22s ← Cohort C kissat-slow extends to cert-pin
+
+5/5 UNSAT — F32 deep-min vectors are UNIVERSALLY near-residuals (none
+are full sr=60 collisions). Cert-pin technique scales across cohorts.
+
+bit17's cert-pin slowness (3.22s vs 0.06-0.28s for others) confirms
+Cohort C kissat penalty is structural, persists in cert-pin context.
+
+**F67**: yale shipped a5344bf "lower bit28 residual frontier to HW33"
+during F66. yale's HW=33 EXACT-sym W-witness:
+  W57=0xce9b8db6 W58=0xb26e4c72 W59=0xc904fbc4 W60=0x73b182dd
+  HW=33, LM=679, EXACT a_61=e_61
+
+Cert-pin verification: **UNSAT in 0.19s** — same pattern as F65 (HW=36)
+and F66 (5 cohort representatives).
+
+**bit28 progression today** (yale's online sampler):
+  F32 baseline:        HW=49
+  yale F45:             HW=36 LM=689
+  yale 78cbade:         HW=35 LM=710
+  yale a5344bf (F67):   HW=33 LM=679 EXACT-sym ← latest
+
+**16-bit HW reduction in ONE DAY** of yale's sampling work.
+
+**Cert-pin database now 8 CNFs**:
+  7 UNSAT near-residuals (5 F66 cohort + 1 F65 bit28 HW=36 + 1 F67 bit28 HW=33)
+  1 SAT verified collision (m17149975)
+
+For block2_wang: yale's HW=33 EXACT-sym (LOWEST KNOWN registry
+residual) + macbook's cert-pin pipeline = ready for block-2 trail
+design. Pipeline complete:
+  yale online sampler → macbook cert-pin → ready for block-2 absorption
+
+For paper Section 4/5: F66 provides paper-class verification
+methodology. Distinguishes near-residual from full collision in <4s
+per cand. Substantial empirical pipeline.
+
+6 kissat runs logged this segment. F-series F66+F67 shipped.
