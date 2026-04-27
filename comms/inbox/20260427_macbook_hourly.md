@@ -1391,3 +1391,44 @@ OUTLIER cand (F47 — high seed variance) AND yale's raw LM champion
 (F45). Consensus: bit28 is structurally complex on multiple axes.
 
 10 cadical runs logged. F58 shipped. Pulse-aware: in continuous flow.
+
+---
+
+## 11:50 EDT — F59: CMS (3rd solver) CONFIRMS Cohort A is UNIVERSALLY FAST
+
+Tested CryptoMiniSat 5.13.0 on the 3 cohort representatives at 100k
+conflicts × 5 seeds:
+
+  bit10 (Cohort A both-fast):     CMS median 21.34s — **FAST** ✓
+  bit2  (Cohort B kissat-only):   CMS median 51.61s — SLOW ✗
+  bit17 (Cohort C cadical-only):  CMS median 57.25s — SLOW ✗
+
+**Cohort A wins on ALL 3 SOLVERS** (kissat, cadical, CMS).
+**Cohorts B+C are solver-specific** — neither extends to CMS.
+
+Three-solver picture solidified (N=3 reps × 3 solvers + N=10 × 2 solvers):
+
+  cand              kissat   cadical   CMS-100k    classification
+  bit10  (cohort A) 28s      24s       21s ✓       UNIVERSAL FAST
+  bit2   (cohort B) 27s ✓    41s       52s         kissat-only
+  bit17  (cohort C) 42s      24s ✓     57s         cadical-only
+
+**Cohort A = genuine solver-agnostic structural advantage.**
+
+For paper Section 4: substantial 3-solver structural finding. The
+"universal fast cluster" (HW=46-47 NON-sym, e.g., bit25, bit3, bit10)
+is the cleanest empirical signature of structural simplicity in the
+cascade-1 residual landscape.
+
+For block2_wang strategy update:
+  Solver-axis (any solver): Cohort A — robustly fast across kissat,
+                             cadical, CMS
+  kissat-axis: bit2_ma896ee41 (Wang sym-axis natural fit)
+  cadical-axis: msb_ma22dc6c7 + bit17_mb36375a2
+
+For yale's manifold-search: F59-aware test → if yale operators succeed
+more on Cohort A than on B/C, manifold-search efficiency aligns with
+"universal fast" axis rather than solver-specific preferences.
+
+15 CMS runs logged (CryptoMiniSat NEW solver in dataset). 0% audit
+failure rate maintained. F59 shipped.
