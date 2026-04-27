@@ -432,13 +432,39 @@ exact a61=e61 = yes
 
 Both points were verified independently with `active_adder_lm_bound`.
 
+## Third-ring centered checks
+
+Two more centered one-bit W59 neighborhoods were swept exactly:
+
+| center W59 | result |
+|---:|---|
+| `0xcb1ceb44` | no improvement over LM656 or HW38 |
+| `0xcb14ebc4` | no HW improvement, but HW36 representative improved to LM689 |
+
+The sharpened HW36 record is:
+
+```text
+candidate: bit28_md1acca79_fillffffffff
+W57 = 0xce9b8db6
+W58 = 0xb26e4c72
+W59 = 0xcb04ebc4
+W60 = 0x9831b55e
+
+residual HW = 36
+LM cost = 689
+exact a61=e61 = no
+```
+
+Verified with `active_adder_lm_bound`: 43 active adders, zero LM
+incompatibilities.
+
 ## Updated Pareto interpretation
 
 The new observed target set is:
 
 | axis | candidate | record |
 |---|---|---|
-| minimum residual | `bit28_md1acca79` | HW36 / LM712 |
+| minimum residual | `bit28_md1acca79` | HW36 / LM689 |
 | balanced exact symmetry | `bit13_m4e560940` | HW47 / LM780 / exact symmetry |
 | low HW, low LM | `bit28_md1acca79` | HW41 / LM660 / exact symmetry |
 | raw LM champion | `bit28_md1acca79` | HW57 / LM656 / exact symmetry |
