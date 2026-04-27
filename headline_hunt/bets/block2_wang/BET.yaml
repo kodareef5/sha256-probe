@@ -29,7 +29,24 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-04-27T13:30:00Z'
+last_heartbeat: '2026-04-27T15:25:00Z'
+recent_progress_2026-04-27_LATE: |
+  F65→F71 cert-pin verification pipeline shipped (production-grade).
+
+  Critical for block2_wang strategy:
+  - F71: registry-wide audit confirms F32 deep-min has ZERO accidental
+    collisions across 67 cands. Wang block-2 absorption is the ONLY
+    known path to convert near-residuals to full collisions.
+  - F70: yale's bit28 Pareto frontier verified clean (5 W-witnesses,
+    HW=33-65 range). Frontier ready for block-2 trail design.
+  - bit28 OVERALL project champion via yale's deep sampling:
+    HW=33 EXACT-sym at LM=679 (16-bit reduction from F32's HW=49).
+
+  Pipeline NOW VALIDATED end-to-end (post-F69 fix):
+    yale online sampler → certpin_verify.py → SAT/UNSAT in <1s
+    [NEXT] yale block-2 trail design ← REMAINING STRUCTURAL PIECE
+    [NEXT] macbook 2-block cert-pin → SAT = HEADLINE collision
+
 recent_progress_2026-04-27_PM: |
   Major mid-day shipping: F31-F36 cross-bet structural cascade results.
 

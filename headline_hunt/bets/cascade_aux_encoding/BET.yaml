@@ -75,7 +75,30 @@ current_progress: |
   = 72 CNFs, all CONFIRMED. Bet remains characterized (Mode B 2-3.4× front-
   loaded preprocessing, not a path to cascade-DP SAT discovery).
 
-last_heartbeat: "2026-04-27T13:30:00Z"
+last_heartbeat: "2026-04-27T15:25:00Z"
+recent_progress_2026-04-27_LATE: |
+  F37→F71 cross-solver thread + cert-pin verification pipeline.
+  See F72 synthesis index for full navigation.
+
+  Strongest claims solidified post-F69 fix:
+  - F71: registry-wide cert-pin audit, 67/67 UNSAT
+    (F32 deep-min vectors universally near-residuals)
+  - F70: yale Pareto frontier (5 W-witnesses) verified clean
+  - F58/F63: 4-cohort cross-solver taxonomy (kissat/cadical/CMS)
+  - F60: msb_ma22dc6c7 = TRIPLE-AXIS champion (LM + cadical + CMS)
+  - bit28 = OVERALL project champion (yale HW=33 EXACT-sym + CMS-fast)
+
+  Tools shipped (production-grade for fleet):
+  - build_certpin.py (FIXED in F69)
+  - certpin_verify.py (--single + --batch modes)
+  - F71 result file: F71_registry_wide_witnesses.jsonl
+
+  Pipeline now validated end-to-end:
+    yale online sampler → certpin_verify.py → SAT/UNSAT in <1s
+  Cumulative cert-pin corpus: 79 verifications (78 UNSAT + 1 SAT m17149975 cert).
+
+  4 honest retractions today (F39, F49, F55, F69) — discipline pattern
+  caught all small-N overclaims via fast follow-up validation.
 heartbeat_interval_days: 7
 recent_progress_2026-04-27: |
   Active hour: 14 commits, 6 substantive findings.
