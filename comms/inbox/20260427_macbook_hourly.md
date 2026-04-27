@@ -1099,3 +1099,47 @@ bit10) is the new primary target set. bit2 still distinguished by
 EXACT-sym + lowest HW; bit25 newly surfaced; bit10 already known.
 
 10 kissat runs logged. New bit25 CNF CONFIRMED.
+
+---
+
+## 10:25 EDT — F52: EXACT-symmetry at HW≥47 is HARMFUL (discriminator identified)
+
+**Decisive control test on F51's open question.**
+
+Tested bit13_m72f21093 — SAME fill (0xaaaaaaaa) and SAME kernel_bit
+(13) as bit13_m4e560940, but different m0 → NON-symmetric residual.
+
+Result: **bit13_m72f21093 is FAST at 28.72s.** bit13_m4e560940
+(EXACT-sym, same fill) was MEDIUM at 32.83s.
+
+**Same fill, same kernel_bit, different m0 → DIFFERENT speed because
+of SYMMETRY status.** F51's "fill is discriminator" hypothesis REFUTED.
+
+**The TRUE discriminator at HW≥47 is EXACT-symmetry — it HARMS speed.**
+
+Updated 13-cand picture:
+  FAST (HW≤47 non-sym + HW=45 sym):  bit2, bit25, bit3, bit10, bit13_m72f
+  MEDIUM (HW=47 various):             bit14 32s, bit13_m4e (EXACT) 33s
+  PLATEAU (HW=49+ NON-sym):           ~35-39s
+  SLOW (HW=48 EXACT-sym):             bit17 42s, bit00 53s
+
+Pattern: HW≤45 EXACT-sym fast; HW≥47 EXACT-sym SLOWER than NON-sym
+at same HW. HW=48 EXACT-sym is worst.
+
+**Mechanism speculation**: cascade_aux CNF for EXACT-sym residuals at
+HW≥47 has structural redundancy (a_61 = e_61 shared pattern) creating
+symmetric SAT branches kissat can't break. At HW=45, the residual is
+too sparse for redundancy to dominate.
+
+**For paper Section 4 — solid 13-cand baseline + clean control test.**
+Strongest publishable kissat-axis structural finding from F-series.
+
+**For block2_wang**: 5-cand fast cluster solidified. Solver-axis
+interchangeable across these. bit2 keeps Wang-axis primacy.
+
+**For yale's operator design**: EXACT-sym-at-HW≥47 cands (bit13_m4e,
+bit17, bit00) have structural symmetric patterns. yale's
+manifold-search MIGHT be EASIER on these (constraint helps the
+manifold) — opposite of solver-axis intuition. Worth testing.
+
+15 kissat runs logged. 3 new CNFs CONFIRMED. F-series F52 shipped.
