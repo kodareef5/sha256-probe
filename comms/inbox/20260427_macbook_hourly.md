@@ -1684,3 +1684,48 @@ methodology. Distinguishes near-residual from full collision in <4s
 per cand. Substantial empirical pipeline.
 
 6 kissat runs logged this segment. F-series F66+F67 shipped.
+
+---
+
+## 14:30 EDT — F68: CMS deep-budget on bit28 — no SAT, brute force won't reach collision
+
+Tested whether bit28's Cohort D advantage extends to deep-budget
+collision discovery. Single seed × 1M conflicts × CMS:
+
+  Wall: 290.28s (~4.8 min)
+  Status: INDETERMINATE (UNKNOWN — hit conflict cap)
+
+**No SAT discovered.** bit28's 100k-conflict CMS-fastness is
+preprocessing-driven, NOT deep search efficiency.
+
+**Scaling estimate** (CMS ~3,400 conflicts/sec on bit28):
+  100M conflicts: ~8 hours
+  1B conflicts:   ~80 hours
+  10B conflicts:  ~33 days (m17149975 cert was found at this scale)
+
+**Honest conclusion**: brute-force deep-budget SAT on cascade_aux Mode
+A WON'T reach a NEW collision at single-machine scale. The path forward
+is **Wang-style block-2 absorption** (yale's domain expertise) —
+dramatically more efficient than brute force.
+
+**For block2_wang**:
+  yale online sampler → low-HW residual (HW=33 EXACT-sym LM=679)
+  macbook cert-pin verification → near-residual UNSAT proof
+  yale block-2 trail design ← THE REMAINING STRUCTURAL PIECE
+  macbook 2-block cert-pin → if SAT, HEADLINE collision discovery
+
+**For paper Section 5**: F68 honestly documents the negative — brute
+force won't reach a NEW collision; the structural+algorithmic Wang
+path is the strategy.
+
+**Authorization request candidate** (next hour or per-user):
+  Multi-hour deep-budget SAT sweep on top 3 targets at 100M conflicts
+  (msb_ma22dc6c7 + bit28 + bit2). Big compute, multi-day if pursued
+  on multi-machine. Would only succeed if a collision exists for one
+  of these cands at sr=60 (no theoretical guarantee).
+
+1 CMS run logged. F68 shipped. F-series day arc:
+  F31-F36: structural cascade properties + LM analysis
+  F37-F62: cross-solver structural (kissat/cadical/CMS, 4 cohorts)
+  F63-F67: cert-pin verification pipeline (8 CNFs verified)
+  F68:     deep-budget brute-force probe — negative result
