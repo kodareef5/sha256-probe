@@ -219,6 +219,58 @@ exact a61=e61 = no
 This does not beat the global bit2 HW45 residual, but it moves bit28's
 own HW frontier from HW49 to HW46.
 
+## Radius sweep from the LM687/LM690 basin
+
+A wider sweep from the exact-symmetry side of the same basin produced a
+stronger frontier:
+
+```text
+candidate: bit28_md1acca79_fillffffffff
+W57 = 0xce9b8db6
+W58 = 0xb26e4c72
+W59 = 0x4b1de3c4
+W60 = 0x3d58bb9c
+
+residual HW = 55
+LM cost = 675
+exact a61=e61 = no
+```
+
+The best exact-symmetry point became:
+
+```text
+candidate: bit28_md1acca79_fillffffffff
+W57 = 0xce9b8db6
+W58 = 0xb26e4c72
+W59 = 0x4b1de3c4
+W60 = 0x65d4a91d
+
+residual HW = 55
+LM cost = 688
+exact a61=e61 = yes
+```
+
+The same sweep also found a bit28 HW45 point:
+
+```text
+candidate: bit28_md1acca79_fillffffffff
+W57 = 0x9a9a8db0
+W58 = 0x30221856
+W59 = 0x5b7ff5c8
+W60 = 0x7ddaa3a9
+
+residual HW = 45
+LM cost = 763
+exact a61=e61 = no
+```
+
+This ties the global residual-HW record previously held by
+`bit2_ma896ee41`, but at lower LM (763 vs 824) and without exact
+`a61=e61` symmetry.
+
+A final 1.539B-evaluation point-walk from the LM675 point did not lower
+LM further. Under the current operator, LM675 is the observed floor.
+
 ## Updated Pareto interpretation
 
 The new observed target set is:
@@ -227,12 +279,12 @@ The new observed target set is:
 |---|---|---|
 | minimum residual | `bit2_ma896ee41` | HW45 / LM824 / exact symmetry |
 | balanced exact symmetry | `bit13_m4e560940` | HW47 / LM780 / exact symmetry |
-| low HW, low LM | `bit28_md1acca79` | HW46 / LM800 and HW49 / LM765 |
-| raw LM champion | `bit28_md1acca79` | HW73 / LM687 |
-| exact-symmetry LM champion | `bit28_md1acca79` | HW67 / LM690 |
+| low HW, low LM | `bit28_md1acca79` | HW45 / LM763 |
+| raw LM champion | `bit28_md1acca79` | HW55 / LM675 |
+| exact-symmetry LM champion | `bit28_md1acca79` | HW55 / LM688 |
 
-The important conclusion is not that LM687 is directly exploitable. Even
-LM687 remains far beyond one-block random freedom (`256 - 687 = -431`).
+The important conclusion is not that LM675 is directly exploitable. Even
+LM675 remains far beyond one-block random freedom (`256 - 675 = -419`).
 The conclusion is that the first-block residual generator has a much
 broader trail-cost surface than the min-HW corpus exposed. Different
 objectives select different witnesses and, in some cases, different
@@ -240,8 +292,8 @@ candidates.
 
 ## Next
 
-- Continue seeded point-walks from the bit28 LM687/LM690 basin with
-  different move radii and acceptance slack.
+- Continue from the bit28 LM675/HW45 basin with operators that preserve
+  the useful late-round carry chart while searching for lower LM.
 - Add a score-biased sampler if the point-walk also stabilizes.
 - Preserve separate target classes for block2 trail design: min-HW,
   exact-symmetry, and raw low-LM.
