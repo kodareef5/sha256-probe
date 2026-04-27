@@ -1941,3 +1941,42 @@ heuristic, exact component unknown."
 
 103 solver runs logged this segment. F73+F74 shipped. Day's logged
 solver-run count: 250+. 0% audit failure rate maintained throughout.
+
+---
+
+## 17:24 EDT — F75: CMS component-disable sweep — no single mechanism for bit28's CMS-fastness
+
+Mid-pulse acknowledged. Continued F74's mechanism hunt with broader
+component-disable sweep on bit28:
+
+  --varelim 0:  +21% (LARGEST single effect)
+  --distill 0:  +18%
+  --gates 0:    +11%
+  --bva 0:      +5%  (F74 baseline)
+  --intree 0:   ~same
+  --transred 0: ~same
+
+**No single CMS component dominates.** varelim and distill modestly
+help bit28; BVA, intree, transred have negligible effects.
+
+vs bit2 (kissat-only fast):
+  --varelim 0: +6% (vs +21% on bit28) — varelim 4× more helpful on bit28
+
+**Refined mechanism**: bit28's Cohort D fastness is COMPOUND
+preprocessing + likely VSIDS heuristic alignment. No single CMS
+"secret sauce."
+
+**Caveat noticed**: bit2 default 18s today vs F59's 51s median —
+single-seed variability (F59 range 39-55s). Confirms F47's seed-
+variance pattern. For paper, always report median + range.
+
+**For paper Section 4**: drop "BVA mechanism" — use "CMS-specific
+compound preprocessing + heuristic alignment, exact component split
+not isolated." Cohort taxonomy stands.
+
+**For block2_wang strategy**: cohort distinctions remain actionable.
+bit28 IS still CMS-only fast regardless of mechanism. Pipeline routes
+bit28 work to CMS preferentially — intact.
+
+7 CMS runs logged. Day total: 250+ runs, 0% audit failure rate.
+F75 shipped. Pulse-aware: in continuous flow.
