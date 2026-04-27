@@ -760,3 +760,27 @@ For paper Section 4/5: solid claim that "cascade_aux Mode A walls at
 evidence base.
 
 10 sequential kissat runs logged. Both CNFs CONFIRMED.
+
+---
+
+## 13:55 EDT — sigma1_aligned_kernel_sweep operationalized
+
+Bet existed as bare-bones folder. Built out the standard scaffolding:
+- BET.yaml (mechanism_id, status, budget cap, heartbeat)
+- README.md (hypothesis + 4 evidence points AGAINST + reopen criteria)
+- kill_criteria.md (3 hard triggers, 3 soft, with rationale + actions)
+
+Honest framing: F36 (universal LM-compat) and F37/F39/F41 (per-conflict
+equivalence) have substantially weakened this bet's premise. The
+"easier solver behavior at sigma1-aligned cands" pathway is solver-
+invisible at moderate budgets.
+
+Bet remains `open, unassigned` — recommendation is NOT to initiate
+compute unless a worker has spare cycles for a clean negative result
+(~1 hour M5 for full 35-cand 1M-sample sweep would give definitive
+kill verdict).
+
+This was a hygiene gap (no kill_criteria) that any future picker-upper
+needed before claiming. Now any worker can read the bet and act.
+
+validate_registry: 0 errors, 0 warnings.
