@@ -1775,3 +1775,35 @@ online-sampler outputs to verify each W-witness in <1s.
 
 8 kissat runs logged (post-fix re-verifications). 0% audit failure
 rate maintained. F69 shipped.
+
+---
+
+## 14:55 EDT — F70: yale's full bit28 Pareto frontier verified — 5/5 near-residuals
+
+Batch-verifies yale's complete bit28 Pareto frontier (5 distinct
+W-witnesses across today's commits) via F69-FIXED certpin_verify
+pipeline.
+
+  bit28_HW33_EXACT_sym (LM=679 yale latest):  UNSAT 0.020s
+  bit28_HW36 (LM=689):                          UNSAT 0.019s
+  bit28_HW41_EXACT_sym (LM=660 low-HW champ):  UNSAT 0.016s
+  bit28_HW57_EXACT_sym (LM=656 champion):      UNSAT 0.014s
+  bit28_HW65_LMchamp (LM=652 raw LM champ):    UNSAT 0.017s
+
+**5/5 UNSAT. No accidental collisions.** All structurally-valid
+near-residuals.
+
+**Cumulative cert-pin verification corpus** (post-F69 fix):
+  12 runs: 11 UNSAT (near-residuals) + 1 SAT (m17149975 verified)
+  Sub-second per witness. Pipeline production-grade.
+
+**For yale's manifold-search**: F70 confirms yale's deep sampling
+produces structurally-valid frontier. 12-bit HW reduction (49→33) +
+LM=652 floor in one day. Ready for block-2 trail design.
+
+**Pipeline now ACTUALLY validated end-to-end**:
+  yale online sampler → certpin_verify.py --batch → SAT/UNSAT in <1s
+  Future yale ships → run batch → done in seconds.
+
+5 kissat runs logged. F70 shipped. F-series flow today now F31→F70
+(40 substantive memos shipped). Pulse-aware: in continuous flow.
