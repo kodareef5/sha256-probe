@@ -1227,3 +1227,39 @@ project, both on Pareto sampling (yale F45) and now W59 neighborhood.
 
 15 cadical runs logged this hour (cadical NEW solver in dataset —
 prior runs all kissat). 0% audit failure rate maintained.
+
+---
+
+## 11:00 EDT — F55: cadical HW=47 control — F54's reversal is HW=48-specific (honest correction)
+
+Tested cadical on bit13_m4e560940 (EXACT-sym) vs bit13_m72f21093
+(NON-sym), both HW=47, same fill (0xaaaaaaaa), same kernel_bit (13).
+Only sym differs.
+
+Result: cadical EXACT-sym 36.99s, NON-sym 34.29s. **NON-sym faster
+by 2.7s — SAME direction as kissat at HW=47** (kissat sym=33s,
+non-sym=29s, gap 4s).
+
+**F54's HW=48 reversal does NOT hold at HW=47.** The reversal is
+HW=48-specific OR bit18-specific (single-cand cadical pathology
+likely — bit18 cadical seed variance was 92s).
+
+**F55 is the third honest-correction today**:
+  F39 caught F37/F38 system-load artifact
+  F49 caught F48 small-N overclaim
+  F55 caught F54 N=2 cross-solver overclaim
+
+**Discipline pattern strengthens**: any "X reverses between solvers"
+claim needs N>2 cross-validation BEFORE publication.
+
+**Refined paper Section 4 claim**:
+  kissat: consistent HW=47 fast cluster, EXACT-sym 5-23s slower
+  cadical: HW=47 ordering matches kissat (NON-sym slightly faster).
+          HW=48 may have cand-specific anomalies (bit18 high
+          variance) but not a general structural reversal.
+
+**Concrete next-step**: cadical on msb_ma22dc6c7 (other HW=48
+NON-sym) — if median ~30s, bit18 was a cadical pathology; if
+much slower like bit18, the reversal IS general HW=48.
+
+10 cadical runs logged. F-series F55 shipped.
