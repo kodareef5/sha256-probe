@@ -2176,3 +2176,42 @@ Memo: `headline_hunt/bets/block2_wang/trails/20260427_F83_trail_bundle_validator
 
 No solver runs this hour (SPEC + validator + sample are all schema-side
 work, no compute). Registry total: 878 logged runs (unchanged).
+
+---
+
+## 23:30 EDT — F84: build_2block_certpin.py shipped — end-to-end SAT round-trip works TODAY
+
+Operationalizes F82 + F83 into a runnable pipeline. Staged delivery so
+the trivial case works immediately without waiting for encoder extension:
+
+**TRIVIAL CASE** (block1.residual all zero + W2_constraints empty +
+target all zero): delegates to existing single-block cert-pin pipeline.
+Round-trip on `m17149975_trivial_v1.json` returns **SAT in 0.01s** ✓
+
+**NON-TRIVIAL CASE** (anything else): exits 3 with a precise diagnostic
+pointing to SPEC's "Encoder gap to close" section. Yale gets actionable
+"encoder extension required" message until macbook ships ~150 LOC
+encoder extension. Tested on synthetic non-trivial bundle — exit 3
+with correct diagnostic ✓
+
+**Architecture validated end-to-end**:
+  bundle JSON → validator → dispatcher → certpin_verify → cascade_aux
+  encoder → build_certpin → kissat → SAT verdict. 5 tools chained,
+  sub-second wall, all wired up.
+
+Run logged: run_20260427_232428_block2_wang_kissat_seed1_73493577
+Registry total: 879 runs.
+
+**For yale**: you can now iterate on trail bundles immediately. Schema
+errors caught by validator (exit 1). Bundle structure errors caught at
+dispatch (exit 3). Solver verdicts come back from kissat once trivial
+or once encoder extension lands.
+
+**Macbook next**: extend cascade_aux_encoder.py to emit 2-block CNFs
+with chaining-state wiring (~150 LOC, 2-3 sessions). After that,
+replace the NotImplementedError branch with a real call. Then the
+m17149975 trivial round-trip becomes the regression test for any
+future encoder changes.
+
+Memo: `headline_hunt/bets/block2_wang/results/20260427_F84_2block_certpin_trivial_roundtrip.md`
+
