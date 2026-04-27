@@ -565,3 +565,35 @@ or LM dominates the per-bitcondition construction effort. F36 expands
 the option space — bit2 wins on HW; msb_ma22dc6c7 wins on LM.
 
 Memo: F36. Tool: `active_adder_lm_bound.c`. Compute: ~6 sec.
+
+---
+
+## 12:30 EDT — F37: LM-min predicts kissat speed FALSIFIED
+
+Tested F36's LM-min hypothesis: msb_ma22dc6c7 (LM champion, LM=773)
+should solve faster than HW champion bit2_ma896ee41 (LM=824).
+
+Result: 5 seeds × 1M conflicts × parallel kissat:
+- bit2_ma896ee41 (HW=45, LM=824): median 26.51s (F30)
+- msb_ma22dc6c7  (HW=48, LM=773): median 35.99s (F37, this run)
+
+**LM-min cand is SLOWEST, not fastest. Hypothesis falsified.**
+
+Preliminary HW-as-predictor (N=3 cands): each HW unit ~3s at 1M conflicts.
+
+**Refined understanding**:
+- LM cost (carry constraint count) is a Wang-construction metric,
+  NOT a kissat-speed predictor.
+- HW (residual size) is a kissat-speed predictor.
+- These are INDEPENDENT axes. Cand selection should use:
+  - HW for solver-axis tuning
+  - LM for trail-construction-axis tuning
+
+The bit2 NEW CHAMPION claim survives BOTH axes: lowest HW (best
+kissat speed) + a_61=e_61 exact symmetry (paper Section 5 narrative).
+LM is mid-pack but that's not relevant to solver speed.
+
+This is a useful negative result. Saves us from over-claiming about
+LM-min cand selection.
+
+5 kissat runs logged via append_run.py. CNF audit CONFIRMED.
