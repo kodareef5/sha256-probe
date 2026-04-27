@@ -1037,3 +1037,38 @@ cand kissat at modest budgets is not the path.
 
 Yale's #2 + #3 remain open. Lower EV per compute hour seems to be more
 random kissat at higher budgets.
+
+## 22:25 EDT — OVERNIGHT KISSAT LAUNCHED
+
+User asked for tight C, smart, chunked, concurrent overnight compute.
+Built and launched:
+
+  headline_hunt/bets/sr61_n32/overnight_kissat/
+    dispatcher.c        ← 280-line C parallel runner (gcc -O3 -march=native)
+    build_queue.py      ← 4-phase work queue generator
+    log_results.py      ← results.tsv → runs.jsonl converter
+    run_overnight.sh    ← orchestrator
+    status.sh           ← morning progress check
+
+Queue (156 jobs, ~4.5h ETA at 6 workers, 30 min cap):
+  Phase A: 6 distinguished × 8 seeds × 100M conflicts (broad)
+  Phase B: 6 distinguished × 5 seeds × 1B conflicts (deep)
+  Phase C: 61 other cnfs_n32 × 1 seed × 100M (registry breadth)
+  Phase D: top 2 cands × 3 seeds × 5B conflicts (very deep)
+
+LAUNCHED 02:19 UTC (22:19 EDT) — dispatcher PID 48954, 6 kissat workers
+active. Queue state: 150 PENDING, 6 RUNNING.
+
+Morning routine for fleet:
+  bash headline_hunt/bets/sr61_n32/overnight_kissat/status.sh
+  python3 headline_hunt/bets/sr61_n32/overnight_kissat/log_results.py
+  python3 headline_hunt/infra/summarize_runs.py
+  git add headline_hunt/registry/runs.jsonl headline_hunt/reports/dashboard.md
+  git commit -m "[sr61_n32] overnight kissat results"
+  git push
+
+ANY status="SAT" line in results.tsv = HEADLINE EVENT — STOP AND READ IT.
+ANY status="UNSAT" = published-quality impossibility proof for that cand.
+All UNKNOWN = expected; this campaign extends the search-depth picture.
+
+End-of-session for me. Compute will grind through the night.
