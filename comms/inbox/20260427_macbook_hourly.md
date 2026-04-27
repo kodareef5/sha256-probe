@@ -1432,3 +1432,44 @@ more on Cohort A than on B/C, manifold-search efficiency aligns with
 
 15 CMS runs logged (CryptoMiniSat NEW solver in dataset). 0% audit
 failure rate maintained. F59 shipped.
+
+---
+
+## 12:00 EDT — F60: msb_ma22dc6c7 ascends to TRIPLE-AXIS CHAMPION + bit18 pathology resolved
+
+Two stunners from CMS testing:
+
+  msb_ma22dc6c7 CMS median 18.41s — FASTER than bit10 (21s)!
+  bit18 CMS median 14.66s — FASTEST CMS RESULT (5 cands tested)
+
+**msb_ma22dc6c7 is now PROJECT CHAMPION** (4 distinctions):
+  F36 LM-axis champion (LM=773 registry minimum)
+  F46 cadical-fastest (25s, tightest)
+  F60 CMS-fast (18s)
+  F37/F39/F41 kissat-plateau (31s, no pathology)
+
+vs bit2 (which is HW-axis + kissat-only fast). msb_ma22dc6c7 wins on
+cross-solver consistency.
+
+**bit18 mystery resolved**: cadical pathology (65s, range 92s) is
+PURELY cadical-specific. kissat 30s, CMS 14.66s — both FAST. Solver-
+architecture issue, not structural problem with bit18.
+
+Refined 5-cand × 3-solver cohort picture:
+  MULTI-SOLVER fast (3): bit10 (3/3), msb_ma22dc6c7 (2/3 + plateau on
+                          kissat), bit18 (2/3, cadical pathology)
+  SINGLE-solver fast (2): bit2 (kissat-only), bit17 (cadical-only)
+
+**For block2_wang updated PRIMARY**: msb_ma22dc6c7 supersedes bit2
+for cross-axis Wang attack (cadical+CMS+LM-axis champion). bit2
+retains Wang sym-axis specialty.
+
+**Sent yale a coordination message** at
+  comms/inbox/20260427_macbook_to_yale_msb_ma22dc6c7_triple_champion.md
+proposing the testable hypothesis: if yale's manifold operators succeed
+on msb_ma22dc6c7 (best cross-axis cand) similar/better than on bit2,
+msb_ma22dc6c7 is universal target across SAT+manifold. If they
+struggle, manifold-search has independent structural preference.
+
+10 CMS runs logged. 5-cand × 3-solver baseline now 15 cells solid.
+F60 shipped + yale coordination message dispatched.
