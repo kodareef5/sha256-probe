@@ -1065,3 +1065,37 @@ unknown. NO cross-cand structural-axis solver predictor proven yet.
 
 10 kissat runs logged. Both new CNFs CONFIRMED. Honest retraction
 shipped within minutes of falsification.
+
+---
+
+## 10:13 EDT — F51: HW=46/47 boundary refined (fast cluster = 3 cands)
+
+Continuing post-heartbeat. Tested 2 missing data points:
+
+  bit13_m4e560940 (HW=47, EXACT-sym):  seq median 32.83s — MEDIUM
+  bit25_m30f40618 (HW=46, NON-sym):    seq median 27.99s — FAST
+
+**Fast cluster grows from 2 to 3 cands**: bit2 (HW=45) + bit25 (HW=46) +
+bit10 (HW=47). All ~27-28s seq.
+
+**HW=47 has internal variance**: bit10 (NON-sym) fast, bit13 (EXACT-sym)
+medium. **Symmetry at HW=47 HURTS, doesn't help** — opposite of intuition.
+
+Mechanism appears tied to (kernel_bit, fill) structure, NOT HW alone,
+exact symmetry, or LM cost. Within HW=47:
+  bit10 (fill=80000000): fast 28s
+  bit13 (fill=aaaaaaaa): medium 33s
+
+Fleet activity during F51:
+  cb21269 yale: extend F45 bit28 LM basin
+  4295901 yale: sweep bit28 W60 Pareto sheets
+
+yale is doing deep bit28-specific sampling. Worth checking those memos
+next session for any new bit28 LM frontier. bit28 keeps being yale's
+main online-sampler subject — they're pushing the structural Pareto.
+
+For block2_wang Wang trail design: 3-cand FAST cluster (bit2 + bit25 +
+bit10) is the new primary target set. bit2 still distinguished by
+EXACT-sym + lowest HW; bit25 newly surfaced; bit10 already known.
+
+10 kissat runs logged. New bit25 CNF CONFIRMED.
