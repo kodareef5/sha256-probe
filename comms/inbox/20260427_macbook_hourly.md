@@ -920,3 +920,37 @@ Updated PRIMARY targets for block2_wang (in priority order):
 Wrote coordination message at
   comms/inbox/20260427_macbook_to_fleet_F43_F44_synthesis.md
 plus convention proposal: earlier commit wins F-number, later renames.
+
+---
+
+## 15:15 EDT — F45 fleet collision #2 + F46 (bit4 kissat speed)
+
+**Mid-pulse acknowledged in-flight.**
+
+**(1) F46** (was F45, renamed): bit4_m39a03c2d (linux_gpu_laptop's
+F43 NEW global LM champion at LM=757) tested on cascade_aux Mode A
+sr=60 kissat parallel-5:
+
+  bit4_m39a03c2d (HW=53, LM=757): median 37.34s (slightly above plateau)
+
+vs the 34-36s plateau established across 7 other distinguished cands.
+
+**TRIPLY confirms F37 verdict**: LM-min ≠ kissat-speed champion.
+Three LM-min cands tested, all sit at/slightly-above plateau:
+  msb_ma22dc6c7 (LM=773): 35.99s (F37)
+  bit13_m4e560940 (LM=780): 35.94s (F39)
+  bit4_m39a03c2d (LM=757): 37.34s (F46)
+
+Refined hypothesis: kissat at 1M tracks HW WEAKLY (~0.3s/HW unit),
+INSENSITIVE to LM. Rock-solid 8-cand baseline.
+
+For block2_wang: bit4 is OFFICIAL primary target (F43 triple
+distinction) despite slightly slower solver wall. Wang construction
+axis ≠ solver axis.
+
+**(2) Fleet collision #2** (after F43/F44 earlier): linux_gpu_laptop
+shipped F45 (online Pareto sampler) at commit c165560 (09:01 EDT).
+My F45 (bit4 kissat) shipped after pull. Renamed mine to F46 per
+"earliest wins F-number" convention.
+
+5 kissat runs logged. CNF audit CONFIRMED. Fleet coordination clean.
