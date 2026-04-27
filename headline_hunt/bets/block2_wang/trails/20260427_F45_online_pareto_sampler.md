@@ -386,20 +386,66 @@ So the current exact inner-loop picture is:
 | raw LM | HW68 / LM657 |
 | exact-symmetry LM | HW41 / LM660 |
 
+## Second-ring W59 neighborhood
+
+Centering the one-bit W59 sweep on the HW38 sheet:
+
+```text
+fixed W57 = 0xce9b8db6
+fixed W58 = 0xb26e4c72
+base  W59 = 0xcb1cebc4
+variants = 33
+evaluations = 141,733,920,768
+wall = 2190.646s
+rate = 64.700M/s
+```
+
+improved both primary axes.
+
+### New minimum residual: HW36
+
+```text
+candidate: bit28_md1acca79_fillffffffff
+W57 = 0xce9b8db6
+W58 = 0xb26e4c72
+W59 = 0xcb14ebc4
+W60 = 0xf825fcd3
+
+residual HW = 36
+LM cost = 712
+exact a61=e61 = no
+```
+
+### New LM and exact-symmetry LM champion: LM656
+
+```text
+candidate: bit28_md1acca79_fillffffffff
+W57 = 0xce9b8db6
+W58 = 0xb26e4c72
+W59 = 0xcb1ceb44
+W60 = 0xcfb5dc5e
+
+residual HW = 57
+LM cost = 656
+exact a61=e61 = yes
+```
+
+Both points were verified independently with `active_adder_lm_bound`.
+
 ## Updated Pareto interpretation
 
 The new observed target set is:
 
 | axis | candidate | record |
 |---|---|---|
-| minimum residual | `bit28_md1acca79` | HW38 / LM710 / exact symmetry |
+| minimum residual | `bit28_md1acca79` | HW36 / LM712 |
 | balanced exact symmetry | `bit13_m4e560940` | HW47 / LM780 / exact symmetry |
 | low HW, low LM | `bit28_md1acca79` | HW41 / LM660 / exact symmetry |
-| raw LM champion | `bit28_md1acca79` | HW68 / LM657 |
+| raw LM champion | `bit28_md1acca79` | HW57 / LM656 / exact symmetry |
 | previous HW champion | `bit2_ma896ee41` | HW45 / LM824 / exact symmetry |
 
-The important conclusion is not that LM657 is directly exploitable. Even
-LM657 remains far beyond one-block random freedom (`256 - 657 = -401`).
+The important conclusion is not that LM656 is directly exploitable. Even
+LM656 remains far beyond one-block random freedom (`256 - 656 = -400`).
 The conclusion is that the first-block residual generator has a much
 broader trail-cost surface than the min-HW corpus exposed. Different
 objectives select different witnesses and, in some cases, different
