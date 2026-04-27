@@ -1,5 +1,10 @@
-# F45: bit4_m39a03c2d (F43 LM champion) kissat — LM-doesn't-predict-speed triply confirmed
+# F46: bit4_m39a03c2d (F43 LM champion) kissat — LM-doesn't-predict-speed triply confirmed
 **2026-04-27 15:12 EDT**
+
+(Renamed F45 → F46 due to fleet collision: linux_gpu_laptop's commit
+c165560 used F45 for "Online Pareto sampler" published earlier.
+Per the F43/F44 convention I proposed, earliest commit wins the
+F-number. Yale/linux_gpu_laptop's F45 stays; this memo is F46.)
 
 Tests F43's NEW global LM champion (bit4_m39a03c2d at HW=53, LM=757)
 on cascade_aux Mode A sr=60 kissat. Continues the F37/F39/F41 thread
