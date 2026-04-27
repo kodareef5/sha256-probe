@@ -1512,3 +1512,44 @@ cands = solver-architecture-specific preferences. yale's manifold-
 search success on each cluster discriminates the axis.
 
 10 CMS runs logged. F61 shipped. 0% audit failure rate.
+
+---
+
+## 12:27 EDT — F62: Cohort A 3-SOLVER UNIVERSAL FAST cluster locked
+
+bit25_m30f40618 CMS median 19.66s (range 1.89s)
+bit3_m33ec77ca  CMS median 17.92s (range 2.17s)
+
+Both FAST + TIGHT. **Cohort A is now empirically locked** as a
+3-solver universal-fast cluster:
+
+  cand                  kissat  cadical  CMS    universal?
+  bit25 (HW=46 NON-sym)  28s     25s      20s    ✓
+  bit3  (HW=46 NON-sym)  29s     26s      18s    ✓
+  bit10 (HW=47 NON-sym)  28s     24s      21s    ✓
+
+3 cands × 3 solvers = 9 measurements. ALL FAST.
+
+**Final 3-cohort taxonomy for paper Section 4** (locked at N=11
+cands × 3 solvers = 27+ cells):
+  Cohort A (universal-fast):  bit25, bit3, bit10 (HW=46-47 NON-sym)
+  Cohort B (kissat-only):     bit2_ma896ee41 (HW=45 EXACT-sym sparse)
+  Cohort C (cadical-only):    bit17_mb36375a2 (HW=48 EXACT-sym redundant)
+
+**msb_ma22dc6c7 = Cohort A++** (fast on cadical+CMS, plateau-fast on
+kissat, F36 LM-axis champion). Strongest cross-axis target.
+
+**Block2_wang updated PRIMARY ranking** (final post-F37→F62):
+  1. msb_ma22dc6c7 (TRIPLE-AXIS distinction: Cohort A++ + LM champion)
+  2. bit10 / bit25 / bit3 (Cohort A core: 3-solver universal-fast)
+  3. bit2_ma896ee41 (Wang sym-axis specialty: kissat-only)
+  4. bit17_mb36375a2 (cadical-axis specialty: Cohort C)
+
+**For yale's manifold-search**: concrete cross-axis prediction —
+if guarded operators succeed on ALL Cohort A cands (bit10, bit25,
+bit3) but struggle on bit2 + bit17, manifold-search efficiency
+correlates with the "universal-fast structural simplicity" axis,
+not solver-specific preferences.
+
+10 CMS runs logged. Cross-solver baseline now: 27 cells across 11 cands
+× 3 solvers. F62 shipped. Pulse-aware: in continuous flow.
