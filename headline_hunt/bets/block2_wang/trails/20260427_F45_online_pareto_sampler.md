@@ -432,6 +432,40 @@ exact a61=e61 = yes
 
 Both points were verified independently with `active_adder_lm_bound`.
 
+## Fourth-ring HW-centered sweep
+
+Centering on the sharpened HW36 sheet:
+
+```text
+fixed W57 = 0xce9b8db6
+fixed W58 = 0xb26e4c72
+base  W59 = 0xcb04ebc4
+variants = 33
+evaluations = 141,733,920,768
+wall = 2185.637s
+rate = 64.848M/s
+```
+
+again improved both the residual and raw-LM frontiers.
+
+```text
+new minimum residual:
+W59 = 0xcb04fbc4
+W60 = 0xefce4119
+residual HW = 35
+LM cost = 710
+exact a61=e61 = no
+
+new raw LM:
+W59 = 0xcb04eb44
+W60 = 0xc425ef59
+residual HW = 65
+LM cost = 652
+exact a61=e61 = no
+```
+
+The best exact-symmetry LM point remains the previous HW57/LM656 point.
+
 ## Third-ring centered checks
 
 Two more centered one-bit W59 neighborhoods were swept exactly:
@@ -464,10 +498,11 @@ The new observed target set is:
 
 | axis | candidate | record |
 |---|---|---|
-| minimum residual | `bit28_md1acca79` | HW36 / LM689 |
+| minimum residual | `bit28_md1acca79` | HW35 / LM710 |
 | balanced exact symmetry | `bit13_m4e560940` | HW47 / LM780 / exact symmetry |
 | low HW, low LM | `bit28_md1acca79` | HW41 / LM660 / exact symmetry |
-| raw LM champion | `bit28_md1acca79` | HW57 / LM656 / exact symmetry |
+| raw LM champion | `bit28_md1acca79` | HW65 / LM652 |
+| exact-symmetry LM champion | `bit28_md1acca79` | HW57 / LM656 / exact symmetry |
 | previous HW champion | `bit2_ma896ee41` | HW45 / LM824 / exact symmetry |
 
 The important conclusion is not that LM656 is directly exploitable. Even
