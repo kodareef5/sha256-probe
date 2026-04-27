@@ -1473,3 +1473,42 @@ struggle, manifold-search has independent structural preference.
 
 10 CMS runs logged. 5-cand × 3-solver baseline now 15 cells solid.
 F60 shipped + yale coordination message dispatched.
+
+---
+
+## 12:15 EDT — F61: CMS HW=47 — 3-SOLVER CONSENSUS on mild EXACT-sym penalty
+
+Mid-pulse acknowledged in flow. Continued F60 → F61.
+
+CMS at HW=47 (same fill, same kernel_bit, only sym differs):
+  bit13_m4e560940 (EXACT-sym): 20.14s
+  bit13_m72f21093 (NON-sym):   18.15s
+  Differential: 1.99s (NON-sym faster)
+
+**3-SOLVER CONSENSUS at HW=47:**
+  kissat:  NON-sym faster by 4.11s
+  cadical: NON-sym faster by 2.70s
+  CMS:     NON-sym faster by 1.99s
+
+**All 3 solvers agree at HW=47** — mild EXACT-sym penalty UNIVERSAL.
+This is NOT the HW=48 cadical-vs-kissat reversal. At HW=47, behavior
+is consistent across CDCL architectures.
+
+Updated 7-cand × 3-solver picture (21 cells, mostly populated):
+  Multi-solver fast (5): bit10, msb_ma22dc6c7, bit18,
+                          bit13_m72f21093, bit13_m4e560940
+  Single-solver fast (2): bit2 (kissat-only), bit17 (cadical-only)
+
+The multi-solver-fast cluster is BIGGER than first thought — it
+includes most HW=47 cands now (both sym and non-sym, just with mild
+sym penalty).
+
+**Refined block2_wang PRIMARY**: bit13_m72f21093 added to multi-
+solver-fast cluster (HW=47 NON-sym, fast on all 3 solvers).
+
+**For yale**: cross-axis hypothesis sharpens. Multi-solver-fast
+cluster = "general structural simplicity" axis. Single-solver-only
+cands = solver-architecture-specific preferences. yale's manifold-
+search success on each cluster discriminates the axis.
+
+10 CMS runs logged. F61 shipped. 0% audit failure rate.
