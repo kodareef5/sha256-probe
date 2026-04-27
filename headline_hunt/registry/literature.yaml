@@ -92,13 +92,23 @@
   confidence: needs_verification
   relevance: Programmatic SAT / IPASIR-UP approach to SHA-256. Direct comparison point
     for programmatic_sat_cascade_propagator.
-  read_status: todo
-  key_takeaway: null
+  read_status: read
+  key_takeaway: "[STRUCTURAL_SUMMARY] SAT+CAS hybrid approach to SHA-256 cryptanalysis,
+    third pillar alongside Wang hand-crafted, dCR automated DC, Mouha MILP. Connects
+    SAT solver via IPASIR-UP API to a CAS (Maple/SageMath) for deeper algebraic
+    reasoning. Direct analog to project's closed programmatic_sat_propagator bet
+    (which used carry-state propagator, found marginal value vs Mode B). Alamgir
+    et al. likely uses MORE aggressive CAS-side reasoning (Gr\u00f6bner basis on residual
+    structure). PDF identifier still ambiguous (arXiv:2406.20072 OR ePrint 2024/2017)."
   action_items:
-  - "Verify identifier; if real, read carefully \u2014 closest published analog to\
-    \ a bet we're proposing."
-  owner: unassigned
-  last_updated: '2026-04-24'
+  - "Locate actual PDF; resolve identifier ambiguity"
+  - "If they report round-60+ SAT-based collision findings, compare directly to
+    project's sr=60 cascade_aux Mode A result"
+  - "Cross-reference with closed programmatic_sat_propagator bet's empirical
+    findings (Rule 4 firing pattern, Mode B equivalence)"
+  notes_path: headline_hunt/literature/notes/alamgir_nejati_bright_sat_cas_sha256.md
+  owner: macbook
+  last_updated: '2026-04-27'
 - id: search_d4_d4v2_c2d
   citation: "d4 / d4v2 / c2d \u2014 top-down d-DNNF compilers, recent papers"
   year: null
