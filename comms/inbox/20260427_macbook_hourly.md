@@ -1185,3 +1185,45 @@ unfriendliness. Worth testing on bit13_m4e560940 (HW=47 EXACT-sym)
 or bit17_mb36375a2 (HW=48 EXACT-sym).
 
 10 runs logged. CNF CONFIRMED. Pulse-aware: in continuous flow.
+
+---
+
+## 10:45 EDT — F54 + addendum: cadical REVERSES kissat ordering on HW=48 control
+
+**STUNNING REVERSAL**: cadical handles cascade_aux Mode A CNFs OPPOSITE
+from kissat on the HW=48 2v2 control:
+
+  cand              kissat  cadical
+  bit00 (EXACT-sym) 53s     45s    ← cadical FASTER on EXACT-sym
+  bit18 (NON-sym)   30s     65s    ← cadical SLOWER on NON-sym
+
+F52/F53's "EXACT-sym at HW≥47 harmful" is **KISSAT-SPECIFIC**, not
+universal. Mechanism revised: EXACT-sym creates STRUCTURE — kissat
+stumbles, cadical leverages.
+
+**Addendum** (bit2 cadical): bit2 (kissat=27s, fastest) on cadical:
+median 41s, range 40s. cadical is NOT universally fast on EXACT-sym;
+just on the bit00/bit18 comparison. cadical has high seed variance
+across cands.
+
+**3-cand cross-solver**:
+  bit2:   kissat=27 cadical=41 (fastest on both — universal cleanness)
+  bit18:  kissat=30 cadical=65 (kissat-friendly)
+  bit00:  kissat=53 cadical=45 (cadical-friendlier)
+
+**Implication for paper Section 4**: F37-F53 results need
+'kissat-specific' caveat. The publishable claim shifts from
+"universal structural ordering" to "solver-architecture comparison
+across structurally-distinct cands."
+
+**For sr=61 hardline-hunt**: mixed-solver portfolio is safer than
+single-solver. bit2 is fastest on both (bet-friendly across
+strategies); other cands have solver preferences.
+
+**Fleet activity during F54**: yale shipped 81fd721 "enumerate bit28
+W59 sheet neighborhood" — yale continues deep bit28 structural
+exploration. bit28 is becoming the most-investigated cand in the
+project, both on Pareto sampling (yale F45) and now W59 neighborhood.
+
+15 cadical runs logged this hour (cadical NEW solver in dataset —
+prior runs all kissat). 0% audit failure rate maintained.
