@@ -905,3 +905,35 @@ BEFORE: "Cascade-1 sr=61 = 2^96 empirically; we don't know if it's possible"
 AFTER:  "Cascade-1 sr=61 is DEFINITIVELY impossible for all 67 registry
         cands. Headline path requires non-cascade-1 paths or expanded
         candidate registry."
+
+## 20:42 EDT — CORRECTION + F14: cascade-1 implies de60=0 universally
+
+3 commits (correction + new finding + comms updates needed):
+
+**Correction (commit c38e980)**: F13's "cascade-1 sr=61 closed for all
+67 cands" was OVERREACH. The verified sr=60 cert (m17149975) has de58
+= 0x0e2ca4bc ≠ 0. sr=60/sr=61 collision does NOT require de58=0; only
+de60=0 (cascade-2 kill) at sr=60. F13's de58 image data is correct
+but mis-framed.
+
+**F14 (commit 6d54d3a)**: NEW STRUCTURAL FACT. Under cascade-1
+enforcement at slots 57-60, de60=0 is UNIVERSAL. 12.9 BILLION chambers
+tested across 3 cands — EVERY one gives de60=0. The writeup's "cascade-2
+W[60] kill" is NOT an independent condition — it's a mechanical
+consequence of cascade-1 propagation across 4 slots.
+
+**Real sr=61 question** (was hidden by my framing): find a message M
+whose schedule produces 5 cascade-1-aligned W[57..61]. That's a 5×32
+= 160 bit constraint on 14×32 = 448 bits of free message words.
+
+**F1-F13 reframed**: characterized cascade-1 chamber dynamics in a
+hypothetical free-W57 model. Useful structural data for yale's chart-
+preserving operator design (residual structure F12c) but NOT the
+direct sr=61 search question.
+
+The honest status: I shipped a HOUR of structurally-interesting work
+that turned out to characterize a different question than I claimed.
+The empirical data is sound; the framing was wrong. Self-corrected
+when realized via the verified sr=60 cert sanity check.
+
+Will send corrected comms to yale next.
