@@ -1553,3 +1553,48 @@ not solver-specific preferences.
 
 10 CMS runs logged. Cross-solver baseline now: 27 cells across 11 cands
 × 3 solvers. F62 shipped. Pulse-aware: in continuous flow.
+
+---
+
+## 12:48 EDT — F63 (cohort D) + F64 (bit28 OVERALL champion via fleet synthesis)
+
+Mid-pulse acknowledged in flow. Two findings shipped:
+
+**F63**: bit28 cross-solver test reveals NEW Cohort D (CMS-only fast):
+  bit28 kissat: 39s (outlier high variance from F47)
+  bit28 cadical: 45s (slow + range 18s)
+  bit28 CMS:    22s — FAST!
+
+4-cohort taxonomy now (each major CDCL has its own preferred cohort):
+  Cohort A: universal-fast      bit10, bit25, bit3 (HW=46-47 NON-sym)
+  Cohort B: kissat-only         bit2_ma896ee41 (HW=45 EXACT-sym sparse)
+  Cohort C: cadical-only        bit17_mb36375a2 (HW=48 EXACT-sym redundant)
+  Cohort D: CMS-only (NEW)      bit28_md1acca79 (HW=49 NON-sym broad tail)
+
+**F64**: yale shipped d32bc96 "[block2_wang] sharpen bit28 HW36 target"
+WHILE I was on F63. yale's online sampler pushed bit28 to:
+  HW=36 / LM=689 — NEW REGISTRY HW MIN! (beats bit2 by 9 bits)
+  HW=41 / LM=660 EXACT-SYM — NEW low-HW exact-sym champion
+  HW=57 / LM=656 EXACT-SYM — NEW raw LM champion
+
+**bit28 now has 6 distinctions** (registry HW min + LM min + exact-sym
+LM min + CMS-fast + cascade-invariant verified + LM-compatible).
+**OVERALL PROJECT CHAMPION.**
+
+Mechanism: bit28's broad LM tail is the SINGLE structural property
+that enables both yale's online-sampling depth AND CMS's BVA/var-elim
+fastness. Cross-architectural convergence on the same cand.
+
+Sent yale a coordination message at:
+  comms/inbox/20260427_macbook_to_yale_bit28_HW36_thanks_synthesis.md
+proposing cross-axis test: manifold-search on bit28 vs bit10 should
+reveal which axis aligns with manifold efficiency. If bit28 deeper,
+manifold ↔ CMS/sampling axis. If bit10 deeper, manifold ↔ universal
+structural simplicity.
+
+This is the clearest fleet collaboration of the week. yale shipped 6
+commits today on bit28 deep work; macbook's solver-axis cross-
+validation converges on bit28 as universal champion.
+
+10 measurements logged across F63. 4-cohort taxonomy locked. Cross-
+fleet bit28 synthesis shipped. Pulse-aware: in continuous flow.
