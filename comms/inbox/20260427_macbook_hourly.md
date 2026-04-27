@@ -115,3 +115,27 @@ solve time at moderate budgets. The seed=5 12h finding is specific
 to deep budget at this cand, regardless of encoding mode.
 
 5 runs logged. Mode B sr=60 CNF committed as fixture. Dashboard refreshed.
+
+## 02:35 EDT — Mendel/Nad/Schläffer 2013 literature note shipped
+
+Closes paper-outline missing item #5. Structural summary (PDF read
+pending) of the foundational SHA-256 reduced-round signed-DC paper.
+
+Key positions:
+  Mendel 2013: sr=38 (38 rounds, 100% schedule)
+  Viragh 2026: sr=59 (64 rounds, 89.6% schedule)
+  This project: sr=60 (64 rounds, 93.75% schedule)
+
+Two parameter axes for "reduced SHA-256":
+  - Round count (Mendel/Li lineage): 39-round full-schedule frontier
+  - Schedule compliance (Viragh/this project): sr=60 frontier in 64 rounds
+
+Both gaps to full SHA-256 are large. Project's is smaller in its native
+metric (4 schedule equations).
+
+Note links to action items for paper Section 5.5, 6, and a future
+cross-bet contribution: translate F-series structural findings into
+signed-DC notation.
+
+literature.yaml updated: read_status flipped to 'read' (with
+STRUCTURAL_SUMMARY caveat). 0 validate errors.
