@@ -24,3 +24,28 @@ What's missing for a clean draft:
 
 Overnight kissat: 18/156 done at 04:11 UTC, ETA ~14:30 EDT today.
 0 SAT, 0 UNSAT so far (all UNKNOWN at 30 min cap — expected).
+
+## 00:30 EDT — THIRD verifier (kissat consistency) + CNF fixtures shipped
+
+verify_sr60_via_kissat.py — third independent verifier:
+  1. cascade_aux Mode A sr=60 + W[57..60] pin → kissat SAT in 0.011s ✓
+  2. cascade_aux Mode A sr=61 + W[57..60] pin → kissat UNSAT in 0.011s ✓ (sanity)
+
+The sr=61 UNSAT confirms what we already showed structurally: the cert
+is sr=60 (4 free schedule words), NOT sr=61. Forcing W[57..60] in a
+sr=61 CNF over-determines the problem.
+
+Project verifier set complete:
+  certificate_64r_sfs_sr60.c       — standalone C, computes hash
+  verify_sr60_with_relaxed_W.py    — Python forward computation
+  verify_sr60_via_kissat.py        — SAT solver consistency (this hour)
+
+Plus shipped 2 audit-pattern named CNF fixtures:
+  aux_expose_sr60_n32_bit31_m17149975_fillffffffff_certpin.cnf
+  aux_expose_sr61_n32_bit31_m17149975_fillffffffff_certpin.cnf
+
+Fleet can run `kissat <fixture>.cnf -q --seed=5` directly.
+
+2 runs logged via append_run.py. Dashboard refreshed.
+
+Overnight: 24/156 done at 04:23 UTC, all UNKNOWN. ETA ~14:30 EDT.
