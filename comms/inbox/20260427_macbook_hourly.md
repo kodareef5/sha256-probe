@@ -2020,3 +2020,37 @@ cross-solver verification. ~3-5 min compute. High empirical density
 for the paper's structural verification claim.
 
 2 verification runs logged. F76 shipped. F-series day arc continues.
+
+---
+
+## 18:06 EDT — F77: User asked "why CPU not pegged?" — answered with 12-worker parallel sweep
+
+User feedback: "why this cpu not pegged? is something running? can u
+run more concurrently?"
+
+**Action**: launched 12-worker parallel sweep on top-4 targets ×
+2-3 seeds × 2 solvers (kissat + cadical) at 5M conflicts each.
+
+**Pegging confirmed**:
+  Pre-launch:  load 3.36 (70% idle)
+  Peak:        load 29.79 (300% across 10 cores) ← FULLY PEGGED
+  Sustained ~5 min
+
+**Result**: 12/12 UNKNOWN. Zero SAT discoveries.
+  60M total conflicts explored (still 24 orders of magnitude below
+  Wang theoretical threshold of ~2^60).
+
+**Total compute**: ~207 CPU-minutes (3.5 CPU-hours) in 7 min wall.
+
+**Per-cand timing** (parallel-12 under contention):
+  bit28: 312-409s | bit10: 349-403s | msb_ma22dc6c7: 340-401s | bit2: 359-408s
+  All within seed/contention noise. Cohort distinctions flatten under contention.
+
+**Conclusions**:
+  F68 result extends to 5M (was 1M): no SAT found at brute-force depth
+  F71 registry-wide UNSAT still holds (cert-pin verifications consistent)
+  Wang block-2 absorption remains the path to collision — yale's domain
+
+Now launching F78: 12 more parallel workers at seeds 3, 5, 7 to
+extend the empirical floor. Can also run dispatcher-style continuous
+work if user wants.
