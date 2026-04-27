@@ -826,3 +826,33 @@ eligible chamber found in the registry — direct headline target.
 substantially deeper than at session start: from "stack hints give
 1.87× preprocessing speedup" → "registry-wide cascade-1 search is
 structurally closed for at least 2 cands, plausibly all 67."
+
+## 20:15 EDT — F12 C-tool: msb_m189b13c7 reaches HW=2 (full 2^32 enum)
+
+Built C tool (`encoders/de58_enum.c`) at 626M evals/sec — 40,000× Python.
+100M screen on all 67 cands (~10s) + FULL 2^32 enumeration on the 5
+close cands (~30s). Definitive structural results:
+
+  cand                                   min HW (full)   de58
+  msb_m189b13c7_fill80000000                2          0x00000108  ← REGISTRY CHAMPION
+  bit13_m4e560940_fillaaaaaaaa              3          0x00102040
+  bit17_m427c281d_fill80000000              3          0x00080024
+  bit18_m99bf552b_fillffffffff              4          0x02160000
+  bit19_m51ca0b34_fill55555555             11          (33M chambers)
+
+**21.5 BILLION chambers (5 × 2^32) checked, 0 with de58=0.** Cascade-1
+sr=61 is DEFINITIVELY closed for these 5 fully-enumerated cands.
+
+msb_m189b13c7 at HW=2 is the registry's structural best — only 2 bits
+of residual between cascade-1 reach and sr=61 collision.
+
+Sent updated comms message to yale (commit pending):
+  comms/inbox/20260426_macbook_to_yale_msb189_HW2_target.md
+
+F13 launched: full 2^32 enumeration on ALL 67 cands (~5-7 min). Will
+register-wide-confirm cascade-1 closed/open status.
+
+11 commits pushed since 18:55 EDT (start of F-series). Cascade_aux bet
+went from "stack hints give 1.87× preprocessing speedup" → "cascade-1
+sr=61 collision DEFINITIVELY closed for at least 5 registry cands; HW=2
+is the registry's structural champion."
