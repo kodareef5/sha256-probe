@@ -186,3 +186,20 @@ move for that bet.
 5 cand logs committed at residuals/F25_cross_cand/.
 
 Overnight kissat: 60/156 done at 07:23 UTC. ETA ~13:30 EDT.
+
+## 04:30 EDT — F26: bit13 UNIQUELY has a_61 = e_61 exact symmetry
+
+Cross-cand bit-pattern analysis on F25 min-HW residuals. Only bit13_m4e560940
+has a_61 ⊕ e_61 = 0 (exact match). Other 4 cands have 1-4 bit asymmetry.
+
+Slot-62/63 diffs HW=8-18 across all cands. The bit13 symmetry is
+slot-61-specific.
+
+Implication for block2_wang: bit13's a_61=e_61 may admit SIMULTANEOUS
+cancellation via a single absorption pattern (8-bit pattern handles
+2 register components = 16 absorbed bits per operator). Structurally
+shorter Wang-style sequence than other cands.
+
+bit13's distinguishing feature count: 3 (F12 chamber min, F17 residual
+min, F26 a_61=e_61 unique symmetry). Strongest case in registry for
+block2_wang Wang-attack target.
