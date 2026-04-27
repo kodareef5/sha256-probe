@@ -248,3 +248,27 @@ Two parallel ships:
    classification at 100M. Will confirm or revise the symmetry list.
 
 Overnight kissat: continuing toward ~13:30 EDT ETA.
+
+## 05:25 EDT — de Cannière/Rechberger 2006 literature note shipped
+
+3rd of 4 should_read closed. Foundational for AUTOMATED differential
+characteristic search via 5-letter signed bit alphabet + constraint
+propagation. Direct lineage: dCR 2006 → Mendel 2013 → Li 2024 →
+Alamgir 2024.
+
+Maps yale's guarded message-space probe to dCR framework:
+  guarded a57=0 = bitcondition
+  defect57 reduction = constraint propagation
+  manifold thinness = low-probability characteristics
+
+Concrete action items for paper:
+  Section 2: cite as automated-search precursor
+  Section 5.5: yale = dCR reformulation
+  block2_wang: implement/adapt dCR DC search for SHA-256
+  F27 9-cand: re-analyze under dCR 5-letter alphabet
+
+Literature pipeline: Mendel ✓ Wang ✓ dCR ✓. Mouha pending.
+
+F28 progress: 35/67 done at 09:25 UTC. ~12 more min.
+Overnight kissat: 96 results, 0 SAT, 0 UNSAT (all UNKNOWN at cap).
+60 still pending. ETA ~13:30 EDT.
