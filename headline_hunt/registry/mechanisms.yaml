@@ -260,6 +260,7 @@
   - OpenCL GPU W57/off58 scanning is available; additional HW1 off58 charts still do not predict the D61 floor by themselves.
   - W57-free beam and greedy probes create new exact-D60 landings and terraces, but lose the productive carry chart and do not improve D61 HW4 or tail HW59.
   - W57-free affine-fiber sampling and low-weight kernel enumeration reduce D60 to HW1 but do not preserve low-D61 caps or find exact D60.
+  - W57-free chart walks over exact HW4 bases found millions of exact-D60 landings but no exact D61 HW3; HW3 remains non-exact and chart-shifted.
   status: in_flight
   priority: 8
   expected_info_per_cpu_hour: very_high
@@ -267,8 +268,8 @@
   - Existing cascade-eligible candidate registry.
   - CPU C probes in bets/singular_chamber_rank/tools; OpenCL GPU chart scanner available for W57/off58 bulk discovery.
   next_action: "Build a carry-bit compensation operator for the mixed Sigma1/Ch/T2 shelves. Deterministic D60-fiber
-    exhaustion and W57-free affine probes show D60 can be reduced or closed, but low-D61 caps are lost when the carry chart changes;
-    new off58-HW1 charts confirm sparse offset alone is not the ranking function."
+    exhaustion, W57-free affine probes, pair-flip enumeration, and W57-free chart walks show D60 can be reduced or closed,
+    but low-D61 caps are lost when the carry chart changes."
   kill_criteria:
   - All representative candidates plateau at the same defect61 floor across deep walks AND structural mapping fails to
     identify a carry-aware repair operator.
@@ -291,6 +292,7 @@
   - bets/singular_chamber_rank/results/20260426_d60_fiber_exhaustion.md
   - bets/singular_chamber_rank/results/20260426_w57_free_operator_probe.md
   - bets/singular_chamber_rank/results/20260426_w57_affine_fiber_probe.md
+  - bets/singular_chamber_rank/results/20260426_w57_free_chart_walk.md
   owner: linux_gpu_laptop
   last_updated: '2026-04-26'
   notes: "Joint linux_gpu_laptop + macbook bet. Linux shipped the original mathematical decomposition, bridge enumeration,
@@ -302,4 +304,5 @@
     OpenCL GPU scans are working for W57/off58 chart discovery, but new HW1 off58 charts still did not beat the known frontier.
     W57-free beam/greedy probes add degrees of freedom but still lose the productive chart and do not improve D61 HW4/tail HW59.
     W57-free affine-fiber sampling reaches D60-HW1 but loses low D61 and finds no exact bridge.
+    W57-free chart walks over idx0/idx8 exact HW4 points found millions of exact-D60 landings but no exact D61 HW3.
     Open: carry-bit compensation or a productive-chart predictor?"

@@ -209,3 +209,7 @@ Key result notes:
   sampling and low-weight kernel enumeration over W57/W58/W59; D60 can be
   reduced to HW1, but D61 rises sharply and no exact/cap-preserving bridge is
   found.
+- `results/20260426_w57_free_chart_walk.md`: W57-free chart walks over the
+  exact HW4 bases; 200M trials found more than 2.4M exact-D60 landings, but
+  no exact D61 HW3. The HW3 shelves require large off58/off59 and round-61
+  carry-chart changes.

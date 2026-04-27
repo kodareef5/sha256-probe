@@ -13,7 +13,7 @@ expected_info_per_cpu_hour: high
 dependencies:
   - Existing cascade-eligible candidate registry.
   - CPU C probes in bets/singular_chamber_rank/tools; OpenCL GPU chart scanner now available for bulk W57/off58 discovery.
-next_action: "Build a carry-bit compensation operator for the mixed Sigma1/Ch/T2 shelves. Fixed-W57 and W57-free affine fiber probes show D60 can be reduced or closed, but low-D61 caps are lost when the carry chart changes. New GPU-found off58-HW1 charts also fail to predict the D61 floor by themselves."
+next_action: "Build a carry-bit compensation operator for the mixed Sigma1/Ch/T2 shelves. Fixed-W57 fibers, W57-free affine probes, pair-flip enumeration, and W57-free chart walks all show D60 can be reduced or closed, but low-D61 caps are lost when the carry chart changes."
 kill_criteria:
   - No local defect-rank drop below 32 across representative candidates and structured fills.
   - No correlation between gate-degeneracy metrics and defect-rank or defect-HW after a bounded probe.
@@ -57,7 +57,9 @@ current_progress: |
   found new exact-D60 landings and non-exact terraces, but did not improve
   D61 HW4 or tail HW59. W57-free affine-fiber sampling and low-weight kernel
   enumeration reached D60-HW1 but found no exact D60 and no cap-preserving
-  bridge.
+  bridge. W57-free chart walks over the exact HW4 bases found more than 2.4M
+  exact-D60 points across 200M trials, but every exact point stayed at D61
+  HW4 or worse; D61 HW3 appears only on non-exact shelves.
   Carry-coordinate comparison
   shows exact HW5/HW67 basin moves are round-61 Ch-only, while the cap-4
   terrace lowers D61 by activating Sigma1/T2 terms outside the exact-D60 chart.
@@ -78,6 +80,7 @@ evidence:
   - results/20260426_d60_fiber_exhaustion.md
   - results/20260426_w57_free_operator_probe.md
   - results/20260426_w57_affine_fiber_probe.md
+  - results/20260426_w57_free_chart_walk.md
 notes: |
   Local rank stayed full, so the bet redirected toward nonlinear
   finite-difference/carry fibers. Full-N sparse off58 steering found multiple
@@ -104,7 +107,9 @@ notes: |
   beam/greedy probes add degrees of freedom but mostly leave the sparse/carry
   chart and do not improve the known frontiers. W57-free affine-fiber probes
   reduce D60 to HW1, but D61 rises to double digits and exact D60 remains
-  absent in sampled/low-weight checks.
+  absent in sampled/low-weight checks. W57-free chart walks over idx0/idx8
+  exact HW4 points found millions of exact-D60 landings but no exact D61 HW3;
+  the HW3 shelves require large off58/off59 and round-61 carry-chart changes.
   Carry-coordinate comparison indicates this terrace is
   a mixed Sigma1/Ch/T2 chart, not a small move along the exact-D60 Ch-only
   chart.

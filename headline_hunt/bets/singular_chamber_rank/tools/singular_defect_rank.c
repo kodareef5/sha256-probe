@@ -5381,7 +5381,8 @@ static void chart61_walk_candidate(int idx, const uint32_t base_x[3],
                                    int trials, int threads,
                                    int max_passes, int max_flips,
                                    int cap, int policy,
-                                   int part_weight, int carry_weight) {
+                                   int part_weight, int carry_weight,
+                                   int free_w57) {
     int n_cands = (int)(sizeof(CANDIDATES) / sizeof(CANDIDATES[0]));
     if (idx < 0 || idx >= n_cands) {
         fprintf(stderr, "candidate index must be 0..%d.\n", n_cands - 1);
@@ -5393,6 +5394,7 @@ static void chart61_walk_candidate(int idx, const uint32_t base_x[3],
     if (cap > 32) cap = 32;
     if (part_weight < 0) part_weight = 0;
     if (carry_weight < 0) carry_weight = 0;
+    int move_bits = free_w57 ? 96 : 64;
 
     const candidate_t *cand = &CANDIDATES[idx];
     sha256_precomp_t p1, p2;
@@ -5498,8 +5500,11 @@ static void chart61_walk_candidate(int idx, const uint32_t base_x[3],
 
             int flips = 1 + (int)(splitmix32(&rng) % (uint32_t)max_flips);
             for (int f = 0; f < flips; f++) {
-                int bit = (int)(splitmix32(&rng) & 63U);
-                if (bit < 32) x[1] ^= 1U << bit;
+                int bit = (int)(splitmix32(&rng) % (uint32_t)move_bits);
+                if (free_w57 && bit < 32) x[0] ^= 1U << bit;
+                else if (free_w57 && bit < 64) x[1] ^= 1U << (bit - 32);
+                else if (free_w57) x[2] ^= 1U << (bit - 64);
+                else if (bit < 32) x[1] ^= 1U << bit;
                 else x[2] ^= 1U << (bit - 32);
             }
 
@@ -5511,9 +5516,12 @@ static void chart61_walk_candidate(int idx, const uint32_t base_x[3],
                 uint32_t best_step_x[3] = {x[0], x[1], x[2]};
                 chart61_eval_t best_step = cur;
 
-                for (int bit = 0; bit < 64; bit++) {
+                for (int bit = 0; bit < move_bits; bit++) {
                     uint32_t xf[3] = {x[0], x[1], x[2]};
-                    if (bit < 32) xf[1] ^= 1U << bit;
+                    if (free_w57 && bit < 32) xf[0] ^= 1U << bit;
+                    else if (free_w57 && bit < 64) xf[1] ^= 1U << (bit - 32);
+                    else if (free_w57) xf[2] ^= 1U << (bit - 64);
+                    else if (bit < 32) xf[1] ^= 1U << bit;
                     else xf[2] ^= 1U << (bit - 32);
 
                     chart61_eval_t y;
@@ -5521,8 +5529,7 @@ static void chart61_walk_candidate(int idx, const uint32_t base_x[3],
                     if (chart61_eval_better(&y, &best_step, cap, policy,
                                             part_weight, carry_weight)) {
                         best_step = y;
-                        best_step_x[1] = xf[1];
-                        best_step_x[2] = xf[2];
+                        memcpy(best_step_x, xf, sizeof(best_step_x));
                     }
                 }
 
@@ -5530,13 +5537,14 @@ static void chart61_walk_candidate(int idx, const uint32_t base_x[3],
                                          part_weight, carry_weight)) {
                     break;
                 }
-                x[1] = best_step_x[1];
-                x[2] = best_step_x[2];
+                memcpy(x, best_step_x, sizeof(x));
                 cur = best_step;
                 passes_used = pass + 1;
             }
 
-            int distance = hw32(x[1] ^ base_x[1]) + hw32(x[2] ^ base_x[2]);
+            int distance = hw32(x[0] ^ base_x[0]) +
+                           hw32(x[1] ^ base_x[1]) +
+                           hw32(x[2] ^ base_x[2]);
             if (chart61_eval_better(&cur, &local_best_any_eval, cap, policy,
                                     part_weight, carry_weight)) {
                 local_best_any_eval = cur;
@@ -5650,6 +5658,7 @@ static void chart61_walk_candidate(int idx, const uint32_t base_x[3],
     printf("{\"mode\":\"chart61walk\",\"candidate\":\"%s\",\"idx\":%d,"
            "\"base_x\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
            "\"cap\":%d,\"policy\":%d,\"part_weight\":%d,\"carry_weight\":%d,"
+           "\"free_w57\":%d,"
            "\"trials\":%d,\"threads\":%d,\"max_passes\":%d,\"max_flips\":%d,"
            "\"base_part_dist\":%d,\"base_carry_dist\":%d,"
            "\"cap_hits\":%d,\"exact60_hits\":%d,\"exact_cap_hits\":%d,"
@@ -5661,7 +5670,7 @@ static void chart61_walk_candidate(int idx, const uint32_t base_x[3],
            "\"best_any\":",
            cand->id, idx, base_x[0], base_x[1], base_x[2],
            cap, policy, part_weight, carry_weight,
-           trials, threads, max_passes, max_flips,
+           free_w57, trials, threads, max_passes, max_flips,
            base_eval.part_dist, base_eval.carry_dist,
            cap_hits, exact60_hits, exact_cap_hits, changed_exact_cap_hits,
            cap_d60_hist[0], cap_d60_hist[1], cap_d60_hist[2], cap_d60_hist[3],
@@ -8239,10 +8248,12 @@ int main(int argc, char **argv) {
         int policy = (argc >= 12) ? atoi(argv[11]) : 0;
         int part_weight = (argc >= 13) ? atoi(argv[12]) : 1;
         int carry_weight = (argc >= 14) ? atoi(argv[13]) : 1;
+        int free_w57 = (argc >= 15) ? atoi(argv[14]) : 0;
         sha256_init(32);
         chart61_walk_candidate(idx, x, trials, threads,
                                max_passes, max_flips, cap,
-                               policy, part_weight, carry_weight);
+                               policy, part_weight, carry_weight,
+                               free_w57);
         return 0;
     }
 
