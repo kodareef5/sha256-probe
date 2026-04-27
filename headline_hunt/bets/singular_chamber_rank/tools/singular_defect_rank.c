@@ -228,6 +228,757 @@ static int prepare_candidate(const candidate_t *cand, sha256_precomp_t *p1, sha2
     return p1->state[0] == p2->state[0];
 }
 
+#define MSG_FREE_WORDS 14
+#define MSG_DEFECT_ROUNDS 5
+#define MSG_CONSTRAINT_WORDS (MSG_DEFECT_ROUNDS + 1)
+
+static const int MSG_FREE_INDEX[MSG_FREE_WORDS] = {
+    1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 14, 15
+};
+
+typedef struct {
+    uint32_t a57_xor;
+    uint32_t defects[MSG_DEFECT_ROUNDS];
+    uint32_t dW[MSG_DEFECT_ROUNDS];
+    uint32_t req[MSG_DEFECT_ROUNDS];
+    int a57_hw;
+    int defect_hw[MSG_DEFECT_ROUNDS];
+    int total_hw;
+    int constraint_hw;
+    int prefix_zero;
+    int state_hw;
+} msg61_eval_t;
+
+static void expand_schedule64(const uint32_t M[16], uint32_t W[64]) {
+    for (int i = 0; i < 16; i++) W[i] = M[i];
+    for (int i = 16; i < 64; i++) {
+        W[i] = sha256_sigma1(W[i - 2]) + W[i - 7] +
+               sha256_sigma0(W[i - 15]) + W[i - 16];
+    }
+}
+
+static void build_candidate_messages(const candidate_t *cand,
+                                     const uint32_t free_words[MSG_FREE_WORDS],
+                                     uint32_t M1[16], uint32_t M2[16]) {
+    uint32_t diff = 1U << cand->bit;
+    for (int i = 0; i < 16; i++) {
+        M1[i] = cand->fill;
+        M2[i] = cand->fill;
+    }
+    M1[0] = cand->m0;
+    M2[0] = cand->m0 ^ diff;
+    M2[9] = cand->fill ^ diff;
+    for (int i = 0; i < MSG_FREE_WORDS; i++) {
+        int word = MSG_FREE_INDEX[i];
+        M1[word] = free_words[i];
+        M2[word] = free_words[i];
+    }
+}
+
+static void msg61_eval_candidate(const candidate_t *cand,
+                                 const uint32_t free_words[MSG_FREE_WORDS],
+                                 msg61_eval_t *out) {
+    uint32_t M1[16], M2[16], W1[64], W2[64];
+    build_candidate_messages(cand, free_words, M1, M2);
+    expand_schedule64(M1, W1);
+    expand_schedule64(M2, W2);
+
+    uint32_t s1[8], s2[8];
+    memcpy(s1, sha256_IV, sizeof(s1));
+    memcpy(s2, sha256_IV, sizeof(s2));
+
+    memset(out, 0, sizeof(*out));
+
+    for (int r = 0; r < 64; r++) {
+        if (r >= 57 && r <= 61) {
+            int j = r - 57;
+            if (j == 0) {
+                out->a57_xor = s1[0] ^ s2[0];
+                out->a57_hw = hw32(out->a57_xor);
+            }
+            out->req[j] = cascade1_offset(s1, s2);
+            out->dW[j] = W2[r] - W1[r];
+            out->defects[j] = out->dW[j] - out->req[j];
+            out->defect_hw[j] = hw32(out->defects[j]);
+            out->total_hw += out->defect_hw[j];
+        }
+        apply_round(s1, W1[r], r);
+        apply_round(s2, W2[r], r);
+    }
+
+    out->constraint_hw = out->a57_hw + out->total_hw;
+    out->prefix_zero = 0;
+    if (out->a57_xor == 0) {
+        for (int j = 0; j < MSG_DEFECT_ROUNDS; j++) {
+            if (out->defects[j] != 0) break;
+            out->prefix_zero++;
+        }
+    }
+
+    out->state_hw = 0;
+    for (int i = 0; i < 8; i++) out->state_hw += hw32(s1[i] ^ s2[i]);
+}
+
+static int msg61_better(const msg61_eval_t *a, const msg61_eval_t *b) {
+    if (a->prefix_zero != b->prefix_zero) return a->prefix_zero > b->prefix_zero;
+    if (a->constraint_hw != b->constraint_hw) return a->constraint_hw < b->constraint_hw;
+    if (a->total_hw != b->total_hw) return a->total_hw < b->total_hw;
+    return a->state_hw < b->state_hw;
+}
+
+static int msg61_prefix_hw(const msg61_eval_t *ev, int prefix) {
+    int hw = ev->a57_hw;
+    if (prefix < 1) prefix = 1;
+    if (prefix > MSG_DEFECT_ROUNDS) prefix = MSG_DEFECT_ROUNDS;
+    for (int i = 0; i < prefix; i++) hw += ev->defect_hw[i];
+    return hw;
+}
+
+static int msg61_better_prefix(const msg61_eval_t *a, const msg61_eval_t *b,
+                               int prefix) {
+    int ap = a->prefix_zero < prefix ? a->prefix_zero : prefix;
+    int bp = b->prefix_zero < prefix ? b->prefix_zero : prefix;
+    if (ap != bp) return ap > bp;
+    int ahw = msg61_prefix_hw(a, prefix);
+    int bhw = msg61_prefix_hw(b, prefix);
+    if (ahw != bhw) return ahw < bhw;
+    if (a->total_hw != b->total_hw) return a->total_hw < b->total_hw;
+    return a->state_hw < b->state_hw;
+}
+
+static void msg61_fill_words(const candidate_t *cand,
+                             uint32_t free_words[MSG_FREE_WORDS]) {
+    for (int i = 0; i < MSG_FREE_WORDS; i++) free_words[i] = cand->fill;
+}
+
+static void msg61_print_words(const uint32_t free_words[MSG_FREE_WORDS]) {
+    printf("[");
+    for (int i = 0; i < MSG_FREE_WORDS; i++) {
+        printf("%s\"0x%08x\"", i ? "," : "", free_words[i]);
+    }
+    printf("]");
+}
+
+static void msg61_print_eval_fields(const msg61_eval_t *ev) {
+    printf("\"a57_xor\":\"0x%08x\",\"a57_hw\":%d,\"defects\":[",
+           ev->a57_xor, ev->a57_hw);
+    for (int i = 0; i < MSG_DEFECT_ROUNDS; i++) {
+        printf("%s\"0x%08x\"", i ? "," : "", ev->defects[i]);
+    }
+    printf("],\"defect_hw\":[");
+    for (int i = 0; i < MSG_DEFECT_ROUNDS; i++) {
+        printf("%s%d", i ? "," : "", ev->defect_hw[i]);
+    }
+    printf("],\"dW\":[");
+    for (int i = 0; i < MSG_DEFECT_ROUNDS; i++) {
+        printf("%s\"0x%08x\"", i ? "," : "", ev->dW[i]);
+    }
+    printf("],\"req\":[");
+    for (int i = 0; i < MSG_DEFECT_ROUNDS; i++) {
+        printf("%s\"0x%08x\"", i ? "," : "", ev->req[i]);
+    }
+    printf("],\"total_hw\":%d,\"constraint_hw\":%d,"
+           "\"prefix_zero\":%d,\"state_hw\":%d",
+           ev->total_hw, ev->constraint_hw, ev->prefix_zero, ev->state_hw);
+}
+
+static void msg61_point_candidate(int idx, const uint32_t *maybe_words) {
+    if (idx < 0 || idx >= (int)(sizeof(CANDIDATES) / sizeof(CANDIDATES[0]))) idx = 0;
+    const candidate_t *cand = &CANDIDATES[idx];
+    uint32_t words[MSG_FREE_WORDS];
+    if (maybe_words) {
+        memcpy(words, maybe_words, sizeof(words));
+    } else {
+        msg61_fill_words(cand, words);
+    }
+    msg61_eval_t ev;
+    msg61_eval_candidate(cand, words, &ev);
+    printf("{\"mode\":\"msg61point\",\"candidate\":\"%s\",\"idx\":%d,\"free_word_index\":[",
+           cand->id, idx);
+    for (int i = 0; i < MSG_FREE_WORDS; i++) {
+        printf("%s%d", i ? "," : "", MSG_FREE_INDEX[i]);
+    }
+    printf("],\"free_words\":");
+    msg61_print_words(words);
+    printf(",");
+    msg61_print_eval_fields(&ev);
+    printf("}\n");
+}
+
+static int rank160_vectors(const uint32_t vecs[][MSG_DEFECT_ROUNDS], int n) {
+    uint32_t basis[160][MSG_DEFECT_ROUNDS];
+    memset(basis, 0, sizeof(basis));
+    int rank = 0;
+    for (int i = 0; i < n; i++) {
+        uint32_t v[MSG_DEFECT_ROUNDS];
+        memcpy(v, vecs[i], sizeof(v));
+        for (int bit = 159; bit >= 0; bit--) {
+            int word = bit / 32;
+            int shift = bit % 32;
+            if (((v[word] >> shift) & 1U) == 0) continue;
+            if (basis[bit][word]) {
+                for (int j = 0; j < MSG_DEFECT_ROUNDS; j++) v[j] ^= basis[bit][j];
+            } else {
+                memcpy(basis[bit], v, sizeof(v));
+                rank++;
+                break;
+            }
+        }
+    }
+    return rank;
+}
+
+static int rank192_vectors(const uint32_t vecs[][MSG_CONSTRAINT_WORDS], int n) {
+    uint32_t basis[192][MSG_CONSTRAINT_WORDS];
+    memset(basis, 0, sizeof(basis));
+    int rank = 0;
+    for (int i = 0; i < n; i++) {
+        uint32_t v[MSG_CONSTRAINT_WORDS];
+        memcpy(v, vecs[i], sizeof(v));
+        for (int bit = 191; bit >= 0; bit--) {
+            int word = bit / 32;
+            int shift = bit % 32;
+            if (((v[word] >> shift) & 1U) == 0) continue;
+            if (basis[bit][word]) {
+                for (int j = 0; j < MSG_CONSTRAINT_WORDS; j++) v[j] ^= basis[bit][j];
+            } else {
+                memcpy(basis[bit], v, sizeof(v));
+                rank++;
+                break;
+            }
+        }
+    }
+    return rank;
+}
+
+static void msg61_rank_candidate(int idx) {
+    if (idx < 0 || idx >= (int)(sizeof(CANDIDATES) / sizeof(CANDIDATES[0]))) idx = 0;
+    const candidate_t *cand = &CANDIDATES[idx];
+    uint32_t base_words[MSG_FREE_WORDS];
+    msg61_fill_words(cand, base_words);
+
+    msg61_eval_t base_ev;
+    msg61_eval_candidate(cand, base_words, &base_ev);
+
+    uint32_t cols[MSG_FREE_WORDS * 32][MSG_DEFECT_ROUNDS];
+    uint32_t guarded_cols[MSG_FREE_WORDS * 32][MSG_CONSTRAINT_WORDS];
+    int word_rank[MSG_FREE_WORDS];
+    int guarded_word_rank[MSG_FREE_WORDS];
+    int c = 0;
+    for (int wi = 0; wi < MSG_FREE_WORDS; wi++) {
+        uint32_t word_cols[32][MSG_DEFECT_ROUNDS];
+        uint32_t guarded_word_cols[32][MSG_CONSTRAINT_WORDS];
+        for (int b = 0; b < 32; b++) {
+            uint32_t words[MSG_FREE_WORDS];
+            memcpy(words, base_words, sizeof(words));
+            words[wi] ^= 1U << b;
+            msg61_eval_t ev;
+            msg61_eval_candidate(cand, words, &ev);
+            guarded_cols[c][0] = ev.a57_xor ^ base_ev.a57_xor;
+            guarded_word_cols[b][0] = guarded_cols[c][0];
+            for (int j = 0; j < MSG_DEFECT_ROUNDS; j++) {
+                cols[c][j] = ev.defects[j] ^ base_ev.defects[j];
+                word_cols[b][j] = cols[c][j];
+                guarded_cols[c][j + 1] = cols[c][j];
+                guarded_word_cols[b][j + 1] = guarded_cols[c][j + 1];
+            }
+            c++;
+        }
+        word_rank[wi] = rank160_vectors(word_cols, 32);
+        guarded_word_rank[wi] = rank192_vectors(guarded_word_cols, 32);
+    }
+
+    int rank = rank160_vectors(cols, MSG_FREE_WORDS * 32);
+    int guarded_rank = rank192_vectors(guarded_cols, MSG_FREE_WORDS * 32);
+    printf("{\"mode\":\"msg61rank\",\"candidate\":\"%s\",\"idx\":%d,",
+           cand->id, idx);
+    printf("\"base_total_hw\":%d,\"base_constraint_hw\":%d,"
+           "\"base_prefix_zero\":%d,\"rank_schedule\":%d,"
+           "\"kernel_dim_schedule\":%d,\"rank_guarded\":%d,"
+           "\"kernel_dim_guarded\":%d,\"word_rank_schedule\":[",
+           base_ev.total_hw, base_ev.constraint_hw, base_ev.prefix_zero,
+           rank, MSG_FREE_WORDS * 32 - rank, guarded_rank,
+           MSG_FREE_WORDS * 32 - guarded_rank);
+    for (int i = 0; i < MSG_FREE_WORDS; i++) {
+        printf("%s%d", i ? "," : "", word_rank[i]);
+    }
+    printf("],\"word_rank_guarded\":[");
+    for (int i = 0; i < MSG_FREE_WORDS; i++) {
+        printf("%s%d", i ? "," : "", guarded_word_rank[i]);
+    }
+    printf("],\"free_word_index\":[");
+    for (int i = 0; i < MSG_FREE_WORDS; i++) {
+        printf("%s%d", i ? "," : "", MSG_FREE_INDEX[i]);
+    }
+    printf("],");
+    msg61_print_eval_fields(&base_ev);
+    printf("}\n");
+}
+
+static void msg61_sample_candidate(int idx, long long samples, int threads,
+                                   int random_words) {
+    if (idx < 0 || idx >= (int)(sizeof(CANDIDATES) / sizeof(CANDIDATES[0]))) idx = 0;
+    if (samples < 1) samples = 1;
+    if (threads < 1) threads = 1;
+    if (threads > 64) threads = 64;
+    const candidate_t *cand = &CANDIDATES[idx];
+
+    msg61_eval_t best_ev;
+    uint32_t best_words[MSG_FREE_WORDS];
+    msg61_fill_words(cand, best_words);
+    msg61_eval_candidate(cand, best_words, &best_ev);
+    long long exact_all = 0;
+    long long prefix_hits[MSG_DEFECT_ROUNDS + 1];
+    memset(prefix_hits, 0, sizeof(prefix_hits));
+
+    #pragma omp parallel num_threads(threads)
+    {
+        int tid = omp_get_thread_num();
+        uint64_t rng = 0x8bf91a735dULL ^ (uint64_t)idx * 0x9e3779b97f4a7c15ULL ^
+                       (uint64_t)tid * 0xd1b54a32d192ed03ULL;
+        msg61_eval_t local_best;
+        uint32_t local_words[MSG_FREE_WORDS];
+        msg61_fill_words(cand, local_words);
+        msg61_eval_candidate(cand, local_words, &local_best);
+        long long local_exact = 0;
+        long long local_prefix[MSG_DEFECT_ROUNDS + 1];
+        memset(local_prefix, 0, sizeof(local_prefix));
+
+        #pragma omp for schedule(static)
+        for (long long t = 0; t < samples; t++) {
+            uint32_t words[MSG_FREE_WORDS];
+            if (random_words) {
+                for (int i = 0; i < MSG_FREE_WORDS; i++) words[i] = splitmix32(&rng);
+            } else {
+                msg61_fill_words(cand, words);
+                int flips = 1 + (int)(splitmix32(&rng) % 32U);
+                for (int k = 0; k < flips; k++) {
+                    int bit = (int)(splitmix32(&rng) % (MSG_FREE_WORDS * 32U));
+                    words[bit / 32] ^= 1U << (bit % 32);
+                }
+            }
+            msg61_eval_t ev;
+            msg61_eval_candidate(cand, words, &ev);
+            local_prefix[ev.prefix_zero]++;
+            if (ev.prefix_zero == MSG_DEFECT_ROUNDS) local_exact++;
+            if (msg61_better(&ev, &local_best)) {
+                local_best = ev;
+                memcpy(local_words, words, sizeof(local_words));
+            }
+        }
+
+        #pragma omp critical
+        {
+            exact_all += local_exact;
+            for (int i = 0; i <= MSG_DEFECT_ROUNDS; i++) prefix_hits[i] += local_prefix[i];
+            if (msg61_better(&local_best, &best_ev)) {
+                best_ev = local_best;
+                memcpy(best_words, local_words, sizeof(best_words));
+            }
+        }
+    }
+
+    printf("{\"mode\":\"msg61sample\",\"candidate\":\"%s\",\"idx\":%d,"
+           "\"samples\":%lld,\"threads\":%d,\"random_words\":%d,"
+           "\"exact_all\":%lld,\"prefix_hits\":[",
+           cand->id, idx, samples, threads, random_words, exact_all);
+    for (int i = 0; i <= MSG_DEFECT_ROUNDS; i++) {
+        printf("%s%lld", i ? "," : "", prefix_hits[i]);
+    }
+    printf("],\"best_free_words\":");
+    msg61_print_words(best_words);
+    printf(",");
+    msg61_print_eval_fields(&best_ev);
+    printf("}\n");
+}
+
+static void msg61_walk_candidate(int idx, long long trials, int threads,
+                                 int max_passes, int start_flips,
+                                 int random_words, int objective_prefix,
+                                 const uint32_t *seed_words) {
+    if (idx < 0 || idx >= (int)(sizeof(CANDIDATES) / sizeof(CANDIDATES[0]))) idx = 0;
+    if (trials < 1) trials = 1;
+    if (threads < 1) threads = 1;
+    if (threads > 64) threads = 64;
+    if (max_passes < 1) max_passes = 1;
+    if (start_flips < 0) start_flips = 0;
+    if (start_flips > MSG_FREE_WORDS * 32) start_flips = MSG_FREE_WORDS * 32;
+    if (objective_prefix < 1) objective_prefix = 1;
+    if (objective_prefix > MSG_DEFECT_ROUNDS) objective_prefix = MSG_DEFECT_ROUNDS;
+
+    const candidate_t *cand = &CANDIDATES[idx];
+    uint32_t base_words[MSG_FREE_WORDS];
+    if (seed_words) {
+        memcpy(base_words, seed_words, sizeof(base_words));
+    } else {
+        msg61_fill_words(cand, base_words);
+    }
+    msg61_eval_t best_ev;
+    uint32_t best_words[MSG_FREE_WORDS];
+    memcpy(best_words, base_words, sizeof(best_words));
+    msg61_eval_candidate(cand, best_words, &best_ev);
+    long long exact_all = 0;
+    long long improved_trials = 0;
+
+    #pragma omp parallel num_threads(threads)
+    {
+        int tid = omp_get_thread_num();
+        uint64_t rng = 0xf17a5a2d61ULL ^ (uint64_t)idx * 0x9e3779b97f4a7c15ULL ^
+                       (uint64_t)tid * 0xd1b54a32d192ed03ULL;
+        msg61_eval_t local_best;
+        uint32_t local_best_words[MSG_FREE_WORDS];
+        memcpy(local_best_words, base_words, sizeof(local_best_words));
+        msg61_eval_candidate(cand, local_best_words, &local_best);
+        long long local_exact = 0;
+        long long local_improved = 0;
+
+        #pragma omp for schedule(dynamic, 256)
+        for (long long t = 0; t < trials; t++) {
+            uint32_t words[MSG_FREE_WORDS];
+            if (random_words) {
+                for (int i = 0; i < MSG_FREE_WORDS; i++) words[i] = splitmix32(&rng);
+            } else {
+                memcpy(words, base_words, sizeof(words));
+                int flips = start_flips ? (int)(splitmix32(&rng) % (uint32_t)(start_flips + 1)) : 0;
+                for (int k = 0; k < flips; k++) {
+                    int bit = (int)(splitmix32(&rng) % (MSG_FREE_WORDS * 32U));
+                    words[bit / 32] ^= 1U << (bit % 32);
+                }
+            }
+
+            msg61_eval_t cur;
+            msg61_eval_candidate(cand, words, &cur);
+            int start_score = msg61_prefix_hw(&cur, objective_prefix);
+            for (int p = 0; p < max_passes; p++) {
+                int bit = (int)(splitmix32(&rng) % (MSG_FREE_WORDS * 32U));
+                words[bit / 32] ^= 1U << (bit % 32);
+                msg61_eval_t next;
+                msg61_eval_candidate(cand, words, &next);
+                if (msg61_better(&next, &cur)) {
+                    cur = next;
+                } else {
+                    words[bit / 32] ^= 1U << (bit % 32);
+                }
+            }
+            if (cur.prefix_zero >= objective_prefix) local_exact++;
+            if (msg61_prefix_hw(&cur, objective_prefix) < start_score) local_improved++;
+            if (msg61_better_prefix(&cur, &local_best, objective_prefix)) {
+                local_best = cur;
+                memcpy(local_best_words, words, sizeof(local_best_words));
+            }
+        }
+
+        #pragma omp critical
+        {
+            exact_all += local_exact;
+            improved_trials += local_improved;
+            if (msg61_better_prefix(&local_best, &best_ev, objective_prefix)) {
+                best_ev = local_best;
+                memcpy(best_words, local_best_words, sizeof(best_words));
+            }
+        }
+    }
+
+    printf("{\"mode\":\"msg61walk\",\"candidate\":\"%s\",\"idx\":%d,"
+           "\"trials\":%lld,\"threads\":%d,\"max_passes\":%d,"
+           "\"start_flips\":%d,\"random_words\":%d,\"objective_prefix\":%d,"
+           "\"exact_prefix\":%lld,\"improved_trials\":%lld,"
+           "\"best_prefix_hw\":%d,\"seeded\":%d,\"best_free_words\":",
+           cand->id, idx, trials, threads, max_passes, start_flips,
+           random_words, objective_prefix, exact_all, improved_trials,
+           msg61_prefix_hw(&best_ev, objective_prefix), seed_words ? 1 : 0);
+    msg61_print_words(best_words);
+    printf(",");
+    msg61_print_eval_fields(&best_ev);
+    printf("}\n");
+}
+
+#define MSG_BITS (MSG_FREE_WORDS * 32)
+#define MSG_COMBO_WORDS ((MSG_BITS + 63) / 64)
+
+static int solve160_columns(const uint32_t cols[MSG_BITS][MSG_DEFECT_ROUNDS],
+                            const uint32_t target[MSG_DEFECT_ROUNDS],
+                            uint64_t solution[MSG_COMBO_WORDS],
+                            int *rank_out) {
+    uint32_t basis[160][MSG_DEFECT_ROUNDS];
+    uint64_t combo[160][MSG_COMBO_WORDS];
+    memset(basis, 0, sizeof(basis));
+    memset(combo, 0, sizeof(combo));
+    int rank = 0;
+
+    for (int i = 0; i < MSG_BITS; i++) {
+        uint32_t v[MSG_DEFECT_ROUNDS];
+        uint64_t c[MSG_COMBO_WORDS];
+        memcpy(v, cols[i], sizeof(v));
+        memset(c, 0, sizeof(c));
+        c[i / 64] = 1ULL << (i % 64);
+
+        for (int bit = 159; bit >= 0; bit--) {
+            int word = bit / 32;
+            int shift = bit % 32;
+            if (((v[word] >> shift) & 1U) == 0) continue;
+            if (basis[bit][word]) {
+                for (int j = 0; j < MSG_DEFECT_ROUNDS; j++) v[j] ^= basis[bit][j];
+                for (int j = 0; j < MSG_COMBO_WORDS; j++) c[j] ^= combo[bit][j];
+            } else {
+                memcpy(basis[bit], v, sizeof(v));
+                memcpy(combo[bit], c, sizeof(c));
+                rank++;
+                break;
+            }
+        }
+    }
+
+    memset(solution, 0, MSG_COMBO_WORDS * sizeof(uint64_t));
+    uint32_t t[MSG_DEFECT_ROUNDS];
+    memcpy(t, target, sizeof(t));
+    for (int bit = 159; bit >= 0; bit--) {
+        int word = bit / 32;
+        int shift = bit % 32;
+        if (((t[word] >> shift) & 1U) == 0) continue;
+        if (!basis[bit][word]) {
+            if (rank_out) *rank_out = rank;
+            return 0;
+        }
+        for (int j = 0; j < MSG_DEFECT_ROUNDS; j++) t[j] ^= basis[bit][j];
+        for (int j = 0; j < MSG_COMBO_WORDS; j++) solution[j] ^= combo[bit][j];
+    }
+
+    if (rank_out) *rank_out = rank;
+    return 1;
+}
+
+static int solve192_columns(const uint32_t cols[MSG_BITS][MSG_CONSTRAINT_WORDS],
+                            const uint32_t target[MSG_CONSTRAINT_WORDS],
+                            uint64_t solution[MSG_COMBO_WORDS],
+                            int *rank_out) {
+    uint32_t basis[192][MSG_CONSTRAINT_WORDS];
+    uint64_t combo[192][MSG_COMBO_WORDS];
+    memset(basis, 0, sizeof(basis));
+    memset(combo, 0, sizeof(combo));
+    int rank = 0;
+
+    for (int i = 0; i < MSG_BITS; i++) {
+        uint32_t v[MSG_CONSTRAINT_WORDS];
+        uint64_t c[MSG_COMBO_WORDS];
+        memcpy(v, cols[i], sizeof(v));
+        memset(c, 0, sizeof(c));
+        c[i / 64] = 1ULL << (i % 64);
+
+        for (int bit = 191; bit >= 0; bit--) {
+            int word = bit / 32;
+            int shift = bit % 32;
+            if (((v[word] >> shift) & 1U) == 0) continue;
+            if (basis[bit][word]) {
+                for (int j = 0; j < MSG_CONSTRAINT_WORDS; j++) v[j] ^= basis[bit][j];
+                for (int j = 0; j < MSG_COMBO_WORDS; j++) c[j] ^= combo[bit][j];
+            } else {
+                memcpy(basis[bit], v, sizeof(v));
+                memcpy(combo[bit], c, sizeof(c));
+                rank++;
+                break;
+            }
+        }
+    }
+
+    memset(solution, 0, MSG_COMBO_WORDS * sizeof(uint64_t));
+    uint32_t t[MSG_CONSTRAINT_WORDS];
+    memcpy(t, target, sizeof(t));
+    for (int bit = 191; bit >= 0; bit--) {
+        int word = bit / 32;
+        int shift = bit % 32;
+        if (((t[word] >> shift) & 1U) == 0) continue;
+        if (!basis[bit][word]) {
+            if (rank_out) *rank_out = rank;
+            return 0;
+        }
+        for (int j = 0; j < MSG_CONSTRAINT_WORDS; j++) t[j] ^= basis[bit][j];
+        for (int j = 0; j < MSG_COMBO_WORDS; j++) solution[j] ^= combo[bit][j];
+    }
+
+    if (rank_out) *rank_out = rank;
+    return 1;
+}
+
+static int combo_hw(const uint64_t combo[MSG_COMBO_WORDS]) {
+    int hw = 0;
+    for (int i = 0; i < MSG_COMBO_WORDS; i++) hw += __builtin_popcountll(combo[i]);
+    return hw;
+}
+
+static void msg_apply_combo(uint32_t words[MSG_FREE_WORDS],
+                            const uint64_t combo[MSG_COMBO_WORDS]) {
+    for (int bit = 0; bit < MSG_BITS; bit++) {
+        if ((combo[bit / 64] >> (bit % 64)) & 1ULL) {
+            words[bit / 32] ^= 1U << (bit % 32);
+        }
+    }
+}
+
+static void msg61_build_columns(const candidate_t *cand,
+                                const uint32_t words[MSG_FREE_WORDS],
+                                const msg61_eval_t *base_ev,
+                                uint32_t cols[MSG_BITS][MSG_DEFECT_ROUNDS]) {
+    for (int bit = 0; bit < MSG_BITS; bit++) {
+        uint32_t next_words[MSG_FREE_WORDS];
+        memcpy(next_words, words, sizeof(next_words));
+        next_words[bit / 32] ^= 1U << (bit % 32);
+        msg61_eval_t ev;
+        msg61_eval_candidate(cand, next_words, &ev);
+        for (int j = 0; j < MSG_DEFECT_ROUNDS; j++) {
+            cols[bit][j] = ev.defects[j] ^ base_ev->defects[j];
+        }
+    }
+}
+
+static void msg61_build_guarded_columns(const candidate_t *cand,
+                                        const uint32_t words[MSG_FREE_WORDS],
+                                        const msg61_eval_t *base_ev,
+                                        uint32_t cols[MSG_BITS][MSG_CONSTRAINT_WORDS]) {
+    for (int bit = 0; bit < MSG_BITS; bit++) {
+        uint32_t next_words[MSG_FREE_WORDS];
+        memcpy(next_words, words, sizeof(next_words));
+        next_words[bit / 32] ^= 1U << (bit % 32);
+        msg61_eval_t ev;
+        msg61_eval_candidate(cand, next_words, &ev);
+        cols[bit][0] = ev.a57_xor ^ base_ev->a57_xor;
+        for (int j = 0; j < MSG_DEFECT_ROUNDS; j++) {
+            cols[bit][j + 1] = ev.defects[j] ^ base_ev->defects[j];
+        }
+    }
+}
+
+static void msg61_newton_candidate(int idx, int restarts, int max_iters,
+                                   int jitter_flips, int threads,
+                                   int solve_prefix) {
+    if (idx < 0 || idx >= (int)(sizeof(CANDIDATES) / sizeof(CANDIDATES[0]))) idx = 0;
+    if (restarts < 1) restarts = 1;
+    if (max_iters < 1) max_iters = 1;
+    if (jitter_flips < 0) jitter_flips = 0;
+    if (jitter_flips > MSG_BITS) jitter_flips = MSG_BITS;
+    if (threads < 1) threads = 1;
+    if (threads > 64) threads = 64;
+    if (solve_prefix < 1) solve_prefix = 1;
+    if (solve_prefix > MSG_DEFECT_ROUNDS) solve_prefix = MSG_DEFECT_ROUNDS;
+
+    const candidate_t *cand = &CANDIDATES[idx];
+    msg61_eval_t best_ev;
+    uint32_t best_words[MSG_FREE_WORDS];
+    msg61_fill_words(cand, best_words);
+    msg61_eval_candidate(cand, best_words, &best_ev);
+    int best_iter = 0;
+    int best_restart = 0;
+    int best_delta_hw = 0;
+    int rank_failures = 0;
+    int exact_hits = 0;
+    int min_rank = 999;
+    long long total_delta_hw = 0;
+    long long delta_count = 0;
+
+    #pragma omp parallel num_threads(threads)
+    {
+        int tid = omp_get_thread_num();
+        uint64_t rng = 0x61e7a9c3ULL ^ (uint64_t)idx * 0x9e3779b97f4a7c15ULL ^
+                       (uint64_t)tid * 0xd1b54a32d192ed03ULL;
+        msg61_eval_t local_best;
+        uint32_t local_best_words[MSG_FREE_WORDS];
+        msg61_fill_words(cand, local_best_words);
+        msg61_eval_candidate(cand, local_best_words, &local_best);
+        int local_best_iter = 0;
+        int local_best_restart = 0;
+        int local_best_delta_hw = 0;
+        int local_rank_failures = 0;
+        int local_exact_hits = 0;
+        int local_min_rank = 999;
+        long long local_delta_hw = 0;
+        long long local_delta_count = 0;
+
+        #pragma omp for schedule(dynamic, 1)
+        for (int r = 0; r < restarts; r++) {
+            uint32_t words[MSG_FREE_WORDS];
+            msg61_fill_words(cand, words);
+            int flips = jitter_flips ? (int)(splitmix32(&rng) % (uint32_t)(jitter_flips + 1)) : 0;
+            for (int k = 0; k < flips; k++) {
+                int bit = (int)(splitmix32(&rng) % (uint32_t)MSG_BITS);
+                words[bit / 32] ^= 1U << (bit % 32);
+            }
+
+            for (int iter = 0; iter < max_iters; iter++) {
+                msg61_eval_t ev;
+                msg61_eval_candidate(cand, words, &ev);
+                if (ev.prefix_zero >= solve_prefix) local_exact_hits++;
+                if (msg61_better_prefix(&ev, &local_best, solve_prefix)) {
+                    local_best = ev;
+                    memcpy(local_best_words, words, sizeof(local_best_words));
+                    local_best_iter = iter;
+                    local_best_restart = r;
+                }
+                if (msg61_prefix_hw(&ev, solve_prefix) == 0) break;
+
+                uint32_t cols[MSG_BITS][MSG_CONSTRAINT_WORDS];
+                uint64_t solution[MSG_COMBO_WORDS];
+                uint32_t target[MSG_CONSTRAINT_WORDS];
+                int rank = 0;
+                msg61_build_guarded_columns(cand, words, &ev, cols);
+                target[0] = ev.a57_xor;
+                for (int j = 0; j < MSG_DEFECT_ROUNDS; j++) {
+                    target[j + 1] = ev.defects[j];
+                }
+                for (int b = 0; b < MSG_BITS; b++) {
+                    for (int j = solve_prefix + 1; j < MSG_CONSTRAINT_WORDS; j++) cols[b][j] = 0;
+                }
+                for (int j = solve_prefix + 1; j < MSG_CONSTRAINT_WORDS; j++) target[j] = 0;
+                int solvable = solve192_columns(cols, target, solution, &rank);
+                if (rank < local_min_rank) local_min_rank = rank;
+                if (!solvable) {
+                    local_rank_failures++;
+                    break;
+                }
+                int dhw = combo_hw(solution);
+                local_delta_hw += dhw;
+                local_delta_count++;
+                msg_apply_combo(words, solution);
+                if (dhw < local_best_delta_hw || local_best_delta_hw == 0) {
+                    local_best_delta_hw = dhw;
+                }
+            }
+        }
+
+        #pragma omp critical
+        {
+            rank_failures += local_rank_failures;
+            exact_hits += local_exact_hits;
+            total_delta_hw += local_delta_hw;
+            delta_count += local_delta_count;
+            if (local_min_rank < min_rank) min_rank = local_min_rank;
+            if (msg61_better_prefix(&local_best, &best_ev, solve_prefix)) {
+                best_ev = local_best;
+                memcpy(best_words, local_best_words, sizeof(best_words));
+                best_iter = local_best_iter;
+                best_restart = local_best_restart;
+                best_delta_hw = local_best_delta_hw;
+            }
+        }
+    }
+
+    printf("{\"mode\":\"msg61newton\",\"candidate\":\"%s\",\"idx\":%d,"
+           "\"restarts\":%d,\"max_iters\":%d,\"jitter_flips\":%d,"
+           "\"threads\":%d,\"solve_prefix\":%d,\"exact_prefix_hits\":%d,"
+           "\"rank_failures\":%d,"
+           "\"min_rank\":%d,\"avg_delta_hw\":%.3f,\"best_restart\":%d,"
+           "\"best_iter\":%d,\"best_min_delta_hw\":%d,\"best_prefix_hw\":%d,"
+           "\"best_free_words\":",
+           cand->id, idx, restarts, max_iters, jitter_flips, threads,
+           solve_prefix, exact_hits, rank_failures, min_rank,
+           delta_count ? (double)total_delta_hw / (double)delta_count : 0.0,
+           best_restart, best_iter, best_delta_hw,
+           msg61_prefix_hw(&best_ev, solve_prefix));
+    msg61_print_words(best_words);
+    printf(",");
+    msg61_print_eval_fields(&best_ev);
+    printf("}\n");
+}
+
 static eval_t eval_defect(const sha256_precomp_t *p1, const sha256_precomp_t *p2,
                           const uint32_t x[3]) {
     uint32_t s1[8], s2[8];
@@ -8165,6 +8916,74 @@ static void newton_fixed58_candidate(int idx, uint32_t fixed_w57, uint32_t fixed
 }
 
 int main(int argc, char **argv) {
+    if (argc >= 2 && strcmp(argv[1], "msg61point") == 0) {
+        int idx = (argc >= 3) ? atoi(argv[2]) : 0;
+        uint32_t words[MSG_FREE_WORDS];
+        uint32_t *maybe_words = NULL;
+        if (argc >= 3 + MSG_FREE_WORDS) {
+            for (int i = 0; i < MSG_FREE_WORDS; i++) {
+                words[i] = (uint32_t)strtoul(argv[3 + i], NULL, 0);
+            }
+            maybe_words = words;
+        }
+        sha256_init(32);
+        msg61_point_candidate(idx, maybe_words);
+        return 0;
+    }
+
+    if (argc >= 2 && strcmp(argv[1], "msg61rank") == 0) {
+        int idx = (argc >= 3) ? atoi(argv[2]) : 0;
+        sha256_init(32);
+        msg61_rank_candidate(idx);
+        return 0;
+    }
+
+    if (argc >= 2 && strcmp(argv[1], "msg61sample") == 0) {
+        int idx = (argc >= 3) ? atoi(argv[2]) : 0;
+        long long samples = (argc >= 4) ? strtoll(argv[3], NULL, 0) : 1048576LL;
+        int threads = (argc >= 5) ? atoi(argv[4]) : 8;
+        int random_words = (argc >= 6) ? atoi(argv[5]) : 1;
+        sha256_init(32);
+        msg61_sample_candidate(idx, samples, threads, random_words);
+        return 0;
+    }
+
+    if (argc >= 2 && strcmp(argv[1], "msg61walk") == 0) {
+        int idx = (argc >= 3) ? atoi(argv[2]) : 0;
+        long long trials = (argc >= 4) ? strtoll(argv[3], NULL, 0) : 1048576LL;
+        int threads = (argc >= 5) ? atoi(argv[4]) : 8;
+        int max_passes = (argc >= 6) ? atoi(argv[5]) : 128;
+        int start_flips = (argc >= 7) ? atoi(argv[6]) : 32;
+        int random_words = (argc >= 8) ? atoi(argv[7]) : 0;
+        int objective_prefix = (argc >= 9) ? atoi(argv[8]) : MSG_DEFECT_ROUNDS;
+        uint32_t seed_words[MSG_FREE_WORDS];
+        uint32_t *maybe_seed = NULL;
+        if (argc >= 9 + MSG_FREE_WORDS) {
+            for (int i = 0; i < MSG_FREE_WORDS; i++) {
+                seed_words[i] = (uint32_t)strtoul(argv[9 + i], NULL, 0);
+            }
+            maybe_seed = seed_words;
+        }
+        sha256_init(32);
+        msg61_walk_candidate(idx, trials, threads, max_passes,
+                             start_flips, random_words, objective_prefix,
+                             maybe_seed);
+        return 0;
+    }
+
+    if (argc >= 2 && strcmp(argv[1], "msg61newton") == 0) {
+        int idx = (argc >= 3) ? atoi(argv[2]) : 0;
+        int restarts = (argc >= 4) ? atoi(argv[3]) : 128;
+        int max_iters = (argc >= 5) ? atoi(argv[4]) : 12;
+        int jitter_flips = (argc >= 6) ? atoi(argv[5]) : 64;
+        int threads = (argc >= 7) ? atoi(argv[6]) : 8;
+        int solve_prefix = (argc >= 8) ? atoi(argv[7]) : MSG_DEFECT_ROUNDS;
+        sha256_init(32);
+        msg61_newton_candidate(idx, restarts, max_iters, jitter_flips,
+                               threads, solve_prefix);
+        return 0;
+    }
+
     if (argc >= 2 && strcmp(argv[1], "carrycmp61point") == 0) {
         int idx = (argc >= 3) ? atoi(argv[2]) : 0;
         uint32_t xa[3] = {

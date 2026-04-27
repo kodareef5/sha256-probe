@@ -217,3 +217,9 @@ Key result notes:
   macbook's F12 residual-grid candidates. Their F12 min-W57 chambers do not
   directly match this bet's `off58`, but GPU scans found sparse singular
   charts; best downstream result is bit17 exact D61 HW6/tail-HW67.
+- `results/20260427_message_space_guard_probe.md`: schedule-constrained
+  message-space projection after the F14/F15 correction. The guarded map
+  `(a57_xor, defect57..61)` has full local rank 192 over the 14 free message
+  words; unguarded D57 hits can be false positives when `a57_xor != 0`.
+  Corrected multi-axis walks reduce the guarded slot-57 prefix to HW8 but
+  find no exact guarded cascade hit.
