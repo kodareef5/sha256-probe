@@ -107,6 +107,34 @@ prefix_zero = 0
 This is still not an exact guarded slot-57 hit, but it moves the real
 message-space near-miss frontier from HW8 to HW7.
 
+A 50M-trial seeded follow-up from this HW7 point with 24 threads,
+192 max passes, and 64 start flips did not improve it. The best point was
+the seed itself, so the current HW7 basin is locally sticky under generic
+one-bit repair.
+
+Direct closure attempts from the HW7 point were also negative:
+
+```text
+radius <= 3 around HW7:
+checked = 14,986,272
+exact a57 guard hits = 0
+best prefix HW = 7
+
+linearized guard-kernel projection from HW7:
+trials = 1,000,000
+exact a57 guard hits = 0
+best prefix HW = 7
+
+adaptive one-word chart repair from HW7:
+trials = 100,000
+exact a57 guard hits = 0
+best prefix HW = 7
+```
+
+The remaining one-bit `a57` miss is therefore not within radius 3 and is
+not repaired by the current linearized guard-kernel or one-word chart
+operators.
+
 ## Exact-guard neighborhoods
 
 The next check enumerated all message-bit perturbations through radius 3
