@@ -1729,3 +1729,49 @@ path is the strategy.
   F37-F62: cross-solver structural (kissat/cadical/CMS, 4 cohorts)
   F63-F67: cert-pin verification pipeline (8 CNFs verified)
   F68:     deep-budget brute-force probe — negative result
+
+---
+
+## 14:48 EDT — F69: cert-pin BUG FIX + honest retraction
+
+While building `certpin_verify.py` fleet utility (F69 original goal),
+discovered **build_certpin.py was pinning WRONG variables**: `aux_W`
+in the varmap = W1^W2 XOR-DIFF aux vars (line 183 of encoder), NOT
+actual W1 bit variables.
+
+For m17149975 verified collision: my buggy tool returned UNSAT (wrong)
+because it pinned aux_W = 0x9ccfa55e instead of W1[57] = 0x9ccfa55e.
+
+**Fix**: hardcoded primary W1[57..60] bit positions (vars 2..129)
+matching existing m17149975 cert-pin layout.
+
+**Post-fix verification**:
+  m17149975: SAT 0.044s ✓ FIX VERIFIED (was wrongly UNSAT)
+  bit2/bit10/bit13/bit17/bit25 (5 cohorts): UNSAT 0.018-0.020s ✓ correct
+  bit28 HW=36 yale: UNSAT 0.019s ✓ correct
+  bit28 HW=33 yale EXACT-sym: UNSAT 0.041s ✓ correct
+
+**What survives from F65/F66/F67**:
+  ✓ Cert-pin technique correctly distinguishes near-residuals from
+    verified collisions
+  ✓ All 7 tested F32 deep-min + yale W-witnesses ARE near-residuals
+    (UNSAT regardless, conclusion robust)
+
+**What's retracted**:
+  ✗ "Cohort-C kissat penalty extends to cert-pin" (was bug-driven;
+    post-fix all cohorts uniform at 0.018-0.041s — bit17 was 160×
+    faster!)
+  ✗ Specific pre-fix wall times in F65/F66/F67
+
+**4th honest correction today** (F39, F49, F55, F69). Pattern: rapid
+F-series iteration produces small-N overclaims needing careful follow-up.
+
+**Pipeline NOW ACTUALLY validated**:
+  yale online sampler → certpin_verify.py SAT/UNSAT <1s →
+  if UNSAT, design block-2 trail; if SAT, HEADLINE collision
+
+For yale: certpin_verify.py is now correct. Use it on continued
+online-sampler outputs to verify each W-witness in <1s.
+
+8 kissat runs logged (post-fix re-verifications). 0% audit failure
+rate maintained. F69 shipped.
