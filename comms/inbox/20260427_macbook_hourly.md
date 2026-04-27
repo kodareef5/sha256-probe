@@ -272,3 +272,33 @@ Literature pipeline: Mendel ✓ Wang ✓ dCR ✓. Mouha pending.
 F28 progress: 35/67 done at 09:25 UTC. ~12 more min.
 Overnight kissat: 96 results, 0 SAT, 0 UNSAT (all UNKNOWN at cap).
 60 still pending. ETA ~13:30 EDT.
+
+## 06:15 EDT — F28 NEW CHAMPION: bit2_ma896ee41 at HW=45 + exact symmetry
+
+F28 (1B per cand × 67 cands) definitively replaces F27 (100M):
+
+NEW PROJECT LEADER:
+  cand_n32_bit2_ma896ee41_fillffffffff
+    m0=0xa896ee41 fill=0xffffffff bit=2
+    min HW=45 (lowest in 67-cand registry at 1B)
+    a_61 = e_61 = 0x02000004 (EXACT, bits 2 and 25 only — HW=2)
+
+This is 2 bits below bit13_m4e560940 (HW=47) AND has exact symmetry.
+Combination not found in any prior scan because the cand wasn't in
+the 5-distinguished set and F27 100M didn't reach HW=45.
+
+Top 5 ranking at 1B definitive:
+  bit2_ma896ee41   HW=45 EXACT  ← NEW CHAMPION
+  idx8 m33ec77ca   HW=46 HW=1 asym
+  bit25_m30f40618  HW=46 HW=1 asym
+  bit13_m4e560940  HW=47 EXACT
+  bit13_m72f21093  HW=47 HW=1 asym
+
+11 cands have EXACT a_61=e_61 at 1B (vs 9 at 100M; some F27 cands
+dropped, others added with deeper sampling).
+
+block2_wang next concrete move: extend corpus to bit2_ma896ee41
+PRIMARY + bit13_m4e560940 SECONDARY. Both have exact-symmetry
+absorption advantage.
+
+67-log archive committed at residuals/F28_registry_1B/ (588 KB).
