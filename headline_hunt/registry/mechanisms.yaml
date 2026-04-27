@@ -13,12 +13,11 @@
   dependencies:
   - "Get block-1 residuals down to HW\u226416 (Wang differential threshold)."
   - Implement a bitcondition/trail-search engine (Wang-style, not just SAT).
-  next_action: "Use the F42/F43 all-record LM/HW Pareto surface as the
+  next_action: "Use the F42-F44 all-record and online LM/HW Pareto surface as the
     block2 trail target set. Current archetypes: bit2 minimum residual
     (HW45/exact symmetry/LM824), bit13 balanced exact-symmetry
-    (HW47/LM780), msb_ma22dc6c7 low-LM min-HW record (HW48/LM773),
-    bit28 low-LM near-min (HW49/LM765), and bit4 raw LM champion
-    (HW53/LM757, with exact-symmetry variants at LM772/776). Next
+    (HW47/LM780), bit28 raw LM champion (HW73/LM718), and bit4
+    exact-symmetry LM champion (HW64/LM743). Next
     implementation target is a residual sampler/trail engine that keeps
     an online Pareto frontier over HW, LM, and symmetry instead of saving
     only min-HW records."
@@ -31,12 +30,14 @@
   evidence:
   - bets/block2_wang/trails/20260427_F42_universal_LM_compat_all_3065.md
   - bets/block2_wang/trails/20260427_F43_recordwise_lm_pareto.md
+  - bets/block2_wang/trails/20260427_F44_online_pareto_sampler.md
   owner: unassigned
   last_updated: '2026-04-24'
   notes: "GPT-5.5 ranked this #1 EV/CPU-hour. F34/F42 now make cascade-1
     a universal 43-active-adder, LM-compatible trail source across all
-    3,065 sampled records. F43 shows target choice is a three-axis
-    Pareto problem, not a min-HW-only ranking."
+    3,065 sampled records. F43/F44 show target choice is a three-axis
+    Pareto problem, not a min-HW-only ranking; online sampling pushed the
+    raw LM frontier from 757 to 718."
 - id: cascade_auxiliary_encoding
   name: Cascade-auxiliary CNF encoding for SAT and KC
   headline_if_success: Reduced treewidth + improved SAT robustness, enabling either constructive d4 or sr=61 SAT solve.

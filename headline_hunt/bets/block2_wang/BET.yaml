@@ -66,12 +66,20 @@ recent_progress_2026-04-27_PM: |
   bit4 (HW52/LM772). Candidate selection is now explicitly 3-axis:
   residual HW, LM cost, and exact a61=e61 symmetry.
 
+  F44 (online Pareto sampler): linux_gpu_laptop built a C sampler that
+  scores HW, LM, and symmetry online instead of keeping only min-HW
+  records. Matched 10B runs moved the raw LM frontier to bit28
+  HW73/LM718 and bit4 HW71/LM720. The exact-symmetry LM frontier moved
+  to bit4 HW64/LM743. This confirms the LM tail was underexplored by
+  min-HW corpus collection.
+
   Tools shipped:
     parse_F28_archive.py      — corpus enrichment from F28 logs
     active_adder_count.c      — verified, reproduces F32 exactly
     active_adder_lm_bound.c   — per-adder Lipmaa-Moriai costing
     cand_select.py            — multi-metric cand ranking utility
     trails/scan_record_lm.py  — all-record LM/HW Pareto extractor
+    trails/block2_pareto_sampler.c — online HW/LM/symmetry sampler
     F28_deep_corpus_enriched.jsonl — 3065 records + LM/active fields
 
   For paper Section 5: F34 (universal-43) + F36 (universal-LM-compat)
