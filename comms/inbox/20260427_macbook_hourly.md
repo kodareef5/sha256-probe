@@ -226,3 +226,25 @@ bit13_m4e560940 distinguishing feature count is now 3:
 Strongest case for Wang-attack absorption target in registry.
 
 3 commits this hour. Overnight kissat: continuing.
+
+## 04:55 EDT — Wang/Yin/Yu 2005 literature note + F28 launched
+
+Two parallel ships:
+
+1. Wang/Yin/Yu SHA-1 2005 literature note (commit f51400e):
+   Foundational paradigm-defining paper. Two-message message-modification
+   + multi-block trail composition + bitcondition formalism. block2_wang
+   is named after this work.
+
+   Maps to paper sections 2, 5.5, 7. Action items:
+   - block2_wang: build bit-pattern absorption engine for 2nd block
+   - F25/F27 9-cand findings translatable to Wang bitconditions
+
+   Closes 2nd of 4 should_read items (Mendel 2013 + Wang 2005 done;
+   deCannière/Rechberger + Mouha pending).
+
+2. F28 launched: 67 cands × 1B samples × 23s ≈ 25 min compute.
+   Definitive verification of F27's preliminary 9-cand symmetry
+   classification at 100M. Will confirm or revise the symmetry list.
+
+Overnight kissat: continuing toward ~13:30 EDT ETA.
