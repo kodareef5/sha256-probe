@@ -117,22 +117,50 @@ For SAT-axis exploration of new cands:
 EVIDENCE-level: VERIFIED. Direct 2v2 control with consistent results
 across 5 seeds per group. The cadical vs kissat reversal is REAL.
 
+## ADDENDUM (run during F54 same session): bit2 on cadical
+
+Tested cadical on bit2_ma896ee41 (kissat-fastest at 27s, HW=45 EXACT-sym):
+
+  walls: 65.08, 43.60, 41.30, 26.47, 24.60 → median 41.30s, range 40.48s
+
+cadical is NOT universally fast on EXACT-sym. bit2 cadical median is
+41s — much slower than kissat (27s) AND highly variable.
+
+Updated 3-cand cross-solver picture:
+
+| cand | HW | sym | kissat | cadical | order on kissat | order on cadical |
+|---|---:|:---:|---:|---:|---|---|
+| bit2_ma896ee41 | 45 | EXACT | 27s | 41s | fastest | fastest |
+| bit18_mafaaaf9e | 48 | NO | 30s | 65s | middle | slowest |
+| bit00_md5508363 | 48 | EXACT | 53s | 45s | slowest | middle |
+
+**Key insight**: bit2 is fastest on BOTH solvers. The bit00/bit18
+ordering REVERSES between solvers. cadical's seed variance is huge
+on multiple cands (bit2: 40s, bit18: 92s, bit00: 14s).
+
+cadical isn't a "symmetry-friendly" solver per se — it's an
+"inconsistent on cascade_aux Mode A" solver with high seed variance.
+bit2's universal speed across solvers might reflect bit2's specific
+structural cleanness (HW=45 + sparse symmetric pattern) rather than
+sym-friendliness.
+
 ## Concrete next moves
 
-1. **Test cadical on bit2_ma896ee41** (kissat=27s) — is cadical also
-   fast? Or even faster?
+1. **Test cadical on bit13_m4e560940 vs bit13_m72f21093** (HW=47
+   EXACT-sym vs NON-sym) — does the bit00/bit18 reversal hold at HW=47?
 
-2. **Test cadical on bit13_m4e560940 vs bit13_m72f21093** (HW=47
-   EXACT-sym vs NON-sym) — does the same reversal hold at HW=47?
-
-3. **Update F37-F53 memos with cadical caveat**: "kissat-specific."
+2. **Update F37-F53 memos with cadical caveat**: "kissat-specific."
    The cross-solver picture is the more honest one.
 
-4. **For yale's manifold-search**: F54's cadical reversal hints
+3. **For yale's manifold-search**: F54's cadical reversal hints
    that cadical's heuristics ARE leveraging cascade-1 symmetric
-   structure. Yale's manifold-search might be more analogous to
-   cadical's heuristic than kissat's.
+   structure on certain cands but NOT bit2. Worth comparing yale's
+   manifold-search behavior to cadical's per-cand variance.
 
-5. **Update sigma1_aligned_kernel_sweep BET.yaml**: add F54's
+4. **Update sigma1_aligned_kernel_sweep BET.yaml**: add F54's
    "solver-dependent ordering" finding — single-solver structural
    tests aren't enough to settle the bet.
+
+5. **Cross-solver kissat-vs-cadical sweep across the 15-cand
+   F-series baseline** would give a complete cross-validation
+   matrix. Substantial follow-up work but high information value.
