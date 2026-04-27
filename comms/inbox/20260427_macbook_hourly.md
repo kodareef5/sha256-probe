@@ -418,3 +418,37 @@ Direct application to F32 bit2_ma896ee41 HW=45 vector:
 - This is the structural reason F28's bit2 finding matters
 
 Note at `headline_hunt/literature/notes/classical_mouha_arx_framework.md`.
+
+---
+
+## 08:05 EDT — F33 DRAFT: active-adder count framework
+
+Attempted Mouha-style trail-probability bound on bit2_ma896ee41 HW=45
+deep-min residual. Framework is documented; specific count flagged as
+DRAFT due to forward-simulation mismatch.
+
+**Framework**: SHA-256 has 7 modular adders per round × 7 cascade-1
+rounds = 49 max active. An adder is "active" if at least one input
+has non-zero XOR-diff. Naive trail-prob bound: 2^-N_active.
+
+**Computed count**: 43 active adders → 2^-43 lower bound → 2^213
+expected solutions in 256-bit second-block freedom.
+
+**⚠ MISMATCH**: Python script reproduces cascade-1 STRUCTURE
+(d_63=h_63=0 universal F14 property holds) but NOT F32's specific
+diff63 values (computed HW=104 vs F32 HW=45). There's a script bug
+I haven't pinned. Pre-state matches lib.sha256 exactly, cascade
+formula matches block2_lowhw_set.c algebraically — yet the trail
+diverges.
+
+**Honest stance**: The 43-count is on the WRONG trail. NOT shipping
+as a verified bound. F33 is a DRAFT framework note. Concrete
+next-step: C-port the active-adder counter using block2_lowhw_set.c
+forward simulation (trustworthy since F28 data came from it).
+
+Order-of-magnitude estimate (30-50 active adders) is consistent with
+naive expectations and Mouha's framework. But not publishable as
+quantitative claim until C-verified.
+
+This is the right call: ship the framework + caveat, not a buggy
+number dressed as a result.
