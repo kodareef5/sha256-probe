@@ -1980,3 +1980,43 @@ bit28 work to CMS preferentially — intact.
 
 7 CMS runs logged. Day total: 250+ runs, 0% audit failure rate.
 F75 shipped. Pulse-aware: in continuous flow.
+
+---
+
+## 20:35 EDT — F76: certpin_verify.py extended with --solver all mode (kissat+cadical+CMS)
+
+Pulse-aware. Continued infrastructure work to make verification
+robust against single-solver anomalies (bit18 cadical pathology,
+unknown solver bugs).
+
+**Added --solver all mode**: runs kissat + cadical + CMS in series,
+aggregates results.
+
+**Aggregation logic**:
+  Any solver SAT → "SAT" (collision verified)
+  All 3 UNSAT   → "UNSAT" (near-residual confirmed)
+  Mixed         → "MIXED" (investigate solver disagreement)
+
+**Verification of technique**:
+  m17149975 verified cert: SAT 0.049s (per all 3 solvers)
+  bit28 yale HW=33 EXACT-sym: UNSAT 0.048s (all 3 agree)
+  → 6/6 outcomes consistent across 2 cands × 3 solvers
+
+**Why this matters for fleet**:
+- Cohort B/C/D cands have solver-specific performance
+- Cross-solver verification catches single-solver pathologies
+- Multi-solver UNSAT → 3× confidence on near-residual claim
+- Multi-solver SAT → cross-validates collision before declaring HEADLINE
+
+**Recommended fleet invocation** (for yale's continued sampling):
+  python3 headline_hunt/bets/cascade_aux_encoding/encoders/certpin_verify.py \
+    --solver all --cand-id "tag" --m0 0x... --fill 0x... ...
+
+Total wall: <1s. 3× confidence vs single-solver kissat.
+
+**For paper Section 4**: F71 registry-wide audit (67 cands kissat-only)
+could be re-run with --solver all to produce 67×3 = 201 cells of
+cross-solver verification. ~3-5 min compute. High empirical density
+for the paper's structural verification claim.
+
+2 verification runs logged. F76 shipped. F-series day arc continues.
