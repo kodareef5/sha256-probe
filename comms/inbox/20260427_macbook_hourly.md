@@ -203,3 +203,26 @@ shorter Wang-style sequence than other cands.
 bit13's distinguishing feature count: 3 (F12 chamber min, F17 residual
 min, F26 a_61=e_61 unique symmetry). Strongest case in registry for
 block2_wang Wang-attack target.
+
+## 04:40 EDT — F27 + block2_wang BET refresh
+
+Two ships this hour:
+1. F27 (commit pending): registry-wide F25-style scan, 67 cands × 100M.
+   9/67 = 13.4% have exact a_61=e_61 symmetry. bit13_m4e560940 has
+   LOWEST min HW (47) among those 9. F26's "bit13 unique in distinguished
+   5" was sample-set artifact — but bit13's quantitative leadership
+   (lowest min HW + exact symmetry) holds at registry scale.
+
+2. block2_wang BET.yaml heartbeat refresh (commit f106888): refreshed
+   from 2026-04-26T21:18 to 2026-04-27T08:30 with REAL progress notes
+   covering F18/F24/F25/F26/F27 cross-bet findings. Updated next_action
+   to extend corpus from msb-only to idx8 + bit13.
+
+bit13_m4e560940 distinguishing feature count is now 3:
+  F12: chamber image min HW=3 (rank 2 of registry)
+  F25: residual min HW=47 (rank 2 of 5 distinguished)
+  F27: lowest min HW exact-symmetry cand (rank 1 of 9 in registry)
+
+Strongest case for Wang-attack absorption target in registry.
+
+3 commits this hour. Overnight kissat: continuing.
