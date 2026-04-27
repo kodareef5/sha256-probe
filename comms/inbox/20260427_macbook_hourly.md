@@ -597,3 +597,39 @@ This is a useful negative result. Saves us from over-claiming about
 LM-min cand selection.
 
 5 kissat runs logged via append_run.py. CNF audit CONFIRMED.
+
+---
+
+## 12:57 EDT — F38/F39: HW sweep + reproducibility correction
+
+F38 ran 4 new cands (HW 47-51) under same conditions as F37, found
+"cliff" between bit2 (26.51s from F30) and others (~35s).
+
+F39 RE-VERIFIED bit2 under same conditions as F37/F38: median **35.61s**,
+not 26.51s. Cliff was a SYSTEM-LOAD ARTIFACT from F30 measurement.
+
+**Per-conflict kissat equivalence REAFFIRMED at ~35-36s across all
+measured cands**:
+  bit2_ma896ee41  (HW=45, EXACT-sym): 35.61s  ← corrected
+  bit13_m4e560940 (HW=47, EXACT-sym): 35.94s  ← discriminator
+  msb_ma22dc6c7   (HW=48, non-sym):   35.99s
+  bit10_m9e157d24 (HW=47, non-sym):   34.28s
+  bit00_mc765db3d (HW=49, non-sym):   34.78s
+  bit06_m6e173e58 (HW=50, non-sym):   34.55s
+  bit00_mf3a909cc (HW=51, non-sym):   35.91s
+
+**Hour clarified findings**:
+✓ F34: 43-active-adder cascade-invariant (all 67) — paper-class
+✓ F35: LM cost spread 90 bits across 11 sym, 117 across 67 — real metric
+✓ F36: Universal LM-compatibility across 67 cands — paper-class
+✗ F37/F38 cliff hypotheses VOIDED — kissat doesn't distinguish at 1M
+
+**Honest stance**: bit2 NEW CHAMPION survives on STRUCTURAL grounds
+(HW=45 + exact symmetry) but NOT on solver-speed grounds. Cand
+selection isn't a solver-speedup axis at moderate budgets. The
+structural advantage may show at DEEP budgets (12h+) but that's
+deferred.
+
+30 kissat runs logged this hour. CNFs built and CONFIRMED.
+Reproducibility discipline reinforced: always measure baseline
+under same conditions as comparison.
