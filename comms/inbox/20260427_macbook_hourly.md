@@ -1347,3 +1347,47 @@ guarded walks on bit17 vs F45 bit28 baseline.
 
 10 cadical runs logged. F-series F57 shipped. Pulse-aware: in continuous
 flow.
+
+---
+
+## 11:28 EDT — F58: cross-solver synthesis — 3 structural cohorts identified
+
+Closes F37→F57 thread. Tested cadical on bit25 + bit3 (HW=46 NON-sym):
+both **FAST at ~25-26s on cadical**.
+
+**THREE STRUCTURAL COHORTS** emerge from N=10 cands × 2 solvers:
+
+  Cohort A (BOTH-fast, 3 cands): bit25, bit3, bit10
+                                  (HW=46-47 NON-sym, 25-29s either solver)
+  Cohort B (KISSAT-only, 1):     bit2_ma896ee41 (HW=45 EXACT-sym)
+  Cohort C (CADICAL-only, 2):    bit17_mb36375a2, msb_ma22dc6c7
+                                  (HW=48, kissat-penalty REVERSED)
+
+**Mechanism speculation**:
+- Cohort A: low HW + NON-sym = structurally simple
+- Cohort B: bit2's sparse sym pattern (HW=2) — kissat finds via short
+  conflict learning; cadical preprocessing doesn't help
+- Cohort C: HW=48 EXACT-sym creates redundant clauses (a_61=e_61
+  shared) — cadical's vivification simplifies; kissat doesn't
+
+**For paper Section 4**: substantial cross-solver structural finding
+(N=10 cands × 2 solvers = 20 measurements). Solver-architecture
+comparison publishable.
+
+**For block2_wang strategy** (final from F58):
+  Solver-agnostic targets: Cohort A (bit25, bit3, bit10)
+  kissat-axis champion: bit2_ma896ee41 (Wang sym-axis natural fit)
+  cadical-axis champions: msb_ma22dc6c7 + bit17_mb36375a2
+
+**For yale's manifold-search** (concrete cross-axis test): try guarded
+operators on **bit17_mb36375a2** (cadical-fast, HW=48 EXACT-sym) vs
+bit28 baseline. If bit17 converges faster, "cadical-fastness ↔
+manifold-friendliness" hypothesis confirmed.
+
+**Fleet activity during F58**: yale shipped 994def5 "extend bit28
+sheet sweep frontier" — 4th bit28-focused commit today. yale is
+deeply mapping bit28's structural geometry. Note: bit28 is OUR kissat
+OUTLIER cand (F47 — high seed variance) AND yale's raw LM champion
+(F45). Consensus: bit28 is structurally complex on multiple axes.
+
+10 cadical runs logged. F58 shipped. Pulse-aware: in continuous flow.
