@@ -351,7 +351,10 @@ static int cmp_rec(const void *pa, const void *pb) {
 }
 
 static void print_rec_json(const char *name, const rec_t *r) {
-    if (!r->valid) return;
+    if (!r->valid) {
+        printf("\"%s\":null", name);
+        return;
+    }
     printf("\"%s\":{\"hw\":%d,\"lm\":%d,\"active\":%d,\"incompat\":%d,"
            "\"sym\":%d,\"W\":[\"0x%08x\",\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
            "\"diff\":[\"0x%08x\",\"0x%08x\",\"0x%08x\",\"0x%08x\","
@@ -530,10 +533,112 @@ static int run_walk(int argc, char **argv) {
     return 0;
 }
 
+static int run_sweep60(int argc, char **argv) {
+    if (argc < 9) {
+        fprintf(stderr,
+                "Usage: %s sweep60 m0 fill bit W57 W58 W59 threads [start] [count]\n",
+                argv[0]);
+        return 1;
+    }
+
+    u32 m0 = strtoul(argv[2], NULL, 0);
+    u32 fill = strtoul(argv[3], NULL, 0);
+    int bit = atoi(argv[4]);
+    u32 fixedW[4] = {
+        strtoul(argv[5], NULL, 0),
+        strtoul(argv[6], NULL, 0),
+        strtoul(argv[7], NULL, 0),
+        0
+    };
+    int threads = atoi(argv[8]);
+    uint64_t start = (argc >= 10) ? strtoull(argv[9], NULL, 0) : 0;
+    uint64_t count = (argc >= 11) ? strtoull(argv[10], NULL, 0) : (1ULL << 32);
+    if (count > (1ULL << 32)) count = (1ULL << 32);
+
+    ctx_t ctx;
+    if (!init_ctx(&ctx, m0, fill, bit)) {
+        fprintf(stderr, "ERROR: candidate is not cascade-eligible at round 57\n");
+        return 2;
+    }
+
+    if (threads < 1) threads = 1;
+#ifdef _OPENMP
+    omp_set_num_threads(threads);
+#else
+    threads = 1;
+#endif
+
+    stats_t global;
+    memset(&global, 0, sizeof(global));
+
+    double t0;
+#ifdef _OPENMP
+    t0 = omp_get_wtime();
+#else
+    t0 = (double)clock() / CLOCKS_PER_SEC;
+#endif
+
+#pragma omp parallel
+    {
+        stats_t local;
+        memset(&local, 0, sizeof(local));
+
+#pragma omp for schedule(static)
+        for (uint64_t i = 0; i < count; i++) {
+            u32 W[4] = {fixedW[0], fixedW[1], fixedW[2], (u32)(start + i)};
+            rec_t rec = evaluate_point(&ctx, W);
+            stats_add(&local, &rec);
+        }
+
+#pragma omp critical
+        stats_merge(&global, &local);
+    }
+
+    double t1;
+#ifdef _OPENMP
+    t1 = omp_get_wtime();
+#else
+    t1 = (double)clock() / CLOCKS_PER_SEC;
+#endif
+
+    qsort(global.front, global.nfront, sizeof(rec_t), cmp_rec);
+
+    printf("{\"mode\":\"block2_pareto_sweep60\",\"m0\":\"0x%08x\","
+           "\"fill\":\"0x%08x\",\"bit\":%d,"
+           "\"fixed_W\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"start\":\"0x%08x\",\"count\":%llu,\"threads\":%d,"
+           "\"seconds\":%.3f,\"rate_mps\":%.3f,"
+           "\"sym_count\":%llu,\"incompat_count\":%llu,",
+           m0, fill, bit, fixedW[0], fixedW[1], fixedW[2],
+           (u32)start, (unsigned long long)count, threads, t1 - t0,
+           (t1 > t0) ? ((double)count / (t1 - t0) / 1e6) : 0.0,
+           (unsigned long long)global.sym_count,
+           (unsigned long long)global.incompat_count);
+    print_rec_json("best_hw", &global.best_hw);
+    printf(",");
+    print_rec_json("best_lm", &global.best_lm);
+    printf(",");
+    print_rec_json("best_sym_lm", &global.best_sym_lm);
+    printf(",\"frontier\":[");
+    for (int i = 0; i < global.nfront; i++) {
+        if (i) printf(",");
+        printf("{\"hw\":%d,\"lm\":%d,\"sym\":%d,"
+               "\"W\":[\"0x%08x\",\"0x%08x\",\"0x%08x\",\"0x%08x\"]}",
+               global.front[i].hw, global.front[i].lm, global.front[i].sym,
+               global.front[i].W[0], global.front[i].W[1],
+               global.front[i].W[2], global.front[i].W[3]);
+    }
+    printf("]}\n");
+    return 0;
+}
+
 int main(int argc, char **argv) {
     if (argc > 1 && (strcmp(argv[1], "walk") == 0 ||
                      strcmp(argv[1], "pointwalk") == 0)) {
         return run_walk(argc, argv);
+    }
+    if (argc > 1 && strcmp(argv[1], "sweep60") == 0) {
+        return run_sweep60(argc, argv);
     }
 
     if (argc < 7) {

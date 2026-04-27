@@ -271,20 +271,87 @@ This ties the global residual-HW record previously held by
 A final 1.539B-evaluation point-walk from the LM675 point did not lower
 LM further. Under the current operator, LM675 is the observed floor.
 
+## Exact W60 slice enumeration
+
+The local basin suggested that W57/W58 and nearby W59 sheets were stable
+while W60 carried most of the remaining freedom. Since a full W60 slice
+is only `2^32` points, the sampler added a deterministic `sweep60` mode.
+
+For fixed:
+
+```text
+W57 = 0xce9b8db6
+W58 = 0xb26e4c72
+```
+
+four nearby W59 sheets were enumerated exhaustively over all W60 values.
+
+| W59 | best HW | best raw LM | best exact-sym LM |
+|---:|---:|---:|---:|
+| `0x4b1de3c4` | HW41 / LM723 | HW68 / LM657 | HW46 / LM665 |
+| `0x4b1debc4` | HW44 / LM672 | HW63 / LM664 | HW63 / LM664 |
+| `0x4b1ccbc4` | HW41 / LM717 | HW56 / LM672 | HW56 / LM679 |
+| `0x4b1cebc4` | HW40 / LM702 | HW41 / LM660 | HW41 / LM660 |
+
+### New minimum residual: HW40, exact symmetry
+
+```text
+candidate: bit28_md1acca79_fillffffffff
+W57 = 0xce9b8db6
+W58 = 0xb26e4c72
+W59 = 0x4b1cebc4
+W60 = 0x20417de0
+
+residual HW = 40
+LM cost = 702
+exact a61=e61 = yes
+```
+
+### New exact-symmetry LM champion: LM660
+
+```text
+candidate: bit28_md1acca79_fillffffffff
+W57 = 0xce9b8db6
+W58 = 0xb26e4c72
+W59 = 0x4b1cebc4
+W60 = 0xd5b28e23
+
+residual HW = 41
+LM cost = 660
+exact a61=e61 = yes
+```
+
+### New raw LM champion: LM657
+
+```text
+candidate: bit28_md1acca79_fillffffffff
+W57 = 0xce9b8db6
+W58 = 0xb26e4c72
+W59 = 0x4b1de3c4
+W60 = 0x7d552b31
+
+residual HW = 68
+LM cost = 657
+exact a61=e61 = no
+```
+
+All three points were independently verified with
+`active_adder_lm_bound`: 43 active adders, zero LM incompatibilities.
+
 ## Updated Pareto interpretation
 
 The new observed target set is:
 
 | axis | candidate | record |
 |---|---|---|
-| minimum residual | `bit2_ma896ee41` | HW45 / LM824 / exact symmetry |
+| minimum residual | `bit28_md1acca79` | HW40 / LM702 / exact symmetry |
 | balanced exact symmetry | `bit13_m4e560940` | HW47 / LM780 / exact symmetry |
-| low HW, low LM | `bit28_md1acca79` | HW45 / LM763 |
-| raw LM champion | `bit28_md1acca79` | HW55 / LM675 |
-| exact-symmetry LM champion | `bit28_md1acca79` | HW55 / LM688 |
+| low HW, low LM | `bit28_md1acca79` | HW41 / LM660 / exact symmetry |
+| raw LM champion | `bit28_md1acca79` | HW68 / LM657 |
+| previous HW champion | `bit2_ma896ee41` | HW45 / LM824 / exact symmetry |
 
-The important conclusion is not that LM675 is directly exploitable. Even
-LM675 remains far beyond one-block random freedom (`256 - 675 = -419`).
+The important conclusion is not that LM657 is directly exploitable. Even
+LM657 remains far beyond one-block random freedom (`256 - 657 = -401`).
 The conclusion is that the first-block residual generator has a much
 broader trail-cost surface than the min-HW corpus exposed. Different
 objectives select different witnesses and, in some cases, different
@@ -292,8 +359,8 @@ candidates.
 
 ## Next
 
-- Continue from the bit28 LM675/HW45 basin with operators that preserve
-  the useful late-round carry chart while searching for lower LM.
+- Continue from the bit28 W57/W58 chart with more W59 sheet sweeps.
+  Full W60 enumeration is cheap enough to use as an exact inner loop.
 - Add a score-biased sampler if the point-walk also stabilizes.
 - Preserve separate target classes for block2 trail design: min-HW,
   exact-symmetry, and raw low-LM.

@@ -83,8 +83,9 @@ current short list is:
 - `bit13_m4e560940`: HW47, exact symmetry, LM780.
 - `msb_ma22dc6c7`: HW48, LM773.
 - `bit28_md1acca79`: HW49/LM765 in the F43 corpus; F45 online sampling
-  improves this to HW45/LM763 on the HW axis, HW55/LM675 on the raw-LM
-  axis, and HW55/LM688 on the exact-symmetry LM axis.
+  and exact W60 sweeps improve this to HW40/LM702 on the HW axis,
+  HW68/LM657 on the raw-LM axis, and HW41/LM660 on the exact-symmetry
+  LM axis.
 - `bit4_m39a03c2d`: HW53/LM757 in the F43 corpus; F45 online sampling
   improves raw LM to HW71/LM720 and exact-symmetry LM to HW64/LM743,
   but bit28 now dominates both LM axes.
