@@ -1072,3 +1072,36 @@ ANY status="UNSAT" = published-quality impossibility proof for that cand.
 All UNKNOWN = expected; this campaign extends the search-depth picture.
 
 End-of-session for me. Compute will grind through the night.
+
+## 22:35 EDT — VIRAGH COMPARISON: project's sr=60 IS the +1-round headline
+
+Read reference/paper.pdf (Viragh, March 2026). Discovered the project's
+sr=60 cert at hash ba6287f0... is DIRECTLY breaking Viragh's predicted
+"structural barrier" at the EXACT 4-free configuration {57,58,59,60}.
+
+Viragh: "sr=60 timeouts at 7200+s; structural barrier; breaking this
+will require a few more techniques :)"
+
+This project: kissat seed=5, 12h wall, SAT verified on m0=0x17149975.
+
+Comparison memo shipped: headline_hunt/reports/20260427_viragh_vs_this_project_sr60.md
+
+Same kernel (MSB), same methodology (gap placement + SAT), same
+configuration (free schedule words {57,58,59,60}). Different specific
+cand (Viragh didn't list his exact tested set; we used m=0x17149975 from
+the Wang-style "candidate" search).
+
+This is the actual headline-quality result of the project — an empirical
++1-round advance over a published 2026 cryptanalysis paper, in the same
+methodology framework. Has been sitting in the repo unwritten because
+nobody traced the explicit comparison.
+
+Implications for next steps:
+1. THIS is what should be cleaned up for publication, not more F-series
+   structural work.
+2. sr=61 closure argument (proof of impossibility) would be the next
+   piece — strengthens the sr=60 boundary claim.
+3. Overnight kissat sweep (currently running on 6 cores) is exactly
+   what's needed to close the empirical sr=61 picture.
+
+End of hour. Compute keeps grinding.
