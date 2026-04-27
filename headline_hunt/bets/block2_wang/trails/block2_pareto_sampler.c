@@ -26,6 +26,7 @@
  * Exact inner loops:
  *   /tmp/block2_pareto_sampler sweep60 m0 fill bit W57 W58 W59 threads
  *   /tmp/block2_pareto_sampler sweep59bits m0 fill bit W57 W58 baseW59 threads
+ *   /tmp/block2_pareto_sampler sweepwordbits m0 fill bit W57 W58 W59 word threads [start] [count]
  */
 #include <stdint.h>
 #include <stdio.h>
@@ -76,7 +77,7 @@ typedef struct {
 
 typedef struct {
     int valid;
-    int hw, lm, active, incompat, sym;
+    int hw, lm, active, incompat, sym, pair_hw, max_word_hw;
     u32 W[4];
     u32 diff[8];
 } rec_t;
@@ -89,6 +90,7 @@ typedef struct {
     rec_t best_hw;
     rec_t best_lm;
     rec_t best_sym_lm;
+    rec_t best_pair;
     uint64_t sym_count;
     uint64_t incompat_count;
 } stats_t;
@@ -285,11 +287,18 @@ static rec_t evaluate_point(const ctx_t *ctx, const u32 W[4]) {
     memcpy(rec.W, W, sizeof(rec.W));
 
     int hw = 0;
+    int max_word_hw = 0;
     for (int i = 0; i < 8; i++) {
         rec.diff[i] = s1[i] ^ s2[i];
-        hw += popcnt(rec.diff[i]);
+        int wh = popcnt(rec.diff[i]);
+        hw += wh;
+        if (wh > max_word_hw) max_word_hw = wh;
     }
     rec.hw = hw;
+    rec.max_word_hw = max_word_hw;
+    rec.pair_hw = popcnt(rec.diff[0] ^ rec.diff[4])
+                + popcnt(rec.diff[1] ^ rec.diff[5])
+                + popcnt(rec.diff[2] ^ rec.diff[6]);
     rec.sym = rec.diff[2] == rec.diff[6];
     return rec;
 }
@@ -305,6 +314,13 @@ static int better_hw(const rec_t *a, const rec_t *b) {
 
 static int better_lm(const rec_t *a, const rec_t *b) {
     return !b->valid || a->lm < b->lm || (a->lm == b->lm && a->hw < b->hw);
+}
+
+static int better_pair(const rec_t *a, const rec_t *b) {
+    if (!b->valid) return 1;
+    if (a->pair_hw != b->pair_hw) return a->pair_hw < b->pair_hw;
+    if (a->hw != b->hw) return a->hw < b->hw;
+    return a->lm < b->lm;
 }
 
 static void front_add(stats_t *st, const rec_t *rec) {
@@ -330,6 +346,7 @@ static void stats_offer(stats_t *st, const rec_t *rec) {
     if (better_hw(rec, &st->best_hw)) st->best_hw = *rec;
     if (better_lm(rec, &st->best_lm)) st->best_lm = *rec;
     if (rec->sym && better_lm(rec, &st->best_sym_lm)) st->best_sym_lm = *rec;
+    if (better_pair(rec, &st->best_pair)) st->best_pair = *rec;
     front_add(st, rec);
 }
 
@@ -343,6 +360,7 @@ static void stats_merge(stats_t *dst, const stats_t *src) {
     if (src->best_hw.valid) stats_offer(dst, &src->best_hw);
     if (src->best_lm.valid) stats_offer(dst, &src->best_lm);
     if (src->best_sym_lm.valid) stats_offer(dst, &src->best_sym_lm);
+    if (src->best_pair.valid) stats_offer(dst, &src->best_pair);
     for (int i = 0; i < src->nfront; i++) stats_offer(dst, &src->front[i]);
     dst->sym_count += src->sym_count;
     dst->incompat_count += src->incompat_count;
@@ -360,17 +378,20 @@ static void print_rec_json(const char *name, const rec_t *r) {
         return;
     }
     printf("\"%s\":{\"hw\":%d,\"lm\":%d,\"active\":%d,\"incompat\":%d,"
-           "\"sym\":%d,\"W\":[\"0x%08x\",\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"sym\":%d,\"pair_hw\":%d,\"max_word_hw\":%d,"
+           "\"W\":[\"0x%08x\",\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
            "\"diff\":[\"0x%08x\",\"0x%08x\",\"0x%08x\",\"0x%08x\","
            "\"0x%08x\",\"0x%08x\",\"0x%08x\",\"0x%08x\"]}",
            name, r->hw, r->lm, r->active, r->incompat, r->sym,
+           r->pair_hw, r->max_word_hw,
            r->W[0], r->W[1], r->W[2], r->W[3],
            r->diff[0], r->diff[1], r->diff[2], r->diff[3],
            r->diff[4], r->diff[5], r->diff[6], r->diff[7]);
 }
 
 static int run_walk(int argc, char **argv) {
-    int point_mode = strcmp(argv[1], "pointwalk") == 0;
+    int pair_mode = strcmp(argv[1], "pairwalk") == 0;
+    int point_mode = strcmp(argv[1], "pointwalk") == 0 || pair_mode;
     u32 baseW[4] = {0, 0, 0, 0};
     u32 m0, fill, seed;
     int bit, threads, max_flips, slack;
@@ -379,8 +400,8 @@ static int run_walk(int argc, char **argv) {
     if (point_mode) {
         if (argc < 14) {
             fprintf(stderr,
-                    "Usage: %s pointwalk m0 fill bit W57 W58 W59 W60 restarts steps threads seed max_flips [slack]\n",
-                    argv[0]);
+                    "Usage: %s %s m0 fill bit W57 W58 W59 W60 restarts steps threads seed max_flips [slack]\n",
+                    argv[0], pair_mode ? "pairwalk" : "pointwalk");
             return 1;
         }
         m0 = strtoul(argv[2], NULL, 0);
@@ -482,10 +503,18 @@ static int run_walk(int argc, char **argv) {
                 stats_add(&local, &prop);
 
                 int accept = 0;
-                if (prop.lm < cur.lm) accept = 1;
-                else if (prop.lm == cur.lm && prop.hw <= cur.hw) accept = 1;
-                else if (prop.lm <= cur.lm + slack &&
-                         (xorshift32(&rng) & 15U) == 0) accept = 1;
+                if (pair_mode) {
+                    if (better_pair(&prop, &cur)) accept = 1;
+                    else if (prop.pair_hw <= cur.pair_hw + slack &&
+                             prop.hw <= cur.hw + 16 &&
+                             (xorshift32(&rng) & 7U) == 0) accept = 1;
+                    else if (prop.lm < cur.lm && prop.pair_hw <= cur.pair_hw + 2) accept = 1;
+                } else {
+                    if (prop.lm < cur.lm) accept = 1;
+                    else if (prop.lm == cur.lm && prop.hw <= cur.hw) accept = 1;
+                    else if (prop.lm <= cur.lm + slack &&
+                             (xorshift32(&rng) & 15U) == 0) accept = 1;
+                }
                 if (accept) {
                     cur = prop;
                     memcpy(curW, propW, sizeof(curW));
@@ -512,7 +541,8 @@ static int run_walk(int argc, char **argv) {
            "\"steps\":%llu,\"evals\":%llu,\"threads\":%d,"
            "\"max_flips\":%d,\"slack\":%d,\"seconds\":%.3f,"
            "\"rate_mps\":%.3f,\"sym_count\":%llu,\"incompat_count\":%llu,",
-           point_mode ? "block2_pareto_pointwalk" : "block2_pareto_walk",
+           pair_mode ? "block2_pareto_pairwalk" :
+           (point_mode ? "block2_pareto_pointwalk" : "block2_pareto_walk"),
            m0, fill, bit, (unsigned long long)restarts,
            (unsigned long long)steps, (unsigned long long)evals,
            threads, max_flips, slack, t1 - t0,
@@ -524,6 +554,8 @@ static int run_walk(int argc, char **argv) {
     print_rec_json("best_lm", &global.best_lm);
     printf(",");
     print_rec_json("best_sym_lm", &global.best_sym_lm);
+    printf(",");
+    print_rec_json("best_pair", &global.best_pair);
     printf(",\"frontier\":[");
     for (int i = 0; i < global.nfront; i++) {
         if (i) printf(",");
@@ -623,6 +655,8 @@ static int run_sweep60(int argc, char **argv) {
     print_rec_json("best_lm", &global.best_lm);
     printf(",");
     print_rec_json("best_sym_lm", &global.best_sym_lm);
+    printf(",");
+    print_rec_json("best_pair", &global.best_pair);
     printf(",\"frontier\":[");
     for (int i = 0; i < global.nfront; i++) {
         if (i) printf(",");
@@ -722,6 +756,8 @@ static int run_sweep59bits(int argc, char **argv) {
     print_rec_json("best_lm", &global.best_lm);
     printf(",");
     print_rec_json("best_sym_lm", &global.best_sym_lm);
+    printf(",");
+    print_rec_json("best_pair", &global.best_pair);
     printf(",\"frontier\":[");
     for (int i = 0; i < global.nfront; i++) {
         if (i) printf(",");
@@ -735,9 +771,156 @@ static int run_sweep59bits(int argc, char **argv) {
     return 0;
 }
 
+static int run_sweepwordbits(int argc, char **argv) {
+    if (argc < 10) {
+        fprintf(stderr,
+                "Usage: %s sweepwordbits m0 fill bit W57 W58 W59 word threads [start] [count]\n"
+                "       word may be 57, 58, 59, 0, 1, or 2\n",
+                argv[0]);
+        return 1;
+    }
+
+    u32 m0 = strtoul(argv[2], NULL, 0);
+    u32 fill = strtoul(argv[3], NULL, 0);
+    int bit = atoi(argv[4]);
+    u32 baseW[3] = {
+        strtoul(argv[5], NULL, 0),
+        strtoul(argv[6], NULL, 0),
+        strtoul(argv[7], NULL, 0)
+    };
+    int word = atoi(argv[8]);
+    int word_index = word;
+    if (word == 57 || word == 58 || word == 59) word_index = word - 57;
+    if (word_index < 0 || word_index > 2) {
+        fprintf(stderr, "ERROR: word must be 57, 58, 59, 0, 1, or 2\n");
+        return 1;
+    }
+    int threads = atoi(argv[9]);
+    uint64_t start = (argc >= 11) ? strtoull(argv[10], NULL, 0) : 0;
+    uint64_t per_sheet_count = (argc >= 12) ? strtoull(argv[11], NULL, 0) : (1ULL << 32);
+    if (per_sheet_count > (1ULL << 32)) per_sheet_count = (1ULL << 32);
+    const uint64_t variants = 33;
+    const uint64_t count = variants * per_sheet_count;
+
+    ctx_t ctx;
+    if (!init_ctx(&ctx, m0, fill, bit)) {
+        fprintf(stderr, "ERROR: candidate is not cascade-eligible at round 57\n");
+        return 2;
+    }
+
+    if (threads < 1) threads = 1;
+#ifdef _OPENMP
+    omp_set_num_threads(threads);
+#else
+    threads = 1;
+#endif
+
+    stats_t global;
+    memset(&global, 0, sizeof(global));
+    stats_t sheet_global[33];
+    memset(sheet_global, 0, sizeof(sheet_global));
+
+    double t0;
+#ifdef _OPENMP
+    t0 = omp_get_wtime();
+#else
+    t0 = (double)clock() / CLOCKS_PER_SEC;
+#endif
+
+#pragma omp parallel
+    {
+        stats_t local;
+        memset(&local, 0, sizeof(local));
+        stats_t sheet_local[33];
+        memset(sheet_local, 0, sizeof(sheet_local));
+
+#pragma omp for schedule(static)
+        for (uint64_t i = 0; i < count; i++) {
+            uint64_t v = i / per_sheet_count;
+            uint64_t j = i - v * per_sheet_count;
+            u32 W[4] = {baseW[0], baseW[1], baseW[2], (u32)(start + j)};
+            if (v != 0) W[word_index] ^= (u32)1 << (u32)(v - 1);
+            rec_t rec = evaluate_point(&ctx, W);
+            stats_add(&local, &rec);
+            stats_add(&sheet_local[v], &rec);
+        }
+
+#pragma omp critical
+        {
+            stats_merge(&global, &local);
+            for (int v = 0; v < 33; v++) stats_merge(&sheet_global[v], &sheet_local[v]);
+        }
+    }
+
+    double t1;
+#ifdef _OPENMP
+    t1 = omp_get_wtime();
+#else
+    t1 = (double)clock() / CLOCKS_PER_SEC;
+#endif
+
+    qsort(global.front, global.nfront, sizeof(rec_t), cmp_rec);
+
+    printf("{\"mode\":\"block2_pareto_sweepwordbits\",\"m0\":\"0x%08x\","
+           "\"fill\":\"0x%08x\",\"bit\":%d,"
+           "\"base_W\":[\"0x%08x\",\"0x%08x\",\"0x%08x\"],"
+           "\"word\":%d,\"word_index\":%d,\"start\":\"0x%08x\","
+           "\"per_sheet_count\":%llu,\"variants\":%llu,\"count\":%llu,"
+           "\"threads\":%d,\"seconds\":%.3f,\"rate_mps\":%.3f,"
+           "\"sym_count\":%llu,\"incompat_count\":%llu,",
+           m0, fill, bit, baseW[0], baseW[1], baseW[2],
+           word_index + 57, word_index, (u32)start,
+           (unsigned long long)per_sheet_count,
+           (unsigned long long)variants, (unsigned long long)count,
+           threads, t1 - t0,
+           (t1 > t0) ? ((double)count / (t1 - t0) / 1e6) : 0.0,
+           (unsigned long long)global.sym_count,
+           (unsigned long long)global.incompat_count);
+    print_rec_json("best_hw", &global.best_hw);
+    printf(",");
+    print_rec_json("best_lm", &global.best_lm);
+    printf(",");
+    print_rec_json("best_sym_lm", &global.best_sym_lm);
+    printf(",");
+    print_rec_json("best_pair", &global.best_pair);
+    printf(",\"frontier\":[");
+    for (int i = 0; i < global.nfront; i++) {
+        if (i) printf(",");
+        printf("{\"hw\":%d,\"lm\":%d,\"sym\":%d,"
+               "\"W\":[\"0x%08x\",\"0x%08x\",\"0x%08x\",\"0x%08x\"]}",
+               global.front[i].hw, global.front[i].lm, global.front[i].sym,
+               global.front[i].W[0], global.front[i].W[1],
+               global.front[i].W[2], global.front[i].W[3]);
+    }
+    printf("],\"sheets\":[");
+    for (int v = 0; v < 33; v++) {
+        if (v) printf(",");
+        u32 sheetW[3] = {baseW[0], baseW[1], baseW[2]};
+        int flip_bit = -1;
+        if (v != 0) {
+            flip_bit = v - 1;
+            sheetW[word_index] ^= (u32)1 << (u32)flip_bit;
+        }
+        printf("{\"variant\":%d,\"flip_bit\":%d,"
+               "\"W57\":\"0x%08x\",\"W58\":\"0x%08x\",\"W59\":\"0x%08x\",",
+               v, flip_bit, sheetW[0], sheetW[1], sheetW[2]);
+        print_rec_json("best_hw", &sheet_global[v].best_hw);
+        printf(",");
+        print_rec_json("best_lm", &sheet_global[v].best_lm);
+        printf(",");
+        print_rec_json("best_sym_lm", &sheet_global[v].best_sym_lm);
+        printf(",");
+        print_rec_json("best_pair", &sheet_global[v].best_pair);
+        printf("}");
+    }
+    printf("]}\n");
+    return 0;
+}
+
 int main(int argc, char **argv) {
     if (argc > 1 && (strcmp(argv[1], "walk") == 0 ||
-                     strcmp(argv[1], "pointwalk") == 0)) {
+                     strcmp(argv[1], "pointwalk") == 0 ||
+                     strcmp(argv[1], "pairwalk") == 0)) {
         return run_walk(argc, argv);
     }
     if (argc > 1 && strcmp(argv[1], "sweep60") == 0) {
@@ -745,6 +928,9 @@ int main(int argc, char **argv) {
     }
     if (argc > 1 && strcmp(argv[1], "sweep59bits") == 0) {
         return run_sweep59bits(argc, argv);
+    }
+    if (argc > 1 && strcmp(argv[1], "sweepwordbits") == 0) {
+        return run_sweepwordbits(argc, argv);
     }
 
     if (argc < 7) {
@@ -841,6 +1027,8 @@ int main(int argc, char **argv) {
     print_rec_json("best_lm", &global.best_lm);
     printf(",");
     print_rec_json("best_sym_lm", &global.best_sym_lm);
+    printf(",");
+    print_rec_json("best_pair", &global.best_pair);
     printf(",\"frontier\":[");
     for (int i = 0; i < global.nfront; i++) {
         if (i) printf(",");

@@ -13,15 +13,14 @@
   dependencies:
   - "Get block-1 residuals down to HW\u226416 (Wang differential threshold)."
   - Implement a bitcondition/trail-search engine (Wang-style, not just SAT).
-  next_action: "Use the F42-F45 all-record and online LM/HW Pareto surface as the
-    block2 trail target set. Current archetypes: bit2 minimum residual
-    (HW45/exact symmetry/LM824), bit13 balanced exact-symmetry
-    (HW47/LM780), bit28 raw LM champion (HW65/LM652), bit28
-    exact-symmetry LM champion (HW57/LM656), and bit28 residual champion
-    (HW33/LM679/exact symmetry). Next
-    implementation target is a residual sampler/trail engine that keeps
-    an online Pareto frontier over HW, LM, and symmetry instead of saving
-    only min-HW records."
+  next_action: "Use the F42-F45/F77 Pareto surface as the block2 trail
+    target set. Current archetypes: bit28 minimum residual
+    (HW33/LM679/exact symmetry), bit28 local low-HW in the LM637 chart
+    (HW39/LM720), bit28 LM champion (HW45/LM637/exact symmetry), and
+    bit28 pair-alignment champion (HW78/LM731/pair_hw=8). Next
+    implementation target is a Wang-style absorber/trail search that
+    explicitly uses HW, LM, symmetry, and pair-alignment targets rather
+    than continuing undirected pointwalks in the same chart."
   kill_criteria:
   - No residual cluster yields >18-round absorber after 1 week of dedicated trail search.
   - No improvement over naive block-2 SAT frontier on N=8/N=12 analogs after pilot phase.
@@ -32,16 +31,20 @@
   - bets/block2_wang/trails/20260427_F42_universal_LM_compat_all_3065.md
   - bets/block2_wang/trails/20260427_F43_recordwise_lm_pareto.md
   - bets/block2_wang/trails/20260427_F45_online_pareto_sampler.md
+  - bets/block2_wang/trails/20260427_F77_exact_sheet_atlas_pair_metric.md
   owner: unassigned
   last_updated: '2026-04-24'
   notes: "GPT-5.5 ranked this #1 EV/CPU-hour. F34/F42 now make cascade-1
     a universal 43-active-adder, LM-compatible trail source across all
-    3,065 sampled records. F43-F45 show target choice is a three-axis
-    Pareto problem, not a min-HW-only ranking; online sampling plus
-    seeded point-walk plus exact W60 slice sweeps pushed the raw LM
-    frontier from 757 to 657, the exact-symmetry LM frontier from 772 to
-    652, the exact-symmetry LM frontier from 772 to 656, and the
-    residual-HW frontier from 45 to 33."
+    3,065 sampled records. F43-F45/F77 show target choice is a
+    four-axis Pareto problem, not a min-HW-only ranking: residual HW,
+    LM cost, exact a61=e61 symmetry, and pair-alignment. Exact W60
+    sheet atlases have moved bit28 to HW33/LM679 on the residual axis,
+    HW45/LM637 on the LM axis, and pair_hw=8 on the pair-alignment
+    axis. F77 also showed W57/W58 exact sheet atlases improve local HW
+    but do not beat LM637; 64-flip stochastic walks failed to escape.
+    Next useful work is a block-2 absorber/trail operator, not another
+    undirected one-block pointwalk."
 - id: cascade_auxiliary_encoding
   name: Cascade-auxiliary CNF encoding for SAT and KC
   headline_if_success: Reduced treewidth + improved SAT robustness, enabling either constructive d4 or sr=61 SAT solve.

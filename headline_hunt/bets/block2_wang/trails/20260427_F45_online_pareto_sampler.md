@@ -542,10 +542,33 @@ broader trail-cost surface than the min-HW corpus exposed. Different
 objectives select different witnesses and, in some cases, different
 candidates.
 
+## Later exact-sheet extension
+
+F77 extends this map with exact W57/W58/W59 sheet atlases and a
+pair-alignment objective:
+
+```text
+pair_hw = HW(a ^ e) + HW(b ^ f) + HW(c ^ g)
+```
+
+The later bit28 frontiers are:
+
+| axis | record |
+|---|---|
+| minimum residual | HW33 / LM679 / exact symmetry |
+| local low-HW in LM637 chart | HW39 / LM720 |
+| LM champion | HW45 / LM637 / exact symmetry |
+| pair-alignment champion | HW78 / LM731 / pair_hw=8 |
+
+Exact W58 and W57 atlases improved local HW but did not beat the LM637
+or pair8 frontiers. See
+`trails/20260427_F77_exact_sheet_atlas_pair_metric.md`.
+
 ## Next
 
-- Continue from the bit28 W57/W58 chart with more W59 sheet sweeps.
-  Full W60 enumeration is cheap enough to use as an exact inner loop.
-- Add a score-biased sampler if the point-walk also stabilizes.
 - Preserve separate target classes for block2 trail design: min-HW,
-  exact-symmetry, and raw low-LM.
+  exact-symmetry, raw low-LM, and pair alignment.
+- Use exact W60 enumeration as the inner loop for any future joint
+  W57/W58/W59 operator.
+- Shift effort toward a block-2 absorber/trail operator; F77 suggests
+  more undirected pointwalks in the same one-block chart are low-value.

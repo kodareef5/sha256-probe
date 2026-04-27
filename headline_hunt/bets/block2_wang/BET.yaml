@@ -29,7 +29,28 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-04-27T15:25:00Z'
+last_heartbeat: '2026-04-27T18:45:00Z'
+recent_progress_2026-04-27_EVENING: |
+  linux_gpu_laptop F77 exact-sheet atlas added a fourth target metric,
+  pair_hw = HW(a^e)+HW(b^f)+HW(c^g), and moved beyond W59-only
+  exploration.
+
+  New bit28 target classes:
+    - minimum residual: HW33 / LM679 / exact symmetry
+    - local low-HW in LM637 chart: HW39 / LM720
+    - LM champion: HW45 / LM637 / exact symmetry
+    - pair-alignment champion: HW78 / LM731 / pair_hw=8
+
+  Exact W58 atlas over 33 full W60 sheets (141.7B evals) improved local
+  HW to 39 but did not beat LM637 or pair8. W57 one-bit atlas chunks
+  found HW40 but also did not beat LM637. 64-flip stochastic pairwalk
+  and pointwalk controls did not improve pair8 or LM637. Conclusion:
+  exact W60 sheet enumeration is the productive operator; broad random
+  walks in this chart are not. Verified new HW39, LM637, and pair8
+  witnesses as UNSAT near-residuals under kissat+cadical. CryptoMiniSat
+  is not installed on linux_gpu_laptop, so F76 --solver all cannot run
+  locally yet.
+
 recent_progress_2026-04-27_LATE: |
   F65→F71 cert-pin verification pipeline shipped (production-grade).
 

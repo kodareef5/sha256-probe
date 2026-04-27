@@ -84,11 +84,13 @@ current short list is:
 - `msb_ma22dc6c7`: HW48, LM773.
 - `bit28_md1acca79`: HW49/LM765 in the F43 corpus; F45 online sampling
   and exact W60/W59-neighbor sweeps improve this to HW33/LM679 on the
-  HW axis, HW65/LM652 on the raw-LM axis, and HW57/LM656 on the
-  exact-symmetry LM axis.
+  HW axis. Later exact sheet atlases push the local chart to HW39/LM720,
+  HW45/LM637 on the raw/exact-symmetry LM axis, and pair-aligned
+  HW78/LM731 with `pair_hw=8`.
 - `bit4_m39a03c2d`: HW53/LM757 in the F43 corpus; F45 online sampling
   improves raw LM to HW71/LM720 and exact-symmetry LM to HW64/LM743,
   but bit28 now dominates both LM axes.
 
 See `trails/20260427_F43_recordwise_lm_pareto.md` and
-`trails/20260427_F45_online_pareto_sampler.md`.
+`trails/20260427_F45_online_pareto_sampler.md`. The latest exact-sheet
+map is `trails/20260427_F77_exact_sheet_atlas_pair_metric.md`.
