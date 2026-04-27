@@ -633,3 +633,39 @@ deferred.
 30 kissat runs logged this hour. CNFs built and CONFIRMED.
 Reproducibility discipline reinforced: always measure baseline
 under same conditions as comparison.
+
+---
+
+## 13:13 EDT — F40: Mode A ≈ Mode B at 1M + F32 corpus LM-enriched
+
+Mid-pulse acknowledged. Two ships:
+
+**(1) Mode B sanity test on bit2_ma896ee41**:
+  Mode A (expose): 35.61s (F39)
+  Mode B (force):  35.78s (F40 this)
+  Diff: 0.17s (0.5%) — within seed noise.
+
+Encoder-level variations don't matter at 1M conflicts, just like
+cand-level variations don't (per-conflict equivalence reaffirmed).
+
+**(2) F28_deep_corpus_enriched.jsonl**: 3065 F32 records + per-cand
+min-HW LM-cost / active-adders / max-HW-sum / incompat fields. Joins
+F32 (deep min residuals) with F35/F36 (LM cost). One file ready for
+any LM-aware downstream analysis. ~10 lines of Python to query.
+
+**Net solidified state of cascade-1 structural findings**:
+  ✓ 43-active-adder universal invariant (F34, all 67 cands)
+  ✓ Universal LM-compatibility (F36, zero violators per cand)
+  ✓ LM cost spread 117 bits across 67 cands (F35/F36)
+  ✓ Per-conflict kissat equivalence at ~35-36s (F37-F40)
+  ✓ Mode A ≈ Mode B (F40 this run)
+
+**Not yet solidified**:
+  - DEEP budget bit2 reproduction (12h+ kissat, needs auth for compute)
+  - Wang second-block trail feasibility (needs trail-design pilot)
+
+5 Mode-B kissat runs logged via append_run.py. CNF audit CONFIRMED.
+
+Headline track for the project: F36's universal LM-compatibility +
+F34's 43-cascade-invariant are strong structural claims for paper
+Section 4/5. They're both new and verified at 67-cand scale.
