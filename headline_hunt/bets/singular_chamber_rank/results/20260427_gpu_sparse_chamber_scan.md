@@ -20,6 +20,7 @@ Each GPU scan used 67,108,864 random `W57` samples.
 | 18 | `msb_m189b13c7_80` | `0x84fbdbcb` | `0x00010000` | 1 |
 | 1 | `bit19_m51ca0b34_55` | `0x7e55afad` | `0x00010080` | 2 |
 | 11 | `bit14_m67043cdd_ff` | `0x2e059c6a` | `0x00008040` | 2 |
+| 20 | `bit17_m427c281d_80` | `0x83fed517` | `0x00000400` | 1 |
 
 The idx 18 hit is the cleanest sparse-offset chamber found so far by this
 scan family: a one-bit `off58`.
@@ -34,10 +35,11 @@ with the fixed `W57`.
 | 17 | 10 | `0x06aa221a` | 11 | 105 | `W58=0x0729a098,W59=0x55747b37` |
 | 19 | 13 | `0x52721688` | 12 | 97 | `W58=0xcdd36768,W59=0x1b7784b3` |
 | 1 | 10 | `0x2316245c` | 12 | 92 | `W58=0xc2aad5b7,W59=0x650cc1e0` |
+| 20 | 3 | `0x6d4ec282` | 14 | 99 | `W58=0xf00ddfeb,W59=0xce2cae32` |
 | 11 | 5 | `0x67211ec9` | 15 | 99 | `W58=0x64053877,W59=0x9f08da14` |
 | 18 | 5 | `0xce14895f` | 16 | 96 | `W58=0xeb5cfd5f,W59=0x20041253` |
 
-All five sparse chambers reached exact D60 at full 32-bit width. None beats
+All six sparse chambers reached exact D60 at full 32-bit width. None beats
 the current exact-D61 HW4 / tail-HW59 frontier.
 
 ## Interpretation
@@ -45,8 +47,8 @@ the current exact-D61 HW4 / tail-HW59 frontier.
 The GPU scan strengthens the portability claim: sparse `off58` chambers are
 easy to find across multiple candidates, and exact D60 is reachable after
 fixing those chambers. The next-wall quality is chamber-specific, though:
-even the one-bit idx 18 `off58` chamber only reached D61 HW16 in the first
-524k-start pass.
+even the one-bit idx 18 and bit17 `off58` chambers only reached D61 HW16
+and HW14 respectively in the first 524k-start pass.
 
 So `off58` sparsity is an entry condition, not the whole explanation. The
 better predictor likely includes the round-59 carry chart and the D61

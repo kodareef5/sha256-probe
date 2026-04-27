@@ -89,6 +89,24 @@ prefix_zero = 0
 
 The idx0 seeded 5M-trial run did not improve its HW9 point.
 
+A later 10M-trial idx8 walk with deeper 256-pass local repair improved the
+guarded slot-57 prefix to HW7:
+
+```text
+idx 8
+free words:
+fd77fded cffffe7f fffbbeff bffefb7f edbdffff b9f73bff ffdfffcf
+efbff7cf ffffd7fd fbfdfffb f57dfede ff7ffdff efff4ffe ff63ffff
+
+a57_xor = 0x00000008  HW 1
+defect57 = 0xa8010102  HW 6
+guarded prefix HW = 7
+prefix_zero = 0
+```
+
+This is still not an exact guarded slot-57 hit, but it moves the real
+message-space near-miss frontier from HW8 to HW7.
+
 ## Exact-guard neighborhoods
 
 The next check enumerated all message-bit perturbations through radius 3
@@ -193,6 +211,8 @@ trial:
   32-bit word as the `a57` repair coordinate.
 - `msg61guardchartrepair`: at each Newton step, try all 14 one-word repair
   charts and apply the chart that best reduces `a57`.
+- `msg61walk` with `objective_prefix=0`: pure `a57` walk, separating exact
+  guard-fiber discovery from D57 steering.
 
 The first corrected idx 8 probes were negative:
 
@@ -204,6 +224,7 @@ The first corrected idx 8 probes were negative:
 | `guardrepair` | 100,000 | far jitter 448 | 14 | 0 | none |
 | `guardwordrepair` | 100,000 | repair M15, jitter 96 | 1 | 0 | none |
 | `guardchartrepair` | 20,000 | all one-word charts, jitter 96 | 211 | 0 | none |
+| `msg61walk` | 5,000,000 | pure `a57` objective | 0 | 0 | none |
 
 The adaptive chart repair is informative despite failing: only about 28.8% of
 one-word charts had full local `a57` rank after random perturbation, and all
@@ -212,6 +233,11 @@ lesson is that exact `a57=0` is not behaving like a smooth codimension-32
 manifold near the useful low-HW valleys. The repair operators can reduce
 off-manifold residuals, but the nonlinear carry chart pinches back to the
 fill-message guard point.
+
+The pure-guard walk reaches `a57_xor=0` only by retaining the default fill
+message as the best representative. It did not find a changed exact guard
+fiber in 5M starts, even though 3,499,235 starts improved their initial
+`a57` score.
 
 ## Guarded Newton
 

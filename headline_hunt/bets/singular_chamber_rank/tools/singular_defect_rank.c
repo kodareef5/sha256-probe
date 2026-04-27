@@ -327,8 +327,8 @@ static int msg61_better(const msg61_eval_t *a, const msg61_eval_t *b) {
 }
 
 static int msg61_prefix_hw(const msg61_eval_t *ev, int prefix) {
+    if (prefix <= 0) return ev->a57_hw;
     int hw = ev->a57_hw;
-    if (prefix < 1) prefix = 1;
     if (prefix > MSG_DEFECT_ROUNDS) prefix = MSG_DEFECT_ROUNDS;
     for (int i = 0; i < prefix; i++) hw += ev->defect_hw[i];
     return hw;
@@ -336,6 +336,14 @@ static int msg61_prefix_hw(const msg61_eval_t *ev, int prefix) {
 
 static int msg61_better_prefix(const msg61_eval_t *a, const msg61_eval_t *b,
                                int prefix) {
+    if (prefix <= 0) {
+        if (a->a57_hw != b->a57_hw) return a->a57_hw < b->a57_hw;
+        if (a->defect_hw[0] != b->defect_hw[0]) {
+            return a->defect_hw[0] < b->defect_hw[0];
+        }
+        if (a->total_hw != b->total_hw) return a->total_hw < b->total_hw;
+        return a->state_hw < b->state_hw;
+    }
     int ap = a->prefix_zero < prefix ? a->prefix_zero : prefix;
     int bp = b->prefix_zero < prefix ? b->prefix_zero : prefix;
     if (ap != bp) return ap > bp;
@@ -611,7 +619,7 @@ static void msg61_walk_candidate(int idx, long long trials, int threads,
     if (max_passes < 1) max_passes = 1;
     if (start_flips < 0) start_flips = 0;
     if (start_flips > MSG_FREE_WORDS * 32) start_flips = MSG_FREE_WORDS * 32;
-    if (objective_prefix < 1) objective_prefix = 1;
+    if (objective_prefix < 0) objective_prefix = 0;
     if (objective_prefix > MSG_DEFECT_ROUNDS) objective_prefix = MSG_DEFECT_ROUNDS;
 
     const candidate_t *cand = &CANDIDATES[idx];
@@ -668,7 +676,10 @@ static void msg61_walk_candidate(int idx, long long trials, int threads,
                     words[bit / 32] ^= 1U << (bit % 32);
                 }
             }
-            if (cur.prefix_zero >= objective_prefix) local_exact++;
+            if ((objective_prefix == 0 && cur.a57_xor == 0) ||
+                (objective_prefix > 0 && cur.prefix_zero >= objective_prefix)) {
+                local_exact++;
+            }
             if (msg61_prefix_hw(&cur, objective_prefix) < start_score) local_improved++;
             if (msg61_better_prefix(&cur, &local_best, objective_prefix)) {
                 local_best = cur;
