@@ -22,6 +22,10 @@
  * Point check:
  *   /tmp/block2_pareto_sampler 0x39a03c2d 0xffffffff 4 0 1 0 \
  *     0x34cbddf6 0xa1d273cc 0x1adb0739 0x3dbf5ec7
+ *
+ * Exact inner loops:
+ *   /tmp/block2_pareto_sampler sweep60 m0 fill bit W57 W58 W59 threads
+ *   /tmp/block2_pareto_sampler sweep59bits m0 fill bit W57 W58 baseW59 threads
  */
 #include <stdint.h>
 #include <stdio.h>
@@ -632,6 +636,105 @@ static int run_sweep60(int argc, char **argv) {
     return 0;
 }
 
+static int run_sweep59bits(int argc, char **argv) {
+    if (argc < 9) {
+        fprintf(stderr,
+                "Usage: %s sweep59bits m0 fill bit W57 W58 baseW59 threads\n",
+                argv[0]);
+        return 1;
+    }
+
+    u32 m0 = strtoul(argv[2], NULL, 0);
+    u32 fill = strtoul(argv[3], NULL, 0);
+    int bit = atoi(argv[4]);
+    u32 fixedW57 = strtoul(argv[5], NULL, 0);
+    u32 fixedW58 = strtoul(argv[6], NULL, 0);
+    u32 baseW59 = strtoul(argv[7], NULL, 0);
+    int threads = atoi(argv[8]);
+    const uint64_t variants = 33;
+    const uint64_t count = variants * (1ULL << 32);
+
+    ctx_t ctx;
+    if (!init_ctx(&ctx, m0, fill, bit)) {
+        fprintf(stderr, "ERROR: candidate is not cascade-eligible at round 57\n");
+        return 2;
+    }
+
+    if (threads < 1) threads = 1;
+#ifdef _OPENMP
+    omp_set_num_threads(threads);
+#else
+    threads = 1;
+#endif
+
+    stats_t global;
+    memset(&global, 0, sizeof(global));
+
+    double t0;
+#ifdef _OPENMP
+    t0 = omp_get_wtime();
+#else
+    t0 = (double)clock() / CLOCKS_PER_SEC;
+#endif
+
+#pragma omp parallel
+    {
+        stats_t local;
+        memset(&local, 0, sizeof(local));
+
+#pragma omp for schedule(static)
+        for (uint64_t i = 0; i < count; i++) {
+            uint64_t v = i >> 32;
+            u32 w59 = baseW59;
+            if (v != 0) w59 ^= (u32)1 << (u32)(v - 1);
+            u32 W[4] = {fixedW57, fixedW58, w59, (u32)i};
+            rec_t rec = evaluate_point(&ctx, W);
+            stats_add(&local, &rec);
+        }
+
+#pragma omp critical
+        stats_merge(&global, &local);
+    }
+
+    double t1;
+#ifdef _OPENMP
+    t1 = omp_get_wtime();
+#else
+    t1 = (double)clock() / CLOCKS_PER_SEC;
+#endif
+
+    qsort(global.front, global.nfront, sizeof(rec_t), cmp_rec);
+
+    printf("{\"mode\":\"block2_pareto_sweep59bits\",\"m0\":\"0x%08x\","
+           "\"fill\":\"0x%08x\",\"bit\":%d,"
+           "\"fixed_W57\":\"0x%08x\",\"fixed_W58\":\"0x%08x\","
+           "\"base_W59\":\"0x%08x\",\"variants\":%llu,\"count\":%llu,"
+           "\"threads\":%d,\"seconds\":%.3f,\"rate_mps\":%.3f,"
+           "\"sym_count\":%llu,\"incompat_count\":%llu,",
+           m0, fill, bit, fixedW57, fixedW58, baseW59,
+           (unsigned long long)variants, (unsigned long long)count,
+           threads, t1 - t0,
+           (t1 > t0) ? ((double)count / (t1 - t0) / 1e6) : 0.0,
+           (unsigned long long)global.sym_count,
+           (unsigned long long)global.incompat_count);
+    print_rec_json("best_hw", &global.best_hw);
+    printf(",");
+    print_rec_json("best_lm", &global.best_lm);
+    printf(",");
+    print_rec_json("best_sym_lm", &global.best_sym_lm);
+    printf(",\"frontier\":[");
+    for (int i = 0; i < global.nfront; i++) {
+        if (i) printf(",");
+        printf("{\"hw\":%d,\"lm\":%d,\"sym\":%d,"
+               "\"W\":[\"0x%08x\",\"0x%08x\",\"0x%08x\",\"0x%08x\"]}",
+               global.front[i].hw, global.front[i].lm, global.front[i].sym,
+               global.front[i].W[0], global.front[i].W[1],
+               global.front[i].W[2], global.front[i].W[3]);
+    }
+    printf("]}\n");
+    return 0;
+}
+
 int main(int argc, char **argv) {
     if (argc > 1 && (strcmp(argv[1], "walk") == 0 ||
                      strcmp(argv[1], "pointwalk") == 0)) {
@@ -639,6 +742,9 @@ int main(int argc, char **argv) {
     }
     if (argc > 1 && strcmp(argv[1], "sweep60") == 0) {
         return run_sweep60(argc, argv);
+    }
+    if (argc > 1 && strcmp(argv[1], "sweep59bits") == 0) {
+        return run_sweep59bits(argc, argv);
     }
 
     if (argc < 7) {

@@ -338,13 +338,61 @@ exact a61=e61 = no
 All three points were independently verified with
 `active_adder_lm_bound`: 43 active adders, zero LM incompatibilities.
 
+## One-bit W59 neighborhood
+
+The next exact pass held W57/W58 fixed and swept full W60 for the base
+W59 sheet plus all 32 one-bit W59 flips:
+
+```text
+fixed W57 = 0xce9b8db6
+fixed W58 = 0xb26e4c72
+base  W59 = 0x4b1cebc4
+variants = 33
+evaluations = 141,733,920,768
+wall = 2182.076s
+rate = 64.954M/s
+```
+
+This did not beat the raw LM657 point, but it improved the residual-HW
+frontier again:
+
+```text
+candidate: bit28_md1acca79_fillffffffff
+W57 = 0xce9b8db6
+W58 = 0xb26e4c72
+W59 = 0xcb1cebc4
+W60 = 0x84e1aa24
+
+residual HW = 38
+LM cost = 710
+exact a61=e61 = yes
+```
+
+The best raw-LM neighbor in the one-bit W59 set was:
+
+```text
+W59 = 0x4b1ceb44
+W60 = 0xe8c18619
+residual HW = 65
+LM cost = 659
+exact a61=e61 = no
+```
+
+So the current exact inner-loop picture is:
+
+| axis | record |
+|---|---|
+| minimum residual | HW38 / LM710 / exact symmetry |
+| raw LM | HW68 / LM657 |
+| exact-symmetry LM | HW41 / LM660 |
+
 ## Updated Pareto interpretation
 
 The new observed target set is:
 
 | axis | candidate | record |
 |---|---|---|
-| minimum residual | `bit28_md1acca79` | HW40 / LM702 / exact symmetry |
+| minimum residual | `bit28_md1acca79` | HW38 / LM710 / exact symmetry |
 | balanced exact symmetry | `bit13_m4e560940` | HW47 / LM780 / exact symmetry |
 | low HW, low LM | `bit28_md1acca79` | HW41 / LM660 / exact symmetry |
 | raw LM champion | `bit28_md1acca79` | HW68 / LM657 |
