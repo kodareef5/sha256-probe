@@ -1859,3 +1859,54 @@ the strongest target.
 
 67 kissat verifications complete. F71 shipped. F-series flow
 F31→F71 (40+ memos shipped today). Pulse-aware: in continuous flow.
+
+---
+
+## 15:25 EDT — F72: F31→F71 synthesis index + heartbeat refresh
+
+Pulse-aware. Synthesis pause to consolidate today's massive F-series:
+40 memos in cascade_aux_encoding/results + 16 in block2_wang/trails =
+~56 substantive memos shipped today across F31→F71.
+
+**F72 synthesis index** at:
+  bets/cascade_aux_encoding/results/20260427_F72_F31_F71_synthesis_index.md
+
+Single navigation document grouping by phase:
+  F31-F36: Universal cascade-1 structural properties
+  F37-F45: Cross-solver cohort discovery
+  F50-F58: Two-axis structural picture
+  F59-F62: Three-solver picture solidifies
+  F63-F67: Cert-pin verification pipeline
+  F68-F71: Brute-force verdict + production validation
+
+**Strongest paper-class claims** (post-F69 fix):
+  F71: registry-wide audit, 67/67 F32 deep-min UNSAT
+  F70: yale Pareto frontier 5/5 verified clean
+  F60: msb_ma22dc6c7 TRIPLE-AXIS champion
+  F36/F42: universal LM-compatibility
+  F34: 43-active-adder cascade-invariant
+  F58/F63: 4-cohort solver-architecture taxonomy
+
+**Project champion ranking** (final):
+  1. bit28_md1acca79 (yale HW=33 EXACT-sym, fleet-collab discovery)
+  2. msb_ma22dc6c7 (F60 TRIPLE-AXIS)
+  3. bit2_ma896ee41 (Wang sym-axis, HW=45)
+  4. bit10 (Cohort A universal-fast)
+  5. bit4_m39a03c2d (F43 record-wise LM champion)
+
+**4 honest retractions today** (F39, F49, F55, F69) — discipline pattern
+catches small-N overclaims via fast follow-up validation.
+
+**Heartbeats refreshed**:
+  cascade_aux: 2026-04-27T15:25Z
+  block2_wang: 2026-04-27T15:25Z
+With substantive progress notes covering F65-F71 work.
+
+**Pipeline state** (production-grade):
+  yale online sampler → certpin_verify.py → SAT/UNSAT in <1s
+  Next: yale block-2 trail design (remaining structural piece)
+
+For paper Section 4/5: F72 is the navigation document. Use F-numbers
+as citations within the synthesis index.
+
+Validate_registry: 0 errors, 0 warnings. F-series day arc complete.
