@@ -339,3 +339,29 @@ baseline — distinguishes the structural axis from the solver axis.
 
 Overnight kissat dispatcher still healthy: PID 48954, 8h13m, 102 results.
 ETA ~13:30 EDT.
+
+---
+
+## 07:18 EDT — F31: corpus extended (bit2 PRIMARY, bit13 SECONDARY)
+
+Acted on F28's explicit next_action. Built block2_wang residual corpora
+for the two highest-priority cands:
+
+| cand | records | HW range | min HW @ 1M |
+|---|---:|---|---:|
+| bit2_ma896ee41 (PRIMARY)   | 18,336 | 57..80 | 57 |
+| bit13_m4e560940 (SECONDARY)| 18,548 | 61..80 | 61 |
+
+100% distinct vectors at every observed HW level — consistent with F25
+"universal rigidity at min HW." At 1M, the landscape is too sparse for
+duplicates; the deep min-HW vector (HW=45 for bit2, HW=47 for bit13)
+hasn't been hit yet.
+
+Sampling-budget gap: 1M → 1B = 12-bit drop in observable min HW. For
+TRUE-min Wang-trail search, need C-port of build_corpus.py to leverage
+block2_lowhw_set.c speed (43M iter/sec → 1B in 25s vs Python 16h).
+
+Cross-cand comparison: bit2 finds lower-HW heads than bit13 even at
+moderate budgets. F28's deep-min ranking persists.
+
+Memo at `headline_hunt/bets/block2_wang/residuals/20260427_F31_corpus_extension_bit2_bit13.md`.
