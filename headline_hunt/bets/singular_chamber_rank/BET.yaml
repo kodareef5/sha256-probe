@@ -81,6 +81,7 @@ evidence:
   - results/20260426_w57_free_operator_probe.md
   - results/20260426_w57_affine_fiber_probe.md
   - results/20260426_w57_free_chart_walk.md
+  - results/20260426_f12_candidate_transfer.md
 notes: |
   Local rank stayed full, so the bet redirected toward nonlinear
   finite-difference/carry fibers. Full-N sparse off58 steering found multiple
@@ -110,6 +111,11 @@ notes: |
   absent in sampled/low-weight checks. W57-free chart walks over idx0/idx8
   exact HW4 points found millions of exact-D60 landings but no exact D61 HW3;
   the HW3 shelves require large off58/off59 and round-61 carry-chart changes.
+  Macbook's F12 residual-grid candidates were added and scanned with the GPU:
+  their F12 min-W57 chambers do not transfer directly to singular off58, but
+  direct GPU off58 scans found sparse charts. The best downstream result was
+  bit17_m427c281d_80 at exact D61 HW6/tail-HW67, still below the current
+  HW4/tail-HW59 frontier.
   Carry-coordinate comparison indicates this terrace is
   a mixed Sigma1/Ch/T2 chart, not a small move along the exact-D60 Ch-only
   chart.

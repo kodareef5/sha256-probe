@@ -213,3 +213,7 @@ Key result notes:
   exact HW4 bases; 200M trials found more than 2.4M exact-D60 landings, but
   no exact D61 HW3. The HW3 shelves require large off58/off59 and round-61
   carry-chart changes.
+- `results/20260426_f12_candidate_transfer.md`: cross-bet transfer probe for
+  macbook's F12 residual-grid candidates. Their F12 min-W57 chambers do not
+  directly match this bet's `off58`, but GPU scans found sparse singular
+  charts; best downstream result is bit17 exact D61 HW6/tail-HW67.

@@ -141,6 +141,9 @@ static const candidate_t CANDIDATES[] = {
     {"bit4_m39a03c2d_ff",          0x39a03c2dU, 0xffffffffU, 4},
     {"bit29_m17454e4b_ff",         0x17454e4bU, 0xffffffffU, 29},
     {"bit15_m28c09a5a_ff",         0x28c09a5aU, 0xffffffffU, 15},
+    {"msb_m189b13c7_80",           0x189b13c7U, 0x80000000U, 31},
+    {"bit13_m4e560940_aa",         0x4e560940U, 0xaaaaaaaaU, 13},
+    {"bit17_m427c281d_80",         0x427c281dU, 0x80000000U, 17},
 };
 
 static inline uint32_t splitmix32(uint64_t *state) {
