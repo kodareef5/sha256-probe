@@ -669,3 +669,36 @@ any LM-aware downstream analysis. ~10 lines of Python to query.
 Headline track for the project: F36's universal LM-compatibility +
 F34's 43-cascade-invariant are strong structural claims for paper
 Section 4/5. They're both new and verified at 67-cand scale.
+
+---
+
+## 13:30 EDT — Alamgir SAT/CAS literature note + IPASIR-UP API survey
+
+Closes the LAST `todo` literature should_read. All 5 classical+modern
+should_reads now structurally summarized:
+  ✓ Wang/Yin/Yu 2005 (SHA-1 differential)
+  ✓ de Cannière/Rechberger 2006 (automated DC)
+  ✓ Mendel-Nad-Schläffer 2013 (SHA-256 SAT-based)
+  ✓ Mouha 2010+ (MILP + S-function)
+  ✓ Alamgir/Nejati/Bright 2024 (SAT+CAS) ← this commit
+
+Note doubles as **IPASIR-UP API survey** (covered the user's option
+list). Surfaces:
+- CaDiCaL 1.5+ supports IPASIR-UP; vanilla kissat does NOT
+- Callbacks: notify_assignment, cb_propagate, cb_decide,
+  cb_check_found_model, cb_add_reason_clause_lit
+- Performance constraints: O(level_diff) backtracking, O(log N) per
+  propagation, valid entailed reason clauses
+
+Direct mapping to project's CLOSED programmatic_sat_propagator bet:
+- Project found Rule 4 marginal value vs Mode B preprocessing
+- Alamgir et al. likely uses MORE aggressive CAS-side reasoning
+  (Gröbner basis on residual structure)
+- If they report round-60+ SAT findings, direct comparison to our
+  sr=60 cascade_aux Mode A result would be informative
+
+Action items recorded for future PDF resolution. literature.yaml
+updated: read_status=read, owner=macbook, last_updated=2026-04-27.
+
+This is a literature-track shippable that ALSO operationalizes the
+IPASIR-UP angle for any future programmatic_sat_propagator restart.
