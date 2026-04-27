@@ -848,3 +848,41 @@ trusted as a real solver run.
 Also validated the Phase D fix smoke test: kissat accepts
 --conflicts=2000000000 and runs without erroring (vs old 5B which
 errored immediately). Fix works.
+
+---
+
+## 14:35 EDT — F42 + fleet response to yale (singular_chamber)
+
+**F42**: Extended F36 LM-compatibility from 67 deep-min vectors to ALL
+3,065 records in F32 corpus. Result:
+
+  Total scanned: 3065
+  LM-compatible: 3065 (100.0%)
+  LM-incompatible: 0
+
+EVERY cascade-1 trail at EVERY HW level (45..60) across ALL 67 cands
+is LM-compatible. Strong structural claim for paper Section 4.
+
+Cascade-1 is now established as STRUCTURE-PRESERVING at two granularities:
+  - At deep minimum (F36): 67/67
+  - At every observed HW level (F42): 3065/3065
+
+**Fleet response to yale**: yale shipped substantive singular_chamber
+work (commit e0d33aa) — guarded radius-4 wall mapped, found:
+  - 5M msg61walk pure-guard trials: 0 changed-guard hits
+  - Best frontier: HW=8 near-miss at slot-57 prefix
+  - Exact sr=61 hits: 0
+  - Quarantined an earlier "false positive" (idx18 unguarded)
+
+This cross-validates with my F16 (M[15] axis sweep negative) and
+F25 (universal residual rigidity). Two independent tracks reach
+same conclusion: cascade-1 sr=61 not reachable by local repair
+operators near default fill chart.
+
+Wrote response message at
+  comms/inbox/20260427_macbook_to_yale_singular_chamber_response.md
+
+Suggests F42's "anchor set" interpretation: the LM-compat manifold
+contains MANY points (per-cand ~45 across HW levels), not just one.
+Productive operator might MOVE between LM-compat anchors rather
+than repair to default.
