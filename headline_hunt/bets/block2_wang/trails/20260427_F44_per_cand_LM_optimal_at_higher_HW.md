@@ -1,5 +1,11 @@
-# F43: per-cand LM-optimum lives at HIGHER HW than HW-min — 38-bit mean gap
+# F44: per-cand LM-optimum lives at HIGHER HW than HW-min — 38-bit mean gap
 **2026-04-27 14:50 EDT**
+
+(Renamed F43 → F44 due to fleet collision: linux_gpu_laptop's commit
+b6c47ab also used F43 for "record-wise LM/HW Pareto surface". Both
+findings are complementary views of the same enriched corpus and were
+shipped within minutes of each other. F43 stays with linux_gpu_laptop's
+ship; this memo is F44.)
 
 Discovery enabled by F42's per-record LM-cost computation: for the
 overwhelming majority of cands (61/67), the LOWEST-LM vector is NOT

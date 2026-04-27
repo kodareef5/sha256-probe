@@ -886,3 +886,37 @@ Suggests F42's "anchor set" interpretation: the LM-compat manifold
 contains MANY points (per-cand ~45 across HW levels), not just one.
 Productive operator might MOVE between LM-compat anchors rather
 than repair to default.
+
+---
+
+## 14:55 EDT — F43 fleet collision + F44 rename + synthesis
+
+linux_gpu_laptop shipped F43 (record-wise LM/HW Pareto) at SAME TIME
+as my F43 (per-cand LM-min). Both complementary findings on F42's data.
+
+**Resolution**: my memo renamed F43 → F44. linux_gpu_laptop's F43 stays.
+
+**Combined finding**: F32 enriched corpus enables 3-axis cand selection
+(HW, LM, symmetry). Three operating points per cand:
+  1. HW-driven: HW-min vector
+  2. LM-driven (per-cand, F44): LM-min often at higher HW (mean +38 bits)
+  3. LM-driven (global, F43): bit4_m39a03c2d at LM=757 (NEW champion)
+
+**bit4_m39a03c2d** (NEW, F43): record-wise LM champion at HW=53/LM=757.
+Beats F36's msb_ma22dc6c7 (LM=773) by 16 bits. Also has lowest-LM
+exact-symmetry record at HW=52/LM=772 — triple distinction.
+
+**msb_m17149975** (F44): verified sr=60 cert cand has HW-min vector
+at HW=49/LM=852, but HW=54/LM=771 LM-min vector is 81 bits cheaper.
+For Wang trail design on the verified cert, use HW=54.
+
+Updated PRIMARY targets for block2_wang (in priority order):
+  1. bit4_m39a03c2d (F43 global LM champion)
+  2. bit2_ma896ee41 (F28 HW champion)
+  3. bit13_m4e560940 (Pareto rank 2)
+  4. msb_m17149975 (verified cert!)
+  5. msb_ma22dc6c7 (F36 per-cand min-HW level LM champ)
+
+Wrote coordination message at
+  comms/inbox/20260427_macbook_to_fleet_F43_F44_synthesis.md
+plus convention proposal: earlier commit wins F-number, later renames.
