@@ -37,10 +37,45 @@ ENCODER = os.path.join(HERE, "cascade_aux_encoder.py")
 PIN_BUILDER = os.path.join(HERE, "build_certpin.py")
 
 
-def verify_one(m0, fill, kernel_bit, w57, w58, w59, w60, conflicts=10_000_000, seed=1, quiet=True):
+def _run_solver(solver, cnf, conflicts, seed, timeout=600):
+    """Run solver on cnf with given budget. Returns (status, wall_sec, raw_out)."""
+    if solver == "kissat":
+        cmd = ["kissat", f"--conflicts={conflicts}", f"--seed={seed}", "-q", cnf]
+    elif solver == "cadical":
+        cmd = ["cadical", "-q", "-c", str(conflicts), f"--seed={seed}", cnf]
+    elif solver == "cms" or solver == "cryptominisat":
+        # CMS scales differently — ~10× slower per conflict, so cap lower
+        cms_budget = min(conflicts, 200000)
+        cmd = ["cryptominisat5", "--verb", "0", "--maxconfl", str(cms_budget),
+               "-r", str(seed), cnf]
+    else:
+        return ("ERROR", 0, f"unknown solver: {solver}")
+
+    t0 = time.time()
+    try:
+        r = subprocess.run(cmd, capture_output=True, timeout=timeout)
+    except subprocess.TimeoutExpired:
+        return ("TIMEOUT", time.time() - t0, f"{solver} timeout {timeout}s")
+    wall = time.time() - t0
+    out = r.stdout.decode()
+
+    status = "UNKNOWN"
+    for line in out.split("\n"):
+        if line.startswith("s SATISFIABLE") or line.startswith("s SAT"):
+            status = "SAT"
+            break
+        if line.startswith("s UNSATISFIABLE") or line.startswith("s UNSAT"):
+            status = "UNSAT"
+            break
+    return (status, wall, out)
+
+
+def verify_one(m0, fill, kernel_bit, w57, w58, w59, w60,
+               conflicts=10_000_000, seed=1, quiet=True, solver="kissat"):
     """Run cert-pin verification on a single (cand, W-witness) tuple.
 
     Returns dict with: status (SAT/UNSAT/UNKNOWN/ERROR), wall_sec, message.
+    Optionally specify solver: 'kissat', 'cadical', or 'cms'.
     """
     with tempfile.TemporaryDirectory() as tmp:
         base_cnf = os.path.join(tmp, "base.cnf")
@@ -72,34 +107,36 @@ def verify_one(m0, fill, kernel_bit, w57, w58, w59, w60, conflicts=10_000_000, s
             return {"status": "ERROR", "wall_sec": 0,
                     "message": f"pin builder failed: {e.stderr.decode()[:200]}"}
 
-        # 3. Run kissat
-        t0 = time.time()
-        try:
-            r = subprocess.run([
-                "kissat", f"--conflicts={conflicts}", f"--seed={seed}", "-q",
-                pinned_cnf,
-            ], capture_output=True, timeout=600)
-        except subprocess.TimeoutExpired:
-            return {"status": "TIMEOUT", "wall_sec": time.time() - t0,
-                    "message": "kissat timeout 600s"}
-        wall = time.time() - t0
+        # 3. Run chosen solver(s)
+        if solver == "all":
+            results = {}
+            for s in ("kissat", "cadical", "cms"):
+                status, wall, _ = _run_solver(s, pinned_cnf, conflicts, seed)
+                results[s] = {"status": status, "wall_sec": round(wall, 3)}
+            # Aggregate: if any solver gives SAT, that's the verdict; if all UNSAT, near-residual; else mixed
+            statuses = [results[s]["status"] for s in ("kissat", "cadical", "cms")]
+            if "SAT" in statuses:
+                agg_status = "SAT"
+                msg = f"verified collision (per: {[s for s,d in results.items() if d['status']=='SAT']})"
+            elif all(s == "UNSAT" for s in statuses):
+                agg_status = "UNSAT"
+                msg = "near-residual (all 3 solvers UNSAT)"
+            else:
+                agg_status = "MIXED"
+                msg = "mixed solver results — investigate"
+            return {"status": agg_status, "wall_sec": sum(results[s]["wall_sec"] for s in results),
+                    "message": msg, "per_solver": results}
 
-        out = r.stdout.decode()
-        # Parse status line
-        status = "UNKNOWN"
-        for line in out.split("\n"):
-            if line.startswith("s SATISFIABLE"):
-                status = "SAT"
-                break
-            if line.startswith("s UNSATISFIABLE"):
-                status = "UNSAT"
-                break
+        status, wall, out = _run_solver(solver, pinned_cnf, conflicts, seed)
+        if status == "ERROR":
+            return {"status": "ERROR", "wall_sec": 0, "message": out}
 
         msg = "verified collision" if status == "SAT" else \
               "near-residual" if status == "UNSAT" else \
-              f"unknown (kissat hit conflict cap or err)"
+              f"unknown ({solver} hit conflict cap or err)"
 
-        return {"status": status, "wall_sec": round(wall, 3), "message": msg}
+        return {"status": status, "wall_sec": round(wall, 3), "message": msg,
+                "solver": solver}
 
 
 def main():
@@ -117,6 +154,8 @@ def main():
                                      "record needs cand_id, m0, fill, kernel_bit, w57..w60)")
     ap.add_argument("--conflicts", type=int, default=10_000_000)
     ap.add_argument("--seed", type=int, default=1)
+    ap.add_argument("--solver", default="kissat", choices=["kissat", "cadical", "cms", "all"],
+                    help="Solver to use. 'all' runs kissat+cadical+CMS and aggregates.")
     args = ap.parse_args()
 
     if args.batch:
@@ -133,7 +172,7 @@ def main():
                 result = verify_one(
                     rec["m0"], rec["fill"], rec["kernel_bit"],
                     rec["w57"], rec["w58"], rec["w59"], rec["w60"],
-                    conflicts=args.conflicts, seed=args.seed,
+                    conflicts=args.conflicts, seed=args.seed, solver=args.solver,
                 )
                 cid = rec.get("cand_id", "?")
                 print(f"{cid:<50}  {result['status']:<8}  {result['wall_sec']:>8.3f}s  "
@@ -159,7 +198,7 @@ def main():
     result = verify_one(
         args.m0, args.fill, args.kernel_bit,
         args.w57, args.w58, args.w59, args.w60,
-        conflicts=args.conflicts, seed=args.seed,
+        conflicts=args.conflicts, seed=args.seed, solver=args.solver,
     )
 
     cand = args.cand_id or f"m0={args.m0} fill={args.fill} bit={args.kernel_bit}"
