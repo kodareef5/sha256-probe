@@ -93,3 +93,25 @@ This is the publication-quality empirical seed-sensitivity dataset.
 
 3 commits this hour. Overnight kissat: 36/156 done at 05:23 UTC.
 ETA ~13:30 EDT.
+
+## 02:18 EDT — F23: Mode B sr=60 sanity = wall-equivalent to Mode A
+
+Per user's "sr=60 Mode B sanity test" suggestion. Built Mode B
+(force semantics) sr=60 CNF for msb_m17149975, ran 5 seeds × 1M
+conflicts. All UNKNOWN at ~26s wall.
+
+vs F21 Mode A: median 27.09s. Mode B median 26.06s = 1.04x faster
+(within noise).
+
+vs F4b sr=61 finding: Mode B ~1.5x faster at sr=61.
+
+CONCLUSION: Mode B's advantage is sr=61-specific (over-determined
+slack=-64), NOT sr=60 (slack=0). At sr=60, Mode A and Mode B are
+functionally equivalent — both encode the cascade-1+cascade-2 via
+W[57..60] freedom.
+
+Implication for paper Section 4: encoder mode doesn't change sr=60
+solve time at moderate budgets. The seed=5 12h finding is specific
+to deep budget at this cand, regardless of encoding mode.
+
+5 runs logged. Mode B sr=60 CNF committed as fixture. Dashboard refreshed.
