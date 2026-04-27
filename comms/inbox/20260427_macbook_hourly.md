@@ -159,3 +159,30 @@ with 6 register components. Bit pattern 0x00820042 appears in BOTH a_61
 and e_61 — symmetric structure suggesting shared cancellation.
 
 Tool committed: residuals/block2_lowhw_set.c (43M iter/sec).
+
+## 04:05 EDT — F25: idx8_m33ec77ca takes lead at HW=46
+
+Cross-cand extension of F24 across all 5 distinguished cands × 1B
+samples each:
+
+  idx8_m33ec77ca  HW=46  ← NEW LEADER
+  bit13_m4e560940 HW=47
+  msb_m17149975   HW=49  (sr=60 verified)
+  msb_m189b13c7   HW=49
+  bit18_m99bf552b HW=51
+
+ALL 5 cands have EXACTLY 1 distinct vector at min HW (universal
+structural rigidity from F24).
+
+Different fan-out at HW above min:
+- msb_m17149975 fluffiest landscape → kissat findable
+- idx8/bit13 sparsest → STRUCTURAL rigidity may make Wang absorption
+  harder OR easier (depends on bit pattern overlap)
+
+For block2_wang: idx8_m33ec77ca is new primary target. Not in existing
+corpus (msb-only). Extending corpus to idx8+bit13 is the next concrete
+move for that bet.
+
+5 cand logs committed at residuals/F25_cross_cand/.
+
+Overnight kissat: 60/156 done at 07:23 UTC. ETA ~13:30 EDT.
