@@ -139,3 +139,23 @@ signed-DC notation.
 
 literature.yaml updated: read_status flipped to 'read' (with
 STRUCTURAL_SUMMARY caveat). 0 validate errors.
+
+## 03:30 EDT — F24: bit13 residual structurally PINNED (1B samples)
+
+Built block2_lowhw_set.c — per-HW distinct-vector tracker. 1B samples
+on bit13_m4e560940:
+
+  HW=47: 1 chamber, 1 distinct vector
+  HW=51: 1 distinct
+  HW=52: 3 distinct
+  HW=53: 4 distinct
+
+CRITICAL DECODE of min residual: positions 3 (a_60) and 7 (e_60) are
+ZERO — F14's "cascade-1 forces de60=0" empirically confirmed. Non-zero
+bits concentrated at slots 61, 62, 63.
+
+Cross-bet implication for block2_wang: concrete 47-bit absorption target
+with 6 register components. Bit pattern 0x00820042 appears in BOTH a_61
+and e_61 — symmetric structure suggesting shared cancellation.
+
+Tool committed: residuals/block2_lowhw_set.c (43M iter/sec).
