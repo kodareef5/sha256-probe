@@ -1143,3 +1143,45 @@ manifold-search MIGHT be EASIER on these (constraint helps the
 manifold) — opposite of solver-axis intuition. Worth testing.
 
 15 kissat runs logged. 3 new CNFs CONFIRMED. F-series F52 shipped.
+
+---
+
+## 10:33 EDT — F53: HW=48 NON-sym control — symmetry penalty ~17s at HW=48
+
+DECISIVE 2v2 control test for F52's "EXACT-sym at HW≥47 harmful":
+
+  HW=48 NON-sym (NEW):
+    msb_ma22dc6c7  (fill=ffff): 31.31s seq median
+    bit18_mafaaaf9e (fill=0000): 30.39s seq median
+
+  HW=48 EXACT-sym (F50):
+    bit00_md5508363 (fill=80000000): 53.42s seq median
+    bit17_mb36375a2 (fill=00000000): 42.52s seq median
+
+  **Symmetry penalty at HW=48: ~17s (clean N=2v2 control)**
+
+F52 ROBUSTLY CONFIRMED. Two-axis structural picture solidified across
+15-cand baseline:
+
+  NON-sym track:    HW=46-48 fast/medium (28-31s), HW=49+ plateau (35-39s)
+  EXACT-sym track:  HW=45 fast (bit2 unique), HW=47 medium (33s),
+                    HW=48 SLOW (42-53s)
+
+Symmetry penalty grows with HW: ~5s at HW=47, ~17s at HW=48.
+
+**Testable mechanism**: cadical with symmetry-breaking should NOT
+show this gap if mechanism (structural redundancy from a_61=e_61
+shared pattern) is correct.
+
+For paper Section 4: substantial structural finding with 2 controlled
+experiments at HW=47 and HW=48.
+
+For block2_wang: 7-cand FAST/MEDIUM cluster (5 fast HW≤47 + 2 medium
+HW=48 NON-sym) is the new solver-friendly target set.
+
+For yale's manifold-search: F53 prediction stands — EXACT-sym cands
+should be MANIFOLD-FRIENDLY (constraint helps), opposite of solver-
+unfriendliness. Worth testing on bit13_m4e560940 (HW=47 EXACT-sym)
+or bit17_mb36375a2 (HW=48 EXACT-sym).
+
+10 runs logged. CNF CONFIRMED. Pulse-aware: in continuous flow.
