@@ -1263,3 +1263,44 @@ NON-sym) — if median ~30s, bit18 was a cadical pathology; if
 much slower like bit18, the reversal IS general HW=48.
 
 10 cadical runs logged. F-series F55 shipped.
+
+---
+
+## 11:08 EDT — F56: cadical bimodal at HW=48 NON-sym; msb_ma22dc6c7 cadical-axis champion
+
+cadical on msb_ma22dc6c7 (other HW=48 NON-sym, F36 LM champion):
+  walls: 24.42, 26.41, 25.13, 26.65, 25.19 → median 25.19s, range 2.23s
+
+**FAST AND TIGHT** — cadical's BEST PERFORMANCE on any cand tested.
+
+Bimodal at HW=48 NON-sym CONFIRMED:
+  msb_ma22dc6c7: cadical 25s (champion)
+  bit18_mafaaaf9e: cadical 65s, range 92s (pathology)
+
+bit18 is single-cand cadical pathology, NOT general HW=48 cadical
+issue. F55's hypothesis VERIFIED.
+
+**Different cands win on different solvers**:
+  kissat-fastest: bit2_ma896ee41 (HW=45 EXACT-sym, 27s)
+  cadical-fastest: msb_ma22dc6c7 (HW=48 NON-sym, 25s)
+
+bit2 is the ONLY cand fast on BOTH solvers (universal cleanness).
+
+**TRIPLE DISTINCTION for msb_ma22dc6c7**:
+  - F36 LM champion at LM=773
+  - F56 cadical-fastest at 25s
+  - F49 kissat plateau at 35s
+  → strong cross-axis recommendation for block2_wang cadical-side
+  trail design
+
+For yale's manifold-search: msb_ma22dc6c7's cadical-fastness might
+correlate with manifold-search efficiency (both benefit from
+structural exploitation). Worth testing.
+
+**Block2_wang updated PRIMARY targets per axis**:
+  kissat-axis: bit2_ma896ee41
+  cadical-axis: msb_ma22dc6c7 ← NEW
+  Wang sym-axis: bit2_ma896ee41
+  LM-axis: msb_ma22dc6c7 (or bit4_m39a03c2d at LM=757)
+
+5 cadical runs logged. F56 shipped.
