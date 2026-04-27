@@ -214,3 +214,28 @@
   related_mechanisms:
   - chunk_mode_dp_with_modes
   owner: macbook
+- id: cascade1_sr61_de58_zero_unreachable_n67
+  claim: "Cascade-1 sr=61 collision unreachable for the registry's cascade-eligible cands — no W57 chamber yields de58=0\
+    \ within sampled coverage for any of 67 candidates; image fully enumerated for 2 small-image cands (bit=19 size=256,\
+    \ bit=25 m=0xa2f498b1 size=1024) confirms 0 is structurally absent from those images."
+  scope: cascade_aux Mode A, registry's 67 N=32 cands at sr=61. F10 (16K W57 samples per cand) extended by F11 (1M samples
+    on 7 close-to-zero cands).
+  status: closed
+  evidence_level: EVIDENCE
+  closed_date: '2026-04-26'
+  evidence_files:
+  - bets/cascade_aux_encoding/results/20260426_de58_zero_chamber_search.md
+  - bets/cascade_aux_encoding/results/20260426_f10_registry_de58_screen.md
+  why_closed: "Registry-wide screen at 16K chambers per cand finds 0/67 cands with de58=0; 7/67 have min_HW <= 5; bit=17 m=0x427c281d\
+    \ has min_HW=4 (closest registry reach). Two cands' images are small enough to be fully covered (bit=19 size=256, bit=25\
+    \ size=1024) and definitively exclude 0. Yale's HW4 D61 floor across 8 attack vectors is the SAME structural fact under\
+    \ different framing — the cand's de58 image minimum HW IS the D61 floor."
+  would_change_my_mind:
+  - Find any registry cand whose de58 image contains 0 (HW=0 chamber). F11 1M-sample search is the immediate test.
+  - Find a non-cascade-1 collision path (i.e., da[57..60] ≠ 0 along the way) that achieves sr=61. This is yale's "Sigma1/Ch/T2
+    chart-preserving operator" criterion in singular_chamber_rank.
+  - Find a structural reason that GUARANTEES de58 image always omits 0 for cascade-eligible cands. Would close the search
+    direction permanently.
+  related_mechanisms:
+  - cascade_auxiliary_encoding
+  owner: macbook
