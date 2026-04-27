@@ -36,8 +36,13 @@ PHASE_A_BUDGET   = 100_000_000                         # 100M conflicts
 PHASE_B_SEEDS    = [41, 43, 47, 53, 59]                # 5 seeds × 1B (deep)
 PHASE_B_BUDGET   = 1_000_000_000                       # 1B conflicts
 PHASE_C_BUDGET   = 100_000_000                         # 100M for breadth on other cands
-PHASE_D_SEEDS    = [61, 67, 71]                        # 3 seeds × 5B (very deep, top 2 cands only)
-PHASE_D_BUDGET   = 5_000_000_000                       # 5B conflicts (will hit time cap)
+PHASE_D_SEEDS    = [61, 67, 71]                        # 3 seeds × 2B (very deep, top 2 cands only)
+PHASE_D_BUDGET   = 2_000_000_000                       # 2B conflicts (kissat int32 max ~2.15B; hits time cap first)
+# NOTE 2026-04-27: original PHASE_D_BUDGET was 5_000_000_000 which kissat
+# rejects with "invalid argument in '--conflicts=5000000000'" (exceeds int32
+# max). All Phase D runs 79-84 in current overnight dispatcher failed
+# immediately (wall=0.00 in results.tsv). Capped to 2B for valid kissat
+# arg; the 30-min wall cap will fire before this anyway.
 PHASE_D_CANDS    = [
     "cnfs_n32/sr61_cascade_m17149975_fffffffff_bit31.cnf",     # verified sr=60 (deepest residual)
     "cnfs_n32/sr61_n32_bit13_m4e560940_fillaaaaaaaa_enf0.cnf", # F17 champion
