@@ -34,8 +34,19 @@ def main():
         "60": int(args.w60, 16),
     }
 
-    varmap = json.load(open(args.varmap))
-    aux_W = varmap["aux_W"]
+    # NOTE 2026-04-27: aux_W in the varmap is W1^W2 XOR-diff vars, NOT actual
+    # W1 bits. The actual W1[57..60] bits are at vars 2..129 in the cascade_aux
+    # Mode A encoder output (matches existing m17149975 cert-pin layout).
+    # See F69 honest retraction.
+    varmap = json.load(open(args.varmap))  # kept for consistency / sanity checking
+    # Hardcoded W1[57..60] bit positions: 32 bits per slot, starting at var 2.
+    primary_W1 = {
+        "57": list(range(2, 34)),
+        "58": list(range(34, 66)),
+        "59": list(range(66, 98)),
+        "60": list(range(98, 130)),
+    }
+    aux_W = primary_W1  # repoint to primary W1 vars (NOT aux XOR-diff vars)
 
     # Read base CNF
     with open(args.base) as f:
