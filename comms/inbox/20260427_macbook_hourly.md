@@ -819,3 +819,32 @@ Compute used: ~60 CPU-hours (0.6% of 10,000-hour budget cap).
 Per-job mean wall: 1714s — most hit 30-min cap.
 
 Memo: bets/sr61_n32/results/20260427_overnight_dispatcher_partial_progress.md
+
+---
+
+## 14:10 EDT — validate_results.py defensive utility shipped
+
+Created `headline_hunt/bets/sr61_n32/overnight_kissat/validate_results.py`
+to defend against the Phase D silent-failure pattern.
+
+Catches:
+  EMPTY        — kissat crashed before writing
+  KISSAT_ERROR — "kissat: error" lines (invalid args, etc.)
+  NO_STATUS    — output present but no "s SAT/UNSAT" line
+  READ_ERROR   — log file unreadable
+  OK           — well-formed
+
+Validation on current dispatcher state confirms:
+  120 OK + 6 KISSAT_ERROR (Phase D bug) + 6 EMPTY (currently running)
+
+Exit code 0 if all OK, 1 if failures. Suitable for cron / pre-commit /
+post-dispatcher-completion check.
+
+This means **future dispatcher runs are protected** from silent
+budget-config errors like Phase D. Any wall=0.00 entry in results.tsv
+should now be cross-checked against this validator before being
+trusted as a real solver run.
+
+Also validated the Phase D fix smoke test: kissat accepts
+--conflicts=2000000000 and runs without erroring (vs old 5B which
+errored immediately). Fix works.
