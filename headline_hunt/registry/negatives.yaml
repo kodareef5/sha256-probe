@@ -214,11 +214,13 @@
   related_mechanisms:
   - chunk_mode_dp_with_modes
   owner: macbook
-- id: cascade1_sr61_de58_zero_unreachable_n67
-  claim: "Cascade-1 sr=61 collision DEFINITIVELY UNREACHABLE for all 67 registry candidates — exhaustive enumeration of\
-    \ all 2^32 W57 chambers per cand (287 BILLION chambers total) yields ZERO chambers with de58=0.\
-    \ Min HW reached: 2 (msb_m189b13c7) — the structural champion."
-  scope: cascade_aux Mode A, registry's 67 N=32 cands at sr=61. F13 = full 2^32 enumeration per cand.
+- id: cascade1_chamber_de58_image_excludes_zero_n67
+  claim: "STRUCTURAL FACT (corrected from F13 overreach): For all 67 registry candidates, the cascade-1 chamber image of\
+    \ de58 over the full 2^32 W57 space EXCLUDES 0. Min HW reached: 2 (msb_m189b13c7). This is a structural fact about the\
+    \ chamber image; it is NOT the sr=61 collision closure proof — sr=60/sr=61 collision does not require de58=0 (verified\
+    \ sr=60 cert at m17149975 has de58=0x0e2ca4bc, see writeups/sr60_collision_anatomy.md). Useful for cand selection in\
+    \ chart-preserving operator design but does not close cascade-1 sr=61 search."
+  scope: cascade_aux Mode A, registry's 67 N=32 cands. F13 = full 2^32 enumeration per cand of de58 image structure.
   status: closed
   evidence_level: VERIFIED
   closed_date: '2026-04-26'
@@ -231,9 +233,10 @@
   - bets/cascade_aux_encoding/results/20260426_f13_registry_wide_definitive.md
   why_closed: "F13 ran the C tool de58_enum (626M evals/sec) at full 2^32 enumeration per registry candidate, ~5 min total\
     \ wall time. 287,762,808,832 chambers exhaustively checked — 0 with de58=0. Closest reach: msb_m189b13c7 at HW=2 (residual\
-    \ 0x00000108, structurally pinned across 512 chambers). 4 cands at HW≤4, ~12 at HW=5, max HW=13. Yale's HW4 D61 floor\
-    \ across 8 attack vectors is the SAME structural fact registry-wide. This is the strongest cascade_aux structural negative\
-    \ ever shipped — exhaustive, not probabilistic."
+    \ 0x00000108, structurally pinned across 512 chambers). CORRECTION 2026-04-26 20:38: this is a structural property of\
+    \ the cascade-1 chamber image, NOT the sr=61 collision closure proof. The verified sr=60 collision (m17149975) has de58\
+    \ = 0x0e2ca4bc ≠ 0 — sr=60/sr=61 collision requires de60=0 (cascade-2 kill), not de58=0. See 20260427_F13_CORRECTION_de58_not_required.md\
+    \ for full correction memo."
   would_change_my_mind:
   - Find any registry cand whose de58 image contains 0 (HW=0 chamber). F11 1M-sample search is the immediate test.
   - Find a non-cascade-1 collision path (i.e., da[57..60] ≠ 0 along the way) that achieves sr=61. This is yale's "Sigma1/Ch/T2
