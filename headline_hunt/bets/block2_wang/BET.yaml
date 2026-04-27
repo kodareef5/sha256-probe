@@ -29,5 +29,46 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-04-26T21:18:00Z'
+last_heartbeat: '2026-04-27T08:30:00Z'
 heartbeat_interval_days: 7
+recent_progress_2026-04-27: |
+  Cross-bet F-series structural data shipped this session:
+
+  F18 (commit 5a8deaa): 10B sample residual scan, 4 distinguished cands.
+  Min HWs: msb_m17149975=44, idx8_m33ec77ca=46, bit13_m4e560940=47,
+  msb_m189b13c7=49.
+
+  F24 (commit d07d3a1): bit13 residual STRUCTURALLY RIGID at HW=47 across
+  1B samples. State diff = [0x524211d0, 0x42438404, 0x00820042, 0x00000000,
+  0x8460b026, 0xc954081a, 0x00820042, 0x00000000]. Positions a_60 and e_60
+  are zero (cascade-1 holds at slot 60). Residual concentrated at slots
+  61, 62, 63 = schedule-extension non-alignment.
+
+  F25 (commit 8e2f0c2): cross-cand residual structure on 5 cands × 1B.
+  ALL 5 have exactly 1 distinct vector at min HW. Universal structural
+  rigidity. New leader: idx8_m33ec77ca at HW=46.
+
+  F26 (commit 230dd41): bit13 has UNIQUE a_61 = e_61 = 0x00820042 exact
+  symmetry. Other 4 cands have 1-4 bit asymmetry. Implication: bit13
+  may admit shorter Wang-style absorption sequences (1 pattern handles
+  both a_61 and e_61 = 16 bits absorbed by 8-bit operator).
+
+  Tools: residuals/block2_residual_counter.c (62M iter/sec, single-best
+  tracker), residuals/block2_lowhw_set.c (43M iter/sec, per-HW distinct
+  tracker).
+
+  Updated primary target ranking:
+    idx8_m33ec77ca   HW=46  (F25 leader, sparse fan-out)
+    bit13_m4e560940  HW=47  (3 distinguishing features, F26 unique symm)
+    msb_m17149975    HW=44 @10B (F18 leader, fluffy fan-out, sr=60 verified)
+    msb_m189b13c7    HW=49 @1B
+    bit18_m99bf552b  HW=51 @1B
+
+  Existing corpora (residuals/by_candidate/) only cover msb_m189b13c7 and
+  msb_m9cfea9ce. F25/F26 results suggest extending corpus to idx8 and
+  bit13 — both have rigid residual structure NOT yet captured.
+
+  CURRENT next_action: extend corpus to idx8_m33ec77ca + bit13_m4e560940
+  using build_corpus.py at deep sample count (1M+ entries each), then
+  apply Wang-style second-block message-modification analysis on the
+  rigid residual targets.
