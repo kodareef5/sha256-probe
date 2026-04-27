@@ -49,3 +49,22 @@ Fleet can run `kissat <fixture>.cnf -q --seed=5` directly.
 2 runs logged via append_run.py. Dashboard refreshed.
 
 Overnight: 24/156 done at 04:23 UTC, all UNKNOWN. ETA ~14:30 EDT.
+
+## 01:20 EDT — F21 reproducibility: 0/10 seeds find SAT at 1M conflicts
+
+Real empirical data on seed-sensitivity: 10 seeds × 1M conflicts on
+sr=60 cascade_aux Mode A msb_m17149975 (no hints). All UNKNOWN at
+~27s wall each.
+
+Including seed=5 — the historical 12h SAT-finding seed. At 1M
+conflicts seed=5 produces UNKNOWN; the historical 12h run used ~1.6B
+conflicts (1600x deeper).
+
+Conclusion for Section 4 of paper: sr=60 SAT requires DEEP budget on
+a specific m0, not any seed at moderate budget. Confirms Viragh's
+"TIMEOUT > 7200s" was at insufficient budget; the project found SAT
+by going deeper.
+
+10 runs logged. Sr=60 base CNF committed as fixture.
+
+3 commits this hour. Overnight kissat continuing (~30/156 done).
