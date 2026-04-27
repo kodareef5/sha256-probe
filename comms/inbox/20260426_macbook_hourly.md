@@ -794,3 +794,35 @@ Registry validates clean (0 errors, 0 warnings).
 Net: the bet's self-documentation is now coherent across SPEC.md →
 BET.yaml → wrapper docstring → CNF comment headers. No future worker
 should over-interpret the 1.87× number as "collision-finding speedup."
+
+## 20:08 EDT — F10 STRUCTURAL FINDING: 0/67 cands have cascade-1 de58=0 reach
+
+3 more commits this turn (4 total this autonomous-loop sequence):
+
+- **6a88627**: F10 registry-wide screen — sampled 16K W57 chambers per
+  cand for ALL 67 registry candidates. Result: **0/67 have de58=0
+  in sample**. 7/67 have min HW ≤ 5; bit=17 m=0x427c281d is closest at
+  HW=4 with 14 low-HW chambers. Two cands (bit=19 image=256, bit=25
+  ma2f498b1 image=1024) DEFINITIVELY exclude 0 via full enumeration.
+- **f5e45a5**: comms/inbox/ message to yale (singular_chamber bet) —
+  the bit=17 m=0x427c281d cand is structurally the closest registry
+  reach to cascade-1 sr=61 collision; not in their current test set;
+  worth adding for chart-preserving operator probes.
+- **d5feb66**: registry-wide negative entry recorded in negatives.yaml
+  ("cascade1_sr61_de58_zero_unreachable_n67") with would_change_my_mind
+  triggers for reopen.
+
+Cross-bet insight: yale's HW4 D61 floor (8 attack vectors converging)
+IS the de58 image's minimum HW under different framing. These are the
+SAME structural fact. Sub-HW4 D61 requires escaping cascade-1 to reach
+de58 image points outside the chamber-fixed range — exactly yale's
+"Sigma1/Ch/T2 chart-preserving operator" criterion.
+
+F11 1M-sample search on the 7 close-to-zero cands is in flight. If
+HW=0 is reachable for any cand, that's the first cascade-1 sr=61-
+eligible chamber found in the registry — direct headline target.
+
+8 commits this autonomous-loop sequence. The bet's understanding is
+substantially deeper than at session start: from "stack hints give
+1.87× preprocessing speedup" → "registry-wide cascade-1 search is
+structurally closed for at least 2 cands, plausibly all 67."
