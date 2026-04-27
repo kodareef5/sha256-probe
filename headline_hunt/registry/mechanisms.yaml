@@ -18,7 +18,7 @@
     (HW45/exact symmetry/LM824), bit13 balanced exact-symmetry
     (HW47/LM780), bit28 raw LM champion (HW65/LM652), bit28
     exact-symmetry LM champion (HW57/LM656), and bit28 residual champion
-    (HW35/LM710). Next
+    (HW33/LM679/exact symmetry). Next
     implementation target is a residual sampler/trail engine that keeps
     an online Pareto frontier over HW, LM, and symmetry instead of saving
     only min-HW records."
@@ -41,7 +41,7 @@
     seeded point-walk plus exact W60 slice sweeps pushed the raw LM
     frontier from 757 to 657, the exact-symmetry LM frontier from 772 to
     652, the exact-symmetry LM frontier from 772 to 656, and the
-    residual-HW frontier from 45 to 35."
+    residual-HW frontier from 45 to 33."
 - id: cascade_auxiliary_encoding
   name: Cascade-auxiliary CNF encoding for SAT and KC
   headline_if_success: Reduced treewidth + improved SAT robustness, enabling either constructive d4 or sr=61 SAT solve.

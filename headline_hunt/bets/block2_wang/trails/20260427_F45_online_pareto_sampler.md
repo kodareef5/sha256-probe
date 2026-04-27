@@ -466,6 +466,36 @@ exact a61=e61 = no
 
 The best exact-symmetry LM point remains the previous HW57/LM656 point.
 
+## Fifth-ring HW-centered sweep
+
+Centering on the HW35 sheet:
+
+```text
+fixed W57 = 0xce9b8db6
+fixed W58 = 0xb26e4c72
+base  W59 = 0xcb04fbc4
+variants = 33
+evaluations = 141,733,920,768
+wall = 2205.789s
+rate = 64.255M/s
+```
+
+improved the residual frontier again:
+
+```text
+candidate: bit28_md1acca79_fillffffffff
+W57 = 0xce9b8db6
+W58 = 0xb26e4c72
+W59 = 0xc904fbc4
+W60 = 0x73b182dd
+
+residual HW = 33
+LM cost = 679
+exact a61=e61 = yes
+```
+
+Raw LM did not improve in this sweep.
+
 ## Third-ring centered checks
 
 Two more centered one-bit W59 neighborhoods were swept exactly:
@@ -498,7 +528,7 @@ The new observed target set is:
 
 | axis | candidate | record |
 |---|---|---|
-| minimum residual | `bit28_md1acca79` | HW35 / LM710 |
+| minimum residual | `bit28_md1acca79` | HW33 / LM679 / exact symmetry |
 | balanced exact symmetry | `bit13_m4e560940` | HW47 / LM780 / exact symmetry |
 | low HW, low LM | `bit28_md1acca79` | HW41 / LM660 / exact symmetry |
 | raw LM champion | `bit28_md1acca79` | HW65 / LM652 |
