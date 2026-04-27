@@ -396,3 +396,25 @@ bit2_ma896ee41 HW=45 vector with W=0x91e0726f 0x6a166a99 0x4fe63e5b
 0x8d8e53ed is the highest-leverage Wang-target in the registry.
 
 Memo at `headline_hunt/bets/block2_wang/residuals/20260427_F32_deep_corpus_structured.md`.
+
+---
+
+## 07:50 EDT — Mouha ARX MILP framework note (4th and final classical should_read)
+
+All 4 classical literature should_reads now structurally summarized:
+- Wang/Yin/Yu 2005 (SHA-1 differential)            ✓
+- de Cannière/Rechberger 2006 (automated DC search) ✓
+- Mendel-Nad-Schläffer 2013 (SHA-256 SAT-based DC) ✓
+- Mouha 2010+ (MILP + S-function framework)         ✓ ← this hour
+
+Mouha's framework completes the three-pillar synthesis for paper
+Section 2: Wang (hand-craft) → dCR (guess-propagate) → Mouha
+(MILP-optimize). All three converge on what block2_wang needs.
+
+Direct application to F32 bit2_ma896ee41 HW=45 vector:
+- Active-adder count along round-57..63 trail: 28-49
+- Naive trail-probability lower bound: 2^-28..2^-49
+- Block-2 256-bit freedom: 2^207..2^228 expected solutions if optimal
+- This is the structural reason F28's bit2 finding matters
+
+Note at `headline_hunt/literature/notes/classical_mouha_arx_framework.md`.
