@@ -238,6 +238,7 @@ static const int MSG_FREE_INDEX[MSG_FREE_WORDS] = {
 
 typedef struct {
     uint32_t a57_xor;
+    uint32_t a57_delta;
     uint32_t defects[MSG_DEFECT_ROUNDS];
     uint32_t dW[MSG_DEFECT_ROUNDS];
     uint32_t req[MSG_DEFECT_ROUNDS];
@@ -294,6 +295,7 @@ static void msg61_eval_candidate(const candidate_t *cand,
             int j = r - 57;
             if (j == 0) {
                 out->a57_xor = s1[0] ^ s2[0];
+                out->a57_delta = s2[0] - s1[0];
                 out->a57_hw = hw32(out->a57_xor);
             }
             out->req[j] = cascade1_offset(s1, s2);
@@ -376,8 +378,9 @@ static int msg61_words_equal(const uint32_t a[MSG_FREE_WORDS],
 }
 
 static void msg61_print_eval_fields(const msg61_eval_t *ev) {
-    printf("\"a57_xor\":\"0x%08x\",\"a57_hw\":%d,\"defects\":[",
-           ev->a57_xor, ev->a57_hw);
+    printf("\"a57_xor\":\"0x%08x\",\"a57_delta\":\"0x%08x\","
+           "\"a57_hw\":%d,\"defects\":[",
+           ev->a57_xor, ev->a57_delta, ev->a57_hw);
     for (int i = 0; i < MSG_DEFECT_ROUNDS; i++) {
         printf("%s\"0x%08x\"", i ? "," : "", ev->defects[i]);
     }
@@ -419,6 +422,107 @@ static void msg61_point_candidate(int idx, const uint32_t *maybe_words) {
     printf(",");
     msg61_print_eval_fields(&ev);
     printf("}\n");
+}
+
+static uint32_t carry_mask2(uint32_t x, uint32_t y) {
+    uint32_t s = x + y;
+    return (x & y) | ((x | y) & ~s);
+}
+
+static void print_u32_array_hex(const char *name, const uint32_t *v, int n) {
+    printf("\"%s\":[", name);
+    for (int i = 0; i < n; i++) {
+        printf("%s\"0x%08x\"", i ? "," : "", v[i]);
+    }
+    printf("]");
+}
+
+static void msg61_round56_trace_candidate(int idx, const uint32_t *maybe_words) {
+    if (idx < 0 || idx >= (int)(sizeof(CANDIDATES) / sizeof(CANDIDATES[0]))) idx = 0;
+    const candidate_t *cand = &CANDIDATES[idx];
+    uint32_t words[MSG_FREE_WORDS];
+    if (maybe_words) {
+        memcpy(words, maybe_words, sizeof(words));
+    } else {
+        msg61_fill_words(cand, words);
+    }
+
+    uint32_t M1[16], M2[16], W1[64], W2[64];
+    build_candidate_messages(cand, words, M1, M2);
+    expand_schedule64(M1, W1);
+    expand_schedule64(M2, W2);
+
+    uint32_t s1[8], s2[8];
+    memcpy(s1, sha256_IV, sizeof(s1));
+    memcpy(s2, sha256_IV, sizeof(s2));
+    for (int r = 0; r < 56; r++) {
+        apply_round(s1, W1[r], r);
+        apply_round(s2, W2[r], r);
+    }
+
+    uint32_t t1p1[5] = {s1[7], sha256_Sigma1(s1[4]),
+                        sha256_Ch(s1[4], s1[5], s1[6]),
+                        sha256_K[56], W1[56]};
+    uint32_t t1p2[5] = {s2[7], sha256_Sigma1(s2[4]),
+                        sha256_Ch(s2[4], s2[5], s2[6]),
+                        sha256_K[56], W2[56]};
+    uint32_t t2p1[2] = {sha256_Sigma0(s1[0]), sha256_Maj(s1[0], s1[1], s1[2])};
+    uint32_t t2p2[2] = {sha256_Sigma0(s2[0]), sha256_Maj(s2[0], s2[1], s2[2])};
+
+    uint32_t pre56_xor[8], t1_delta_parts[5], t1_xor_parts[5];
+    uint32_t t2_delta_parts[2], t2_xor_parts[2], t1_carry_xor[4];
+    for (int i = 0; i < 8; i++) pre56_xor[i] = s1[i] ^ s2[i];
+    for (int i = 0; i < 5; i++) {
+        t1_delta_parts[i] = t1p2[i] - t1p1[i];
+        t1_xor_parts[i] = t1p2[i] ^ t1p1[i];
+    }
+    for (int i = 0; i < 2; i++) {
+        t2_delta_parts[i] = t2p2[i] - t2p1[i];
+        t2_xor_parts[i] = t2p2[i] ^ t2p1[i];
+    }
+
+    uint32_t acc1 = t1p1[0], acc2 = t1p2[0];
+    for (int i = 1; i < 5; i++) {
+        uint32_t c1 = carry_mask2(acc1, t1p1[i]);
+        uint32_t c2 = carry_mask2(acc2, t1p2[i]);
+        t1_carry_xor[i - 1] = c1 ^ c2;
+        acc1 += t1p1[i];
+        acc2 += t1p2[i];
+    }
+    uint32_t T1_1 = acc1, T1_2 = acc2;
+    uint32_t c1_t2 = carry_mask2(t2p1[0], t2p1[1]);
+    uint32_t c2_t2 = carry_mask2(t2p2[0], t2p2[1]);
+    uint32_t T2_1 = t2p1[0] + t2p1[1];
+    uint32_t T2_2 = t2p2[0] + t2p2[1];
+    uint32_t c1_a = carry_mask2(T1_1, T2_1);
+    uint32_t c2_a = carry_mask2(T1_2, T2_2);
+    uint32_t a57_1 = T1_1 + T2_1;
+    uint32_t a57_2 = T1_2 + T2_2;
+
+    printf("{\"mode\":\"msg61round56trace\",\"candidate\":\"%s\",\"idx\":%d,"
+           "\"seeded\":%d,\"free_words\":",
+           cand->id, idx, maybe_words ? 1 : 0);
+    msg61_print_words(words);
+    printf(",\"W56\":[\"0x%08x\",\"0x%08x\"],", W1[56], W2[56]);
+    print_u32_array_hex("pre56_xor", pre56_xor, 8);
+    printf(",");
+    print_u32_array_hex("t1_delta_parts", t1_delta_parts, 5);
+    printf(",");
+    print_u32_array_hex("t1_xor_parts", t1_xor_parts, 5);
+    printf(",");
+    print_u32_array_hex("t2_delta_parts", t2_delta_parts, 2);
+    printf(",");
+    print_u32_array_hex("t2_xor_parts", t2_xor_parts, 2);
+    printf(",");
+    print_u32_array_hex("t1_carry_xor", t1_carry_xor, 4);
+    printf(",\"t2_carry_xor\":\"0x%08x\",\"a_carry_xor\":\"0x%08x\","
+           "\"T1_delta\":\"0x%08x\",\"T2_delta\":\"0x%08x\","
+           "\"T1_xor\":\"0x%08x\",\"T2_xor\":\"0x%08x\","
+           "\"a57_xor\":\"0x%08x\",\"a57_hw\":%d}\n",
+           c1_t2 ^ c2_t2, c1_a ^ c2_a,
+           T1_2 - T1_1, T2_2 - T2_1,
+           T1_1 ^ T1_2, T2_1 ^ T2_2,
+           a57_1 ^ a57_2, hw32(a57_1 ^ a57_2));
 }
 
 static int rank160_vectors(const uint32_t vecs[][MSG_DEFECT_ROUNDS], int n) {
@@ -1190,11 +1294,728 @@ static void msg61_build_a57_columns(const candidate_t *cand,
     }
 }
 
+static void msg61_build_a57_delta_columns(const candidate_t *cand,
+                                          const uint32_t words[MSG_FREE_WORDS],
+                                          const msg61_eval_t *base_ev,
+                                          uint32_t cols[MSG_BITS]) {
+    for (int bit = 0; bit < MSG_BITS; bit++) {
+        uint32_t next_words[MSG_FREE_WORDS];
+        memcpy(next_words, words, sizeof(next_words));
+        msg_flip_bit(next_words, bit);
+        msg61_eval_t ev;
+        msg61_eval_candidate(cand, next_words, &ev);
+        cols[bit] = ev.a57_delta ^ base_ev->a57_delta;
+    }
+}
+
+static void msg61_delta_repair_point_candidate(int idx, int max_iters,
+                                               const uint32_t *seed_words) {
+    if (idx < 0 || idx >= (int)(sizeof(CANDIDATES) / sizeof(CANDIDATES[0]))) idx = 0;
+    if (max_iters < 1) max_iters = 1;
+    if (max_iters > 64) max_iters = 64;
+    const candidate_t *cand = &CANDIDATES[idx];
+    uint32_t words[MSG_FREE_WORDS];
+    if (seed_words) {
+        memcpy(words, seed_words, sizeof(words));
+    } else {
+        msg61_fill_words(cand, words);
+    }
+
+    msg61_eval_t start_ev, cur;
+    msg61_eval_candidate(cand, words, &start_ev);
+    cur = start_ev;
+    int iters = 0;
+    int last_rank = 0;
+    int last_delta_hw = 0;
+    for (; iters < max_iters && cur.a57_delta != 0; iters++) {
+        uint32_t cols[MSG_BITS];
+        uint64_t sol[MSG_COMBO_WORDS];
+        int rank = 0;
+        msg61_build_a57_delta_columns(cand, words, &cur, cols);
+        int ok = solve32_msg_columns(cols, cur.a57_delta, sol, &rank);
+        last_rank = rank;
+        if (!ok) break;
+        last_delta_hw = combo_hw(sol);
+        if (last_delta_hw == 0) break;
+        msg_apply_combo(words, sol);
+        msg61_eval_candidate(cand, words, &cur);
+    }
+
+    printf("{\"mode\":\"msg61deltarepairpoint\",\"candidate\":\"%s\",\"idx\":%d,"
+           "\"seeded\":%d,\"max_iters\":%d,\"iters\":%d,"
+           "\"last_rank\":%d,\"last_delta_hw\":%d,"
+           "\"start_prefix_hw\":%d,\"final_prefix_hw\":%d,"
+           "\"final_words\":",
+           cand->id, idx, seed_words ? 1 : 0, max_iters, iters,
+           last_rank, last_delta_hw, msg61_prefix_hw(&start_ev, 1),
+           msg61_prefix_hw(&cur, 1));
+    msg61_print_words(words);
+    printf(",\"start\":{");
+    msg61_print_eval_fields(&start_ev);
+    printf("},\"final\":{");
+    msg61_print_eval_fields(&cur);
+    printf("}}\n");
+}
+
+typedef struct {
+    int b0;
+    int b1;
+    uint32_t delta_change;
+    uint32_t low_key;
+    int prefix_hw;
+    int a57_hw;
+    int d57_hw;
+    int score;
+} msg_pair_move_t;
+
+static int cmp_pair_low_key(const void *pa, const void *pb) {
+    const msg_pair_move_t *a = (const msg_pair_move_t *)pa;
+    const msg_pair_move_t *b = (const msg_pair_move_t *)pb;
+    if (a->low_key < b->low_key) return -1;
+    if (a->low_key > b->low_key) return 1;
+    return a->score - b->score;
+}
+
+static int cmp_pair_score(const void *pa, const void *pb) {
+    const msg_pair_move_t *a = (const msg_pair_move_t *)pa;
+    const msg_pair_move_t *b = (const msg_pair_move_t *)pb;
+    if (a->score != b->score) return a->score - b->score;
+    if (a->prefix_hw != b->prefix_hw) return a->prefix_hw - b->prefix_hw;
+    if (a->a57_hw != b->a57_hw) return a->a57_hw - b->a57_hw;
+    return a->d57_hw - b->d57_hw;
+}
+
+static int pair_moves_disjoint(const msg_pair_move_t *a,
+                               const msg_pair_move_t *b) {
+    return a->b0 != b->b0 && a->b0 != b->b1 &&
+           a->b1 != b->b0 && a->b1 != b->b1;
+}
+
+static uint32_t msg61_abs_delta(uint32_t delta) {
+    uint32_t neg = 0U - delta;
+    return delta < neg ? delta : neg;
+}
+
+static int msg61_delta_level(uint32_t delta) {
+    uint32_t a = msg61_abs_delta(delta);
+    if (a == 0) return 0;
+    return 32 - __builtin_clz(a);
+}
+
+static int msg61_better_residue(const msg61_eval_t *a,
+                                const msg61_eval_t *b) {
+    int al = msg61_delta_level(a->a57_delta);
+    int bl = msg61_delta_level(b->a57_delta);
+    if (al != bl) return al < bl;
+    uint32_t aa = msg61_abs_delta(a->a57_delta);
+    uint32_t ba = msg61_abs_delta(b->a57_delta);
+    if (aa != ba) return aa < ba;
+    if (a->a57_hw != b->a57_hw) return a->a57_hw < b->a57_hw;
+    if (a->defect_hw[0] != b->defect_hw[0]) {
+        return a->defect_hw[0] < b->defect_hw[0];
+    }
+    if (a->total_hw != b->total_hw) return a->total_hw < b->total_hw;
+    return a->state_hw < b->state_hw;
+}
+
+static void apply_pair_move(uint32_t words[MSG_FREE_WORDS],
+                            const msg_pair_move_t *m) {
+    msg_flip_bit(words, m->b0);
+    msg_flip_bit(words, m->b1);
+}
+
+static void msg61_pairbeam_candidate(int idx, int low_bits, int top_k,
+                                     int threads,
+                                     const uint32_t *seed_words) {
+    if (idx < 0 || idx >= (int)(sizeof(CANDIDATES) / sizeof(CANDIDATES[0]))) idx = 0;
+    if (low_bits < 4) low_bits = 4;
+    if (low_bits > 32) low_bits = 32;
+    if (top_k < 0) top_k = 0;
+    if (threads < 1) threads = 1;
+    if (threads > 64) threads = 64;
+
+    const candidate_t *cand = &CANDIDATES[idx];
+    uint32_t base_words[MSG_FREE_WORDS];
+    if (seed_words) {
+        memcpy(base_words, seed_words, sizeof(base_words));
+    } else {
+        msg61_fill_words(cand, base_words);
+    }
+
+    msg61_eval_t base_ev;
+    msg61_eval_candidate(cand, base_words, &base_ev);
+    int npairs = MSG_BITS * (MSG_BITS - 1) / 2;
+    if (top_k > npairs) top_k = npairs;
+    msg_pair_move_t *pairs = (msg_pair_move_t *)calloc((size_t)npairs, sizeof(*pairs));
+    if (!pairs) {
+        fprintf(stderr, "pair allocation failed\n");
+        exit(2);
+    }
+
+    uint32_t low_mask = low_bits == 32 ? 0xffffffffU : ((1U << low_bits) - 1U);
+    int pi = 0;
+    for (int i = 0; i < MSG_BITS; i++) {
+        for (int j = i + 1; j < MSG_BITS; j++) {
+            uint32_t words[MSG_FREE_WORDS];
+            memcpy(words, base_words, sizeof(words));
+            msg_flip_bit(words, i);
+            msg_flip_bit(words, j);
+            msg61_eval_t ev;
+            msg61_eval_candidate(cand, words, &ev);
+            msg_pair_move_t *m = &pairs[pi++];
+            m->b0 = i;
+            m->b1 = j;
+            m->delta_change = ev.a57_delta - base_ev.a57_delta;
+            m->low_key = m->delta_change & low_mask;
+            m->prefix_hw = msg61_prefix_hw(&ev, 1);
+            m->a57_hw = ev.a57_hw;
+            m->d57_hw = ev.defect_hw[0];
+            m->score = 8 * m->prefix_hw + 2 * hw32(ev.a57_delta) + m->d57_hw;
+        }
+    }
+
+    msg61_eval_t best_any_ev = base_ev;
+    msg61_eval_t best_guard_ev = base_ev;
+    msg61_eval_t best_residue_ev = base_ev;
+    uint32_t best_any_words[MSG_FREE_WORDS], best_guard_words[MSG_FREE_WORDS];
+    uint32_t best_residue_words[MSG_FREE_WORDS];
+    memcpy(best_any_words, base_words, sizeof(best_any_words));
+    memcpy(best_guard_words, base_words, sizeof(best_guard_words));
+    memcpy(best_residue_words, base_words, sizeof(best_residue_words));
+    int best_guard_valid = base_ev.a57_xor == 0;
+    long long evaluated_low = 0;
+    long long evaluated_top = 0;
+    long long guard_hits = 0;
+    long long slot57_hits = 0;
+
+    qsort(pairs, (size_t)npairs, sizeof(*pairs), cmp_pair_low_key);
+    uint32_t target_low = (0U - base_ev.a57_delta) & low_mask;
+
+    #pragma omp parallel num_threads(threads)
+    {
+        msg61_eval_t local_best_any = base_ev;
+        msg61_eval_t local_best_guard = base_ev;
+        msg61_eval_t local_best_residue = base_ev;
+        uint32_t local_any_words[MSG_FREE_WORDS], local_guard_words[MSG_FREE_WORDS];
+        uint32_t local_residue_words[MSG_FREE_WORDS];
+        memcpy(local_any_words, base_words, sizeof(local_any_words));
+        memcpy(local_guard_words, base_words, sizeof(local_guard_words));
+        memcpy(local_residue_words, base_words, sizeof(local_residue_words));
+        int local_guard_valid = best_guard_valid;
+        long long local_evaluated = 0;
+        long long local_guard_hits = 0;
+        long long local_slot57_hits = 0;
+
+        #pragma omp for schedule(dynamic, 256)
+        for (int a = 0; a < npairs; a++) {
+            uint32_t want = (target_low - pairs[a].low_key) & low_mask;
+            int lo = 0, hi = npairs;
+            while (lo < hi) {
+                int mid = lo + (hi - lo) / 2;
+                if (pairs[mid].low_key < want) lo = mid + 1;
+                else hi = mid;
+            }
+            int start = lo;
+            lo = start; hi = npairs;
+            while (lo < hi) {
+                int mid = lo + (hi - lo) / 2;
+                if (pairs[mid].low_key <= want) lo = mid + 1;
+                else hi = mid;
+            }
+            int end = lo;
+            for (int b = start; b < end; b++) {
+                if (b <= a) continue;
+                if (!pair_moves_disjoint(&pairs[a], &pairs[b])) continue;
+                uint32_t words[MSG_FREE_WORDS];
+                memcpy(words, base_words, sizeof(words));
+                apply_pair_move(words, &pairs[a]);
+                apply_pair_move(words, &pairs[b]);
+                msg61_eval_t ev;
+                msg61_eval_candidate(cand, words, &ev);
+                local_evaluated++;
+                if (ev.a57_xor == 0) local_guard_hits++;
+                if (ev.prefix_zero >= 1) local_slot57_hits++;
+                if (msg61_better_prefix(&ev, &local_best_any, 1)) {
+                    local_best_any = ev;
+                    memcpy(local_any_words, words, sizeof(local_any_words));
+                }
+                if (msg61_better_residue(&ev, &local_best_residue)) {
+                    local_best_residue = ev;
+                    memcpy(local_residue_words, words, sizeof(local_residue_words));
+                }
+                if (ev.a57_xor == 0 &&
+                    (!local_guard_valid ||
+                     msg61_better_prefix(&ev, &local_best_guard, 1))) {
+                    local_best_guard = ev;
+                    memcpy(local_guard_words, words, sizeof(local_guard_words));
+                    local_guard_valid = 1;
+                }
+            }
+        }
+
+        #pragma omp critical
+        {
+            evaluated_low += local_evaluated;
+            guard_hits += local_guard_hits;
+            slot57_hits += local_slot57_hits;
+            if (msg61_better_prefix(&local_best_any, &best_any_ev, 1)) {
+                best_any_ev = local_best_any;
+                memcpy(best_any_words, local_any_words, sizeof(best_any_words));
+            }
+            if (msg61_better_residue(&local_best_residue, &best_residue_ev)) {
+                best_residue_ev = local_best_residue;
+                memcpy(best_residue_words, local_residue_words,
+                       sizeof(best_residue_words));
+            }
+            if (local_guard_valid &&
+                (!best_guard_valid ||
+                 msg61_better_prefix(&local_best_guard, &best_guard_ev, 1))) {
+                best_guard_ev = local_best_guard;
+                memcpy(best_guard_words, local_guard_words, sizeof(best_guard_words));
+                best_guard_valid = 1;
+            }
+        }
+    }
+
+    qsort(pairs, (size_t)npairs, sizeof(*pairs), cmp_pair_score);
+    if (top_k > 0) {
+        #pragma omp parallel num_threads(threads)
+        {
+            msg61_eval_t local_best_any = best_any_ev;
+            msg61_eval_t local_best_guard = best_guard_ev;
+            msg61_eval_t local_best_residue = best_residue_ev;
+            uint32_t local_any_words[MSG_FREE_WORDS], local_guard_words[MSG_FREE_WORDS];
+            uint32_t local_residue_words[MSG_FREE_WORDS];
+            memcpy(local_any_words, best_any_words, sizeof(local_any_words));
+            memcpy(local_guard_words, best_guard_words, sizeof(local_guard_words));
+            memcpy(local_residue_words, best_residue_words, sizeof(local_residue_words));
+            int local_guard_valid = best_guard_valid;
+            long long local_evaluated = 0;
+            long long local_guard_hits = 0;
+            long long local_slot57_hits = 0;
+
+            #pragma omp for schedule(dynamic, 64)
+            for (int a = 0; a < top_k; a++) {
+                for (int b = a + 1; b < top_k; b++) {
+                    if (!pair_moves_disjoint(&pairs[a], &pairs[b])) continue;
+                    uint32_t words[MSG_FREE_WORDS];
+                    memcpy(words, base_words, sizeof(words));
+                    apply_pair_move(words, &pairs[a]);
+                    apply_pair_move(words, &pairs[b]);
+                    msg61_eval_t ev;
+                    msg61_eval_candidate(cand, words, &ev);
+                    local_evaluated++;
+                    if (ev.a57_xor == 0) local_guard_hits++;
+                    if (ev.prefix_zero >= 1) local_slot57_hits++;
+                    if (msg61_better_prefix(&ev, &local_best_any, 1)) {
+                        local_best_any = ev;
+                        memcpy(local_any_words, words, sizeof(local_any_words));
+                    }
+                    if (msg61_better_residue(&ev, &local_best_residue)) {
+                        local_best_residue = ev;
+                        memcpy(local_residue_words, words,
+                               sizeof(local_residue_words));
+                    }
+                    if (ev.a57_xor == 0 &&
+                        (!local_guard_valid ||
+                         msg61_better_prefix(&ev, &local_best_guard, 1))) {
+                        local_best_guard = ev;
+                        memcpy(local_guard_words, words, sizeof(local_guard_words));
+                        local_guard_valid = 1;
+                    }
+                }
+            }
+
+            #pragma omp critical
+            {
+                evaluated_top += local_evaluated;
+                guard_hits += local_guard_hits;
+                slot57_hits += local_slot57_hits;
+                if (msg61_better_prefix(&local_best_any, &best_any_ev, 1)) {
+                    best_any_ev = local_best_any;
+                    memcpy(best_any_words, local_any_words, sizeof(best_any_words));
+                }
+                if (msg61_better_residue(&local_best_residue, &best_residue_ev)) {
+                    best_residue_ev = local_best_residue;
+                    memcpy(best_residue_words, local_residue_words,
+                           sizeof(best_residue_words));
+                }
+                if (local_guard_valid &&
+                    (!best_guard_valid ||
+                     msg61_better_prefix(&local_best_guard, &best_guard_ev, 1))) {
+                    best_guard_ev = local_best_guard;
+                    memcpy(best_guard_words, local_guard_words, sizeof(best_guard_words));
+                    best_guard_valid = 1;
+                }
+            }
+        }
+    }
+
+    printf("{\"mode\":\"msg61pairbeam\",\"candidate\":\"%s\",\"idx\":%d,"
+           "\"seeded\":%d,\"low_bits\":%d,\"top_k\":%d,\"threads\":%d,"
+           "\"pairs\":%d,\"evaluated_low\":%lld,\"evaluated_top\":%lld,"
+           "\"guard_hits\":%lld,\"slot57_hits\":%lld,"
+           "\"base_prefix_hw\":%d,\"best_any_prefix_hw\":%d,"
+           "\"best_residue_level\":%d,\"best_residue_abs\":\"0x%08x\","
+           "\"best_guard_valid\":%d,\"best_guard_prefix_hw\":%d,"
+           "\"best_any_words\":",
+           cand->id, idx, seed_words ? 1 : 0, low_bits, top_k, threads,
+           npairs, evaluated_low, evaluated_top, guard_hits, slot57_hits,
+           msg61_prefix_hw(&base_ev, 1), msg61_prefix_hw(&best_any_ev, 1),
+           msg61_delta_level(best_residue_ev.a57_delta),
+           msg61_abs_delta(best_residue_ev.a57_delta),
+           best_guard_valid, msg61_prefix_hw(&best_guard_ev, 1));
+    msg61_print_words(best_any_words);
+    printf(",\"best_any\":{");
+    msg61_print_eval_fields(&best_any_ev);
+    printf("},\"best_residue_words\":");
+    msg61_print_words(best_residue_words);
+    printf(",\"best_residue\":{");
+    msg61_print_eval_fields(&best_residue_ev);
+    printf("},\"best_guard_words\":");
+    msg61_print_words(best_guard_words);
+    printf(",\"best_guard\":{");
+    msg61_print_eval_fields(&best_guard_ev);
+    printf("}}\n");
+
+    free(pairs);
+}
+
+static void msg61_radius4_candidate(int idx, int threads,
+                                    const uint32_t *seed_words) {
+    if (idx < 0 || idx >= (int)(sizeof(CANDIDATES) / sizeof(CANDIDATES[0]))) idx = 0;
+    if (threads < 1) threads = 1;
+    if (threads > 64) threads = 64;
+
+    const candidate_t *cand = &CANDIDATES[idx];
+    uint32_t base_words[MSG_FREE_WORDS];
+    if (seed_words) {
+        memcpy(base_words, seed_words, sizeof(base_words));
+    } else {
+        msg61_fill_words(cand, base_words);
+    }
+
+    msg61_eval_t base_ev;
+    msg61_eval_candidate(cand, base_words, &base_ev);
+    msg61_eval_t best_any_ev = base_ev;
+    msg61_eval_t best_residue_ev = base_ev;
+    msg61_eval_t best_guard_ev = base_ev;
+    uint32_t best_any_words[MSG_FREE_WORDS], best_residue_words[MSG_FREE_WORDS];
+    uint32_t best_guard_words[MSG_FREE_WORDS];
+    memcpy(best_any_words, base_words, sizeof(best_any_words));
+    memcpy(best_residue_words, base_words, sizeof(best_residue_words));
+    memcpy(best_guard_words, base_words, sizeof(best_guard_words));
+    int best_guard_valid = base_ev.a57_xor == 0;
+
+    unsigned long long checked = 0;
+    unsigned long long guard_hits = 0;
+    unsigned long long slot57_hits = 0;
+
+    #pragma omp parallel num_threads(threads)
+    {
+        msg61_eval_t local_best_any = base_ev;
+        msg61_eval_t local_best_residue = base_ev;
+        msg61_eval_t local_best_guard = base_ev;
+        uint32_t local_any_words[MSG_FREE_WORDS], local_residue_words[MSG_FREE_WORDS];
+        uint32_t local_guard_words[MSG_FREE_WORDS];
+        memcpy(local_any_words, base_words, sizeof(local_any_words));
+        memcpy(local_residue_words, base_words, sizeof(local_residue_words));
+        memcpy(local_guard_words, base_words, sizeof(local_guard_words));
+        int local_guard_valid = best_guard_valid;
+        unsigned long long local_checked = 0;
+        unsigned long long local_guard_hits = 0;
+        unsigned long long local_slot57_hits = 0;
+
+        #pragma omp for schedule(dynamic, 1)
+        for (int i = 0; i < MSG_BITS - 3; i++) {
+            for (int j = i + 1; j < MSG_BITS - 2; j++) {
+                for (int k = j + 1; k < MSG_BITS - 1; k++) {
+                    for (int l = k + 1; l < MSG_BITS; l++) {
+                        uint32_t words[MSG_FREE_WORDS];
+                        memcpy(words, base_words, sizeof(words));
+                        msg_flip_bit(words, i);
+                        msg_flip_bit(words, j);
+                        msg_flip_bit(words, k);
+                        msg_flip_bit(words, l);
+                        msg61_eval_t ev;
+                        msg61_eval_candidate(cand, words, &ev);
+                        local_checked++;
+                        if (ev.a57_xor == 0) local_guard_hits++;
+                        if (ev.prefix_zero >= 1) local_slot57_hits++;
+                        if (msg61_better_prefix(&ev, &local_best_any, 1)) {
+                            local_best_any = ev;
+                            memcpy(local_any_words, words, sizeof(local_any_words));
+                        }
+                        if (msg61_better_residue(&ev, &local_best_residue)) {
+                            local_best_residue = ev;
+                            memcpy(local_residue_words, words,
+                                   sizeof(local_residue_words));
+                        }
+                        if (ev.a57_xor == 0 &&
+                            (!local_guard_valid ||
+                             msg61_better_prefix(&ev, &local_best_guard, 1))) {
+                            local_best_guard = ev;
+                            memcpy(local_guard_words, words,
+                                   sizeof(local_guard_words));
+                            local_guard_valid = 1;
+                        }
+                    }
+                }
+            }
+        }
+
+        #pragma omp critical
+        {
+            checked += local_checked;
+            guard_hits += local_guard_hits;
+            slot57_hits += local_slot57_hits;
+            if (msg61_better_prefix(&local_best_any, &best_any_ev, 1)) {
+                best_any_ev = local_best_any;
+                memcpy(best_any_words, local_any_words, sizeof(best_any_words));
+            }
+            if (msg61_better_residue(&local_best_residue, &best_residue_ev)) {
+                best_residue_ev = local_best_residue;
+                memcpy(best_residue_words, local_residue_words,
+                       sizeof(best_residue_words));
+            }
+            if (local_guard_valid &&
+                (!best_guard_valid ||
+                 msg61_better_prefix(&local_best_guard, &best_guard_ev, 1))) {
+                best_guard_ev = local_best_guard;
+                memcpy(best_guard_words, local_guard_words,
+                       sizeof(best_guard_words));
+                best_guard_valid = 1;
+            }
+        }
+    }
+
+    printf("{\"mode\":\"msg61radius4\",\"candidate\":\"%s\",\"idx\":%d,"
+           "\"seeded\":%d,\"threads\":%d,\"checked\":%llu,"
+           "\"guard_hits\":%llu,\"slot57_hits\":%llu,"
+           "\"base_prefix_hw\":%d,\"best_any_prefix_hw\":%d,"
+           "\"best_residue_level\":%d,\"best_residue_abs\":\"0x%08x\","
+           "\"best_guard_valid\":%d,\"best_guard_prefix_hw\":%d,"
+           "\"best_any_words\":",
+           cand->id, idx, seed_words ? 1 : 0, threads, checked,
+           guard_hits, slot57_hits, msg61_prefix_hw(&base_ev, 1),
+           msg61_prefix_hw(&best_any_ev, 1),
+           msg61_delta_level(best_residue_ev.a57_delta),
+           msg61_abs_delta(best_residue_ev.a57_delta),
+           best_guard_valid, msg61_prefix_hw(&best_guard_ev, 1));
+    msg61_print_words(best_any_words);
+    printf(",\"best_any\":{");
+    msg61_print_eval_fields(&best_any_ev);
+    printf("},\"best_residue_words\":");
+    msg61_print_words(best_residue_words);
+    printf(",\"best_residue\":{");
+    msg61_print_eval_fields(&best_residue_ev);
+    printf("},\"best_guard_words\":");
+    msg61_print_words(best_guard_words);
+    printf(",\"best_guard\":{");
+    msg61_print_eval_fields(&best_guard_ev);
+    printf("}}\n");
+}
+
 static void combo_xor_bit(uint64_t combo[MSG_COMBO_WORDS], int bit);
 static uint32_t combo_column_effect32(const uint32_t cols[MSG_BITS],
                                       const uint64_t combo[MSG_COMBO_WORDS]);
 static int solve_linear_columns(uint32_t target, const uint32_t *cols, int ncols,
                                 uint64_t *solution, int *rank_out);
+
+static void combo_column_effect192(
+    const uint32_t cols[MSG_BITS][MSG_CONSTRAINT_WORDS],
+    const uint64_t combo[MSG_COMBO_WORDS],
+    uint32_t out[MSG_CONSTRAINT_WORDS]) {
+    memset(out, 0, MSG_CONSTRAINT_WORDS * sizeof(uint32_t));
+    for (int bit = 0; bit < MSG_BITS; bit++) {
+        if ((combo[bit / 64] >> (bit % 64)) & 1ULL) {
+            for (int j = 0; j < MSG_CONSTRAINT_WORDS; j++) out[j] ^= cols[bit][j];
+        }
+    }
+}
+
+static void msg61_prefix_gauge_candidate(int idx, long long trials,
+                                         int threads, int max_iters,
+                                         int jitter_flips, int gauge_flips,
+                                         int solve_prefix,
+                                         const uint32_t *seed_words) {
+    if (idx < 0 || idx >= (int)(sizeof(CANDIDATES) / sizeof(CANDIDATES[0]))) idx = 0;
+    if (trials < 1) trials = 1;
+    if (threads < 1) threads = 1;
+    if (threads > 64) threads = 64;
+    if (max_iters < 1) max_iters = 1;
+    if (jitter_flips < 0) jitter_flips = 0;
+    if (jitter_flips > MSG_BITS) jitter_flips = MSG_BITS;
+    if (gauge_flips < 0) gauge_flips = 0;
+    if (gauge_flips > MSG_BITS) gauge_flips = MSG_BITS;
+    if (solve_prefix < 1) solve_prefix = 1;
+    if (solve_prefix > MSG_DEFECT_ROUNDS) solve_prefix = MSG_DEFECT_ROUNDS;
+
+    const candidate_t *cand = &CANDIDATES[idx];
+    uint32_t base_words[MSG_FREE_WORDS];
+    if (seed_words) {
+        memcpy(base_words, seed_words, sizeof(base_words));
+    } else {
+        msg61_fill_words(cand, base_words);
+    }
+
+    msg61_eval_t base_ev, best_ev, best_residue_ev;
+    uint32_t best_words[MSG_FREE_WORDS], best_residue_words[MSG_FREE_WORDS];
+    msg61_eval_candidate(cand, base_words, &base_ev);
+    best_ev = base_ev;
+    best_residue_ev = base_ev;
+    memcpy(best_words, base_words, sizeof(best_words));
+    memcpy(best_residue_words, base_words, sizeof(best_residue_words));
+
+    long long exact_prefix = 0;
+    long long rank_failures = 0;
+    long long zero_combos = 0;
+    long long total_combo_hw = 0;
+    long long combo_count = 0;
+    int min_rank = 999;
+
+    #pragma omp parallel num_threads(threads)
+    {
+        int tid = omp_get_thread_num();
+        uint64_t rng = 0x61f00dULL ^ (uint64_t)idx * 0x9e3779b97f4a7c15ULL ^
+                       (uint64_t)tid * 0xd1b54a32d192ed03ULL;
+        msg61_eval_t local_best = base_ev;
+        msg61_eval_t local_best_residue = base_ev;
+        uint32_t local_best_words[MSG_FREE_WORDS];
+        uint32_t local_residue_words[MSG_FREE_WORDS];
+        memcpy(local_best_words, base_words, sizeof(local_best_words));
+        memcpy(local_residue_words, base_words, sizeof(local_residue_words));
+        long long local_exact_prefix = 0;
+        long long local_rank_failures = 0;
+        long long local_zero_combos = 0;
+        long long local_total_combo_hw = 0;
+        long long local_combo_count = 0;
+        int local_min_rank = 999;
+
+        #pragma omp for schedule(dynamic, 32)
+        for (long long t = 0; t < trials; t++) {
+            uint32_t words[MSG_FREE_WORDS];
+            memcpy(words, base_words, sizeof(words));
+            int flips = jitter_flips ? (int)(splitmix32(&rng) %
+                                             (uint32_t)(jitter_flips + 1)) : 0;
+            for (int k = 0; k < flips; k++) {
+                int bit = (int)(splitmix32(&rng) % (uint32_t)MSG_BITS);
+                msg_flip_bit(words, bit);
+            }
+
+            msg61_eval_t cur;
+            msg61_eval_candidate(cand, words, &cur);
+            for (int iter = 0;
+                 iter < max_iters && msg61_prefix_hw(&cur, solve_prefix) != 0;
+                 iter++) {
+                uint32_t cols[MSG_BITS][MSG_CONSTRAINT_WORDS];
+                uint32_t target[MSG_CONSTRAINT_WORDS];
+                uint32_t gauge_effect[MSG_CONSTRAINT_WORDS];
+                uint64_t gauge[MSG_COMBO_WORDS], repair[MSG_COMBO_WORDS];
+                uint64_t combo[MSG_COMBO_WORDS];
+                int rank = 0;
+                msg61_build_guarded_columns(cand, words, &cur, cols);
+                target[0] = cur.a57_xor;
+                for (int j = 0; j < MSG_DEFECT_ROUNDS; j++) {
+                    target[j + 1] = cur.defects[j];
+                }
+                for (int b = 0; b < MSG_BITS; b++) {
+                    for (int j = solve_prefix + 1; j < MSG_CONSTRAINT_WORDS; j++) {
+                        cols[b][j] = 0;
+                    }
+                }
+                for (int j = solve_prefix + 1; j < MSG_CONSTRAINT_WORDS; j++) {
+                    target[j] = 0;
+                }
+
+                memset(gauge, 0, sizeof(gauge));
+                if (gauge_flips > 0) {
+                    int gflips = 1 + (int)(splitmix32(&rng) %
+                                           (uint32_t)gauge_flips);
+                    for (int k = 0; k < gflips; k++) {
+                        int bit = (int)(splitmix32(&rng) % (uint32_t)MSG_BITS);
+                        combo_xor_bit(gauge, bit);
+                    }
+                }
+                combo_column_effect192(cols, gauge, gauge_effect);
+                for (int j = 0; j < MSG_CONSTRAINT_WORDS; j++) {
+                    target[j] ^= gauge_effect[j];
+                }
+
+                int ok = solve192_columns(cols, target, repair, &rank);
+                if (rank < local_min_rank) local_min_rank = rank;
+                if (!ok) {
+                    local_rank_failures++;
+                    break;
+                }
+                for (int j = 0; j < MSG_COMBO_WORDS; j++) combo[j] = gauge[j] ^ repair[j];
+                int chw = combo_hw(combo);
+                if (chw == 0) {
+                    local_zero_combos++;
+                    break;
+                }
+                local_total_combo_hw += chw;
+                local_combo_count++;
+                msg_apply_combo(words, combo);
+                msg61_eval_candidate(cand, words, &cur);
+            }
+
+            if (msg61_prefix_hw(&cur, solve_prefix) == 0) local_exact_prefix++;
+            if (msg61_better_prefix(&cur, &local_best, solve_prefix)) {
+                local_best = cur;
+                memcpy(local_best_words, words, sizeof(local_best_words));
+            }
+            if (msg61_better_residue(&cur, &local_best_residue)) {
+                local_best_residue = cur;
+                memcpy(local_residue_words, words, sizeof(local_residue_words));
+            }
+        }
+
+        #pragma omp critical
+        {
+            exact_prefix += local_exact_prefix;
+            rank_failures += local_rank_failures;
+            zero_combos += local_zero_combos;
+            total_combo_hw += local_total_combo_hw;
+            combo_count += local_combo_count;
+            if (local_min_rank < min_rank) min_rank = local_min_rank;
+            if (msg61_better_prefix(&local_best, &best_ev, solve_prefix)) {
+                best_ev = local_best;
+                memcpy(best_words, local_best_words, sizeof(best_words));
+            }
+            if (msg61_better_residue(&local_best_residue, &best_residue_ev)) {
+                best_residue_ev = local_best_residue;
+                memcpy(best_residue_words, local_residue_words,
+                       sizeof(best_residue_words));
+            }
+        }
+    }
+
+    printf("{\"mode\":\"msg61prefixgauge\",\"candidate\":\"%s\",\"idx\":%d,"
+           "\"seeded\":%d,\"trials\":%lld,\"threads\":%d,"
+           "\"max_iters\":%d,\"jitter_flips\":%d,\"gauge_flips\":%d,"
+           "\"solve_prefix\":%d,\"exact_prefix\":%lld,"
+           "\"rank_failures\":%lld,\"zero_combos\":%lld,\"min_rank\":%d,"
+           "\"avg_combo_hw\":%.3f,\"base_prefix_hw\":%d,"
+           "\"best_prefix_hw\":%d,\"best_residue_level\":%d,"
+           "\"best_residue_abs\":\"0x%08x\",\"best_words\":",
+           cand->id, idx, seed_words ? 1 : 0, trials, threads, max_iters,
+           jitter_flips, gauge_flips, solve_prefix, exact_prefix,
+           rank_failures, zero_combos, min_rank,
+           combo_count ? (double)total_combo_hw / (double)combo_count : 0.0,
+           msg61_prefix_hw(&base_ev, solve_prefix),
+           msg61_prefix_hw(&best_ev, solve_prefix),
+           msg61_delta_level(best_residue_ev.a57_delta),
+           msg61_abs_delta(best_residue_ev.a57_delta));
+    msg61_print_words(best_words);
+    printf(",\"best\":{");
+    msg61_print_eval_fields(&best_ev);
+    printf("},\"best_residue_words\":");
+    msg61_print_words(best_residue_words);
+    printf(",\"best_residue\":{");
+    msg61_print_eval_fields(&best_residue_ev);
+    printf("}}\n");
+}
 
 static void msg61_guard_repair_candidate(int idx, long long trials, int threads,
                                          int max_iters, int jitter_flips,
@@ -9994,6 +10815,21 @@ int main(int argc, char **argv) {
         return 0;
     }
 
+    if (argc >= 2 && strcmp(argv[1], "msg61round56trace") == 0) {
+        int idx = (argc >= 3) ? atoi(argv[2]) : 0;
+        uint32_t words[MSG_FREE_WORDS];
+        uint32_t *maybe_words = NULL;
+        if (argc >= 3 + MSG_FREE_WORDS) {
+            for (int i = 0; i < MSG_FREE_WORDS; i++) {
+                words[i] = (uint32_t)strtoul(argv[3 + i], NULL, 0);
+            }
+            maybe_words = words;
+        }
+        sha256_init(32);
+        msg61_round56_trace_candidate(idx, maybe_words);
+        return 0;
+    }
+
     if (argc >= 2 && strcmp(argv[1], "msg61rank") == 0) {
         int idx = (argc >= 3) ? atoi(argv[2]) : 0;
         sha256_init(32);
@@ -10080,6 +10916,79 @@ int main(int argc, char **argv) {
         sha256_init(32);
         msg61_guard_repair_candidate(idx, trials, threads, max_iters,
                                      jitter_flips, 0, maybe_seed);
+        return 0;
+    }
+
+    if (argc >= 2 && strcmp(argv[1], "msg61deltarepairpoint") == 0) {
+        int idx = (argc >= 3) ? atoi(argv[2]) : 0;
+        int max_iters = (argc >= 4) ? atoi(argv[3]) : 8;
+        uint32_t seed_words[MSG_FREE_WORDS];
+        uint32_t *maybe_seed = NULL;
+        if (argc >= 4 + MSG_FREE_WORDS) {
+            for (int i = 0; i < MSG_FREE_WORDS; i++) {
+                seed_words[i] = (uint32_t)strtoul(argv[4 + i], NULL, 0);
+            }
+            maybe_seed = seed_words;
+        }
+        sha256_init(32);
+        msg61_delta_repair_point_candidate(idx, max_iters, maybe_seed);
+        return 0;
+    }
+
+    if (argc >= 2 && strcmp(argv[1], "msg61pairbeam") == 0) {
+        int idx = (argc >= 3) ? atoi(argv[2]) : 0;
+        int low_bits = (argc >= 4) ? atoi(argv[3]) : 16;
+        int top_k = (argc >= 5) ? atoi(argv[4]) : 4096;
+        int threads = (argc >= 6) ? atoi(argv[5]) : 8;
+        uint32_t seed_words[MSG_FREE_WORDS];
+        uint32_t *maybe_seed = NULL;
+        if (argc >= 6 + MSG_FREE_WORDS) {
+            for (int i = 0; i < MSG_FREE_WORDS; i++) {
+                seed_words[i] = (uint32_t)strtoul(argv[6 + i], NULL, 0);
+            }
+            maybe_seed = seed_words;
+        }
+        sha256_init(32);
+        msg61_pairbeam_candidate(idx, low_bits, top_k, threads, maybe_seed);
+        return 0;
+    }
+
+    if (argc >= 2 && strcmp(argv[1], "msg61radius4") == 0) {
+        int idx = (argc >= 3) ? atoi(argv[2]) : 0;
+        int threads = (argc >= 4) ? atoi(argv[3]) : 8;
+        uint32_t seed_words[MSG_FREE_WORDS];
+        uint32_t *maybe_seed = NULL;
+        if (argc >= 4 + MSG_FREE_WORDS) {
+            for (int i = 0; i < MSG_FREE_WORDS; i++) {
+                seed_words[i] = (uint32_t)strtoul(argv[4 + i], NULL, 0);
+            }
+            maybe_seed = seed_words;
+        }
+        sha256_init(32);
+        msg61_radius4_candidate(idx, threads, maybe_seed);
+        return 0;
+    }
+
+    if (argc >= 2 && strcmp(argv[1], "msg61prefixgauge") == 0) {
+        int idx = (argc >= 3) ? atoi(argv[2]) : 0;
+        long long trials = (argc >= 4) ? strtoll(argv[3], NULL, 0) : 65536LL;
+        int threads = (argc >= 5) ? atoi(argv[4]) : 8;
+        int max_iters = (argc >= 6) ? atoi(argv[5]) : 8;
+        int jitter_flips = (argc >= 7) ? atoi(argv[6]) : 64;
+        int gauge_flips = (argc >= 8) ? atoi(argv[7]) : 16;
+        int solve_prefix = (argc >= 9) ? atoi(argv[8]) : 1;
+        uint32_t seed_words[MSG_FREE_WORDS];
+        uint32_t *maybe_seed = NULL;
+        if (argc >= 9 + MSG_FREE_WORDS) {
+            for (int i = 0; i < MSG_FREE_WORDS; i++) {
+                seed_words[i] = (uint32_t)strtoul(argv[9 + i], NULL, 0);
+            }
+            maybe_seed = seed_words;
+        }
+        sha256_init(32);
+        msg61_prefix_gauge_candidate(idx, trials, threads, max_iters,
+                                     jitter_flips, gauge_flips,
+                                     solve_prefix, maybe_seed);
         return 0;
     }
 

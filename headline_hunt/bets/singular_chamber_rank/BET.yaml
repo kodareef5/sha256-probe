@@ -13,7 +13,7 @@ expected_info_per_cpu_hour: high
 dependencies:
   - Existing cascade-eligible candidate registry.
   - CPU C probes in bets/singular_chamber_rank/tools; OpenCL GPU chart scanner now available for bulk W57/off58 discovery.
-next_action: "Bridge the free-tail carry-chart work back into schedule-constrained message space. The guarded message-space map has full rank 192, but multi-axis walks only reduce the real slot-57 prefix to HW7; the next operator must preserve or repair a57_xor while steering defect57."
+next_action: "Bridge the free-tail carry-chart work back into schedule-constrained message space. The guarded message-space HW7 point is a round-56 T1+T2 residue of -8; radius-4 closes it only to -1 while destroying defect57. The next operator must compensate the low guard residue without leaving the low-defect57 carry chart."
 kill_criteria:
   - No local defect-rank drop below 32 across representative candidates and structured fills.
   - No correlation between gate-degeneracy metrics and defect-rank or defect-HW after a bounded probe.
@@ -23,8 +23,8 @@ reopen_criteria:
   - A nonzero Ch/Maj-invisible trail construction gives a specific chamber to test.
 owner: linux_gpu_laptop
 machines_assigned: [linux_gpu_laptop, macbook]
-last_updated: '2026-04-26'
-last_heartbeat: '2026-04-26T23:42:00Z'
+last_updated: '2026-04-27'
+last_heartbeat: '2026-04-27T08:22:00Z'
 heartbeat_interval_days: 7
 milestone_marker: hit_sr61_barrier
 current_progress: |
@@ -71,6 +71,15 @@ current_progress: |
   the default guard chart. GPU sparse-chamber scans added exact-D60 footholds
   on bit13/bit15/bit19/bit14 plus off58-HW1 idx18 and bit17 chambers, but
   none beat the exact-D61 HW4 / tail-HW59 frontier.
+  Round-56 tracing of the HW7 message-space point shows the remaining guard
+  bit is a modular T1+T2 residue of -8. Naive modular-delta Newton has full
+  rank but a 14-bit correction explodes the guarded prefix to HW30.
+  Pair-of-pairs radius-4 search over 134M structured candidates does not
+  improve the residue. Full deterministic radius-4 enumeration checks 1.656B
+  neighbors with zero exact guards; it finds a separate a57_delta=-1 terrace,
+  but that move raises defect57 to HW16. Radius-3 and pairbeam probes around
+  the -1 terrace plus random affine prefix-gauge repair also find no exact
+  slot-57 landing.
   Carry-coordinate comparison
   shows exact HW5/HW67 basin moves are round-61 Ch-only, while the cap-4
   terrace lowers D61 by activating Sigma1/T2 terms outside the exact-D60 chart.

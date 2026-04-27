@@ -135,6 +135,137 @@ The remaining one-bit `a57` miss is therefore not within radius 3 and is
 not repaired by the current linearized guard-kernel or one-word chart
 operators.
 
+## Round-56 guard anatomy
+
+The HW7 point's single `a57` bit has a simple arithmetic interpretation at
+the round-56 output:
+
+```text
+T1_delta = 0x476e0b0a
+T2_delta = 0xb891f4ee
+T1_delta + T2_delta = 0xfffffff8
+a57_xor = 0x00000008
+```
+
+For comparison, the default fill message has exact modular cancellation:
+
+```text
+T1_delta = 0xc81d2b0a
+T2_delta = 0x37e2d4f6
+T1_delta + T2_delta = 0x00000000
+a57_xor = 0
+```
+
+So the HW7 near miss is not a diffuse 32-bit guard failure. It is a
+round-56 `T1+T2` split whose modular delta is `-8`. The immediate
+operator target is therefore a carry-aware +8 compensation in either the
+T1 or T2 side while preserving the six-bit `defect57` structure.
+
+A naive Boolean-Newton step in the modular-delta coordinate does not solve
+this. From the HW7 point, `msg61deltarepairpoint` sees full rank, but the
+first 14-bit correction moves the prefix from HW7 to HW30:
+
+```text
+start a57_xor   = 0x00000008
+start a57_delta = 0xfffffff8
+
+one delta-Newton step:
+delta HW = 14
+final a57_xor   = 0x2c646002
+final a57_delta = 0x23dc2002
+final prefix HW = 30
+```
+
+So the useful coordinate is not "solve the whole modular delta linearly."
+The useful coordinate is narrower: preserve the current carry chart and
+compensate exactly the low `+8` residue.
+
+## Pair-of-pairs and radius-4 shell
+
+The next operator tested grouped bit moves rather than one-bit greedy repair.
+`msg61pairbeam` enumerates all two-bit message moves, then combines pairs in
+two ways:
+
+- low-bit modular complements against the current guard residue;
+- a cross product of the best-scoring two-bit moves.
+
+From the HW7 seed, a widened run evaluated 134,227,926 structured radius-4
+points:
+
+```text
+low_bits = 12
+top_k = 16384
+evaluated_low = 1,213,756
+evaluated_top = 133,014,170
+guard hits = 0
+slot57 hits = 0
+best guarded prefix HW = 7
+best |a57_delta| = 8
+```
+
+So the obvious pair-of-pairs compensation does not even improve the modular
+guard residue.
+
+A full deterministic radius-4 enumeration then checked the whole shell:
+
+```text
+checked = 1,656,033,680
+guard hits = 0
+slot57 hits = 0
+best guarded prefix HW = 7
+```
+
+This proves the HW7 point has no exact `a57=0` guard neighbor at Hamming
+distance four in the 14-word message space.
+
+The radius-4 shell did reveal a different terrace:
+
+```text
+free-word changes from HW7:
+M6  ^= 0x00000008
+M11 ^= 0x00034000
+
+a57_xor   = 0x00000001
+a57_delta = 0xffffffff
+defect57  = 0x39b4d8aa (HW 16)
+guarded prefix HW = 17
+```
+
+The guard residue can move from `-8` to `-1`, but the move leaves the
+productive low-`defect57` chart. A radius-3 neighborhood around this `-1`
+terrace found no exact guard point:
+
+```text
+checked = 14,986,272
+guard hits = 0
+slot57 hits = 0
+best guarded prefix HW = 11
+```
+
+The same pairbeam pass from the `-1` terrace evaluated another 134,224,925
+structured radius-4 points and found no exact guard and no better residue.
+
+Finally, `msg61prefixgauge` tried solving `a57 + defect57` together with
+random affine gauges in the 64-bit guarded-prefix Jacobian. The local rank is
+full, but the corrections average about 39 flipped message bits and do not
+land:
+
+```text
+from HW7, 2048 trials:
+exact prefix hits = 0
+best prefix HW = 7
+avg combo HW = 39.100
+
+from the -1 terrace, 2048 trials:
+exact prefix hits = 0
+best prefix HW = 16
+avg combo HW = 39.029
+```
+
+This sharpens the map. The current wall is not just "one bit remains": a
+carry-local `a57` repair exists nearby only by leaving the low-defect57 chart,
+and the linearized joint repair is too high-Hamming to preserve either chart.
+
 ## Exact-guard neighborhoods
 
 The next check enumerated all message-bit perturbations through radius 3

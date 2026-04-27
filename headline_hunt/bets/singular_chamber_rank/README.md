@@ -231,6 +231,10 @@ Key result notes:
   Corrected multi-axis walks reduce the guarded slot-57 prefix to HW7 but
   find no exact guarded cascade hit. Guard-fiber repair variants currently
   return to the default chart rather than a changed exact guard fiber.
+  Round-56 tracing shows the HW7 wall is a `T1+T2` modular residue of `-8`.
+  Full radius-4 enumeration checks 1.656B neighbors with zero exact guard
+  hits; it finds an `a57_delta=-1` terrace, but only after defect57 rises to
+  HW16.
 - `results/20260427_gpu_sparse_chamber_scan.md`: RTX/OpenCL W57/off58 scans
   plus exact-D60 CPU follow-up on bit13/bit15/bit19/bit14/idx18 sparse
   chambers.

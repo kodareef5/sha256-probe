@@ -263,6 +263,8 @@
   - W57-free chart walks over exact HW4 bases found millions of exact-D60 landings but no exact D61 HW3; HW3 remains non-exact and chart-shifted.
   - Macbook F12 residual-grid candidates transfer only partially: direct GPU off58 scans find sparse singular charts, but best downstream result is HW6/tail-HW67.
   - Schedule-constrained message-space projection adds the required a57 guard; the guarded map has full rank 192, and corrected walks reach only slot-57 prefix HW7 so far.
+  - Round-56 tracing shows the HW7 message-space wall is a T1+T2 modular residue of -8; full radius-4 enumeration
+    found no exact guard in 1.656B neighbors, but found a separate a57_delta=-1 terrace with defect57 worsened to HW16.
   - Guard-fiber repair variants now distinguish changed guard fibers from default returns; first corrected probes found no changed exact a57 guard fiber.
   status: in_flight
   priority: 8
@@ -270,9 +272,9 @@
   dependencies:
   - Existing cascade-eligible candidate registry.
   - CPU C probes in bets/singular_chamber_rank/tools; OpenCL GPU chart scanner available for W57/off58 bulk discovery.
-  next_action: "Bridge free-tail carry-chart work back into schedule-constrained message space. The guarded map
-    (a57_xor plus defect57..61) has full rank 192, but multi-axis walks only reduce the real slot-57 prefix to HW7;
-    next operator must preserve or repair a57_xor while steering defect57."
+  next_action: "Bridge free-tail carry-chart work back into schedule-constrained message space. The HW7 message-space
+    point is a round-56 T1+T2 residue of -8; radius-4 can move it to -1 only by destroying defect57. Next operator
+    must compensate the low guard residue without leaving the low-defect57 chart."
   kill_criteria:
   - All representative candidates plateau at the same defect61 floor across deep walks AND structural mapping fails to
     identify a carry-aware repair operator.
@@ -300,7 +302,7 @@
   - bets/singular_chamber_rank/results/20260427_message_space_guard_probe.md
   - bets/singular_chamber_rank/results/20260427_gpu_sparse_chamber_scan.md
   owner: linux_gpu_laptop
-  last_updated: '2026-04-26'
+  last_updated: '2026-04-27'
   notes: "Joint linux_gpu_laptop + macbook bet. Linux shipped the original mathematical decomposition, bridge enumeration,
     ridge analysis, and ridge-repair/pooling tooling; macbook M5 ran raw 1B-trial deep walks. Together: defect61 HW10 -> HW4,
     tail HW76 -> HW59 verified at full N=32. Cross-candidate walks reached idx0/idx8/idx17 HW4 and idx3 HW7. The exact
@@ -316,5 +318,8 @@
     positive with a57_xor HW13, while corrected multi-axis walks reached only guarded slot-57 prefix HW7. Follow-up
     guard-fiber repair operators return to the default chart rather than changed exact a57 fibers. A 2026-04-27 GPU
     sparse-chamber pass found exact-D60 footholds on bit13/bit15/bit19/bit14 plus off58-HW1 idx18 and bit17 chambers,
-    but none beat D61 HW4/tail HW59.
+    but none beat D61 HW4/tail HW59. Round-56 tracing reduces the HW7 guard wall to a T1+T2 residue of -8. Pair-of-pairs
+    radius-4 search and full 1.656B-neighbor radius-4 enumeration find no exact guard; the nearest residue is a
+    separate a57_delta=-1 terrace that raises defect57 to HW16. Random affine prefix-gauge repair has full rank but
+    high-Hamming corrections and did not land.
     Open: carry-bit compensation that also preserves/repairs the message-space a57 guard?"
