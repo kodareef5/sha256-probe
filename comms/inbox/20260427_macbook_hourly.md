@@ -2095,3 +2095,42 @@ W57=0xce9b8db6  W58=0xb26e4c72  W59=0x4b04cbc4  W60=0x0a0627e6
 Memo: `headline_hunt/bets/cascade_aux_encoding/results/20260427_F80_F81_yale_lm637_verification_and_deepest_kissat.md`
 
 Registry total: 878 logged runs.
+
+---
+
+## 23:00 EDT — F82: 2-block cert-pin SPEC v1 — interface contract for yale's eventual block-2 trail
+
+Following the F80/F81 lock-in (no more single-block deep-budget SAT),
+shifted to the genuine remaining gap: the 2-block verification pipeline
+that ingests yale's eventual block-2 absorption trail.
+
+**Shipped**: `headline_hunt/bets/block2_wang/trails/2BLOCK_CERTPIN_SPEC.md`
+
+Defines the JSON trail-bundle yale ships and the CNF macbook builds,
+end-to-end. Key contract pieces:
+
+- `block1.{m0, fill, kernel_bit, W1_57_60}` rebuild block-1 CNF
+- `block1.residual_state_diff` — yale's claim about block-1's output
+- `block2.W2_constraints` — exact / exact_diff / modular_relation /
+  bit_condition flavors, each with deterministic CNF translation
+- `block2.target_diff_at_round_N` — collision target (zeros = full coll)
+
+**Verification semantics**:
+  SAT     = full SHA-256 collision certificate (HEADLINE)
+  UNSAT   = yale's trail has bug or wrong residual choice
+  UNKNOWN = budget-bound; increase budget or try other solver
+
+**Macbook TODO** (post-spec, no compute):
+  1. Extend `cascade_aux_encoder.py` to emit 2-block CNF (~150 LOC).
+  2. Build `build_2block_certpin.py` (~100 LOC).
+  3. m17149975 sanity round-trip as regression test.
+
+**Yale TODO**: design block-2 trail in this schema. Open questions for
+yale documented at end of spec (schedule constraint type, smaller-N
+validation, trail width, residual choice).
+
+This unblocks the headline path on the macbook side: when yale's
+trail bundle lands, the verification pipeline is ready to ingest it
+without reformatting. No more "yale ships → macbook can't read" risk.
+
+Spec is v1; future revisions bump `schema_version`.
