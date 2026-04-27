@@ -1,0 +1,34 @@
+mechanism_id: sigma1_aligned_kernel_sweep
+priority: 7
+status: open
+owner: unassigned
+machines_assigned: []
+compute_budget_cpu_hours: 50
+current_progress: |
+  Pre-screen (closed-form h60+f60 prediction across 35 cands, 2026-04-24)
+  found NO systematic advantage of sigma1-aligned bits (6, 11, 17, 19, 25)
+  over non-aligned bits (0, 10, 13, 31): mean predicted hard bits 7.6 vs
+  7.4. Difference is negligible at this level of analysis.
+
+  Bet remains technically open because:
+  - Pre-screen covers only h60+f60 (~9 of 28 bits). g60 (~18 bits) is
+    NOT yet predictable at closed form.
+  - "Productive" might mean something other than smaller hard-residue
+    (e.g., easier solver behavior, better differential trail compatibility).
+  - Few candidates per (bit, fill) cell; coverage is sparse.
+
+  Per F36 (universal LM-compatibility across 67 cands) and F37/F39/F41
+  (per-conflict kissat equivalence at 1M conflicts), there is now strong
+  evidence that cand-level distinctions don't matter for moderate-budget
+  kissat. This SUBSTANTIALLY weakens the bet's premise.
+
+  Open question: would deep-budget (12h+) kissat reveal a sigma1-aligned
+  advantage? Pre-screen says no (h+f equivalent); F-series says no (per-
+  conflict equivalent). But not directly tested.
+
+  Tools available:
+  - exotic_kernel_search.py (covers non-(0,9) word pairs)
+  - results/20260424_predict_audit.md (pre-screen verdict)
+
+last_heartbeat: '2026-04-27T13:50:00Z'
+heartbeat_interval_days: 14
