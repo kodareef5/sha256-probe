@@ -954,3 +954,40 @@ My F45 (bit4 kissat) shipped after pull. Renamed mine to F46 per
 "earliest wins F-number" convention.
 
 5 kissat runs logged. CNF audit CONFIRMED. Fleet coordination clean.
+
+---
+
+## 15:25 EDT — F47: bit28 BREAKS per-conflict equivalence (first outlier!)
+
+Tested yale F45's raw LM champion bit28_md1acca79 on cascade_aux Mode A
+sr=60 kissat. Result:
+
+  Parallel-5 median: 51.46s (vs 34-37s plateau — 16s outlier)
+  Sequential median: 39.25s (vs 27-28s plateau — 11s outlier)
+  Sequential RANGE:  21.8s (36.69-58.48) — vs ~3s for plateau cands
+
+**bit28 is the FIRST cand to clearly break per-conflict equivalence.**
+
+Two structural irregularities:
+  1. higher floor: even bit28's best seed > plateau median
+  2. high seed variance: 21.8s range vs 3s for plateau cands
+
+**Hypothesis**: cands with BROAD LM tails (per yale F45's finding that
+bit28 has lowest LM=718 at HW=73) are kissat-harder than cands with
+narrow LM tails. bit28 has broadest tail; bit28 is hardest. Need 2-3
+intermediate cands to confirm.
+
+**Refined per-conflict equivalence claim**:
+  "MOST distinguished cands cluster at 27-28s seq / 34-37s par-5.
+   bit28 is OUTLIER at ~39s seq / ~51s par-5 — likely due to broad
+   LM tail structure."
+
+**Block2_wang updated PRIMARY recommendation**: bit4_m39a03c2d
+(per F46 + yale F45 lowest exact-sym LM at HW=64/LM=743). bit4 is
+BOTH LM-tight AND in the per-conflict equivalence cluster.
+
+bit28 becomes a "negative anchor" — LM-min cand on the LM axis but
+kissat-hardest on the solver axis. For yale's operator design, bit28
+might guide what NOT to use as primary anchor (despite raw LM win).
+
+10 runs logged. CNF audit CONFIRMED. Pulse-aware: in continuous flow.
