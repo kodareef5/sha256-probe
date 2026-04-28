@@ -40,3 +40,39 @@ headline path IS the Wang block-2 absorption trail (per F82 SPEC).
 
 Memo: `headline_hunt/bets/block2_wang/results/20260428_F96_bit28_corpus_and_certpin.md`
 Corpus: `headline_hunt/bets/block2_wang/residuals/by_candidate/corpus_bit28_md1acca79_fillffffffff.jsonl` (2.4 MB)
+
+---
+
+## 04:15 EDT — F97: High-HW cert-pin probe — near-residual invariant extends to corpus ceiling
+
+Direct execution of F96's next_move #1: probe whether the cert-pin
+near-residual invariant has an upper-HW boundary. F94/F95/F96 covered
+the LOWEST-HW witnesses (HW 55-67); F97 covers the HIGHEST-HW (HW=80
+corpus ceiling).
+
+**Setup**: 6 corpus cands × top-10 highest-HW witnesses each = 60
+W-witnesses, all at HW=80 (build_corpus's filter ceiling).
+
+**Result: 60/60 UNSAT, all 3 solvers agree per witness.** 180
+cross-solver cells, ~1.7s wall.
+
+**Updated combined cert-pin evidence corpus** (F70 + F71 + F94 + F95
++ F96 + F97):
+  - **192 distinct W-witnesses**
+  - **442 cross-solver cells**
+  - **0 SAT, 100% near-residual**
+
+**Structural significance**: the cert-pin UNSAT property is HW-uniform
+across [HW=44, HW=80] — the entire corpus-built region. No HW
+threshold within this range produces SAT. Combined with F77+F78+F79+F81's
+225M-conflict deep-budget SAT search, **single-block cascade-1
+collisions at sr=60 N=32 are unreachable at our compute scale**.
+
+**Headline path**: now exclusively the Wang block-2 absorption trail
+(yale's domain). F82 SPEC + F84 trivial round-trip ready for yale's
+trail bundles.
+
+60 runs logged via append_run.py. Registry total: 939 → **999** (one
+shy of 1000-run milestone).
+
+Memo: `headline_hunt/bets/block2_wang/results/20260428_F97_highHW_certpin_probe.md`
