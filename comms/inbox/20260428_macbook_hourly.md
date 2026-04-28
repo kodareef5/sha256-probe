@@ -1854,3 +1854,46 @@ saw it on rebase, no conflict.
 
 Discipline: 0 SAT compute, 0 solver runs. Pure-thought analysis on
 existing q5 collision data + N=32 cascade-1 framework.
+
+---
+
+## ~16:25 EDT — F152: refined overlap metric (response to yale's F128 feedback)
+
+**Yale tested F150's prediction empirically (F128) and falsified the
+simple form**: best F150 top-10 score 96 vs yale's empirical 86 floor.
+Pure expansion-overlap-density not enough.
+
+But yale identified next-level features in F128:
+1. Concentration: max feeders into early schedule word
+2. Channel pattern: direct vs σ_0 vs σ_1 vs W[i-7]
+
+Computed REFINED composite metric (2× early_max_feeders + 1× channel
+diversity + 0.3× extra_feeds). Yale's {0,1,2,8,9} composite = 10.20
+(rank 134/4368).
+
+**Refined prediction (F152)**: 5 untested subsets achieve
+early_max_feeders=4 AND channel_diversity=4 (all 4 SHA expansion
+channels active at W[16]):
+- (0, 1, 9, 10, 14)  ← top
+- (0, 1, 9, 14, 15)
+- (1, 2, 9, 10, 15)
+- (1, 2, 10, 11, 15)
+- (1, 2, 10, 14, 15)
+
+**Yale's {0,1,2,8,9} has 3 of 4 channels** at W[16] (direct, σ_0,
+direct_t7); missing σ_1. The 5 candidates above add σ_1 via W[14]
+or W[10].
+
+Predicted: at least one of the 5 candidates scores < 86. If yes →
+4-channel-coverage hypothesis empirically validated. If no →
+framework needs further refinement.
+
+Estimated yale-side compute: 5 × 5 min = ~25 min.
+
+Memo: `bets/block2_wang/results/20260428_F152_refined_overlap_metric_response_to_yale_F128.md`
+
+This is the **second iteration of the macbook ↔ yale hypothesis-
+test-refinement loop**. Yale tested in 30 min, macbook refined in
+10 min. Compounding fleet learning.
+
+Discipline: 0 SAT compute, 0 solver runs.
