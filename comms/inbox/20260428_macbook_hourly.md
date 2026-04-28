@@ -2780,3 +2780,16 @@ Discipline: 0 SAT compute, 0 solver runs.
 - Next test: shell_eliminate on cert-pin output (with HW constraint)
   — that's the actual collision-finding test.
 
+
+## ~17:58 EDT — F225: shell_eliminate universal across encoders (3 variants)
+
+- Tested shell_eliminate on TRUE sr=61 (758 vars residual, 93.3%)
+  and enf0 (696 vars residual, 93.8%) — both reduce to 0 clauses.
+- 4 CNFs across 3 encoder variants all converge to ~700-760 residual
+  vars in <0.2s.
+- "Hard core" of cascade-1 collision encoding is ~700 vars
+  UNIVERSALLY (encoder-independent).
+- BP decoder design from F211 targets this 700-var primitive,
+  applicable across all encoders.
+- 34 commits this session.
+
