@@ -197,3 +197,132 @@ So the natural experimental matrix:
 - Propagator + CaDiCaL on aux_force_sr60_n32_*.cnf   (both)
 
 The 36-CNF cross-kernel set (just shipped) is exactly the substrate this needs.
+
+---
+
+## 2026-04-28 update: IPASIR-UP for block2_wang absorber search (yale's F125 alignment)
+
+The original survey above (2026-04-25) was framed around cascade-DP collision
+search. Today's empirical work (yale F123/F125/F133, macbook F147/F157)
+identifies a SECOND use case where the IPASIR-UP infrastructure already shipped
+(1310 LOC C++ + IPASIR-UP integration) is directly applicable.
+
+### Yale's F125 stated need
+
+After exhausting all radius-2 local moves (M2-only, both-side, common-mode,
+fixed-diff resampling, additive common-mode), yale concluded:
+
+> "structured moves that preserve late-schedule features, OR a solver that
+> reasons directly over schedule words W16-W30 instead of raw message-bit
+> flips."
+
+Both alternatives map cleanly to IPASIR-UP architectures.
+
+### Two IPASIR-UP architectures applicable to yale's need
+
+#### Architecture A: Cube-and-conquer with structural cubing
+
+Pattern: at each cube, the cubing strategy (MCTS or heuristic) picks a set of
+W-bits to fix, then CaDiCaL solves the resulting reduced problem. IPASIR-UP
+plays no propagation role here — purely cubing infrastructure.
+
+For block2_wang: cube on W2[60] bit positions (32 cubes per outer iteration).
+Each cube fixes 1-2 W2[60] bits; CaDiCaL solves the resulting cascade-1 +
+cube-fixed instance. Reward = chain-output target distance after partial solve.
+
+Cost per cube: ~1-10 seconds (cascade-1 sr=60 partial solve at modest budget).
+32 cubes × 10 sec = ~5 minutes per outer iteration. Over 8-32 outer iterations
+(MCTS rollouts), ~1-2 hours wall time.
+
+This is comparable to yale's current local search budget but explores a
+DIFFERENT search-space topology — cube-fixed sub-problems vs random
+perturbations.
+
+#### Architecture B: Cascade-aware structural propagator
+
+Pattern: this bet's existing propagator (Rules 1-5 already shipped) reasons
+during CDCL search, propagating cascade-1 structural constraints. yale's
+absorber-search context is different from the original collision-finding
+context: instead of seeking a SAT model, the propagator helps the solver
+quickly REJECT configurations far from the target.
+
+For block2_wang: build a CNF that encodes "M1, M2, target W2_diff" with
+W2[60] free. The propagator's cascade-zero rules (Rule 1, 2) hold trivially
+(they're cascade-1 invariants). Rule 4 (`dE[63] = dA[63] XOR dT2_63`) provides
+structural propagation that CDCL can't easily learn from clauses alone.
+
+Cost: per the bet's empirical findings, Rule 4 fires ~150-250 times per 50k
+conflicts. For absorber search (probably 10k-50k conflicts per probe),
+expect ~50-100 propagator interventions. Overhead 1.9× wall vs vanilla
+CaDiCaL (per kill criterion #3 firing on 2026-04-25), but for absorber search
+the SEARCH GUIDANCE may compensate.
+
+### Architecture comparison
+
+| Architecture | What yale gets | What this bet's existing code gets you | Estimated build time |
+|---|---|---|---|
+| A: cube-and-conquer | Structured cubing escape from local minima | New cubing harness (no existing cube tooling here) | ~3-5 days new C++ |
+| B: cascade-aware propagator | In-search structural guidance | 1310 LOC C++ + 40+ unit tests + Rules 1-5 | ~few days adaptation |
+
+Architecture B reuses the bet's existing engineering investment. Architecture A
+is closer to the AlphaMapleSAT paper (literature/notes/alphamaplesat_*).
+
+### Specific IPASIR-UP hooks for yale's use case
+
+For Architecture B (cascade-aware propagator on block2_wang):
+
+1. **`add_observed_var`**: observe the W2[60] bits, the resulting cascade-1
+   state-diff bits at rounds 60-63. Estimated 32 + 256 = 288 observed vars.
+   No new infrastructure needed; propagator already supports this pattern.
+
+2. **`cb_propagate`**: existing Rule 4 logic at r=63 forces dE[63] from
+   dA[63] + dT2_63. For absorber search, this is the same structural rule —
+   no new logic required.
+
+3. **`cb_check_found_model`**: yale's absorber search wants to CONTINUE
+   exploration after each near-target model, not stop. The propagator could
+   reject "this is the absorber" claims that don't have low chain-diff,
+   forcing CaDiCaL to backtrack and explore alternatives.
+
+4. **NEW HOOK NEEDED**: target-distance-based rejection. The propagator
+   should reject models where chain-output target distance > threshold T,
+   forcing CaDiCaL to find next-best model. This is a NEW callback pattern
+   beyond the original SAT/UNSAT use case.
+
+5. **`cb_decide`** (currently unused in the bet): yale's heuristic biases
+   toward specific active words. The propagator could implement that bias
+   via cb_decide, suggesting branching variables aligned with yale's
+   empirical {0,1,2,8,9} pattern.
+
+### Reopen viability for this bet
+
+Per F147's reopen-candidate context, the bet should reopen if:
+- yale or another machine articulates a specific use case demand: **yes,
+  yale's F125 statement is the use case**
+- A specific candidate identifies where vanilla cadical can't solve but
+  propagator can: **yale's score-86 plateau IS that scenario**
+
+The 1310 LOC infrastructure + 40+ unit tests are immediately reusable.
+Adaptation cost: ~3-5 days to add the target-distance rejection callback
+(`cb_check_found_model` extension) and `cb_decide` heuristic bias.
+
+### Recommendation
+
+If the project escalates yale's F125 demand:
+1. Reopen this bet (status: closed → in_flight)
+2. Add target-distance rejection logic to `cascade_propagator.cc`
+3. Add `cb_decide` heuristic biased toward {0,1,2,8,9}-style active words
+4. Test on bit3 fixture; compare wall-time and score floor vs yale's heuristic
+
+This is a CONCRETE adaptation path. The bet's existing engineering is
+~80% reusable.
+
+### Discipline notes
+
+This update extends the survey, doesn't change implementation. No code
+changes; no new compute; no solver runs. Pure documentation update tying
+the existing IPASIR-UP infrastructure to today's emergent use case.
+
+If/when reopened, the build steps (Phase 2A→2C) and decision gates
+documented above remain valid. This update adds Architecture-B-for-
+block2_wang as a 4th decision option alongside the original Phases 2A-C.

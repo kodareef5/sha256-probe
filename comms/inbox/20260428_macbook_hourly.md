@@ -2095,3 +2095,33 @@ project's specific empirical state.
 validate_registry: 0 errors, 0 warnings.
 
 Discipline: 0 SAT compute, 0 solver runs.
+
+---
+
+## ~18:35 EDT — F158: IPASIR-UP API survey extended (block2_wang use case per yale F125)
+
+The IPASIR-UP API doc (199 lines, 2026-04-25) was bet's #1 TODO when
+first written. Pre-dates today's empirical findings. Extended with
+substantive section "IPASIR-UP for block2_wang absorber search (yale's
+F125 alignment)".
+
+Two architectures applicable to yale's F125 stated need:
+- **Cube-and-conquer** (AlphaMapleSAT-style): structural W2[60]
+  cubing, ~5 min per outer iteration
+- **Cascade-aware propagator** (this bet's existing 1310 LOC code):
+  Rule 4-5 guidance with target-distance rejection. ~80% reusable;
+  adaptation ~3-5 days
+
+Concrete reopen recipe documented:
+- Add target-distance rejection to cascade_propagator.cc
+- Add cb_decide heuristic biased toward {0,1,2,8,9}-style active
+  words
+- Test on bit3 fixture; compare wall-time and score floor vs yale's
+  heuristic
+
+Doc grew 199 → 328 lines. Cross-references F147 + F157 + yale's F125.
+
+This is the IPASIR-UP API survey the hourly pulse mentioned — already
+existed in skeleton form, now extended with today's use case.
+
+Discipline: 0 SAT compute, 0 solver runs.
