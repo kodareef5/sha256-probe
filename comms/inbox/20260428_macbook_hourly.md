@@ -2632,3 +2632,23 @@ Discipline: 0 SAT compute, 0 solver runs.
   alignment of the session.
 - F213 memo committed. 23 commits this session.
 
+
+## ~17:18 EDT — F214: W1_58 entire round shell-eliminable (cascade-1 hardlock)
+
+- Of the 72 shell-eliminable schedule vars from F213:
+  - **W1_58: ALL 32 bits in shell** (entire round redundant!)
+  - W1_57: 19 bits in shell
+  - W2_57: 14 bits, W2_58: 7 bits
+  - W1_59, W1_60, W2_59, W2_60: 0 bits in shell (all in core)
+- Direct consequence of cascade-1 structure: da[56]=0 hardlock
+  forces W1_58 in terms of W1_57, making W1_58's 32 vars degree-2
+  Tseitin chains.
+- Effective active schedule: 184 free bits (M1=77, M2=107).
+- M2 has ~40% more freedom than M1 — kernel-difference asymmetry
+  structurally encoded.
+- BP decoder can skip W1_58 entirely (saves ~12% messages).
+- 72-var decision priority list well-defined for CDCL hints.
+- F214 memo committed. 24 commits this session.
+- cascade_aux_encoding bet has complete structural characterization
+  at algebraic, graph-theoretic, and algorithmic levels.
+
