@@ -1931,7 +1931,12 @@
       status: unknown
       evidence: []
       cert_id: null
-      notes: "F70-F102 cert-pin coverage 2026-04-28: 35 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale"
+      notes: "F70-F102 cert-pin coverage 2026-04-28: 35 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale.\
+        \ F191 absorber-search 2026-04-28 PM: bit4 chunk-0 random init seed 9101 found\
+        \ {0,1,2,4,8} at score 86 (msgHW 66) — TIES bit3 floor on a distinguished cand.\
+        \ F193 8x50k random init: best 94 (basin narrow). F194 8x50k F188 basin-init:\
+        \ best 86 (reproduces, no descent). bit4 has findable deep basin matching\
+        \ bit3's floor; sub-86 not reachable via 8x50k chunked-scan + basin-init."
     true_sr61:
       status: unknown
       evidence: []
@@ -1941,8 +1946,8 @@
     - cnfs_n32/sr61_cascade_m39a03c2d_fffffffff_bit4.cnf
     certs: []
     logs: []
-  last_tested: '2026-04-26'
-  last_updated: '2026-04-26'
+  last_tested: '2026-04-28'
+  last_updated: '2026-04-28'
   owner: macbook
   evidence_level: VERIFIED
 - id: cand_n32_bit4_md41b678d_fillffffffff

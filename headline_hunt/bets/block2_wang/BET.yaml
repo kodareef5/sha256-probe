@@ -29,7 +29,68 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-04-28T19:20:00Z'
+last_heartbeat: '2026-04-28T20:30:00Z'
+recent_progress_2026-04-28_late_PM: |
+  Late-afternoon arc F176-F197 (~10 commits, 0 SAT compute):
+
+  CALIBRATION FINDINGS (F176-F186):
+    F176/F179: 8x50k random-init cannot reach F135's score-87 basin on
+      bit19 {0,1,3,8,9} from outside; best across 8 restarts = 95.
+    F180: F135's score-87 chunk-1 result is SEED-7101 SINGULAR. Re-ran
+      chunk 1 with seed 9101 → best 91 at {0,1,3,5,11}, F135 winner
+      {0,1,3,8,9} scores 96 (rank 11). Chunked-scan floors carry
+      ~5pt seed-uncertainty.
+    F182: bit28 chunk-0 reproducibility — floor robust at 91-92 across
+      seeds. Different from bit19's seed-noisy 87.
+    F186: cross-cand chunk-0 floor map (single seed):
+      bit3=86, bit19=90, msb=91, bit28=91, bit4=93, bit25=94.
+      F143 strong form (distinguished cands BETTER than bit3) initially
+      looked dead at random-init.
+
+  BREAKTHROUGH FINDINGS (F187, F191):
+    F187: Cross-fixture basin propagation works! F135's score-87
+      message pair on bit19 used as --init-json for bit28 chunk-0
+      reaches score 89 at {0,1,2,10,11} (msgHW=85). This mask was
+      INVISIBLE to F178/F181 random-init top-16. First sub-91 result
+      on bit28; demonstrates basin propagation via M1 transfer beyond
+      mask identity.
+    F191: bit4 chunk-0 multi-seed (F188 seed 9101) finds {0,1,2,4,8}
+      at score 86. TIES bit3's robust floor on a distinguished cand
+      from RANDOM init. 7-point seed-noise on bit4 (F183 seed 8101=93).
+      F143 weak form alive: distinguished cands have findable basins
+      comparable to bit3.
+
+  PROTOCOL FLOOR (F193-F194):
+    bit4 8x50k random-init on {0,1,2,4,8}: best 94 (basin unreachable
+      from outside). bit4 8x50k F188 basin-init: best 86 (reproduces;
+      no descent). Same outcome as yale F173/F174 on bit19@87.
+    EMPIRICAL 8x50k PROTOCOL FLOOR: 86 across cand catalog.
+      bit3=86, bit4=86, bit19=87, bit28=89, bit25=92, msb=91.
+
+  STATE OF THE BET (post-F194):
+    - Empirical 8x50k protocol floor: 86 (bit3, bit4)
+    - Cross-fixture basin propagation validated as protocol mechanism
+    - F143 weak form: bit4 ties bit3 at random-init; bit28 reaches 89
+      via F135-init; cand-level basin landscapes vary widely
+    - F143 strong form (distinguished cands STRICTLY < bit3) dead at
+      8x50k protocol level
+    - Sub-86 not reachable via heuristic chunked-scan + basin-init
+      regardless of budget tested
+
+  HEADLINE PATH:
+    Sub-86 requires non-heuristic methods:
+      (a) different active-word masks with deeper basins (chunk 1+ probes
+          with basin-init protocol — F195/F196/F197 cross-fixture init
+          on bit4/bit25/msb in flight)
+      (b) IPASIR-UP propagator with active-word side-channel (F158)
+      (c) BDD enumeration / cascade_aux SAT
+      (d) structural insight on the 86 barrier
+
+  COORDINATION:
+    Sent macbook→yale F180 seed-uncertainty calibration note. Suggests
+    multi-seed protocol or basin-init for ongoing chunks 9-33.
+
+  DISCIPLINE: 0 SAT compute, 0 solver runs, 0 audit failures throughout.
 recent_progress_2026-04-28_PM: |
   Massive afternoon arc beyond the F93-F104 cert-pin axis (already
   documented below). Two parallel work streams shipped today:

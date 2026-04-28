@@ -2429,3 +2429,18 @@ Discipline: 0 SAT compute, 0 solver runs.
   memos (F176, F178/F179, F180, F182, F186, F187, F191, F193/F194)
   + 2 coordination notes. Pace is sustainable.
 
+
+## ~16:30 EDT — Hour-end discipline cycle (NON-NEGOTIABLES)
+
+- git pull --rebase: already up to date (no fleet activity since my push).
+- Dashboard regenerated (1688 runs total, 0% audit fail rate, no
+  stale rows triggered).
+- block2_wang BET.yaml heartbeat refreshed with F176-F194 arc summary
+  + F195-F197 in-flight context.
+- candidates.yaml updated: bit4 cand_n32_bit4_m39a03c2d_fillffffffff
+  notes capture F191/F193/F194 (TIES bit3 at 86 random-init; basin
+  floor at 86 8x50k).
+- Sent yale a basin-landscape consolidation note for the F176-F197 arc.
+- validate_registry: 0 errors, 0 warnings.
+- F195-F197 still running; will harvest at 16:32 wakeup.
+
