@@ -2246,3 +2246,27 @@ Combined audit coverage today (F111 + F166):
 - **TOTAL: 230/230 CNFs CONFIRMED**, 0 audit failures
 
 Discipline: 0 SAT compute, 0 solver runs.
+
+---
+
+## ~20:15 EDT — F169/F170: chunks 43-45 + structural radius-1 observation
+
+**F169 chunks 43-45** (no improvement, ~5 min wall):
+- Chunk 43: 90 on {2,5,7,9,10}
+- Chunk 44: 90 on {2,5,9,10,11}
+- Chunk 45: 88 on {2,6,8,11,12}
+
+bit19 floor stays at 87. Macbook progress: chunks 34-45 (12 of 34).
+
+**F170 structural observation** (pure-thought during background run):
+- ALL bit19 winners-so-far are radius-1 from yale's bit3 winner
+  {0,1,2,8,9}
+- Best two: {0,1,3,8,9} score 87 (chunk 1) — swap W[2]→W[3]
+  {0,2,3,8,9} score 89 (chunk 6) — swap W[1]→W[3]
+- Concrete suggestion: targeted scan over the 60 radius-1 neighbors
+  of {0,1,2,8,9}. ~5-10 min compute.
+
+This is the kind of "look at the data, find the pattern, propose
+sharper experiment" work that pure-thought analysis enables.
+
+Discipline: 0 SAT compute. Chunks ~5 min wall. F170 memo pure-thought.
