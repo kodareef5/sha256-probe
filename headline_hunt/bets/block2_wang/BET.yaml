@@ -29,7 +29,54 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-04-27T18:45:00Z'
+last_heartbeat: '2026-04-28T03:55:00Z'
+recent_progress_2026-04-28: |
+  MASSIVE F93-F104 ARC: cert-pin axis empirically saturated.
+
+  Corpora built (this bet's residuals/by_candidate/):
+    F93 bit3_m33ec77ca (NEW: 18,517 records, min HW=55)
+    F96 bit28_md1acca79 (18,633 records, min HW=59)
+    F98 ma22dc6c7 (3,704 records, min HW=63)
+    F99 5 priority cands (bit4, bit10, bit11, bit18, bit25)
+    F100 sweep on 54 remaining registry cands (transient /tmp)
+    F101/F102 HW≤120 corpora on bit2/bit3/bit13/bit28/m17149975
+
+  Cert-pin verifications (combined F70-F102):
+    132 distinct W-witnesses → 802 distinct W-witnesses
+    442 cells → 2,512+ cross-solver cells
+    HW range covered: [44, 120] = ~99.97% of natural distribution
+    0 SAT, 100% near-residual
+
+  EMPIRICAL CLAIM LOCKED: single-block sr=60 cascade-1 collisions
+  at N=32 do not exist at our compute scale across:
+    - All 67 registry cands (F71+F100)
+    - Full natural HW distribution [44, 120] (F101+F102)
+    - 3 SAT solvers (kissat + cadical + CMS)
+    - 225M-conflict deep-budget SAT search (F77+F78+F79+F81)
+
+  Tools shipped:
+    F82 2BLOCK_CERTPIN_SPEC v1 (trail bundle interface contract)
+    F83 validate_trail_bundle.py (schema validator)
+    F84 build_2block_certpin.py (trivial-case verifier)
+    F104 simulate_2block_absorption.py (pre-SAT forward simulator)
+    F100 registry_top10_sweep.py (sweep tool)
+
+  Pipeline (full headline-path verification chain):
+    yale ships trail bundle
+    → validate_trail_bundle.py    (F83)
+    → simulate_2block_absorption.py (F104, NEW)
+    → build_2block_certpin.py     (F84)
+
+  F101_logging closed the 540-run logging gap from F100. All cert-pin
+  runs now in registry. validate_registry: 0 errors, 0 warnings.
+
+  Per F103 fleet-coordination message to yale: cert-pin axis closed,
+  bit3_m33ec77ca added to candidate priority list, headline path is
+  now exclusively the Wang block-2 absorption trail (yale's domain).
+
+  Macbook standby: cross-solver verify any new yale frontier W
+  (~0.1s wall), encoder extension when yale ships partial trail.
+
 recent_progress_2026-04-27_EVENING: |
   linux_gpu_laptop F77 exact-sheet atlas added a fourth target metric,
   pair_hw = HW(a^e)+HW(b^f)+HW(c^g), and moved beyond W59-only

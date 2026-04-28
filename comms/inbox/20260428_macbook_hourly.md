@@ -359,3 +359,37 @@ Pipeline:
   → build_2block_certpin.py (SAT verifier when ready)
 
 Memo: integrated into 2BLOCK_CERTPIN_SPEC.md update (W2_57_60 field).
+
+---
+
+## ~04:10 EDT — F105: Heartbeat refresh + cert-pin closure registered in negatives.yaml
+
+Bookkeeping/registry compliance hour after the cert-pin-axis-closing push:
+
+**Heartbeats refreshed**:
+- block2_wang BET.yaml: 04-27 18:45 → 04-28 03:55. Added
+  `recent_progress_2026-04-28` section consolidating F93-F104 arc
+  (corpora built, 802+ W-witnesses, 2,512+ cells, tools shipped,
+  pipeline complete).
+- cascade_aux_encoding BET.yaml: 04-27 22:40 → 04-28 03:55. Added
+  `recent_progress_2026-04-28_F94_F104` documenting cert-pin
+  pipeline maturity + 31 new aux_expose CNFs from F101_logging.
+
+**Cert-pin closure formally registered in negatives.yaml**:
+  Added entry `single_block_cascade1_sat_at_compute_scale` (status:
+  closed, evidence_level: VERIFIED). Documents the 2,512+ cells of
+  evidence with explicit `would_change_my_mind` triggers:
+  - Yale frontier W-witness produces SAT (HEADLINE)
+  - New cand added to registry admits SAT
+  - HW>120 region produces SAT
+  - Different solver finds SAT where 3-solver agreement says UNSAT
+
+This locks the cert-pin axis CLOSURE with the same discipline as
+prior negatives (raw_carry_state_dp, gf2_linearization, etc.).
+Future fleet machines see the closure + the conditions to reopen.
+
+**Validation**: validate_registry.py = 0 errors, 0 warnings.
+
+This is registry-discipline compliance work — no new compute, no new
+W-witnesses, just consolidating the day's empirical work into the
+formal registry artifacts the fleet relies on.

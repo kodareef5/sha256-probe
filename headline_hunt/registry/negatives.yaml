@@ -246,3 +246,43 @@
   related_mechanisms:
   - cascade_auxiliary_encoding
   owner: macbook
+- id: single_block_cascade1_sat_at_compute_scale
+  claim: Single-block sr=60 cascade-1 collisions at N=32 do not exist at our compute scale across the full 67-cand registry,
+    full natural HW distribution [44, 120], 3 SAT solvers, and 225M-conflict deep-budget search.
+  scope: All 67 registry cands; cascade-1 W-witness space at HW [44, 120] (~99.97% of the natural cascade-eligible distribution);
+    kissat 4.0.4 + cadical 3.0.0 + CryptoMiniSat 5.
+  status: closed
+  evidence_level: VERIFIED
+  closed_date: '2026-04-28'
+  evidence_files:
+  - headline_hunt/bets/block2_wang/results/20260428_F100_registry_wide_top10_certpin.md
+  - headline_hunt/bets/block2_wang/results/20260428_F101_HW_above_80_probe.md
+  - headline_hunt/bets/block2_wang/results/20260428_F102_F101_extension_cross_cand_modeHW.md
+  - headline_hunt/bets/cascade_aux_encoding/results/20260427_F71_registry_wide_certpin_audit_67of67_UNSAT.md
+  - headline_hunt/bets/cascade_aux_encoding/results/20260427_F77_deep_budget_parallel_sweep.md
+  why_closed: |
+    Combined cert-pin evidence corpus (F70 + F71 + F94 + F95 + F96 + F97 + F98 + F99 + F100 + F101 + F102):
+      - 67 distinct cands (full registry coverage)
+      - 802+ distinct W-witnesses (yale frontier + F32 deep-min + corpus top-10 per cand + HW=80 ceiling + HW=90-99 mode + HW=110-120)
+      - 2,512+ cross-solver/cross-cand cells
+      - HW range covered: [44, 120] = ~99.97% of natural cascade-1 residual distribution
+      - 0 SAT, 100% near-residual
+
+    Combined with F77+F78+F79+F81 (~225M conflicts deep-budget SAT search across 9 priority cands), single-block cascade-1
+    collisions at sr=60 N=32 are unreachable at our compute scale.
+
+    The verified m17149975 collision (HW=0 at exact W-vector) is NOT in this empirically-closed set — it's a measure-zero
+    point already known. F98 control on m17149975 random low-HW W-witnesses (HW 62-67) confirmed UNSAT, demonstrating
+    "collisions are point-singular, not basin-singular."
+  would_change_my_mind:
+  - Yale's online Pareto sampler finds a single-block W-witness producing SAT under certpin_verify --solver all (would be
+    HEADLINE-class).
+  - A new candidate added to the registry (m0/fill outside the current 67) admits single-block SAT — would suggest the
+    invariant is registry-bounded, not structural.
+  - HW>120 region tested and produces SAT (extreme high HW; would suggest invariant has an upper-HW boundary).
+  - A solver other than kissat/cadical/CMS finds SAT where the 3-solver agreement says UNSAT — would suggest solver
+    pathology rather than structural impossibility.
+  related_mechanisms:
+  - block2_wang_residual_absorption
+  - cascade_auxiliary_encoding
+  owner: macbook

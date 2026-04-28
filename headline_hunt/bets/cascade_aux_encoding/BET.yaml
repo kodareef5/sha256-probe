@@ -75,7 +75,31 @@ current_progress: |
   = 72 CNFs, all CONFIRMED. Bet remains characterized (Mode B 2-3.4× front-
   loaded preprocessing, not a path to cascade-DP SAT discovery).
 
-last_heartbeat: "2026-04-27T22:40:00Z"
+last_heartbeat: "2026-04-28T03:55:00Z"
+recent_progress_2026-04-28_F94_F104: |
+  Cert-pin pipeline matured to production-grade fleet tool. F94-F102
+  arc on block2_wang side shipped 802+ distinct W-witnesses verified
+  via certpin_verify --solver all (kissat+cadical+CMS); 2,512+
+  cross-solver cells, 0 SAT. F100 registry-wide sweep (54 cands)
+  produced 540 verifications in 8 min wall. F101 extended HW probe
+  to mode region (HW=90-99). F104 added forward simulator for pre-
+  SAT validation of yale's eventual block-2 trail bundles.
+
+  Cascade_aux_encoding tools shipped this arc:
+    - certpin_verify.py: validated end-to-end across 67 cands (F71)
+      and 54 cands × top-10 (F100)
+    - cascade_aux_encoder.py: 31 new aux_expose CNFs generated this
+      arc to support F100's registry-wide audit (F101_logging)
+
+  No new SAT solver runs on cascade_aux this arc — all solver compute
+  via certpin pipeline (sub-second per witness). Earlier deep-budget
+  SAT (F77/F78/F79/F81 = 225M conflicts, 0 SAT) is the brute-force
+  ceiling.
+
+  Bet remains in_flight per priority but the structural finding
+  (Mode A/B 2-3.4× front-loaded preprocessing per F58/F60/F63/F74) is
+  empirically locked. Bet's real value-add now is the cert-pin
+  pipeline that yale uses for trail bundle verification.
 recent_progress_2026-04-27_EVENING_F80_F81: |
   F80: yale's bit28 HW=45/LM=637 EXACT-sym (NEW LM champion, beats
   their previous LM=679 by 42 LM bits) verified via certpin_verify
