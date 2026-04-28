@@ -1985,3 +1985,40 @@ If F154 holds, the structural framework SUPER-NATURALLY explains
 yale's empirical winner via the Iwasawa pipeline duality.
 
 Discipline: 0 SAT compute, 0 solver runs.
+
+---
+
+## ~17:25 EDT — F155: synthesized prediction (0,1,8,9,14) — single highest-priority test
+
+Yale's F131 falsified F152's 4-channel hypothesis, BUT yale's stated
+next direction ("missing feature is word-8 to W24 phase") matches
+F154's dual-wave hypothesis. Both insights converge.
+
+Synthesis: a candidate with BOTH features should beat yale's 86.
+
+**Computed: (0, 1, 8, 9, 14) is the unique subset with**:
+- W[16] all 4 SHA expansion channels active (W[0] direct, W[1] σ_0,
+  W[9] direct_t7, W[14] σ_1)
+- W[24] dual-wave preserved (W[8] direct + W[9] σ_0, same as yale's)
+
+This STRICTLY DOMINATES yale's {0,1,2,8,9} on both metrics.
+
+Yale's F131 tested (0,1,9,10,14), (0,1,9,14,15) etc. — these have
+W[16] 4-channel BUT dropped yale's W[24] structure (no W[8]). They
+scored 96-102.
+
+(0,1,8,9,14) PRESERVES yale's W[24] structure + ADDS the 4th W[16]
+channel via W[14]. This combination hasn't been tested.
+
+Predicted: score < 86 (range 78-84). If true → composite metric
+(4-channel W[16] + dual-wave W[24]) validated. First empirical break
+of yale's score-86 floor since F123.
+
+~5 min yale-side compute. Test command in memo.
+
+Memo: `bets/block2_wang/results/20260428_F155_combined_dual_wave_4channel_prediction.md`
+
+Iteration 4 of the macbook ↔ yale loop. Yale tests fast (~5 min);
+each iteration sharpens the structural metric.
+
+Discipline: 0 SAT compute, 0 solver runs.
