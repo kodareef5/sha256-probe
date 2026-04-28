@@ -258,3 +258,29 @@ cands × full HW distribution × 3 solvers × 225M-conflict brute force.
 50 runs logged. Registry total: 1099 → **1149**.
 
 Memo: `headline_hunt/bets/block2_wang/results/20260428_F102_F101_extension_cross_cand_modeHW.md`
+
+---
+
+## ~03:15 EDT — F101_logging: F100 540-run logging follow-up — registry compliance restored
+
+F100 left 540 cert-pin runs unlogged because 31 of 54 cands had no
+aux_expose CNF. F101_logging closes the gap.
+
+**Steps**:
+1. Generated 31 missing aux_expose CNFs in parallel (xargs -P 8,
+   ~1 min wall)
+2. Logged all 540 F100 runs via append_run.py (10 per cand × 54
+   cands, kissat as primary solver, multi-solver agreement noted)
+
+**Result**: 540 runs logged, 0 cands skipped, 0 audit failures.
+Registry: 1149 → **1689 logged runs**.
+
+validate_registry.py: 0 errors, 0 warnings.
+
+**Discipline now fully compliant**: every cert-pin verification from
+the F70-F102 arc is in runs.jsonl. Combined with F77-F81 deep-budget
+SAT runs, the 1689 entries form a complete audit trail.
+
+**31 new aux_expose CNFs** committed to
+`headline_hunt/bets/cascade_aux_encoding/cnfs/`. (Some path entries
+may be filtered by .gitignore — checking before commit.)
