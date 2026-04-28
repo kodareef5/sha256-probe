@@ -1780,3 +1780,39 @@ This is the cleanest cross-bet structural experiment the project has
 set up today. Either outcome is informative.
 
 Discipline: 0 SAT compute, ~90 forward-sim samples for fixture validation.
+
+---
+
+## ~15:30 EDT — F150: expansion-overlap-density prediction for yale's active-word search
+
+Cluster-analyzed yale's 26 search artifacts. All score-86 hits come
+from active-word config {0,1,2,8,9}. Other configs plateau at 90-95.
+
+Pure-thought analysis on SHA-256 message expansion structure:
+yale's {0,1,2,8,9} ranks **192 of 4368** size-5 subsets by
+expansion-overlap density (top 4.4%). HIGHER-density subsets exist
+that yale hasn't tested.
+
+Top-10 size-5 subsets (6 extra feeds vs yale's 4):
+- {1,5,13,14,15}, {1,6,13,14,15}, {1,6,9,14,15}
+- {1,6,10,14,15}, {0,1,6,14,15}, {1,2,6,14,15}
+- {1,2,9,10,11}, {1,5,6,14,15}, {1,6,7,14,15}, {1,9,10,14,15}
+
+Common: W[1] in all 10, W[14]/W[15] in 8/10, W[6] in 7/10. Late-
+position words plus W[1] are structurally privileged via the
+expansion recurrence.
+
+Predicted: top-10 subsets give score floor < 86 (range 75-83) under
+yale's F111 search. Tests in ~30 min yale compute.
+
+WORD-LEVEL prediction (this memo) complementary to CAND-LEVEL
+prediction (F148/F149 distinguished cand slate). Combined slate:
+5 cands × 6 word-subsets = 30 cross-bet experiments.
+
+Memo: `bets/block2_wang/results/20260428_F150_expansion_overlap_density_prediction.md`
+Probe: `april28_explore/principles/items/probe_message_word_expansion_overlap.py`
+
+This is the "algebraic prediction of hard-bit positions" the hourly
+pulse list mentioned.
+
+Discipline: 0 SAT compute, 0 solver runs.
