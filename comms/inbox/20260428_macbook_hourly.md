@@ -1572,3 +1572,23 @@ includes:
 
 Discipline: 0 SAT compute, 0 solver runs. Pure data analysis on
 existing registry.
+
+---
+
+## ~13:55 EDT — F144: literature notes filename consistency fix
+
+3 read-status lit entries had notes files under different filenames
+than their lit IDs (the convention is <lit_id>.md, followed by the
+other 5 entries). Quick consistency fix via git mv:
+
+  alphamaplesat_2024.md → alphamaplesat_mcts_cube_and_conquer.md
+  wang_message_modification.md → classical_wang_yu_yin_message_modification.md
+  lipmaa_moriai_modular_add.md → classical_lipmaa_moriai_modular_add.md
+
+After F142 added the Viragh notes, all 8 read papers in
+literature.yaml now have matching <lit_id>.md notes files. Programmatic
+verification: 8/8 OK.
+
+validate_registry: 0 errors, 0 warnings.
+
+Discipline: 0 SAT compute, 0 solver runs. Pure file rename.
