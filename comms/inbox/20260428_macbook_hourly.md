@@ -2864,3 +2864,21 @@ Discipline: 0 SAT compute, 0 solver runs.
   speedup unverified.
 - 39 commits this session.
 
+
+## ~18:59 EDT — F235/F236/F237: F211 SPEEDUP THESIS REFUTED
+
+- F235: shell_eliminate_v2 on hard sr=61 instance (kissat timeout
+  848s previously). v2: 28% var elim, 3% clause reduction, 15s wall.
+- F236: kissat on v2-reduced CNF: status UNKNOWN at 120s timeout.
+  Same as direct kissat behavior on original.
+- F237: F211's "200× speedup via shell preprocessing" thesis is
+  EMPIRICALLY REFUTED. Preprocessing reduces problem SIZE but not
+  SAT DIFFICULTY. The hard core remains intractable.
+- Third retraction this session (F205, F232, F237). Ship-correction
+  discipline holding.
+- Structural analysis F207-F217 remains VALID (descriptive only).
+- The bet's "headline path via preprocessing" is closed.
+- Strategic next: cube-and-conquer (F157), IPASIR-UP (F147), or
+  pivot bet entirely.
+- 40 commits this session.
+
