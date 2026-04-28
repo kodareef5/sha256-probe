@@ -1449,3 +1449,38 @@ sweep. Future fleet machines (and weekly dashboards) will see
 accurate kernel coverage data.
 
 Discipline: 0 SAT compute, 0 solver runs, registry validates clean.
+
+---
+
+## ~12:50 EDT — F141: kernels.yaml registry refresh complete (14 more entries)
+
+Continued F140's registry hygiene work. Batch-updated 14 additional
+kernels with cert_pin_coverage_2026_04_28 fields + last_updated bump.
+
+Total kernels now refreshed: **20** (6 from F140 + 14 from F141).
+
+Newly-updated entries (runs / cands):
+  bit00:   64 /  4 (LSB)
+  bit1:    17 /  1
+  bit2:    98 /  3
+  bit3:   115 /  2
+  bit4:    51 /  2 (unaligned NEW 2026-04-26)
+  bit14:   64 /  3
+  bit15:   45 /  3
+  bit17:   57 /  3
+  bit18:  115 /  5 (σ0-aligned)
+  bit19:   63 /  1
+  bit20:   39 /  1
+  bit24:   37 /  1
+  bit25:   81 /  3
+  bit29:   24 /  1
+
+Used a programmatic regex-based bulk-edit (script in /tmp/) to update
+14 entries efficiently. validate_registry.py: 0 errors, 0 warnings
+post-bulk-edit.
+
+The kernel registry is now COMPLETELY in line with the F70-F102 cert-pin
+sweep. Future fleet machines see accurate per-kernel coverage data.
+This is small but compounding registry hygiene.
+
+Discipline: 0 SAT compute, 0 solver runs.

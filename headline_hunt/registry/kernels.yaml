@@ -133,8 +133,14 @@
       status: untested
       candidates: 2
       cpu_hours: 0
+  cert_pin_coverage_2026_04_28:
+    runs_logged: 51
+    cands_covered: 2
+    verdict: "all UNSAT (per F70-F102 cert-pin sweep)"
+    hw_range_tested: [44, 120]
+    note: "Unaligned bit (NEW 2026-04-26)."
   status: open
-  last_updated: "2026-04-26"
+  last_updated: "2026-04-28"
   owner: macbook
   notes: "bit=4 is NOT rotation-aligned (not in Σ0={2,13,22}, Σ1={6,11,25}, σ0={3,7,18}, σ1={17,19,10}). Cascade-eligibility EXISTS at non-aligned bits — fully closes Σ1/σ1 alignment hypothesis. m=0x39a03c2d is second-most-compressed candidate (image=2^11 vs bit-19's 2^8)."
 
@@ -153,8 +159,14 @@
   best_results_by_n: {n32: "1 candidate at fill=0xff"}
   sr61_partial:
     n32_true_sr61: {status: untested, candidates: 1, cpu_hours: 0}
+  cert_pin_coverage_2026_04_28:
+    runs_logged: 17
+    cands_covered: 1
+    verdict: "all UNSAT (per F70-F102 cert-pin sweep)"
+    hw_range_tested: [44, 120]
+    note: "Single cand sweep."
   status: open
-  last_updated: "2026-04-26"
+  last_updated: "2026-04-28"
   owner: macbook
   notes: "First time tested. Non-aligned bit (not in any rotation amount set). 1 of 2^32 eligible at fill=0xff."
 
@@ -173,8 +185,14 @@
   best_results_by_n: {n32: "1 candidate at fill=0xff"}
   sr61_partial:
     n32_true_sr61: {status: untested, candidates: 1, cpu_hours: 0}
+  cert_pin_coverage_2026_04_28:
+    runs_logged: 24
+    cands_covered: 1
+    verdict: "all UNSAT (per F70-F102 cert-pin sweep)"
+    hw_range_tested: [44, 120]
+    note: "Single cand sweep."
   status: open
-  last_updated: "2026-04-26"
+  last_updated: "2026-04-28"
   owner: macbook
   notes: "First time tested. Non-aligned bit. 1 of 2^32 eligible at fill=0xff (queue10)."
 
@@ -239,8 +257,14 @@
   best_results_by_n: {n32: "1 candidate at fill=0xff"}
   sr61_partial:
     n32_true_sr61: {status: untested, candidates: 1, cpu_hours: 0}
+  cert_pin_coverage_2026_04_28:
+    runs_logged: 37
+    cands_covered: 1
+    verdict: "all UNSAT (per F70-F102 cert-pin sweep)"
+    hw_range_tested: [44, 120]
+    note: "Single cand sweep."
   status: open
-  last_updated: "2026-04-26"
+  last_updated: "2026-04-28"
   owner: macbook
   notes: "First time tested. Non-aligned bit. 1 of 2^32 eligible at fill=0xff (queue9)."
 
@@ -259,8 +283,14 @@
   best_results_by_n: {n32: "1 candidate at fill=0xff"}
   sr61_partial:
     n32_true_sr61: {status: untested, candidates: 1, cpu_hours: 0}
+  cert_pin_coverage_2026_04_28:
+    runs_logged: 39
+    cands_covered: 1
+    verdict: "all UNSAT (per F70-F102 cert-pin sweep)"
+    hw_range_tested: [44, 120]
+    note: "Single cand sweep."
   status: open
-  last_updated: "2026-04-26"
+  last_updated: "2026-04-28"
   owner: macbook
   notes: "First time tested. Non-aligned bit. 1 of 2^32 eligible at fill=0xff (queue8). hardlock_bits=15 (high constraint structure)."
 
@@ -279,8 +309,13 @@
   best_results_by_n: {n32: "3 candidates at fill=0xff"}
   sr61_partial:
     n32_true_sr61: {status: untested, candidates: 3, cpu_hours: 0}
+  cert_pin_coverage_2026_04_28:
+    runs_logged: 45
+    cands_covered: 3
+    verdict: "all UNSAT (per F70-F102 cert-pin sweep)"
+    hw_range_tested: [44, 120]
   status: open
-  last_updated: "2026-04-26"
+  last_updated: "2026-04-28"
   owner: macbook
   notes: "First time tested. Non-aligned bit. 3 of 2^32 eligible at fill=0xff (queue8). m=0x28c09a5a has hardlock_bits=14, de58_size=4096 (compressed)."
 
@@ -319,8 +354,13 @@
   best_results_by_n: {n32: "3 candidates at fill=0xff"}
   sr61_partial:
     n32_true_sr61: {status: untested, candidates: 3, cpu_hours: 0}
+  cert_pin_coverage_2026_04_28:
+    runs_logged: 64
+    cands_covered: 3
+    verdict: "all UNSAT (per F70-F102 cert-pin sweep)"
+    hw_range_tested: [44, 120]
   status: open
-  last_updated: "2026-04-26"
+  last_updated: "2026-04-28"
   owner: macbook
   notes: "First time tested. Non-aligned bit (not in any rotation amount set). 3 of 2^32 eligible at fill=0xff — highest yield in queue6."
 
@@ -343,8 +383,13 @@
       status: untested
       candidates: 3
       cpu_hours: 0
+  cert_pin_coverage_2026_04_28:
+    runs_logged: 98
+    cands_covered: 3
+    verdict: "all UNSAT (per F70-F102 cert-pin sweep)"
+    hw_range_tested: [44, 120]
   status: open
-  last_updated: "2026-04-26"
+  last_updated: "2026-04-28"
   owner: macbook
   notes: "Discovered 2026-04-26 via cascade_eligibility_sweep. Σ0-aligned (Σ0 amounts {2, 13, 22}). FALSIFIES Σ1/σ1 alignment hypothesis at THIRD type of bit position (Σ0)."
 
@@ -367,8 +412,13 @@
       status: untested
       candidates: 1
       cpu_hours: 0
+  cert_pin_coverage_2026_04_28:
+    runs_logged: 115
+    cands_covered: 2
+    verdict: "all UNSAT (per F70-F102 cert-pin sweep)"
+    hw_range_tested: [44, 120]
   status: open
-  last_updated: "2026-04-26"
+  last_updated: "2026-04-28"
   owner: macbook
   notes: "Discovered 2026-04-26 via cascade_eligibility_sweep. σ0-aligned bit (sigma0 amounts {7, 18, 3}). Combined with bit=18 result, FALSIFIES the Σ1/σ1 alignment hypothesis at TWO σ0-aligned bits."
 
@@ -418,8 +468,14 @@
       status: untested
       candidates: 5
       cpu_hours: 0
+  cert_pin_coverage_2026_04_28:
+    runs_logged: 115
+    cands_covered: 5
+    verdict: "all UNSAT (per F70-F102 cert-pin sweep)"
+    hw_range_tested: [44, 120]
+    note: "σ0-aligned bit; high-coverage."
   status: open
-  last_updated: "2026-04-26"
+  last_updated: "2026-04-28"
   owner: macbook
   notes: "Discovered 2026-04-26 via cascade_eligibility_sweep. σ0-aligned bit. FALSIFIES Σ1/σ1 hypothesis from 20260425_covered_bits_pattern.md. fill=0xff: 2 cands, fill=0x00: 3 cands. fill=0x55 sweep queued."
 
@@ -440,8 +496,13 @@
       status: in_flight
       candidates: 3
       cpu_hours: null
+  cert_pin_coverage_2026_04_28:
+    runs_logged: 57
+    cands_covered: 3
+    verdict: "all UNSAT (per F70-F102 cert-pin sweep)"
+    hw_range_tested: [44, 120]
   status: open
-  last_updated: "2026-04-20"
+  last_updated: "2026-04-28"
   owner: fleet
   notes: "sigma1-aligned bit. Listed in pause summary as untested with better fills."
 
@@ -462,8 +523,13 @@
       status: in_flight
       candidates: 1
       cpu_hours: null
+  cert_pin_coverage_2026_04_28:
+    runs_logged: 63
+    cands_covered: 1
+    verdict: "all UNSAT (per F70-F102 cert-pin sweep)"
+    hw_range_tested: [44, 120]
   status: open
-  last_updated: "2026-04-20"
+  last_updated: "2026-04-28"
   owner: fleet
   notes: "sigma1-aligned. Single candidate so far — incomplete sweep."
 
@@ -484,8 +550,13 @@
       status: in_flight
       candidates: 1
       cpu_hours: null
+  cert_pin_coverage_2026_04_28:
+    runs_logged: 81
+    cands_covered: 3
+    verdict: "all UNSAT (per F70-F102 cert-pin sweep)"
+    hw_range_tested: [44, 120]
   status: open
-  last_updated: "2026-04-20"
+  last_updated: "2026-04-28"
   owner: fleet
 
 - id: kernel_0_9_bit00
@@ -505,8 +576,14 @@
       status: in_flight
       candidates: 4
       cpu_hours: null
+  cert_pin_coverage_2026_04_28:
+    runs_logged: 64
+    cands_covered: 4
+    verdict: "all UNSAT (per F70-F102 cert-pin sweep)"
+    hw_range_tested: [44, 120]
+    note: "LSB."
   status: open
-  last_updated: "2026-04-20"
+  last_updated: "2026-04-28"
   owner: fleet
   notes: "LSB. Carry implications differ from MSB kernel."
 
