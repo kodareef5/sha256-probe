@@ -76,3 +76,35 @@ trail bundles.
 shy of 1000-run milestone).
 
 Memo: `headline_hunt/bets/block2_wang/results/20260428_F97_highHW_certpin_probe.md`
+
+---
+
+## 04:35 EDT — F98: m17149975 + ma22dc6c7 cert-pin top-10 — registry crosses 1000-run milestone
+
+Continuation of F97 cert-pin sweep. Added 2 more cands: m17149975
+(verified-collision cand, as control) and ma22dc6c7 (F60 TRIPLE-AXIS
+champion).
+
+**Result: 20/20 UNSAT, all 3 solvers agree. 60 cross-solver cells.**
+
+**Important — m17149975 control finding**: this cand has a verified
+single-block sr=60 collision (HW=0 at exact W-vector). F98 random
+low-HW W-witnesses (HW 62-67) are all UNSAT — confirming **collisions
+are point-singular, not basin-singular**. The collision exists at one
+specific W-vector, not throughout a low-HW neighborhood.
+
+**Updated combined cert-pin evidence** (F70 + F71 + F94 + F95 + F96 +
+F97 + F98):
+  - **8+ distinct cands** with cert-pin top-10 coverage
+  - **212 distinct W-witnesses**
+  - **502 cross-solver cells**
+  - **0 SAT, 100% near-residual**
+
+**Registry milestone**: 999 → **1019 runs**. Crossed the 1000-run
+milestone for the first time.
+
+Cands tested via top-10 cert-pin:
+  bit2_ma896ee41, bit3_m33ec77ca, bit13_m4e560940, bit28_md1acca79,
+  m17149975 (control), m189b13c7, m9cfea9ce, ma22dc6c7
+
+Memo: `headline_hunt/bets/block2_wang/results/20260428_F98_m17149975_and_ma22dc6c7_certpin.md`
