@@ -2400,6 +2400,51 @@ No solver runs. Registry unchanged.
 
 ---
 
+## 01:35 EDT (Apr 28) — F91: Predictor validation at N=8 ✓ + N=10 RETRACTION of F90 N-invariance
+
+Built `validate_predictor.py` to empirically test F90's algebraic
+predictor (MSB-set, LSB-set, bit3-clear) on cascade-1 survivor sets.
+
+**N=8 — predictor VALIDATED**:
+  PREDICTED set:    n=30,  low-HW = 14/30  = 46.7%
+  NOT predicted:    n=230, low-HW = 53/230 = 23.0%
+  Boost ratio: 2.03× ← matches F90's claim ✓
+
+**N=10 — predictor FAILS (disconfirms F90 N-invariance)**:
+  PREDICTED set:    n=132,  low-HW = 39/132   = 29.5%
+  NOT predicted:    n=916,  low-HW = 255/916  = 27.8%
+  Boost ratio: 1.06× ← within noise, NOT validated ✗
+
+**N=10 bit frequencies all near-uniform** (48-52% range). MSB at N=10
+(bit 9) shows 49.9% — NO enrichment. The "MSB-kernel preference is
+N-invariant" claim from F90 is REFUTED.
+
+**HONEST RETRACTION (project's 6th today, after F39/F49/F55/F69/F74)**:
+F90's "N-invariant MSB kernel" claim withdrawn. The N=8 bit-correlation
+may be a small-N artifact or a real-but-N-dependent structure. The
+project's discipline pattern (cross-N validation catches over-claims
+within hours) holds.
+
+**WHAT STILL HOLDS (post-retraction)**:
+- ✓ F88: cascade trajectory at N=8 matches m17149975 (round-60 a-zero +
+  shift-propagation through 61-63)
+- ✓ F89: cascade filter HW_a(60)=0 narrows search 250-1000× and
+  identifies optimum (N=8) or near-optimum (N=10)
+- ✗ F90: MSB bit-position predictor — RETRACTED at N>8
+
+The structural claim (F88+F89) is robust; the algebraic bit-predictor
+(F90) is not. Different layers of the cascade are differently
+N-invariant.
+
+For the searcher: drop F90's bit-position branching heuristic. Keep
+F89's cascade filter as the empirically robust structural tool.
+
+Memo: `headline_hunt/bets/block2_wang/cascade_searcher/20260428_F91_predictor_validation_and_F90_retraction.md`
+
+No solver runs. Registry unchanged.
+
+---
+
 ## 00:30 EDT (Apr 28) — F88: forward-bounded searcher prototype + N=8 cascade structure CONFIRMED
 
 Built `cascade_searcher/forward_bounded_searcher.py` — first runnable
