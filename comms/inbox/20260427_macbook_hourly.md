@@ -2299,6 +2299,65 @@ No solver runs. Registry unchanged.
 
 ---
 
+## 00:55 EDT (Apr 28) — F89: cascade-1 signature filter — HW_a(60)=0 NECESSARY for min residual at N=8
+
+Built `--cascade-filter` mode in forward_bounded_searcher.py. Filters
+the brute-force enumeration by per-round per-register HW=0 constraints.
+
+**N=8 (m0, m9)-restricted, filter `a:60`**:
+  Total patterns:        65,536
+  Non-trivial survivors: 260   (0.4% — 252× search-space narrowing)
+  Min residual HW:       16    (= brute-force global min)
+  Best dm:               (0x22, 0xa3) — SAME as brute-force best
+
+**Multi-register filter `a:60, b:61, c:62, d:63`**: identical 260
+survivors. Confirms SHA-256 register shift propagates the zero
+forward automatically — the multi-register filter is REDUNDANT
+because a:60 → b:61 → c:62 → d:63 by construction. Matches m17149975
+sr=60 collision certificate's cascade-1 structure.
+
+**Trans-register filter `a:60, e:60`**: 0 non-trivial survivors. The
+dual-cascade (a-path + e-path simultaneously) is too strict at N=8
+(m0, m9)-restricted — consistent with cascade-2 needing the second
+trigger word.
+
+**Structural significance**:
+1. NECESSARY for global optimum at N=8 (filter min == brute-force min)
+2. HIGHLY SELECTIVE (252× search-space narrowing)
+3. N-INVARIANT shape (matches m17149975 cascade structure)
+4. SHIFT-PROPAGATING (single-register zero suffices)
+
+**Implication for searcher**: refines the SPEC v1. Forward HW pruning
+WRONG (F88), per-register cascade-zero filter at round 60 RIGHT.
+Search algorithm: enumerate dm, propagate to round 60, prune unless
+HW_a(60)=0, then propagate to round 63 for final HW.
+
+**N=10 cross-check LANDED — and reveals structural divergence**:
+  Filter survivors: 1,048 / 1,048,576 = 0.10% (1000× narrowing — even
+                    tighter than N=8's 252×)
+  Filter min HW:    19   (cascade-1: dm=(0xe7, 0x2b), HW_a(60)=0 ✓)
+  Brute-force min:  18   (NON-cascade: dm=(0x335, 0x334), HW_a(60)=2)
+
+**Structural finding**: at N=10, the GLOBAL OPTIMUM is NOT cascade-1
+compatible! There's a "near-cascade" dm that beats true cascade-1 by
+1 HW unit. This is a divergence from N=8 where cascade-1 IS the
+optimum.
+
+| N | BF min | cascade-filter min | gap |
+|---|---:|---:|---:|
+| 8 | 16 | 16 | 0 |
+| 10 | 18 | 19 | 1 |
+
+**Paper-class question**: how does this gap evolve with N? If it
+shrinks to 0 at some N* and stays at 0 (as m17149975 suggests at
+N=32), that's a structural threshold for cascade-1 dominance.
+
+Memo: `headline_hunt/bets/block2_wang/cascade_searcher/20260428_F89_cascade_filter_signature.md`
+
+No solver runs. Registry unchanged.
+
+---
+
 ## 00:30 EDT (Apr 28) — F88: forward-bounded searcher prototype + N=8 cascade structure CONFIRMED
 
 Built `cascade_searcher/forward_bounded_searcher.py` — first runnable

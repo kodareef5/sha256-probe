@@ -124,6 +124,11 @@ def main():
                     help="Comma-separated round:threshold pairs, e.g. '30:16,40:14,50:12'")
     ap.add_argument("--trace", default=None,
                     help="Trace mode: hex dm tuple 'dm_p1,dm_p2'. Prints per-round HW trajectory.")
+    ap.add_argument("--cascade-filter", default=None,
+                    help="Cascade signature filter: 'register:round[,register:round...]'. "
+                         "Reports dm patterns where HW(register, round) = 0. "
+                         "Example: 'a:60' filters by cascade-1 a-zero at round 60. "
+                         "Multiple constraints (e.g. 'a:60,b:61') AND together.")
     ap.add_argument("--out-json", default=None)
     args = ap.parse_args()
 
@@ -188,6 +193,110 @@ def main():
             hh = bin(h1 ^ h2).count("1")
             tot = ha+hb+hc+hd+he+hf+hg+hh
             print(f"  {r:>3}  {tot:>8}  {ha:>3}  {hb:>3}  {hc:>3}  {hd:>3}  {he:>3}  {hf:>3}  {hg:>3}  {hh:>3}")
+        sys.exit(0)
+
+    if args.cascade_filter:
+        # Cascade signature filter: enumerate dm space, keep only patterns
+        # where HW(register R, round r) = 0 for each (R, r) constraint.
+        constraints = []
+        for spec in args.cascade_filter.split(","):
+            reg, rnd = spec.split(":")
+            reg_idx = "abcdefgh".index(reg.strip())
+            rnd_idx = int(rnd.strip())
+            constraints.append((reg_idx, rnd_idx))
+
+        MASK, ror, Sigma0, Sigma1, sigma0, sigma1, Ch, Maj = mini_sha_primitives(args.N)
+        K_N = [k & MASK for k in K_FULL]
+        IV_N = [iv & MASK for iv in IV_FULL]
+
+        span = 1 << args.N
+        p1, p2 = positions
+        survivors = []  # (dm tuple, final_hw, traj_at_constraints)
+        final_hw_distribution = Counter()
+        max_round = max(r for _, r in constraints)
+
+        print(f"[N={args.N}] Cascade-filter scan over {span*span} (m[{p1}], m[{p2}]) patterns; "
+              f"constraints={constraints}", file=sys.stderr)
+        t0 = time.time()
+        for d1 in range(span):
+            for d2 in range(span):
+                M2 = list(m0)
+                M2[p1] = (m0[p1] ^ d1) & ((1 << args.N) - 1)
+                M2[p2] = (m0[p2] ^ d2) & ((1 << args.N) - 1)
+                # Compute schedules
+                W1 = [0]*64; W2 = [0]*64
+                for i in range(16):
+                    W1[i] = m0[i] & MASK
+                    W2[i] = M2[i] & MASK
+                for i in range(16, min(max_round + 1, 64)):
+                    W1[i] = (sigma1(W1[i-2]) + W1[i-7] + sigma0(W1[i-15]) + W1[i-16]) & MASK
+                    W2[i] = (sigma1(W2[i-2]) + W2[i-7] + sigma0(W2[i-15]) + W2[i-16]) & MASK
+                # Forward simulation with per-round state recording (just at constraint rounds)
+                a1,b1,c1,d1_,e1,f1,g1,h1 = IV_N
+                a2,b2,c2,d2_,e2,f2,g2,h2 = IV_N
+                round_states = {}  # round -> 8 register diffs
+                for r in range(max_round + 1):
+                    T1_1 = (h1 + Sigma1(e1) + Ch(e1,f1,g1) + K_N[r] + W1[r]) & MASK
+                    T2_1 = (Sigma0(a1) + Maj(a1,b1,c1)) & MASK
+                    h1=g1; g1=f1; f1=e1; e1=(d1_+T1_1)&MASK
+                    d1_=c1; c1=b1; b1=a1; a1=(T1_1+T2_1)&MASK
+                    T1_2 = (h2 + Sigma1(e2) + Ch(e2,f2,g2) + K_N[r] + W2[r]) & MASK
+                    T2_2 = (Sigma0(a2) + Maj(a2,b2,c2)) & MASK
+                    h2=g2; g2=f2; f2=e2; e2=(d2_+T1_2)&MASK
+                    d2_=c2; c2=b2; b2=a2; a2=(T1_2+T2_2)&MASK
+                    if any(r == cr for _, cr in constraints):
+                        round_states[r] = (a1^a2, b1^b2, c1^c2, d1_^d2_,
+                                           e1^e2, f1^f2, g1^g2, h1^h2)
+                # Check constraints
+                ok = True
+                for reg_idx, rnd_idx in constraints:
+                    if rnd_idx not in round_states:
+                        ok = False; break
+                    if round_states[rnd_idx][reg_idx] != 0:
+                        ok = False; break
+                if not ok:
+                    continue
+                # Survivor — finish forward to round 63
+                for r in range(max_round + 1, args.rounds):
+                    if r >= 16 and r < 64:
+                        W1[r] = (sigma1(W1[r-2]) + W1[r-7] + sigma0(W1[r-15]) + W1[r-16]) & MASK
+                        W2[r] = (sigma1(W2[r-2]) + W2[r-7] + sigma0(W2[r-15]) + W2[r-16]) & MASK
+                    T1_1 = (h1 + Sigma1(e1) + Ch(e1,f1,g1) + K_N[r] + W1[r]) & MASK
+                    T2_1 = (Sigma0(a1) + Maj(a1,b1,c1)) & MASK
+                    h1=g1; g1=f1; f1=e1; e1=(d1_+T1_1)&MASK
+                    d1_=c1; c1=b1; b1=a1; a1=(T1_1+T2_1)&MASK
+                    T1_2 = (h2 + Sigma1(e2) + Ch(e2,f2,g2) + K_N[r] + W2[r]) & MASK
+                    T2_2 = (Sigma0(a2) + Maj(a2,b2,c2)) & MASK
+                    h2=g2; g2=f2; f2=e2; e2=(d2_+T1_2)&MASK
+                    d2_=c2; c2=b2; b2=a2; a2=(T1_2+T2_2)&MASK
+                # Final HW
+                fhw = (bin(a1^a2).count("1") + bin(b1^b2).count("1") +
+                       bin(c1^c2).count("1") + bin(d1_^d2_).count("1") +
+                       bin(e1^e2).count("1") + bin(f1^f2).count("1") +
+                       bin(g1^g2).count("1") + bin(h1^h2).count("1"))
+                final_hw_distribution[fhw] += 1
+                if d1 != 0 or d2 != 0:
+                    survivors.append(((d1, d2), fhw))
+        wall = time.time() - t0
+
+        print(f"\n=== cascade-filter scan (N={args.N}, dm@{positions}, "
+              f"constraints={constraints}) ===")
+        print(f"Total patterns:      {span*span}")
+        print(f"Filter survivors:    {len(survivors) + (1 if (0,0) in [s[0] for s in survivors] else (1 if any(0 == k for k in final_hw_distribution if k == 0) else 0))} "
+              f"(includes trivial dm=0,0 which always passes)")
+        print(f"Non-trivial survivors: {len(survivors)}")
+        print(f"Wall:                {wall:.3f}s")
+        if survivors:
+            survivors.sort(key=lambda x: x[1])
+            print(f"\nMin residual HW: {survivors[0][1]}, dm=({hex(survivors[0][0][0])}, {hex(survivors[0][0][1])})")
+            print(f"\nFinal HW histogram (filter survivors):")
+            for hw, c in sorted(final_hw_distribution.items())[:12]:
+                print(f"  HW={hw:>3}: {c}")
+            print(f"\nTop-20 lowest-HW survivors:")
+            for (dm, hw) in survivors[:20]:
+                print(f"  HW={hw:>3}  dm=({hex(dm[0])}, {hex(dm[1])})")
+        else:
+            print("No non-trivial dm patterns satisfy these constraints.")
         sys.exit(0)
 
     if args.threshold is not None:
