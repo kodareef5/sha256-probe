@@ -2563,3 +2563,19 @@ Discipline: 0 SAT compute, 0 solver runs.
   session: cascade_aux BP on schedule + block2_wang heuristic
   on hardlocks.
 
+
+## ~17:05 EDT — F210: TRUE sr=61 has different Tanner structure
+
+- Ran F207 analysis on cnfs_n32/sr61_cascade_m17149975.cnf (TRUE
+  sr=61, different encoder).
+- Result: 201K 4-cycles (vs cascade_aux's 270K), max single
+  multiplicity = 10 (vs cascade_aux's 36).
+- High-mult pairs in TRUE sr=61 cluster at gap=1573-1723 (NOT
+  multiples of 32). Gap=128 absent. Gap=32 not in top-20.
+- F208's "universal" claim qualified: structure is universal WITHIN
+  cascade_aux family (8 CNFs verified), but NOT across encoders.
+- Strategic refinement: cascade_aux_encoding bet should target its
+  specific encoder's QC-LDPC structure. TRUE sr=61 needs separate
+  analysis.
+- F210 corrective memo committed.
+
