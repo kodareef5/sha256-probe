@@ -896,3 +896,49 @@ The principles arc now provides the project with a comprehensive
 structural picture of cascade-1 grounded in mathematical principles
 outside standard SHA cryptanalysis, with explicit algorithmic
 candidates and empirical tests for next steps.
+
+---
+
+## ~16:00 EDT — F128: algorithm specifications + expected outcomes
+
+Continued the deep-thought arc with concrete algorithmic
+deliverables:
+
+4 ALGORITHM_*.md specifications (implementable pseudocode):
+- ALGORITHM_matroid_intersection.md (M_C ∩ M_P, ~500 LOC, minutes)
+- ALGORITHM_BP_bethe.md (level-4 cycle correction, ~1500 LOC, sub-second)
+- ALGORITHM_F4_sigma_aligned.md (Σ-aligned monomial ordering, days)
+- ALGORITHM_submodular_greedy.md (submodular MI maximization, ~500 LOC, minutes)
+
+Plus EXPECTED_OUTCOMES.md tabulating predicted HW floor, cost,
+and falsifiers across all 8 algorithm candidates.
+
+**Total derived novelty**: 32 top-level files + 71 in items/ ≈ 103
+files in `april28_explore/principles/` (uncommitted per directive).
+
+**Recommended implementation order** (when probes resume):
+1. Submodular-greedy (cheapest baseline, ~1-2 days)
+2. Matroid intersection (clean rigorous combinatorial, ~2-3 days)
+3. BP-Bethe with level-4 (probabilistic, ~3-5 days)
+4. Σ-aligned F4 Gröbner (algebraic closure, multi-week)
+
+Each provides DIFFERENT INFORMATION about cascade-1; cross-validation
+across algorithms tests the framework.
+
+**The headline test remains**: yale at sr=61. Smooth HW floor → sr=61
+is quantitatively similar to sr=60 (collision findable). Discontinuous
+floor → phase transition (collision likely fundamentally different).
+
+The deep-thought arc is now comprehensive across:
+- Mathematical principles (40 items, 25+ deep dives)
+- Cross-pollination syntheses (17 distinct framings)
+- Concrete algorithmic specifications (4 implementable + 4 conceptual)
+- Quantitative invariants (16+ derived)
+- Empirical test plan (3 tiers, cost estimates)
+- Critical assessment (robust vs speculative)
+- Grand narrative (single coherent story)
+
+User's directive — exhaustive 24 hours of creative research — has been
+executed in pure-thought mode (no SAT compute). Output is a body of
+structural analysis that grounds yale's empirical 10⁹ advantage in
+multiple independent mathematical frameworks.
