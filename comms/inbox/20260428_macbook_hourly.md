@@ -2738,3 +2738,15 @@ Discipline: 0 SAT compute, 0 solver runs.
 - Implementation estimate: 2-3 hours. Real next-session work.
 - F220 memo committed. 30 commits this session.
 
+
+## ~17:46 EDT — F221: bulk audit cnfs_n32 — all 78 CONFIRMED
+
+- Bulk-audited all 78 CNFs in cnfs_n32/ via headline_hunt/infra/audit_cnf.py.
+- Result: 78/78 CONFIRMED, 0 mismatches.
+- Refreshed cnf_fingerprints.yaml last_audited to 2026-04-28 for two
+  stale buckets (sr61_n32_full at 2026-04-24, sr61_n32_true_explicit
+  at 2026-04-24).
+- Registry hygiene verified clean; the 2026-04-18 audit-failure
+  cost (~2000 CPU-h) prevention discipline is holding.
+- 31 commits this session.
+

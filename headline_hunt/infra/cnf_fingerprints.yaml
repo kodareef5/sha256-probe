@@ -41,8 +41,10 @@
   observed_n: 1
   observed_vars: [11234, 11234]
   observed_clauses: [47338, 47338]
-  last_audited: "2026-04-24"
-  notes: "Single example so far — widen range as more 'full' enforcement variants appear."
+  last_audited: "2026-04-28"
+  notes: |
+    Single example so far — widen range as more 'full' enforcement variants appear.
+    2026-04-28 F221 re-audit confirmed; verdict CONFIRMED. observed_n unchanged at 1.
 
 - bucket_id: sr61_cascade_n32
   sr_level: 61
@@ -83,7 +85,10 @@
   observed_n: 4
   observed_vars: [11184, 11243]
   observed_clauses: [47170, 47436]
-  last_audited: "2026-04-24"
+  last_audited: "2026-04-28"
+  notes: |
+    2026-04-28 F221 re-audit confirmed all 4 TRUE_sr61 CNFs CONFIRMED;
+    bounds unchanged.
 
 # TODO: add sr60_n32 fingerprint once a known-good sr=60 CNF is verified.
 # This is what would have caught the 2026-04-18 disaster.
