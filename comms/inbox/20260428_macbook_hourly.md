@@ -2705,3 +2705,19 @@ Discipline: 0 SAT compute, 0 solver runs.
 - Open items: read TRUE sr=61 encoder to ground var-index mapping.
 - F216 closes the F207-F216 arc. 27 commits this session.
 
+
+## ~17:40 EDT — F217 correction: TRUE sr=61 forces W1_57, not W1_58
+
+- Read encode_sr61_cascade.py source. TRUE sr=61 uses n_free=3
+  (3 free rounds 57-59), cascade_aux uses n_free=4.
+- TRUE sr=61 var layout: vars 2-33 = W1_57 (NOT W1_58!).
+- So F216's "vars 2-33 cluster" IS W1_57 in TRUE sr=61.
+- DIFFERENT round forced in different encoders:
+  - cascade_aux (n_free=4): W1_58 strictly forced (32/32)
+  - TRUE sr=61 (n_free=3): W1_57 near-strictly forced (28-31/32)
+- The cascade-1 hardlock manifests at different schedule positions
+  depending on encoder's free-round count. Encoder-design trade-off.
+- Decoder generic rule: auto-detect the 32-var cluster with ≥28/32
+  shell-elim ratio and skip that word.
+- F217 correction memo committed. 28 commits this session.
+
