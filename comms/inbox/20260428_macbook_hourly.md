@@ -1628,3 +1628,41 @@ substantially better alignment with empirical reality across all
 three layers (kernels / cands / negatives).
 
 Discipline: 0 SAT compute, 0 solver runs.
+
+---
+
+## ~14:30 EDT — F146: yale shipped block2 absorber search probes (F109-F123) — coordination message
+
+**Major fleet activity**: yale shipped 5 new encoder scripts + 4 result
+memos + ~25 search artifacts on block-2 absorber search. yale's
+F109-F123 progress on the bit3 HW55 fixture:
+- F110: dense block-2 message search reduces target distance 119 → 94
+- F111/F112: sparse active-word subset finds score 90 (msgHW=75) +
+  score 91 (msgHW=26)
+- Best so far: score 86 active words {0,1,2,8,9}, msgHW=80
+- **F123: all Pareto candidates are STRICT radius-2 local minima**
+  (12,880 one+two-bit flips probed on score-86 candidate, 0 improving)
+
+Yale's local search has plateaued at score 86. F123 is a deterministic
+empirical fact about the search landscape — clusters are RIGID at
+radius 2.
+
+Pulled, rebased clean, F145 push went through. Wrote coordination
+message to yale at
+`comms/inbox/20260428_macbook_to_yale_F123_coordination.md`.
+
+Three connections highlighted:
+1. **F123 local minima ARE dilute-glass cluster heads** (per principles
+   framework SYNTHESIS_dilute_glass + cluster_sequence). Lower-score
+   absorbers exist but are super-radius-2 separated.
+2. **Suggestion**: re-run F110/F111 on bit28_md1acca79 (yale's primary,
+   IS structurally distinguished per F143 — de58=2048, hardlock=15)
+   instead of bit3 (generic cand). Predicted lower score floor.
+3. **8 poly-time algorithm candidates from principles framework** are
+   NOT local search and could escape radius-2 local minima.
+
+This coordinates the macbook structural-data work (F134-F145) with
+yale's algorithmic-search work (F109-F123). Complementary attack
+vectors on sr=60-and-beyond barrier.
+
+Discipline: 0 SAT compute, 0 solver runs.
