@@ -2372,3 +2372,23 @@ Discipline: 0 SAT compute, 0 solver runs.
   (SAT/BDD) for non-local search? Bit3's basin is the only sub-90
   finding so far across 6 cands.
 
+
+## ~16:17 EDT — F187: cross-fixture basin propagation works (bit28 reaches 89)
+
+- F187: F135's score-87 message pair on bit19 used as --init-json for
+  bit28 chunk-0. Restart 0 of every mask seeded from F135 M1/M2.
+- Result: bit28 chunk-0 best is 89 at {0,1,2,10,11}, msgHW=85.
+- This mask did NOT appear in F178/F181 random-init top-16 — it's a
+  basin invisible to random search at 3×4000 but accessible via
+  basin-init from a different fixture's pair.
+- F143 hypothesis (distinguished cands have deeper basins than bit3
+  at fixture-local) gets a new lease on life at basin-init level.
+- Qualified F143 is now empirically supported: cross-fixture basin
+  propagation is real, distinguished cands DO have basins beyond
+  what random-init reveals.
+- Sub-91 result on bit28: achieved (89). First time on a distinguished
+  cand other than bit19's F135-init 87.
+- Headline path: if basin propagation chains 89 → 87 → 85 → ..., we
+  need ONE first sub-86 basin to bootstrap. SAT/BDD/tempering for
+  basin discovery is the open question.
+
