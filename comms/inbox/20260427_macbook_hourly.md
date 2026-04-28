@@ -2552,6 +2552,41 @@ Registry unchanged at 879.
 
 ---
 
+## 03:15 EDT (Apr 28) — F94: bit3_m33ec77ca top-10 multi-solver cert-pin audit — extends F71
+
+Direct follow-up to F93 (bit3_m33ec77ca corpus shipped). Top-10
+lowest-HW W-witnesses extracted from the new 18,517-record corpus
+and verified via `certpin_verify.py --solver all` (kissat + cadical
++ CMS).
+
+**Result: 0/10 SAT. 10/10 UNSAT, all 3 solvers agree per witness.**
+Total wall ~0.3s for 10 witnesses × 3 solvers = 30 cross-solver cells.
+
+**Extends F71 invariant** in two ways:
+1. **Multiple W-witnesses per cand**: F71 was 1-per-cand × 67. F94 is
+   10-per-cand × 1 cand (bit3_m33ec77ca). All 10 UNSAT — near-residual
+   property holds across the entire low-HW corpus region, not just
+   F32 deep-min.
+2. **Cross-solver per witness**: 30 (witness × solver) cells UNSAT.
+   No single-solver pathology like F60 bit18 cadical anomaly.
+
+**Combined evidence corpus**:
+  F70 yale frontier:     5 W-witnesses × 3 solvers (15 cells)
+  F71 registry-wide:    67 W-witnesses × 1 solver  (67 cells, kissat)
+  F94 bit3 corpus:      10 W-witnesses × 3 solvers (30 cells)
+  ----- TOTAL: 82 W-witnesses, 112+ solver cells, 0 SAT, 100% near-residual
+
+**bit3_m33ec77ca is now in the same near-residual zone as bit28** —
+yale's domain. Yale's block-2 trail design for bit28 may also apply
+structurally to bit3.
+
+**10 runs logged via append_run.py**. Registry total: 879 + 10 = **889**.
+
+Memo: `headline_hunt/bets/block2_wang/results/20260428_F94_bit3_top10_certpin_audit.md`
+
+
+---
+
 ## 00:30 EDT (Apr 28) — F88: forward-bounded searcher prototype + N=8 cascade structure CONFIRMED
 
 Built `cascade_searcher/forward_bounded_searcher.py` — first runnable
