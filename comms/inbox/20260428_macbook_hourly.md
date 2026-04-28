@@ -1233,3 +1233,42 @@ directive.
 
 **Discipline check**: 0 SAT compute, 0 solver runs to log, 0 CNF
 generation. validate_registry post-edit: clean.
+
+---
+
+## ~10:35 EDT — F135: empirical Tanner-graph 4-cycle structure for cascade_aux N=32
+
+Continuing F134's BP-Bethe day-1 work. Two more probes:
+
+**probe_72d_tanner_4cycles.py** — counted 4-cycles in a real
+cascade_aux N=32 CNF Tanner graph (12,540 vars, 52,454 clauses).
+Result: **259,112 4-cycles**, ~20× more than the abstract Σ-Steiner
+Cayley graph predicted (12,480). Most come from the multiplicity-4
+stratum (27,676 pairs sharing exactly 4 clauses → 64% of all
+4-cycles). 393 super-paired hubs share 14+ clauses each.
+
+**probe_72e_hub_identify.py** — identified WHERE the super-paired
+hubs are. Top: vars 2+130 share 36 clauses. Most super-pairs follow
+a SYSTEMATIC pattern (744-spaced var indices, e.g., 5104-5848,
+5107-5851, 5110-5854 each sharing 18 clauses). All super-pairs are
+in the standard cascade-1 encoding range (vars 0-7600), NOT in the
+aux variable extensions (vars 10908+).
+
+**Implications for BP-Bethe**:
+- Synthesis 8 cost estimate revised: 20× more 4-cycles than predicted
+- Level-4 cluster expansion cost: 660M-1.3B ops per cascade_aux
+  instance (vs original 30-60M estimate), still poly-time
+- 4-cycle hubs are in fundamental SHA encoding, not cascade_aux
+  additions → BP-Bethe correction is for SHA structure broadly
+- Three implementation strategies: standard BP (sanity), selective
+  correction on hubs, full level-4
+
+These empirical refinements update the proposed_next memo's
+implementation plan with concrete cost numbers. The framework
+prediction (BP-Bethe poly-time on cascade-1) survives but with
+realistic cost estimates.
+
+Probes + result memos in april28_explore/principles/items/
+(uncommitted per directive). Inbox note documents for fleet.
+
+Discipline: 0 SAT compute, 0 solver runs.
