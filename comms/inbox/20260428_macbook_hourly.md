@@ -2846,3 +2846,21 @@ Discipline: 0 SAT compute, 0 solver runs.
 - Estimated fix: 1-2 hours of careful implementation work.
 - 38 commits this session.
 
+
+## ~18:30 EDT — F233/F234: shell_eliminate_v2 — soundness FIXED but slow
+
+- v2 implementation: single-elim-per-step + eager index updates.
+- v2 on cert-pin (W=0): 42.4% elim, 7589 residual vars, 18.73s wall.
+- kissat on v2-reduced: UNSATISFIABLE (matches direct kissat on
+  original = sound!).
+- BUT: direct kissat on original cert-pin = 0.02s (trivial UNSAT).
+- v2 pipeline = 18.75s vs direct kissat 0.02s → 900× SLOWER on
+  trivial cases.
+- F232 soundness bug fixed. F211 speedup target NOT yet achieved.
+- Need: harder cert-pin instances + faster sound preprocessor
+  implementation (rewrite in C, or smarter index updates).
+- F234 honest position: structural analysis F207-F217 remains
+  valid; algorithmic pipeline F223-F230 is work-in-progress;
+  speedup unverified.
+- 39 commits this session.
+
