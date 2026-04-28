@@ -2060,3 +2060,38 @@ and refutations documented.
 Memo: `bets/block2_wang/results/20260428_F156_structural_priors_dont_transfer_consolidation.md`
 
 Discipline: 0 SAT compute, 0 solver runs throughout F134-F156.
+
+---
+
+## ~18:10 EDT — F157: AlphaMapleSAT note extension — connects to yale's F125+F133 stated need
+
+The AlphaMapleSAT note (F144 renamed) was flagged "TL;DR-only, not yet
+deep-read". It was also the shortest of the 8 read papers (36 lines vs
+others' 80-237). Extended with substantive analysis tying to today's
+findings.
+
+Key extension: AlphaMapleSAT's MCTS-cubing architecture DIRECTLY
+ALIGNS with yale's stated next direction (F125: "solver reasoning over
+W16-W30" + F156 plateau). Both are structured-search-with-deductive-
+feedback alternatives to local bit-flip search.
+
+For block2_wang block-2 absorber: cube on W[60] bits (32 cubes),
+conquer with cascade_aux force-mode CaDiCaL (Mode B), MCTS rollouts
+guide cube selection. Expected speedup vs yale's local search: 2-7×
+(per AlphaMapleSAT paper's range, modulo quantum-vs-crypto domain gap).
+
+Cross-references:
+- programmatic_sat_propagator F147 reopen-candidate context
+- principles framework's BP-Bethe (synthesis 8) and treewidth DP
+  (synthesis 5) algorithmic candidates
+- Yale's F133/F156 plateau confirming pure-local-search insufficient
+
+Note now 101 lines (vs original 36), substantive cross-bet analysis.
+
+This is the kind of literature note that becomes ACTIONABLE when the
+project's empirical work plateaus — connects published technique to
+project's specific empirical state.
+
+validate_registry: 0 errors, 0 warnings.
+
+Discipline: 0 SAT compute, 0 solver runs.
