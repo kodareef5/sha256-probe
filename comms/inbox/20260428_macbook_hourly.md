@@ -2750,3 +2750,12 @@ Discipline: 0 SAT compute, 0 solver runs.
   cost (~2000 CPU-h) prevention discipline is holding.
 - 31 commits this session.
 
+
+## ~17:48 EDT — F222: cascade_aux audit — all 152 CONFIRMED
+
+- Bulk-audited all 152 CNFs in headline_hunt/bets/cascade_aux_encoding/cnfs/.
+- Result: 152/152 CONFIRMED, 0 mismatches.
+- Combined with F221: 230/230 CNFs CONFIRMED across cnfs_n32 (78) +
+  cascade_aux (152). Entire corpus clean.
+- 32 commits this session.
+
