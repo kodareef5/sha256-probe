@@ -2022,3 +2022,41 @@ Iteration 4 of the macbook ↔ yale loop. Yale tests fast (~5 min);
 each iteration sharpens the structural metric.
 
 Discipline: 0 SAT compute, 0 solver runs.
+
+---
+
+## ~17:50 EDT — F156: structural priors don't transfer — consolidation of 4 falsifications
+
+Yale tested F154 (dual-wave) and F155 (4-channel + dual-wave combined)
+as F133. Plus tested F153 bit19 fixture as F132. Both hypothesis
+chains falsified at moderate budget.
+
+**4 word-level structural metrics ALL falsified**:
+- F150 raw density → F128 falsified
+- F152 4-channel coverage → F131 falsified
+- F154 dual-wave → F133 falsified
+- F155 4-channel + dual-wave combined → F133 falsified
+
+**Cand-level structural distinction also falsified** at this budget:
+F143 predicted bit19 lowest floor; F132 found bit19 worse than bit3
+with reused masks.
+
+**What we learned (positive)**:
+- Mid-only {8,9,10,11,12} reaches score 94 with msgHW=33 (sparse)
+- bit19 has its own anchor {0,1,2,9,15} at score 93/msgHW=42
+- Active-word physics is FIXTURE-LOCAL — bit3 masks don't transfer
+- Yale's score-86 is structurally isolated; pure-word-level features
+  don't predict it
+
+**What's still standing**: principles framework's ALGORITHMIC
+predictions (BP-Bethe ~2-5 sec wall, matroid intersection ~minutes)
+unfalsified. Σ-Steiner / Iwasawa framework explains WHY cascade-1
+has algorithmic potential, not WHAT active-word mask works heuristically.
+
+**Honest negative result**. 4 iterations in ~30 min of fleet time =
+compounding learning even when predictions fail. Both the predictions
+and refutations documented.
+
+Memo: `bets/block2_wang/results/20260428_F156_structural_priors_dont_transfer_consolidation.md`
+
+Discipline: 0 SAT compute, 0 solver runs throughout F134-F156.
