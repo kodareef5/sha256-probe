@@ -1525,3 +1525,50 @@ schedule-compliance level further; sr=61 is the headline target.
 validate_registry: 0 errors, 0 warnings.
 
 Discipline: 0 SAT compute, 0 solver runs.
+
+---
+
+## ~13:35 EDT — F143: structurally distinguished cands target list (operationalizes reopened negative)
+
+The negatives.yaml entry `bdd_marginals_uniform` was reopened
+2026-04-26 because non-uniform BDD marginals appeared on bit19
+m=0x51ca0b34 (de58_size=256, structurally distinguished). The
+refined scope flags "untested but mathematically supported" SAT
+branching heuristic on structurally distinguished cands.
+
+Pure data analysis on `headline_hunt/registry/candidates.yaml`:
+extracted de58_size for all 67 cands, computed distribution
+(median 51,578; range [256, 130086]), identified the lowest decile
+(threshold ≤ 4096, ~40× below median) as STRUCTURALLY DISTINGUISHED.
+
+**7 structurally-distinguished cands identified**:
+- bit19_m51ca0b34_fill55 (de58=256, hardlock=13) — bit19 trigger
+- bit25_ma2f498b1_fillff (de58=1024, hardlock=6)
+- bit4_m39a03c2d_fillff (de58=2048, hardlock=12)
+- **bit28_md1acca79_fillff (de58=2048, hardlock=15) — yale's primary!**
+- msb_m9cfea9ce_fill00 (de58=4096, hardlock=10)
+- bit25_m09990bd2_fill80 (de58=4096, hardlock=13)
+- bit15_m28c09a5a_fillff (de58=4096, hardlock=14)
+
+**Significant finding**: yale's primary cand (md1acca79) IS
+structurally distinguished. de58_size=2048 (25× below median),
+hardlock_bits=15 (highest in list). Yale's empirical HW=33 success
+may be CAUSALLY LINKED to the structural distinction.
+
+5 of the 7 are un-investigated for non-uniform BDD marginals.
+These are concrete priority targets for singular_chamber_rank bet
+(owned by linux_gpu_laptop, in_flight).
+
+Memo written:
+`bets/singular_chamber_rank/results/20260428_structurally_distinguished_cands.md`
+includes:
+- Full distribution stats
+- Priority target list with metrics
+- Connection to yale's empirical advantage
+- Bridge to BP-Bethe framework (poly-time marginal alternative
+  to BDD compilation)
+- Testable predictions (yale should also yield on bit19_m51ca0b34;
+  high-de58 cands should be unfavorable for yale)
+
+Discipline: 0 SAT compute, 0 solver runs. Pure data analysis on
+existing registry.
