@@ -10,9 +10,11 @@ It exhaustively scans all one-bit moves, and optionally all two-bit moves,
 over the chosen active message words. In the default `--side m2` mode this
 is small for compact absorbers: 5 active words -> 160 single moves and
 12,720 two-bit moves. `--side both` also probes matching M1 moves.
-`--mode common` probes common-mode moves, where each selected bit is
+`--mode common` probes common-mode XOR moves, where each selected bit is
 flipped in both M1 and M2. This preserves the message-word XOR difference
-for W0..15 while still changing the absolute block-2 messages.
+for W0..15 while still changing the absolute block-2 messages. `--mode
+add_common` probes paired modular +/- 2^bit moves, which are closer to the
+additive structure of the SHA-256 message schedule.
 
 Example:
     PYTHONPATH=. python3 probe_absorption_neighborhood.py bundle.json \
@@ -44,6 +46,9 @@ from headline_hunt.bets.block2_wang.encoders.search_block2_absorption import (
 )
 
 
+MASK32 = 0xFFFFFFFF
+
+
 def active_words_from_pair(M1, M2):
     return [i for i, (a, b) in enumerate(zip(M1, M2)) if a != b]
 
@@ -51,14 +56,20 @@ def active_words_from_pair(M1, M2):
 def flip_pair(M1, M2, flips):
     out1 = list(M1)
     out2 = list(M2)
-    for side, word, bit in flips:
+    for item in flips:
+        side, word, bit = item[:3]
         if side == "m1":
-            out1[word] ^= 1 << bit
+            out1[word] = (out1[word] ^ (1 << bit)) & MASK32
         elif side == "both":
-            out1[word] ^= 1 << bit
-            out2[word] ^= 1 << bit
+            out1[word] = (out1[word] ^ (1 << bit)) & MASK32
+            out2[word] = (out2[word] ^ (1 << bit)) & MASK32
+        elif side == "add_both":
+            sign = item[3]
+            delta = (1 << bit) * sign
+            out1[word] = (out1[word] + delta) & MASK32
+            out2[word] = (out2[word] + delta) & MASK32
         else:
-            out2[word] ^= 1 << bit
+            out2[word] = (out2[word] ^ (1 << bit)) & MASK32
     return out1, out2
 
 
@@ -85,7 +96,11 @@ def describe_candidate(M1, M2, chain1_out, chain2_out, target_diff, flips,
         "message_diff_hw": msg_hw,
         "nonzero_message_words": msg_words,
         "nonzero_schedule_words": schedule_diff_count(M1, M2),
-        "flips": [{"side": side, "word": w, "bit": b} for side, w, b in flips],
+        "flips": [
+            {"side": item[0], "word": item[1], "bit": item[2],
+             **({"sign": item[3]} if len(item) > 3 else {})}
+            for item in flips
+        ],
         "final_diff": hex_tuple(final_diff),
         "M1": [f"0x{x:08x}" for x in M1],
         "M2": [f"0x{x:08x}" for x in M2],
@@ -129,6 +144,15 @@ def common_mode_positions(active_words):
     return [("both", word, bit) for word in active_words for bit in range(32)]
 
 
+def additive_common_positions(active_words):
+    return [
+        ("add_both", word, bit, sign)
+        for word in active_words
+        for bit in range(32)
+        for sign in (1, -1)
+    ]
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -141,8 +165,9 @@ def main():
                     help="Maximum number of bit flips per move; use 1 or 2")
     ap.add_argument("--side", choices=["m2", "m1", "both"], default="m2",
                     help="Which side(s) to perturb in raw mode")
-    ap.add_argument("--mode", choices=["raw", "common"], default="raw",
-                    help="Raw bit flips, or common-mode paired M1/M2 flips")
+    ap.add_argument("--mode", choices=["raw", "common", "add_common"],
+                    default="raw",
+                    help="Raw XOR flips, common XOR flips, or paired modular adds")
     ap.add_argument("--top", type=int, default=20)
     ap.add_argument("--out-json", default=None)
     args = ap.parse_args()
@@ -169,9 +194,12 @@ def main():
     base_msg_hw, base_msg_words = message_stats(M1, M2)
     base_sched_words = schedule_diff_count(M1, M2)
 
-    positions = (common_mode_positions(active_words)
-                 if args.mode == "common"
-                 else position_list(active_words, args.side))
+    if args.mode == "common":
+        positions = common_mode_positions(active_words)
+    elif args.mode == "add_common":
+        positions = additive_common_positions(active_words)
+    else:
+        positions = position_list(active_words, args.side)
     hist = Counter()
     by_radius = Counter()
     top = []
@@ -196,7 +224,13 @@ def main():
     print(f"Init JSON:           {args.init_json}")
     print(f"Active words:        {','.join(str(w) for w in active_words)}")
     print(f"Mode:                {args.mode}")
-    print(f"Perturbed side:      {args.side if args.mode == 'raw' else 'both/common'}")
+    if args.mode == "raw":
+        side_label = args.side
+    elif args.mode == "common":
+        side_label = "both/common-xor"
+    else:
+        side_label = "both/common-add"
+    print(f"Perturbed side:      {side_label}")
     print(f"Radius:              {args.radius}")
     print(f"Positions:           {len(positions)}")
     print(f"Candidates:          {evaluated}")
@@ -213,6 +247,8 @@ def main():
         flips = ",".join(
             f"CMW{f['word']}b{f['bit']}"
             if f["side"] == "both"
+            else f"ADW{f['word']}b{f['bit']}{'+' if f.get('sign', 1) > 0 else '-'}"
+            if f["side"] == "add_both"
             else f"{f['side'].upper()}W{f['word']}b{f['bit']}"
             for f in candidate["flips"]
         )

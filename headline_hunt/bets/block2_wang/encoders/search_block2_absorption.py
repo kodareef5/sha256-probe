@@ -163,6 +163,9 @@ def load_init_pair(path, active_words=None):
         data = json.load(f)
     results = list(data.get("results", []))
     results.extend(subset["best"] for subset in data.get("subsets", []))
+    results.extend(data.get("top", []))
+    if "base" in data:
+        results.append(data["base"])
     if active_words is not None:
         active = set(active_words)
         compatible = [
@@ -173,7 +176,11 @@ def load_init_pair(path, active_words=None):
             results = compatible
     if not results:
         raise ValueError(f"no results in {path}")
-    results = sorted(results, key=lambda r: r.get("objective", r["score"]))
+    results = sorted(results, key=lambda r: (
+        r.get("objective", r["score"]),
+        r.get("message_diff_hw", 9999),
+        r.get("nonzero_message_words", 9999),
+    ))
     best = results[0]
     return (
         [int(x, 16) for x in best["M1"]],
