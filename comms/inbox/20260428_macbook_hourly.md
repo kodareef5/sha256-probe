@@ -2596,3 +2596,21 @@ Discipline: 0 SAT compute, 0 solver runs.
 - Expected 2-10× speedup over CDCL+stack-hints if marginals useful.
 - F211 memo committed.
 
+
+## ~17:01 EDT — F212: TRUE sr=61 treewidth bound 480 (smaller than cascade_aux 699)
+
+- Ran tanner_treewidth_bound.py on TRUE sr=61 cnf (different
+  encoder than cascade_aux).
+- Result: 11,256 vars, 36,908 edges, treewidth bound 480 (vs
+  cascade_aux's 699, 31% smaller).
+- Shell architecture pattern is IDENTICAL across encoders:
+  shallow-rise plateau through 65-75% of vertices, then explosive
+  rise in last 25%.
+- Hard-core size differs: cascade_aux ~3000 vars, TRUE sr=61
+  ~2400 vars.
+- Shell is the canonical SHA-256 cnf-encoding shape (universal).
+- TRUE sr=61 may be a faster decoder target (1.5-2× lower BP cost
+  than cascade_aux). Scope expansion of cascade_aux_encoding bet
+  worth considering.
+- F212 memo committed. 22 commits this session.
+
