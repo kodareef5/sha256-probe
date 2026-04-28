@@ -2409,3 +2409,23 @@ Discipline: 0 SAT compute, 0 solver runs.
   shifts: distinguished cands DO have findable deep basins, just
   via narrow seed schedules or basin-init.
 
+
+## ~16:25 EDT — F193/F194: bit4 basin floor confirmed at 86, sub-86 not reachable
+
+- F193 (bit4 8×50k random init): best 94. Confirms basin is narrow,
+  unreachable from outside (same pattern as F176/F179 on bit19).
+- F194 (bit4 8×50k F188 basin-init): best 86 (restart 0 reproduces;
+  no descent). Same pattern as yale's F173/F174 on bit19@87.
+- 86 is the empirical floor at 8×50k protocol level across cand catalog.
+- bit4 (86) ties bit3 (86); bit19 stops at 87; bit28 stops at 89
+  (cross-fixture basin-init). None pierces below 86 at this protocol.
+- F143 strong form (distinguished cands BETTER than bit3) is dead at
+  8×50k level. F143 weak form (distinguished cands have findable
+  basins comparable to bit3) is alive.
+- Headline path: must run through different masks (chunk 1+ probes
+  with basin-init), non-local search (SAT/BDD), or structural
+  insight that explains 86 barrier.
+- F192 consolidation memo committed. Hour produced 9 substantive
+  memos (F176, F178/F179, F180, F182, F186, F187, F191, F193/F194)
+  + 2 coordination notes. Pace is sustainable.
+
