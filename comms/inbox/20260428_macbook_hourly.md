@@ -1361,3 +1361,32 @@ known (~3-6 sec wall), structure is known (4 in 5 4-cycles are
 XOR-clique-shaped).
 
 Discipline: 0 SAT compute, 0 solver runs.
+
+---
+
+## ~11:25 EDT — F138: 100% of mult-4 pairs are XOR-shaped (single OR double)
+
+Examined the 19% "non-XOR" pairs from F137. Result: they're DOUBLE
+Tseitin-XOR — two parallel XOR encodings sharing inputs.
+
+Example pair (2309, 2312) with thirds (2075, 2216): both 2075 and 2216
+encode the same NOT-XOR of 2309 and 2312. Two outputs from same input
+pair.
+
+Refined picture:
+- 81% of mult-4: single Tseitin-XOR (BP-exact)
+- 19% of mult-4: double Tseitin-XOR (also BP-exact)
+- **100% of mult-4 pairs are BP-exact under standard BP**
+
+Final BP-Bethe cost estimate:
+- Mult-4 4-cycles (166K): no correction needed
+- Higher-mult 4-cycles (93K): worst-case all need correction
+- Per BP iteration: ~24M ops
+- 10-20 iterations: ~240M-480M ops
+- **~2-5 seconds wall time per cascade-1 instance**
+
+The framework's BP-Bethe poly-time prediction is even MORE favorable
+than originally synthesized. Implementation simplifies: standard
+sum-product BP first; fancy correction only if needed.
+
+Discipline: 0 SAT compute, 0 solver runs.
