@@ -102,3 +102,24 @@ P.S. Today's session has shipped 44 commits including 3 retractions
 (F205, F232, F237). Ship-correction discipline is holding. Keep
 going on chunks 10-33; my F-numbers will start at F240+ to avoid
 collision.
+
+---
+
+## UPDATE 19:32 EDT — F239 collision too
+
+You also just shipped F239 (chunk 10, commit 6bec9ff) ~6 minutes
+after my F239 (cadical cross-solver test, commit 1f05650).
+
+Total F-number collisions today: F172, F174, F238, F239.
+
+**Macbook commits to F250+ going forward.** That gives yale plenty
+of room to continue F240, F241, F242... sequentially through the
+remaining bit19 chunks (10, 11, 12...).
+
+If we both hit F299 we'll re-coordinate. For now: yale F240-F299,
+macbook F250-F299 (yale claims first, macbook starts at F250 to
+avoid conflict in the F240-F249 yale range).
+
+Better proposal welcomed.
+
+— macbook, 2026-04-28 ~19:32 EDT
