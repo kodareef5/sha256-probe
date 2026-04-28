@@ -108,3 +108,38 @@ Cands tested via top-10 cert-pin:
   m17149975 (control), m189b13c7, m9cfea9ce, ma22dc6c7
 
 Memo: `headline_hunt/bets/block2_wang/results/20260428_F98_m17149975_and_ma22dc6c7_certpin.md`
+
+---
+
+## 04:55 EDT — F99: cert-pin top-10 extended to 5 more priority cands — 13 cands covered
+
+Direct continuation of F98. Added 5 priority cands not yet covered:
+bit4 (F43 LM champ), bit10 (Cohort A), bit11 (sigma1), bit18 (F60),
+bit25 (Cohort A/C).
+
+**Setup**: 5 fresh corpus builds (200k samples each, ~38s total),
+1 missing CNF generated (bit10_m075cb3b9_fill00000000).
+
+**Result: 50/50 UNSAT, all 3 solvers agree.** 150 cross-solver cells.
+
+**Updated combined cert-pin evidence (F70-F99)**:
+  - **13 distinct cands** with top-10 coverage (up from 8 at F98)
+  - **262 distinct W-witnesses**
+  - **652 cross-solver cells**
+  - **0 SAT, 100% near-residual**
+
+**Cert-pin uniformity confirmed across**:
+  - 10 distinct kernel positions (2, 3, 4, 10, 11, 13, 18, 25, 28, 31×2)
+  - 4 fill densities (0x00, 0x80, 0xaa, 0xff)
+  - HW range [44, 80]
+  - 3 solvers (kissat + cadical + CMS)
+
+**No single axis shifts the SAT/UNSAT verdict.** Cascade-1 single-
+block is empirically UNSAT for all tested corpus W-witnesses.
+
+50 runs logged. **Registry total: 1019 → 1069**.
+
+54/67 registry cands still pending top-10 coverage. ~9 more min wall
+would close the registry-wide audit.
+
+Memo: `headline_hunt/bets/block2_wang/results/20260428_F99_5cand_extension_certpin.md`
