@@ -651,3 +651,32 @@ or 2 for SHA-256).
 
 Probe: `april28_explore/principles/items/probe_72b_sigma_gap_union.py`
 Result section in: `april28_explore/principles/items/probe_72_RESULT.md`
+
+---
+
+## ~08:55 EDT — F111: cnfs_n32/ full re-audit (78/78 CONFIRMED) + fingerprint observed_n refresh
+
+Full audit sweep of all 78 CNFs in cnfs_n32/ via audit_cnf.py — 78/78
+CONFIRMED, zero CRITICAL_MISMATCH, zero UNKNOWN. All 4 buckets agree
+on filename + DIMACS fingerprint. Bucket counts:
+  sr61_cascade_n32:       44 (was 37 in fingerprints YAML)
+  sr61_n32_enf0:          29 (was 28 in fingerprints YAML)
+  sr61_n32_full:           1 (matches)
+  sr61_n32_true_explicit:  4 (matches)
+
+**Two stale observed_n counts refreshed in cnf_fingerprints.yaml**:
+  sr61_cascade_n32: 37 → 44 (last_audited 2026-04-26 → 2026-04-28)
+  sr61_n32_enf0:    28 → 29 (last_audited 2026-04-24 → 2026-04-28)
+
+Crucially: **observed range bounds unchanged** for both buckets. Every
+CNF accumulated since the last audit lands within the prior
+vars/clauses envelopes. Encoder families remain stable — no range
+widening needed, which is the strongest signal that no encoder
+drift has occurred.
+
+This is registry-discipline hardening — the same audit infrastructure
+that prevents another 2000-CPU-hour disaster. validate_registry.py
+post-edit: 0 errors, 0 warnings. Audit-recheck on a sample CNF:
+CONFIRMED.
+
+No solver runs (audit-only). No registry candidate mutation.

@@ -21,10 +21,15 @@
   vars_range: [11150, 11320]
   clauses_range: [46700, 47200]
   example_file: "cnfs_n32/sr61_n32_bit10_m3304caa0_fill80000000_enf0.cnf"
-  observed_n: 28
+  observed_n: 29
   observed_vars: [11190, 11281]
   observed_clauses: [46789, 47146]
-  last_audited: "2026-04-24"
+  last_audited: "2026-04-28"
+  notes: |
+    2026-04-28 re-audit: all 29 enf0 CNFs in cnfs_n32/ CONFIRMED via
+    audit_cnf.py. observed_n bumped 28 → 29 (one additional bit11/bit13
+    instance). Range bounds unchanged — every new CNF lands within the
+    prior [11190, 11281] / [46789, 47146] envelope. Encoder family stable.
 
 - bucket_id: sr61_n32_full
   sr_level: 61
@@ -46,10 +51,10 @@
   vars_range: [11150, 11290]
   clauses_range: [47300, 47800]
   example_file: "cnfs_n32/sr61_cascade_m3304caa0_f80000000_bit10.cnf"
-  observed_n: 37
+  observed_n: 44
   observed_vars: [11184, 11283]
   observed_clauses: [47362, 47761]
-  last_audited: "2026-04-26"
+  last_audited: "2026-04-28"
   notes: |
     Range extended 2026-04-25 (clauses 47720 → 47800) when 5 new MSB CNFs
     were generated to cover registry candidates that previously had no CNF:
@@ -61,6 +66,12 @@
     cnfs_n32/ after queue6/7/8 expansion (registry 36 → 60). New cands at
     bit={1,12,14,15,20} all land within prior vars/clauses bounds — no
     range extension needed. observed_n: 13 → 37.
+    2026-04-28 re-audit: full sweep of all 78 CNFs in cnfs_n32/ via
+    audit_cnf.py. observed_n bumped 37 → 44 (7 additional sr61_cascade
+    instances accumulated since 2026-04-26 from F-series fleet work). All
+    CONFIRMED. observed_vars/clauses bounds unchanged — every new CNF
+    lands within [11184, 11283] / [47362, 47761] envelope. Encoder
+    family stable; no range widening needed.
 
 - bucket_id: sr61_n32_true_explicit
   sr_level: 61
