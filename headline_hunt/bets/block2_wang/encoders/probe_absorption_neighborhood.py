@@ -130,6 +130,17 @@ def move_iter(positions, radius):
             yield flips
 
 
+def move_is_noop(flips):
+    deltas = Counter()
+    saw_raw = False
+    for item in flips:
+        if item[0] == "add_both":
+            deltas[item[:3]] += item[3]
+        else:
+            saw_raw = True
+    return not saw_raw and deltas and all(delta == 0 for delta in deltas.values())
+
+
 def position_list(active_words, side):
     sides = ["m2"] if side == "m2" else ["m1"] if side == "m1" else ["m1", "m2"]
     return [
@@ -204,10 +215,14 @@ def main():
     by_radius = Counter()
     top = []
     evaluated = 0
+    skipped_noop = 0
     improved = 0
     t0 = time.time()
 
     for flips in move_iter(positions, args.radius):
+        if move_is_noop(flips):
+            skipped_noop += 1
+            continue
         trial_M1, trial_M2 = flip_pair(M1, M2, flips)
         candidate = describe_candidate(trial_M1, trial_M2, chain1_out,
                                        chain2_out, target_diff, flips,
@@ -234,6 +249,7 @@ def main():
     print(f"Radius:              {args.radius}")
     print(f"Positions:           {len(positions)}")
     print(f"Candidates:          {evaluated}")
+    print(f"Skipped no-op moves: {skipped_noop}")
     print(f"Runtime seconds:     {time.time() - t0:.3f}")
     print(f"Base score:          {base_score}")
     print(f"Base msg diff HW:    {base_msg_hw}")
@@ -275,6 +291,7 @@ def main():
                 "side": args.side,
                 "positions": len(positions),
                 "evaluated": evaluated,
+                "skipped_noop": skipped_noop,
                 "by_radius": dict(by_radius),
                 "improving_moves": improved,
                 "base": {
