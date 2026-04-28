@@ -20,10 +20,15 @@
       candidates: 1
       cpu_hours: null
       notes: "sr61_cascade_m17149975_fffffffff_bit31.cnf exists but not in main bit-31 sr61 set"
+  cert_pin_coverage_2026_04_28:
+    runs_logged: 142
+    cands_covered: "multiple msb-named cands incl. m17149975 (verified-collision), m9cfea9ce, ma22dc6c7, m189b13c7, m44b49bc3, m3f239926, m5ac592ed, mbcc2e089, md1acca79, m11f9d4c7, m17454e4b"
+    verdict: "all UNSAT (per F70-F102 cert-pin sweep) EXCEPT verified sr=60 collision at m17149975_fillffffffff"
+    hw_range_tested: [44, 120]
   status: swept_partial
-  last_updated: "2026-04-20"
+  last_updated: "2026-04-28"
   owner: macbook
-  notes: "Original baseline kernel. Other kernels (bit 6, 10, etc.) discovered AFTER and may be more productive."
+  notes: "Original baseline kernel. Other kernels (bit 6, 10, etc.) discovered AFTER and may be more productive. F70-F102 cert-pin work confirmed empirical UNSAT for MSB across full HW distribution mode region except the known SAT instance."
 
 - id: kernel_0_9_bit06
   name: "bit-6 kernel at word-pair (0,9) — kernel-dependent critical pairs finding"
@@ -43,8 +48,13 @@
       status: in_flight
       candidates: 6
       cpu_hours: null
+  cert_pin_coverage_2026_04_28:
+    runs_logged: 68
+    cands_covered: 6
+    verdict: "all UNSAT (per F70-F102 cert-pin sweep)"
+    hw_range_tested: [44, 120]
   status: open
-  last_updated: "2026-04-20"
+  last_updated: "2026-04-28"
   owner: gpu_laptop
   notes: "Highest interest among non-MSB kernels — multiple critical pairs at N=8 suggests structural difference."
 
@@ -65,8 +75,14 @@
       status: in_flight
       candidates: 7
       cpu_hours: null
+  cert_pin_coverage_2026_04_28:
+    runs_logged: 130
+    cands_covered: 7
+    verdict: "all UNSAT (per F70-F102 cert-pin sweep)"
+    hw_range_tested: [44, 120]
+    note: "Includes m3304caa0 (GPT-5.5 example) extensively analyzed via cascade_aux N=32 BP-Bethe calibration (F134-F139)."
   status: open
-  last_updated: "2026-04-20"
+  last_updated: "2026-04-28"
   owner: fleet
   notes: "sigma1-aligned bit. GPT-5.5 example used cand_n32_bit10_m3304caa0."
 
@@ -88,8 +104,13 @@
       status: in_flight
       candidates: 2
       cpu_hours: null
+  cert_pin_coverage_2026_04_28:
+    runs_logged: 33
+    cands_covered: 2
+    verdict: "all UNSAT (per F70-F102 cert-pin sweep)"
+    hw_range_tested: [44, 120]
   status: open
-  last_updated: "2026-04-20"
+  last_updated: "2026-04-28"
   owner: macbook
   notes: "N=16 partial sr=61 breakthrough on bit-11 may indicate scaling potential."
 
@@ -172,8 +193,14 @@
   best_results_by_n: {n32: "4 candidates at fill=0xff (highest single-cell yield this session)"}
   sr61_partial:
     n32_true_sr61: {status: untested, candidates: 4, cpu_hours: 0}
+  cert_pin_coverage_2026_04_28:
+    runs_logged: 150
+    cands_covered: 4
+    verdict: "all UNSAT (per F70-F102 cert-pin sweep)"
+    hw_range_tested: [44, 120]
+    note: "yale's primary cand md1acca79 has been heavily probed; HW=33 EXACT-sym at LM=679 reached. F101 mode-region (HW=90-99) confirmed cand-uniform at bit28."
   status: open
-  last_updated: "2026-04-26"
+  last_updated: "2026-04-28"
   owner: macbook
   notes: "First time tested. Non-aligned bit. 4 of 2^32 eligible at fill=0xff (queue10) — highest single-cell yield. m=0xd1acca79 has de58_size=2048 + hl_bits=15 (compressed AND constrained outlier)."
 
@@ -362,8 +389,14 @@
       status: in_flight
       candidates: 6
       cpu_hours: null
+  cert_pin_coverage_2026_04_28:
+    runs_logged: 164
+    cands_covered: 7
+    verdict: "all UNSAT (per F70-F102 cert-pin sweep)"
+    hw_range_tested: [44, 120]
+    note: "Highest-coverage kernel after bit10; cands include m4e560940, m4d9f691c, m72f21093, m916a56aa, mbee3704b, me01ff7c0."
   status: open
-  last_updated: "2026-04-20"
+  last_updated: "2026-04-28"
   owner: fleet
 
 - id: kernel_0_9_bit18

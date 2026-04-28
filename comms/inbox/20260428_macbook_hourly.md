@@ -1415,3 +1415,37 @@ Session totals (F134-F139):
 The principles framework's BP-Bethe prediction is now empirically
 well-grounded. Multi-day implementation is the next phase when
 project priority shifts.
+
+---
+
+## ~12:30 EDT — F140: kernels.yaml refreshed with F70-F102 cert-pin coverage
+
+Updated kernels.yaml entries for the 5 most-tested kernels with
+cumulative cert-pin run counts from F70-F102 work. The kernels
+registry was last_updated 2026-04-20 across all entries — 8 days
+stale despite 600+ cert-pin runs accumulated since.
+
+Updated kernels (cert_pin_coverage_2026_04_28 field added,
+last_updated bumped to 2026-04-28):
+
+| Kernel | Runs logged | Cands covered |
+|---|---|---|
+| msb_0_9_bit31 | 142 | multiple msb cands (incl. m17149975 verified-collision) |
+| 0_9_bit06 | 68 | 6 |
+| 0_9_bit10 | 130 | 7 (incl. m3304caa0, GPT-5.5 example) |
+| 0_9_bit11 | 33 | 2 |
+| 0_9_bit13 | 164 | 7 |
+| 0_9_bit28 | 150 | 4 (incl. yale's primary md1acca79) |
+
+All entries note F70-F102 cert-pin verdict (all UNSAT except verified
+sr=60 collision at MSB m17149975_fillff). HW range tested [44, 120]
+documented per kernel.
+
+validate_registry.py: 0 errors, 0 warnings post-edits.
+
+This is registry-discipline work — bringing kernel registry in line
+with the empirical evidence accumulated by the F70-F102 cert-pin
+sweep. Future fleet machines (and weekly dashboards) will see
+accurate kernel coverage data.
+
+Discipline: 0 SAT compute, 0 solver runs, registry validates clean.
