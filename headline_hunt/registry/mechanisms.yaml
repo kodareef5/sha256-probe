@@ -7,20 +7,26 @@
   - Single-block cascade boundary does not rule out multi-block disturbance correction.
   - Naive block-2 SAT reaches ~18 rounds; Wang-style message modification typically extends 6-12 more.
   - Cascade residuals have structured d63=h63=0 pattern; active register set always {a,b,c,e,f,g}.
-  status: blocked
+  status: in_flight
   priority: 1
   expected_info_per_cpu_hour: very_high
   dependencies:
   - "Get block-1 residuals down to HW\u226416 (Wang differential threshold)."
   - Implement a bitcondition/trail-search engine (Wang-style, not just SAT).
-  next_action: "Use the F42-F45/F77 Pareto surface as the block2 trail
-    target set. Current archetypes: bit28 minimum residual
-    (HW33/LM679/exact symmetry), bit28 local low-HW in the LM637 chart
-    (HW39/LM720), bit28 LM champion (HW45/LM637/exact symmetry), and
-    bit28 pair-alignment champion (HW78/LM731/pair_hw=8). Next
-    implementation target is a Wang-style absorber/trail search that
-    explicitly uses HW, LM, symmetry, and pair-alignment targets rather
-    than continuing undirected pointwalks in the same chart."
+  next_action: "**Cert-pin axis CLOSED (F100-F102)**: 800+ W-witnesses
+    cross-solver UNSAT covering ~99.97% of the natural cascade-1 HW
+    distribution; single-block sr=60 cascade-1 collisions empirically
+    impossible at our compute scale. Headline path is now exclusively
+    the Wang block-2 absorption trail (yale's domain, structural
+    design). Macbook-side pipeline is COMPLETE and ready: F82 SPEC
+    v1 \u2192 F83 validate_trail_bundle.py \u2192 F104 simulate_2block_absorption.py
+    (incl. F109 bit_condition support) \u2192 F84 build_2block_certpin.py.
+    Pre-SAT simulator gives sub-second feedback. Awaiting yale's
+    structural trail bundle. Wang\u2192F82 SPEC mapping documented in
+    F107 literature note. F108 confirmed simple W2 modifications
+    don't cancel residual amplification \u2014 Sigma-aware multi-round
+    bitconditions are required (Mendel/Nad/Schl\u00e4ffer signed-DC
+    framework)."
   kill_criteria:
   - No residual cluster yields >18-round absorber after 1 week of dedicated trail search.
   - No improvement over naive block-2 SAT frontier on N=8/N=12 analogs after pilot phase.
@@ -32,8 +38,11 @@
   - bets/block2_wang/trails/20260427_F43_recordwise_lm_pareto.md
   - bets/block2_wang/trails/20260427_F45_online_pareto_sampler.md
   - bets/block2_wang/trails/20260427_F77_exact_sheet_atlas_pair_metric.md
-  owner: unassigned
-  last_updated: '2026-04-24'
+  - bets/block2_wang/results/20260428_F100_registry_wide_top10_certpin.md
+  - bets/block2_wang/results/20260428_F101_HW_above_80_probe.md
+  - bets/block2_wang/results/20260428_F106_simulator_nontrivial_validation.md
+  owner: macbook
+  last_updated: '2026-04-28'
   notes: "GPT-5.5 ranked this #1 EV/CPU-hour. F34/F42 now make cascade-1
     a universal 43-active-adder, LM-compatible trail source across all
     3,065 sampled records. F43-F45/F77 show target choice is a

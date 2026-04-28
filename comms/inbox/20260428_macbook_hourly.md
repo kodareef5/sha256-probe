@@ -680,3 +680,29 @@ post-edit: 0 errors, 0 warnings. Audit-recheck on a sample CNF:
 CONFIRMED.
 
 No solver runs (audit-only). No registry candidate mutation.
+
+---
+
+## ~09:05 EDT — F112: block2_wang mechanism registry refreshed (status, owner, next_action)
+
+mechanisms.yaml block2_wang_residual_absorption was stale relative to
+actual fleet state (F70-F111 work happened against this bet but the
+high-level registry index was last updated 2026-04-24).
+
+Updates:
+- status: blocked → **in_flight** (cert-pin axis closure was supportive
+  work; pipeline is now production-ready)
+- owner: unassigned → **macbook** (matches BET.yaml; CLAUDE.md rule
+  for fleet coordination)
+- last_updated: 2026-04-24 → 2026-04-28
+- next_action: rewritten to describe current state — cert-pin closed,
+  full pipeline (F82→F83→F104→F84) ready, awaiting yale's structural
+  trail bundle, Wang→F82 mapping documented in F107
+- evidence: added F100/F101/F106 result memos
+
+The bet is no longer "blocked on Phase 1 HW≤16 residuals" — that path
+was eliminated by F101 mode-region probe (mode-centered HW=90-99).
+The path forward is yale's structural Wang-style multi-round
+bitconditions, not random/hill-climb residual minimization.
+
+validate_registry.py: 0 errors, 0 warnings post-edit.
