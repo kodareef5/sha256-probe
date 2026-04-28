@@ -1,6 +1,6 @@
-# Cascade-Equation Searcher — design SPEC
+# Cascade-Equation Searcher — design SPEC v2
 
-**Status**: DRAFT v1, 2026-04-27 23:50 EDT
+**Status**: REVISED v2, 2026-04-28 02:00 EDT (was DRAFT v1, 2026-04-27 23:50)
 **Origin**: User framing — "tiny custom solver around the cascade
 equations ... standalone reduced-N searcher over the cascade variables
 and schedule residues, with aggressive memoization and explicit failure
@@ -12,6 +12,44 @@ This SPEC defines the searcher's variables, propagation rules,
 memoization key, and failure-explanation format. It does NOT define
 SAT integration — that's a downstream decision after the searcher
 exists and performs.
+
+## v2 changelog (after F86–F91 empirical work)
+
+The brute-force baseline (F86) and prototype searcher (F88–F91)
+empirically tested several v1 design axes. Some held; some did not.
+
+**VALIDATED at small N**:
+- **Cascade-filter mechanism (F89)**: enforcing HW(register a, round 60)=0
+  narrows the search space 250× at N=8 and 1000× at N=10. The brute-
+  force optimum at N=8 (HW=16) IS in the cascade-filter survivor set.
+  At N=10, cascade-filter finds HW=19 vs BF global HW=18 — gap of 1 HW.
+- **Single-register sufficiency (F89)**: multi-register filters
+  (a:60, b:61, c:62, d:63) yield IDENTICAL survivors as a:60 alone.
+  SHA-256's register shift propagates the zero forward automatically.
+- **Cascade trajectory N-invariance in shape (F88)**: at N=8, the best
+  cascade-1 dm produces the same a-zero-at-round-60 + shift-propagation
+  pattern as full-N=32 m17149975. The structural cascade is a faithful
+  reduction.
+
+**REFUTED (so dropped from v2)**:
+- **Forward HW-bound pruning at intermediate rounds (F88)**: HW
+  trajectory peaks at round ~52 (HW≈42 at N=8) before converging.
+  Forward pruning cannot distinguish "high HW that will converge" from
+  "high HW that won't." All three tested threshold curves prune 100%
+  of non-trivial dm at N=8.
+- **Bit-position algebraic predictor (F90→F91 retraction)**: F90
+  claimed the MSB-position-set + LSB-set + bit3-clear gave 2× boost
+  at N=8 and was N-invariant. F91 cross-check at N=10 gave 1.06× boost
+  (within noise). The bit-position pattern was a small-N artifact.
+
+**OPEN QUESTIONS (v2 punts to future work)**:
+- Memoization on intermediate-round state classes — unlikely to help
+  given F88's path-dependent HW trajectory, but not directly tested.
+- Backward search from target residuals — likely the right direction
+  per M16_FORWARD_VALIDATED.md but not yet implemented in the searcher.
+- N-scaling of the cascade-filter optimality gap (BF-min minus
+  cascade-filter-min): N=8 gives 0, N=10 gives 1, N=12 unknown
+  (~50 min wall budget if measured).
 
 ---
 
@@ -168,32 +206,43 @@ representation we want to discover.
 
 ---
 
-## Search algorithm (depth-first w/ memoization)
+## Search algorithm — v2 revised (post-F88 + F89)
+
+The v1 algorithm proposed forward HW-bound pruning + state-class
+memoization. F88's empirical trace data refuted forward pruning
+(HW peaks mid-rounds; cannot distinguish "will converge" from
+"won't"). The v2 algorithm uses cascade-filtering instead:
 
 ```python
-def search(round, state_diff, dW_lookahead):
-    key = canonical(state_diff, dW_lookahead)
-    if key in memo:
-        return memo[key]
+def search(dm):
+    # Forward propagate to round 60, recording register a's diff
+    state = simulate_to_round(dm, target_round=60)
 
-    if round == 63:
-        verdict = "COLLISION" if hw(state_diff) == 0 else f"NEAR_RESIDUAL_HW{hw}"
-        memo[key] = verdict
-        return verdict
+    # CASCADE FILTER (F89 validated mechanism)
+    if hw(state.a) != 0:
+        return "PRUNED_NOT_CASCADE_1"   # 250-1000× narrowing
 
-    # Apply round propagation (modular, deterministic given m0 anchor + dm)
-    new_state = round_step(state_diff, dW_lookahead[0], round)
+    # Continue propagation rounds 60-63
+    final_state = simulate_to_round(dm, start=state, target_round=63,
+                                     start_round=60)
 
-    # Cascade-1 violation check
-    if round >= 60 and (new_state.dA != 0 or new_state.dE != 0):
-        memo[key] = "CASCADE_BREAK"
-        return memo[key]
-
-    return search(round + 1, new_state, dW_lookahead[1:] + [next_dW(round + 4)])
+    return ("COLLISION" if hw(final_state) == 0
+            else f"NEAR_RESIDUAL_HW={hw(final_state)}")
 ```
 
-For depth-first, this is essentially constant-memory per branch. The
-memoization table grows linearly with distinct visited states.
+**No memoization in v2.** F88 demonstrates HW trajectories are path-
+dependent (peak height + convergence depth depend on full dm history).
+Intermediate-round state classes don't naturally cluster.
+
+**No bit-position branching heuristic in v2.** F91 retracted the F90
+algebraic predictor — the (MSB-set, LSB-set, bit3-clear) pattern was
+a small-N artifact. Default to uniform branching over dm.
+
+**Optional v2 enhancement** (untested): once a dm passes the cascade
+filter, optionally run a bit-flip local search on neighborhoods to
+find lower-HW residuals. Per F87, full-dm-freedom random sampling at
+N=4 dropped min HW from 7 (restricted) to 4 (free). Local search
+within cascade-1 might further reduce.
 
 ---
 
@@ -265,22 +314,62 @@ implementation comes after this data exists.
 
 ---
 
-## Concrete next moves
+## Concrete next moves (v2 — updated post-F86–F91)
 
-1. **Ship `bf_baseline.py`** in this SPEC's directory. Run at
-   N ∈ {4, 6, 8, 10}, capture residual HW histograms.
+**Phase 1 — DONE**:
+- ✓ `bf_baseline.py` built and run at N ∈ {4, 6, 8, 10}.
+  See F86 + F87 memos for results. HW_min ≈ 1.8N–2.0N at restricted
+  (m0, m9). Wall scales 16× per +2 N.
+- ✓ `forward_bounded_searcher.py` prototype with search + trace modes.
+  See F88 memo. Forward HW-pruning REFUTED; cascade trajectory at
+  N=8 confirmed faithful reduction of N=32 m17149975.
+- ✓ `--cascade-filter` mode validated (F89). 250-1000× search-space
+  narrowing. F89 demonstrated cascade-filter is the right structural
+  mechanism.
+- ✓ `analyze_cascade_bits.py` + `validate_predictor.py` (F90+F91).
+  Bit-position predictor refuted at N>8.
 
-2. **Document baseline results** in
-   `20260427_F86_bf_baseline_results.md`. Numbers are paper-class
-   if they reveal N-scaling structure.
+**Phase 2 — open** (sequence proposed):
 
-3. **Decide based on baseline**: if baseline is fast enough that
-   N=14/16 brute force is feasible in <1h, the searcher's value-add
-   is structural insight (failure cores + memoization patterns), not
-   raw speed. If baseline is too slow at N=10 to even establish the
-   benchmark, the searcher is needed urgently for the data corpus.
+1. **Cascade-filter optimality gap evolution**: measure at N=12
+   (~50 min wall budget). If gap stays at ~1 HW, that's the noise
+   floor; if gap GROWS, cascade-1 is N-locally-suboptimal. Awaits
+   user authorization for the multi-tens-of-minutes compute.
 
-4. **Build searcher** in `cascade_searcher.c` using the data from #1
-   to inform branching heuristics and memoization key choice.
+2. **Backward-search prototype**: implement in Python at N=8, starting
+   from target HW=16 residuals at round 63 and propagating back to
+   find dm-compatible state-diffs at round 60. Compare to forward
+   cascade-filter's coverage.
 
-End of SPEC v1.
+3. **Modular signature analysis**: F91 ruled out bit-position
+   correlation. Test if dm[0] mod K shows enrichment for some small
+   K — consistent with F36's universal-LM-compatibility finding.
+
+4. **LM cost extraction at small N**: compute Lipmaa-Moriai bound for
+   each cascade-1 survivor at N=8. Compare (HW, LM) Pareto vs
+   yale's full-N=32 frontier (HW=33-78). If shape matches,
+   N-invariance at the LM level holds.
+
+5. **C port for performance**: only after Phase 2 design is locked.
+   Python prototype is fast enough at N≤10; C is needed for N=14, 16.
+
+**Phase 3 — only after Phase 2 produces a representation**:
+
+- IPASIR-UP integration as an optional propagator (the closed
+  `programmatic_sat_propagator` bet's natural successor).
+- Or: hand-crafted CDCL clause encoding informed by the discovered
+  representation.
+- Or: structural advice for yale's block-2 trail design.
+
+End of SPEC v2.
+
+## Memos by F-number
+
+- **F85** (this SPEC v1, archived above as v2 changelog)
+- **F86** brute-force baseline at N=4, 6, 8 — `bf_baseline.py` shipped
+- **F87** random-sample mode + N=10 baseline + full-dm-freedom probe
+- **F88** forward-bounded searcher prototype + N=8 cascade trace
+- **F89** cascade-filter signature mechanism (validated)
+- **F90** bit-correlation analysis at N=8 (later retracted at N>8)
+- **F91** predictor cross-N validation + F90 retraction
+- **F92+** = v2 next moves (Phase 2 above)

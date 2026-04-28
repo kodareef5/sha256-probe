@@ -2445,6 +2445,68 @@ No solver runs. Registry unchanged.
 
 ---
 
+## 02:00 EDT (Apr 28) — F92: cascade-searcher SPEC v2 — retrospective consolidation of F86–F91
+
+After 2 hours of empirical work (F86 baseline → F88 prototype →
+F89 cascade-filter validated → F90 bit-predictor → F91 retraction),
+the original SPEC v1 needed revision. F92 ships SPEC v2 with a clean
+"validated / refuted / open" structure capturing what was actually
+learned.
+
+**v2 changelog**:
+
+- VALIDATED at small N:
+  - Cascade-filter mechanism (F89): 250-1000× search-space narrowing
+  - Single-register sufficiency (F89): a:60 alone suffices, multi-
+    register is redundant due to SHA shift propagation
+  - Cascade trajectory N-invariance in shape (F88): N=8 matches N=32
+    m17149975
+
+- REFUTED (dropped from v2):
+  - Forward HW-bound pruning at intermediate rounds (F88):
+    HW peaks mid-rounds, can't distinguish convergent from divergent
+  - Bit-position algebraic predictor (F90→F91): 2× boost at N=8 was
+    a small-N artifact, didn't generalize to N=10
+
+- OPEN (Phase 2 candidates):
+  - Cascade-filter optimality gap at N=12 (~50 min compute, awaits authorization)
+  - Backward-search prototype at N=8
+  - Modular signature analysis (rule out by F91, test mod-K)
+  - LM cost extraction for cascade-1 survivors at small N
+  - C port (only after Phase 2 design locked)
+
+**v2 search algorithm** (revised):
+
+```python
+def search(dm):
+    state = simulate_to_round(dm, target_round=60)
+    if hw(state.a) != 0:
+        return "PRUNED_NOT_CASCADE_1"   # 250-1000× narrowing
+    final = simulate_to_round(dm, start=state, target_round=63, start_round=60)
+    return ("COLLISION" if hw(final) == 0
+            else f"NEAR_RESIDUAL_HW={hw(final)}")
+```
+
+No memoization (v1 design didn't survive F88). No bit-branching
+heuristic (v1 design didn't survive F91). The cascade filter at
+round 60 is the empirically validated mechanism.
+
+**Memos by F-number** (the cascade-searcher arc):
+  F85 SPEC v1 (now v2 with this commit)
+  F86 brute-force baseline N=4,6,8
+  F87 random-sample + N=10 baseline + full-dm-freedom
+  F88 forward-bounded prototype + cascade trace
+  F89 cascade-filter mechanism (VALIDATED)
+  F90 bit-correlation analysis (later retracted)
+  F91 cross-N validation + F90 retraction
+  F92 SPEC v2 retrospective (this memo / inline SPEC update)
+
+SPEC: `headline_hunt/bets/block2_wang/cascade_searcher/SPEC.md` (v2)
+
+No solver runs. Registry unchanged at 879. Commit `[block2_wang] F92`.
+
+---
+
 ## 00:30 EDT (Apr 28) — F88: forward-bounded searcher prototype + N=8 cascade structure CONFIRMED
 
 Built `cascade_searcher/forward_bounded_searcher.py` — first runnable
