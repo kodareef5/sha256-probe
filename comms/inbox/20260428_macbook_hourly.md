@@ -2721,3 +2721,20 @@ Discipline: 0 SAT compute, 0 solver runs.
   shell-elim ratio and skip that word.
 - F217 correction memo committed. 28 commits this session.
 
+
+## ~17:42 EDT — F218/F219/F220: kissat BVE eliminates 20%, F211 predicts 70% — 50% headroom
+
+- F218: kissat default (BVE on) on cascade_aux CNF, 60s timeout.
+  s UNKNOWN. Preprocessor stats: 13178 → 10580 vars (80% remaining
+  after BVE).
+- F219: kissat --eliminate=false, also 60s timeout. Both can't solve
+  in 60s.
+- F220: kissat eliminates ~20% of vars; F211's min-degree shell
+  prediction is 70%. **50% headroom for custom preprocessor.**
+- kissat's BVE is bounded (--eliminatebound=16) by clause-growth.
+  F211's unbounded min-degree could eliminate more.
+- Predicted speedup from custom Stage 1 preprocessor: 2-5× from
+  search-space reduction alone, before any BP marginal guidance.
+- Implementation estimate: 2-3 hours. Real next-session work.
+- F220 memo committed. 30 commits this session.
+
