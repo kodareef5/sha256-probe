@@ -1,0 +1,68 @@
+{
+  "schema_version": "2blockcertpin/v1",
+  "cand_id": "cand_n32_bit19_m51ca0b34_fill55555555",
+  "witness_id": "bit19_HW56_naive_blocktwo_F153",
+  "block1": {
+    "m0": "0x51ca0b34",
+    "fill": "0x55555555",
+    "kernel_bit": 19,
+    "W1_57_60": [
+      "0x3e2cfe34",
+      "0xa3338a8f",
+      "0x235d722f",
+      "0xb6befe82"
+    ],
+    "W2_57_60": [
+      "0xf946665d",
+      "0x138c85bc",
+      "0xe7ec1902",
+      "0xe4d54b40"
+    ],
+    "expected_status": "near_residual_unsat",
+    "residual_state_diff": {
+      "da63": "0x8040ca34",
+      "db63": "0x2c969822",
+      "dc63": "0x20026c8e",
+      "dd63": "0x00000000",
+      "de63": "0x94604008",
+      "df63": "0x01300e3e",
+      "dg63": "0x2002248a",
+      "dh63": "0x00000000"
+    },
+    "residual_hw": 56,
+    "residual_lm_cost": null,
+    "comment": "bit19_m51ca0b34_fill55555555 HW=56 W-witness from F153 corpus (lowest of 3597 records < HW=80). MOST EXTREME structurally distinguished cand (de58_size=256, 200x below median; hardlock_bits=13). Built 2026-04-28 (F153) for yale's absorber search slate. Per F143/F146/F148/F149/F151/F152 chain."
+  },
+  "block2": {
+    "absorption_pattern": "naive_no_constraints_test",
+    "modified_message_words": [],
+    "W2_constraints": [],
+    "chain_state_input": {
+      "comment": "Block-1 produces non-zero residual (HW=56, lowest in the bit19 corpus) with d=h=0 cascade-1 forced. Block-2 starts here."
+    },
+    "target_diff_at_round_N": {
+      "round": 63,
+      "diff_a": "0x00000000",
+      "diff_b": "0x00000000",
+      "diff_c": "0x00000000",
+      "diff_d": "0x00000000",
+      "diff_e": "0x00000000",
+      "diff_f": "0x00000000",
+      "diff_g": "0x00000000",
+      "diff_h": "0x00000000",
+      "comment": "All-zero collision target. Naive block-2."
+    },
+    "expected_status": "forward_broken_test",
+    "expected_modular_paths": [],
+    "predicted_lm_cost_block2": null
+  },
+  "metadata": {
+    "designer": "macbook (F153 fixture for bit19 absorber search \u2014 most extreme distinguished)",
+    "design_date": "2026-04-28",
+    "design_method": "lowest_hw_corpus_record_just_built",
+    "confidence": "deliberately_forward_broken",
+    "compat_with_block1_witness": true,
+    "smaller_N_validation": null,
+    "purpose": "F153 fixture: bit19_m51ca0b34 is the MOST EXTREME structurally distinguished cand (de58_size=256, 200x below median). Adds 5th cand to yale's slate (F148/F149 covered bit28, bit4, bit25, msb_m9cfea9ce). Predicted absorber score floor: 65-75 if structural distinction transfers to yield (vs bit3 generic 86)."
+  }
+}

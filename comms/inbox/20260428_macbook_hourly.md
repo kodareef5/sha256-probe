@@ -1897,3 +1897,45 @@ test-refinement loop**. Yale tested in 30 min, macbook refined in
 10 min. Compounding fleet learning.
 
 Discipline: 0 SAT compute, 0 solver runs.
+
+---
+
+## ~16:50 EDT — F153: bit19 corpus built + fixture (most extreme distinguished cand)
+
+bit19_m51ca0b34_fill55 is the MOST EXTREME structurally distinguished
+cand (de58_size=256, 200× below median; hardlock_bits=13). Per F143
+analysis it should give the LOWEST absorber score floor. But no
+corpus existed.
+
+Built corpus: 200K samples, 7.5 sec wall, 3,597 records below
+HW=80 (1.8% yield, vs bit3's ~10% — confirms structural distinction).
+
+**min HW = 56** — LOWER than bit3 (55), bit28 (59), bit4 (63)!
+
+Built fixture from lowest-HW record: 
+`bit19_HW56_51ca0b34_naive_blocktwo.json`. Schema 2blockcertpin/v1,
+simulator-validated FORWARD_BROKEN (median target distance 129).
+
+**Yale's complete distinguished slate now has 5 cands + bit3
+baseline = 6 testbeds**:
+
+| Cand | de58_size | hardlock | residual_HW | Predicted floor |
+|---|---|---|---|---|
+| bit19 | 256 | 13 | 56 | **65-75 (lowest)** |
+| bit28 | 2048 | 15 | 59 | 70-80 |
+| bit25 | 4096 | 13 | 62 | 73-83 |
+| bit4 | 2048 | 12 | 63 | 75-85 |
+| msb_m9cfea9ce | 4096 | 10 | 62 | 78-88 |
+| bit3 (baseline) | ~50K | n/a | 55 | 86 (empirical) |
+
+If yale runs F111 on all 6 + the rank-order matches predictions,
+the structural-distinction hypothesis is empirically validated as a
+CLASS PROPERTY.
+
+bit19 is the MOST EXTREME prediction — should give lowest floor.
+If bit19 doesn't beat bit3, hypothesis significantly weakened.
+
+Memo: `bets/block2_wang/results/20260428_F153_bit19_corpus_and_fixture.md`
+
+Discipline: 0 SAT compute. 7.5 sec corpus build + 30 forward-sim
+validation samples. Everything routine.
