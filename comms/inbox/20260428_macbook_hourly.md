@@ -1704,3 +1704,42 @@ search needs an alternative to local search, the propagator's
 existing engineering investment is documented as available.
 
 Discipline: 0 SAT compute, 0 solver runs.
+
+---
+
+## ~14:55 EDT — F148: bit28_HW59 fixture built for yale (drop-in for F110/F111 absorber search)
+
+F146 recommended yale test bit28_md1acca79 (structurally distinguished:
+de58_size=2048, hardlock_bits=15) instead of bit3 (generic). F148
+SHIPS the fixture so yale can act on the suggestion without setup
+overhead.
+
+Built `bit28_HW59_naive_blocktwo.json` from the F101 corpus's lowest-
+HW bit28 record (HW=59 of 18,633 records). Schema matches yale's
+existing `bit3_HW55_naive_blocktwo.json` exactly (2blockcertpin/v1).
+
+Validated via simulate_2block_absorption.py:
+  Verdict: FORWARD_BROKEN
+  Block-1 residual HW: 59 (matches bundle)
+  Block-2 final chain-diff HW: 107-146, median 130
+  Comparable structure to bit3 baseline
+
+Drop-in commands for yale's F110/F111/F123 search loop documented in
+`bets/block2_wang/results/20260428_F148_bit28_HW59_fixture_for_yale.md`.
+
+Predicted (per F143 structural distinction hypothesis):
+- bit28 score floor < bit3's 86 (range 70-85)
+- Different active-word distribution
+- Possibly escapes radius-2 local minimum (F123 was bit3-specific)
+
+Concrete cross-bet experiment: if yale picks this up, F143/F146/F148
+chain validates (or refutes) the structural-distinction hypothesis
+empirically.
+
+Yale shipped F126 in parallel (fixed-diff resampling, also negative
+on bit3 — local minima further confirmed). Yale's pace today:
+F109-F126 = 18 sub-F numbers in ~3 hours of fleet time.
+
+validate_registry: 0 errors, 0 warnings.
+
+Discipline: 0 SAT compute, 50 forward-sim samples (validation).

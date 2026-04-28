@@ -1,0 +1,68 @@
+{
+  "schema_version": "2blockcertpin/v1",
+  "cand_id": "cand_n32_bit28_md1acca79_fillffffffff",
+  "witness_id": "bit28_HW59_naive_blocktwo_test_F148",
+  "block1": {
+    "m0": "0xd1acca79",
+    "fill": "0xffffffff",
+    "kernel_bit": 28,
+    "W1_57_60": [
+      "0xca1894ac",
+      "0xa48c6675",
+      "0x764b63d9",
+      "0x0a0627e6"
+    ],
+    "W2_57_60": [
+      "0x096996d8",
+      "0xfc965d28",
+      "0x02ee440a",
+      "0x447bb0bd"
+    ],
+    "expected_status": "near_residual_unsat",
+    "residual_state_diff": {
+      "da63": "0x30244a10",
+      "db63": "0x11125018",
+      "dc63": "0x34035068",
+      "dd63": "0x00000000",
+      "de63": "0xb4aac2c8",
+      "df63": "0x84311b00",
+      "dg63": "0x5400d078",
+      "dh63": "0x00000000"
+    },
+    "residual_hw": 59,
+    "residual_lm_cost": null,
+    "comment": "bit28_md1acca79 HW=59 W-witness from F101 corpus (lowest of 18633 records). Built 2026-04-28 (F148) for yale's block2 absorber search. Cand IS structurally distinguished (de58_size=2048, hardlock_bits=15) \u2014 predicted lower absorber score floor than bit3 generic. Per F143 + F146 coordination."
+  },
+  "block2": {
+    "absorption_pattern": "naive_no_constraints_test",
+    "modified_message_words": [],
+    "W2_constraints": [],
+    "chain_state_input": {
+      "comment": "Block-1 produces non-zero working-state residual (HW=59) with d=h=0 cascade-1 forced. Block-2 starts with this state."
+    },
+    "target_diff_at_round_N": {
+      "round": 63,
+      "diff_a": "0x00000000",
+      "diff_b": "0x00000000",
+      "diff_c": "0x00000000",
+      "diff_d": "0x00000000",
+      "diff_e": "0x00000000",
+      "diff_f": "0x00000000",
+      "diff_g": "0x00000000",
+      "diff_h": "0x00000000",
+      "comment": "All-zero collision target. Naive: block-2 with no W2 constraints. Used as F110/F111 absorber search baseline."
+    },
+    "expected_status": "forward_broken_test",
+    "expected_modular_paths": [],
+    "predicted_lm_cost_block2": null
+  },
+  "metadata": {
+    "designer": "macbook (F148 fixture for yale's bit28 absorber search)",
+    "design_date": "2026-04-28",
+    "design_method": "lowest_hw_corpus_record",
+    "confidence": "deliberately_forward_broken",
+    "compat_with_block1_witness": true,
+    "smaller_N_validation": null,
+    "purpose": "F148 fixture: parallels bit3_HW55_naive_blocktwo for the structurally distinguished bit28_md1acca79 cand. Per F146 coordination, predicted to yield lower absorber score floor than bit3 generic cand under yale's F110/F111/F123 search loop. If yale's score on this fixture < 86 (the bit3 floor), the structural-distinction hypothesis is empirically validated."
+  }
+}
