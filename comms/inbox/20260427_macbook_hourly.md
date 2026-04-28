@@ -2584,6 +2584,46 @@ structurally to bit3.
 
 Memo: `headline_hunt/bets/block2_wang/results/20260428_F94_bit3_top10_certpin_audit.md`
 
+---
+
+## 03:35 EDT (Apr 28) — F95: Top-10 multi-solver cert-pin extended to all 5 corpus cands
+
+Direct execution of F94's "concrete next moves" #1: extend top-10
+cert-pin audit to 4 more cands beyond bit3.
+
+**Cands tested** (top-10 lowest-HW W-witnesses each):
+  bit2_ma896ee41 (kernel_bit=2, fill=0xff): HW 57-64
+  bit13_m4e560940 (kernel_bit=13, fill=0xaa): HW 61-64
+  m189b13c7 (msb, fill=0x80): HW 63-66
+  m9cfea9ce (msb, fill=0x00): HW 62-67
+
+**Result: 40/40 UNSAT, all 3 solvers agree per witness.** Combined
+with F94 bit3, total: **50/50 UNSAT, 150 cross-solver cells**, ~1.4s
+wall for the entire batch.
+
+**Combined cert-pin evidence corpus** (F70 + F71 + F94 + F95):
+  - 122 distinct W-witnesses
+  - 232 cross-solver/cross-cand cells
+  - 0 SAT, 232 UNSAT, 100% near-residual
+
+This is the strongest empirical claim in the project for the
+"single-block sr=60 cascade-1 W-witness space is structurally a
+near-residual region" structural finding.
+
+**40 runs logged**. Registry total: 889 → **929**.
+
+**For yale**: bit2, bit3, bit13, m189b13c7, m9cfea9ce all show
+uniform near-residual structure. Yale's online Pareto sampler should
+extend to these 4 cands (in addition to bit28). The LM/HW frontier
+for each may differ in shape.
+
+**For macbook**: F95's audit is feasibly extendable to ALL 67 registry
+cands (would need to build 62 missing corpora, ~40 min total wall).
+Result would be 67 × 10 × 3 = 2,010 cross-solver cells. Possible
+next deliverable: registry-wide top-10 audit script.
+
+Memo: `headline_hunt/bets/block2_wang/results/20260428_F95_top10_5cand_certpin_audit.md`
+
 
 ---
 
