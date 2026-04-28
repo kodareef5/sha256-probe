@@ -2310,3 +2310,16 @@ calibrates future iterations. Budget-knowledge gained even when
 hypothesis remains open.
 
 Discipline: 0 SAT compute, 0 solver runs.
+
+## ~15:50 EDT — F176 partial confirmation + F177 bit28 launch
+
+- F174 macbook batch on 5/10 done (process 68647 still running 0,1,2,4,9):
+  all 5 completed masks score 92-94 at 8x50k. Confirms yale's F174:
+  only {0,1,3,8,9}@87 is sub-91 in radius-1 family of bit3's winner.
+- F176 memo committed (cdd89f7) capturing partial confirmation.
+- Pivoted to F156 priority: bit28_md1acca79 fixture-local chunk-0 scan
+  launched (process 68948). Yale's primary structurally-distinguished
+  cand has never had fixture-local scan; chunk-0 establishes baseline.
+- Two bg processes now: F174 batch (radius-1 confirm) + F177 (bit28 chunk-0).
+- No CPU contention; 0 SAT compute.
+
