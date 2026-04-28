@@ -2614,3 +2614,21 @@ Discipline: 0 SAT compute, 0 solver runs.
   worth considering.
 - F212 memo committed. 22 commits this session.
 
+
+## ~17:15 EDT — F213: hard-core decomposition validates F209
+
+- Hard core: 3907 vars (29.6%). Schedule vars in core: 185/256
+  (72%). Schedule vars in shell: 72/256 (28%, eliminate trivially).
+- F209's "core = schedule + densely-coupled Tseitin" structurally
+  validated.
+- Top-20 deepest core: vars 10480-10537 in arithmetic progression
+  (gap=3) → Tseitin 3-tuple gate signature, likely late-round
+  Σ/σ schedule recurrence.
+- KEY ALGORITHMIC INSIGHT: the 72 shell schedule vars are "free
+  decision priorities" — feed to kissat as branch hints.
+- Cross-bet alignment: block2_wang heuristic (192 dim), cascade_aux
+  BP (184 dim), programmatic_sat_propagator IPASIR-UP all reduce
+  to the same ~184-bit active-schedule space. Strongest cross-bet
+  alignment of the session.
+- F213 memo committed. 23 commits this session.
+
