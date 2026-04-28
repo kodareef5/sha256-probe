@@ -284,3 +284,35 @@ SAT runs, the 1689 entries form a complete audit trail.
 **31 new aux_expose CNFs** committed to
 `headline_hunt/bets/cascade_aux_encoding/cnfs/`. (Some path entries
 may be filtered by .gitignore — checking before commit.)
+
+---
+
+## 03:25 EDT — F103: Dashboard regen + fleet-coord message to yale (cert-pin axis closed)
+
+**Dashboard regenerated** via summarize_runs.py. Was stale since
+2026-04-27 18:20; now reflects today's 600+ new runs. Highlights:
+- Total runs: 1,688
+- block2_wang: 811 runs (was ~150 yesterday)
+- cascade_aux_encoding: 785 runs
+- 0% audit failure rate maintained across all bets
+
+**Fleet-coordination message to yale** shipped at
+`comms/inbox/20260428_macbook_to_yale_certpin_axis_closed.md`.
+
+Summary for yale:
+1. Single-block cascade-1 SAT empirically impossible at our scale
+   (2,512+ cells, 0 SAT)
+2. Add bit3_m33ec77ca to candidate list (densest yield per F93/F94)
+3. F82 SPEC + F83 validator + F84 trivial verifier all ready for
+   yale's block-2 trail bundle when it lands
+4. Recommended cand priority order: bit28 (current) → bit3 → bit2
+
+Macbook standby tasks listed: cross-solver verification, encoder
+extension when yale ships partial trail, additional corpora on demand.
+
+This is the headline-path coordination handoff. Yale's structural
+work (block-2 trail design) is the remaining unknown. Macbook's
+verification pipeline is production-grade and ready.
+
+Dashboard: `headline_hunt/reports/dashboard.md`
+Fleet msg: `comms/inbox/20260428_macbook_to_yale_certpin_axis_closed.md`
