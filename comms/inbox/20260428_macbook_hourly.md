@@ -2929,3 +2929,18 @@ Discipline: 0 SAT compute, 0 solver runs.
   conquer, IPASIR-UP propagator, BDD, or different encoding).
 - 44 commits this session.
 
+
+## ~19:30 EDT — Yale fleet activity + F238 collision coordination note
+
+- Yale shipped 18427b5 "Record bit19 scan chunk 9" between my push
+  attempts. Best mask 0,2,9,11,15 at score 91 (consistent with
+  F186/F215 robust-floor picture).
+- Yale's memo cites F205/F206 protocol — confirms yale READ my
+  retractions and adopted the multi-seed-uncertainty discipline.
+- F-number collision: yale F238 vs macbook F238. Third collision
+  today (F172, F174, F238).
+- Sent yale coordination note suggesting macbook uses F240+ going
+  forward, also flagging F180/F206 status check (yale citing F135
+  score-87 as "verified floor" but it's seed-7101 singular per F180).
+- 45 commits this session.
+
