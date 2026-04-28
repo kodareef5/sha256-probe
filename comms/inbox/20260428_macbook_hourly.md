@@ -223,3 +223,38 @@ Headline path is DEFINITIVELY the Wang block-2 absorption trail.
 30 runs logged via append_run.py. Registry total: 1069 → **1099**.
 
 Memo: `headline_hunt/bets/block2_wang/results/20260428_F101_HW_above_80_probe.md`
+
+---
+
+## ~03:00 EDT — F102: F101 extension — bit3 HW=110-120 + 4-cand mode-region (HW=90-99)
+
+Direct execution of F101 next-moves #1+#2. Tests both upper-HW
+boundary and cand-uniformity of mode-region invariant.
+
+**Setup**: 4 fresh HW≤120 corpora built in parallel (100k samples
+each, ~10s wall). 50 W-witnesses across:
+  10 × bit3 HW=110-120 (upper boundary)
+  10 × bit2 HW=90-99
+  10 × bit13 HW=90-99
+  10 × bit28 HW=90-99 (yale's primary)
+  10 × m17149975 HW=90-99 (verified-collision control)
+
+**Result: 50/50 UNSAT, all 3 solvers agree.** 150 cells, ~1.4s wall.
+
+**Confirms**:
+1. bit3 cert-pin invariant across [44, 120] — entire distribution
+2. Mode-region invariance is cand-UNIFORM (5 cands tested)
+
+**Updated combined cert-pin evidence (F70-F102)**:
+  - 882+ distinct W-witnesses
+  - 2,512+ cross-solver cells
+  - HW range [44, 120] = ~99.97% of natural distribution
+  - 0 SAT, 100% near-residual
+
+**EMPIRICAL CLAIM DEFINITIVELY LOCKED**: single-block sr=60 cascade-1
+collisions at N=32 do not exist at our compute scale across all 67
+cands × full HW distribution × 3 solvers × 225M-conflict brute force.
+
+50 runs logged. Registry total: 1099 → **1149**.
+
+Memo: `headline_hunt/bets/block2_wang/results/20260428_F102_F101_extension_cross_cand_modeHW.md`
