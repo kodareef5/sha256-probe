@@ -1939,3 +1939,49 @@ Memo: `bets/block2_wang/results/20260428_F153_bit19_corpus_and_fixture.md`
 
 Discipline: 0 SAT compute. 7.5 sec corpus build + 30 forward-sim
 validation samples. Everything routine.
+
+---
+
+## ~17:05 EDT — F154: dual-wave injection hypothesis (3rd iteration with yale)
+
+Yale's F129/F130 tested my F152 refined-composite metric using their
+own concentration ranker. Result: best new score 91 on {0,1,2,9,15};
+yale's empirical {0,1,2,8,9} winner ranks 107 in their refined ranker
+(vs 134 in mine). **Both pure-structural rankers fail to predict the
+empirical winner.**
+
+After 3 iterations of structural metrics, hypothesis: yale's winner
+has DUAL-WAVE TEMPORAL INJECTION pattern that pure rankers miss.
+
+{0,1,2,8,9} decomposes:
+- Early cluster {0,1,2}: feeds expansion rounds 16-22 (one wave)
+- Mid cluster {8,9}: feeds expansion rounds 23-30 (second wave)
+- Gap 2→8 = 6: NOT in expansion offset set {2,7,15,16}, so the two
+  clusters are decoupled in expansion-recurrence
+
+Hypothesis: cascade-1's forcing absorbs better with TWO TEMPORAL
+ATTRACTORS than ONE. Yale's score-86 is enabled by dual-wave
+redundancy.
+
+Testable predictions:
+- {0,1,7,8,15}, {2,3,8,9,15}, {1,2,3,9,10}: predicted low scores
+  (dual-cluster patterns)
+- {0,1,2,3,4}, {8,9,10,11,12}: predicted higher scores (single-wave
+  controls)
+
+Connects to SYNTHESIS_iwasawa_pipelines: a-pipeline + e-pipeline give
+two independent absorption channels naturally.
+
+Estimated yale-side compute to test: ~25 min for 4 active subset scans.
+
+Memo: `bets/block2_wang/results/20260428_F154_dual_wave_injection_hypothesis.md`
+
+**Iteration 3 of the macbook ↔ yale loop**:
+- F150 (macbook): density → F128 (yale): falsified
+- F152 (macbook): composite → F129/F130 (yale): also misses winner
+- F154 (this): dual-wave hypothesis
+
+If F154 holds, the structural framework SUPER-NATURALLY explains
+yale's empirical winner via the Iwasawa pipeline duality.
+
+Discipline: 0 SAT compute, 0 solver runs.
