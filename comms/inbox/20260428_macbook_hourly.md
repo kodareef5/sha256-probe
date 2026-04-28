@@ -2339,3 +2339,19 @@ Discipline: 0 SAT compute, 0 solver runs.
   ~5 points. Multi-seed protocol or global method (SAT/BDD) needed
   for definitive fixture-local floor claims.
 
+
+## ~16:05 EDT — F181/F182: bit28 chunk-0 floor is seed-robust (91-92)
+
+- F181 ran bit28 chunk-0 with seed 9001 (vs F178's seed 8001).
+- Both seeds give floor 91-92 (best mask differs but value stable).
+- Sharp contrast with bit19 chunk-1: that had 87↔91 (4-point spread).
+- Cand-distinction picture:
+  - bit3 (NOT distinguished): robust floor 86
+  - bit19 (distinguished): robust floor 91 (one seed-singular 87)
+  - bit28 (distinguished): robust floor 91-92 (flat)
+- F143 hypothesis (distinguished cands have better floors than bit3)
+  is FALSIFIED at chunk-0/1 random-init budget. Bit3 has the
+  lowest robust floor.
+- F143 may still hold under basin-init or global method (SAT/BDD).
+- F182 memo committed.
+
