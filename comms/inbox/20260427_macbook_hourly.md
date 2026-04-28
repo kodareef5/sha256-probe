@@ -2262,3 +2262,38 @@ Tool: `headline_hunt/bets/block2_wang/cascade_searcher/bf_baseline.py`
 No solver runs (Python brute force is enumeration, not SAT). Registry
 unchanged at 879 runs.
 
+---
+
+## 00:15 EDT (Apr 28) — F87: random-sample mode + full-dm-freedom probe
+
+Mid-hour follow-up: extended bf_baseline.py with --random-sample mode
+that supports all 16 dm positions (vs the (m0, m9) MSB-kernel
+restriction).
+
+**N=10 baseline LANDED**: 216s wall, 0 collisions, min residual HW=18.
+Confirms 16× per +2 N scaling and HW_min ≈ 1.8N to 2.0N law.
+
+**N=4 random-sample, all 16 dm positions, 1M samples, 197s wall**:
+  Collisions (HW=0): 0  (random expectation: ~2e-4 in 1M, so consistent)
+  Min residual HW:   4  (vs 7 in restricted (m0, m9) — 43% drop)
+
+**Findings**:
+- Full dm freedom drops min HW substantially — the (m0, m9) restriction
+  was limiting the floor, not blocking cascade-1 in some structural way.
+- Best dm patterns at min HW are HIGH-Hamming-weight (28-34 of 64
+  bits set). **Cascade-1 collision potential is NOT correlated with
+  dm bit count** — it's modular structure, not bit pattern.
+- Pattern matches yale's F45 finding at N=32: low-HW residuals need
+  high-HW dm. **N-invariant structural property** — candidate paper-
+  class claim if it holds across N=4..32.
+
+For the cascade searcher (next-session C build): the search axis is
+the full 16-dm-word space. Memoization on round-state classes is
+exactly what's needed to navigate high-HW dm regions efficiently.
+
+Updated memo (N=10 + F87 added in-place): `cascade_searcher/20260427_F85_F86_searcher_spec_and_baseline.md`
+N=10 JSON: `cascade_searcher/bf_n10_result.json`
+N=4 1M JSON: `cascade_searcher/bf_n4_allpos_1M.json`
+
+No solver runs. Registry unchanged.
+

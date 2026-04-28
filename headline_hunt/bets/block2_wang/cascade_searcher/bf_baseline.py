@@ -111,6 +111,68 @@ def hw_state_diff(s1, s2):
     return sum(bin(a ^ b).count('1') for a, b in zip(s1, s2))
 
 
+def random_sample_baseline(N, m0_anchor, dm_positions, num_samples,
+                            num_rounds=64, top_k=20, seed=1):
+    """
+    Random-sample dm patterns over arbitrarily many dm positions.
+    Each position drawn uniformly from [0, 2^N). Useful when the
+    enumeration space (2^(N * |positions|)) is too large for full
+    brute force but we want to detect collision yield.
+    """
+    import random
+    rng = random.Random(seed)
+    span = 1 << N
+    M = [m0_anchor[i] for i in range(16)]
+    histogram = Counter()
+    collision_count = 0
+    top_results = []  # (hw, dm_dict)
+
+    print(f"[N={N}] Random-sampling {num_samples} dm patterns "
+          f"(positions={dm_positions}, rounds={num_rounds}, seed={seed})...",
+          file=sys.stderr)
+    t0 = time.time()
+    for s in range(num_samples):
+        M2 = list(M)
+        any_diff = False
+        dm_actual = {}
+        for p in dm_positions:
+            d = rng.randrange(span)
+            dm_actual[p] = d
+            M2[p] = (M[p] ^ d) & ((1 << N) - 1)
+            if d != 0:
+                any_diff = True
+        if not any_diff:
+            continue
+        s1 = compress_to_round(M, N, num_rounds)
+        s2 = compress_to_round(M2, N, num_rounds)
+        h = hw_state_diff(s1, s2)
+        histogram[h] += 1
+        if h == 0:
+            collision_count += 1
+        top_results.append((h, dm_actual))
+        if len(top_results) > top_k * 4:
+            top_results.sort(key=lambda x: x[0])
+            top_results = top_results[:top_k]
+    top_results.sort(key=lambda x: x[0])
+    top_results = top_results[:top_k]
+    wall = time.time() - t0
+
+    return {
+        "N": N,
+        "mode": "random_sample",
+        "dm_positions": list(dm_positions),
+        "num_rounds": num_rounds,
+        "num_samples": num_samples,
+        "seed": seed,
+        "wall_seconds": round(wall, 3),
+        "collision_count": collision_count,
+        "histogram": dict(sorted(histogram.items())),
+        "top_k_smallest_residual": [
+            {"residual_hw": h, "dm": d} for h, d in top_results
+        ],
+    }
+
+
 def enumerate_baseline(N, m0_anchor, dm_positions, num_rounds=64,
                         top_k=20, sample_progress=False):
     """
@@ -198,7 +260,8 @@ def main():
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--N", type=int, required=True, help="Mini-SHA bit width")
     ap.add_argument("--positions", default="0,9",
-                    help="Comma-separated dm positions to enumerate (default 0,9)")
+                    help="Comma-separated dm positions to enumerate (default 0,9). "
+                         "'all' = all 16 positions (use with --random-sample).")
     ap.add_argument("--rounds", type=int, default=64,
                     help="Number of rounds (default 64 = full SHA-256)")
     ap.add_argument("--m0", default="zero",
@@ -208,6 +271,11 @@ def main():
                     help="Print progress every 5%")
     ap.add_argument("--out-json", default=None,
                     help="Write full result to this JSON file")
+    ap.add_argument("--random-sample", type=int, default=0,
+                    help="If >0, switch to random-sampling mode with this many samples "
+                         "(supports any number of dm positions; otherwise only ≤2).")
+    ap.add_argument("--seed", type=int, default=1,
+                    help="Random seed (only used with --random-sample)")
     args = ap.parse_args()
 
     if args.m0 == "zero":
@@ -218,28 +286,45 @@ def main():
             print(f"ERROR: --m0 must be 16 hex words, got {len(m0)}", file=sys.stderr)
             sys.exit(2)
 
-    positions = [int(p) for p in args.positions.split(",")]
+    if args.positions == "all":
+        positions = list(range(16))
+    else:
+        positions = [int(p) for p in args.positions.split(",")]
     if any(p < 0 or p > 15 for p in positions):
         print(f"ERROR: positions must be in [0,15]", file=sys.stderr)
         sys.exit(2)
 
-    result = enumerate_baseline(
-        args.N, m0, positions, num_rounds=args.rounds,
-        top_k=args.top_k, sample_progress=args.progress,
-    )
+    if args.random_sample > 0:
+        result = random_sample_baseline(
+            args.N, m0, positions, args.random_sample,
+            num_rounds=args.rounds, top_k=args.top_k, seed=args.seed,
+        )
+    else:
+        result = enumerate_baseline(
+            args.N, m0, positions, num_rounds=args.rounds,
+            top_k=args.top_k, sample_progress=args.progress,
+        )
 
+    is_random = result.get("mode") == "random_sample"
+    n_total = result.get("num_samples") if is_random else result["total_patterns"]
     print(f"\n=== bf_baseline (N={result['N']}, "
-          f"dm@{result['dm_positions']}, rounds={result['num_rounds']}) ===")
-    print(f"Total patterns:     {result['total_patterns']}")
+          f"dm@{result['dm_positions']}, rounds={result['num_rounds']}, "
+          f"mode={'random_sample' if is_random else 'full_enum'}) ===")
+    print(f"{'Samples' if is_random else 'Total patterns'}:     {n_total}")
     print(f"Wall:               {result['wall_seconds']}s")
     print(f"Collisions (HW=0):  {result['collision_count']}")
-    print(f"\nResidual HW histogram (top 12 buckets):")
+    print(f"\nResidual HW histogram (low end, top 12 buckets):")
     for h, c in list(result["histogram"].items())[:12]:
-        bar = "#" * min(60, max(1, int(60 * c / result['total_patterns'])))
+        bar = "#" * min(60, max(1, int(60 * c / n_total)))
         print(f"  HW={h:>3}: {c:>10}  {bar}")
     print(f"\nTop-{args.top_k} smallest residuals:")
     for entry in result["top_k_smallest_residual"][:args.top_k]:
-        dm_hex = ",".join(f"0x{d:x}" for d in entry["dm"])
+        if is_random:
+            dm_hex = ",".join(f"m[{p}]=0x{v:x}"
+                              for p, v in sorted(entry["dm"].items())
+                              if v != 0)
+        else:
+            dm_hex = ",".join(f"0x{d:x}" for d in entry["dm"])
         print(f"  HW={entry['residual_hw']:>3}  dm=({dm_hex})")
 
     if args.out_json:
