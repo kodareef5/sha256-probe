@@ -2190,3 +2190,28 @@ each. Future chunks must be partitioned.
 
 Discipline: 0 SAT compute, 0 solver runs (heuristic). 108 sec chunk
 34 + ~30 sec doc-writing wall total.
+
+---
+
+## ~19:15 EDT — F164: bit19 chunks 37-39 batch (no improvement, 87 holds)
+
+Macbook continues bit19 fixture-local scan per F161 partition.
+Batched chunks 37-39 in single shell loop (~6 min total wall).
+
+Results:
+- Chunk 37: 91 on {2,3,4,12,14}
+- Chunk 38: 91 on {2,3,6,8,9}
+- Chunk 39: 90 on {2,3,7,13,15}
+
+None beat bit19's empirical 87. The {2,3,...} chunks lack W[0] or
+W[1], which are key to yale's empirical winner pattern.
+
+Combined macbook chunks today (34, 35, 36, 37, 38, 39): 6 of 34
+assigned. 28 chunks remaining.
+
+bit19 floor unchanged at 87 (chunk 1).
+
+Yale's parallel pace: ran chunks 0-4 by mid-hour. Fleet velocity ~5-7
+chunks/hour combined.
+
+Discipline: 0 SAT compute, 0 solver runs. 108 × 3 = 324 sec wall.
