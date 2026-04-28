@@ -2486,3 +2486,25 @@ Discipline: 0 SAT compute, 0 solver runs.
   budget for any score claim. 4000-iter chunked-scan = candidate
   discovery, not validated floor.
 
+
+## ~16:46 EDT — F206/F207: bit3 basin also narrow at 8×50k random init
+
+- F206 8×50k random init on bit3 {0,1,2,8,9}: best 95 (no restart
+  reaches 86). Same pattern as bit4 (94) and bit19 (95).
+- The "bit3 has robust deep basin" framing was based on yale's
+  chunked-scan multi-seed reproducibility (4000 iter). At 8×50k
+  random init, bit3 basin is equally inaccessible.
+- Universal narrow-basin pattern confirmed: all known sub-90 basins
+  on this fixture catalog are findable only at chunked-scan budget
+  with lucky seeds.
+- F143 weak form effectively retired: no structural distinction in
+  basin GEOMETRY between bit3 and other cands. Just quantitative
+  difference in seed-reproducibility at chunked-scan.
+- 86 protocol floor stands across all methods tested today.
+- Headline status: NO HEADLINE. Sub-86 requires methods outside
+  heuristic local search.
+- Confirmed: bit3=86, bit4=86, bit19=87 sub-90 basins.
+  Refuted: F201's "all 6 cands have sub-90 basins"; "F135 dominant".
+- Session has produced 4 calibration findings (F179, F180, F205,
+  F206) + 16 commits. Honest negative day.
+
