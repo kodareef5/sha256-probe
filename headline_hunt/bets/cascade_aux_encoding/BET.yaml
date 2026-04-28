@@ -75,7 +75,77 @@ current_progress: |
   = 72 CNFs, all CONFIRMED. Bet remains characterized (Mode B 2-3.4× front-
   loaded preprocessing, not a path to cascade-DP SAT discovery).
 
-last_heartbeat: "2026-04-28T03:55:00Z"
+last_heartbeat: "2026-04-28T21:30:00Z"
+recent_progress_2026-04-28_F207_F214: |
+  STRUCTURAL PIVOT — cascade_aux Tanner graph fully characterized.
+
+  Eight connected memos shipped 2026-04-28 PM (F207 → F214):
+
+  F207: Tanner-graph 4-cycle structure — gap-1-3 dominant, gap-32
+    word-aligned peak (1605 pairs), gap-128 = 4×32 high-multiplicity
+    outliers. PRINCIPLES FRAMEWORK gap-9/11 prediction FALSIFIED
+    (gap-9 and gap-11 have zero pairs).
+
+  F208: 4-cycle structure UNIVERSAL across 8 cascade_aux CNFs (5 m0
+    values, 5 fills, 3 bits, 4 kernels). 270K cycles ±0.2%.
+    (var 2, var 130) gap=128 mult=36 pair appears in ALL 8 CNFs.
+
+  F209: Variable semantic mapping. var 2 = W1_57[0], var 130 =
+    W2_57[0]. The mult-36 high-coupling pair IS the differential-
+    cryptanalysis dW = W2 ⊕ W1 structure made explicit at the
+    Tanner-graph level. Cross-bet algorithm proposal: hybrid
+    BP-marginal (cascade_aux) + heuristic (block2_wang).
+
+  F210: TRUE sr=61 has DIFFERENT Tanner structure (max mult=10 vs
+    cascade_aux's 36). F208's "universal" claim qualified to within
+    cascade_aux family.
+
+  F211: Treewidth upper bound 699 with shell architecture: 75% of
+    vars eliminate at max-fill ≤14, then explosive rise in last 25%.
+    Three-stage decoder design: outer-shell elimination (~10⁴ ops)
+    + BP on hard core (3K vars × 30 iter ~10⁷ ops) + marginal
+    extraction. Target <1s wall per instance.
+
+  F212: TRUE sr=61 treewidth bound 480 (vs cascade_aux 699, 31%
+    smaller). Shell architecture is universal across encoders;
+    hard-core size encoder-specific.
+
+  F213: Hard-core decomposition. 3,907 vars hard core; 185/256 (72%)
+    of M1/M2 schedule vars in core; 72/256 (28%) eliminate trivially
+    in shell. F209 hypothesis structurally validated. Top-20 deepest
+    core: vars 10480-10537 in arithmetic progression gap=3 (Tseitin
+    3-tuple gates implementing late-round Σ/σ recurrence).
+
+  F214: Of the 72 shell schedule vars, **W1_58 has ALL 32 bits in
+    shell** — entire round structurally redundant due to cascade-1
+    da[56]=0 hardlock. Effective active schedule: 184 free bits
+    (M1=77, M2=107). M2 has ~40% more freedom than M1, encoding
+    the kernel-difference asymmetry structurally.
+
+  STRATEGIC SHIFT:
+    OLD direction: tune CDCL with stack hints. Mode B 2-3.4× speedup
+      empirically real (F76); ≥10× SAT speedup REFUTED.
+    NEW direction: 3-stage BP decoder on shell-eliminated cascade_aux.
+      Concrete decoder design with predicted ~10⁷ ops per instance.
+      kill_criteria.md updated with three new falsification gates.
+
+  CROSS-BET ALIGNMENT (strongest finding):
+    block2_wang heuristic (192 dim), cascade_aux BP (184 dim),
+    programmatic_sat_propagator IPASIR-UP all reduce to the same
+    ~184-bit active-schedule space. Different methods, same
+    primitive. This is the strongest cross-bet finding of the
+    session and suggests a hybrid algorithm.
+
+  TOOLS SHIPPED:
+    encoders/tanner_4cycle_count.py — 4-cycle gap analysis
+    encoders/tanner_treewidth_bound.py — min-degree treewidth bound
+    encoders/identify_hard_core.py — hard-core decomposition
+
+  DISCIPLINE:
+    0 SAT compute throughout F207-F214
+    0 solver runs
+    All findings via graph-theoretic + structural analysis
+    validate_registry: 0 errors, 0 warnings
 recent_progress_2026-04-28_F94_F104: |
   Cert-pin pipeline matured to production-grade fleet tool. F94-F102
   arc on block2_wang side shipped 802+ distinct W-witnesses verified

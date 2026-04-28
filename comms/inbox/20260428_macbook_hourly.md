@@ -2652,3 +2652,25 @@ Discipline: 0 SAT compute, 0 solver runs.
 - cascade_aux_encoding bet has complete structural characterization
   at algebraic, graph-theoretic, and algorithmic levels.
 
+
+## ~17:30 EDT — Hour-end discipline cycle: BET.yaml + kill_criteria refresh
+
+- git pull --rebase: already up to date (no fleet activity).
+- Dashboard regenerated (1688 runs, 0% audit fail).
+- Killed F215 cross-validation batch (no useful output due to
+  tail-piping; F214's canonical-CNF result already establishes
+  the W1_58 finding).
+- Updated cascade_aux_encoding kill_criteria.md:
+  - Documented status of original kill criteria (#1 superseded
+    by F211 N=32 measurements; #2 partially fired — Mode B 2-3.4×
+    is real but ≥10× SAT speedup REFUTED).
+  - Added 3 new kill criteria for the F211 BP-decoder direction:
+    BP convergence ≤50 iter, BP marginals reduce CDCL solve time
+    ≥1.5× median, 184-dim active-schedule reformulation reduces
+    search.
+- Updated cascade_aux_encoding BET.yaml:
+  - last_heartbeat → 21:30:00Z
+  - recent_progress_2026-04-28_F207_F214 captures full F207-F214
+    arc, strategic shift, cross-bet alignment finding.
+- validate_registry: 0 errors, 0 warnings.
+
