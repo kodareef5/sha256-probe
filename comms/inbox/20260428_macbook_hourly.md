@@ -2882,3 +2882,23 @@ Discipline: 0 SAT compute, 0 solver runs.
   pivot bet entirely.
 - 40 commits this session.
 
+
+## ~19:10 EDT — F238: IPASIR_UP_API.md extended with F207-F237 findings
+
+- Extended programmatic_sat_propagator/propagators/IPASIR_UP_API.md
+  with new section "2026-04-28 PM update: F207-F217 structural
+  findings inform propagator design".
+- Key structural insights operationalized:
+  - F209/F213/F217: 184-bit active-schedule space; ~70 bits cascade-1-
+    forced
+  - F237: preprocessing-alone refuted; in-search propagator
+    structurally distinct
+- Three new implementation phases prioritized (each 4-8 hours):
+  - Phase 2D: cb_decide for schedule-space bias (cheapest)
+  - Phase 2E: cb_propagate for cascade-1-forced bits
+  - Phase 2F: cb_check_found_model for cascade-1 verification (most
+    structurally distinct)
+- Reopen rationale strengthened: F237 closes preprocessing path, so
+  IPASIR-UP becomes the next-best structural attack direction.
+- 42 commits this session.
+

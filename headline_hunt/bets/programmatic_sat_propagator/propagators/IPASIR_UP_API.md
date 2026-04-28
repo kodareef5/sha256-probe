@@ -326,3 +326,101 @@ the existing IPASIR-UP infrastructure to today's emergent use case.
 If/when reopened, the build steps (Phase 2A→2C) and decision gates
 documented above remain valid. This update adds Architecture-B-for-
 block2_wang as a 4th decision option alongside the original Phases 2A-C.
+
+## 2026-04-28 PM update: F207-F217 structural findings inform propagator design
+
+The cascade_aux_encoding bet's F207-F217 structural-pivot arc produced
+empirical findings that directly inform this bet's IPASIR-UP design.
+F237 confirmed that preprocessing-alone doesn't help on hard instances,
+which **strengthens** the case for an in-search structural propagator.
+
+### Universal 184-bit active-schedule space (F209/F213/F217)
+
+F209 mapped cascade_aux variables to SHA semantics:
+  vars 2..129 = M1 free schedule (W1_57..W1_60 for sr=60)
+  vars 130..257 = M2 free schedule (W2_57..W2_60)
+
+F213 found the hard core comprises 185 of 256 schedule vars (72%) plus
+~3,722 Tseitin auxiliaries. F217 noted the cascade-1 hardlock forces
+**W1_58 entirely** (cascade_aux) or **W1_57** (TRUE sr=61), depending on
+n_free.
+
+For the IPASIR-UP propagator:
+- The "schedule space" is 256 variables (or 192 for TRUE sr=61).
+- ~70 of these are forced by cascade-1 hardlock; can be set immediately
+  by `cb_propagate` upon detecting the cand id.
+- The remaining ~177-184 are the actual decision variables.
+
+**Concrete propagator hook**: when CaDiCaL queries `cb_check_found_model`,
+the propagator can check whether the decision sequence respects
+cascade-1 hardlock relations. If not, return a conflict clause.
+
+### Why preprocessing-alone failed (F237) but propagator might succeed
+
+F237 showed: shell_eliminate_v2 (28% var reduction) doesn't help kissat
+on hard instances. The hard core is intrinsic; preprocessing redistributes
+work without simplifying SAT-difficulty.
+
+A propagator is **structurally different**: it doesn't reduce problem
+size before search; it guides search **during** CDCL by:
+1. Triggering forced unit propagations earlier than CDCL discovers them
+2. Detecting structural conflicts before unit-prop bottoms out
+3. Biasing decision variables toward the schedule-bit space
+
+This avoids F237's failure mode: instead of trying to make the problem
+smaller, make CDCL's search smarter inside the same problem.
+
+### Specific structural propagator hooks (revised post-F237)
+
+| IPASIR-UP hook | Use for cascade-1 |
+|---|---|
+| `cb_propagate` | Force W1_58 bits (cascade_aux) or W1_57 bits (TRUE sr=61) when the schedule pattern matches cascade-1 hardlock. ~32 forced bits per cand. |
+| `cb_check_found_model` | Verify the model satisfies cascade-1 round equations (Theorems 1-4). Reject if not. |
+| `cb_decide` | Bias decisions toward the 184-bit schedule space first; auxiliary Tseitin vars last. |
+| `cb_add_external_clause` | Add cascade-1-specific learned clauses (e.g., schedule recurrence W[r] = σ1(W[r-2]) + ... encoded as a single XOR-style learned clause). |
+
+### Implementation priority order
+
+Given F237's empirical lesson (preprocessing alone insufficient):
+
+1. **Phase 2D — Decision-priority propagator**: implement `cb_decide`
+   alone. Bias kissat to branch on schedule-space vars first. Cheapest
+   structural intervention; tests if order-of-decision matters.
+
+2. **Phase 2E — Forced-bit propagator**: implement `cb_propagate` for
+   the 32 cascade-1-forced bits (W1_58 in cascade_aux, W1_57 in TRUE
+   sr=61). Should give same effect as kissat already does internally
+   via BVE — useful baseline.
+
+3. **Phase 2F — Conflict-aware propagator**: implement
+   `cb_check_found_model` rejection of non-cascade-1-compliant
+   assignments. This is the structurally-distinct contribution
+   (kissat doesn't know cascade-1).
+
+Each phase is 4-8 hours of implementation work; runnable independently.
+Ship-and-test cycle ~1 day per phase.
+
+### Reopen recommendation (revised)
+
+Status: programmatic_sat_propagator bet was closed; F147 set
+reopen_candidate_2026_04_28. Now stronger reopen rationale:
+
+- F237 shows preprocessing-alone (cascade_aux_encoding direction) is
+  empirically refuted on hard cascade-1 instances.
+- IPASIR-UP propagator is structurally distinct (in-search vs
+  pre-search) and may succeed where preprocessing failed.
+- F207-F217 structural findings give concrete propagator hooks.
+
+**Recommended reopen**: implement Phase 2D first (decision-priority).
+Test on the same hard sr=61 instance from F235 (kissat 848s timeout).
+If decision-priority gives ≥2× speedup, the bet's reopen is justified.
+If null, escalate to Phase 2F.
+
+### Discipline notes
+
+This update extends the survey to incorporate F207-F217 structural
+findings and F237 empirical lesson. No code changes. No solver runs.
+
+If/when reopened, the structural-propagator hooks (Phases 2D-2F) are
+the priority order, NOT Phase 2A-2C (those were generic propagator
+research; F207-F237 has now narrowed the actionable scope).
