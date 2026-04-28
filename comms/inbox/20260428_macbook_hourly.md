@@ -2323,3 +2323,19 @@ Discipline: 0 SAT compute, 0 solver runs.
 - Two bg processes now: F174 batch (radius-1 confirm) + F177 (bit28 chunk-0).
 - No CPU contention; 0 SAT compute.
 
+
+## ~16:00 EDT — F180: F135 score-87 result is seed-dependent
+
+- F178 + F179 committed (7552f64).
+- F180: re-ran F135 chunk 1 with seed 9101 (vs 7101). Result: chunk-1
+  best is now 91 at {0,1,3,5,11}, and the F135 winner {0,1,3,8,9}
+  scores 96 (rank 11). The 87-score is not reproducible across seeds.
+- Confirms F179 in its weaker form: the chunked-scan budget (3×4000)
+  is below the basin-finding threshold; the F135 score-87 was a
+  seed-7101 singular result, not a robust property of the fixture.
+- Bit19 robust chunk-1 floor is 91, not 87. The 87 exists but
+  requires F135-init OR a stronger search protocol.
+- Implications: chunked-scan floors need seed-uncertainty band of
+  ~5 points. Multi-seed protocol or global method (SAT/BDD) needed
+  for definitive fixture-local floor claims.
+
