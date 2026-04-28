@@ -102,6 +102,7 @@ def scan_subset(bundle, subset, subset_idx, args, hints, init_pair):
         hw_penalty=args.hw_penalty,
         word_penalty=args.word_penalty,
         polish=args.polish,
+        init_kicks=args.init_kicks,
         progress=0,
     )
     runs = []
@@ -167,7 +168,7 @@ def main():
                     help="Comma/range list of subset sizes to scan")
     ap.add_argument("--include", default="",
                     help="Comma/range list of message words forced into every subset")
-    ap.add_argument("--subset-list", default=None,
+    ap.add_argument("--subset-list", "--explicit-masks", dest="subset_list", default=None,
                     help="File of explicit active-word masks, one comma/range mask per line")
     ap.add_argument("--limit", type=int, default=0,
                     help="Stop after scanning this many subsets; 0 means no limit")
@@ -188,6 +189,8 @@ def main():
     ap.add_argument("--polish", action="store_true")
     ap.add_argument("--init-json", default=None,
                     help="Seed restart 0 of every subset from a previous search JSON")
+    ap.add_argument("--init-kicks", type=int, default=0,
+                    help="Random mutations to apply after loading --init-json")
     ap.add_argument("--keep-runs", action="store_true",
                     help="Store all per-restart runs instead of only the top few")
     ap.add_argument("--min-used-words", type=int, default=0,
