@@ -2297,3 +2297,49 @@ N=4 1M JSON: `cascade_searcher/bf_n4_allpos_1M.json`
 
 No solver runs. Registry unchanged.
 
+---
+
+## 00:30 EDT (Apr 28) — F88: forward-bounded searcher prototype + N=8 cascade structure CONFIRMED
+
+Built `cascade_searcher/forward_bounded_searcher.py` — first runnable
+prototype with two modes:
+1. Search: enumerate dm, prune when HW > per-round threshold curve
+2. Trace: take a single dm, print per-register HW trajectory
+
+**Empirical finding (forward-pruning axis fails)**:
+At N=8 (m0, m9)-restricted, ALL three tested threshold curves prune
+100% of non-trivial dm patterns — yet brute force finds dm=(0x22,0xa3)
+with min residual HW=16. Forward HW-bound pruning at intermediate
+rounds is the WRONG strategy: it cannot distinguish "HW grows to
+peak then converges" from "HW stays high permanently."
+
+**STRUCTURAL FINDING (paper-class)**:
+Trace of best N=8 dm reveals cascade-1 pattern IDENTICAL to full-N=32
+m17149975 collision:
+  Round 52: HW peaks at 42
+  Round 60: HW_a = 0  ← cascade-1 a-register zeroing
+  Round 61: HW_b = 0  ← propagates forward
+  Round 62: HW_c = 0
+  Round 63: HW_d = 0, total HW=16
+
+**Mini-SHA at N=8 is a FAITHFUL REDUCTION of cascade-1 structure.**
+Same a-zeroing at round 60, same shift-propagation through rounds 61-63.
+This is genuine evidence the cascade is N-invariant in shape (not just
+in modular relations per F34/F36, but in the actual zeroing trajectory).
+
+**Implications for searcher design**:
+- Forward HW pruning at intermediate rounds: WRONG (refuted)
+- Round-60 cascade filter (HW_a = 0 only): RIGHT (1-bit-per-bit filter)
+- Backward search from target residuals: RIGHT direction
+  (M16_FORWARD_VALIDATED.md and backward_construct_n10.c already explore)
+- Memoization at intermediate rounds: unlikely to help
+
+**Phase 2 (next session)**: implement backward search at small N to
+find compatible state-diffs at round 60 from target HW=16 residuals.
+If backward search finds HW<16 residuals at N=8, strong evidence of
+brute-force suboptimality.
+
+Memo: `headline_hunt/bets/block2_wang/cascade_searcher/20260428_F88_forward_bounded_searcher_and_trace.md`
+
+No solver runs. Registry unchanged.
+
