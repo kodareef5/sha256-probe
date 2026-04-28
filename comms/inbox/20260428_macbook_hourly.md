@@ -478,3 +478,39 @@ This is structural input for yale's block-2 trail design. The Wang
 framework + F82 SPEC + F104 simulator + F84 SAT verifier are the
 TOOLS; yale's structural insight on which disturbance vector +
 bitconditions actually work for SHA-256 absorption is the ALGORITHM.
+
+---
+
+## ~05:00 EDT — F108: simple W2 constraint patterns don't reduce residual amplification
+
+Direct empirical follow-up to F106. F106 showed naive M2=M2' produces
+residual amplification ×2.3 at HW=55 input → HW=127 median output.
+F108 tests 3 non-trivial W2 constraint patterns to see if simple
+modifications REDUCE the amplification.
+
+**3 variants tested**:
+- A: single exact_diff at round 0 (= cascade-1 da63 value)
+- B: Wang-9-sparse, 3 exact_diff at rounds 0, 5, 9
+- C: single exact (pin W2[0] to a value)
+
+**Result: all 3 FORWARD_BROKEN with median HW=127** (same as F106
+empty baseline). Simple W2 modifications don't affect distribution.
+
+**Structurally informative**: cancellation requires the CHAIN-STATE
+DIFF to be steered through Sigma/Ch/Maj-aware transitions, not just
+W2 modifications. Block-1 residual enters block-2 as round-0
+chaining state (not as W2[0]).
+
+**For yale**: per F107 Wang→F82 mapping, yale's design must specify:
+1. Bitconditions on intermediate state diffs (F82 'bit_condition'
+   constraint type)
+2. Multi-round modification sequence (single rounds insufficient
+   per F108)
+3. Sigma-aware constraint structure (Mendel/Nad/Schläffer's signed-DC
+   framework)
+
+**For macbook**: F104 Phase 2 priority INCREASED. Need to implement
+`bit_condition` and `modular_relation` constraint type handling so
+yale can test richer trail designs in the sub-second feedback loop.
+
+Memo: `headline_hunt/bets/block2_wang/results/20260428_F108_w2_constraint_patterns_negative.md`
