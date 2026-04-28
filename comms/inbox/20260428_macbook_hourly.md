@@ -1484,3 +1484,44 @@ sweep. Future fleet machines see accurate per-kernel coverage data.
 This is small but compounding registry hygiene.
 
 Discipline: 0 SAT compute, 0 solver runs.
+
+---
+
+## ~13:15 EDT — F142: Viragh 2026 paper notes — foundational literature gap closed
+
+Read reference/paper.pdf (8 pages) — Robert Viragh's "We Broke 92% of
+SHA-256" — and wrote comprehensive notes:
+`headline_hunt/literature/notes/viragh_2026_92pct_sha256.md`.
+
+The Viragh paper is the project's structural starting point. It
+defines the schedule compliance metric `sr`, the MSB kernel
+(dM[0]=dM[9]=0x80000000), the da[56]=0 necessary-and-sufficient
+theorem, gap placement, and the sr=60 phase-transition barrier
+that is the project's hard target. Yet it had NO notes file in
+literature/notes/ despite literature.yaml status `read`.
+
+Notes contents:
+- TL;DR + method outline (MSB kernel, hybrid precomp+SAT, gap
+  placement, da[56]=0 theorem)
+- The specific verified collision (M1[0]=0x17149975, fill=0xff —
+  matches the project's verified-collision m17149975_fillffffffff)
+- Schedule compliance sr metric (16 → 64 spectrum)
+- sr=60 phase transition (the project's hard target)
+- Project's relationship to the paper (cascade-1 generalizes
+  da[56]=0; 67-cand registry; yale's 10⁹ advantage; 8 poly-time
+  algorithm candidates from principles framework)
+- Connection to recent principles work (Σ-Steiner, Iwasawa
+  Z₂-towers, MW rank)
+
+Closes the most-important literature note gap. Every other "read"
+paper in literature.yaml had a corresponding notes file except
+Viragh.
+
+Reading also CONFIRMED that the project's verified-collision cand
+m17149975_fillffffffff IS exactly the sr=59 collision in Viragh's
+paper. The project's sr=60 work extends Viragh's hybrid attack one
+schedule-compliance level further; sr=61 is the headline target.
+
+validate_registry: 0 errors, 0 warnings.
+
+Discipline: 0 SAT compute, 0 solver runs.
