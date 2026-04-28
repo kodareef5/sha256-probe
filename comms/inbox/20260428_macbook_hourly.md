@@ -1193,3 +1193,43 @@ The work has reached a natural plateau of coverage. Ready to:
 - Begin algorithm implementations
 - Pursue different research directions
 - Or take a pause for user feedback
+
+---
+
+## ~10:10 EDT — F134: daily heartbeat — proposed_next memo + 4-cycle verification
+
+Daily heartbeat executed per protocol:
+
+1. git pull: up-to-date. All last-24h commits are macbook; no
+   non-macbook fleet activity.
+2. comms/inbox/: no new external messages today.
+3. validate_registry: 0 errors, 0 warnings.
+4. dashboard regenerated: 1688 runs, 0% audit failure rate. Same
+   metrics as prior regen (only timestamp changed).
+5. macbook-owned bet heartbeats all fresh within interval (no
+   refreshes needed).
+6. No new fleet workers → no pickup_suggestions drafted.
+7. **Substantive review on cascade_aux_encoding** (priority bet):
+   - Wrote `bets/cascade_aux_encoding/results/20260428_proposed_next.md`
+     bridging the principles framework (treewidth ≈28, spectral gap
+     2/3, 8 poly-time algorithm candidates) to actionable cascade_aux
+     next steps. Highest-leverage: **build BP-Bethe baseline for
+     cascade_aux at N=8** (~3-5 days implementation, then comparison
+     vs CDCL+hints).
+   - <30min sub-action: ran probe_72c_4cycle_verify.py. **EMPIRICAL
+     REFINEMENT of synthesis 8 prediction**. Gap-9/11 (multiplicity-2
+     in Σ-coverage) do NOT dominate 4-cycles in the Σ-Steiner Cayley
+     graph (8.7% + 9.9% = 18.6% combined; 4-cycles ~uniform across
+     all 10 covered gap classes, with gap 5 highest at 11.2%). BP-
+     Bethe level-4 correction needs to target ALL 10 gap classes,
+     ~5× cost vs prediction; algorithm remains poly-time.
+8. Wrote `comms/inbox/20260428_heartbeat_summary.md`. No thanks
+   note needed (no other machine shipped today).
+
+**Committable deliverables**: proposed_next memo (bets/) + heartbeat
+summary (comms/inbox/). Probe script + refinement note stay in
+`april28_explore/principles/items/` per no-commit-on-explore
+directive.
+
+**Discipline check**: 0 SAT compute, 0 solver runs to log, 0 CNF
+generation. validate_registry post-edit: clean.
