@@ -2759,3 +2759,24 @@ Discipline: 0 SAT compute, 0 solver runs.
   cascade_aux (152). Entire corpus clean.
 - 32 commits this session.
 
+
+## ~17:55 EDT — F223/F224: shell_eliminate.py implemented — 94% elimination on bare cascade_aux
+
+- Wrote shell_eliminate.py: pure-literal + bounded BVE preprocessor.
+- Tested on 2 cascade_aux CNFs: 94.4% / 94.5% var elimination,
+  0 clauses remaining, 0.19s wall each.
+- Bare cascade_aux is SAT (Tseitin chains have many satisfying
+  assignments without HW constraint). My preprocessor finds the
+  satisfying assignment via pure-literal cascade.
+- Custom preprocessing eliminates 5× more vars than kissat's default
+  BVE (94% vs 19%).
+- F211's hard-core estimate (~3000 vars) was loose; actual hard
+  core after iterated cascading is ~700 vars (4× tighter).
+- BP decoder cost on 700-var core: 2×10⁶ ops, even faster than
+  F211's 10⁷ estimate.
+- Killed kissat on bare CNF (was running 5+ min — bare CNF is
+  SAT but kissat couldn't find assignment without preprocessing).
+- 33 commits this session including this F223/F224.
+- Next test: shell_eliminate on cert-pin output (with HW constraint)
+  — that's the actual collision-finding test.
+
