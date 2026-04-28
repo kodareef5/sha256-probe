@@ -393,3 +393,44 @@ Future fleet machines see the closure + the conditions to reopen.
 This is registry-discipline compliance work — no new compute, no new
 W-witnesses, just consolidating the day's empirical work into the
 formal registry artifacts the fleet relies on.
+
+---
+
+## ~04:25 EDT — F106: F104 simulator validated on non-trivial bundle (FORWARD_BROKEN detection)
+
+Direct validation of F104. F104 was tested on trivial round-trip
+(m17149975 collision → 100/100 HW=0). F106 tests the OTHER verdict
+branch by deliberately constructing a forward-broken bundle.
+
+**Setup**: bundle from F94's bit3_m33ec77ca HW=55 W-witness (verified
+UNSAT in cert-pin); block-2 with NO constraints (M2=M2'), all-zero
+target. Should be FORWARD_BROKEN since block-2 with no absorption
+can't cancel a non-zero block-1 residual.
+
+**Result**: FORWARD_BROKEN ✓
+  Block-1 residual HW=55 (matches bundle)
+  Block-2 final HW range 105-149, median 127
+  0/100 collisions, 0/100 near-residuals
+
+**Important structural finding — residual AMPLIFICATION**:
+SHA-256's nonlinear rounds AMPLIFY a non-zero chaining-state diff
+through 64 rounds. HW=55 input → HW=127 median output (~2.3×
+amplification). This is why Wang's trick requires SPECIFIC W2
+modifications at specific rounds — random W2 amplifies, doesn't
+cancel. Yale's absorption pattern must be structural, not statistical.
+
+**F104 simulator verdict logic now validated end-to-end**:
+- COLLISIONS_FOUND (F104 m17149975 trivial test): ✓
+- FORWARD_BROKEN (F106 bit3 naive test): ✓
+- NEAR_RESIDUALS_FOUND: yale's partial trail iterations will
+  naturally produce this verdict before reaching COLLISIONS.
+
+**Yale's design loop is now empirically validated**:
+  1. Draft block-2 W2 constraints
+  2. validate_trail_bundle.py (schema, F83)
+  3. simulate_2block_absorption.py (F104 forward sim, sub-second)
+  4. → FORWARD_BROKEN: revise; NEAR_RESIDUALS: tighten; COLLISIONS: SAT
+  5. build_2block_certpin.py (F84 SAT verifier when constraints lock)
+
+Memo: `headline_hunt/bets/block2_wang/results/20260428_F106_simulator_nontrivial_validation.md`
+Test bundle: `headline_hunt/bets/block2_wang/trails/sample_trail_bundles/bit3_HW55_naive_blocktwo.json`

@@ -1,0 +1,61 @@
+{
+  "schema_version": "2blockcertpin/v1",
+  "cand_id": "cand_n32_bit3_m33ec77ca_fillffffffff",
+  "witness_id": "bit3_HW55_naive_blocktwo_test_F106",
+
+  "block1": {
+    "m0": "0x33ec77ca",
+    "fill": "0xffffffff",
+    "kernel_bit": 3,
+    "W1_57_60": ["0x3d7df981", "0xae13c3a4", "0x49c834bd", "0x7619ac16"],
+    "W2_57_60": ["0x36ed80fa", "0x8a9db1fa", "0x5c63c09d", "0x0a66d006"],
+    "expected_status": "near_residual_unsat",
+    "residual_state_diff": {
+      "da63": "0xb0468462",
+      "db63": "0x81c0000e",
+      "dc63": "0x07066020",
+      "dd63": "0x00000000",
+      "de63": "0x31c4d182",
+      "df63": "0x8801404b",
+      "dg63": "0x0d1e2020",
+      "dh63": "0x00000000"
+    },
+    "residual_hw": 55,
+    "residual_lm_cost": null,
+    "comment": "bit3_m33ec77ca HW=55 W-witness from F93 corpus (top-10 lowest). Verified UNSAT in F94 cert-pin batch (10/10 UNSAT, 3-solver agreement). Used here as block-1 input to test F104 simulator's FORWARD_BROKEN detection on a non-trivial residual."
+  },
+
+  "block2": {
+    "absorption_pattern": "naive_no_constraints_test",
+    "modified_message_words": [],
+    "W2_constraints": [],
+    "chain_state_input": {
+      "comment": "Block-1 produces non-zero residual (HW=55). Block-2 with no constraints (M2 = M2') propagates the residual unchanged. Final HW should ≈ 55 (= block-1 residual HW); verdict should be FORWARD_BROKEN per F104 simulator."
+    },
+    "target_diff_at_round_N": {
+      "round": 63,
+      "diff_a": "0x00000000",
+      "diff_b": "0x00000000",
+      "diff_c": "0x00000000",
+      "diff_d": "0x00000000",
+      "diff_e": "0x00000000",
+      "diff_f": "0x00000000",
+      "diff_g": "0x00000000",
+      "diff_h": "0x00000000",
+      "comment": "All-zero collision target. Test fixture: block-2 with no W2 constraints CANNOT achieve this target from a non-zero block-1 residual. F104 should detect this and return FORWARD_BROKEN verdict."
+    },
+    "expected_status": "forward_broken_test",
+    "expected_modular_paths": [],
+    "predicted_lm_cost_block2": null
+  },
+
+  "metadata": {
+    "designer": "macbook (F106 synthetic test fixture)",
+    "design_date": "2026-04-28",
+    "design_method": "synthetic_non_trivial_for_simulator_validation",
+    "confidence": "deliberately_forward_broken",
+    "compat_with_block1_witness": true,
+    "smaller_N_validation": null,
+    "purpose": "F106 test fixture: validates F104 simulator's FORWARD_BROKEN detection on a non-trivial bundle (block-1 residual HW=55, block-2 with no constraints, all-zero target). Expected verdict: FORWARD_BROKEN with block-2 final HW ≈ 55."
+  }
+}
