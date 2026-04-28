@@ -2544,3 +2544,22 @@ Discipline: 0 SAT compute, 0 solver runs.
   retraction, 2 structural pivots (F207/F208), 0 SAT compute,
   0 solver runs throughout.
 
+
+## ~17:00 EDT — F209: var 2/var 130 are W1_57[0] and W2_57[0]
+
+- Read cascade_aux_encoder.py + lib/cnf_encoder.py
+- const_word allocates NO vars; free_word allocates 32 each
+- For sr=60 (n_free=4):
+  - Vars 2..129 = W1_57..W1_60 (M1 free schedule)
+  - Vars 130..257 = W2_57..W2_60 (M2 free schedule)
+- (var 2, var 130) = W1_57[0] and W2_57[0] — corresponding LSB
+  of M1 and M2's first free schedule word. mult=36 in 36 clauses.
+- This is exactly the differential-cryptanalysis dW = W2 ⊕ W1
+  structure at the encoder level.
+- Decoder design: 128-bit joint (M1, M2) schedule space; can
+  compose with yale's heuristic over the 64-bit hardlock space
+  for a hybrid BP + local-search algorithm.
+- F209 is the strongest cross-bet algorithm proposal of the
+  session: cascade_aux BP on schedule + block2_wang heuristic
+  on hardlocks.
+
