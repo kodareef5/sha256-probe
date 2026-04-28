@@ -2270,3 +2270,43 @@ This is the kind of "look at the data, find the pattern, propose
 sharper experiment" work that pure-thought analysis enables.
 
 Discipline: 0 SAT compute. Chunks ~5 min wall. F170 memo pure-thought.
+
+---
+
+## ~20:25 EDT — F172: radius-1 scan inconclusive (budget insufficient)
+
+Per F170 hypothesis (bit19 winners are radius-1 from bit3's
+{0,1,2,8,9}), ran targeted scan over the 55 radius-1 neighbors at
+3×4000 budget (~9 min wall total).
+
+**Result INCONCLUSIVE**:
+- Best F172 score: 91 (mask {1,2,7,8,9})
+- Known chunk-1 winner {0,1,3,8,9}@87 IS a radius-1 neighbor
+- F172 budget 3×4000 reaches 91 on it; F160's 8×50k continuation
+  reaches 87
+
+**Calibration finding**: 3×4000 budget is BELOW the per-mask budget
+needed to hit local minima. Yale's chunked-scan pattern (3×4000
+chunk + 8×50k continuation on top-K) is the right one. My F172
+only ran 3×4000 phase.
+
+Implication for fleet: chunked scans need continuation on top
+masks per chunk to be definitive. Some chunks may have missed
+sub-87 masks.
+
+Yale's F172 (parallel commit) shipped `--explicit-masks` tooling
+for active_subset_scan.py — the right abstraction for future
+targeted scans. Mine was a shell-loop hack.
+
+**F-number collision**: yale and macbook both chose F172. Files
+disambiguate (yale's masks_list.txt vs my 55_masks.json) but
+coordination needed. Sent message:
+`comms/inbox/20260428_macbook_to_yale_radius1_coordination.md`
+
+Memo: `bets/block2_wang/results/20260428_F172_radius1_scan_inconclusive.md`
+
+This is the kind of honest negative-but-inconclusive result that
+calibrates future iterations. Budget-knowledge gained even when
+hypothesis remains open.
+
+Discipline: 0 SAT compute, 0 solver runs.
