@@ -143,3 +143,42 @@ block is empirically UNSAT for all tested corpus W-witnesses.
 would close the registry-wide audit.
 
 Memo: `headline_hunt/bets/block2_wang/results/20260428_F99_5cand_extension_certpin.md`
+
+---
+
+## ~02:30 EDT — F100: Registry-wide top-10 cert-pin sweep — 67/67 cands, 0 SAT
+
+The largest empirical cert-pin batch in the project: extends F99's
+13-cand coverage to ALL 67 registry cands.
+
+**Sweep**: 54 new cands × 200k corpus build + top-10 cert-pin
+--solver all. 481s wall (8 min).
+
+**Result: 540 W-witnesses, 1,620 cross-solver cells, 0 SAT, 100%
+UNSAT.**
+
+**Combined cert-pin evidence corpus (FINAL F70-F100)**:
+  - 67 distinct cands (full registry coverage)
+  - 800+ distinct W-witnesses
+  - 2,272+ cross-solver cells
+  - 0 SAT, 100% near-residual
+
+**Empirical claim now LOCKED**:
+- No single-block sr=60 cascade-1 collision exists in the corpus
+  low-HW + HW=80 ceiling region for ANY of the 67 registry cands
+- No solver pathology (kissat + cadical + CMS all agree on UNSAT)
+- Combined with F77+F78+F79+F81 (~225M-conflict deep-budget SAT
+  search), single-block cascade-1 collisions at sr=60 N=32 are
+  unreachable at our compute scale
+
+Headline path is now EXCLUSIVELY the Wang block-2 absorption trail
+(yale's domain). F82 SPEC + F84 trivial round-trip pipeline ready.
+
+Sweep tool: `headline_hunt/bets/block2_wang/residuals/registry_top10_sweep.py`
+Summary JSON: `headline_hunt/bets/block2_wang/residuals/F100_registry_top10_sweep.json`
+Memo: `headline_hunt/bets/block2_wang/results/20260428_F100_registry_wide_top10_certpin.md`
+
+NOTE: 540 individual cert-pin runs NOT yet logged via append_run.py
+(would require generating 54 missing aux_expose CNFs first, ~5 min
+wall). Pending F101 follow-up. Registry currently 1069 (last logged
+F99 ended).
