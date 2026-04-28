@@ -2826,3 +2826,23 @@ Discipline: 0 SAT compute, 0 solver runs.
   for the bare-CNF case. BP marginal stage 3 deferred.
 - 37 commits this session.
 
+
+## ~18:24 EDT — F231/F232: SOUNDNESS BUG in shell_eliminate.py
+
+- Generated proper cert-pin CNF via build_certpin.py pipeline.
+- shell_eliminate said cert-pin (W=0) reduces to 0 clauses (SAT).
+- kissat says cert-pin (W=0) is UNSATISFIABLE in <15s.
+- BUG: my preprocessor produces FALSE-SAT verdicts on UNSAT inputs.
+- Root cause: var_pos/var_neg indices not updated eagerly when
+  BVE adds resolvents within a pass; subsequent vars classified
+  as pure literal based on stale counts → over-elimination.
+- F223-F230 preprocessor conclusions (94% elim, encoder universality,
+  200× speedup) are CORRECT only on bare SAT instances; INCORRECT
+  on cert-pin/HW-constrained UNSAT collision-finding cases.
+- Structural analysis F207-F217 unaffected (independent of
+  preprocessor soundness).
+- F232 retraction memo committed. Second retraction of session
+  (F205 was first). Ship-correction discipline holding.
+- Estimated fix: 1-2 hours of careful implementation work.
+- 38 commits this session.
+
