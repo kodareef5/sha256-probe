@@ -2392,3 +2392,20 @@ Discipline: 0 SAT compute, 0 solver runs.
   need ONE first sub-86 basin to bootstrap. SAT/BDD/tempering for
   basin discovery is the open question.
 
+
+## ~16:20 EDT — F188-F191: bit4 reaches 86 at random init (NEW deep basin!)
+
+- Multi-seed reproducibility on bit4/bit25/msb chunk-0:
+  - bit4 (F183 seed 8101 → 93) (F188 seed 9101 → **86** at {0,1,2,4,8})
+    SEVEN POINT seed-noise. New deep basin on distinguished cand.
+  - bit25 (F184 seed 8201 → 94) (F189 seed 9201 → 92) — 2pt spread
+  - msb  (F185 seed 8301 → 91) (F190 seed 9301 → 92) — 1pt spread
+- bit4 is FIRST distinguished cand to tie bit3's floor of 86 at
+  RANDOM init (no basin-init needed).
+- F186's "all distinguished cands sit above bit3" partially falsified.
+- F193 in flight: 8x50k continuation on bit4's {0,1,2,4,8}@86 mask.
+  If reaches sub-86, headline-class finding.
+- Combined with F187's cross-fixture basin propagation, the picture
+  shifts: distinguished cands DO have findable deep basins, just
+  via narrow seed schedules or basin-init.
+
