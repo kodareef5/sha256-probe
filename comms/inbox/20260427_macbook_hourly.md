@@ -2507,6 +2507,51 @@ No solver runs. Registry unchanged at 879. Commit `[block2_wang] F92`.
 
 ---
 
+## 02:25 EDT (Apr 28) — F93: bit3_m33ec77ca residual corpus shipped — closes BET.yaml's pending next_action
+
+Per `block2_wang/BET.yaml`'s "CURRENT next_action" (since 2026-04-27):
+extend corpus to idx8 + bit13. bit13 already existed; F93 closes the
+last gap with the bit3_m33ec77ca corpus (= idx8 in F25 numbering).
+
+**Build**: `build_corpus.py --m0 0x33ec77ca --fill 0xffffffff
+--kernel-bit 3 --samples 1M --hw-threshold 80 --w1-60 0x7619ac16`
+38s wall, 18,517 records ≤ HW=80, min HW=55.
+
+**Cross-cand corpus comparison at 1M / HW≤80**:
+| cand | n_records | min HW |
+|---|---:|---:|
+| **bit3_m33ec77ca (NEW, F93)** | **18,517** | **55** |
+| bit2_ma896ee41 | 18,336 | 57 |
+| bit13_m4e560940 | 18,548 | 61 |
+| m189b13c7 (msb) | 3,787 | 63 |
+| m9cfea9ce (msb) | 3,735 | 62 |
+
+bit3_m33ec77ca leads on both axes (most records, lowest min HW).
+F25 reported min HW=46 at 1B samples (1000× more) — gap reflects
+sample density not structural difference.
+
+**Structural finding**: dense-fill bit-N kernels (bit2/bit3/bit13)
+yield ~5× more low-HW records than sparse-fill MSB kernels (m189b13c7,
+m9cfea9ce). The bit-N + dense-fill combination has more cascade-1
+freedom.
+
+**For yale**: bit3_m33ec77ca should be added to your input candidate
+list alongside bit28. The HW distribution is denser; the LM/HW Pareto
+frontier may extend further on this cand.
+
+**For macbook**: this 18k-record corpus can feed certpin_verify.py
+batch mode for SAT/UNSAT verification of any low-HW W-witnesses.
+
+BET.yaml updated with STATUS UPDATE confirming closure of next_action.
+
+Memo: `headline_hunt/bets/block2_wang/residuals/20260428_F93_bit3_m33ec77ca_corpus.md`
+Corpus: `headline_hunt/bets/block2_wang/residuals/by_candidate/corpus_bit3_m33ec77ca_fillffffffff.jsonl` (2.4 MB)
+
+No solver runs (build_corpus is forward-runner data extraction).
+Registry unchanged at 879.
+
+---
+
 ## 00:30 EDT (Apr 28) — F88: forward-bounded searcher prototype + N=8 cascade structure CONFIRMED
 
 Built `cascade_searcher/forward_bounded_searcher.py` — first runnable

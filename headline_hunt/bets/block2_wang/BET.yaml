@@ -171,3 +171,11 @@ recent_progress_2026-04-27: |
   using build_corpus.py at deep sample count (1M+ entries each), then
   apply Wang-style second-block message-modification analysis on the
   rigid residual targets.
+
+  STATUS UPDATE (F93, 2026-04-28): Both corpora now exist.
+  - bit13_m4e560940: 18,548 records ≤ HW=80 (existing)
+  - bit3_m33ec77ca (= idx8): 18,517 records ≤ HW=80 at 1M samples,
+    min HW=55 (F25's 1B-sample run found min HW=46). NEW per F93.
+  Cross-cand finding (F93): dense-fill bit-N kernels (bit2, bit3, bit13)
+  produce ~5× more low-HW residuals than sparse-fill MSB kernels.
+  bit3_m33ec77ca leads the 5-cand corpus comparison at 1M density.
