@@ -2215,3 +2215,50 @@ future encoder changes.
 
 Memo: `headline_hunt/bets/block2_wang/results/20260427_F84_2block_certpin_trivial_roundtrip.md`
 
+---
+
+## 23:55 EDT — F85 + F86: cascade-equation searcher SPEC + brute-force baseline
+
+User suggested a tiny custom solver around the cascade equations:
+> "standalone reduced-N searcher over the cascade variables and
+> schedule residues, with aggressive memoization and explicit failure
+> explanations. ... discover a representation, not beat Kissat."
+
+**F85 SPEC** (`cascade_searcher/SPEC.md`): 3-layer variable structure
+(message-diff / schedule-residue / cascade-state), modular propagation
+rules, memoization key, failure-explanation format, depth-first search
+algorithm sketch, wall-time projections.
+
+**F86 baseline** (`cascade_searcher/bf_baseline.py`): mini-SHA-256
+enumerator at small N. The benchmark the eventual searcher must beat.
+
+**Results** (rounds=64, dm in {m[0], m[9]}, m0=zero):
+
+| N | patterns | wall | collisions | min residual HW |
+|---|---:|---:|---:|---:|
+| 4 | 256 | 0.07s | 0 | 7 |
+| 6 | 4 096 | 0.84s | 0 | 12 |
+| 8 | 65 536 | 13.1s | 0 | 16 |
+| 10 | 1 048 576 | running ~3 min | TBD | TBD |
+
+Pattern: HW_min ≈ 2N - 1. Wall scales 16× per +2 N. **No full
+collisions in restricted (m0, m9) dm space at small N** — confirms
+cascade-1 is N-dependent for collision yield even though F34's modular
+relations are N-invariant. Custom solver's value-add is structural
+insight (failure cores, modular invariants across N), not raw speed
+below N=12.
+
+**Concrete next moves**:
+1. Wait for N=10 result (in flight); append to F86 memo when complete
+2. Extend baseline to allow more dm freedom (m[0..15]) — but that
+   requires the searcher (memoization + early-cutoff), so it's
+   next-session work
+3. Build searcher in C using SPEC's algorithm (~300-500 LOC)
+
+Memo: `headline_hunt/bets/block2_wang/cascade_searcher/20260427_F85_F86_searcher_spec_and_baseline.md`
+SPEC: `headline_hunt/bets/block2_wang/cascade_searcher/SPEC.md`
+Tool: `headline_hunt/bets/block2_wang/cascade_searcher/bf_baseline.py`
+
+No solver runs (Python brute force is enumeration, not SAT). Registry
+unchanged at 879 runs.
+
