@@ -45,6 +45,7 @@ A single JSON file, `block2_trail_<cand_id>_<witness_id>.json`, with:
     "fill": "0xffffffff",
     "kernel_bit": 28,
     "W1_57_60": ["0xce9b8db6", "0xb26e4c72", "0x4b04cbc4", "0x0a0627e6"],
+    "W2_57_60": ["0x...", "0x...", "0x...", "0x..."],
     "expected_status": "near_residual_unsat",
     "residual_state_diff": {
       "a63":"0x...","b63":"0x...","c63":"0x...","d63":"0x...",
@@ -109,6 +110,11 @@ A single JSON file, `block2_trail_<cand_id>_<witness_id>.json`, with:
 ### Required fields (minimum to attempt verification)
 
 - `block1.{m0, fill, kernel_bit, W1_57_60}` — needed to rebuild block-1 CNF
+- `block1.W2_57_60` — RECOMMENDED for forward simulation (cascade-1
+  picks W2[57..60] specifically; without this, simulator falls back
+  to natural-schedule W2 which produces a different residual). Yale's
+  online sampler computes both via cascade offsets, so include both
+  in shipped bundles.
 - `block1.residual_state_diff` — yale's claim about what block-1 produces
 - `block2.W2_constraints` — yale's trail (each constraint becomes CNF clauses)
 - `block2.target_diff_at_round_N` — collision target (zeros = full collision)

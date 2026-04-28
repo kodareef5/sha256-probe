@@ -316,3 +316,46 @@ verification pipeline is production-grade and ready.
 
 Dashboard: `headline_hunt/reports/dashboard.md`
 Fleet msg: `comms/inbox/20260428_macbook_to_yale_certpin_axis_closed.md`
+
+---
+
+## ~03:50 EDT — F104: simulate_2block_absorption.py — pre-SAT forward simulator for trail bundles
+
+Direct contribution to the headline path. F84 handled trivial cases by
+delegating to single-block cert-pin; non-trivial bundles errored out
+with "encoder extension required". F104 fills a gap in the OTHER
+direction: pre-SAT forward simulation of yale's eventual block-2
+trail bundles.
+
+**Tool**: `block2_wang/encoders/simulate_2block_absorption.py`
+
+Takes a trail bundle JSON (per F82 SPEC v1), forward-simulates
+deterministically, reports verdict:
+- COLLISIONS_FOUND: simulator found block-2 W2 samples producing
+  HW=0 final → submit to SAT verifier
+- NEAR_RESIDUALS_FOUND: HW≤target+4 → SAT may find collision
+- FORWARD_BROKEN: no consistent samples → trail design is buggy
+- BUNDLE_INCONSISTENT_BLOCK1: claimed block-1 residual ≠ actual
+  forward sim → bundle has wrong reference data
+
+**End-to-end test**: m17149975 trivial bundle (HW=0 single-block
+collision) → 100/100 random block-2 samples produce HW=0. ✓
+
+**SPEC update**: F82 SPEC v1 now includes optional W2_57_60 field
+in block1 spec. Cascade-1 picks W2[57..60] specifically (NOT M2's
+natural schedule), so yale's online sampler should ship both
+W1_57_60 and W2_57_60 in the trail bundle. Without W2_57_60,
+simulator falls back to natural-schedule W2 which produces a
+different residual.
+
+**For yale**: this is the pre-SAT validation tool. Run on each
+trail bundle BEFORE submitting to certpin_verify. Saves SAT
+compute on forward-broken designs.
+
+Pipeline:
+  yale ships trail bundle
+  → validate_trail_bundle.py (schema check)
+  → simulate_2block_absorption.py (forward consistency)
+  → build_2block_certpin.py (SAT verifier when ready)
+
+Memo: integrated into 2BLOCK_CERTPIN_SPEC.md update (W2_57_60 field).
