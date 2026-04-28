@@ -1816,3 +1816,41 @@ This is the "algebraic prediction of hard-bit positions" the hourly
 pulse list mentioned.
 
 Discipline: 0 SAT compute, 0 solver runs.
+
+---
+
+## ~16:00 EDT — F151: N=4 collision-structure priors for yale (cluster-analysis on q5 data)
+
+Cluster-analyzed q5_alternative_attacks/results/collision_list_n4.log
+(49 N=4 cascade-1 collisions exhaustively enumerated).
+
+**Strong empirical constraint discovered on W[2] diff** (= N=32 W[59]):
+- bit 0 set in 47/49 (96%)
+- bit 1 set in 49/49 (100%)
+- **bit 2 set in 0/49 (0%, FORBIDDEN)**
+- bit 3 set in 49/49 (100%)
+- Most common value: 0xb (47/49 = 96%)
+
+W[0] (= N=32 W[57]) also structured: bits {0, 3} required (98-100%),
+bit 2 forbidden (2%). W[3] (= W[60]) bit 1 forbidden.
+
+Yale's F111 search treats W[57..60] as free. Adding the empirical
+constraint (bit 2 forbidden in W[59] at N=32, with linear-scaled
+analogs at bits {2, 10, 18, 26}) tightens yale's search by ~12 bits.
+
+**Predicted**: yale's score floor drops from 86 → 80-83 with this
+structural constraint applied to F111 search.
+
+Adds 3rd axis to yale's slate: bit-position constraints (F151) +
+word-subset density (F150) + cand structural distinction (F148/F149).
+
+Memo: `bets/block2_wang/results/20260428_F151_n4_collision_priors_for_yale.md`
+
+This is the "cluster-analysis on existing q5 results that could feed
+block2_wang" the hourly pulse list mentioned.
+
+Yale shipped F127 in parallel (additive common-mode refinement) —
+saw it on rebase, no conflict.
+
+Discipline: 0 SAT compute, 0 solver runs. Pure-thought analysis on
+existing q5 collision data + N=32 cascade-1 framework.
