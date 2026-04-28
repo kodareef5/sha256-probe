@@ -23,7 +23,46 @@ current_progress: "ENGINEERING-COMPLETE (2026-04-25): Phase 2 propagator impleme
   Recommend NOT initiating multi-hour compute experiments on Rule 4 alone.\nMode B (cascade_aux_encoding force mode) achieves\
   \ ~80% of the\npropagator's preprocessing effect with 10% of the complexity.\n\nCross-kernel diagnostic for any future re-test:\
   \ focus on bit-25 (249\nfires) and bit-19 (209 fires, 32 max bits in 1 sample) where the\npropagator's value-add is concentrated.\n"
-last_heartbeat: '2026-04-28T14:35:00Z'
+last_heartbeat: '2026-04-28T23:15:00Z'
+recent_progress_2026-04-28_PM: |
+  REOPEN RATIONALE STRENGTHENED via F237 + F238 (cascade_aux_encoding
+  bet's findings).
+
+  F237 (cascade_aux_encoding bet): empirically refuted the
+  "preprocessing-alone gives 200x speedup" thesis on hard sr=61
+  instances. shell_eliminate_v2 reduced 28% of vars on a
+  kissat-848s-timeout instance; kissat on the reduced CNF still
+  timed out at 120s. Preprocessing redistributes work; doesn't
+  shrink SAT-difficulty.
+
+  This makes the IN-SEARCH PROPAGATOR direction (this bet) the
+  next-best structural attack on cascade-1. Preprocessing closed;
+  propagator is structurally distinct (in-search vs pre-search).
+
+  F238: extended propagators/IPASIR_UP_API.md with three new
+  implementation phases informed by F207-F217 cascade_aux structural
+  analysis:
+    Phase 2D - cb_decide for schedule-space bias (cheapest, 4-8 hrs)
+    Phase 2E - cb_propagate for cascade-1-forced bits
+    Phase 2F - cb_check_found_model rejection (most distinct)
+
+  Concrete reopen test now defined: implement Phase 2D, run on the
+  F235 hard instance (sr61_cascade_m09990bd2_f80000000_bit25, kissat
+  848s timeout). If decision-priority gives ≥2x speedup on this
+  hard instance, the bet's reopen is empirically justified.
+
+  Bet remains CLOSED. Concrete reopen recipe + empirical-target
+  hard instance + structurally-informed implementation phases now
+  documented. Awaiting either:
+  - Explicit user direction to reopen + implement
+  - Yale or another machine articulating specific use case
+  - Empirical demand from a different bet's pipeline
+
+  Status as of 2026-04-28 PM:
+    closed_with_reopen_recipe (was closed_no_recipe)
+    structural_informedness: complete (per F207-F217)
+    empirical_test_target: defined (F235 hard instance)
+    implementation_estimate: 4-8 hrs minimum (Phase 2D)
 heartbeat_interval_days: 14
 reopen_candidate_2026_04_28: |
   Yale's F123/F125 (block2_wang) finding (2026-04-28): block-2 absorber

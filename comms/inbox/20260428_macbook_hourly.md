@@ -2902,3 +2902,17 @@ Discipline: 0 SAT compute, 0 solver runs.
   IPASIR-UP becomes the next-best structural attack direction.
 - 42 commits this session.
 
+
+## ~19:15 EDT — Hour pulse: programmatic_sat_propagator BET.yaml heartbeat refresh
+
+- git pull --rebase: already up to date.
+- Dashboard regenerated. validate_registry: 0 errors, 0 warnings.
+- Refreshed programmatic_sat_propagator/BET.yaml heartbeat with
+  REAL substantive content (not timestamp bump):
+  - last_heartbeat: 14:35 → 23:15 (today)
+  - recent_progress_2026-04-28_PM captures F237 (preprocessing
+    refuted) + F238 (IPASIR-UP API extension with 3 new phases)
+  - Status updated: closed_with_reopen_recipe (was closed_no_recipe)
+  - Concrete reopen test: Phase 2D on F235 hard instance
+- 43 commits this session.
+
