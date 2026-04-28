@@ -2160,3 +2160,33 @@ Memo: `bets/block2_wang/results/20260428_F159_F160_bit19_chunk1_and_continuation
 
 Discipline: 0 SAT compute, 0 solver runs (heuristic local search,
 not SAT). 165 sec wall total.
+
+---
+
+## ~19:00 EDT — F161: bit19 chunk 34 + partition coordination message
+
+Yale and macbook PARALLEL-DISCOVERED bit19 score-87 on chunk 1. Same
+candidate {0,1,3,8,9} found independently within minutes. Wrote
+partition coordination message to yale + ran macbook's first claimed
+chunk.
+
+**Partition proposal**:
+- Yale: chunks 2-33 (~32 chunks)
+- Macbook: chunks 34-67 (~34 chunks)
+
+**F161 chunk 34 ran (108 sec)**:
+- Best: {1,6,7,11,14} at score 91 (no improvement)
+- Top 16 cluster around {1,6,...} — different active-word pattern
+  from chunks 0-1's dual-wave dominance
+
+If yale picks up chunks 2-33, full bit19 scan completes in ~1 hour
+wall per machine.
+
+Coordination message: `comms/inbox/20260428_macbook_to_yale_chunk_partition.md`
+
+The parallel-discovery moment is great empirical robustness — both
+machines independently reached score-87. But duplicates wasted ~2 min
+each. Future chunks must be partitioned.
+
+Discipline: 0 SAT compute, 0 solver runs (heuristic). 108 sec chunk
+34 + ~30 sec doc-writing wall total.
