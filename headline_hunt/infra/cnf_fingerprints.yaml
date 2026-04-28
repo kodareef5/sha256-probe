@@ -102,10 +102,11 @@
   vars_range: [12450, 13350]   # widened 2026-04-25 for modular-diff aux (Phase 2C-Rule4); cap < sr61 range
   clauses_range: [52400, 55300]
   example_file: "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_expose_sr60_n32_bit31_m17149975_fillffffffff.cnf"
-  observed_n_kernels: 9
-  observed_vars: [12540, 13248]   # before / after modular-diff aux added
-  observed_clauses: [52454, 54919]
-  last_audited: "2026-04-25"
+  observed_n_kernels: 24
+  observed_vars: [12540, 13256]   # before / after modular-diff aux added
+  observed_clauses: [52454, 54947]
+  last_audited: "2026-04-28"
+  notes: "2026-04-28 re-audit: 60 sr60 expose CNFs in cascade_aux/cnfs/ (largest bucket), 24 distinct kernel-bits. Empirical range [12540,13256] / [52454,54947] within fingerprint envelope."
 
 - bucket_id: sr60_n32_cascade_aux_force
   sr_level: 60
@@ -113,11 +114,12 @@
   encoder_variant: "cascade_aux_force"
   vars_range: [12450, 13350]   # widened 2026-04-25 for modular-diff aux (Phase 2C-Rule4); cap < sr61 range
   clauses_range: [52400, 55300]
-  observed_n_kernels: 9
-  observed_vars: [12540, 13248]
-  observed_clauses: [52454, 54919]
+  observed_n_kernels: 15
+  observed_vars: [12540, 13255]
+  observed_clauses: [52454, 54947]
   example_file: "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit31_m17149975_fillffffffff.cnf"
-  last_audited: "2026-04-25"
+  last_audited: "2026-04-28"
+  notes: "2026-04-28 re-audit: 28 sr60 force CNFs in cascade_aux/cnfs/, 15 distinct kernel-bits. Empirical range [12540,13255] / [52454,54947] within fingerprint envelope."
 
 - bucket_id: sr61_n32_cascade_aux_expose
   sr_level: 61
@@ -125,11 +127,11 @@
   encoder_variant: "cascade_aux_expose"
   vars_range: [13360, 14000]   # widened 2026-04-25 for modular-diff aux; floor > sr60 cap
   clauses_range: [55400, 56500]
-  observed_n_kernels: 9
-  observed_vars: [12816, 13900]    # before / after modular-diff aux
-  observed_clauses: [53698, 55834]
+  observed_n_kernels: 18
+  observed_vars: [13444, 13900]    # 2026-04-28 re-audit: 32 CNFs, 18 distinct kernel-bits
+  observed_clauses: [55834, 56233]
   example_file: "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_expose_sr61_n32_bit31_m17149975_fillffffffff.cnf"
-  last_audited: "2026-04-26"
+  last_audited: "2026-04-28"
   notes: |
     2026-04-26: locked-bit-hint wrapper output (locked_bit_hint_wrapper.py)
     SHARES this fingerprint range. Naming convention:
@@ -144,11 +146,11 @@
   encoder_variant: "cascade_aux_force"
   vars_range: [13360, 14000]
   clauses_range: [55400, 56500]
-  observed_n_kernels: 9
-  observed_vars: [12816, 13900]
-  observed_clauses: [53698, 55834]
+  observed_n_kernels: 18
+  observed_vars: [13444, 13900]    # 2026-04-28 re-audit: 32 CNFs, 18 distinct kernel-bits
+  observed_clauses: [55834, 56233]
   example_file: "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr61_n32_bit31_m17149975_fillffffffff.cnf"
-  last_audited: "2026-04-26"
+  last_audited: "2026-04-28"
   notes: |
     2026-04-26: locked-bit-hint wrapper output (Mode B + hints) shares this
     fingerprint range when named aux_force_sr61_*_lbh.cnf. n=18 verified.

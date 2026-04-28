@@ -2215,3 +2215,34 @@ Yale's parallel pace: ran chunks 0-4 by mid-hour. Fleet velocity ~5-7
 chunks/hour combined.
 
 Discipline: 0 SAT compute, 0 solver runs. 108 × 3 = 324 sec wall.
+
+---
+
+## ~19:50 EDT — F165/F166: chunks 40-42 + cascade_aux/cnfs/ full re-audit
+
+**F165 chunks 40-42**:
+- Chunk 40: 90 on {2,3,11,12,15}
+- Chunk 41: 89 on {2,4,6,11,13}
+- Chunk 42: 92 on {2,4,9,11,15}
+
+bit19 floor unchanged at 87. Macbook progress: chunks 34-42 (9 of 34
+assigned) complete.
+
+**F166 cascade_aux/cnfs/ full re-audit** (parallel registry hygiene):
+- 152/152 cascade_aux CNFs CONFIRMED
+- Updated 4 cnf_fingerprints.yaml buckets with correct
+  observed_n_kernels:
+  - sr60 expose: 9 → 24 (60 CNFs, 24 distinct kernel-bits)
+  - sr60 force: 9 → 15 (28 CNFs, 15 kernel-bits)
+  - sr61 expose: 9 → 18 (32 CNFs, 18 kernel-bits)
+  - sr61 force: 9 → 18 (32 CNFs, 18 kernel-bits)
+- Bumped last_audited to 2026-04-28 for all 4 cascade_aux buckets
+- Empirical ranges all within fingerprint envelopes
+- validate_registry: 0 errors, 0 warnings
+
+Combined audit coverage today (F111 + F166):
+- cnfs_n32/: 78/78 CONFIRMED (F111)
+- cascade_aux/cnfs/: 152/152 CONFIRMED (F166)
+- **TOTAL: 230/230 CNFs CONFIRMED**, 0 audit failures
+
+Discipline: 0 SAT compute, 0 solver runs.
