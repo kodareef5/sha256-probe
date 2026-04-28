@@ -2465,3 +2465,24 @@ Discipline: 0 SAT compute, 0 solver runs.
 - F201 unified memo committed. Next: 8×50k continuation on the
   newly found sub-90 masks, OR pivot to non-heuristic.
 
+
+## ~16:35 EDT — F202-F205: F201 retraction and correction
+
+- F202-F204 ran 8×50k F135-init on F195-F197's sub-90 masks.
+  Results: bit4=95, bit25=91, msb=95. Could NOT reproduce the
+  88-89 from chunked-scan.
+- Investigation: F187/F195 sub-90 findings came from RESTART 1
+  (random init), not restart 0 (F135 init). F196/F197 were
+  genuine F135 init but at 4000 iter — TRANSIENT local minima.
+  At 8×50k they evaporate to 91-95.
+- F205 retraction memo: F201's "F135 dominates as universal seed"
+  claim was overstated. Sub-90 results on bit25/bit28/msb did
+  NOT survive 8×50k verification.
+- Corrected picture (8x50k floor): bit3=86, bit4=86, bit19=87,
+  bit25/bit28/msb ≥ 91. Closer to F186's original.
+- F143 weak form holds for bit3+bit4+bit19; not demonstrated for
+  bit25/bit28/msb.
+- 86 protocol floor stands. Calibration sharpens: 8×50k is minimum
+  budget for any score claim. 4000-iter chunked-scan = candidate
+  discovery, not validated floor.
+
