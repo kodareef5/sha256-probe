@@ -1592,3 +1592,39 @@ verification: 8/8 OK.
 validate_registry: 0 errors, 0 warnings.
 
 Discipline: 0 SAT compute, 0 solver runs. Pure file rename.
+
+---
+
+## ~14:15 EDT — F145: candidates.yaml cert-pin coverage notes — 31 cands updated
+
+Pre-update analysis revealed: 35 of 67 cands had sr60.status="unknown"
+DESPITE having 10-94 runs each in runs.jsonl. The status was stale —
+F70-F102 cert-pin sweep tested all of them, but candidates.yaml
+hadn't been updated.
+
+Bulk-updated 31 cands (4 had non-null notes already, skipped):
+- Populated sr60.notes with cert-pin coverage string
+- Reference: "F70-F102 cert-pin coverage 2026-04-28: <N> runs
+  logged, all UNSAT in HW range [44,120]; see
+  negatives.yaml#single_block_cascade1_sat_at_compute_scale"
+
+Top-coverage cands (run counts):
+- bit28_md1acca79: 94 runs (yale's primary)
+- bit3_m33ec77ca: 92 runs
+- bit2_ma896ee41: 76 runs
+- msb_m9cfea9ce: 46 runs
+- msb_ma22dc6c7: 44 runs
+- bit18_m99bf552b: 44 runs
+
+Per-cand status enum unchanged (still "unknown" — cert-pin doesn't
+prove full UNSAT for the cand, only verifies tested W-witnesses).
+The notes field documents EVIDENCE without overstating verdict.
+
+validate_registry.py: 0 errors, 0 warnings post-bulk-edit.
+
+Combined with F140-F141 (kernels.yaml refresh, 20 entries) and F143
+(structurally distinguished cands list), the registry is now in
+substantially better alignment with empirical reality across all
+three layers (kernels / cands / negatives).
+
+Discipline: 0 SAT compute, 0 solver runs.
