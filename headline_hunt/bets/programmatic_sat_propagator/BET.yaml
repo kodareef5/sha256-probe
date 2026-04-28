@@ -23,5 +23,33 @@ current_progress: "ENGINEERING-COMPLETE (2026-04-25): Phase 2 propagator impleme
   Recommend NOT initiating multi-hour compute experiments on Rule 4 alone.\nMode B (cascade_aux_encoding force mode) achieves\
   \ ~80% of the\npropagator's preprocessing effect with 10% of the complexity.\n\nCross-kernel diagnostic for any future re-test:\
   \ focus on bit-25 (249\nfires) and bit-19 (209 fires, 32 max bits in 1 sample) where the\npropagator's value-add is concentrated.\n"
-last_heartbeat: '2026-04-25T18:00:00Z'
+last_heartbeat: '2026-04-28T14:35:00Z'
 heartbeat_interval_days: 14
+reopen_candidate_2026_04_28: |
+  Yale's F123/F125 (block2_wang) finding (2026-04-28): block-2 absorber
+  candidates are STRICT radius-2 local minima even under common-mode
+  flips. All bit-flip directions exhausted. Yale's stated next step:
+  "structured moves that preserve late-schedule features, OR a solver
+  that reasons directly over schedule words W16-W30 instead of raw
+  message-bit flips."
+
+  This is precisely what the propagator was built for. The bet's
+  existing 1310 LOC + IPASIR-UP infrastructure + Rule 4-5 substrate
+  could be repurposed for yale's structured-search needs.
+
+  Concrete reopen path (if yale escalates demand):
+  - Connect propagator to block2_wang absorber search loop
+  - Use propagator's bit-tracking substrate to enforce schedule
+    constraints during local search (escape radius-2 minima via
+    propagation rather than enumeration)
+  - Test on yale's score-86 fixture: does propagator-guided search
+    find lower-score absorbers than pure simulated annealing?
+
+  Also connects to principles framework's BP-Bethe synthesis (synthesis
+  8 + F134-F139 calibration on cascade_aux N=32): the propagator IS a
+  bespoke message-passing engine on cascade-1's Tanner graph. BP-Bethe
+  is a poly-time algorithmic alternative.
+
+  Bet stays closed until yale or another machine articulates a specific
+  use case demand. F123/F125 + this entry document the reopen-candidate
+  context.

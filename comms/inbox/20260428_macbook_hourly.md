@@ -1666,3 +1666,41 @@ yale's algorithmic-search work (F109-F123). Complementary attack
 vectors on sr=60-and-beyond barrier.
 
 Discipline: 0 SAT compute, 0 solver runs.
+
+---
+
+## ~14:40 EDT — F147: programmatic_sat_propagator BET.yaml reopen-candidate context (yale F125 alignment)
+
+Yale's F125 finding ("structured solver reasoning over W16-W30 instead
+of raw message-bit flips") DIRECTLY aligns with what
+programmatic_sat_propagator was built for (1310 LOC C++ + IPASIR-UP
++ Rule 4-5 schedule-aware substrate).
+
+The bet was closed when kill criterion #3 fired (Rule 4 = Mode B
+preprocessing equivalence, 1.9× overhead). But yale's 2026-04-28
+finding articulates a SPECIFIC use case demand the original closure
+couldn't anticipate.
+
+Updated BET.yaml with `reopen_candidate_2026_04_28` field
+documenting:
+- The F123/F125 alignment (yale's stated next step IS what the
+  propagator was built to do)
+- Concrete reopen path (connect propagator to block2_wang absorber
+  search loop; use bit-tracking substrate to escape radius-2 minima
+  via propagation)
+- Connection to principles framework BP-Bethe synthesis (the
+  propagator IS a bespoke message-passing engine; BP-Bethe is the
+  poly-time alternative)
+- Heartbeat refreshed: 2026-04-25 → 2026-04-28
+
+Bet stays closed (no compute committed, no actual reopen). The entry
+DOCUMENTS the reopen-candidate context so future fleet decisions
+have the structural cross-reference.
+
+validate_registry: 0 errors, 0 warnings.
+
+This is fleet-coordination registry hygiene: when yale's algorithmic
+search needs an alternative to local search, the propagator's
+existing engineering investment is documented as available.
+
+Discipline: 0 SAT compute, 0 solver runs.
