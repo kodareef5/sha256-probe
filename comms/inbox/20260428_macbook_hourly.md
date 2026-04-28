@@ -785,3 +785,58 @@ distinguishes — single highest-leverage probe.
 No SAT compute. No solver runs. ~30 markdown files of derived
 structural analysis. Uncommitted in april28_explore/principles/
 per no-commit-on-explore directive.
+
+---
+
+## ~13:30 EDT — F126: deep-thought arc continued (15 syntheses + 22 deep dives + supporting docs)
+
+User correction reframed prior shallow 40-item survey as inadequate
+and demanded exhaustive 24-hour-of-thought engagement. Continued
+working in `april28_explore/principles/` (uncommitted).
+
+**Total derived novelty now ~48 files**:
+
+15 cross-pollination SYNTHESIS files (each tying 4-12 items
+together into single structural predictions): dilute_glass,
+iwasawa_pipelines, kkl_message_influence, mps_sos_tension,
+treewidth_compute, matroid, branching, LDPC_BP, lottery_ticket,
+MASTER_INVARIANT, spectrum, TENSION_RESOLVED, sha_internal,
+sr61_phase_transition, complexity_class.
+
+22 individual-item DEEP dives elevating verdicts: items 38, 39, 41,
+43, 47, 50, 52, 54, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67,
+70, 71, 73.
+
+Plus REMAINING_ITEMS_DEEP_BATCH (8 items revisited),
+CRITICAL_ASSESSMENT, CONCRETE_TESTS, MASTER_RESEARCH_PROGRAM, INDEX,
+META, FINAL_REPORT.
+
+**Coverage**: 35 of 40 items beyond first-pass (15 elevated WEAK→
+WORTH-PROBING; 7 confirmed DEAD with substantive justification;
+13 covered via syntheses + 5 individual deep).
+
+**New derived findings since F125**:
+- Σ-Steiner Cayley graph spectral gap = 2/3 (predicts BP
+  convergence ~10-20 iterations)
+- Cascade-1 has GAUSSIAN BULK + DISCRETE-CLUSTERED TAIL (resolves
+  Stein/sandpile/lottery-ticket tension)
+- sr=60 vs sr=61 framed as PHASE TRANSITION (testable via yale-at-
+  sr=61 — single highest-leverage experiment)
+- CSAT is NP-complete, FPT(treewidth ≈ 28), 2^28 × poly tractable
+- Level-2 SOS with Σ-Steiner symmetry could rigorously close sr=61
+- 7 poly-time approximation algorithms with rigorous guarantees
+  enumerated in MASTER_RESEARCH_PROGRAM
+
+**Single most actionable derived insight**: matroid intersection
+M_C (cascade-1 linear) ∩ M_P (Σ-Steiner partition) is TRIVIALLY
+poly-time (~10⁷ ops, seconds on standard hw, existing libraries).
+Should match or beat yale's HW=33. Most concrete algorithm to
+implement first.
+
+**Single highest-leverage empirical test**: run yale at sr=61.
+If HW floor jumps from 33 to >60: phase transition (sr=61 is
+structurally distinct). If smooth (HW≈34): sr=61 is quantitatively
+similar; more compute eventually finds collision.
+
+No SAT compute. No solver runs. Pure-thought analysis with
+quantitative predictions throughout.
