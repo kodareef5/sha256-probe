@@ -54,6 +54,9 @@ is dead.
 
 ### New #2 — BP marginals don't reduce CDCL solve time on cascade_aux
 
+**Status as of 2026-04-28 (F237)**: PARTIALLY FIRED at the
+preprocessor-alone level.
+
 **Trigger**: BP marginals computed on hard core are used as decision-
 priority hints for kissat. Compared to baseline kissat + Mode B stack
 hints, the BP-priority-augmented run does NOT show statistically
@@ -64,10 +67,22 @@ bet's mechanism for headline-relevance. If marginals are computed
 correctly but don't help CDCL, the structural pivot was the wrong
 direction.
 
-**Required evidence to fire**:
-- 10 cascade_aux N=32 instances solved with BP-priority + kissat
-- Same 10 with baseline + Mode B
-- Wall-time comparison + variance analysis
+**F237 partial firing**: shell_eliminate_v2 (Stage 1 only, no BP
+marginals) on a HARD sr=61 instance (kissat 848s timeout):
+  - v2 reduction: 28% var elimination in 15s
+  - kissat on v2-reduced CNF: status UNKNOWN at 120s timeout
+  - Conclusion: preprocessing-alone path is empirically refuted
+
+This doesn't kill the BP marginal direction itself (Stage 2/3 not
+yet implemented), but the underlying premise that "shrinking the
+problem via preprocessing helps CDCL solve faster" is empirically
+false on hard cascade-1 instances. Stage 2/3 implementation must
+provide value beyond what Stage 1 gives.
+
+**Required evidence to fully fire**:
+- BP marginal implementation tested on the same hard instance
+- ≥1.5× median CDCL speedup with BP-priority hints
+- Or: confirmed null result at full F211 stack
 
 ### New #3 — 184-dim active-schedule reformulation doesn't reduce search
 
