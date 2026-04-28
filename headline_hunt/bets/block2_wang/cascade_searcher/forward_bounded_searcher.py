@@ -297,6 +297,26 @@ def main():
                 print(f"  HW={hw:>3}  dm=({hex(dm[0])}, {hex(dm[1])})")
         else:
             print("No non-trivial dm patterns satisfy these constraints.")
+        if args.out_json:
+            with open(args.out_json, "w") as f:
+                json.dump({
+                    "N": args.N,
+                    "positions": positions,
+                    "rounds": args.rounds,
+                    "constraints": [{"register": "abcdefgh"[r], "round": rnd}
+                                     for r, rnd in constraints],
+                    "total_patterns": span * span,
+                    "non_trivial_survivors": len(survivors),
+                    "wall_seconds": round(wall, 3),
+                    "min_residual_hw": survivors[0][1] if survivors else None,
+                    "best_dm": list(survivors[0][0]) if survivors else None,
+                    "final_hw_distribution": dict(final_hw_distribution),
+                    "survivors": [
+                        {"dm": list(dm), "residual_hw": hw}
+                        for dm, hw in survivors
+                    ],
+                }, f, indent=2)
+            print(f"\nFull survivor list: {args.out_json}", file=sys.stderr)
         sys.exit(0)
 
     if args.threshold is not None:
