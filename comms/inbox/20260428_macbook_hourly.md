@@ -2125,3 +2125,38 @@ This is the IPASIR-UP API survey the hourly pulse mentioned — already
 existed in skeleton form, now extended with today's use case.
 
 Discipline: 0 SAT compute, 0 solver runs.
+
+---
+
+## ~18:55 EDT — F159/F160: bit19 chunk 1 found {0,1,3,8,9} at score 87 (1 above bit3)
+
+Yale's F134 started bit19 fixture-local scan (chunk 0, 64 masks).
+Best: {0,1,2,7,15} at score 90.
+
+**Macbook ran chunk 1 (masks 64-127, 108 sec)**:
+- Best: **{0,1,3,8,9} at score 87, msgHW=54**
+- 1 above bit3's 86, beats yale's chunk 0 best of 90
+
+**Continuation 8×50k on {0,1,3,8,9}** (57 sec):
+- Confirms score 87 as local optimum on this mask
+- Doesn't drop below 86 at this budget
+
+**Structural finding**: bit19's winner {0,1,3,8,9} differs from bit3's
+{0,1,2,8,9} by EXACTLY ONE word (W[2]→W[3]). The dual-wave structure
+(early {0,1,X} + mid {8,9}) is PRESERVED across cands; only the
+"X" varies.
+
+bit19 progression: 93 (F132) → 90 (F134) → 87 (F159/F160). Significant
+improvement.
+
+66 of 68 chunks remaining (4,368 size-5 masks total). Concrete fleet-
+coordinatable work: yale shipped chunk 0; macbook ships chunk 1.
+Compounding scan coverage.
+
+If bit19 score ≤ 86 found in remaining 66 chunks, the structural-
+distinction hypothesis (F143) is partially redeemed.
+
+Memo: `bets/block2_wang/results/20260428_F159_F160_bit19_chunk1_and_continuation.md`
+
+Discipline: 0 SAT compute, 0 solver runs (heuristic local search,
+not SAT). 165 sec wall total.
