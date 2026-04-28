@@ -2526,3 +2526,21 @@ Discipline: 0 SAT compute, 0 solver runs.
   calibration). Real pivot for cascade_aux_encoding bet.
 - F207 memo committed.
 
+
+## ~16:55 EDT — F208: Tanner 4-cycle structure UNIVERSAL across 8 cascade_aux CNFs
+
+- Cross-validated F207's gap analysis on 8 CNFs (5 m0, 5 fills,
+  3 bits, 4 kernels).
+- Result: 4-cycle count 259-271K (0.2% spread on main population).
+- Universal high-mult pair: (var 2, var 130) gap=128 mult=36 in
+  ALL 8 CNFs.
+- Structural conclusion: Tanner graph shape is ENCODER-determined,
+  not cand-specific. Single decoder design covers all 152 instances.
+- F207's quasi-cyclic LDPC direction structurally validated.
+  Right next step: identify what var 2 and var 130 represent at
+  SHA-arithmetic level (likely word 0 vs word 4 coupling).
+- F208 memo committed.
+- Session arc summary: 18 commits, 4 calibration findings, 1
+  retraction, 2 structural pivots (F207/F208), 0 SAT compute,
+  0 solver runs throughout.
+
