@@ -10,6 +10,9 @@ It exhaustively scans all one-bit moves, and optionally all two-bit moves,
 over the chosen active message words. In the default `--side m2` mode this
 is small for compact absorbers: 5 active words -> 160 single moves and
 12,720 two-bit moves. `--side both` also probes matching M1 moves.
+`--mode common` probes common-mode moves, where each selected bit is
+flipped in both M1 and M2. This preserves the message-word XOR difference
+for W0..15 while still changing the absolute block-2 messages.
 
 Example:
     PYTHONPATH=. python3 probe_absorption_neighborhood.py bundle.json \
@@ -51,6 +54,9 @@ def flip_pair(M1, M2, flips):
     for side, word, bit in flips:
         if side == "m1":
             out1[word] ^= 1 << bit
+        elif side == "both":
+            out1[word] ^= 1 << bit
+            out2[word] ^= 1 << bit
         else:
             out2[word] ^= 1 << bit
     return out1, out2
@@ -119,6 +125,10 @@ def position_list(active_words, side):
     ]
 
 
+def common_mode_positions(active_words):
+    return [("both", word, bit) for word in active_words for bit in range(32)]
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -130,7 +140,9 @@ def main():
     ap.add_argument("--radius", type=int, default=2,
                     help="Maximum number of bit flips per move; use 1 or 2")
     ap.add_argument("--side", choices=["m2", "m1", "both"], default="m2",
-                    help="Which side(s) to perturb")
+                    help="Which side(s) to perturb in raw mode")
+    ap.add_argument("--mode", choices=["raw", "common"], default="raw",
+                    help="Raw bit flips, or common-mode paired M1/M2 flips")
     ap.add_argument("--top", type=int, default=20)
     ap.add_argument("--out-json", default=None)
     args = ap.parse_args()
@@ -157,7 +169,9 @@ def main():
     base_msg_hw, base_msg_words = message_stats(M1, M2)
     base_sched_words = schedule_diff_count(M1, M2)
 
-    positions = position_list(active_words, args.side)
+    positions = (common_mode_positions(active_words)
+                 if args.mode == "common"
+                 else position_list(active_words, args.side))
     hist = Counter()
     by_radius = Counter()
     top = []
@@ -181,7 +195,8 @@ def main():
     print(f"Bundle:              {args.bundle}")
     print(f"Init JSON:           {args.init_json}")
     print(f"Active words:        {','.join(str(w) for w in active_words)}")
-    print(f"Perturbed side:      {args.side}")
+    print(f"Mode:                {args.mode}")
+    print(f"Perturbed side:      {args.side if args.mode == 'raw' else 'both/common'}")
     print(f"Radius:              {args.radius}")
     print(f"Positions:           {len(positions)}")
     print(f"Candidates:          {evaluated}")
@@ -195,8 +210,12 @@ def main():
     print("Best moves:")
     print("rank  score  delta  msgHW  words  sched  flips")
     for i, candidate in enumerate(top, 1):
-        flips = ",".join(f"{f['side'].upper()}W{f['word']}b{f['bit']}"
-                         for f in candidate["flips"])
+        flips = ",".join(
+            f"CMW{f['word']}b{f['bit']}"
+            if f["side"] == "both"
+            else f"{f['side'].upper()}W{f['word']}b{f['bit']}"
+            for f in candidate["flips"]
+        )
         print(f"{i:>4}  {candidate['score']:>5}  "
               f"{candidate['delta_score']:>5}  "
               f"{candidate['message_diff_hw']:>5}  "
@@ -216,6 +235,7 @@ def main():
                 "init_objective": init_obj,
                 "active_words": active_words,
                 "radius": args.radius,
+                "mode": args.mode,
                 "side": args.side,
                 "positions": len(positions),
                 "evaluated": evaluated,

@@ -24,7 +24,8 @@ headline_hunt/bets/block2_wang/encoders/probe_absorption_neighborhood.py
 It loads a saved search/subset artifact, fixes M1, then evaluates all
 one-bit and two-bit flips in selected M2 message words. It also supports
 `--side both`, which probes bit flips in both M1 and M2 while preserving
-the chosen active word set.
+the chosen active word set. `--mode common` probes paired common-mode flips
+in both M1 and M2, preserving the immediate W0..15 message-word XOR diff.
 
 For each move it records:
 
@@ -131,12 +132,50 @@ So the score-86 candidate is not just M2-local. It is also a strict
 radius-2 local minimum under two-sided M1/M2 bit moves over its active
 message words.
 
+## Common-mode score-86 probe
+
+Blind M2 kicks and raw two-sided moves both failed. A more structured local
+move is a common-mode bit flip: flip the same M1 and M2 bit, preserving the
+message-word XOR difference in W0..15 while changing the absolute block-2
+messages.
+
+Command:
+
+```
+PYTHONPATH=. python3 headline_hunt/bets/block2_wang/encoders/probe_absorption_neighborhood.py \
+  headline_hunt/bets/block2_wang/trails/sample_trail_bundles/bit3_HW55_naive_blocktwo.json \
+  --init-json headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F115_bit3_active_01289_continue_8x50k.json \
+  --active-words 0,1,2,8,9 \
+  --radius 2 \
+  --mode common \
+  --out-json headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F125_bit3_active_01289_common_radius2_probe.json
+```
+
+Archived artifact:
+
+```
+results/search_artifacts/20260428_F125_bit3_active_01289_common_radius2_probe.json
+```
+
+Result:
+
+```
+Base score:          86
+Candidates:          12880
+Improving moves:     0
+Best neighbor score: 100
+```
+
+Even common-mode moves that preserve the immediate message XOR difference
+do not escape the basin at radius 2.
+
 ## Interpretation
 
 The compact absorber candidates are not sitting next to obvious bit-level
 improvements. The score-86 point is especially isolated: all one- and
 two-bit M2-only moves over its five active message words make it worse,
-and the same remains true when M1 moves are included.
+the same remains true when M1 moves are included, and common-mode paired
+moves are worse still.
 
 That changes the next step. More random kicks are low value unless the move
 operator is changed. Productive follow-up should use structured moves that
