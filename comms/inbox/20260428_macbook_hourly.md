@@ -1390,3 +1390,28 @@ than originally synthesized. Implementation simplifies: standard
 sum-product BP first; fancy correction only if needed.
 
 Discipline: 0 SAT compute, 0 solver runs.
+
+---
+
+## ~11:40 EDT — F139: BP-Bethe synthesis update consolidates F134-F138
+
+Wrote SYNTHESIS_BP_calibrated.md (april28_explore/principles/)
+consolidating today's empirical thread back into the principles
+framework.
+
+Calibrated picture:
+- 259K 4-cycles in real cascade_aux N=32 Tanner graph
+- 100% of dominant mult-4 stratum (64% of cycles) are Tseitin-XOR
+  shaped → BP-exact under standard sum-product
+- Cost: ~240M-480M ops per cascade-1 instance, ~2-5 sec wall
+- Framework BP-Bethe prediction empirically validated as feasible
+
+Session totals (F134-F139):
+- 6 commits + pushes to master
+- 24th cross-pollination synthesis written
+- 0 SAT compute, 0 solver runs, 0 audit failures
+- Registry clean throughout
+
+The principles framework's BP-Bethe prediction is now empirically
+well-grounded. Multi-day implementation is the next phase when
+project priority shifts.
