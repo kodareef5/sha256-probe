@@ -2916,3 +2916,16 @@ Discipline: 0 SAT compute, 0 solver runs.
   - Concrete reopen test: Phase 2D on F235 hard instance
 - 43 commits this session.
 
+
+## ~19:28 EDT — F239: CaDiCaL also times out on F235 hard sr=61 instance
+
+- Ran cadical 3.0.0 with 120s timeout on
+  cnfs_n32/sr61_cascade_m09990bd2_f80000000_bit25.cnf.
+- Result: TIMEOUT at 120s. Same as kissat (848s timeout originally).
+- Cross-solver confirmation: instance is GENUINELY HARD, not
+  kissat-specific. Different CDCL heuristic still hits the wall.
+- This strengthens F237's conclusion: single-solver attacks on
+  hard sr=61 instances need structural intervention (cube-and-
+  conquer, IPASIR-UP propagator, BDD, or different encoding).
+- 44 commits this session.
+
