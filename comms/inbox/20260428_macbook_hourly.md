@@ -514,3 +514,37 @@ chaining state (not as W2[0]).
 yale can test richer trail designs in the sub-second feedback loop.
 
 Memo: `headline_hunt/bets/block2_wang/results/20260428_F108_w2_constraint_patterns_negative.md`
+
+---
+
+## ~05:30 EDT — F109: F104 Phase 2 — bit_condition support shipped
+
+Direct execution of F108's "concrete next moves" #1: add bit_condition
+constraint type handling to F104 simulator and F83 validator.
+
+**Tools updated**:
+- `simulate_2block_absorption.py`: added `compress_with_trace()`,
+  `check_bit_conditions()`, and integrated into simulate_bundle loop.
+  Reports per-sample bc-satisfaction count + collisions-also-satisfying-all.
+- `validate_trail_bundle.py`: extended bit_condition acceptance to
+  support both legacy {condition: str} and new structured
+  {register, bit, predicate} formats. Predicate enum:
+  diff_zero | diff_one | diff_set | diff_clear.
+
+**Test fixture (F109 bundle)**: bit3_HW55 + 5 bit_conditions on
+register `a` low bits at rounds 60-63. Result:
+  - 1/100 random samples satisfy ALL 5 bit_conditions
+  - Median 3/5 per sample (60% per-condition rate)
+  - 0 of those collide
+  - Verdict: still FORWARD_BROKEN (random W2 too sparse to drive Wang trail)
+
+This validates F104 Phase 2: yale can now ship bundles with
+`bit_condition` constraints and get sub-second feedback on what
+fraction of random W2 satisfies them.
+
+**Regression tests**: m17149975 trivial bundle still validates +
+simulates correctly. F108 fixtures still work.
+
+For yale: design loop is now COMPLETE on the simulator side. Use
+F82 SPEC's bit_condition constraint type with structured fields
+(register + bit + predicate) for Wang-style bitcondition design.

@@ -60,6 +60,64 @@ def compress(M, IV_in):
     return final_state, chain_out
 
 
+def compress_with_trace(M, IV_in):
+    """Same as compress() but returns the per-round state trace. Returns
+    (final_state, chain_out, trace) where trace[r] is the (a,b,c,d,e,f,g,h)
+    tuple after round r (1-indexed; trace[0] = IV)."""
+    W = list(M) + [0] * 48
+    for i in range(16, 64):
+        W[i] = add(sigma1(W[i-2]), W[i-7], sigma0(W[i-15]), W[i-16])
+
+    a, b, c, d, e, f, g, h = IV_in
+    trace = [(a, b, c, d, e, f, g, h)]
+    for i in range(64):
+        T1 = add(h, Sigma1(e), Ch(e, f, g), K[i], W[i])
+        T2 = add(Sigma0(a), Maj(a, b, c))
+        h, g, f, e, d, c, b, a = g, f, e, add(d, T1), c, b, a, add(T1, T2)
+        trace.append((a, b, c, d, e, f, g, h))
+
+    final_state = (a, b, c, d, e, f, g, h)
+    chain_out = tuple(add(a, b) for a, b in zip(IV_in, final_state))
+    return final_state, chain_out, trace
+
+
+REG_INDEX = {ch: i for i, ch in enumerate("abcdefgh")}
+
+
+def check_bit_conditions(trace1, trace2, conditions):
+    """Check that all bit_condition entries hold against per-round state diff.
+    Each condition: {round: R, register: 'a-h', bit: 0-31,
+                     predicate: 'diff_zero' | 'diff_one' | 'diff_set' | 'diff_clear'}
+    Returns (n_satisfied, n_total)."""
+    n_total = len(conditions)
+    n_satisfied = 0
+    for c in conditions:
+        if c.get("type") != "bit_condition":
+            continue
+        rnd = c["round"]
+        reg = c.get("register", "a")
+        bit = c.get("bit", 0)
+        pred = c.get("predicate", "diff_zero")
+        if rnd < 0 or rnd > 64:
+            continue  # invalid
+        # trace[rnd+1] is the state AFTER round rnd (matching round-63=trace[64])
+        # but for "at round R" we usually mean the state after round R completes
+        idx = min(rnd + 1, len(trace1) - 1)
+        ri = REG_INDEX.get(reg, 0)
+        v1 = (trace1[idx][ri] >> bit) & 1
+        v2 = (trace2[idx][ri] >> bit) & 1
+        d = v1 ^ v2
+        if pred == "diff_zero" and d == 0:
+            n_satisfied += 1
+        elif pred == "diff_one" and d == 1:
+            n_satisfied += 1
+        elif pred == "diff_set" and d == 1:
+            n_satisfied += 1  # synonym
+        elif pred == "diff_clear" and d == 0:
+            n_satisfied += 1  # synonym
+    return n_satisfied, n_total
+
+
 def hw32(x):
     return bin(x & MASK).count("1")
 
@@ -195,19 +253,36 @@ def simulate_bundle(bundle, n_samples=100, verbose=False):
                         for r in "abcdefgh")
     target_hw = sum(hw32(x) for x in target_diff)
 
+    bit_conditions = [c for c in constraints if c.get("type") == "bit_condition"]
+    n_bit_conditions = len(bit_conditions)
+    use_trace = n_bit_conditions > 0
+
     n_collision = 0
     n_near = 0
+    n_bc_full = 0  # samples satisfying ALL bit-conditions
+    n_bc_full_collisions = 0  # samples that BOTH satisfy bc + reach HW=0
     final_hws = []
+    bc_satisfaction_dist = []  # how many bcs satisfied per sample
     for s in range(n_samples):
         W2_M1, W2_M2 = synthesize_block2_W2(constraints, seed=42 + s)
         # block-2 starts from chain1_out / chain2_out
-        _, chain1_after2 = compress(W2_M1, chain1_out)
-        _, chain2_after2 = compress(W2_M2, chain2_out)
+        if use_trace:
+            _, chain1_after2, trace1 = compress_with_trace(W2_M1, chain1_out)
+            _, chain2_after2, trace2 = compress_with_trace(W2_M2, chain2_out)
+            n_sat, _ = check_bit_conditions(trace1, trace2, bit_conditions)
+            bc_satisfaction_dist.append(n_sat)
+            if n_sat == n_bit_conditions:
+                n_bc_full += 1
+        else:
+            _, chain1_after2 = compress(W2_M1, chain1_out)
+            _, chain2_after2 = compress(W2_M2, chain2_out)
         diff = tuple(c1 ^ c2 for c1, c2 in zip(chain1_after2, chain2_after2))
         hw = sum(hw32(x) for x in diff)
         final_hws.append(hw)
         if hw == 0:
             n_collision += 1
+            if use_trace and bc_satisfaction_dist[-1] == n_bit_conditions:
+                n_bc_full_collisions += 1
         if hw <= target_hw + 4:  # within 4 bits of target
             n_near += 1
 
@@ -221,6 +296,12 @@ def simulate_bundle(bundle, n_samples=100, verbose=False):
         "n_samples": n_samples,
         "n_collisions_at_block2_round63": n_collision,
         "n_near_residuals": n_near,
+        "n_bit_conditions": n_bit_conditions,
+        "n_samples_satisfying_all_bit_conditions": n_bc_full,
+        "n_bc_full_collisions": n_bc_full_collisions,
+        "max_bc_satisfied": max(bc_satisfaction_dist) if bc_satisfaction_dist else None,
+        "median_bc_satisfied": (sorted(bc_satisfaction_dist)[len(bc_satisfaction_dist)//2]
+                                 if bc_satisfaction_dist else None),
         "min_final_hw": final_hws[0] if final_hws else None,
         "median_final_hw": final_hws[len(final_hws)//2] if final_hws else None,
         "max_final_hw": final_hws[-1] if final_hws else None,
@@ -268,6 +349,12 @@ def main():
     print(f"  Target HW:                      {result['target_hw']}")
     print(f"  Collisions (HW=0):              {result['n_collisions_at_block2_round63']}")
     print(f"  Near-residuals (HW≤target+4):   {result['n_near_residuals']}")
+    if result.get("n_bit_conditions", 0) > 0:
+        print(f"\nBit-conditions:                   {result['n_bit_conditions']}")
+        print(f"  Samples satisfying ALL:           {result['n_samples_satisfying_all_bit_conditions']}/{result['n_samples']}")
+        print(f"  Median bc satisfied per sample:   {result['median_bc_satisfied']}/{result['n_bit_conditions']}")
+        print(f"  Max bc satisfied per sample:      {result['max_bc_satisfied']}/{result['n_bit_conditions']}")
+        print(f"  Collisions ALSO satisfying ALL bc: {result['n_bc_full_collisions']}")
 
     if result["verdict"] == "COLLISIONS_FOUND":
         print(f"\n🎉 Forward simulation found a collision! "

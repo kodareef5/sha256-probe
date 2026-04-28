@@ -110,8 +110,28 @@ def validate_block2(b2, errors):
                 if t == "modular_relation" and not isinstance(c.get("constraint"), str):
                     err(errors, cp + ".constraint",
                         "modular_relation requires string 'constraint'")
-                if t == "bit_condition" and "condition" not in c:
-                    err(errors, cp + ".condition", "bit_condition requires 'condition' field")
+                if t == "bit_condition":
+                    # Accept either legacy {condition: str} or structured
+                    # {register, bit, predicate} (F104 Phase 2 format).
+                    has_legacy = "condition" in c
+                    has_structured = ("register" in c and "bit" in c
+                                       and "predicate" in c)
+                    if not (has_legacy or has_structured):
+                        err(errors, cp,
+                            "bit_condition requires either 'condition' (legacy) "
+                            "or 'register'+'bit'+'predicate' (F104 Phase 2)")
+                    if has_structured:
+                        if c["register"] not in "abcdefgh":
+                            err(errors, cp + ".register",
+                                f"expected one of [a..h], got {c['register']!r}")
+                        if not isinstance(c["bit"], int) or not (0 <= c["bit"] <= 31):
+                            err(errors, cp + ".bit",
+                                f"expected int in [0,31], got {c.get('bit')!r}")
+                        if c["predicate"] not in {"diff_zero", "diff_one",
+                                                    "diff_set", "diff_clear"}:
+                            err(errors, cp + ".predicate",
+                                f"expected one of [diff_zero,diff_one,diff_set,diff_clear], "
+                                f"got {c['predicate']!r}")
 
     if "target_diff_at_round_N" in b2:
         td = b2["target_diff_at_round_N"]
