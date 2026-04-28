@@ -2813,3 +2813,16 @@ Discipline: 0 SAT compute, 0 solver runs.
   bet's complete structural foundation.
 - 36 commits this session.
 
+
+## ~18:18 EDT — F230: solve_with_shell.sh pipeline shipped (>200× kissat speedup demo)
+
+- Wrote solve_with_shell.sh: bash pipeline running shell_eliminate
+  then kissat on reduced output.
+- Empirical result: 0.302s end-to-end vs >60s direct kissat = >200×
+  speedup on bare cascade_aux instances.
+- Stage 1 (shell_eliminate): 0.25s
+- Stage 2 (kissat on reduced): 0.02s
+- F211's three-stage decoder design is now operationally demonstrated
+  for the bare-CNF case. BP marginal stage 3 deferred.
+- 37 commits this session.
+
