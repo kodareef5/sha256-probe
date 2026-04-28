@@ -2579,3 +2579,20 @@ Discipline: 0 SAT compute, 0 solver runs.
   analysis.
 - F210 corrective memo committed.
 
+
+## ~17:00 EDT — F211: cascade_aux treewidth bound 699 with shell architecture
+
+- Wrote tanner_treewidth_bound.py (min-degree elimination heuristic).
+- Result on cascade_aux N=32: treewidth upper bound 699.
+- Striking: 75% of vars eliminate with max-fill ≤14. Hard core is
+  the LAST 25% of vars (~3,000 vars, tw ≤ 699).
+- Implies SHELL ARCHITECTURE: outer Tseitin shell easily eliminable;
+  inner core is the real complexity.
+- Decoder design implication: 3-stage preprocess-BP-marginal:
+  1. Eliminate outer shell (~10⁴ ops)
+  2. BP on hard core (3K vars, ~10⁷ ops)
+  3. Marginal extraction + search guidance
+- Total: ~10⁷ ops per cascade_aux instance, target <1s wall.
+- Expected 2-10× speedup over CDCL+stack-hints if marginals useful.
+- F211 memo committed.
+
