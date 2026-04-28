@@ -611,3 +611,43 @@ Top 3 next-probe candidates from the survey, ranked by yield/cost:
 No solver runs this hour (no append_run.py needed). No CNF generated.
 No registry mutation. The structural Σ-Steiner finding is documentation
 input for yale's block-2 trail design.
+
+---
+
+## ~08:35 EDT — F110b: Σ-offset gap-union — 35.5% of bit-pairs untouched by any Sigma
+
+Direct follow-up to F110. Each Sigma covers a specific set of pair-gaps;
+question — which gaps are touched by AT LEAST ONE Sigma, which are NOT?
+
+Per-Sigma gap sets (unsigned mod-32 distances):
+- Σ_0 (2, 13, 22) → gaps {9, 11, 12}
+- Σ_1 (6, 11, 25) → gaps {5, 13, 14}
+- σ_0 (7, 18, 3) → gaps {4, 11, 15}
+- σ_1 (17, 19, 10) → gaps {2, 7, 9}
+
+**Union: 10 of 16 possible gaps** ({2,4,5,7,9,11,12,13,14,15}).
+**Untouched: 6 of 16** ({1, 3, 6, 8, 10, 16}).
+
+**176 of 496 bit-pairs (35.5%) are untouched by any Sigma's pair-
+structure.** No SHA-256 Sigma reads adjacent bits (gap 1), antipodal
+bits (gap 16), or octet-aligned bits (gap 8) as a 2-input dependency.
+
+Coverage detail: 64 pairs are covered by exactly 2 Sigmas (gap 9 by
+Σ_0∩σ_1; gap 11 by Σ_0∩σ_0). Zero pairs covered by 3 or 4 Sigmas —
+4-Sigma redundancy is bounded at 2.
+
+**For yale's trail design**: bit-pair perturbations at gaps {1, 3, 6,
+8, 10, 16} create disturbance vectors that BYPASS the Sigma 2-input-
+dependency layer. They interact only via per-bit Sigma terms and
+higher-order Maj/Ch propagation. This is a **DOF-friendly axis**
+for trail construction — bitconditions specifying differences at
+these gaps are linearly independent of any Sigma pair-coverage
+constraint.
+
+**Concrete trail-DOF counting handle**: for a disturbance vector
+restricted to a specific gap class g, the rank of induced Sigma
+constraints is bounded by the multiplicity of g in the union (0, 1,
+or 2 for SHA-256).
+
+Probe: `april28_explore/principles/items/probe_72b_sigma_gap_union.py`
+Result section in: `april28_explore/principles/items/probe_72_RESULT.md`
