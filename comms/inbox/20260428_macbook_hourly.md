@@ -2444,3 +2444,24 @@ Discipline: 0 SAT compute, 0 solver runs.
 - validate_registry: 0 errors, 0 warnings.
 - F195-F197 still running; will harvest at 16:32 wakeup.
 
+
+## ~16:34 EDT — F195-F200 + F201: cross-fixture basin propagation universal; F135 dominates F188
+
+- F135-init reaches sub-90 on ALL distinguished cands:
+  - bit4 → 89 (F195) — vs random 86/93
+  - bit25 → 88 (F196) — vs random 92-94
+  - msb → 88 (F197) — vs random 91-92
+  - bit28 → 89 (F187 already shown)
+- F188-init weaker than F135-init on every cand:
+  - bit25 F135=88 vs F188=92  (+4 advantage)
+  - msb  F135=88 vs F188=90   (+2 advantage)
+  - bit28 F135=89 vs F188=92  (+3 advantage)
+- Cross-cand best-known floor (6 cands):
+  bit3=86, bit4=86, bit19=87, bit25=88, msb=88, bit28=89.
+  ALL sub-90. F143 weak form empirically saturated.
+- F135 (msgHW=54) is better universal seed than F188 (msgHW=66).
+  Lower-HW source basin → better cross-fixture propagation.
+  Hypothesis: even lower-HW source could break 86 floor.
+- F201 unified memo committed. Next: 8×50k continuation on the
+  newly found sub-90 masks, OR pivot to non-heuristic.
+
