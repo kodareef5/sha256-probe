@@ -59,6 +59,14 @@ def validate_block1(b1, errors):
             for i, w in enumerate(ws):
                 if not is_hex32(w):
                     err(errors, p + f".W1_57_60[{i}]", f"expected 32-bit hex, got {w!r}")
+    if "W2_57_60" in b1:
+        ws = b1["W2_57_60"]
+        if not isinstance(ws, list) or len(ws) != 4:
+            err(errors, p + ".W2_57_60", f"expected list of 4 hex strings, got {ws!r}")
+        else:
+            for i, w in enumerate(ws):
+                if not is_hex32(w):
+                    err(errors, p + f".W2_57_60[{i}]", f"expected 32-bit hex, got {w!r}")
     if "residual_state_diff" in b1:
         rsd = b1["residual_state_diff"]
         if not isinstance(rsd, dict):

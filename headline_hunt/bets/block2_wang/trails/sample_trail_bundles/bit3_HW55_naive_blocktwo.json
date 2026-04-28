@@ -30,7 +30,7 @@
     "modified_message_words": [],
     "W2_constraints": [],
     "chain_state_input": {
-      "comment": "Block-1 produces non-zero residual (HW=55). Block-2 with no constraints (M2 = M2') propagates the residual unchanged. Final HW should ≈ 55 (= block-1 residual HW); verdict should be FORWARD_BROKEN per F104 simulator."
+      "comment": "Block-1 produces non-zero working-state residual (HW=55), which becomes a distinct post-feed-forward chain-input diff to block 2. Block-2 with no message diff cannot absorb it; SHA-256 compression amplifies the diff and verdict should be FORWARD_BROKEN per F104 simulator."
     },
     "target_diff_at_round_N": {
       "round": 63,

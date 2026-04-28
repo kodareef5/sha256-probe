@@ -53,7 +53,7 @@ A single JSON file, `block2_trail_<cand_id>_<witness_id>.json`, with:
     },
     "residual_hw": 45,
     "residual_lm_cost": 637,
-    "comment": "Block-1 produces this state diff at round 63. Block-2 must absorb it."
+    "comment": "Block-1 produces this working-state diff after round 63. The block-2 IV diff is the post-feed-forward chaining-output diff, which the simulator recomputes."
   },
 
   "block2": {
@@ -69,7 +69,7 @@ A single JSON file, `block2_trail_<cand_id>_<witness_id>.json`, with:
         "comment": "schedule consistency, redundant with SHA-256 spec but sometimes useful as a hint" }
     ],
     "chain_state_input": {
-      "comment": "block-2 starts from H = block-1's chaining output. The diff at the start of block-2 EQUALS block-1's residual_state_diff above (mod IV addition)."
+      "comment": "block-2 starts from H = block-1's chaining output. Its input diff is the XOR diff of the two block-1 chaining outputs, not necessarily the raw block1.residual_state_diff."
     },
     "target_diff_at_round_N": {
       "round": 63,
@@ -81,7 +81,7 @@ A single JSON file, `block2_trail_<cand_id>_<witness_id>.json`, with:
       "diff_f": "0x00000000",
       "diff_g": "0x00000000",
       "diff_h": "0x00000000",
-      "comment": "ALL ZERO at round 63 of block-2 = full SHA-256 collision."
+      "comment": "ALL ZERO final chaining-output diff after block 2 = full SHA-256 collision."
     },
     "expected_status": "sat_if_trail_correct",
     "expected_modular_paths": [
@@ -115,9 +115,12 @@ A single JSON file, `block2_trail_<cand_id>_<witness_id>.json`, with:
   to natural-schedule W2 which produces a different residual). Yale's
   online sampler computes both via cascade offsets, so include both
   in shipped bundles.
-- `block1.residual_state_diff` — yale's claim about what block-1 produces
+- `block1.residual_state_diff` — yale's claim about the block-1 round-63
+  working-state XOR diff. The verifier recomputes the post-feed-forward
+  chain-output diff and uses THAT as block-2's IV diff.
 - `block2.W2_constraints` — yale's trail (each constraint becomes CNF clauses)
-- `block2.target_diff_at_round_N` — collision target (zeros = full collision)
+- `block2.target_diff_at_round_N` — final block-2 chaining-output target
+  (zeros = full collision in v1; non-zero targets are diagnostic only)
 
 Everything else is optional/diagnostic.
 
@@ -146,7 +149,7 @@ relationship pinned end-to-end:
 [block-2 differential CNF]                (NEW — encoder extension needed)
   + chain-state input of block-2 wired = chain-state output of block-1
   + W2[r] constraints from yale's trail   (translated to clauses)
-  + state diff at round 63 of block-2 = ALL ZERO   (collision target)
+  + final chaining-output diff after block-2 = ALL ZERO   (collision target)
 ```
 
 ### Verification semantics
@@ -172,10 +175,12 @@ SHA-256 message-block compression). To support 2-block:
    round-63 chain-state output feeds the next block's chain-state input.
 
 2. **Block-1 chaining output → block-2 chaining input wiring.**
-   In differential terms: `dH_after_block1 = dA[63]+dB[63]+...+dH[63]`
-   (the modular state-XOR-diff at end of block-1) becomes block-2's
-   starting chain-state diff. Encoder needs to expose `aux_chain_diff`
-   vars that are equality-tied across the boundary.
+   For each register, block-1 compression outputs
+   `H_out = H_in + working_state_63 (mod 2^32)`. Therefore the block-2
+   starting diff is `H1_out XOR H2_out`, not the raw
+   `working_state1_63 XOR working_state2_63` except in special cases.
+   Encoder needs to expose `aux_chain_diff` vars that are equality-tied
+   across the boundary.
 
 3. **W2 constraint translation.** Yale's `W2_constraints` array maps to:
    - `exact`: 32 unit clauses pinning W2[r]
@@ -184,8 +189,9 @@ SHA-256 message-block compression). To support 2-block:
      in encoder for r ≥ 16)
    - `bit_condition`: e.g., `W2[r] bit 17 = W2[r] bit 5` → equality clause
 
-4. **Block-2 round-63 zero target.** 8 × 32 unit clauses pinning
-   `dA[63]_block2 = dB[63]_block2 = ... = dH[63]_block2 = 0`.
+4. **Block-2 zero target.** 8 × 32 unit clauses pinning the final
+   block-2 chaining-output diff to zero. Pinning only the raw round-63
+   working-state diff is insufficient when the block-2 input IVs differ.
 
 Estimated encoder extension: ~150 LOC new wrapper around existing
 `cascade_aux_encoder.py`, no changes to `lib/cnf_encoder.py`.
@@ -201,8 +207,9 @@ Estimated encoder extension: ~150 LOC new wrapper around existing
 
 - **Which block-1 residual to absorb.** Yale's frontier (HW=33, 39, 45,
   78) gives a Pareto surface; yale will choose which one to design
-  block-2 absorption *for*. The trail bundle declares this choice via
-  `block1.residual_state_diff`.
+  block-2 absorption *for*. The trail bundle declares this working-state
+  residual via `block1.residual_state_diff`; the verifier derives the
+  corresponding block-2 chain-input diff.
 
 - **Whether such a trail EXISTS at sr=60 cascade-1.** Possibly no
   Wang-style block-2 trail with low enough LM cost is achievable;
