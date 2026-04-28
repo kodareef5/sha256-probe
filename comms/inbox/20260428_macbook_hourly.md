@@ -434,3 +434,47 @@ cancel. Yale's absorption pattern must be structural, not statistical.
 
 Memo: `headline_hunt/bets/block2_wang/results/20260428_F106_simulator_nontrivial_validation.md`
 Test bundle: `headline_hunt/bets/block2_wang/trails/sample_trail_bundles/bit3_HW55_naive_blocktwo.json`
+
+---
+
+## ~04:50 EDT — F107: Wang/Yu/Yin literature note extended for active block2_wang
+
+`literature.yaml` `classical_wang_yu_yin_message_modification` was
+marked `should_read` since 04-24. Existing note (46 lines) framed
+block2_wang as "blocked until block-1 produces residual with HW≤24-28."
+That framing is OUTDATED: F70-F106 closed the cert-pin axis; block-1
+residuals are mode-centered HW=90-99 (per F101 corpus probe).
+
+**Extended note** (`headline_hunt/literature/notes/wang_message_modification.md`)
+with current state and yale-actionable specifics:
+
+1. **Empirical state from F70-F106**: cascade-1 single-block can't
+   reach HW=0 (registered as closed negative F105); block-1 residual
+   distribution mode-centered HW=90-99; yale's online sampler reaches
+   HW=33 EXACT-sym; random W2 amplifies residual ×2.3 (F106 finding).
+
+2. **Wang→F82 SPEC mapping** (concrete yale workflow):
+   - Wang's "disturbance vector" → F82 W2_constraints array
+   - Wang's "bitconditions" → F82 'bit_condition' constraint type
+     (DIRECT mapping)
+   - Wang's "message modification" → F82 trail bundle iteration loop
+     via F104 simulator (sub-second feedback)
+
+3. **Concrete yale workflow** (Wang→F82): pick block-1 residual →
+   design disturbance vector → derive bitconditions → encode as F82
+   bundle → validate via F104 → SAT verify via F84.
+
+4. **Open structural question**: SHA-2's full Sigma functions (vs
+   SHA-1's circular shift) make the disturbance vector design harder.
+   Mendel/Nad/Schläffer is closer prior art; De Cannière/Rechberger
+   is the trail-search TOOL, not just framework.
+
+**literature.yaml updated**: `read_status` should_read → read,
+owner unassigned → macbook, last_updated → 2026-04-28.
+
+**validate_registry.py: 0 errors, 0 warnings.**
+
+This is structural input for yale's block-2 trail design. The Wang
+framework + F82 SPEC + F104 simulator + F84 SAT verifier are the
+TOOLS; yale's structural insight on which disturbance vector +
+bitconditions actually work for SHA-256 absorption is the ALGORITHM.

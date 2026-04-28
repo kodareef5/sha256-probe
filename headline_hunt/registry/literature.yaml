@@ -206,14 +206,20 @@
   arxiv_or_eprint: null
   confidence: classical_no_id
   relevance: Foundational for block2_wang. Required reading before starting that bet.
-  read_status: should_read
-  key_takeaway: Wang 2005 SHA-1 attack. Differential path + message modification +
-    disturbance vectors + bitconditions. Background summary captured (original ePrint
-    403). Full read needed when block2_wang activates.
+  read_status: read
+  key_takeaway: 'Wang 2005 framework: differential path + message modification + disturbance
+    vectors + bitconditions. Background captured + extended F107 mapping to SHA-256
+    block-2 absorption (specifically how F82 SPEC v1 maps Wang concepts: bit_condition
+    constraint type IS Wang''s bitcondition; W2_constraints.exact_diff IS Wang''s
+    differential constraint). For yale: framework is the language, yale''s structural
+    insight on SHA-256-specific disturbance vectors is the algorithm.'
   action_items:
-  - Required pre-read for block2_wang.
-  owner: unassigned
-  last_updated: '2026-04-24'
+  - "Read Mendel/Nad/Schl\xE4ffer for SHA-256-specific trail prior art (closest match)"
+  - 'Read De Canni\xE8re/Rechberger for automated trail-search tooling'
+  - 'Yale block-2 design: encode bitconditions in F82 SPEC v1 ''bit_condition'' constraint
+    type'
+  owner: macbook
+  last_updated: '2026-04-28'
 - id: classical_mendel_nad_schlaffer_sha256
   citation: "Mendel / Nad / Schl\xE4ffer \u2014 SHA-256 local collisions and trail\
     \ search"
