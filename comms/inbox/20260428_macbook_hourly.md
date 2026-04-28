@@ -2793,3 +2793,23 @@ Discipline: 0 SAT compute, 0 solver runs.
   applicable across all encoders.
 - 34 commits this session.
 
+
+## ~18:16 EDT — F226-F229: shell_eliminate is pinning-tolerant; bare cascade-1 uniformly SAT
+
+- F226 (W1_57=0): 0 clauses, 729 residual vars, 94.5%
+- F227 (W1_57..W1_60=0): 0 clauses, 728 residual, 94.5%
+- F228 (W1=0 + W2=1, "incompat"): 0 clauses, 706 residual, 94.6%
+- F229 (cascade_aux force mode): 0 clauses, 788 residual, 93.7%
+- All 4 tests + the prior F225 baseline: every variant reduces to
+  0 clauses with ~94% elimination at ~0.2s wall.
+- cascade_aux EXPOSE mode doesn't enforce hardlock as hard constraint
+  — pinning incompatible values still satisfiable via aux vars.
+- cascade_aux FORCE mode enforces Theorems 1-4 but still SAT in bare
+  form (constraints restrict which assignments valid, not existence).
+- The actual UNSAT case requires CERT-PIN with specific W witness
+  (HW=N implicit). Generating cert-pin output requires varmap sidecar
+  generation, deferred to future session.
+- Session arc F207-F229 (~24 memos) provides the cascade_aux_encoding
+  bet's complete structural foundation.
+- 36 commits this session.
+
