@@ -29,7 +29,56 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-04-28T03:55:00Z'
+last_heartbeat: '2026-04-28T19:20:00Z'
+recent_progress_2026-04-28_PM: |
+  Massive afternoon arc beyond the F93-F104 cert-pin axis (already
+  documented below). Two parallel work streams shipped today:
+
+  STREAM A — yale's block-2 absorber search (F108-F138, ~30 commits):
+    F108: simple W2 modifications can't cancel residual amplification
+    F109: F104 Phase 2 — bit_condition support in simulator + validator
+    F110: dense block-2 message search reduces target distance 119 → 94
+    F111/F112: sparse active-word subset finds score 90/91 (msgHW 75/26)
+    F115/F121: 0,1,2,8,9 hits empirical floor 86 (yale's primary winner)
+    F123: STRICT radius-2 local minima (12,880 flips, 0 improving)
+    F125: even common-mode flips don't escape
+    F126: fixed-diff resampling also fails (40k samples, 0 improving)
+    F127: additive common-mode also fails
+    F128/F129/F130/F131: tested macbook structural priors (F150/F152)
+    F133: tested F154 dual-wave + F155 4-channel-combined (all falsified)
+    F134-F138: bit19 fixture-local scan chunks 0-4
+
+  STREAM B — macbook's structural framing + cross-bet support (F134-F164):
+    F143/F148/F149/F153: structurally-distinguished cand fixture slate
+      (bit19 + bit28 + bit4 + bit25 + msb_m9cfea9ce, 5 cands)
+    F150/F152/F154/F155: 4 hypothesis-test iterations with yale; all
+      falsified (raw density, 4-channel, dual-wave, combined)
+    F156: honest consolidation — structural priors don't transfer at
+      this budget; algorithmic-level predictions (BP-Bethe, matroid)
+      remain unfalsified
+    F157: AlphaMapleSAT note extended (cross-references to F125+F133)
+    F158: IPASIR-UP API survey extended (block2_wang reopen recipe)
+    F159-F164: bit19 fixture-local scan chunks 1, 34-39 (parallel +
+      partition coordination with yale)
+
+  STATE OF THE BET:
+    - Empirical floor: bit3 score 86, bit19 score 87 (1 above)
+    - Structural-distinction hypothesis (F143): partially redeemed
+      (bit19 reaches comparable floor, doesn't transfer mask
+      identity)
+    - Yale's heuristic local search has plateaued under all natural
+      perturbations (radius-2 strict local minima)
+    - Path forward (per F156): IPASIR-UP propagator (F158/F147),
+      MCTS-cubing (F157 AlphaMapleSAT alignment), matroid intersection
+      (principles framework)
+
+  TODAY'S DISCIPLINE:
+    - 0 SAT compute throughout (all heuristic search, no solver runs)
+    - 0 audit failures
+    - validate_registry clean
+    - ~70 chunks of bit19 scan total (yale + macbook), partition-
+      coordinated post-F161
+
 recent_progress_2026-04-28: |
   MASSIVE F93-F104 ARC: cert-pin axis empirically saturated.
 
