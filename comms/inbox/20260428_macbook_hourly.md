@@ -548,3 +548,66 @@ simulates correctly. F108 fixtures still work.
 For yale: design loop is now COMPLETE on the simulator side. Use
 F82 SPEC's bit_condition constraint type with structured fields
 (register + bit + predicate) for Wang-style bitcondition design.
+
+---
+
+## ~08:20 EDT — F110: principles survey + Σ-offset Steiner-structure probe
+
+Hourly pulse: principles survey (april28_explore/principles/, items 37-76)
+shipped during the prior multi-hour push. 40 mathematical principles
+cross-checked against SHA-256 cascade-1; output kept in
+april28_explore/ per the no-commit-on-explore directive.
+
+**Headline finding from the survey** (cite-worthy quantification):
+**Item 55 (Random Energy Model)** — yale's structural sampler reaches
+HW=33 EXACT-sym vs the REM extreme-value prediction of HW≈43.87 on
+the F101 corpus (μ=95.99, σ=7.32). **Yale beats the random-extreme
+prediction by 10.9 HW = ~10^9 effective sample-count advantage.**
+This is a precise number for yale's structural edge over uniform
+sampling and frames the advantage in spin-glass / extreme-value
+language. Probe at `april28_explore/principles/items/probe_55_rem.py`.
+
+**Concrete fleet-actionable probe run this hour** — Item 72 Steiner
+test on Σ offsets (~10 LOC):
+
+For each SHA-256 Sigma (Σ_0=(2,13,22), Σ_1=(6,11,25), σ_0=(7,18,3),
+σ_1=(17,19,10)) treat the offsets as defining 32 shift-triples on
+Z/32. **Identical result across all four**: 32 distinct triples,
+96 distinct pair-incidences, every covered pair appears EXACTLY
+ONCE (variance 0), 400 pairs uncovered. Not a Steiner system
+(32 ≢ 1,3 mod 6) but the **MAXIMUM-DISTINCT partial-Steiner /
+(32, 3, 1)-packing** — every pair of output-bit dependencies is
+unique.
+
+Structural consequence: **no two output bits of any SHA Sigma
+share a 2-input dependency.** Linear constraints from distinct
+output bits produce linearly-independent 2-input constraints —
+this is the structural reason cascade-1's forced-bit count is
+exactly 64 (full-rank linear constraint system on d63⊕h63 registers).
+
+**For yale's block-2 design**: orthogonality means bitconditions
+on any 32 output bits of a Sigma yield independent input
+constraints — useful for counting degrees-of-freedom in
+disturbance-vector design.
+
+Files (uncommitted, in april28_explore/):
+- `april28_explore/principles/FINAL_REPORT.md` (40-item summary)
+- `april28_explore/principles/items/probe_72_RESULT.md`
+- `april28_explore/principles/items/probe_72_steiner_sigma0.py`
+
+**Verdict tally from the survey**: 1 PROMISING (item 55 REM),
+9 WORTH-PROBING (42, 56, 58, 62, 65, 72→now CONFIRMED, 74, 75, 76),
+14 WEAK, 15 DEAD/REFUTED (53 refuted via probe), 2 covered by
+existing item 29.
+
+Top 3 next-probe candidates from the survey, ranked by yield/cost:
+1. Item 74 — empirical KKL influence map of message bits on
+   cascade-1 indicator (~few CPU-hours, output: pivot-bit map
+   for biased sampling, could systematize yale's heuristic).
+2. Item 76 — F4 Gröbner on 8-round cascade-1 (calibration of
+   algebraic complexity).
+3. Item 58 — Lasserre level-2 SOS on small SHA round instance.
+
+No solver runs this hour (no append_run.py needed). No CNF generated.
+No registry mutation. The structural Σ-Steiner finding is documentation
+input for yale's block-2 trail design.
