@@ -2508,3 +2508,21 @@ Discipline: 0 SAT compute, 0 solver runs.
 - Session has produced 4 calibration findings (F179, F180, F205,
   F206) + 16 commits. Honest negative day.
 
+
+## ~16:50 EDT — F207: structural pivot — cascade_aux 4-cycle analysis
+
+- Wrote tanner_4cycle_count.py and ran on cascade_aux N=32 CNF.
+- Result: 259K 4-cycles, multiplicity-4 dominant (64% of cycles).
+- Gap structure: peaks at gap=1-3 (adjacent), gap=32 (SHA word
+  size), gap=128=4×32 (one mult-36 pair).
+- F134's principles framework predicted gap-9/11 dominance.
+  EMPIRICALLY FALSIFIED: gap-9 and gap-11 have ZERO 4-cycle pairs.
+- Real cascade_aux structure is QUASI-CYCLIC LDPC-style aligned
+  with SHA word boundaries. Different algorithm shape than
+  framework predicted.
+- BP-Bethe direction needs revision: level-2 + quasi-cyclic +
+  high-mult-pair joint marginals, not gap-9/11 cluster correction.
+- This is the day's first STRUCTURAL finding (not just heuristic
+  calibration). Real pivot for cascade_aux_encoding bet.
+- F207 memo committed.
+
