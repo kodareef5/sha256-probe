@@ -1,0 +1,68 @@
+{
+  "schema_version": "2blockcertpin/v1",
+  "cand_id": "cand_n32_bit4_m39a03c2d_fillffffffff",
+  "witness_id": "bit4_HW63_naive_blocktwo_F149_39a03c2d",
+  "block1": {
+    "m0": "0x39a03c2d",
+    "fill": "0xffffffff",
+    "kernel_bit": 4,
+    "W1_57_60": [
+      "0x432ecf25",
+      "0x45393f21",
+      "0x72ac9113",
+      "0xb6befe82"
+    ],
+    "W2_57_60": [
+      "0x619c0a28",
+      "0xc4c0d30c",
+      "0x9cbeeeb0",
+      "0x0e699d5d"
+    ],
+    "expected_status": "near_residual_unsat",
+    "residual_state_diff": {
+      "da63": "0x892d101c",
+      "db63": "0xd1c0122c",
+      "dc63": "0x42030784",
+      "dd63": "0x00000000",
+      "de63": "0x288458f0",
+      "df63": "0x10c85165",
+      "dg63": "0x5e030284",
+      "dh63": "0x00000000"
+    },
+    "residual_hw": 63,
+    "residual_lm_cost": null,
+    "comment": "cand_n32_bit4_m39a03c2d_fillffffffff HW=63 W-witness from F101 corpus (lowest of 3638 records). Built 2026-04-28 (F149) for yale's structurally-distinguished cand absorber search slate. Cand IS structurally distinguished (de58_size=2048, hardlock_bits=12). Per F143/F146/F148 chain."
+  },
+  "block2": {
+    "absorption_pattern": "naive_no_constraints_test",
+    "modified_message_words": [],
+    "W2_constraints": [],
+    "chain_state_input": {
+      "comment": "Block-1 produces non-zero residual (HW=63) with d=h=0 cascade-1 forced. Block-2 starts here."
+    },
+    "target_diff_at_round_N": {
+      "round": 63,
+      "diff_a": "0x00000000",
+      "diff_b": "0x00000000",
+      "diff_c": "0x00000000",
+      "diff_d": "0x00000000",
+      "diff_e": "0x00000000",
+      "diff_f": "0x00000000",
+      "diff_g": "0x00000000",
+      "diff_h": "0x00000000",
+      "comment": "All-zero collision target. Naive block-2."
+    },
+    "expected_status": "forward_broken_test",
+    "expected_modular_paths": [],
+    "predicted_lm_cost_block2": null
+  },
+  "metadata": {
+    "designer": "macbook (F149 fixture for bit4 absorber search slate)",
+    "design_date": "2026-04-28",
+    "design_method": "lowest_hw_corpus_record",
+    "confidence": "deliberately_forward_broken",
+    "compat_with_block1_witness": true,
+    "smaller_N_validation": null,
+    "purpose": "F149 fixture: bit4 structurally-distinguished cand (de58_size=2048, hardlock=12). Slate companion to F148 bit28 fixture. Yale running F110/F111 on these 4 distinguished fixtures should reveal whether structural distinction transfers across cands as a class."
+  }
+}

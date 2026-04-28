@@ -1743,3 +1743,40 @@ F109-F126 = 18 sub-F numbers in ~3 hours of fleet time.
 validate_registry: 0 errors, 0 warnings.
 
 Discipline: 0 SAT compute, 50 forward-sim samples (validation).
+
+---
+
+## ~15:10 EDT — F149: 3 more distinguished-cand fixtures — yale's slate now 4 cands
+
+Built fixtures for the 3 other structurally distinguished cands
+(F143) with available F101 corpora:
+- bit4_HW63_39a03c2d (de58=2048, hardlock=12)
+- bit25_HW62_09990bd2 (de58=4096, hardlock=13)
+- msb_HW62_9cfea9ce (de58=4096, hardlock=10)
+
+Combined with F148's bit28_HW59 (de58=2048, hardlock=15), yale now
+has a 4-cand SLATE of structurally distinguished testbeds. All
+schema 2blockcertpin/v1, simulator-validated FORWARD_BROKEN
+baselines (median target distances 128-130, comparable to bit3's 119).
+
+Predicted experiment (per F143 hypothesis): rank-order of yale's
+absorber score floor should correlate with hardlock_bits:
+  bit28 (hl=15) → predicted floor 70-80
+  bit25 (hl=13) → 73-83
+  bit4  (hl=12) → 75-85
+  msb_m9cfea9ce (hl=10) → 78-88
+  bit3 (generic) → 86 (yale's empirical baseline)
+
+If yale runs F110/F111 on this slate + bit3, the rank-order test
+empirically validates or refutes the structural-distinction
+hypothesis as a CLASS PROPERTY (not just one cand).
+
+Estimated yale-side compute: ~5 min per cand × 4 = ~20 min total.
+All fixtures pre-validated; no new tooling needed.
+
+Memo: `bets/block2_wang/results/20260428_F149_distinguished_cand_slate.md`
+
+This is the cleanest cross-bet structural experiment the project has
+set up today. Either outcome is informative.
+
+Discipline: 0 SAT compute, ~90 forward-sim samples for fixture validation.
