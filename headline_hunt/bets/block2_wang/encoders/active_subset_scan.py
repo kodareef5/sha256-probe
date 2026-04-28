@@ -70,6 +70,27 @@ def subset_iter(pool, sizes, include_words):
             yield tuple(sorted(include + extra))
 
 
+def load_subset_list(path):
+    subsets = []
+    seen = set()
+    with open(path) as f:
+        for lineno, line in enumerate(f, 1):
+            line = line.split("#", 1)[0].strip()
+            if not line:
+                continue
+            try:
+                subset = tuple(parse_active_words(line))
+            except ValueError as exc:
+                raise ValueError(f"{path}:{lineno}: {exc}") from exc
+            if subset in seen:
+                raise ValueError(f"{path}:{lineno}: duplicate subset {line!r}")
+            seen.add(subset)
+            subsets.append(subset)
+    if not subsets:
+        raise ValueError(f"{path}: no subsets found")
+    return subsets
+
+
 def scan_subset(bundle, subset, subset_idx, args, hints, init_pair):
     search_args = SimpleNamespace(
         seed=args.seed + subset_idx * args.seed_stride,
@@ -146,6 +167,8 @@ def main():
                     help="Comma/range list of subset sizes to scan")
     ap.add_argument("--include", default="",
                     help="Comma/range list of message words forced into every subset")
+    ap.add_argument("--subset-list", default=None,
+                    help="File of explicit active-word masks, one comma/range mask per line")
     ap.add_argument("--limit", type=int, default=0,
                     help="Stop after scanning this many subsets; 0 means no limit")
     ap.add_argument("--start-index", type=int, default=0,
@@ -182,10 +205,16 @@ def main():
     with open(args.bundle) as f:
         bundle = json.load(f)
 
-    pool = parse_active_words(args.pool)
-    sizes = parse_sizes(args.sizes)
-    include = parse_active_words(args.include) if args.include else []
-    all_subsets = list(subset_iter(pool, sizes, include))
+    if args.subset_list:
+        all_subsets = load_subset_list(args.subset_list)
+        pool = sorted({word for subset in all_subsets for word in subset})
+        sizes = sorted({len(subset) for subset in all_subsets})
+        include = []
+    else:
+        pool = parse_active_words(args.pool)
+        sizes = parse_sizes(args.sizes)
+        include = parse_active_words(args.include) if args.include else []
+        all_subsets = list(subset_iter(pool, sizes, include))
     if args.shuffle:
         random.Random(args.seed).shuffle(all_subsets)
     total_available = len(all_subsets)
@@ -215,6 +244,7 @@ def main():
 
     print("=== active subset scan ===")
     print(f"Bundle:              {args.bundle}")
+    print(f"Subset list:         {args.subset_list or '(generated)'}")
     print(f"Pool:                {','.join(str(w) for w in pool)}")
     print(f"Sizes:               {','.join(str(s) for s in sizes)}")
     print(f"Include:             {','.join(str(w) for w in include) if include else '(none)'}")
