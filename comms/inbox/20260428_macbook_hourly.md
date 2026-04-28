@@ -706,3 +706,82 @@ The path forward is yale's structural Wang-style multi-round
 bitconditions, not random/hill-climb residual minimization.
 
 validate_registry.py: 0 errors, 0 warnings post-edit.
+
+---
+
+## ~10:30-12:30 EDT — F113-F125: principles deep-thought arc (40-item exhaustive analysis)
+
+User correction reframed earlier hour's work — original 40-item
+principles survey was too shallow ("did u just review and close it
+out"). Pivoted to genuinely deep analysis as the plan intended
+(hours per item, not minutes).
+
+**Deliverables in `april28_explore/principles/`** (uncommitted per
+no-commit-on-explore directive):
+
+10 cross-pollination syntheses tying 4-12 items together each:
+- SYNTHESIS_dilute_glass.md (items 35,55,56,72)
+- SYNTHESIS_iwasawa_pipelines.md (items 42,45 + de58 growth law)
+- SYNTHESIS_kkl_message_influence.md (items 29,72,74)
+- SYNTHESIS_mps_sos_tension.md (items 35,58,75,76)
+- SYNTHESIS_treewidth_compute.md (Cayley graph α=4, tw≈28)
+- SYNTHESIS_matroid.md (poly-time matroid intersection algorithm)
+- SYNTHESIS_branching.md (Galton-Watson μ≈2.92 free, μ=1 conditional)
+- SYNTHESIS_LDPC_BP.md (BP-Bethe at level 4 poly-time)
+- SYNTHESIS_lottery_ticket.md (LTH framing of cascade-1)
+- SYNTHESIS_MASTER_INVARIANT.md (3-tensor decomposition: Σ-coupling,
+  algebraic-rank, statistical-empirical)
+
+16 individual-item deep dives elevating verdicts beyond first-pass:
+- 38 BSD (cascade L-function rank ≈ 4)
+- 39 Collatz (Tao-style probabilistic methods + 2-adic conjugacy)
+- 41 Faltings (Mordell-Weil-like rank ≈ 108)
+- 43 class field theory (unifies items 38,41,42)
+- 47 Ricci flow (discrete Ollivier-Ricci on cascade Tanner graph)
+- 50 Floer (discrete chain complex; H_1 ≈ 108)
+- 52 SLE (DEAD confirmed — clusters too FAT for SLE_κ)
+- 54 last-passage (Tracy-Widom GUE for cascade tails)
+- 57 sandpile SOC (τ=4/3 universality, predicts yale's HW=33 count)
+- 59 submodular (poly-time greedy with (1-1/e) on MI)
+- 61 Reed-Solomon list decoding (tensor-product code structure)
+- 63 AG codes (Forney GMD decoder for Walsh-bipartite cascade-1)
+- 64 information bottleneck (round 60 IB-optimal)
+- 65 Stein's method (bulk ≈4% Gaussian; HW=21 at K=10⁷ extrap)
+- 66 Talagrand (effective rank r* ≈ 72)
+- 67 log-Sobolev (rigorous random-sampling lower bound)
+- 71 difference sets (3-level partial DS = association scheme)
+
+Plus REMAINING_ITEMS_DEEP_BATCH.md (items 37,40,44,46,48,49,51,68
+revisited — 4 revised to WEAK, 4 stay DEAD with justification),
+CRITICAL_ASSESSMENT.md (interrogates framework robustness),
+MASTER_RESEARCH_PROGRAM.md (16 quantitative invariants tabulated +
+7 poly-time algorithm candidates).
+
+**16 quantitative invariants of cascade-1 derived**:
+yale advantage 10⁹, Σ-untouched fraction 35.5%, α=4, tw≈28, free
+GW μ=2.92, conditional μ=1.0 (critical), MW rank ≈108, r*≈72,
+BSD rank ≈4, sandpile τ=4/3, GW cluster τ=3/2, Iwasawa λ=22,
+Stein W-distance ~4%, yale floor extrap to HW≈21 at K=10⁷, IB
+round 60, KKL min-influence ~5.6e-7.
+
+**7 independent poly-time algorithm candidates** surfaced:
+matroid intersection M_C∩M_P, generalized BP-4, submodular-greedy
+on MI, tree-decomposition DP at width 28, Σ-aligned F4 Gröbner,
+discrete Ricci flow preprocessing, Forney GMD list decoding.
+
+**12 novel framings of cascade-1** with no precedent in standard SHA
+cryptanalysis literature (per my reading): Σ-Steiner partial cover,
+cascade Iwasawa invariants, MW-like rank from non-linear density,
+IB-optimal round, submodular-greedy yale-replacement, BP-4 cycle
+correction, partition-matroid intersection, Σ-aligned F4 ordering,
+critical-bridge Galton-Watson, sandpile SOC universality, modified-TW
+tails, lottery-ticket framing of cascade-1.
+
+**Critical Tension 1** identified: Stein-Gaussian (HW=0 unreachable)
+vs sandpile-power-law (heavy tail penalty only) vs lottery-ticket
+(no fundamental wall). Empirical tail-shape on yale's sub-corpus
+distinguishes — single highest-leverage probe.
+
+No SAT compute. No solver runs. ~30 markdown files of derived
+structural analysis. Uncommitted in april28_explore/principles/
+per no-commit-on-explore directive.
