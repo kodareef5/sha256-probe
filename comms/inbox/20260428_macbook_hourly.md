@@ -2689,3 +2689,19 @@ Discipline: 0 SAT compute, 0 solver runs.
 - F215 closes the F207-F215 structural arc with quantitative
   cross-validation. 26 commits this session.
 
+
+## ~17:36 EDT — F216: cross-encoder W1_58 — universal cluster, different var indices
+
+- F216 ran cross_validate_W1_58.py on 5 TRUE sr=61 CNFs.
+- Result: TRUE sr=61 has near-fully-shell cluster at VARS 2-33
+  (28-31 of 32 in shell), NOT vars 34-65. Cluster shifted to
+  different var-index range vs cascade_aux.
+- BOTH encoders have ONE 32-var schedule cluster that's near-fully
+  shell-eliminable. Universal structural fact.
+- cascade_aux: 32/32 strict; TRUE sr=61: 28-31/32 (slightly leaky).
+- F214's hypothesis structurally supported but qualified: the
+  "fully-forced" cluster exists in both encoders, but its var index
+  and exactness depend on encoder layout.
+- Open items: read TRUE sr=61 encoder to ground var-index mapping.
+- F216 closes the F207-F216 arc. 27 commits this session.
+
