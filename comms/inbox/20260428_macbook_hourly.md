@@ -2355,3 +2355,20 @@ Discipline: 0 SAT compute, 0 solver runs.
 - F143 may still hold under basin-init or global method (SAT/BDD).
 - F182 memo committed.
 
+
+## ~16:12 EDT — F183/F184/F185/F186: cross-cand chunk-0 floor map
+
+- Chunk-0 scans on bit4 (93), bit25 (94), msb (91) — added to bit3 (86),
+  bit19 (90), bit28 (91). All distinguished cands sit 4-8 points
+  ABOVE bit3 at random-init 3×4000 budget.
+- F143 hypothesis (distinguished cands > bit3 at fixture-local) further
+  falsified — now 5 cands consistent.
+- Universal pattern: every cand's chunk-0 winner has {0,1,2,*,*} prefix.
+  Terminal pair (last 2 words) is fixture-specific.
+- msb has unique structure: top-2 are {0,1,2,3,4} and {0,1,2,4,5} —
+  consecutive indices, no other cand shows this.
+- F186 memo committed.
+- Open questions: deeper basins under basin-init? Global method
+  (SAT/BDD) for non-local search? Bit3's basin is the only sub-90
+  finding so far across 6 cands.
+
