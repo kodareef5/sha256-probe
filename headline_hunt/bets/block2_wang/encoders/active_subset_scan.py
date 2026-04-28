@@ -148,6 +148,8 @@ def main():
                     help="Comma/range list of message words forced into every subset")
     ap.add_argument("--limit", type=int, default=0,
                     help="Stop after scanning this many subsets; 0 means no limit")
+    ap.add_argument("--start-index", type=int, default=0,
+                    help="Skip this many subsets after optional shuffle")
     ap.add_argument("--shuffle", action="store_true",
                     help="Shuffle subset order before applying --limit")
     ap.add_argument("--restarts", type=int, default=2)
@@ -174,6 +176,8 @@ def main():
     args = ap.parse_args()
     if args.min_used_words < 0 or args.min_used_words > 16:
         raise SystemExit("--min-used-words must be in [0,16]")
+    if args.start_index < 0:
+        raise SystemExit("--start-index must be non-negative")
 
     with open(args.bundle) as f:
         bundle = json.load(f)
@@ -184,6 +188,9 @@ def main():
     all_subsets = list(subset_iter(pool, sizes, include))
     if args.shuffle:
         random.Random(args.seed).shuffle(all_subsets)
+    total_available = len(all_subsets)
+    if args.start_index:
+        all_subsets = all_subsets[args.start_index:]
     if args.limit:
         all_subsets = all_subsets[:args.limit]
     total = len(all_subsets)
@@ -212,6 +219,8 @@ def main():
     print(f"Sizes:               {','.join(str(s) for s in sizes)}")
     print(f"Include:             {','.join(str(w) for w in include) if include else '(none)'}")
     print(f"Subsets scanned:     {len(scanned)}")
+    print(f"Total available:     {total_available}")
+    print(f"Start index:         {args.start_index}")
     print(f"Restarts/iterations: {args.restarts}/{args.iterations}")
     print(f"Penalties hw/word:   {args.hw_penalty}/{args.word_penalty}")
     min_used_label = "all allowed" if args.require_all_used else str(args.min_used_words)
@@ -224,6 +233,8 @@ def main():
             json.dump({
                 "bundle": args.bundle,
                 "args": vars(args),
+                "total_available": total_available,
+                "start_index": args.start_index,
                 "elapsed_seconds": round(time.time() - t0, 3),
                 "subsets_scanned": len(scanned),
                 "subsets": scanned,
