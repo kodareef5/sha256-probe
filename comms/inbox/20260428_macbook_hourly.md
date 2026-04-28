@@ -2674,3 +2674,18 @@ Discipline: 0 SAT compute, 0 solver runs.
     arc, strategic shift, cross-bet alignment finding.
 - validate_registry: 0 errors, 0 warnings.
 
+
+## ~17:30 EDT — F215 (v2): W1_58 universality confirmed across 5 CNFs
+
+- F215v2 ran cross_validate_W1_58.py on 5 cascade_aux CNFs
+  (5 m0 values, 4 fills, 2 bit positions).
+- Result: ALL 5 CNFs have 32/32 W1_58 bits in shell — universal.
+- Other schedule words (W1_57, W2_57, W2_58) show variable shell
+  counts depending on m0/fill specifics.
+- Effective active schedule: 177±5 bits across catalog (range
+  168-182). The "184" from F214 was representative; per-CNF
+  varies by ~8%.
+- Empirically validates F214's cascade-1-hardlock hypothesis.
+- F215 closes the F207-F215 structural arc with quantitative
+  cross-validation. 26 commits this session.
+
