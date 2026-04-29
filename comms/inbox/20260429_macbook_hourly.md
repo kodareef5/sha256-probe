@@ -404,3 +404,21 @@ true_mismatch_hw < 20 with chart=(dCh,dh) — best seed config.
 Worth a 1M-step run if you have cycles.
 
 Commit: [next] (F316).
+
+
+## ~10:05 EDT — F317: multibit moves help chart coherence, NOT a57 floor
+
+- Extended dM mutator to 1+2+3-bit combined flips. F317 (multibit,
+  F358 seed) vs F315 (1-bit, F358 seed): all 8 restarts in chamber
+  chart family (vs 5/8), avg chart matches +73%, BUT best a57=6 (vs
+  F315's 4) and best D61=11 (vs 9).
+- Multibit moves escape chart pockets but jump over fine-grained
+  basins. Tradeoff: pure 1-bit gets stuck, pure multibit can't
+  converge fine.
+- Natural extension: ANNEAL the multibit ratio. Multibit early (escape
+  pockets), 1-bit late (fine convergence). Queued for next iteration.
+- Chamber attractor still unreached after 24 restarts × 20k = 480k
+  iters from chamber-adjacent init, across 1-bit and multibit
+  mechanisms. The basin is genuinely small and isolated.
+
+Commit: [next] (F317).
