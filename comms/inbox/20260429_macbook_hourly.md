@@ -662,3 +662,25 @@ Commit: [next] (F331 coordination note).
   CDCL-derived, consistent with F324-F326 search-invariant thesis.
 
 Commit: [next] (F332).
+
+
+## ~16:35 EDT — F333: F331 drift warning empirically confirmed via yale F362 data
+
+- Inspected 5 of 28 (M1, M2) pairs in yale's F362 Pareto-descendant JSON.
+  Cascade-1 kernel for idx=0 requires: M1[0]^M2[0] = M1[9]^M2[9] = bit 31,
+  ALL other words zero diff.
+- 0 of 5 inspected pairs satisfy this. All 5 have nonzero diff at 9-16
+  active words (HW 64 across all 16 words for descendant_runs[0].best).
+  Word 9's bit 31 is NOT set in any inspected pair (cascade-1 violated).
+- F362 best (a57=5 D61=9 score=35.4 chart=(dh,dCh)) is NOT a cascade-1
+  collision pair. It's a low-atlas-loss point in the drift-allowed
+  landscape only.
+- TRUE cascade-1 floor stands at F322's measurement: a57=5 D61=8 score=39.65.
+- F333 is the cross-machine version of F322 self-retraction (6th drift
+  catch this 2-day arc). Recommendation to yale unchanged: re-run with
+  `--modes common_xor,common_add` only.
+
+What's still valid from F36x: Pareto-landscape structure (F360),
+multi-bit brittleness extension (F366-F368 0-count rates).
+
+Commit: [next] (F333).
