@@ -3048,3 +3048,19 @@ Discipline: 0 SAT compute, 0 solver runs.
   has 2 (87 and 90).
 - 54 commits this session.
 
+
+## ~20:25 EDT — F257: heuristic landscape consolidation memo
+
+- Wrote F257 synthesis: maps the 22-memo heuristic-search arc
+  (F176-F256) into a single reference document.
+- Consolidated picture across 3 fixtures × 4+ seeds:
+  - Robust 8x50k random-init floor: 94-95
+  - Seed-narrow basins: 86-90 across cands
+  - 86 robust across seeds (bit3 + bit4 via different seeds)
+  - All basins sharp, seed-specific, internally isolated
+- Heuristic search has saturated cascade-1 fixtures; no method
+  tested reaches sub-86.
+- Non-heuristic path forward: IPASIR-UP propagator (Phase 2D-2F,
+  F238 recipe), cube-and-conquer (F157), BDD, or different encoder.
+- 55 commits this session.
+
