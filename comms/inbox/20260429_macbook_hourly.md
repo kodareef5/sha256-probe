@@ -1061,3 +1061,33 @@ Phase 2D propagator implementation is now empirically grounded:
   - Concrete reopen path for the bet
 
 Commit: [next] (F348).
+
+
+## ~22:18 EDT — F349: m17454e4b/bit29 sr60 PENDING verification
+
+- Background task notification arrived: yesterday's task on
+  aux_expose_sr60_n32_bit29_m17454e4b_fillffffffff.cnf returned
+  `s SATISFIABLE` after running ~24h (started yesterday 21:51 UTC,
+  completed today 21:59 UTC).
+- This cand has been tested at sr=61 only (3 logged TIMEOUT runs);
+  no prior sr=60 run logged. If verified, would be a NEW sr=60 SAT
+  instance (the project's second after m17149975/bit31).
+- Verified the audit: CNF audits CONFIRMED, cand registered, encoder
+  check passes (da[56]=0 cascade-eligible).
+- Re-ran kissat with --time=600 (10min budget). Result: s UNKNOWN
+  after 598s, 20.7M conflicts, 34k conflicts/sec.
+- 10-min budget INSUFFICIENT to reproduce SAT. Original task ran
+  hours/possibly ~24h with no --time limit.
+- Saved both outputs (original task + 10-min verification log).
+- NOT claiming new SAT. PENDING longer verification (1h kissat run
+  needs user approval per multi-hour-compute rule).
+
+Concrete next: ASK USER before launching 1h kissat verification.
+If approved, extract model + lib/sha256 verify + log via append_run.py.
+If verified, update CLAIMS.md (n32_sr60 SAT count: 1 → 2).
+
+Discipline gap noted: the original bg task didn't use --output-model
+or --time flags, didn't log via append_run.py. The SAT model itself
+is NOT preserved — only the verdict line.
+
+Commit: [next] (F349 PENDING memo).
