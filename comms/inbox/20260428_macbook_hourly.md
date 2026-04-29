@@ -3336,3 +3336,22 @@ Discipline: 0 SAT compute, 0 solver runs.
 - Robust floor across non-7101 seeds: 91-95.
 - 71 commits this session.
 
+
+## ~22:30 EDT — F277: yale F337 score-90 confirmed seed-narrow + {1,3} pattern observation
+
+- F277 8×50k seed 5001 on yale F337 mask `1,3,6,8,12`: best 92.
+- Three-seed: 7101=90, 9001=92, 5001=92. Confirmed seed-7101 narrow.
+- bit19 seed-7101 narrow-basin catalog (5 known):
+  - F135 chunk 1:  `0,1,3,8,9`    @ 87
+  - F335 chunk 26: `1,3,5,6,11`   @ 88
+  - F248 chunk 19: `0,7,9,12,14`  @ 90
+  - F301 chunk 21: `1,2,3,4,15`   @ 90
+  - F337 chunk 27: `1,3,6,8,12`   @ 90
+- STRUCTURAL OBSERVATION: 4 of 5 narrow basins contain bits {1,3}.
+  Only F248 is outlier (uses 0,7,9,12,14).
+- Possible explanation: bits {1,3} are in a structurally-favorable
+  neighborhood for seed-7101 search trajectories on bit19.
+- Score progression: lowest = 87 (chunk 1), all others 88-90.
+  No further sub-87 found despite ~27 chunks scanned.
+- 72 commits this session.
+
