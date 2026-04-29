@@ -20,9 +20,11 @@ Reports:
 
 import argparse
 import heapq
+import json
 import sys
 import time
 from collections import defaultdict
+from pathlib import Path
 
 
 def parse_cnf(path):
@@ -109,6 +111,21 @@ def categorize_var(v, n_free=4):
         return ("AUX", v)
 
 
+def semantic_entry(v, n_free=4):
+    cat, info = categorize_var(v, n_free)
+    entry = {"var": v, "category": cat}
+    if cat in ("CONST_TRUE", "AUX"):
+        entry["index"] = info
+        return entry
+    word, round_s = cat.split("_", 1)
+    entry.update({
+        "word": word.lower(),
+        "round": int(round_s),
+        "bit": info,
+    })
+    return entry
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("cnf")
@@ -116,6 +133,8 @@ def main():
                     help="Fill threshold above which a var is hard-core")
     ap.add_argument("--n-free", type=int, default=4,
                     help="n_free for cascade_aux semantic mapping")
+    ap.add_argument("--out-json", type=Path,
+                    help="optional machine-readable hard-core summary")
     args = ap.parse_args()
 
     t0 = time.time()
@@ -181,6 +200,48 @@ def main():
         for v in sorted(schedule_outside_core):
             cat, info = categorize_var(v, args.n_free)
             print(f"  var {v:>5}: {cat}[{info}]")
+
+    if args.out_json:
+        schedule_core = [
+            semantic_entry(v, args.n_free)
+            for v in sorted(schedule_in_core)
+        ]
+        schedule_shell = [
+            semantic_entry(v, args.n_free)
+            for v in sorted(schedule_outside_core)
+        ]
+        deepest_core = [
+            {
+                "step": step,
+                "var": v,
+                "fill": fill,
+                "semantic": semantic_entry(v, args.n_free),
+            }
+            for step, v, fill in trajectory[-50:]
+        ]
+        summary = {
+            "cnf": args.cnf,
+            "threshold": args.threshold,
+            "n_free": args.n_free,
+            "n_vars": n_vars,
+            "n_clauses": len(clauses),
+            "n_primal_nodes": n_nodes,
+            "shell_size": shell_size,
+            "core_size": core_size,
+            "schedule_total": len(schedule_total),
+            "schedule_core_count": len(schedule_core),
+            "schedule_shell_count": len(schedule_shell),
+            "aux_core_count": cat_counts["AUX"],
+            "core_vars": core_vars,
+            "schedule_core": schedule_core,
+            "schedule_shell": schedule_shell,
+            "deepest_core": deepest_core,
+        }
+        args.out_json.parent.mkdir(parents=True, exist_ok=True)
+        with args.out_json.open("w") as f:
+            json.dump(summary, f, indent=2, sort_keys=True)
+            f.write("\n")
+        print(f"\nWrote JSON summary: {args.out_json}")
 
 
 if __name__ == "__main__":
