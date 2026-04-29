@@ -643,3 +643,22 @@ Commit: [next] (F330).
   to triple moves regardless of drift status.
 
 Commit: [next] (F331 coordination note).
+
+
+## ~16:15 EDT — F332: σ0 fan-in INVERTS the F287 intuition
+
+- σ0 light bits 29-31 (fan-in=2): mean core 0.433
+- σ0 dense bits 0-28 (fan-in=3): mean core 0.783 (-0.349 NEGATIVE diff)
+- Compound zones at W2_58:
+    Both light (29-31):  0.433 — lowest
+    σ1 light only (22-28): 0.857 — highest
+    Both dense (0-21): 0.759
+- Bit 31 universally SHELL (0/10) despite being lightest fan-in.
+  Reframe: high-bit positions are STRUCTURALLY ISOLATED in modular
+  addition (no carry-in from below, no carry-out forward), so CDCL
+  has fewer coupling constraints to derive them. Hence more shell.
+- Combined with F323 (σ1 -0.029): simple-fan-in hypothesis is wrong
+  in both directions. The 132-bit core's specific positions are
+  CDCL-derived, consistent with F324-F326 search-invariant thesis.
+
+Commit: [next] (F332).
