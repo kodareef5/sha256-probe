@@ -3131,3 +3131,18 @@ Discipline: 0 SAT compute, 0 solver runs.
 - F262 memo committed.
 - 60 commits this session.
 
+
+## ~20:44 EDT — F263: yale's depth-2 + 10k-conflict protocol on F235
+
+- Replicated yale's F303 protocol on F235 hard instance: 112 cubes
+  (depth-2 dW[58] bits 22-29) at cadical 10k conflicts each.
+- Result: 112/112 UNKNOWN at 10k conflicts. Mean wall 0.34s.
+- Interesting: F235 cubes mean 0.34s vs yale's bit31 cubes 0.46s
+  (F303). F235 cubes finish FASTER but still UNKNOWN — cadical
+  detects insufficient budget faster on F235.
+- Combined F262 (16 cubes × 30s) + F263 (112 cubes × 10k conflicts):
+  F235 doesn't yield to depth-2 cube-and-conquer at modest budgets.
+- Higher conflict budgets (100k+) needed for ranking signal, or
+  deeper cubes (depth-3 = 8 fixed bits) for tractability.
+- 61 commits this session.
+
