@@ -3146,3 +3146,26 @@ Discipline: 0 SAT compute, 0 solver runs.
   deeper cubes (depth-3 = 8 fixed bits) for tractability.
 - 61 commits this session.
 
+
+## ~21:08 EDT — Massive yale burst F305-F313
+
+- yale shipped 8 commits (F305-F313) while I paused:
+  - F305: cube_runner stats mode
+  - F306: aux_force sr61_bit25 depth-1 cube pilot (50k conflicts)
+  - F307: depth-2 ranked pairs at 100k conflicts
+  - F308: outlier cube 60s timeout test
+  - F309: depth-3 expansion at 100k conflicts (still UNKNOWN)
+  - F310: cube stats ranker (uses solver internals not just wall)
+  - F311: hard-core cube seed selector (uses my F213 + JSON export)
+  - F312: shell vs core unit cubes comparison
+  - F313: selector manifest emission
+- Yale extended my identify_hard_core.py with --out-json (semantic_entry)
+- Yale's selector ranks schedule bits by: hard-core membership +
+  observed CaDiCaL stats + preferred branch value
+- Combined yale+macbook cube findings: F235 still UNSAT-intractable
+  even at depth-3 100k-conflicts; yale building sophisticated cube-
+  prioritization stack
+- F264 launched: macbook re-running hard-core JSON for F235 cand
+  to feed into yale's selector pipeline
+- 62 commits this session (macbook side).
+
