@@ -76,6 +76,7 @@ Default outputs:
 - `results/20260429_F361_pareto_seeded_atlas_continuation.{json,md}`
 - `results/20260429_F362_pareto_descendant_continuation.{json,md}`
 - `results/20260429_F363_d61_weighted_descendant_continuation.{json,md}`
+- `results/20260429_F364_m1_move_descendant_continuation.{json,md}`
 
 ## Readout
 
@@ -181,9 +182,14 @@ It does not descend: under the beta=2 score, seed and best both remain 44.4
 with `a57=5`, D61=9, chart `dh,dCh`. The current raw/common message move set
 appears locally stuck at that basin.
 
+F364 changes the move family around the same F362 `best_D61` descendant by
+adding raw M1-side flips and allowing 3-flip proposals. It still does not
+descend: seed and best remain score 35.4, `a57=5`, D61=9, chart `dh,dCh`.
+This makes the basin look genuinely local under message-side bit moves.
+
 ## Next tracks
 
 - add outcome-aware calibration before spending more budget on F343-style selectors
 - use F342 stable-core coordinates as hard features for BP/matroid audits
 - use common-mode atlas continuation as a post-atlas polish operator
-- try a different move family around the F362 basin, not just heavier D61 scoring
+- probe deterministic neighborhoods around the F362 basin to identify blocked coordinates
