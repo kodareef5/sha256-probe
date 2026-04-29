@@ -3262,3 +3262,20 @@ Discipline: 0 SAT compute, 0 solver runs.
   cubes at 200k+ conflicts.
 - 67 commits this session.
 
+
+## ~21:55 EDT — F272/F273: 128 universal hard-core CONFIRMED across 6 sr60 cands
+
+- F272: generated 3 more sr60 hard-core JSONs (bit0_m8299b36f,
+  bit17_m427c281d, bit18_m347b0144).
+- F273: ran yale's stability tool on 6 sr60 cand set:
+  - stable_core: 139 bits (down from F271's 150 — more sample dilutes
+    near-stable bits)
+  - stable_shell: 38 bits
+  - variable: 79 bits (up from 60 — more diversity surfaces)
+- The 128-bit UNIVERSAL HARD CORE (W*_59 + W*_60) is CONFIRMED:
+  W1_59, W1_60, W2_59, W2_60 all 32/32 stable across 6 cands.
+- W1_58 universal SHELL CONFIRMED: 32/32 stable_shell across 6 cands.
+- Yale's F328 finding: gap-128 high-mult pairs are p1/p2 STATE-BIT
+  ALIASES (not Σ rotation gaps). Sharper than F207's interpretation.
+- 68 commits this session.
+
