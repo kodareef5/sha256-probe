@@ -73,9 +73,10 @@ Decomposition:
 | Shell vars | 9495 |
 | Core vars | 3999 |
 | Schedule vars | 192 |
-| Schedule vars in core | 151 |
+| Schedule vars in core | 150 |
 | Schedule vars in shell | 42 |
 | Aux vars in core | 3848 |
+| CONST_TRUE in core | 1 |
 
 Shell schedule distribution:
 

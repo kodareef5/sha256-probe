@@ -171,6 +171,8 @@ def main():
         cat, _ = categorize_var(v, args.n_free)
         if cat == "AUX":
             cat_counts["AUX"] += 1
+        elif cat == "CONST_TRUE":
+            cat_counts["CONST_TRUE"] += 1
         else:
             cat_counts["SCHEDULE"] += 1
     print(f"\nHard-core var categorization:")
@@ -178,6 +180,8 @@ def main():
           f"{cat_counts['SCHEDULE']} vars")
     print(f"  Tseitin AUX (vars {2+2*args.n_free*32}+): "
           f"{cat_counts['AUX']} vars")
+    if cat_counts["CONST_TRUE"]:
+        print(f"  CONST_TRUE: {cat_counts['CONST_TRUE']} var")
 
     # Top 20 deepest-core vars (eliminated last)
     print(f"\nTop 20 deepest-core vars (eliminated last):")
@@ -189,7 +193,7 @@ def main():
     schedule_in_core = set()
     for v in core_vars:
         cat, _ = categorize_var(v, args.n_free)
-        if cat != "AUX":
+        if cat not in ("AUX", "CONST_TRUE"):
             schedule_in_core.add(v)
 
     schedule_total = set(range(2, 2 + 2 * args.n_free * 32))
@@ -232,6 +236,7 @@ def main():
             "schedule_core_count": len(schedule_core),
             "schedule_shell_count": len(schedule_shell),
             "aux_core_count": cat_counts["AUX"],
+            "const_true_core_count": cat_counts["CONST_TRUE"],
             "core_vars": core_vars,
             "schedule_core": schedule_core,
             "schedule_shell": schedule_shell,
