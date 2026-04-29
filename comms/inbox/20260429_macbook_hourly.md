@@ -208,3 +208,11 @@ universal-hard-core characterization arc left off.)
   corpora now.
 - 90 commits across 2-day arc.
 
+
+## ~03:53 EDT — F296/F297: 2 more cand corpora shipped
+
+- corpus_bit00_mf3a909cc_fillaaaaaaaa: 10k records, 7.5MB
+- corpus_bit06_m024723f3_fill7fffffff: 10k records, 7.5MB
+- block2_wang per-cand corpora now: 18 (was 16, +2 this hour).
+- 91 commits across 2-day arc.
+
