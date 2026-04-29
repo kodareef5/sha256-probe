@@ -1,0 +1,2218 @@
+{
+  "calibration": {
+    "positive_ranks": [
+      {
+        "active_mask": "1,3,6,8,12",
+        "best_score": 90,
+        "objective": 26.008887,
+        "objective_rank": 117,
+        "support": 2
+      },
+      {
+        "active_mask": "1,3,5,6,11",
+        "best_score": 88,
+        "objective": 24.073182,
+        "objective_rank": 380,
+        "support": 2
+      },
+      {
+        "active_mask": "2,3,11,12,15",
+        "best_score": 90,
+        "objective": 23.511553,
+        "objective_rank": 488,
+        "support": 1
+      },
+      {
+        "active_mask": "1,2,3,4,15",
+        "best_score": 90,
+        "objective": 23.48859,
+        "objective_rank": 492,
+        "support": 2
+      },
+      {
+        "active_mask": "0,1,3,8,9",
+        "best_score": 87,
+        "objective": 23.339222,
+        "objective_rank": 537,
+        "support": 3
+      },
+      {
+        "active_mask": "0,2,3,8,9",
+        "best_score": 89,
+        "objective": 23.279416,
+        "objective_rank": 551,
+        "support": 1
+      },
+      {
+        "active_mask": "0,1,2,7,15",
+        "best_score": 90,
+        "objective": 21.769122,
+        "objective_rank": 981,
+        "support": 1
+      },
+      {
+        "active_mask": "2,6,8,11,12",
+        "best_score": 88,
+        "objective": 21.095542,
+        "objective_rank": 1242,
+        "support": 1
+      },
+      {
+        "active_mask": "2,5,9,10,11",
+        "best_score": 90,
+        "objective": 18.95184,
+        "objective_rank": 2090,
+        "support": 1
+      },
+      {
+        "active_mask": "2,3,7,13,15",
+        "best_score": 90,
+        "objective": 18.826991,
+        "objective_rank": 2139,
+        "support": 1
+      },
+      {
+        "active_mask": "2,4,6,11,15",
+        "best_score": 90,
+        "objective": 18.661746,
+        "objective_rank": 2224,
+        "support": 1
+      },
+      {
+        "active_mask": "1,7,10,11,15",
+        "best_score": 88,
+        "objective": 18.500794,
+        "objective_rank": 2289,
+        "support": 1
+      },
+      {
+        "active_mask": "2,4,6,11,13",
+        "best_score": 89,
+        "objective": 16.165404,
+        "objective_rank": 3222,
+        "support": 1
+      },
+      {
+        "active_mask": "2,5,7,9,10",
+        "best_score": 90,
+        "objective": 15.822944,
+        "objective_rank": 3338,
+        "support": 1
+      },
+      {
+        "active_mask": "0,7,9,12,14",
+        "best_score": 90,
+        "objective": 14.121284,
+        "objective_rank": 3827,
+        "support": 2
+      }
+    ],
+    "top_known_good": {
+      "active_mask": "1,3,6,8,12",
+      "best_score": 90,
+      "objective": 26.008887,
+      "objective_rank": 117,
+      "support": 2
+    },
+    "top_observed": {
+      "active_mask": "1,2,3,8,11",
+      "active_words": [
+        1,
+        2,
+        3,
+        8,
+        11
+      ],
+      "contains_1_3": true,
+      "coverage_value": 29.193518,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F301_bit19_fullpool_size5_chunk0021_64x3x4k.json",
+        "best_score": 101,
+        "kind": "block2_active_subset",
+        "source_id": "F301"
+      },
+      "label": null,
+      "nearest_positive": {
+        "active_mask": "0,1,3,8,9",
+        "best_score": 87,
+        "distance": 4,
+        "support": 3
+      },
+      "objective": 30.952016,
+      "objective_rank": 1,
+      "pair_prior_diagnostic": 9.980785,
+      "word_prior_value": 1.758498
+    },
+    "top_unseen": {
+      "active_mask": "3,6,8,9,11",
+      "active_words": [
+        3,
+        6,
+        8,
+        9,
+        11
+      ],
+      "contains_1_3": false,
+      "coverage_value": 26.295803,
+      "exact_observed": null,
+      "label": null,
+      "nearest_positive": {
+        "active_mask": "0,1,3,8,9",
+        "best_score": 87,
+        "distance": 4,
+        "support": 3
+      },
+      "objective": 28.258066,
+      "objective_rank": 16,
+      "pair_prior_diagnostic": 14.153979,
+      "word_prior_value": 1.962263
+    },
+    "top_window": 40,
+    "verdict": "needs_unseen_scan_but_fails_observed_calibration"
+  },
+  "coverage_cap": 3,
+  "greedy_selectors": [
+    {
+      "active_mask": "1,2,3,8,11",
+      "active_words": [
+        1,
+        2,
+        3,
+        8,
+        11
+      ],
+      "contains_1_3": true,
+      "coverage_value": 29.193518,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F301_bit19_fullpool_size5_chunk0021_64x3x4k.json",
+        "best_score": 101,
+        "kind": "block2_active_subset",
+        "source_id": "F301"
+      },
+      "label": "free_greedy",
+      "nearest_positive": {
+        "active_mask": "0,1,3,8,9",
+        "best_score": 87,
+        "distance": 4,
+        "support": 3
+      },
+      "objective": 30.952016,
+      "pair_prior_diagnostic": 9.980785,
+      "word_prior_value": 1.758498
+    },
+    {
+      "active_mask": "1,2,3,9,11",
+      "active_words": [
+        1,
+        2,
+        3,
+        9,
+        11
+      ],
+      "contains_1_3": true,
+      "coverage_value": 28.860185,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F319_bit19_fullpool_size5_chunk0022_64x3x4k.json",
+        "best_score": 102,
+        "kind": "block2_active_subset",
+        "source_id": "F319"
+      },
+      "label": "force_word_9",
+      "nearest_positive": {
+        "active_mask": "0,1,3,8,9",
+        "best_score": 87,
+        "distance": 4,
+        "support": 3
+      },
+      "objective": 30.786328,
+      "pair_prior_diagnostic": 8.373565,
+      "word_prior_value": 1.926143
+    },
+    {
+      "active_mask": "1,3,8,11,15",
+      "active_words": [
+        1,
+        3,
+        8,
+        11,
+        15
+      ],
+      "contains_1_3": true,
+      "coverage_value": 27.193518,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F338_bit19_fullpool_size5_chunk0028_64x3x4k.json",
+        "best_score": 103,
+        "kind": "block2_active_subset",
+        "source_id": "F338"
+      },
+      "label": "force_pair_3,15",
+      "nearest_positive": {
+        "active_mask": "0,1,3,8,9",
+        "best_score": 87,
+        "distance": 4,
+        "support": 3
+      },
+      "objective": 29.08603,
+      "pair_prior_diagnostic": 12.313759,
+      "word_prior_value": 1.892512
+    },
+    {
+      "active_mask": "1,3,6,9,11",
+      "active_words": [
+        1,
+        3,
+        6,
+        9,
+        11
+      ],
+      "contains_1_3": true,
+      "coverage_value": 26.526852,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F337_bit19_fullpool_size5_chunk0027_64x3x4k.json",
+        "best_score": 100,
+        "kind": "block2_active_subset",
+        "source_id": "F337"
+      },
+      "label": "force_pair_6,11",
+      "nearest_positive": {
+        "active_mask": "1,3,5,6,11",
+        "best_score": 88,
+        "distance": 2,
+        "support": 2
+      },
+      "objective": 28.513015,
+      "pair_prior_diagnostic": 11.332774,
+      "word_prior_value": 1.986163
+    },
+    {
+      "active_mask": "1,3,7,9,11",
+      "active_words": [
+        1,
+        3,
+        7,
+        9,
+        11
+      ],
+      "contains_1_3": true,
+      "coverage_value": 26.526852,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F338_bit19_fullpool_size5_chunk0028_64x3x4k.json",
+        "best_score": 97,
+        "kind": "block2_active_subset",
+        "source_id": "F338"
+      },
+      "label": "force_pair_7,9",
+      "nearest_positive": {
+        "active_mask": "0,1,3,8,9",
+        "best_score": 87,
+        "distance": 4,
+        "support": 3
+      },
+      "objective": 28.418303,
+      "pair_prior_diagnostic": 7.847358,
+      "word_prior_value": 1.891451
+    },
+    {
+      "active_mask": "3,6,8,9,11",
+      "active_words": [
+        3,
+        6,
+        8,
+        9,
+        11
+      ],
+      "contains_1_3": false,
+      "coverage_value": 26.295803,
+      "exact_observed": null,
+      "label": "force_pair_8,9",
+      "nearest_positive": {
+        "active_mask": "0,1,3,8,9",
+        "best_score": 87,
+        "distance": 4,
+        "support": 3
+      },
+      "objective": 28.258066,
+      "pair_prior_diagnostic": 14.153979,
+      "word_prior_value": 1.962263
+    },
+    {
+      "active_mask": "1,3,5,8,11",
+      "active_words": [
+        1,
+        3,
+        5,
+        8,
+        11
+      ],
+      "contains_1_3": true,
+      "coverage_value": 24.962469,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F335_bit19_fullpool_size5_chunk0026_64x3x4k.json",
+        "best_score": 95,
+        "kind": "block2_active_subset",
+        "source_id": "F335"
+      },
+      "label": "force_pair_5,11",
+      "nearest_positive": {
+        "active_mask": "1,3,5,6,11",
+        "best_score": 88,
+        "distance": 2,
+        "support": 2
+      },
+      "objective": 26.589688,
+      "pair_prior_diagnostic": 10.467283,
+      "word_prior_value": 1.627219
+    },
+    {
+      "active_mask": "1,3,4,11,15",
+      "active_words": [
+        1,
+        3,
+        4,
+        11,
+        15
+      ],
+      "contains_1_3": true,
+      "coverage_value": 23.16432,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F335_bit19_fullpool_size5_chunk0026_64x3x4k.json",
+        "best_score": 101,
+        "kind": "block2_active_subset",
+        "source_id": "F335"
+      },
+      "label": "force_pair_4,15",
+      "nearest_positive": {
+        "active_mask": "1,2,3,4,15",
+        "best_score": 90,
+        "distance": 2,
+        "support": 2
+      },
+      "objective": 24.813843,
+      "pair_prior_diagnostic": 11.685446,
+      "word_prior_value": 1.649523
+    }
+  ],
+  "manifest": "headline_hunt/bets/math_principles/data/20260429_principles_manifest.jsonl",
+  "mask_list": "headline_hunt/bets/math_principles/data/20260429_F343_submodular_masks.txt",
+  "mask_list_rows": [
+    {
+      "active_mask": "0,1,3,8,9",
+      "active_words": [
+        0,
+        1,
+        3,
+        8,
+        9
+      ],
+      "contains_1_3": true,
+      "coverage_value": 21.73142,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/20260428_F339_bit19_narrow_basin_catalog.json",
+        "best_score": 87,
+        "kind": "block2_basin_catalog",
+        "source_id": "F135"
+      },
+      "label": "known_good_control",
+      "nearest_positive": {
+        "active_mask": "0,1,3,8,9",
+        "best_score": 87,
+        "distance": 0,
+        "support": 3
+      },
+      "objective": 23.339222,
+      "objective_rank": 537,
+      "pair_prior_diagnostic": 12.740093,
+      "word_prior_value": 1.607802
+    },
+    {
+      "active_mask": "1,3,5,6,11",
+      "active_words": [
+        1,
+        3,
+        5,
+        6,
+        11
+      ],
+      "contains_1_3": true,
+      "coverage_value": 22.497653,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/20260428_F339_bit19_narrow_basin_catalog.json",
+        "best_score": 88,
+        "kind": "block2_basin_catalog",
+        "source_id": "F335"
+      },
+      "label": "known_good_control",
+      "nearest_positive": {
+        "active_mask": "1,3,5,6,11",
+        "best_score": 88,
+        "distance": 0,
+        "support": 2
+      },
+      "objective": 24.073182,
+      "objective_rank": 380,
+      "pair_prior_diagnostic": 12.698376,
+      "word_prior_value": 1.575529
+    },
+    {
+      "active_mask": "1,7,10,11,15",
+      "active_words": [
+        1,
+        7,
+        10,
+        11,
+        15
+      ],
+      "contains_1_3": false,
+      "coverage_value": 17.441974,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F162_bit19_fullpool_size5_chunk0035_64x3x4k.json",
+        "best_score": 88,
+        "kind": "block2_active_subset",
+        "source_id": "F162"
+      },
+      "label": "known_good_control",
+      "nearest_positive": {
+        "active_mask": "1,7,10,11,15",
+        "best_score": 88,
+        "distance": 0,
+        "support": 1
+      },
+      "objective": 18.500794,
+      "objective_rank": 2289,
+      "pair_prior_diagnostic": 7.19408,
+      "word_prior_value": 1.05882
+    },
+    {
+      "active_mask": "2,6,8,11,12",
+      "active_words": [
+        2,
+        6,
+        8,
+        11,
+        12
+      ],
+      "contains_1_3": false,
+      "coverage_value": 20.006356,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F169_bit19_fullpool_size5_chunk0045_64x3x4k.json",
+        "best_score": 88,
+        "kind": "block2_active_subset",
+        "source_id": "F169"
+      },
+      "label": "known_good_control",
+      "nearest_positive": {
+        "active_mask": "2,6,8,11,12",
+        "best_score": 88,
+        "distance": 0,
+        "support": 1
+      },
+      "objective": 21.095542,
+      "objective_rank": 1242,
+      "pair_prior_diagnostic": 9.939229,
+      "word_prior_value": 1.089186
+    },
+    {
+      "active_mask": "0,2,3,8,9",
+      "active_words": [
+        0,
+        2,
+        3,
+        8,
+        9
+      ],
+      "contains_1_3": false,
+      "coverage_value": 21.807224,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F168_bit19_fullpool_size5_chunk0006_64x3x4k.json",
+        "best_score": 89,
+        "kind": "block2_active_subset",
+        "source_id": "F168"
+      },
+      "label": "known_good_control",
+      "nearest_positive": {
+        "active_mask": "0,2,3,8,9",
+        "best_score": 89,
+        "distance": 0,
+        "support": 1
+      },
+      "objective": 23.279416,
+      "objective_rank": 551,
+      "pair_prior_diagnostic": 9.949525,
+      "word_prior_value": 1.472192
+    },
+    {
+      "active_mask": "2,4,6,11,13",
+      "active_words": [
+        2,
+        4,
+        6,
+        11,
+        13
+      ],
+      "contains_1_3": false,
+      "coverage_value": 15.412775,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F165_bit19_fullpool_size5_chunk0041_64x3x4k.json",
+        "best_score": 89,
+        "kind": "block2_active_subset",
+        "source_id": "F165"
+      },
+      "label": "known_good_control",
+      "nearest_positive": {
+        "active_mask": "2,4,6,11,13",
+        "best_score": 89,
+        "distance": 0,
+        "support": 1
+      },
+      "objective": 16.165404,
+      "objective_rank": 3222,
+      "pair_prior_diagnostic": 7.154503,
+      "word_prior_value": 0.752629
+    },
+    {
+      "active_mask": "0,7,9,12,14",
+      "active_words": [
+        0,
+        7,
+        9,
+        12,
+        14
+      ],
+      "contains_1_3": false,
+      "coverage_value": 13.520495,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/20260428_F339_bit19_narrow_basin_catalog.json",
+        "best_score": 90,
+        "kind": "block2_basin_catalog",
+        "source_id": "F248"
+      },
+      "label": "known_good_control",
+      "nearest_positive": {
+        "active_mask": "0,7,9,12,14",
+        "best_score": 90,
+        "distance": 0,
+        "support": 2
+      },
+      "objective": 14.121284,
+      "objective_rank": 3827,
+      "pair_prior_diagnostic": 7.604658,
+      "word_prior_value": 0.600789
+    },
+    {
+      "active_mask": "1,2,3,4,15",
+      "active_words": [
+        1,
+        2,
+        3,
+        4,
+        15
+      ],
+      "contains_1_3": true,
+      "coverage_value": 22.137839,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/20260428_F339_bit19_narrow_basin_catalog.json",
+        "best_score": 90,
+        "kind": "block2_basin_catalog",
+        "source_id": "F301"
+      },
+      "label": "known_good_control",
+      "nearest_positive": {
+        "active_mask": "1,2,3,4,15",
+        "best_score": 90,
+        "distance": 0,
+        "support": 2
+      },
+      "objective": 23.48859,
+      "objective_rank": 492,
+      "pair_prior_diagnostic": 10.403823,
+      "word_prior_value": 1.350751
+    },
+    {
+      "active_mask": "1,3,6,8,12",
+      "active_words": [
+        1,
+        3,
+        6,
+        8,
+        12
+      ],
+      "contains_1_3": true,
+      "coverage_value": 24.526852,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/20260428_F339_bit19_narrow_basin_catalog.json",
+        "best_score": 90,
+        "kind": "block2_basin_catalog",
+        "source_id": "F337"
+      },
+      "label": "known_good_control",
+      "nearest_positive": {
+        "active_mask": "1,3,6,8,12",
+        "best_score": 90,
+        "distance": 0,
+        "support": 2
+      },
+      "objective": 26.008887,
+      "objective_rank": 117,
+      "pair_prior_diagnostic": 14.42174,
+      "word_prior_value": 1.482035
+    },
+    {
+      "active_mask": "0,1,2,7,15",
+      "active_words": [
+        0,
+        1,
+        2,
+        7,
+        15
+      ],
+      "contains_1_3": false,
+      "coverage_value": 21.009074,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F134_bit19_fullpool_size5_chunk0000_64x3x4k.json",
+        "best_score": 90,
+        "kind": "block2_active_subset",
+        "source_id": "F134"
+      },
+      "label": "known_good_control",
+      "nearest_positive": {
+        "active_mask": "0,1,2,7,15",
+        "best_score": 90,
+        "distance": 0,
+        "support": 1
+      },
+      "objective": 21.769122,
+      "objective_rank": 981,
+      "pair_prior_diagnostic": 5.281083,
+      "word_prior_value": 0.760048
+    },
+    {
+      "active_mask": "2,3,11,12,15",
+      "active_words": [
+        2,
+        3,
+        11,
+        12,
+        15
+      ],
+      "contains_1_3": false,
+      "coverage_value": 21.904072,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F165_bit19_fullpool_size5_chunk0040_64x3x4k.json",
+        "best_score": 90,
+        "kind": "block2_active_subset",
+        "source_id": "F165"
+      },
+      "label": "known_good_control",
+      "nearest_positive": {
+        "active_mask": "2,3,11,12,15",
+        "best_score": 90,
+        "distance": 0,
+        "support": 1
+      },
+      "objective": 23.511553,
+      "objective_rank": 488,
+      "pair_prior_diagnostic": 10.631148,
+      "word_prior_value": 1.607481
+    },
+    {
+      "active_mask": "2,3,7,13,15",
+      "active_words": [
+        2,
+        3,
+        7,
+        13,
+        15
+      ],
+      "contains_1_3": false,
+      "coverage_value": 17.646542,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F164_bit19_fullpool_size5_chunk0039_64x3x4k.json",
+        "best_score": 90,
+        "kind": "block2_active_subset",
+        "source_id": "F164"
+      },
+      "label": "known_good_control",
+      "nearest_positive": {
+        "active_mask": "2,3,7,13,15",
+        "best_score": 90,
+        "distance": 0,
+        "support": 1
+      },
+      "objective": 18.826991,
+      "objective_rank": 2139,
+      "pair_prior_diagnostic": 6.654382,
+      "word_prior_value": 1.180449
+    },
+    {
+      "active_mask": "2,4,6,11,15",
+      "active_words": [
+        2,
+        4,
+        6,
+        11,
+        15
+      ],
+      "contains_1_3": false,
+      "coverage_value": 17.643824,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F165_bit19_fullpool_size5_chunk0041_64x3x4k.json",
+        "best_score": 90,
+        "kind": "block2_active_subset",
+        "source_id": "F165"
+      },
+      "label": "known_good_control",
+      "nearest_positive": {
+        "active_mask": "2,4,6,11,15",
+        "best_score": 90,
+        "distance": 0,
+        "support": 1
+      },
+      "objective": 18.661746,
+      "objective_rank": 2224,
+      "pair_prior_diagnostic": 11.87313,
+      "word_prior_value": 1.017922
+    },
+    {
+      "active_mask": "2,5,7,9,10",
+      "active_words": [
+        2,
+        5,
+        7,
+        9,
+        10
+      ],
+      "contains_1_3": false,
+      "coverage_value": 15.184444,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F169_bit19_fullpool_size5_chunk0043_64x3x4k.json",
+        "best_score": 90,
+        "kind": "block2_active_subset",
+        "source_id": "F169"
+      },
+      "label": "known_good_control",
+      "nearest_positive": {
+        "active_mask": "2,5,7,9,10",
+        "best_score": 90,
+        "distance": 0,
+        "support": 1
+      },
+      "objective": 15.822944,
+      "objective_rank": 3338,
+      "pair_prior_diagnostic": 6.490797,
+      "word_prior_value": 0.6385
+    },
+    {
+      "active_mask": "2,5,9,10,11",
+      "active_words": [
+        2,
+        5,
+        9,
+        10,
+        11
+      ],
+      "contains_1_3": false,
+      "coverage_value": 17.979876,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F169_bit19_fullpool_size5_chunk0044_64x3x4k.json",
+        "best_score": 90,
+        "kind": "block2_active_subset",
+        "source_id": "F169"
+      },
+      "label": "known_good_control",
+      "nearest_positive": {
+        "active_mask": "2,5,9,10,11",
+        "best_score": 90,
+        "distance": 0,
+        "support": 1
+      },
+      "objective": 18.95184,
+      "objective_rank": 2090,
+      "pair_prior_diagnostic": 7.192394,
+      "word_prior_value": 0.971964
+    },
+    {
+      "active_mask": "3,6,8,9,11",
+      "active_words": [
+        3,
+        6,
+        8,
+        9,
+        11
+      ],
+      "contains_1_3": false,
+      "coverage_value": 26.295803,
+      "exact_observed": null,
+      "label": "top_unseen_rank_16",
+      "nearest_positive": {
+        "active_mask": "0,1,3,8,9",
+        "best_score": 87,
+        "distance": 4,
+        "support": 3
+      },
+      "objective": 28.258066,
+      "objective_rank": 16,
+      "pair_prior_diagnostic": 14.153979,
+      "word_prior_value": 1.962263
+    },
+    {
+      "active_mask": "3,8,9,11,15",
+      "active_words": [
+        3,
+        8,
+        9,
+        11,
+        15
+      ],
+      "contains_1_3": false,
+      "coverage_value": 24.935989,
+      "exact_observed": null,
+      "label": "top_unseen_rank_59",
+      "nearest_positive": {
+        "active_mask": "0,1,3,8,9",
+        "best_score": 87,
+        "distance": 4,
+        "support": 3
+      },
+      "objective": 26.972246,
+      "objective_rank": 59,
+      "pair_prior_diagnostic": 11.767105,
+      "word_prior_value": 2.036257
+    },
+    {
+      "active_mask": "3,7,8,9,11",
+      "active_words": [
+        3,
+        7,
+        8,
+        9,
+        11
+      ],
+      "contains_1_3": false,
+      "coverage_value": 24.602655,
+      "exact_observed": null,
+      "label": "top_unseen_rank_86",
+      "nearest_positive": {
+        "active_mask": "0,1,3,8,9",
+        "best_score": 87,
+        "distance": 4,
+        "support": 3
+      },
+      "objective": 26.470206,
+      "objective_rank": 86,
+      "pair_prior_diagnostic": 10.135338,
+      "word_prior_value": 1.867551
+    },
+    {
+      "active_mask": "3,8,9,11,12",
+      "active_words": [
+        3,
+        8,
+        9,
+        11,
+        12
+      ],
+      "contains_1_3": false,
+      "coverage_value": 24.500371,
+      "exact_observed": null,
+      "label": "top_unseen_rank_91",
+      "nearest_positive": {
+        "active_mask": "0,1,3,8,9",
+        "best_score": 87,
+        "distance": 4,
+        "support": 3
+      },
+      "objective": 26.364903,
+      "objective_rank": 91,
+      "pair_prior_diagnostic": 12.892246,
+      "word_prior_value": 1.864532
+    },
+    {
+      "active_mask": "3,6,8,11,15",
+      "active_words": [
+        3,
+        6,
+        8,
+        11,
+        15
+      ],
+      "contains_1_3": false,
+      "coverage_value": 24.497653,
+      "exact_observed": null,
+      "label": "top_unseen_rank_98",
+      "nearest_positive": {
+        "active_mask": "1,3,5,6,11",
+        "best_score": 88,
+        "distance": 4,
+        "support": 2
+      },
+      "objective": 26.314575,
+      "objective_rank": 98,
+      "pair_prior_diagnostic": 13.591273,
+      "word_prior_value": 1.816922
+    },
+    {
+      "active_mask": "3,5,8,9,11",
+      "active_words": [
+        3,
+        5,
+        8,
+        9,
+        11
+      ],
+      "contains_1_3": false,
+      "coverage_value": 24.398087,
+      "exact_observed": null,
+      "label": "top_unseen_rank_103",
+      "nearest_positive": {
+        "active_mask": "0,1,3,8,9",
+        "best_score": 87,
+        "distance": 4,
+        "support": 3
+      },
+      "objective": 26.169051,
+      "objective_rank": 103,
+      "pair_prior_diagnostic": 11.387968,
+      "word_prior_value": 1.770964
+    },
+    {
+      "active_mask": "3,6,9,11,15",
+      "active_words": [
+        3,
+        6,
+        9,
+        11,
+        15
+      ],
+      "contains_1_3": false,
+      "coverage_value": 24.16432,
+      "exact_observed": null,
+      "label": "top_unseen_rank_107",
+      "nearest_positive": {
+        "active_mask": "1,3,5,6,11",
+        "best_score": 88,
+        "distance": 4,
+        "support": 2
+      },
+      "objective": 26.148887,
+      "objective_rank": 107,
+      "pair_prior_diagnostic": 11.018671,
+      "word_prior_value": 1.984567
+    },
+    {
+      "active_mask": "1,3,11,12,15",
+      "active_words": [
+        1,
+        3,
+        11,
+        12,
+        15
+      ],
+      "contains_1_3": true,
+      "coverage_value": 24.293084,
+      "exact_observed": null,
+      "label": "top_unseen_rank_115",
+      "nearest_positive": {
+        "active_mask": "2,3,11,12,15",
+        "best_score": 90,
+        "distance": 2,
+        "support": 1
+      },
+      "objective": 26.036175,
+      "objective_rank": 115,
+      "pair_prior_diagnostic": 10.457841,
+      "word_prior_value": 1.743091
+    },
+    {
+      "active_mask": "1,2,3,8,11",
+      "active_words": [
+        1,
+        2,
+        3,
+        8,
+        11
+      ],
+      "contains_1_3": true,
+      "coverage_value": 29.193518,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F301_bit19_fullpool_size5_chunk0021_64x3x4k.json",
+        "best_score": 101,
+        "kind": "block2_active_subset",
+        "source_id": "F301"
+      },
+      "label": "free_greedy",
+      "nearest_positive": {
+        "active_mask": "0,1,3,8,9",
+        "best_score": 87,
+        "distance": 4,
+        "support": 3
+      },
+      "objective": 30.952016,
+      "pair_prior_diagnostic": 9.980785,
+      "word_prior_value": 1.758498
+    }
+  ],
+  "observed_mask_count": 2624,
+  "pool": "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15",
+  "positive_mask_count": 15,
+  "positive_score_threshold": 90,
+  "priors": "headline_hunt/bets/math_principles/results/20260429_F341_influence_priors.json",
+  "size": 5,
+  "top_exhaustive": [
+    {
+      "active_mask": "1,2,3,8,11",
+      "active_words": [
+        1,
+        2,
+        3,
+        8,
+        11
+      ],
+      "contains_1_3": true,
+      "coverage_value": 29.193518,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F301_bit19_fullpool_size5_chunk0021_64x3x4k.json",
+        "best_score": 101,
+        "kind": "block2_active_subset",
+        "source_id": "F301"
+      },
+      "label": null,
+      "nearest_positive": {
+        "active_mask": "0,1,3,8,9",
+        "best_score": 87,
+        "distance": 4,
+        "support": 3
+      },
+      "objective": 30.952016,
+      "objective_rank": 1,
+      "pair_prior_diagnostic": 9.980785,
+      "word_prior_value": 1.758498
+    },
+    {
+      "active_mask": "1,2,3,9,11",
+      "active_words": [
+        1,
+        2,
+        3,
+        9,
+        11
+      ],
+      "contains_1_3": true,
+      "coverage_value": 28.860185,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F319_bit19_fullpool_size5_chunk0022_64x3x4k.json",
+        "best_score": 102,
+        "kind": "block2_active_subset",
+        "source_id": "F319"
+      },
+      "label": null,
+      "nearest_positive": {
+        "active_mask": "0,1,3,8,9",
+        "best_score": 87,
+        "distance": 4,
+        "support": 3
+      },
+      "objective": 30.786328,
+      "objective_rank": 2,
+      "pair_prior_diagnostic": 8.373565,
+      "word_prior_value": 1.926143
+    },
+    {
+      "active_mask": "0,1,2,3,11",
+      "active_words": [
+        0,
+        1,
+        2,
+        3,
+        11
+      ],
+      "contains_1_3": true,
+      "coverage_value": 28.526852,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F134_bit19_fullpool_size5_chunk0000_64x3x4k.json",
+        "best_score": 103,
+        "kind": "block2_active_subset",
+        "source_id": "F134"
+      },
+      "label": null,
+      "nearest_positive": {
+        "active_mask": "0,1,3,8,9",
+        "best_score": 87,
+        "distance": 4,
+        "support": 3
+      },
+      "objective": 30.042361,
+      "objective_rank": 3,
+      "pair_prior_diagnostic": 6.343602,
+      "word_prior_value": 1.515509
+    },
+    {
+      "active_mask": "1,2,3,6,9",
+      "active_words": [
+        1,
+        2,
+        3,
+        6,
+        9
+      ],
+      "contains_1_3": true,
+      "coverage_value": 27.757901,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F301_bit19_fullpool_size5_chunk0021_64x3x4k.json",
+        "best_score": 101,
+        "kind": "block2_active_subset",
+        "source_id": "F301"
+      },
+      "label": null,
+      "nearest_positive": {
+        "active_mask": "0,1,3,8,9",
+        "best_score": 87,
+        "distance": 4,
+        "support": 3
+      },
+      "objective": 29.445292,
+      "objective_rank": 4,
+      "pair_prior_diagnostic": 8.213189,
+      "word_prior_value": 1.687391
+    },
+    {
+      "active_mask": "1,3,8,11,15",
+      "active_words": [
+        1,
+        3,
+        8,
+        11,
+        15
+      ],
+      "contains_1_3": true,
+      "coverage_value": 27.193518,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F338_bit19_fullpool_size5_chunk0028_64x3x4k.json",
+        "best_score": 103,
+        "kind": "block2_active_subset",
+        "source_id": "F338"
+      },
+      "label": null,
+      "nearest_positive": {
+        "active_mask": "0,1,3,8,9",
+        "best_score": 87,
+        "distance": 4,
+        "support": 3
+      },
+      "objective": 29.08603,
+      "objective_rank": 5,
+      "pair_prior_diagnostic": 12.313759,
+      "word_prior_value": 1.892512
+    },
+    {
+      "active_mask": "1,2,3,6,8",
+      "active_words": [
+        1,
+        2,
+        3,
+        6,
+        8
+      ],
+      "contains_1_3": true,
+      "coverage_value": 27.526852,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F301_bit19_fullpool_size5_chunk0021_64x3x4k.json",
+        "best_score": 100,
+        "kind": "block2_active_subset",
+        "source_id": "F301"
+      },
+      "label": null,
+      "nearest_positive": {
+        "active_mask": "1,3,6,8,12",
+        "best_score": 90,
+        "distance": 2,
+        "support": 2
+      },
+      "objective": 29.046598,
+      "objective_rank": 6,
+      "pair_prior_diagnostic": 11.244179,
+      "word_prior_value": 1.519746
+    },
+    {
+      "active_mask": "1,3,9,11,15",
+      "active_words": [
+        1,
+        3,
+        9,
+        11,
+        15
+      ],
+      "contains_1_3": true,
+      "coverage_value": 26.860185,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F338_bit19_fullpool_size5_chunk0028_64x3x4k.json",
+        "best_score": 100,
+        "kind": "block2_active_subset",
+        "source_id": "F338"
+      },
+      "label": null,
+      "nearest_positive": {
+        "active_mask": "0,1,3,8,9",
+        "best_score": 87,
+        "distance": 4,
+        "support": 3
+      },
+      "objective": 28.920342,
+      "objective_rank": 7,
+      "pair_prior_diagnostic": 10.319844,
+      "word_prior_value": 2.060157
+    },
+    {
+      "active_mask": "0,1,2,3,6",
+      "active_words": [
+        0,
+        1,
+        2,
+        3,
+        6
+      ],
+      "contains_1_3": true,
+      "coverage_value": 27.424567,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F134_bit19_fullpool_size5_chunk0000_64x3x4k.json",
+        "best_score": 97,
+        "kind": "block2_active_subset",
+        "source_id": "F134"
+      },
+      "label": null,
+      "nearest_positive": {
+        "active_mask": "0,1,3,8,9",
+        "best_score": 87,
+        "distance": 4,
+        "support": 3
+      },
+      "objective": 28.701324,
+      "objective_rank": 8,
+      "pair_prior_diagnostic": 6.318464,
+      "word_prior_value": 1.276757
+    },
+    {
+      "active_mask": "1,3,7,8,11",
+      "active_words": [
+        1,
+        3,
+        7,
+        8,
+        11
+      ],
+      "contains_1_3": true,
+      "coverage_value": 26.860185,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F337_bit19_fullpool_size5_chunk0027_64x3x4k.json",
+        "best_score": 102,
+        "kind": "block2_active_subset",
+        "source_id": "F337"
+      },
+      "label": null,
+      "nearest_positive": {
+        "active_mask": "0,1,3,8,9",
+        "best_score": 87,
+        "distance": 4,
+        "support": 3
+      },
+      "objective": 28.583991,
+      "objective_rank": 9,
+      "pair_prior_diagnostic": 8.090177,
+      "word_prior_value": 1.723806
+    },
+    {
+      "active_mask": "1,3,6,9,11",
+      "active_words": [
+        1,
+        3,
+        6,
+        9,
+        11
+      ],
+      "contains_1_3": true,
+      "coverage_value": 26.526852,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F337_bit19_fullpool_size5_chunk0027_64x3x4k.json",
+        "best_score": 100,
+        "kind": "block2_active_subset",
+        "source_id": "F337"
+      },
+      "label": null,
+      "nearest_positive": {
+        "active_mask": "1,3,5,6,11",
+        "best_score": 88,
+        "distance": 2,
+        "support": 2
+      },
+      "objective": 28.513015,
+      "objective_rank": 10,
+      "pair_prior_diagnostic": 11.332774,
+      "word_prior_value": 1.986163
+    },
+    {
+      "active_mask": "1,2,3,6,11",
+      "active_words": [
+        1,
+        2,
+        3,
+        6,
+        11
+      ],
+      "contains_1_3": true,
+      "coverage_value": 26.728702,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F301_bit19_fullpool_size5_chunk0021_64x3x4k.json",
+        "best_score": 100,
+        "kind": "block2_active_subset",
+        "source_id": "F301"
+      },
+      "label": null,
+      "nearest_positive": {
+        "active_mask": "1,3,5,6,11",
+        "best_score": 88,
+        "distance": 2,
+        "support": 2
+      },
+      "objective": 28.43551,
+      "objective_rank": 11,
+      "pair_prior_diagnostic": 11.45698,
+      "word_prior_value": 1.706808
+    },
+    {
+      "active_mask": "1,3,7,9,11",
+      "active_words": [
+        1,
+        3,
+        7,
+        9,
+        11
+      ],
+      "contains_1_3": true,
+      "coverage_value": 26.526852,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F338_bit19_fullpool_size5_chunk0028_64x3x4k.json",
+        "best_score": 97,
+        "kind": "block2_active_subset",
+        "source_id": "F338"
+      },
+      "label": null,
+      "nearest_positive": {
+        "active_mask": "0,1,3,8,9",
+        "best_score": 87,
+        "distance": 4,
+        "support": 3
+      },
+      "objective": 28.418303,
+      "objective_rank": 12,
+      "pair_prior_diagnostic": 7.847358,
+      "word_prior_value": 1.891451
+    },
+    {
+      "active_mask": "1,2,8,9,11",
+      "active_words": [
+        1,
+        2,
+        8,
+        9,
+        11
+      ],
+      "contains_1_3": false,
+      "coverage_value": 26.935989,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F333_bit19_fullpool_size5_chunk0024_64x3x4k.json",
+        "best_score": 101,
+        "kind": "block2_active_subset",
+        "source_id": "F333"
+      },
+      "label": null,
+      "nearest_positive": {
+        "active_mask": "0,1,3,8,9",
+        "best_score": 87,
+        "distance": 4,
+        "support": 3
+      },
+      "objective": 28.417831,
+      "objective_rank": 13,
+      "pair_prior_diagnostic": 6.732194,
+      "word_prior_value": 1.481842
+    },
+    {
+      "active_mask": "1,2,3,7,11",
+      "active_words": [
+        1,
+        2,
+        3,
+        7,
+        11
+      ],
+      "contains_1_3": true,
+      "coverage_value": 26.728702,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F301_bit19_fullpool_size5_chunk0021_64x3x4k.json",
+        "best_score": 99,
+        "kind": "block2_active_subset",
+        "source_id": "F301"
+      },
+      "label": null,
+      "nearest_positive": {
+        "active_mask": "1,3,5,6,11",
+        "best_score": 88,
+        "distance": 4,
+        "support": 2
+      },
+      "objective": 28.340798,
+      "objective_rank": 14,
+      "pair_prior_diagnostic": 6.396992,
+      "word_prior_value": 1.612096
+    },
+    {
+      "active_mask": "1,3,9,11,12",
+      "active_words": [
+        1,
+        3,
+        9,
+        11,
+        12
+      ],
+      "contains_1_3": true,
+      "coverage_value": 26.424567,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F338_bit19_fullpool_size5_chunk0028_64x3x4k.json",
+        "best_score": 100,
+        "kind": "block2_active_subset",
+        "source_id": "F338"
+      },
+      "label": null,
+      "nearest_positive": {
+        "active_mask": "0,1,3,8,9",
+        "best_score": 87,
+        "distance": 4,
+        "support": 3
+      },
+      "objective": 28.312999,
+      "objective_rank": 15,
+      "pair_prior_diagnostic": 8.923854,
+      "word_prior_value": 1.888432
+    },
+    {
+      "active_mask": "3,6,8,9,11",
+      "active_words": [
+        3,
+        6,
+        8,
+        9,
+        11
+      ],
+      "contains_1_3": false,
+      "coverage_value": 26.295803,
+      "exact_observed": null,
+      "label": null,
+      "nearest_positive": {
+        "active_mask": "0,1,3,8,9",
+        "best_score": 87,
+        "distance": 4,
+        "support": 3
+      },
+      "objective": 28.258066,
+      "objective_rank": 16,
+      "pair_prior_diagnostic": 14.153979,
+      "word_prior_value": 1.962263
+    },
+    {
+      "active_mask": "1,3,8,9,11",
+      "active_words": [
+        1,
+        3,
+        8,
+        9,
+        11
+      ],
+      "contains_1_3": true,
+      "coverage_value": 26.193518,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F338_bit19_fullpool_size5_chunk0028_64x3x4k.json",
+        "best_score": 96,
+        "kind": "block2_active_subset",
+        "source_id": "F338"
+      },
+      "label": null,
+      "nearest_positive": {
+        "active_mask": "0,1,3,8,9",
+        "best_score": 87,
+        "distance": 2,
+        "support": 3
+      },
+      "objective": 28.231371,
+      "objective_rank": 17,
+      "pair_prior_diagnostic": 12.472463,
+      "word_prior_value": 2.037853
+    },
+    {
+      "active_mask": "0,1,3,11,15",
+      "active_words": [
+        0,
+        1,
+        3,
+        11,
+        15
+      ],
+      "contains_1_3": true,
+      "coverage_value": 26.526852,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F136_bit19_fullpool_size5_chunk0128_64x3x4k.json",
+        "best_score": 99,
+        "kind": "block2_active_subset",
+        "source_id": "F136"
+      },
+      "label": null,
+      "nearest_positive": {
+        "active_mask": "0,1,3,8,9",
+        "best_score": 87,
+        "distance": 4,
+        "support": 3
+      },
+      "objective": 28.176375,
+      "objective_rank": 18,
+      "pair_prior_diagnostic": 8.676576,
+      "word_prior_value": 1.649523
+    },
+    {
+      "active_mask": "2,3,8,9,11",
+      "active_words": [
+        2,
+        3,
+        8,
+        9,
+        11
+      ],
+      "contains_1_3": false,
+      "coverage_value": 26.269322,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F164_bit19_fullpool_size5_chunk0039_64x3x4k.json",
+        "best_score": 97,
+        "kind": "block2_active_subset",
+        "source_id": "F164"
+      },
+      "label": null,
+      "nearest_positive": {
+        "active_mask": "0,2,3,8,9",
+        "best_score": 89,
+        "distance": 2,
+        "support": 1
+      },
+      "objective": 28.171565,
+      "objective_rank": 19,
+      "pair_prior_diagnostic": 10.644487,
+      "word_prior_value": 1.902243
+    },
+    {
+      "active_mask": "1,3,6,8,11",
+      "active_words": [
+        1,
+        3,
+        6,
+        8,
+        11
+      ],
+      "contains_1_3": true,
+      "coverage_value": 26.295803,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F337_bit19_fullpool_size5_chunk0027_64x3x4k.json",
+        "best_score": 103,
+        "kind": "block2_active_subset",
+        "source_id": "F337"
+      },
+      "label": null,
+      "nearest_positive": {
+        "active_mask": "1,3,5,6,11",
+        "best_score": 88,
+        "distance": 2,
+        "support": 2
+      },
+      "objective": 28.114321,
+      "objective_rank": 20,
+      "pair_prior_diagnostic": 14.750459,
+      "word_prior_value": 1.818518
+    },
+    {
+      "active_mask": "2,3,6,9,11",
+      "active_words": [
+        2,
+        3,
+        6,
+        9,
+        11
+      ],
+      "contains_1_3": false,
+      "coverage_value": 26.16432,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F164_bit19_fullpool_size5_chunk0038_64x3x4k.json",
+        "best_score": 99,
+        "kind": "block2_active_subset",
+        "source_id": "F164"
+      },
+      "label": null,
+      "nearest_positive": {
+        "active_mask": "1,3,5,6,11",
+        "best_score": 88,
+        "distance": 4,
+        "support": 2
+      },
+      "objective": 28.014873,
+      "objective_rank": 21,
+      "pair_prior_diagnostic": 10.049504,
+      "word_prior_value": 1.850553
+    },
+    {
+      "active_mask": "1,2,3,11,15",
+      "active_words": [
+        1,
+        2,
+        3,
+        11,
+        15
+      ],
+      "contains_1_3": true,
+      "coverage_value": 26.16432,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F319_bit19_fullpool_size5_chunk0022_64x3x4k.json",
+        "best_score": 97,
+        "kind": "block2_active_subset",
+        "source_id": "F319"
+      },
+      "label": null,
+      "nearest_positive": {
+        "active_mask": "1,2,3,4,15",
+        "best_score": 90,
+        "distance": 2,
+        "support": 2
+      },
+      "objective": 27.945122,
+      "objective_rank": 22,
+      "pair_prior_diagnostic": 11.825975,
+      "word_prior_value": 1.780802
+    },
+    {
+      "active_mask": "1,3,8,11,12",
+      "active_words": [
+        1,
+        3,
+        8,
+        11,
+        12
+      ],
+      "contains_1_3": true,
+      "coverage_value": 26.193518,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F338_bit19_fullpool_size5_chunk0028_64x3x4k.json",
+        "best_score": 101,
+        "kind": "block2_active_subset",
+        "source_id": "F338"
+      },
+      "label": null,
+      "nearest_positive": {
+        "active_mask": "1,3,6,8,12",
+        "best_score": 90,
+        "distance": 2,
+        "support": 2
+      },
+      "objective": 27.914305,
+      "objective_rank": 23,
+      "pair_prior_diagnostic": 11.674594,
+      "word_prior_value": 1.720787
+    },
+    {
+      "active_mask": "1,2,3,11,12",
+      "active_words": [
+        1,
+        2,
+        3,
+        11,
+        12
+      ],
+      "contains_1_3": true,
+      "coverage_value": 26.293084,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F319_bit19_fullpool_size5_chunk0022_64x3x4k.json",
+        "best_score": 101,
+        "kind": "block2_active_subset",
+        "source_id": "F319"
+      },
+      "label": null,
+      "nearest_positive": {
+        "active_mask": "2,3,11,12,15",
+        "best_score": 90,
+        "distance": 2,
+        "support": 1
+      },
+      "objective": 27.902161,
+      "objective_rank": 24,
+      "pair_prior_diagnostic": 7.945826,
+      "word_prior_value": 1.609077
+    },
+    {
+      "active_mask": "1,6,8,9,11",
+      "active_words": [
+        1,
+        6,
+        8,
+        9,
+        11
+      ],
+      "contains_1_3": false,
+      "coverage_value": 26.295803,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F161_bit19_fullpool_size5_chunk0034_64x3x4k.json",
+        "best_score": 99,
+        "kind": "block2_active_subset",
+        "source_id": "F161"
+      },
+      "label": null,
+      "nearest_positive": {
+        "active_mask": "0,1,3,8,9",
+        "best_score": 87,
+        "distance": 4,
+        "support": 3
+      },
+      "objective": 27.837665,
+      "objective_rank": 25,
+      "pair_prior_diagnostic": 10.346545,
+      "word_prior_value": 1.541862
+    },
+    {
+      "active_mask": "1,2,3,7,8",
+      "active_words": [
+        1,
+        2,
+        3,
+        7,
+        8
+      ],
+      "contains_1_3": true,
+      "coverage_value": 26.398087,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F301_bit19_fullpool_size5_chunk0021_64x3x4k.json",
+        "best_score": 99,
+        "kind": "block2_active_subset",
+        "source_id": "F301"
+      },
+      "label": null,
+      "nearest_positive": {
+        "active_mask": "0,1,3,8,9",
+        "best_score": 87,
+        "distance": 4,
+        "support": 3
+      },
+      "objective": 27.823121,
+      "objective_rank": 26,
+      "pair_prior_diagnostic": 7.493453,
+      "word_prior_value": 1.425034
+    },
+    {
+      "active_mask": "0,1,3,6,11",
+      "active_words": [
+        0,
+        1,
+        3,
+        6,
+        11
+      ],
+      "contains_1_3": true,
+      "coverage_value": 26.193518,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F135_bit19_fullpool_size5_chunk0064_64x3x4k.json",
+        "best_score": 96,
+        "kind": "block2_active_subset",
+        "source_id": "F135"
+      },
+      "label": null,
+      "nearest_positive": {
+        "active_mask": "1,3,5,6,11",
+        "best_score": 88,
+        "distance": 2,
+        "support": 2
+      },
+      "objective": 27.769047,
+      "objective_rank": 27,
+      "pair_prior_diagnostic": 9.689506,
+      "word_prior_value": 1.575529
+    },
+    {
+      "active_mask": "1,2,3,8,15",
+      "active_words": [
+        1,
+        2,
+        3,
+        8,
+        15
+      ],
+      "contains_1_3": true,
+      "coverage_value": 26.167038,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F319_bit19_fullpool_size5_chunk0022_64x3x4k.json",
+        "best_score": 100,
+        "kind": "block2_active_subset",
+        "source_id": "F319"
+      },
+      "label": null,
+      "nearest_positive": {
+        "active_mask": "1,2,3,4,15",
+        "best_score": 90,
+        "distance": 2,
+        "support": 2
+      },
+      "objective": 27.760778,
+      "objective_rank": 28,
+      "pair_prior_diagnostic": 11.352988,
+      "word_prior_value": 1.59374
+    },
+    {
+      "active_mask": "0,1,3,7,11",
+      "active_words": [
+        0,
+        1,
+        3,
+        7,
+        11
+      ],
+      "contains_1_3": true,
+      "coverage_value": 26.193518,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F159_bit19_fullpool_size5_chunk0001_64x3x4k.json",
+        "best_score": 101,
+        "kind": "block2_active_subset",
+        "source_id": "F159"
+      },
+      "label": null,
+      "nearest_positive": {
+        "active_mask": "0,1,3,8,9",
+        "best_score": 87,
+        "distance": 4,
+        "support": 3
+      },
+      "objective": 27.674335,
+      "objective_rank": 29,
+      "pair_prior_diagnostic": 4.592263,
+      "word_prior_value": 1.480817
+    },
+    {
+      "active_mask": "0,1,2,8,11",
+      "active_words": [
+        0,
+        1,
+        2,
+        8,
+        11
+      ],
+      "contains_1_3": false,
+      "coverage_value": 26.602655,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F134_bit19_fullpool_size5_chunk0000_64x3x4k.json",
+        "best_score": 95,
+        "kind": "block2_active_subset",
+        "source_id": "F134"
+      },
+      "label": null,
+      "nearest_positive": {
+        "active_mask": "0,1,3,8,9",
+        "best_score": 87,
+        "distance": 4,
+        "support": 3
+      },
+      "objective": 27.673863,
+      "objective_rank": 30,
+      "pair_prior_diagnostic": 4.059744,
+      "word_prior_value": 1.071208
+    },
+    {
+      "active_mask": "1,2,3,7,9",
+      "active_words": [
+        1,
+        2,
+        3,
+        7,
+        9
+      ],
+      "contains_1_3": true,
+      "coverage_value": 26.064753,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F301_bit19_fullpool_size5_chunk0021_64x3x4k.json",
+        "best_score": 97,
+        "kind": "block2_active_subset",
+        "source_id": "F301"
+      },
+      "label": null,
+      "nearest_positive": {
+        "active_mask": "0,1,3,8,9",
+        "best_score": 87,
+        "distance": 4,
+        "support": 3
+      },
+      "objective": 27.657432,
+      "objective_rank": 31,
+      "pair_prior_diagnostic": 7.637329,
+      "word_prior_value": 1.592679
+    },
+    {
+      "active_mask": "1,2,3,9,15",
+      "active_words": [
+        1,
+        2,
+        3,
+        9,
+        15
+      ],
+      "contains_1_3": true,
+      "coverage_value": 25.833704,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F319_bit19_fullpool_size5_chunk0022_64x3x4k.json",
+        "best_score": 97,
+        "kind": "block2_active_subset",
+        "source_id": "F319"
+      },
+      "label": null,
+      "nearest_positive": {
+        "active_mask": "1,2,3,4,15",
+        "best_score": 90,
+        "distance": 2,
+        "support": 2
+      },
+      "objective": 27.595089,
+      "objective_rank": 32,
+      "pair_prior_diagnostic": 9.745768,
+      "word_prior_value": 1.761385
+    },
+    {
+      "active_mask": "1,2,6,9,11",
+      "active_words": [
+        1,
+        2,
+        6,
+        9,
+        11
+      ],
+      "contains_1_3": false,
+      "coverage_value": 26.16432,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F333_bit19_fullpool_size5_chunk0024_64x3x4k.json",
+        "best_score": 104,
+        "kind": "block2_active_subset",
+        "source_id": "F333"
+      },
+      "label": null,
+      "nearest_positive": {
+        "active_mask": "1,3,5,6,11",
+        "best_score": 88,
+        "distance": 4,
+        "support": 2
+      },
+      "objective": 27.594472,
+      "objective_rank": 33,
+      "pair_prior_diagnostic": 6.96398,
+      "word_prior_value": 1.430152
+    },
+    {
+      "active_mask": "1,3,8,10,11",
+      "active_words": [
+        1,
+        3,
+        8,
+        10,
+        11
+      ],
+      "contains_1_3": true,
+      "coverage_value": 25.962469,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F338_bit19_fullpool_size5_chunk0028_64x3x4k.json",
+        "best_score": 96,
+        "kind": "block2_active_subset",
+        "source_id": "F338"
+      },
+      "label": null,
+      "nearest_positive": {
+        "active_mask": "0,1,3,8,9",
+        "best_score": 87,
+        "distance": 4,
+        "support": 3
+      },
+      "objective": 27.589688,
+      "objective_rank": 34,
+      "pair_prior_diagnostic": 8.716779,
+      "word_prior_value": 1.627219
+    },
+    {
+      "active_mask": "1,3,6,9,15",
+      "active_words": [
+        1,
+        3,
+        6,
+        9,
+        15
+      ],
+      "contains_1_3": true,
+      "coverage_value": 25.757901,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F337_bit19_fullpool_size5_chunk0027_64x3x4k.json",
+        "best_score": 99,
+        "kind": "block2_active_subset",
+        "source_id": "F337"
+      },
+      "label": null,
+      "nearest_positive": {
+        "active_mask": "0,1,3,8,9",
+        "best_score": 87,
+        "distance": 4,
+        "support": 3
+      },
+      "objective": 27.579306,
+      "objective_rank": 35,
+      "pair_prior_diagnostic": 9.465812,
+      "word_prior_value": 1.821405
+    },
+    {
+      "active_mask": "0,1,3,11,12",
+      "active_words": [
+        0,
+        1,
+        3,
+        11,
+        12
+      ],
+      "contains_1_3": true,
+      "coverage_value": 26.091234,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F136_bit19_fullpool_size5_chunk0128_64x3x4k.json",
+        "best_score": 98,
+        "kind": "block2_active_subset",
+        "source_id": "F136"
+      },
+      "label": null,
+      "nearest_positive": {
+        "active_mask": "0,1,3,8,9",
+        "best_score": 87,
+        "distance": 4,
+        "support": 3
+      },
+      "objective": 27.569032,
+      "objective_rank": 36,
+      "pair_prior_diagnostic": 6.388523,
+      "word_prior_value": 1.477798
+    },
+    {
+      "active_mask": "1,2,3,9,12",
+      "active_words": [
+        1,
+        2,
+        3,
+        9,
+        12
+      ],
+      "contains_1_3": true,
+      "coverage_value": 25.962469,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F319_bit19_fullpool_size5_chunk0022_64x3x4k.json",
+        "best_score": 100,
+        "kind": "block2_active_subset",
+        "source_id": "F319"
+      },
+      "label": null,
+      "nearest_positive": {
+        "active_mask": "0,1,3,8,9",
+        "best_score": 87,
+        "distance": 4,
+        "support": 3
+      },
+      "objective": 27.552129,
+      "objective_rank": 37,
+      "pair_prior_diagnostic": 7.52613,
+      "word_prior_value": 1.58966
+    },
+    {
+      "active_mask": "1,2,3,5,8",
+      "active_words": [
+        1,
+        2,
+        3,
+        5,
+        8
+      ],
+      "contains_1_3": true,
+      "coverage_value": 26.193518,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F301_bit19_fullpool_size5_chunk0021_64x3x4k.json",
+        "best_score": 97,
+        "kind": "block2_active_subset",
+        "source_id": "F301"
+      },
+      "label": null,
+      "nearest_positive": {
+        "active_mask": "0,1,3,8,9",
+        "best_score": 87,
+        "distance": 4,
+        "support": 3
+      },
+      "objective": 27.521965,
+      "objective_rank": 38,
+      "pair_prior_diagnostic": 7.896837,
+      "word_prior_value": 1.328447
+    },
+    {
+      "active_mask": "0,3,6,8,11",
+      "active_words": [
+        0,
+        3,
+        6,
+        8,
+        11
+      ],
+      "contains_1_3": false,
+      "coverage_value": 25.962469,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F240_bit19_fullpool_size5_chunk0011_64x3x4k.json",
+        "best_score": 99,
+        "kind": "block2_active_subset",
+        "source_id": "F240"
+      },
+      "label": null,
+      "nearest_positive": {
+        "active_mask": "0,1,3,8,9",
+        "best_score": 87,
+        "distance": 4,
+        "support": 3
+      },
+      "objective": 27.514098,
+      "objective_rank": 39,
+      "pair_prior_diagnostic": 10.77935,
+      "word_prior_value": 1.551629
+    },
+    {
+      "active_mask": "0,1,2,9,11",
+      "active_words": [
+        0,
+        1,
+        2,
+        9,
+        11
+      ],
+      "contains_1_3": false,
+      "coverage_value": 26.269322,
+      "exact_observed": {
+        "artifact_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260428_F134_bit19_fullpool_size5_chunk0000_64x3x4k.json",
+        "best_score": 100,
+        "kind": "block2_active_subset",
+        "source_id": "F134"
+      },
+      "label": null,
+      "nearest_positive": {
+        "active_mask": "0,1,3,8,9",
+        "best_score": 87,
+        "distance": 4,
+        "support": 3
+      },
+      "objective": 27.508175,
+      "objective_rank": 40,
+      "pair_prior_diagnostic": 4.258017,
+      "word_prior_value": 1.238853
+    }
+  ],
+  "word_prior_scale": 1.0
+}
