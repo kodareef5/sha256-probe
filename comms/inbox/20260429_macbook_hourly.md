@@ -37,3 +37,17 @@ universal-hard-core characterization arc left off.)
   the strongest cross-cand structural fact of the bet.
 - 80 commits in macbook session arc (28+29 combined).
 
+
+## ~00:28 EDT — F285: TRUE sr=61 variance test — trigger does NOT fire
+
+- F285: 5 cnfs_n32 TRUE sr=61 CNFs benchmarked at kissat 30s seed 1.
+- Cands: m09990bd2/bit25, m17149975/bit31, m11f9d4c7/bit26,
+  m17454e4b/bit29, m189b13c7/bit31.
+- Result: ALL 5 status UNKNOWN, walls 30.04s (uniform timeout).
+- ZERO variance at this budget; all uniformly intractable.
+- negatives.yaml trigger "specific (bit, fill, m0) shows >2x
+  solve-time improvement" does NOT fire. Closure stays valid.
+- Cand-level structural distinction (de58_size, hardlock_bits)
+  does NOT translate to solver-time variance at 30s budget.
+- 81 commits in macbook 2-day arc.
+
