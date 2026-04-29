@@ -3079,3 +3079,18 @@ Discipline: 0 SAT compute, 0 solver runs.
   add 3rd seed datapoint.
 - 56 commits this session.
 
+
+## ~20:28 EDT — F258/F259/F260: seed-7101 luck is FIXTURE-SPECIFIC
+
+- F258: seed 5001 8×50k on yale F301 mask `1,2,3,4,15` → 92
+  (yale 7101→90, 9001→93). Three seeds confirm F301 narrow basin.
+- F259: seed 7101 8×50k on bit3 `0,1,2,8,9` → only 94 (NOT 86!)
+- Seed 7101 finds 3 narrow basins on bit19 but ZERO on bit3.
+  Seed-luckiness is FIXTURE-SPECIFIC.
+- F260 synthesis: each (seed, fixture, mask) triple has distinct
+  narrow-basin access. 86 floor robust across the entire product
+  space tested.
+- Strengthens F237/F257: heuristic local search saturated; non-
+  heuristic methods needed for sub-86.
+- 57 commits this session.
+
