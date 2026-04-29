@@ -818,3 +818,31 @@ Cross-machine cycle this hour:
   F338 universal-core cross-check → F339 independent UNSAT verification.
 
 Commit: [next] (F339).
+
+
+## ~19:20 EDT — F340: W57[22:23] CDCL UNSAT is UNIVERSAL with fill-dependent polarity flip
+
+- Generalized yale's F384 W57[22:23] finding across 6 cands at sr60.
+  ALL 6 cands have exactly ONE polarity UNSAT in <0.1s; other 3 are
+  UNKNOWN at 5s budget. The constraint is UNIVERSAL, not cand-specific.
+- Polarity-flip pattern: fill bit-31 SET (bit0/bit10/bit17/bit31 with
+  fill ∈ {0x80000000, 0xffffffff}) → (0,1) UNSAT; fill bit-31 UNSET
+  (bit11 fill=0x00000000, bit13 fill=0x55555555) → (0,0) UNSAT.
+- This is a NEW class of CDCL-derived structural constraint:
+  Class 3' = universal-with-cand-parameterized-polarity. Polarity
+  is computed from cand metadata (fill bit-31 in this case).
+- F327 IPASIR-UP cb_add_external_clause should pre-load the W57[22:23]
+  clause UNIVERSALLY with polarity from cand metadata — saves yale's
+  per-cand mining cost (~5 min/cand).
+- Refines F339's "cand-specific" framing: the constraint is universal,
+  the polarity is cand-parameterized.
+
+Cross-machine flywheel:
+  yale F378-F384 → macbook F339 → macbook F340 generalization →
+  Phase 2D propagator design has its first universal-with-flip target.
+
+Concrete next: enumerate other (round, bit) positions for similar
+universal-with-flip constraints. Algebraic derivation of σ-arithmetic
+that produces the polarity flip.
+
+Commit: [next] (F340).

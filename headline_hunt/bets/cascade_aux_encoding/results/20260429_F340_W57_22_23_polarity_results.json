@@ -1,0 +1,121 @@
+{
+  "test": "W57[22:23] CDCL polarity test, sr60 force-mode, cadical 5s budget",
+  "polarities_tested": [
+    "00",
+    "01",
+    "10",
+    "11"
+  ],
+  "cands": [
+    {
+      "name": "bit0_m8299b36f",
+      "M0": "0x8299b36f",
+      "fill": "0x80000000",
+      "fill_bit31": 1,
+      "var22": 12395,
+      "var23": 12396,
+      "results": {
+        "00": "UNK",
+        "01": "UNSAT 0.09s",
+        "10": "UNK",
+        "11": "UNK"
+      },
+      "unsat_polarity": "01"
+    },
+    {
+      "name": "bit10_m3304caa0",
+      "M0": "0x3304caa0",
+      "fill": "0x80000000",
+      "fill_bit31": 1,
+      "var22": 12339,
+      "var23": 12340,
+      "results": {
+        "00": "UNK",
+        "01": "UNSAT 0.07s",
+        "10": "UNK",
+        "11": "UNK"
+      },
+      "unsat_polarity": "01"
+    },
+    {
+      "name": "bit11_m45b0a5f6",
+      "M0": "0x45b0a5f6",
+      "fill": "0x00000000",
+      "fill_bit31": 0,
+      "var22": 12391,
+      "var23": 12392,
+      "results": {
+        "00": "UNSAT 0.07s",
+        "01": "UNK",
+        "10": "UNK",
+        "11": "UNK"
+      },
+      "unsat_polarity": "00"
+    },
+    {
+      "name": "bit13_m4d9f691c",
+      "M0": "0x4d9f691c",
+      "fill": "0x55555555",
+      "fill_bit31": 0,
+      "var22": 12391,
+      "var23": 12392,
+      "results": {
+        "00": "UNSAT 0.08s",
+        "01": "UNK",
+        "10": "UNK",
+        "11": "UNK"
+      },
+      "unsat_polarity": "00"
+    },
+    {
+      "name": "bit17_m427c281d",
+      "M0": "0x427c281d",
+      "fill": "0x80000000",
+      "fill_bit31": 1,
+      "var22": 12360,
+      "var23": 12361,
+      "results": {
+        "00": "UNK",
+        "01": "UNSAT 0.09s",
+        "10": "UNK",
+        "11": "UNK"
+      },
+      "unsat_polarity": "01"
+    },
+    {
+      "name": "bit31_m17149975",
+      "M0": "0x17149975",
+      "fill": "0xffffffff",
+      "fill_bit31": 1,
+      "var22": 12419,
+      "var23": 12420,
+      "results": {
+        "00": "UNK",
+        "01": "UNSAT 0.08s",
+        "10": "UNK",
+        "11": "UNK"
+      },
+      "unsat_polarity": "01"
+    }
+  ],
+  "pattern": {
+    "fill_bit31_set": {
+      "cands": [
+        "bit0",
+        "bit10",
+        "bit17",
+        "bit31"
+      ],
+      "unsat_polarity": "01"
+    },
+    "fill_bit31_unset": {
+      "cands": [
+        "bit11",
+        "bit13"
+      ],
+      "unsat_polarity": "00"
+    }
+  },
+  "wall_seconds": 100,
+  "budget_per_polarity": "5s cadical"
+}
