@@ -51,3 +51,23 @@ universal-hard-core characterization arc left off.)
   does NOT translate to solver-time variance at 30s budget.
 - 81 commits in macbook 2-day arc.
 
+
+## ~00:55 EDT — F286: universal hard core decomposes to 132 bits = 128 + 4 anchors
+
+- Per-bit analysis across 10 sr60 cands reveals the 132 stable_core
+  bits decompose:
+  - 128 round-bits: W1_59[0..31], W1_60[0..31], W2_59[0..31], W2_60[0..31]
+  - 4 specific anchors:
+    - W1_57[0] (LSB anchor on M1 side of dW[57])
+    - W2_57[0] (LSB anchor on M2 side)
+    - W2_58[14] (mysterious specific bit)
+    - W2_58[26] (mysterious specific bit)
+- W*_57[0] = LSB anchors are structurally clean (no carry-in from
+  lower bit; cascade-1 hardlock propagates here first).
+- W2_58[14] and [26]: bits 14 and 26 differ by 12 = ROTR-12 mapping
+  bit 26 → bit 14. Possibly Σ1 ∘ Σ1 composition fixed-point
+  structure. Worth deeper algebraic investigation.
+- Refined active-schedule decomposition: 132 universal hard-core +
+  88 cand-variable + 36 universal shell = 256 total schedule bits.
+- 82 commits in macbook 2-day arc.
+
