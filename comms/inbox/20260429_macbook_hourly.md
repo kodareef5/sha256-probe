@@ -183,3 +183,16 @@ universal-hard-core characterization arc left off.)
   collision-witness (m17149975 from CLAIMS.md).
 - 88 commits across 2-day arc.
 
+
+## ~03:15 EDT — F294: corpus_msb_m3f239926 shipped (10k records)
+
+- Built residual corpus for msb_m3f239926_fillaaaaaaaa (kernel-bit 31).
+- 100k records sampled, 10k retained for scale parity (7.5MB).
+- Per F293 protocol: --hw-threshold=200 (no HW filter), random
+  schedule W[57..60] sampling.
+- Second per-cand corpus shipped this hour. block2_wang trail-search
+  catalog now has 12 cands with per-cand data.
+- Min HW seen across 100k samples: 62 (typical for random sampling
+  on this cand).
+- 89 commits across 2-day arc.
+
