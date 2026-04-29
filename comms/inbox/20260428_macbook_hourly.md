@@ -2976,3 +2976,16 @@ Discipline: 0 SAT compute, 0 solver runs.
   on `0,7,9,12,14` 8×50k.
 - 49 commits this session.
 
+
+## ~20:12 EDT — F251: yale F248 score-90 is ALSO seed-7101-singular
+
+- F251: 8×50k on `0,7,9,12,14` with seed 9001 (vs F248 seed 7101).
+- Result: best 92 (yale's seed 7101 reached 90). 2-point gap.
+- Same seed-singular pattern as F180 found for F135's 87 vs 91.
+- Yale's TWO bit19 deep-basin finds (87 in chunk 1, 90 in chunk 19)
+  are BOTH seed-7101 narrow basins, not robust floors.
+- Robust 8×50k floor across seeds: 91-92 on bit19.
+- Sent yale F251 coordination note suggesting multi-seed protocol
+  for continuation top-K verification.
+- 50 commits this session.
+
