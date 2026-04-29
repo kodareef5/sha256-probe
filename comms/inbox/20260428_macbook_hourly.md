@@ -3112,3 +3112,22 @@ Discipline: 0 SAT compute, 0 solver runs.
   it doesn't already exist.
 - 58 commits this session.
 
+
+## ~20:39 EDT — F262: cube-and-conquer pilot on F235 hard instance — ALL 16 cubes timeout
+
+- Used yale's F302 schedule_cube_planner.py + run_schedule_cubes.py
+  to test cube-and-conquer on the F235 hard instance.
+- Configuration: 16 cubes (dW[58] bits 0-7, depth 1), cadical 30s
+  each, total 480s wall.
+- Result: ALL 16 cubes TIMEOUT at 30s.
+- Depth-1 dW[58] cubes don't split F235 into tractable subproblems.
+  The hardness is structurally distributed, not localized to any
+  single dW[58] bit.
+- This narrows the non-heuristic attack path:
+  - Depth-1 cubes: ineffective on F235 (F262)
+  - Depth-2/W1-only/W2-only cubes: untested
+  - IPASIR-UP propagator: unimplemented
+  - BDD enumeration: unimplemented
+- F262 memo committed.
+- 60 commits this session.
+
