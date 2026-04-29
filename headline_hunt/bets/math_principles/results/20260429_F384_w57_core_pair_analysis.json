@@ -1,0 +1,118 @@
+{
+  "bits": [
+    22,
+    23
+  ],
+  "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit31_m17149975_fillffffffff.cnf",
+  "decision": "Treat the forbidden W57 pair as a sound two-bit bridge constraint candidate.",
+  "f380": "headline_hunt/bets/math_principles/results/20260429_F380_bridge_cubes.json",
+  "literals": {
+    "22": 12419,
+    "23": 12420
+  },
+  "polarity_tests": [
+    {
+      "assumptions": [
+        -12419,
+        -12420
+      ],
+      "returncode": 0,
+      "status": "UNKNOWN",
+      "values": {
+        "22": 0,
+        "23": 0
+      },
+      "wall_seconds": 2.004764
+    },
+    {
+      "assumptions": [
+        -12419,
+        12420
+      ],
+      "returncode": 20,
+      "status": "UNSATISFIABLE",
+      "values": {
+        "22": 0,
+        "23": 1
+      },
+      "wall_seconds": 0.251157
+    },
+    {
+      "assumptions": [
+        12419,
+        -12420
+      ],
+      "returncode": 0,
+      "status": "UNKNOWN",
+      "values": {
+        "22": 1,
+        "23": 0
+      },
+      "wall_seconds": 2.004102
+    },
+    {
+      "assumptions": [
+        12419,
+        12420
+      ],
+      "returncode": 0,
+      "status": "UNKNOWN",
+      "values": {
+        "22": 1,
+        "23": 1
+      },
+      "wall_seconds": 2.004863
+    }
+  ],
+  "report_id": "F384",
+  "round": 57,
+  "target_values": [
+    {
+      "candidate": {
+        "D61": 4,
+        "a57": 19,
+        "chart": "dCh,dh",
+        "profile_score": null,
+        "score": 86.1,
+        "tail63": 122
+      },
+      "target": "F378_D61_floor_guard_explosion",
+      "values": {
+        "22": 0,
+        "23": 1
+      }
+    },
+    {
+      "candidate": {
+        "D61": 13,
+        "a57": 5,
+        "chart": "dCh,dh",
+        "profile_score": null,
+        "score": 39.1,
+        "tail63": 122
+      },
+      "target": "F375_D61_to_guard_bridge",
+      "values": {
+        "22": 1,
+        "23": 0
+      }
+    },
+    {
+      "candidate": {
+        "D61": 11,
+        "a57": 4,
+        "chart": "dT2,dCh",
+        "profile_score": null,
+        "score": 40.8,
+        "tail63": 116
+      },
+      "target": "F374_low_guard_corner",
+      "values": {
+        "22": 0,
+        "23": 1
+      }
+    }
+  ],
+  "varmap": "headline_hunt/bets/math_principles/data/20260429_F380_aux_force_sr60_n32_bit31_m17149975_fillffffffff.varmap.json",
+  "verdict": "w57_pair_has_single_forbidden_polarity"
+}

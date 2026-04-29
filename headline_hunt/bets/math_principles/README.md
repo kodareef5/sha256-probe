@@ -53,6 +53,7 @@ python3 headline_hunt/bets/math_principles/encoders/generate_bridge_cubes.py
 python3 headline_hunt/bets/math_principles/encoders/smoke_bridge_cubes.py
 python3 headline_hunt/bets/math_principles/encoders/extract_bridge_cube_proofs.py
 python3 headline_hunt/bets/math_principles/encoders/minimize_bridge_cube_core.py
+python3 headline_hunt/bets/math_principles/encoders/analyze_w57_core_pair.py
 ```
 
 The original manifest slice intentionally excludes downstream math-principles
@@ -117,6 +118,7 @@ Default outputs:
 - `results/20260429_F382_bridge_cube_proof_metadata.{json,md}`
 - `data/20260429_F382_bridge_cube_proofs/*.drat`
 - `results/20260429_F383_bridge_cube_unsat_core.{json,md}`
+- `results/20260429_F384_w57_core_pair_analysis.{json,md}`
 
 ## Readout
 
@@ -352,9 +354,16 @@ assignment collapses to a two-literal UNSAT core:
 first concrete bridge-conflict clause target produced by the strict-kernel
 basin work.
 
+F384 tests all four polarities of that W57 pair. Only
+`dW57[22]=0, dW57[23]=1` is UNSAT at the smoke cap; the other three polarities
+remain UNKNOWN. The forbidden pair is present in F378's D61=4/a57=19 split and
+F374's low-guard corner, while F375's repaired-guard bridge has the opposite
+pair `1,0`. That makes the W57 pair a concrete clause candidate explaining one
+guard/D61 split.
+
 ## Next tracks
 
 - add outcome-aware calibration before spending more budget on F343-style selectors
 - use F342 stable-core coordinates as hard features for BP/matroid audits
 - use common-mode atlas continuation as a post-atlas polish operator
-- explain the F383 two-bit W57 core algebraically and cross-check it on neighboring bridge cubes
+- turn the F384 W57 forbidden-pair finding into a comms note and a propagator/cube follow-up target
