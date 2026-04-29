@@ -1142,3 +1142,30 @@ weaker effect. Worth noting in F327 IPASIR-UP design: per-mode
 calibration may matter.
 
 Commit: [next] (F351+F352 PENDING-extension memo).
+
+
+## ~22:54 EDT — F353: USER APPROVED 4h compute → 3 parallel verification runs launched
+
+User OK to use more compute. Launched at 22:53 EDT, target completion 02:53 EDT:
+
+  PID 8053: kissat --time=14400 (baseline F349 CNF)
+  PID 8054: kissat --time=14400 (F343-injected F352 CNF)
+  PID 8055: cadical -t 14400 --no-binary (baseline, cross-solver)
+
+Total: 12 CPU-h, 4h wall. Per user "use more compute, i can share, u can
+have most of it."
+
+If any returns SAT:
+  → extract_and_verify.py parses model, reconstructs M1/M2
+  → lib/sha256 runs schedule + compression, verifies round-60 state diff = 0
+  → If verified: NEW sr=60 cascade-1 collision instance (project's 2nd)
+  → Update CLAIMS.md, candidates.yaml, log via append_run.py
+  → cascade_aux_encoding bet's recent_progress
+
+If all 3 still UNKNOWN at 14400s:
+  → original task's SAT was either spurious or required even longer time
+  → escalate to 24h match of original timeline (needs another user OK)
+
+Continuing autonomous work. Will check back at ~02:53 EDT.
+
+Commit: [next] (F353 launch).
