@@ -169,3 +169,17 @@ universal-hard-core characterization arc left off.)
   empty corpora are better targets.
 - 87 commits across 2-day arc.
 
+
+## ~02:55 EDT — F292/F293: msb_m17149975 residual corpus shipped (canonical collision-witness)
+
+- F292 attempt with --hw-threshold=16: 0 records (random sampling
+  doesn't find HW≤16 residuals on canonical msb either; min HW=62).
+- F293: rebuilt with --hw-threshold=200 (effectively no filter):
+  100k records captured (75MB total).
+- Sampled down to 10k records (7.5MB) matching existing per-cand
+  corpus scale.
+- corpus_msb_m17149975_fillffffffff.jsonl shipped to by_candidate/.
+- This is the FIRST per-cand corpus for the canonical sr=60
+  collision-witness (m17149975 from CLAIMS.md).
+- 88 commits across 2-day arc.
+
