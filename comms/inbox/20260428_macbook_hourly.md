@@ -3371,3 +3371,17 @@ Discipline: 0 SAT compute, 0 solver runs.
 - Score-87 on bit19 remains seed-7101 specific (F135 + F173/F174).
 - 73 commits this session.
 
+
+## ~23:21 EDT — F280: ALL F278 top-2 also transient at 8×50k
+
+- F280 8×50k seed 9001 on F278's top-2 remaining masks:
+  - `0,1,2,3,6` (F278 chunked: 89): best 96 at 8×50k
+  - `1,3,6,8,10` (F278 chunked: 90): best 93 at 8×50k
+- Combined with F279: F278's top 3 chunked-scan results (87, 89, 90)
+  ALL fail to verify at 8×50k.
+- Confirms: forced-{1,3} + non-7101 seed cannot reach sub-91 at the
+  8×50k verification budget. The {1,3} structural pattern is
+  descriptive, not predictive of multi-seed score-87 access.
+- Score-87 floor remains seed-7101 specific.
+- 75 commits this session.
+
