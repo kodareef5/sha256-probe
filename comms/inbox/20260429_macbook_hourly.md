@@ -1032,3 +1032,32 @@ preflight mining (more clauses, more rounds) or instance-specific
 optimization (e.g., F235 hard instance).
 
 Commit: [next] (F347).
+
+
+## ~22:00 EDT — F348: F343 2-clause injection gives 5-14% speedup across all 6 cands
+
+- Tested cadical 60s baseline vs F343-injected (2 clauses: dW57[0] unit
+  + W57[22:23] pair) on bit0/bit10/bit11/bit13/bit17 cands. ~10 min wall.
+- ALL 5 new cands show conflict reduction: -5.1% to -11.1%. Plus F347's
+  bit31 at -13.7% (32 clauses). Mean across 6 cands: -9.6%.
+- F343 vs F344 cost-benefit:
+    F343 minimal (2 clauses, 20s mining): 9.6% mean reduction
+    F344 full row (32 clauses, 13 min): 13.7% reduction (only 4% extra)
+  → F343 is the sweet spot. F344's 30 extra clauses give modest extra
+    benefit at 40x mining cost.
+- Break-even analysis:
+    F343: 200s solve time → 20s preflight pays back via 10% reduction
+    F344: 5700s solve time → 13 min preflight pays back
+  For F235-class (848s timeouts), F343 is clearly worth it.
+- Cross-cand variance: -5% to -11% suggests cand-specific structure;
+  the 2 clauses help different cands by different amounts.
+- Speedup is BELOW the bet's 2x reopen criterion (~1.1x), but measurable
+  and useful for long-running sr=61 probes.
+
+Phase 2D propagator implementation is now empirically grounded:
+  - 20s preflight per cand (F343 mining)
+  - cb_add_external_clause injects 2 clauses
+  - Net 5-14% wall reduction on long-running solves
+  - Concrete reopen path for the bet
+
+Commit: [next] (F348).

@@ -1,0 +1,102 @@
+{
+  "description": "F348 cross-cand F343-preflight injection speedup test",
+  "budget_seconds": 60,
+  "results": [
+    {
+      "cand": "bit0_m8299b36f",
+      "n_inj": 2,
+      "baseline": {
+        "wall": 60.01287031173706,
+        "verdict": "?",
+        "conflicts": 2304639,
+        "decisions": 9812932,
+        "propagations": 216866222
+      },
+      "injected": {
+        "wall": 60.01484394073486,
+        "verdict": "?",
+        "conflicts": 2082786,
+        "decisions": 9462653,
+        "propagations": 275970494
+      },
+      "delta_conflicts_pct": -9.626366645708938
+    },
+    {
+      "cand": "bit10_m3304caa0",
+      "n_inj": 2,
+      "baseline": {
+        "wall": 60.01511788368225,
+        "verdict": "?",
+        "conflicts": 2267127,
+        "decisions": 9876909,
+        "propagations": 220215270
+      },
+      "injected": {
+        "wall": 60.01698422431946,
+        "verdict": "?",
+        "conflicts": 2021742,
+        "decisions": 9409441,
+        "propagations": 274970439
+      },
+      "delta_conflicts_pct": -10.823610675537806
+    },
+    {
+      "cand": "bit11_m45b0a5f6",
+      "n_inj": 2,
+      "baseline": {
+        "wall": 60.01393985748291,
+        "verdict": "?",
+        "conflicts": 2254769,
+        "decisions": 9921901,
+        "propagations": 217144286
+      },
+      "injected": {
+        "wall": 60.01084113121033,
+        "verdict": "?",
+        "conflicts": 2140297,
+        "decisions": 9869596,
+        "propagations": 300622617
+      },
+      "delta_conflicts_pct": -5.076883707377563
+    },
+    {
+      "cand": "bit13_m4d9f691c",
+      "n_inj": 2,
+      "baseline": {
+        "wall": 60.011173248291016,
+        "verdict": "?",
+        "conflicts": 2253945,
+        "decisions": 10291622,
+        "propagations": 223806891
+      },
+      "injected": {
+        "wall": 60.010618925094604,
+        "verdict": "?",
+        "conflicts": 2089292,
+        "decisions": 9970245,
+        "propagations": 300711417
+      },
+      "delta_conflicts_pct": -7.305102830814417
+    },
+    {
+      "cand": "bit17_m427c281d",
+      "n_inj": 2,
+      "baseline": {
+        "wall": 60.01028108596802,
+        "verdict": "?",
+        "conflicts": 2290051,
+        "decisions": 9877338,
+        "propagations": 244154771
+      },
+      "injected": {
+        "wall": 60.01346015930176,
+        "verdict": "?",
+        "conflicts": 2036082,
+        "decisions": 9589622,
+        "propagations": 287769730
+      },
+      "delta_conflicts_pct": -11.090102360165778
+    }
+  ],
+  "mean_delta_conflicts_pct": -8.7844132439209
+}
