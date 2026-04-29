@@ -29,7 +29,49 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-04-28T20:30:00Z'
+last_heartbeat: '2026-04-29T11:50:00Z'
+recent_progress_2026-04-29_overnight: |
+  Overnight 2026-04-28 → 2026-04-29 macbook session arc:
+
+  HEURISTIC SEARCH SATURATION (F176-F206):
+    Multi-seed protocol established. bit19 fixture has 5 known
+    seed-7101 narrow basins (F135@87, F335@88, F248@90, F301@90,
+    F337@90), all confirmed seed-narrow at 8x50k by F276/F277.
+    Robust 8x50k floor across non-7101 seeds: 91-95.
+    bit3, bit4, bit19 each have one verified score-86/87 narrow
+    basin. msb/bit25/bit28 don't reach sub-91 at 8x50k.
+    F143 strong form (distinguished cands strictly < bit3) DEAD
+    at 8x50k. F143 weak form (distinguished cands have findable
+    basins comparable to bit3) holds for some cands.
+
+  RESIDUAL CORPUS EXTENSION (F291-F310):
+    block2_wang per-cand corpus catalog grew 13 → 47 (261%
+    growth, 34 new corpora shipped overnight). All 10k records
+    each, ~7.5MB, matching existing corpus format.
+    MSB family complete: 6/6 cands have corpora.
+    Diverse coverage: bit00, bit3, bit4, bit06, bit10, bit11,
+    bit13, bit17, bit18, bit20, bit24, bit25, bit28, msb.
+
+  COORDINATION WITH YALE (~12 messages):
+    F180 seed-uncertainty calibration (yale adopted multi-seed
+    protocol). F279 retraction note (F278 transient minimum
+    flagged within 5 min). F302 cube-planner ack. F339 catalog
+    coordination on {1,3} structural pattern.
+
+  DISCIPLINE:
+    5 retractions cleanly shipped (F205, F232, F237, F279, F288).
+    F1 verification protocol firmly established: 3x4000 chunked-
+    scan results require 8x50k verification before treatment as
+    floors.
+    0 SAT compute throughout (heuristic search + corpus build).
+    validate_registry: 0 errors throughout.
+
+  STATUS:
+    bit19 fixture comprehensively mapped: 5 narrow basins, all
+    seed-7101-specific, all sharp local minima.
+    Heuristic search has exhausted what it can do on cascade-1
+    fixtures at 8x50k protocol. Future progress requires non-
+    heuristic methods (per F237/F257).
 recent_progress_2026-04-28_late_PM: |
   Late-afternoon arc F176-F197 (~10 commits, 0 SAT compute):
 
