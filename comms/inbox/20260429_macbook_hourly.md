@@ -1169,3 +1169,21 @@ If all 3 still UNKNOWN at 14400s:
 Continuing autonomous work. Will check back at ~02:53 EDT.
 
 Commit: [next] (F353 launch).
+
+
+## ~22:55 EDT — F354: F343 preflight works at sr=61 (open frontier)
+
+- Ran F343 preflight on aux_force_sr61_n32_bit31_m17149975_fillffffffff.
+  20s wall.
+- Result: dW57[0] forced=1, W57[22:23] forbidden=(0, 1) — IDENTICAL to
+  sr=60 force-mode bit31 (per F340/F341).
+- Class 1a-univ + Class 2 both transfer to sr=61. Phase 2D propagator's
+  preflight produces SAME clauses across sr levels for the same cand.
+- For F235 hard instance (sr=61 basic cascade encoder, kissat 562s
+  timeouts): F343 mining + injection should give similar 5-14% speedup
+  per F347/F348 measurement.
+
+F353 verification still running (3 parallel 4h kissat/cadical, 2:09
+into 4h budget, no SAT yet).
+
+Commit: [next] (F354).
