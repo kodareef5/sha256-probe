@@ -422,3 +422,20 @@ Commit: [next] (F316).
   mechanisms. The basin is genuinely small and isolated.
 
 Commit: [next] (F317).
+
+
+## ~10:25 EDT — F318: annealed mutator hits D61=7 in chamber chart
+
+- Annealed multibit_prob 0.80 → 0.05 over 20k iters, F358 seed init.
+- Restart 1: a57=4 (matches F315 floor). Restart 2: D61=7 in chart=(dh,dCh)
+  — NEW LOW for chamber-chart-coherent points (was 12 in F312/F316).
+- Best of all worlds: combines F315's a57=4 break and F316's chart
+  coherence via early-multibit + late-1bit schedule.
+- Distance from chamber attractor (a57=0, D61=4, (dh,dCh)): F318 r2 is
+  8+3 = 11 bits away while in chamber chart — closer than any prior result.
+- 0/8 chamber_hits still. Total seeded compute now 640k iters across
+  F315-F318 mechanisms.
+
+F319 50k-iter version queued; will report.
+
+Commit: [next] (F318).
