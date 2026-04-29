@@ -51,6 +51,7 @@ python3 headline_hunt/bets/math_principles/encoders/beam_f322_kernel_safe_depth2
 python3 headline_hunt/bets/math_principles/encoders/design_conflict_guided_bridge.py
 python3 headline_hunt/bets/math_principles/encoders/generate_bridge_cubes.py
 python3 headline_hunt/bets/math_principles/encoders/smoke_bridge_cubes.py
+python3 headline_hunt/bets/math_principles/encoders/extract_bridge_cube_proofs.py
 ```
 
 The original manifest slice intentionally excludes downstream math-principles
@@ -112,6 +113,8 @@ Default outputs:
 - `data/20260429_F380_bridge_cubes.dimacs.txt`
 - `data/20260429_F380_aux_force_sr60_n32_bit31_m17149975_fillffffffff.varmap.json`
 - `results/20260429_F381_bridge_cube_smoke.{json,md}`
+- `results/20260429_F382_bridge_cube_proof_metadata.{json,md}`
+- `data/20260429_F382_bridge_cube_proofs/*.drat`
 
 ## Readout
 
@@ -334,9 +337,16 @@ and `w57_w60` assignment cubes are UNSAT in under 0.18s. The bridge cubes are
 therefore live CDCL diagnostics: full schedule-diff cubes conflict immediately,
 while sparse positive cubes survive long enough for deeper signature runs.
 
+F382 extracts DRAT proof metadata for the six UNSAT bridge cubes. The proof
+sizes vary sharply: F378/F375 `w61` and F378 `w57_w60` are ~1 MB proofs, while
+F374 `w57_w60` is only 1,457 bytes with 609 propagations. That tiny proof says
+the low-guard corner's full W57-W60 assignment is structurally inconsistent
+with the force-mode CNF almost at propagation level, making it the best first
+target for clause inspection.
+
 ## Next tracks
 
 - add outcome-aware calibration before spending more budget on F343-style selectors
 - use F342 stable-core coordinates as hard features for BP/matroid audits
 - use common-mode atlas continuation as a post-atlas polish operator
-- extract/compare proof or conflict traces for the F381 UNSAT bridge cubes
+- inspect the tiny F382 proof/cube to identify which W57-W60 assumptions conflict first
