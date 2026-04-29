@@ -3169,3 +3169,22 @@ Discipline: 0 SAT compute, 0 solver runs.
   to feed into yale's selector pipeline
 - 62 commits this session (macbook side).
 
+
+## ~21:11 EDT — F264/F265: F235 hard-core decomposition validates cube targeting
+
+- F264 used yale's identify_hard_core --out-json extension on F235 cand.
+- Result: F235 hard core localizes in W*_58 (30+31=61 vars) and
+  W*_59 (32+32=64 vars). W*_57 mostly shell (cascade-1 hardlock).
+- Total active hard-core schedule: ~128 bits (out of 192 free).
+- Validates F262/F306-F309 cube targeting (dW[58], dW[59] both
+  hard-core; dW[57] would be wasteful cube target).
+- F265: combined cube + heuristic + preprocessing data confirms
+  the 128-bit hard core is the persistent intractability floor for
+  F235-class instances.
+- Headline path requires beating this 128-bit core. Methods tested:
+  - Heuristic search (F257): saturated at 86
+  - Preprocessing (F237): doesn't shrink SAT-difficulty
+  - Cube-and-conquer depth ≤ 3 (F262/F309): insufficient
+  - IPASIR-UP propagator: unimplemented (F238 roadmap)
+- 63 commits this session.
+
