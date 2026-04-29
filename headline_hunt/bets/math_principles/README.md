@@ -31,6 +31,7 @@ python3 headline_hunt/bets/math_principles/encoders/summarize_atlas_weight_sweep
 python3 headline_hunt/bets/math_principles/encoders/probe_atlas_neighborhood.py
 python3 headline_hunt/bets/math_principles/encoders/continue_atlas_from_seed.py
 python3 headline_hunt/bets/math_principles/encoders/chamber_seed_linear_lift.py
+python3 headline_hunt/bets/math_principles/encoders/optimize_chamber_seed_freevars.py
 ```
 
 The original manifest slice intentionally excludes downstream math-principles
@@ -65,6 +66,7 @@ Default outputs:
 - `results/20260429_F354_alpha4_best_chart_atlas_probe_r2.{json,md}`
 - `results/20260429_F355_seeded_atlas_commonmode_continuation_4x20k.{json,md}`
 - `results/20260429_F356_chamber_seed_linear_lift.{json,md}`
+- `results/20260429_F357_chamber_seed_freevar_opt.{json,md}`
 
 ## Readout
 
@@ -129,9 +131,14 @@ F314 memo. The no-carry GF(2) schedule lift exactly matches chamber
 modular carries break the best sampled seed by 30 bits, so the lift has signal
 but needs carry-aware free-variable optimization before it is a chamber seed.
 
+F357 keeps the exact F356 no-carry chamber constraint and hill-climbs the 416
+free variables against true modular `W57..W59` mismatch. A short 4x50k run
+improves 30 bits to 25 bits, confirming that the free variables carry real
+correction signal even before adding a carry-feature objective.
+
 ## Next tracks
 
 - add outcome-aware calibration before spending more budget on F343-style selectors
 - use F342 stable-core coordinates as hard features for BP/matroid audits
 - use common-mode atlas continuation as a post-atlas polish operator
-- optimize F356 free variables against true W57..W59 carry mismatch
+- add carry-feature terms to F357 and run a larger free-variable optimizer

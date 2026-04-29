@@ -1,0 +1,254 @@
+{
+  "best": {
+    "M1": [
+      "0xdace2329",
+      "0x3f54d56b",
+      "0xe5e0aace",
+      "0x97d9f3bb",
+      "0x69ab5363",
+      "0xf092e9f1",
+      "0x6e879f5f",
+      "0x363ab1f0",
+      "0x6e916f62",
+      "0x02860458",
+      "0x117f37f3",
+      "0xb668f05b",
+      "0x2273314b",
+      "0x451577d0",
+      "0x48b1008b",
+      "0x8a533075"
+    ],
+    "M2_kernel": [
+      "0x5ace2329",
+      "0x3f54d56b",
+      "0xe5e0aace",
+      "0x97d9f3bb",
+      "0x69ab5363",
+      "0xf092e9f1",
+      "0x6e879f5f",
+      "0x363ab1f0",
+      "0x6e916f62",
+      "0x82860458",
+      "0x117f37f3",
+      "0xb668f05b",
+      "0x2273314b",
+      "0x451577d0",
+      "0x48b1008b",
+      "0x8a533075"
+    ],
+    "atlas_rec": {
+      "D61_hw": 11,
+      "a57_xor_hw": 9,
+      "chart_top2": [
+        "dh",
+        "dT2"
+      ],
+      "tail63_state_diff_hw": 119
+    },
+    "linear_mismatch_hw": 0,
+    "message_hw": 260,
+    "mismatch_by_round": [
+      {
+        "linear": "0x370fef5f",
+        "linear_mismatch_hw": 0,
+        "round": 57,
+        "target": "0x370fef5f",
+        "true": "0x772affcf",
+        "true_mismatch_hw": 7
+      },
+      {
+        "linear": "0x6ced4182",
+        "linear_mismatch_hw": 0,
+        "round": 58,
+        "target": "0x6ced4182",
+        "true": "0x142c5002",
+        "true_mismatch_hw": 10
+      },
+      {
+        "linear": "0x9af03606",
+        "linear_mismatch_hw": 0,
+        "round": 59,
+        "target": "0x9af03606",
+        "true": "0x0aa09246",
+        "true_mismatch_hw": 8
+      }
+    ],
+    "true_mismatch_hw": 25
+  },
+  "candidate_idx": 0,
+  "chamber": "0:0x370fef5f:0x6ced4182:0x9af03606",
+  "decision": "The free variables carry real correction signal; continue with larger restarts or add a carry-feature objective.",
+  "free_columns": 416,
+  "free_prob": 0.5,
+  "improvements": [
+    {
+      "message_hw": 262,
+      "mismatch_by_round": [
+        10,
+        11,
+        8
+      ],
+      "restart": 0,
+      "step": 27853,
+      "true_mismatch_hw": 29
+    },
+    {
+      "message_hw": 255,
+      "mismatch_by_round": [
+        8,
+        15,
+        3
+      ],
+      "restart": 0,
+      "step": 30011,
+      "true_mismatch_hw": 26
+    },
+    {
+      "message_hw": 260,
+      "mismatch_by_round": [
+        7,
+        10,
+        8
+      ],
+      "restart": 2,
+      "step": 14454,
+      "true_mismatch_hw": 25
+    }
+  ],
+  "kernel_bit": 31,
+  "max_flips": 2,
+  "rank": 96,
+  "report_id": "F357",
+  "restart_summaries": [
+    {
+      "accepts": 6356,
+      "best_message_hw": 255,
+      "best_mismatch_by_round": [
+        8,
+        15,
+        3
+      ],
+      "best_mismatch_hw": 26,
+      "restart": 0,
+      "start_mismatch_hw": 30
+    },
+    {
+      "accepts": 7019,
+      "best_message_hw": 266,
+      "best_mismatch_by_round": [
+        10,
+        10,
+        6
+      ],
+      "best_mismatch_hw": 26,
+      "restart": 1,
+      "start_mismatch_hw": null
+    },
+    {
+      "accepts": 5917,
+      "best_message_hw": 260,
+      "best_mismatch_by_round": [
+        7,
+        10,
+        8
+      ],
+      "best_mismatch_hw": 25,
+      "restart": 2,
+      "start_mismatch_hw": null
+    },
+    {
+      "accepts": 6216,
+      "best_message_hw": 242,
+      "best_mismatch_by_round": [
+        9,
+        7,
+        10
+      ],
+      "best_mismatch_hw": 26,
+      "restart": 3,
+      "start_mismatch_hw": null
+    }
+  ],
+  "restarts": 4,
+  "seed": 35700,
+  "seed_best": {
+    "M1": [
+      "0x58891930",
+      "0x38554639",
+      "0xf9a26ebc",
+      "0xe29444a7",
+      "0xc9276e99",
+      "0xb74c500a",
+      "0xe8fd54e9",
+      "0x06c3fa02",
+      "0xbc5d1bfa",
+      "0x6b879e79",
+      "0x82c32a87",
+      "0xc4160009",
+      "0x8a7f1e1c",
+      "0x4ca6d420",
+      "0x0c7c5e15",
+      "0x91d51d70"
+    ],
+    "M2_kernel": [
+      "0xd8891930",
+      "0x38554639",
+      "0xf9a26ebc",
+      "0xe29444a7",
+      "0xc9276e99",
+      "0xb74c500a",
+      "0xe8fd54e9",
+      "0x06c3fa02",
+      "0xbc5d1bfa",
+      "0xeb879e79",
+      "0x82c32a87",
+      "0xc4160009",
+      "0x8a7f1e1c",
+      "0x4ca6d420",
+      "0x0c7c5e15",
+      "0x91d51d70"
+    ],
+    "atlas_rec": {
+      "D61_hw": 17,
+      "a57_xor_hw": 18,
+      "chart_top2": [
+        "dh",
+        "dSig1"
+      ],
+      "tail63_state_diff_hw": 130
+    },
+    "linear_mismatch_hw": 0,
+    "message_hw": 239,
+    "mismatch_by_round": [
+      {
+        "linear": "0x370fef5f",
+        "linear_mismatch_hw": 0,
+        "round": 57,
+        "target": "0x370fef5f",
+        "true": "0x25da97f8",
+        "true_mismatch_hw": 16
+      },
+      {
+        "linear": "0x6ced4182",
+        "linear_mismatch_hw": 0,
+        "round": 58,
+        "target": "0x6ced4182",
+        "true": "0xe42cc302",
+        "true_mismatch_hw": 8
+      },
+      {
+        "linear": "0x9af03606",
+        "linear_mismatch_hw": 0,
+        "round": 59,
+        "target": "0x9af03606",
+        "true": "0xda303756",
+        "true_mismatch_hw": 6
+      }
+    ],
+    "true_mismatch_hw": 30
+  },
+  "steps": 50000,
+  "verdict": "freevar_opt_improved_partial_seed",
+  "wall_seconds": 10.582176,
+  "warmup_samples": 5000
+}
