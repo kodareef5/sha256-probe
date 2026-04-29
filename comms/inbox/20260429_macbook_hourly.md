@@ -726,3 +726,22 @@ The cross-machine cycle today:
   → yale F369-F372 strict-kernel ship (95/95 PASS).
 
 Commit: [next] (F335 thanks/recognition).
+
+
+## ~17:25 EDT — yale F373 strict-kernel junction search: 0 simultaneous hits
+
+- Yale F373 ran junction search at depth 3+ from F372 best_guard and
+  best_d61 seeds, looking for moves that JOINTLY satisfy
+  guard-repair + D61-preserve. 48069-48071 evaluations per branch.
+  Both branches: 0 hits.
+- Confirms chamber-attractor brittleness extends to MULTI-BIT KERNEL-SAFE
+  moves at depth 3. The attractor is genuinely unreachable from basin
+  search regardless of move radius or kernel constraint.
+- Mechanism gap is now precisely characterized: single-bit dM, multi-bit
+  dM, kernel-safe basin search, kernel-safe beam search at depth 1/2/3 —
+  ALL of these miss the chamber attractor. CDCL conflict analysis is
+  the structurally-distinct mechanism (per F324-F326 search-invariant
+  thesis + F327 IPASIR-UP design).
+- Hour summary: F333 (yale drift confirmed) + F334 (auditor + survey)
+  + F335 (thanks + new D61=5 low recognition). Cross-machine flywheel
+  productive: 6 yale commits + 4 macbook commits this hour.
