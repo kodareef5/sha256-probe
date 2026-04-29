@@ -144,10 +144,12 @@ def main():
                     help='comma-separated rounds to probe (default 57)')
     ap.add_argument('--probe-pairs', default='22,23',
                     help='comma-separated bit pair (i,j) to probe per round '
-                         '(default: 22,23 — F340 finding)')
+                         '(default: 22,23 — F340 finding). Use "scan_adjacent" '
+                         'to test all (i, i+1) pairs i ∈ {0..30}.')
     ap.add_argument('--probe-single-bits', default='0',
                     help='comma-separated single-bit positions to probe per round '
-                         '(default: 0 — F341/F342 finding)')
+                         '(default: 0 — F341/F342 finding). Use "scan_all" to '
+                         'test all 32 single bits.')
     ap.add_argument('--out', default=None,
                     help='output JSON path (default: stdout)')
     args = ap.parse_args()
@@ -161,10 +163,18 @@ def main():
     aux_W = vm['aux_W']
 
     rounds = [int(x) for x in args.rounds.split(',')]
-    single_bits = [int(x) for x in args.probe_single_bits.split(',')]
-    pair_bits = [int(x) for x in args.probe_pairs.split(',')]
-    if len(pair_bits) != 2:
-        raise ValueError('--probe-pairs needs exactly 2 bit indices')
+    if args.probe_single_bits == 'scan_all':
+        single_bits = list(range(32))
+    else:
+        single_bits = [int(x) for x in args.probe_single_bits.split(',')]
+    if args.probe_pairs == 'scan_adjacent':
+        pair_specs = [(i, i + 1) for i in range(31)]
+    else:
+        bits = [int(x) for x in args.probe_pairs.split(',')]
+        if len(bits) != 2:
+            raise ValueError('--probe-pairs needs exactly 2 bit indices, '
+                             'or "scan_adjacent"')
+        pair_specs = [tuple(bits)]
 
     spec = {
         'cnf': args.cnf,
@@ -203,29 +213,26 @@ def main():
     for r in rounds:
         if str(r) not in aux_W:
             continue
-        i, j = pair_bits
-        var_i = aux_W[str(r)][i]
-        var_j = aux_W[str(r)][j]
-        forbidden, res = probe_pair(n_vars, n_clauses, body, var_i, var_j, args.budget)
-        entry = {
-            'round': r, 'bits': [i, j], 'vars': [var_i, var_j],
-            'forbidden_polarity': forbidden,
-            'probes': {f'{a}{b}': {'verdict': v, 'wall_s': round(w, 3)}
-                       for (a, b), (v, w) in res.items()},
-        }
-        spec['pair_clauses'].append(entry)
-        if forbidden is not None:
-            # Inject as 2-literal blocking clause: NOT(var_i = forbidden[0] AND var_j = forbidden[1])
-            # Equivalent: clause [-var_i if forbidden[0]==1 else +var_i,
-            #                     -var_j if forbidden[1]==1 else +var_j]
-            la = -var_i if forbidden[0] == 1 else +var_i
-            lb = -var_j if forbidden[1] == 1 else +var_j
-            entry['inject_pair'] = [la, lb]
-            print(f'#   (dW{r}[{i}], dW{r}[{j}]) forbidden={forbidden}, '
-                  f'inject [{la}, {lb}]', file=sys.stderr)
-        else:
-            print(f'#   (dW{r}[{i}], dW{r}[{j}]): no fast UNSAT polarity',
-                  file=sys.stderr)
+        for (i, j) in pair_specs:
+            var_i = aux_W[str(r)][i]
+            var_j = aux_W[str(r)][j]
+            forbidden, res = probe_pair(n_vars, n_clauses, body, var_i, var_j, args.budget)
+            entry = {
+                'round': r, 'bits': [i, j], 'vars': [var_i, var_j],
+                'forbidden_polarity': forbidden,
+                'probes': {f'{a}{b}': {'verdict': v, 'wall_s': round(w, 3)}
+                           for (a, b), (v, w) in res.items()},
+            }
+            spec['pair_clauses'].append(entry)
+            if forbidden is not None:
+                la = -var_i if forbidden[0] == 1 else +var_i
+                lb = -var_j if forbidden[1] == 1 else +var_j
+                entry['inject_pair'] = [la, lb]
+                print(f'#   (dW{r}[{i}], dW{r}[{j}]) forbidden={forbidden}, '
+                      f'inject [{la}, {lb}]', file=sys.stderr)
+            else:
+                print(f'#   (dW{r}[{i}], dW{r}[{j}]): no fast UNSAT polarity',
+                      file=sys.stderr)
 
     spec['preflight_wall_seconds'] = round(time.time() - t_total, 2)
     print(f'# preflight wall: {spec["preflight_wall_seconds"]}s', file=sys.stderr)
