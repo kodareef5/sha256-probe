@@ -1,0 +1,66 @@
+{
+  "cnf": "/tmp/F355_sr61/bit0_m8299b36f.cnf",
+  "budget_seconds": 5.0,
+  "rounds_probed": [
+    57
+  ],
+  "unit_clauses": [
+    {
+      "round": 57,
+      "bit": 0,
+      "var": 12661,
+      "forced": 0,
+      "probes": {
+        "0": {
+          "verdict": "UNKNOWN",
+          "wall_s": 5.016
+        },
+        "1": {
+          "verdict": "UNSATISFIABLE",
+          "wall_s": 0.012
+        }
+      },
+      "inject_unit": -12661
+    }
+  ],
+  "pair_clauses": [
+    {
+      "round": 57,
+      "bits": [
+        22,
+        23
+      ],
+      "vars": [
+        12683,
+        12684
+      ],
+      "forbidden_polarity": [
+        0,
+        1
+      ],
+      "probes": {
+        "00": {
+          "verdict": "UNKNOWN",
+          "wall_s": 5.015
+        },
+        "01": {
+          "verdict": "UNSATISFIABLE",
+          "wall_s": 0.084
+        },
+        "10": {
+          "verdict": "UNKNOWN",
+          "wall_s": 5.013
+        },
+        "11": {
+          "verdict": "UNKNOWN",
+          "wall_s": 5.015
+        }
+      },
+      "inject_pair": [
+        12683,
+        -12684
+      ]
+    }
+  ],
+  "preflight_wall_seconds": 20.18
+}

@@ -1187,3 +1187,27 @@ F353 verification still running (3 parallel 4h kissat/cadical, 2:09
 into 4h budget, no SAT yet).
 
 Commit: [next] (F354).
+
+
+## ~23:14 EDT — F355: F343 preflight is sr-INVARIANT across 5 cands
+
+- Ran F343 preflight on sr=61 force-mode CNFs for 5 cands (bit0/bit10/
+  bit11/bit13/bit17). 100s total wall.
+- Result: ALL 5 cands have IDENTICAL preflight output between sr=60
+  and sr=61 (combined with F354 bit31 = 6/6 cands match):
+    bit0:  forced=0 / (0,1) at both sr levels
+    bit10: forced=0 / (0,1) at both
+    bit11: forced=1 / (0,0) at both
+    bit13: forced=0 / (0,0) at both
+    bit17: forced=1 / (0,1) at both
+    bit31: forced=1 / (0,1) at both
+- F343 mined clauses are sr-INVARIANT for force-mode. Per-cand mining
+  at sr=60 gives the clauses for sr=61.
+- Phase 2D propagator design simplification: ONE 20s preflight per cand
+  serves all sr levels for force-mode. No per-sr re-mining needed.
+- Confirms structural argument: round-57 dW constraints come from
+  cascade-1 hardlock structure that's invariant across sr=60/sr=61.
+
+F353 verification (4h kissat/cadical) at 20/240min, no SAT yet.
+
+Commit: [next] (F355 sr-invariant validation).
