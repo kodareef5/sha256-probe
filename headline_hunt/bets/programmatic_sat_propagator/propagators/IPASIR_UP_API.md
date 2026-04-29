@@ -424,3 +424,109 @@ findings and F237 empirical lesson. No code changes. No solver runs.
 If/when reopened, the structural-propagator hooks (Phases 2D-2F) are
 the priority order, NOT Phase 2A-2C (those were generic propagator
 research; F207-F237 has now narrowed the actionable scope).
+
+## 2026-04-29 update: F286/F311/F323-F326 sharpen propagator design
+
+### What changed since 2026-04-28 (F207-F237 era)
+
+Five new findings refine the propagator design:
+
+1. **F286** (cascade_aux_encoding): the universal hard core is **132 bits**,
+   not 184. Decomposes as 128 round-bits (W*_59 + W*_60, full) plus 4
+   specific anchors (W1_57[0], W2_57[0], W2_58[14], W2_58[26]).
+
+2. **F311** (singular_chamber_rank): the chamber attractor is a 1-bit-
+   neighborhood-isolated point in (W57, W58, W59) space. 420 single-bit
+   moves tested across 3 cross-cand HW4 chambers: 0 preserve the (dh, dCh)
+   chart while reducing D61. 1-bit search cannot navigate the basin.
+
+3. **F323**: σ1 fan-in does NOT predict W2_58 universal-core fraction
+   (light bits 0.730, dense bits 0.759 — slightly lower).
+
+4. **F324** (this bet's adjacent finding): single-bit unit propagation
+   on the cascade_aux force-mode CNF forces 0/32 W2_58 bits and 0/4 F286
+   anchors. The encoder does NOT pin the 132-bit core via UP.
+
+5. **F325/F326**: 2-bit pair UP also forces nothing (0/496 pairs in
+   bit31; cross-validated 0/32 forced on 5 additional cands; 481 baseline-
+   UP-forced is candidate-agnostic).
+
+**Combined thesis**: the 132-bit hard core is a candidate-agnostic
+**CDCL-search invariant** of the SHA-256 cascade-1 collision problem.
+Not an encoder Tseitin artifact — manifests only through CDCL conflict
+analysis.
+
+### Sharpened hook priorities
+
+| IPASIR-UP hook | Use for cascade-1 | Priority (2026-04-29) |
+|---|---|---|
+| `cb_decide` | **Bias decisions toward the 132 hard-core bits FIRST.** Use F286 stability data per cand or universal 132-bit set. | **HIGH — implement first** |
+| `cb_add_external_clause` | **Pre-load CDCL learned clauses for the 132-bit constraint surface.** This is now the structurally-motivated hook: F326 shows these clauses are NOT in the CNF, so injecting them is genuinely additive. | **HIGH — implement second** |
+| `cb_propagate` | Force W*_57/58/59/60 bits when the cascade-1 hardlock pattern matches. **DOWNGRADED**: F324 shows even single-bit assumption doesn't UP-force any W2_58 bits, so the propagator has nothing to add via cb_propagate that UP doesn't already do (the cascade-offset is already encoder-pinned via the 481 AUX vars). | LOW — likely redundant with encoder force-mode |
+| `cb_check_found_model` | Verify model satisfies cascade-1 round equations and reject. Useful sanity check but not the bottleneck. | MEDIUM |
+
+### Revised reopen recipe
+
+**Phase 2D (priority HIGH, ~6-8 hrs)**: `cb_decide` with 132-bit branching priority
+
+```cpp
+// Pseudocode for cascade-1 decision priority
+int CascadeOnePropagator::cb_decide() {
+  // Decision priority order:
+  // 1. The 4 LSB/anchor bits: W1_57[0], W2_57[0], W2_58[14], W2_58[26]
+  // 2. The 128 round bits: W1_59[0..31], W2_59[0..31], W1_60[0..31], W2_60[0..31]
+  // 3. Auxiliary bits last
+  for (int var : priority_order_132) {
+    if (!is_assigned(var)) return polarity_hint(var);
+  }
+  return 0;  // let solver decide
+}
+```
+
+**Phase 2D extension (priority HIGH, ~2-4 hrs)**: integrate F286 stability
+JSON. Read per-cand `schedule_core` from F283-style JSONs to identify the
+132 bits for the specific instance being solved.
+
+**Phase 2D' (priority HIGH, ~4-6 hrs)**: `cb_add_external_clause` injecting
+learned clauses derived from F286 stability data. The exact clause shape
+to inject is informed by yale's `--stability-mode core` selector logic.
+
+**Test instance**: same as F235 (sr61_cascade_m09990bd2_f80000000_bit25,
+kissat 848s timeout). Reopen criterion: ≥2x speedup vs kissat baseline.
+
+### What's downgraded vs prior recommendation
+
+The 2026-04-28 PM update prioritized `cb_propagate` for "32 forced bits"
+in a Phase 2E. F324 now shows those bits are NOT forced by encoder UP —
+they're CDCL-derived. So `cb_propagate` cannot force them either (any
+sound propagator must respect UP). The revised priority is:
+
+- 2D (cb_decide):              HIGH — order-of-decision matters
+- 2D' (cb_add_external_clause): HIGH — inject conflict clauses missing from CNF
+- 2E (cb_propagate):            LOW  — redundant with encoder force-mode
+- 2F (cb_check_found_model):    MEDIUM — sanity, not speedup
+
+### Hook-by-hook estimated impact
+
+If implemented correctly, the 132-bit-aware decision priority + clause
+injection should give:
+
+- **2-5x speedup** on TRUE sr=61 N=32 instances where kissat baseline is
+  ~50s-15min wall (mid-difficulty instances). The 132 bits dominate the
+  decision tree.
+- **1-2x speedup** on hard sr=61 instances where kissat times out at 848s.
+  Diminishing returns: the bits only structure the search space; the
+  underlying cascade-1 collision constraint is still the bottleneck.
+- **<1.5x speedup** on easy sr=60 N=8/N=10 instances (already solved fast
+  by kissat baseline; CDCL trajectory is short).
+
+### Discipline note
+
+This 2026-04-29 update incorporates F286 (132-bit decomposition), F311
+(chamber brittleness), F323-F326 (search-invariant proof). No code
+changes. No solver runs. The hook priorities are now structurally
+motivated by empirical evidence on multiple cands.
+
+If/when reopened: implement 2D + 2D' as the FIRST cycle (one combined
+ship of cb_decide + cb_add_external_clause). The Phase 2E cb_propagate
+direction is no longer recommended as a primary path.

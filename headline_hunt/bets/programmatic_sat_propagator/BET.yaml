@@ -63,7 +63,42 @@ recent_progress_2026-04-28_PM: |
     structural_informedness: complete (per F207-F217)
     empirical_test_target: defined (F235 hard instance)
     implementation_estimate: 4-8 hrs minimum (Phase 2D)
+
+  Status as of 2026-04-29 (post-F324-F326 update):
+    closed_with_sharpened_reopen_recipe
+    structural_informedness: complete (per F286/F311/F323-F326)
+    target_bits: 132 (was 184) — F286 universal hard core
+      = W*_59 (64) + W*_60 (64) + 4 anchors (W1_57[0], W2_57[0],
+        W2_58[14], W2_58[26])
+    empirical_test_target: F235 hard instance, ≥2x reopen criterion
+    hook_priority (revised):
+      - cb_decide      HIGH   (2D, 6-8 hrs)  — bias decisions to 132 bits
+      - cb_add_external_clause HIGH (2D', 4-6 hrs) — inject conflict clauses
+      - cb_propagate   LOW    — DOWNGRADED, F324 shows UP doesn't force
+                                W*_58 bits anyway
+      - cb_check_found_model MEDIUM — sanity rejection, not speedup
+    impact_estimate: 2-5x on mid-difficulty TRUE sr=61, 1-2x on hard
+      F235-class, <1.5x on easy sr=60 (per propagators/IPASIR_UP_API.md
+      2026-04-29 update).
 heartbeat_interval_days: 14
+last_heartbeat: '2026-04-29T15:05:00Z'
+reopen_candidate_2026_04_29_F326_sharpened: |
+  F326 cross-cand validation (cascade_aux_encoding) confirms the 132-bit
+  universal hard core is a CDCL-search invariant of the cascade-1
+  collision problem, NOT an encoder Tseitin artifact (F324: 0/32 W2_58
+  bits UP-forced; F325: 0/496 pairs UP-UNSAT; F326: pattern identical
+  across 6 cands).
+
+  This sharpens the propagator design: the structural bottleneck is
+  CDCL trajectory through these 132 bits. cb_decide priority + clause
+  pre-loading directly target the bottleneck. cb_propagate is no longer
+  recommended (encoder doesn't pin the bits via UP, so propagator can't
+  either — soundness constraint).
+
+  Reopen now requires only: ≥1 day implementation cycle for Phase 2D+2D'.
+  Empirical demand: yes — F326 motivated by 132-bit-bottleneck thesis.
+  Awaiting compute decision from user (this is a multi-hour build,
+  bigger than routine work).
 reopen_candidate_2026_04_28: |
   Yale's F123/F125 (block2_wang) finding (2026-04-28): block-2 absorber
   candidates are STRICT radius-2 local minima even under common-mode

@@ -553,3 +553,30 @@ pre-loading conflict clauses on the 132 bits could give 2-10x CDCL
 speedup. ~10-20 hr build, measurable on TRUE sr=61 N=32 instances.
 
 Commit: [next] (F326).
+
+
+## ~15:05 EDT — F327: IPASIR-UP API survey extended with F324-F326 updates
+
+- Extended propagators/IPASIR_UP_API.md (+106 lines) with 2026-04-29
+  update incorporating F286/F311/F323-F326 findings.
+- Updated target from "184-bit active-schedule" → "132-bit universal
+  hard core" (F286 decomposition: 128 round-bits + 4 anchors).
+- Sharpened hook priorities per F324's UP-test result:
+    cb_decide:               HIGH (was already proposed)
+    cb_add_external_clause:  HIGH (NEW priority — inject conflict
+                                   clauses missing from CNF since
+                                   F326 proved the 132-bit core is
+                                   not in the Tseitin)
+    cb_propagate:            LOW (DOWNGRADED — encoder doesn't pin
+                                  W2_58 bits via UP, so propagator
+                                  can't either by soundness)
+    cb_check_found_model:    MEDIUM (sanity, not speedup)
+- BET.yaml updated with reopen_candidate_2026_04_29_F326_sharpened.
+- Bet remains CLOSED. Reopen now requires only Phase 2D+2D' build
+  decision (~10-14 hrs total, bigger than routine — needs user OK).
+
+Direction: when fleet has cycles for a multi-hour build, the F326-
+sharpened Phase 2D recipe is the most structurally-motivated path
+forward for cracking the 132-bit CDCL bottleneck.
+
+Commit: [next] (F327 API survey update).
