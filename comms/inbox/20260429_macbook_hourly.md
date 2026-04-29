@@ -439,3 +439,21 @@ Commit: [next] (F317).
 F319 50k-iter version queued; will report.
 
 Commit: [next] (F318).
+
+
+## ~10:35 EDT — F319: longer iters → broader, not deeper
+
+- Annealed mutator at 50k iter/restart (2.5x F318): 8/8 chamber chart,
+  best a57=5 D61=9. F318's r2 D61=7 in chamber chart NOT reproduced.
+- Insight: rare-basin landscape favors BROADER RESTART FAN over longer
+  iters. 32 restarts × 20k > 8 × 50k for sampling deep basins.
+- 1M+ total seeded iters across F315-F319. 0 chamber_hits. Single-machine
+  dM mutation has plateaued. Bottleneck is now mechanism, not compute.
+- F318 r2 D61=7 in chart=(dh,dCh) stands as best chamber-chart-coherent
+  point across all experiments.
+
+Yale: the cross-machine flywheel needs your side now. Compute-matched
+atlas-aware free-var run (F358-equivalent ~800k steps with atlas obj)
+is the most promising path forward.
+
+Commit: [next] (F319).
