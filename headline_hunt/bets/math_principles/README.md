@@ -27,6 +27,9 @@ python3 headline_hunt/bets/math_principles/encoders/build_cluster_atlas.py
 python3 headline_hunt/bets/math_principles/encoders/plan_radius1_basin_walk.py
 python3 headline_hunt/bets/math_principles/encoders/summarize_radius1_scan.py
 python3 headline_hunt/bets/math_principles/encoders/summarize_new88_continuation.py
+python3 headline_hunt/bets/math_principles/encoders/summarize_atlas_weight_sweep.py
+python3 headline_hunt/bets/math_principles/encoders/probe_atlas_neighborhood.py
+python3 headline_hunt/bets/math_principles/encoders/continue_atlas_from_seed.py
 ```
 
 The original manifest slice intentionally excludes downstream math-principles
@@ -56,6 +59,10 @@ Default outputs:
 - `results/20260429_F346_radius1_basin_walk_plan.{json,md}`
 - `results/20260429_F347_radius1_basin_walk_scan_summary.{json,md}`
 - `results/20260429_F350_radius1_new88_continuation_summary.{json,md}`
+- `results/20260429_F352_new88_atlas_weight_sweep_summary.{json,md}`
+- `results/20260429_F353_alpha12_best_a57_atlas_probe_r2.{json,md}`
+- `results/20260429_F354_alpha4_best_chart_atlas_probe_r2.{json,md}`
+- `results/20260429_F355_seeded_atlas_commonmode_continuation_4x20k.{json,md}`
 
 ## Readout
 
@@ -98,8 +105,24 @@ F351 rebuilds the manifest with F344/F347/F350 included. The promoted score-88
 mask increases the low-score set to 16 masks; the <=90 graph now has 5 direct
 one-swap edges and a largest low component of 4 masks.
 
+F352 cross-feeds the MacBook carry-chart atlas loss back into the new score-88
+mask `2,6,11,12,13`. Raising the `a57_xor` penalty alone does not lock the
+candidate into the chamber: alpha 12 finds `a57=4`, but on chart
+`dCh,dSig1`; the best chart-compatible points stay at `a57=5`.
+
+F353/F354 turn the chart issue into a deterministic local-neighborhood probe.
+The alpha-12 low-guard point is locally stiff under radius-2 raw/common message
+moves. The alpha-4 chart-compatible point is not: a two-bit common-mode move
+improves atlas score from 43.3 to 37.9 while preserving the `dh,dCh` chart and
+dropping D61 from 17 to 11.
+
+F355 seeds stochastic continuation from the F354 common-mode improvement. At
+4x20k it preserves the 37.9 atlas score but does not extend it, so the move is
+currently a deterministic polish operator rather than a robust stochastic
+descent path.
+
 ## Next tracks
 
 - add outcome-aware calibration before spending more budget on F343-style selectors
 - use F342 stable-core coordinates as hard features for BP/matroid audits
-- rebuild the shared manifest so F347/F350 become part of the next priors
+- use common-mode atlas continuation as a post-atlas polish operator

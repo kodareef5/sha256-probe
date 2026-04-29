@@ -1,0 +1,1363 @@
+{
+  "active_words": [
+    2,
+    6,
+    11,
+    12,
+    13
+  ],
+  "args": {
+    "active_words": null,
+    "init_kicks": 2,
+    "iterations": 20000,
+    "max_flips": 2,
+    "modes": "common_xor,common_add,raw_m2",
+    "out_json": "headline_hunt/bets/math_principles/results/20260429_F355_seeded_atlas_commonmode_continuation_4x20k.json",
+    "out_md": null,
+    "report_id": "F355",
+    "restarts": 4,
+    "seed": 35504,
+    "seed_probe": "headline_hunt/bets/math_principles/results/20260429_F354_alpha4_best_chart_atlas_probe_r2.json",
+    "selector": "best_score"
+  },
+  "decision": "The deterministic probe found the local improvement, but stochastic continuation did not extend it at this budget.",
+  "modes": [
+    "common_xor",
+    "common_add",
+    "raw_m2"
+  ],
+  "report_id": "F355",
+  "restarts": [
+    {
+      "accepted_mode_histogram": {
+        "common_add": 14,
+        "common_xor": 14,
+        "raw_m2": 18
+      },
+      "accepts": 23,
+      "best_a57": {
+        "M1": [
+          "0xbd2c3ffc",
+          "0x28c081bd",
+          "0xf964676f",
+          "0x8a002a34",
+          "0xa39de3fd",
+          "0x217c52e4",
+          "0xbffc9084",
+          "0xffd27532",
+          "0xfdf91100",
+          "0xdbd06ce8",
+          "0x12464442",
+          "0x806fc244",
+          "0x02aefd62",
+          "0x7e751dc6",
+          "0x076a213a",
+          "0x51bd6718"
+        ],
+        "M2": [
+          "0xbd2c3ffc",
+          "0x28c081bd",
+          "0x42e918a2",
+          "0x8a002a34",
+          "0xa39de3fd",
+          "0x217c52e4",
+          "0x09e39ae8",
+          "0xffd27532",
+          "0xfdf91100",
+          "0xdbd06ce8",
+          "0x12464442",
+          "0x899b03be",
+          "0x1a2d81b1",
+          "0x1fc5161e",
+          "0x076a213a",
+          "0x51bd6718"
+        ],
+        "rec": {
+          "D61_hw": 11,
+          "a57_xor_hw": 5,
+          "chart_match": true,
+          "chart_top2": [
+            "dh",
+            "dCh"
+          ],
+          "tail63_state_diff_hw": 138
+        },
+        "score": 37.9
+      },
+      "best_chart": {
+        "M1": [
+          "0xbd2c3ffc",
+          "0x28c081bd",
+          "0xf964676f",
+          "0x8a002a34",
+          "0xa39de3fd",
+          "0x217c52e4",
+          "0xbffc9084",
+          "0xffd27532",
+          "0xfdf91100",
+          "0xdbd06ce8",
+          "0x12464442",
+          "0x806fc244",
+          "0x02aefd62",
+          "0x7e751dc6",
+          "0x076a213a",
+          "0x51bd6718"
+        ],
+        "M2": [
+          "0xbd2c3ffc",
+          "0x28c081bd",
+          "0x42e918a2",
+          "0x8a002a34",
+          "0xa39de3fd",
+          "0x217c52e4",
+          "0x09e39ae8",
+          "0xffd27532",
+          "0xfdf91100",
+          "0xdbd06ce8",
+          "0x12464442",
+          "0x899b03be",
+          "0x1a2d81b1",
+          "0x1fc5161e",
+          "0x076a213a",
+          "0x51bd6718"
+        ],
+        "rec": {
+          "D61_hw": 11,
+          "a57_xor_hw": 5,
+          "chart_match": true,
+          "chart_top2": [
+            "dh",
+            "dCh"
+          ],
+          "tail63_state_diff_hw": 138
+        },
+        "score": 37.9
+      },
+      "best_score": {
+        "M1": [
+          "0xbd2c3ffc",
+          "0x28c081bd",
+          "0xf964676f",
+          "0x8a002a34",
+          "0xa39de3fd",
+          "0x217c52e4",
+          "0xbffc9084",
+          "0xffd27532",
+          "0xfdf91100",
+          "0xdbd06ce8",
+          "0x12464442",
+          "0x806fc244",
+          "0x02aefd62",
+          "0x7e751dc6",
+          "0x076a213a",
+          "0x51bd6718"
+        ],
+        "M2": [
+          "0xbd2c3ffc",
+          "0x28c081bd",
+          "0x42e918a2",
+          "0x8a002a34",
+          "0xa39de3fd",
+          "0x217c52e4",
+          "0x09e39ae8",
+          "0xffd27532",
+          "0xfdf91100",
+          "0xdbd06ce8",
+          "0x12464442",
+          "0x899b03be",
+          "0x1a2d81b1",
+          "0x1fc5161e",
+          "0x076a213a",
+          "0x51bd6718"
+        ],
+        "rec": {
+          "D61_hw": 11,
+          "a57_xor_hw": 5,
+          "chart_match": true,
+          "chart_top2": [
+            "dh",
+            "dCh"
+          ],
+          "tail63_state_diff_hw": 138
+        },
+        "score": 37.9
+      },
+      "improvement_tail": [],
+      "restart": 0
+    },
+    {
+      "accepted_mode_histogram": {
+        "common_add": 54,
+        "common_xor": 86,
+        "raw_m2": 64
+      },
+      "accepts": 128,
+      "best_a57": {
+        "M1": [
+          "0xbd2c3ffc",
+          "0x28c081bd",
+          "0xac68a307",
+          "0x8a002a34",
+          "0xa39de3fd",
+          "0x217c52e4",
+          "0xcc1ce484",
+          "0xffd27532",
+          "0xfdf91100",
+          "0xdbd06ce8",
+          "0x12464442",
+          "0x3283d138",
+          "0x1a1ce11e",
+          "0x7574bf0a",
+          "0x076a213a",
+          "0x51bd6718"
+        ],
+        "M2": [
+          "0xbd2c3ffc",
+          "0x28c081bd",
+          "0x7967aaca",
+          "0x8a002a34",
+          "0xa39de3fd",
+          "0x217c52e4",
+          "0x360baee8",
+          "0xffd27532",
+          "0xfdf91100",
+          "0xdbd06ce8",
+          "0x12464442",
+          "0x3bbf11f2",
+          "0x1d7fbf49",
+          "0xbef0b4e2",
+          "0x076a213a",
+          "0x51bd6718"
+        ],
+        "rec": {
+          "D61_hw": 20,
+          "a57_xor_hw": 5,
+          "chart_match": false,
+          "chart_top2": [
+            "dSig1",
+            "dh"
+          ],
+          "tail63_state_diff_hw": 124
+        },
+        "score": 54.2
+      },
+      "best_chart": {
+        "M1": [
+          "0xbd2c3ffc",
+          "0x28c081bd",
+          "0xac68a307",
+          "0x8a002a34",
+          "0xa39de3fd",
+          "0x217c52e4",
+          "0xcd1de584",
+          "0xffd27532",
+          "0xfdf91100",
+          "0xdbd06ce8",
+          "0x12464442",
+          "0x2283c93c",
+          "0x121e711e",
+          "0x9576bd4a",
+          "0x076a213a",
+          "0x51bd6718"
+        ],
+        "M2": [
+          "0xbd2c3ffc",
+          "0x28c081bd",
+          "0x7966aaca",
+          "0x8a002a34",
+          "0xa39de3fd",
+          "0x217c52e4",
+          "0x350ba7ea",
+          "0xffd27532",
+          "0xfdf91100",
+          "0xdbd06ce8",
+          "0x12464442",
+          "0x3bbf09f6",
+          "0x157d4f49",
+          "0xded3b322",
+          "0x076a213a",
+          "0x51bd6718"
+        ],
+        "rec": {
+          "D61_hw": 15,
+          "a57_xor_hw": 7,
+          "chart_match": true,
+          "chart_top2": [
+            "dCh",
+            "dh"
+          ],
+          "tail63_state_diff_hw": 122
+        },
+        "score": 49.1
+      },
+      "best_score": {
+        "M1": [
+          "0xbd2c3ffc",
+          "0x28c081bd",
+          "0xac68a307",
+          "0x8a002a34",
+          "0xa39de3fd",
+          "0x217c52e4",
+          "0xcd1de584",
+          "0xffd27532",
+          "0xfdf91100",
+          "0xdbd06ce8",
+          "0x12464442",
+          "0x2283c93c",
+          "0x121e711e",
+          "0x9576bd4a",
+          "0x076a213a",
+          "0x51bd6718"
+        ],
+        "M2": [
+          "0xbd2c3ffc",
+          "0x28c081bd",
+          "0x7966aaca",
+          "0x8a002a34",
+          "0xa39de3fd",
+          "0x217c52e4",
+          "0x350ba7ea",
+          "0xffd27532",
+          "0xfdf91100",
+          "0xdbd06ce8",
+          "0x12464442",
+          "0x3bbf09f6",
+          "0x157d4f49",
+          "0xded3b322",
+          "0x076a213a",
+          "0x51bd6718"
+        ],
+        "rec": {
+          "D61_hw": 15,
+          "a57_xor_hw": 7,
+          "chart_match": true,
+          "chart_top2": [
+            "dCh",
+            "dh"
+          ],
+          "tail63_state_diff_hw": 122
+        },
+        "score": 49.1
+      },
+      "improvement_tail": [
+        {
+          "flips": [
+            {
+              "bit": 20,
+              "mode": "common_xor",
+              "word": 2
+            }
+          ],
+          "iteration": 1,
+          "rec": {
+            "D61_hw": 14,
+            "a57_xor_hw": 14,
+            "chart_match": true,
+            "chart_top2": [
+              "dh",
+              "dCh"
+            ],
+            "tail63_state_diff_hw": 133
+          },
+          "score": 76.65
+        },
+        {
+          "flips": [
+            {
+              "bit": 20,
+              "mode": "common_xor",
+              "word": 12
+            }
+          ],
+          "iteration": 11,
+          "rec": {
+            "D61_hw": 12,
+            "a57_xor_hw": 12,
+            "chart_match": false,
+            "chart_top2": [
+              "dT2",
+              "dSig1"
+            ],
+            "tail63_state_diff_hw": 119
+          },
+          "score": 73.95
+        },
+        {
+          "flips": [
+            {
+              "bit": 20,
+              "mode": "raw_m2",
+              "word": 13
+            }
+          ],
+          "iteration": 17,
+          "rec": {
+            "D61_hw": 15,
+            "a57_xor_hw": 10,
+            "chart_match": false,
+            "chart_top2": [
+              "dh",
+              "dSig1"
+            ],
+            "tail63_state_diff_hw": 138
+          },
+          "score": 69.9
+        },
+        {
+          "flips": [
+            {
+              "bit": 11,
+              "mode": "common_xor",
+              "word": 12
+            }
+          ],
+          "iteration": 72,
+          "rec": {
+            "D61_hw": 18,
+            "a57_xor_hw": 9,
+            "chart_match": false,
+            "chart_top2": [
+              "dh",
+              "dT2"
+            ],
+            "tail63_state_diff_hw": 129
+          },
+          "score": 68.45
+        },
+        {
+          "flips": [
+            {
+              "bit": 28,
+              "mode": "raw_m2",
+              "word": 6
+            }
+          ],
+          "iteration": 104,
+          "rec": {
+            "D61_hw": 16,
+            "a57_xor_hw": 8,
+            "chart_match": false,
+            "chart_top2": [
+              "dSig1",
+              "dCh"
+            ],
+            "tail63_state_diff_hw": 125
+          },
+          "score": 62.25
+        },
+        {
+          "flips": [
+            {
+              "bit": 24,
+              "mode": "common_add",
+              "sign": -1,
+              "word": 6
+            },
+            {
+              "bit": 27,
+              "mode": "common_xor",
+              "word": 6
+            }
+          ],
+          "iteration": 655,
+          "rec": {
+            "D61_hw": 15,
+            "a57_xor_hw": 10,
+            "chart_match": true,
+            "chart_top2": [
+              "dCh",
+              "dh"
+            ],
+            "tail63_state_diff_hw": 118
+          },
+          "score": 60.9
+        },
+        {
+          "flips": [
+            {
+              "bit": 28,
+              "mode": "raw_m2",
+              "word": 12
+            }
+          ],
+          "iteration": 1204,
+          "rec": {
+            "D61_hw": 11,
+            "a57_xor_hw": 10,
+            "chart_match": true,
+            "chart_top2": [
+              "dCh",
+              "dh"
+            ],
+            "tail63_state_diff_hw": 132
+          },
+          "score": 57.6
+        },
+        {
+          "flips": [
+            {
+              "bit": 19,
+              "mode": "common_add",
+              "sign": 1,
+              "word": 11
+            }
+          ],
+          "iteration": 1638,
+          "rec": {
+            "D61_hw": 11,
+            "a57_xor_hw": 10,
+            "chart_match": true,
+            "chart_top2": [
+              "dh",
+              "dCh"
+            ],
+            "tail63_state_diff_hw": 130
+          },
+          "score": 57.5
+        },
+        {
+          "flips": [
+            {
+              "bit": 13,
+              "mode": "common_add",
+              "sign": -1,
+              "word": 13
+            },
+            {
+              "bit": 10,
+              "mode": "raw_m2",
+              "word": 2
+            }
+          ],
+          "iteration": 2601,
+          "rec": {
+            "D61_hw": 13,
+            "a57_xor_hw": 9,
+            "chart_match": true,
+            "chart_top2": [
+              "dh",
+              "dCh"
+            ],
+            "tail63_state_diff_hw": 121
+          },
+          "score": 55.05
+        },
+        {
+          "flips": [
+            {
+              "bit": 18,
+              "mode": "common_xor",
+              "word": 2
+            },
+            {
+              "bit": 29,
+              "mode": "common_add",
+              "sign": 1,
+              "word": 13
+            }
+          ],
+          "iteration": 2679,
+          "rec": {
+            "D61_hw": 18,
+            "a57_xor_hw": 7,
+            "chart_match": true,
+            "chart_top2": [
+              "dCh",
+              "dh"
+            ],
+            "tail63_state_diff_hw": 135
+          },
+          "score": 52.75
+        },
+        {
+          "flips": [
+            {
+              "bit": 9,
+              "mode": "common_add",
+              "sign": -1,
+              "word": 6
+            }
+          ],
+          "iteration": 8293,
+          "rec": {
+            "D61_hw": 15,
+            "a57_xor_hw": 7,
+            "chart_match": true,
+            "chart_top2": [
+              "dCh",
+              "dh"
+            ],
+            "tail63_state_diff_hw": 122
+          },
+          "score": 49.1
+        }
+      ],
+      "restart": 1
+    },
+    {
+      "accepted_mode_histogram": {
+        "common_add": 36,
+        "common_xor": 52,
+        "raw_m2": 52
+      },
+      "accepts": 81,
+      "best_a57": {
+        "M1": [
+          "0xbd2c3ffc",
+          "0x28c081bd",
+          "0x7bd8b777",
+          "0x8a002a34",
+          "0xa39de3fd",
+          "0x217c52e4",
+          "0xf26b8e36",
+          "0xffd27532",
+          "0xfdf91100",
+          "0xdbd06ce8",
+          "0x12464442",
+          "0x80086254",
+          "0x00aa7d62",
+          "0x6e252286",
+          "0x076a213a",
+          "0x51bd6718"
+        ],
+        "M2": [
+          "0xbd2c3ffc",
+          "0x28c081bd",
+          "0x0065c92a",
+          "0x8a002a34",
+          "0xa39de3fd",
+          "0x217c52e4",
+          "0x78309e9a",
+          "0xffd27532",
+          "0xfdf91100",
+          "0xdbd06ce8",
+          "0x12464442",
+          "0x8983abce",
+          "0x1c676591",
+          "0x2d951aee",
+          "0x076a213a",
+          "0x51bd6718"
+        ],
+        "rec": {
+          "D61_hw": 14,
+          "a57_xor_hw": 6,
+          "chart_match": false,
+          "chart_top2": [
+            "dh",
+            "dT2"
+          ],
+          "tail63_state_diff_hw": 123
+        },
+        "score": 52.15
+      },
+      "best_chart": {
+        "M1": [
+          "0xbd2c3ffc",
+          "0x28c081bd",
+          "0x7bd8b779",
+          "0x8a002a34",
+          "0xa39de3fd",
+          "0x217c52e4",
+          "0xf26b8e46",
+          "0xffd27532",
+          "0xfdf91100",
+          "0xdbd06ce8",
+          "0x12464442",
+          "0x00086244",
+          "0x00aa7d62",
+          "0x6e252296",
+          "0x076a213a",
+          "0x51bd6718"
+        ],
+        "M2": [
+          "0xbd2c3ffc",
+          "0x28c081bd",
+          "0x1065c92c",
+          "0x8a002a34",
+          "0xa39de3fd",
+          "0x217c52e4",
+          "0x782096aa",
+          "0xffd27532",
+          "0xfdf91100",
+          "0xdbd06ce8",
+          "0x12464442",
+          "0x0983a9de",
+          "0x9c676591",
+          "0x2d951afa",
+          "0x076a213a",
+          "0x51bd6718"
+        ],
+        "rec": {
+          "D61_hw": 17,
+          "a57_xor_hw": 6,
+          "chart_match": true,
+          "chart_top2": [
+            "dh",
+            "dCh"
+          ],
+          "tail63_state_diff_hw": 137
+        },
+        "score": 47.85
+      },
+      "best_score": {
+        "M1": [
+          "0xbd2c3ffc",
+          "0x28c081bd",
+          "0x7bd8b779",
+          "0x8a002a34",
+          "0xa39de3fd",
+          "0x217c52e4",
+          "0xf26b8e46",
+          "0xffd27532",
+          "0xfdf91100",
+          "0xdbd06ce8",
+          "0x12464442",
+          "0x00086244",
+          "0x00aa7d62",
+          "0x6e252296",
+          "0x076a213a",
+          "0x51bd6718"
+        ],
+        "M2": [
+          "0xbd2c3ffc",
+          "0x28c081bd",
+          "0x1065c92c",
+          "0x8a002a34",
+          "0xa39de3fd",
+          "0x217c52e4",
+          "0x782096aa",
+          "0xffd27532",
+          "0xfdf91100",
+          "0xdbd06ce8",
+          "0x12464442",
+          "0x0983a9de",
+          "0x9c676591",
+          "0x2d951afa",
+          "0x076a213a",
+          "0x51bd6718"
+        ],
+        "rec": {
+          "D61_hw": 17,
+          "a57_xor_hw": 6,
+          "chart_match": true,
+          "chart_top2": [
+            "dh",
+            "dCh"
+          ],
+          "tail63_state_diff_hw": 137
+        },
+        "score": 47.85
+      },
+      "improvement_tail": [
+        {
+          "flips": [
+            {
+              "bit": 20,
+              "mode": "common_xor",
+              "word": 11
+            }
+          ],
+          "iteration": 6,
+          "rec": {
+            "D61_hw": 13,
+            "a57_xor_hw": 12,
+            "chart_match": false,
+            "chart_top2": [
+              "dh",
+              "dSig1"
+            ],
+            "tail63_state_diff_hw": 133
+          },
+          "score": 75.65
+        },
+        {
+          "flips": [
+            {
+              "bit": 6,
+              "mode": "common_xor",
+              "word": 2
+            },
+            {
+              "bit": 20,
+              "mode": "raw_m2",
+              "word": 11
+            }
+          ],
+          "iteration": 7,
+          "rec": {
+            "D61_hw": 13,
+            "a57_xor_hw": 10,
+            "chart_match": false,
+            "chart_top2": [
+              "dSig1",
+              "dCh"
+            ],
+            "tail63_state_diff_hw": 125
+          },
+          "score": 67.25
+        },
+        {
+          "flips": [
+            {
+              "bit": 13,
+              "mode": "raw_m2",
+              "word": 12
+            },
+            {
+              "bit": 8,
+              "mode": "raw_m2",
+              "word": 2
+            }
+          ],
+          "iteration": 24,
+          "rec": {
+            "D61_hw": 14,
+            "a57_xor_hw": 10,
+            "chart_match": true,
+            "chart_top2": [
+              "dh",
+              "dCh"
+            ],
+            "tail63_state_diff_hw": 136
+          },
+          "score": 60.8
+        },
+        {
+          "flips": [
+            {
+              "bit": 4,
+              "mode": "common_add",
+              "sign": 1,
+              "word": 11
+            },
+            {
+              "bit": 14,
+              "mode": "common_add",
+              "sign": 1,
+              "word": 2
+            }
+          ],
+          "iteration": 118,
+          "rec": {
+            "D61_hw": 14,
+            "a57_xor_hw": 7,
+            "chart_match": false,
+            "chart_top2": [
+              "dSig1",
+              "dCh"
+            ],
+            "tail63_state_diff_hw": 128
+          },
+          "score": 56.4
+        },
+        {
+          "flips": [
+            {
+              "bit": 7,
+              "mode": "common_add",
+              "sign": 1,
+              "word": 13
+            },
+            {
+              "bit": 18,
+              "mode": "common_xor",
+              "word": 2
+            }
+          ],
+          "iteration": 373,
+          "rec": {
+            "D61_hw": 15,
+            "a57_xor_hw": 8,
+            "chart_match": true,
+            "chart_top2": [
+              "dCh",
+              "dh"
+            ],
+            "tail63_state_diff_hw": 126
+          },
+          "score": 53.3
+        },
+        {
+          "flips": [
+            {
+              "bit": 31,
+              "mode": "common_xor",
+              "word": 6
+            },
+            {
+              "bit": 19,
+              "mode": "raw_m2",
+              "word": 11
+            }
+          ],
+          "iteration": 6170,
+          "rec": {
+            "D61_hw": 10,
+            "a57_xor_hw": 7,
+            "chart_match": false,
+            "chart_top2": [
+              "dSig1",
+              "dT2"
+            ],
+            "tail63_state_diff_hw": 122
+          },
+          "score": 52.1
+        },
+        {
+          "flips": [
+            {
+              "bit": 20,
+              "mode": "raw_m2",
+              "word": 6
+            },
+            {
+              "bit": 4,
+              "mode": "common_xor",
+              "word": 13
+            }
+          ],
+          "iteration": 6483,
+          "rec": {
+            "D61_hw": 14,
+            "a57_xor_hw": 8,
+            "chart_match": true,
+            "chart_top2": [
+              "dh",
+              "dCh"
+            ],
+            "tail63_state_diff_hw": 121
+          },
+          "score": 52.05
+        },
+        {
+          "flips": [
+            {
+              "bit": 4,
+              "mode": "common_xor",
+              "word": 6
+            },
+            {
+              "bit": 28,
+              "mode": "raw_m2",
+              "word": 2
+            }
+          ],
+          "iteration": 9427,
+          "rec": {
+            "D61_hw": 17,
+            "a57_xor_hw": 6,
+            "chart_match": true,
+            "chart_top2": [
+              "dh",
+              "dCh"
+            ],
+            "tail63_state_diff_hw": 137
+          },
+          "score": 47.85
+        }
+      ],
+      "restart": 2
+    },
+    {
+      "accepted_mode_histogram": {
+        "common_add": 14,
+        "common_xor": 26,
+        "raw_m2": 17
+      },
+      "accepts": 33,
+      "best_a57": {
+        "M1": [
+          "0xbd2c3ffc",
+          "0x28c081bd",
+          "0xfd64676f",
+          "0x8a002a34",
+          "0xa39de3fd",
+          "0x217c52e4",
+          "0xbffa9284",
+          "0xffd27532",
+          "0xfdf91100",
+          "0xdbd06ce8",
+          "0x12464442",
+          "0x7fefa245",
+          "0x02ae5de2",
+          "0x7e951c46",
+          "0x076a213a",
+          "0x51bd6718"
+        ],
+        "M2": [
+          "0xbd2c3ffc",
+          "0x28c081bd",
+          "0x48e918a2",
+          "0x8a002a34",
+          "0xa39de3fd",
+          "0x217c52e4",
+          "0x09e59ce8",
+          "0xffd27532",
+          "0xfdf91100",
+          "0xdbd06ce8",
+          "0x12464442",
+          "0x891ae3bf",
+          "0x1a2d2131",
+          "0x20a5149e",
+          "0x076a213a",
+          "0x51bd6718"
+        ],
+        "rec": {
+          "D61_hw": 16,
+          "a57_xor_hw": 4,
+          "chart_match": false,
+          "chart_top2": [
+            "dh",
+            "dSig1"
+          ],
+          "tail63_state_diff_hw": 137
+        },
+        "score": 46.85
+      },
+      "best_chart": {
+        "M1": [
+          "0xbd2c3ffc",
+          "0x28c081bd",
+          "0xfd64676f",
+          "0x8a002a34",
+          "0xa39de3fd",
+          "0x217c52e4",
+          "0xbffe9084",
+          "0xffd27532",
+          "0xfdf91100",
+          "0xdbd06ce8",
+          "0x12464442",
+          "0x7fefa245",
+          "0x02ae5de2",
+          "0x7e951e46",
+          "0x076a213a",
+          "0x51bd6718"
+        ],
+        "M2": [
+          "0xbd2c3ffc",
+          "0x28c081bd",
+          "0x48e918a2",
+          "0x8a002a34",
+          "0xa39de3fd",
+          "0x217c52e4",
+          "0x09e19ae8",
+          "0xffd27532",
+          "0xfdf91100",
+          "0xdbd06ce8",
+          "0x12464442",
+          "0x891ae3bf",
+          "0x1a2d2131",
+          "0x20a5169e",
+          "0x076a213a",
+          "0x51bd6718"
+        ],
+        "rec": {
+          "D61_hw": 14,
+          "a57_xor_hw": 11,
+          "chart_match": true,
+          "chart_top2": [
+            "dCh",
+            "dh"
+          ],
+          "tail63_state_diff_hw": 144
+        },
+        "score": 65.2
+      },
+      "best_score": {
+        "M1": [
+          "0xbd2c3ffc",
+          "0x28c081bd",
+          "0xfd64676f",
+          "0x8a002a34",
+          "0xa39de3fd",
+          "0x217c52e4",
+          "0xbffa9284",
+          "0xffd27532",
+          "0xfdf91100",
+          "0xdbd06ce8",
+          "0x12464442",
+          "0x7fefa245",
+          "0x02ae5de2",
+          "0x7e951c46",
+          "0x076a213a",
+          "0x51bd6718"
+        ],
+        "M2": [
+          "0xbd2c3ffc",
+          "0x28c081bd",
+          "0x48e918a2",
+          "0x8a002a34",
+          "0xa39de3fd",
+          "0x217c52e4",
+          "0x09e59ce8",
+          "0xffd27532",
+          "0xfdf91100",
+          "0xdbd06ce8",
+          "0x12464442",
+          "0x891ae3bf",
+          "0x1a2d2131",
+          "0x20a5149e",
+          "0x076a213a",
+          "0x51bd6718"
+        ],
+        "rec": {
+          "D61_hw": 16,
+          "a57_xor_hw": 4,
+          "chart_match": false,
+          "chart_top2": [
+            "dh",
+            "dSig1"
+          ],
+          "tail63_state_diff_hw": 137
+        },
+        "score": 46.85
+      },
+      "improvement_tail": [
+        {
+          "flips": [
+            {
+              "bit": 13,
+              "mode": "common_xor",
+              "word": 12
+            }
+          ],
+          "iteration": 1,
+          "rec": {
+            "D61_hw": 18,
+            "a57_xor_hw": 11,
+            "chart_match": false,
+            "chart_top2": [
+              "dT2",
+              "dCh"
+            ],
+            "tail63_state_diff_hw": 139
+          },
+          "score": 76.95
+        },
+        {
+          "flips": [
+            {
+              "bit": 26,
+              "mode": "raw_m2",
+              "word": 2
+            }
+          ],
+          "iteration": 6,
+          "rec": {
+            "D61_hw": 13,
+            "a57_xor_hw": 12,
+            "chart_match": false,
+            "chart_top2": [
+              "dh",
+              "dT2"
+            ],
+            "tail63_state_diff_hw": 122
+          },
+          "score": 75.1
+        },
+        {
+          "flips": [
+            {
+              "bit": 23,
+              "mode": "raw_m2",
+              "word": 13
+            },
+            {
+              "bit": 15,
+              "mode": "common_xor",
+              "word": 12
+            }
+          ],
+          "iteration": 39,
+          "rec": {
+            "D61_hw": 15,
+            "a57_xor_hw": 13,
+            "chart_match": true,
+            "chart_top2": [
+              "dCh",
+              "dh"
+            ],
+            "tail63_state_diff_hw": 127
+          },
+          "score": 73.35
+        },
+        {
+          "flips": [
+            {
+              "bit": 7,
+              "mode": "common_xor",
+              "word": 12
+            },
+            {
+              "bit": 7,
+              "mode": "common_add",
+              "sign": 1,
+              "word": 13
+            }
+          ],
+          "iteration": 47,
+          "rec": {
+            "D61_hw": 14,
+            "a57_xor_hw": 13,
+            "chart_match": true,
+            "chart_top2": [
+              "dh",
+              "dCh"
+            ],
+            "tail63_state_diff_hw": 134
+          },
+          "score": 72.7
+        },
+        {
+          "flips": [
+            {
+              "bit": 23,
+              "mode": "common_add",
+              "sign": -1,
+              "word": 11
+            }
+          ],
+          "iteration": 48,
+          "rec": {
+            "D61_hw": 14,
+            "a57_xor_hw": 11,
+            "chart_match": true,
+            "chart_top2": [
+              "dCh",
+              "dh"
+            ],
+            "tail63_state_diff_hw": 144
+          },
+          "score": 65.2
+        },
+        {
+          "flips": [
+            {
+              "bit": 9,
+              "mode": "common_add",
+              "sign": 1,
+              "word": 6
+            },
+            {
+              "bit": 9,
+              "mode": "common_xor",
+              "word": 13
+            }
+          ],
+          "iteration": 72,
+          "rec": {
+            "D61_hw": 14,
+            "a57_xor_hw": 6,
+            "chart_match": false,
+            "chart_top2": [
+              "dSig1",
+              "dCh"
+            ],
+            "tail63_state_diff_hw": 117
+          },
+          "score": 51.85
+        },
+        {
+          "flips": [
+            {
+              "bit": 18,
+              "mode": "common_xor",
+              "word": 6
+            }
+          ],
+          "iteration": 239,
+          "rec": {
+            "D61_hw": 16,
+            "a57_xor_hw": 4,
+            "chart_match": false,
+            "chart_top2": [
+              "dh",
+              "dSig1"
+            ],
+            "tail63_state_diff_hw": 137
+          },
+          "score": 46.85
+        }
+      ],
+      "restart": 3
+    }
+  ],
+  "score_kwargs": {
+    "atlas_alpha": 4.0,
+    "atlas_beta": 1.0,
+    "atlas_delta": 0.05,
+    "atlas_gamma": 8.0
+  },
+  "seed_candidate": {
+    "M1": [
+      "0xbd2c3ffc",
+      "0x28c081bd",
+      "0xf964676f",
+      "0x8a002a34",
+      "0xa39de3fd",
+      "0x217c52e4",
+      "0xbffc9084",
+      "0xffd27532",
+      "0xfdf91100",
+      "0xdbd06ce8",
+      "0x12464442",
+      "0x806fc244",
+      "0x02aefd62",
+      "0x7e751dc6",
+      "0x076a213a",
+      "0x51bd6718"
+    ],
+    "M2": [
+      "0xbd2c3ffc",
+      "0x28c081bd",
+      "0x42e918a2",
+      "0x8a002a34",
+      "0xa39de3fd",
+      "0x217c52e4",
+      "0x09e39ae8",
+      "0xffd27532",
+      "0xfdf91100",
+      "0xdbd06ce8",
+      "0x12464442",
+      "0x899b03be",
+      "0x1a2d81b1",
+      "0x1fc5161e",
+      "0x076a213a",
+      "0x51bd6718"
+    ],
+    "delta_rec": {
+      "D61_hw": -6,
+      "a57_xor_hw": 0,
+      "chart_changed": true,
+      "tail63_state_diff_hw": 12
+    },
+    "delta_score": -5.4,
+    "flips": [
+      {
+        "bit": 5,
+        "mode": "common_xor",
+        "word": 6
+      },
+      {
+        "bit": 18,
+        "mode": "common_xor",
+        "word": 11
+      }
+    ],
+    "rec": {
+      "D61_hw": 11,
+      "a57_xor_hw": 5,
+      "chart_match": true,
+      "chart_top2": [
+        "dh",
+        "dCh"
+      ],
+      "tail63_state_diff_hw": 138
+    },
+    "score": 37.9
+  },
+  "seed_probe": "headline_hunt/bets/math_principles/results/20260429_F354_alpha4_best_chart_atlas_probe_r2.json",
+  "selector": "best_score",
+  "verdict": "seeded_continuation_no_improvement",
+  "wall_seconds": 27.925457
+}
