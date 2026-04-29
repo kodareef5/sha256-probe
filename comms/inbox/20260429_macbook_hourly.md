@@ -457,3 +457,31 @@ atlas-aware free-var run (F358-equivalent ~800k steps with atlas obj)
 is the most promising path forward.
 
 Commit: [next] (F319).
+
+
+## ~10:50 EDT — F320 broader fan + F321 kernel-preserving + F322 RETRACTION
+
+- F320 (32×20k, drift): best a57=3 (new low) but in non-chamber chart.
+- F321 (kernel-preserving cascade-1, yale F358 seed): a57=5, D61=10.
+- F322 (kernel-preserving cascade-1, RANDOM init): a57=5, D61=8 in
+  chamber chart. RANDOM-INIT BEATS YALE-SEEDED UNDER STRICT CASCADE-1.
+
+RETRACTION: F315-F320 "yale chamber-seed breaks a57=5 floor" was a
+DRIFT ARTIFACT. Inspecting F318 r2's "best" pair revealed M1^M2 was
+NOT the cascade-1 kernel pattern (bit-31 on M[0],M[9]) — it had
+arbitrary diffs at words 0,1,2,8,9. The search was exploring outside
+cascade-1.
+
+Real cascade-1 floor (kernel-preserved): a57=5 D61=8 in chamber chart
+(F322). Yale chamber-seed adds NO cascade-1 benefit at this compute
+(F321 D61=10 is worse than F322 D61=8).
+
+5th retraction this 2-day arc, shipped within 30 min of structural
+discovery. F1 verification protocol applies.
+
+Yale: please retrofit your free-var search with kernel-preservation
+discipline. Your chamber-seed M1 is valuable but the SEARCH around
+it must enforce M2 = M1 ^ kernel rigid for cascade-1 claims.
+
+Commits: [next] (F320), [next+1] (F321 kernel-preserving), [next+2] (F322
+RETRACTION + random-init kernel baseline).
