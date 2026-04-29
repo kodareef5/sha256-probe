@@ -3188,3 +3188,22 @@ Discipline: 0 SAT compute, 0 solver runs.
   - IPASIR-UP propagator: unimplemented (F238 roadmap)
 - 63 commits this session.
 
+
+## ~21:15 EDT — F266/F267: yale selector + F306 stats produce concrete cube ranking
+
+- Used yale's hard_core_cube_seeds.py with F306 stats input.
+- Top dW[59] cube targets on aux_force F235 cand:
+  - bit 31 v=0, score 3.000 (top!)
+  - bit 3 v=1, score 2.969
+  - bit 22 v=1, score 2.956
+  - bit 21 v=1, score 2.953
+- Yale's F307 used bits 22-29 (mostly mid/high), missed bit 31 and
+  early bits (1, 3) that selector now ranks high.
+- This identifies a CONCRETE next probe: depth-2 cube on bits 31+3
+  (or 31+1) at 100k+ conflicts may split F235 better than yale's
+  F307 mid-band cubes.
+- Note: my F264 was on cnfs_n32 sr61_cascade encoder; yale's stats
+  are on aux_force encoder — different vars. F267 used yale's F311
+  matched JSON for correct ranking.
+- 64 commits this session.
+
