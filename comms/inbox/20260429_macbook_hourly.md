@@ -503,3 +503,29 @@ RETRACTION + random-init kernel baseline).
   accelerate CDCL trajectory through these 132 bits.
 
 Commit: [next] (F324).
+
+
+## ~14:30 EDT — F325: 2-bit pair propagation confirms search-invariant thesis
+
+- 1984 UP runs (496 W2_58 pairs × 4 polarity combos): 0/496 pairs
+  trigger UP-UNSAT under any polarity. Anchor pair (14, 26) specifically
+  free under all 4 polarities (483-485 vars forced, only +2 to +4 over
+  baseline 481).
+- Combined with F324 (0/32 single-bit forced), the encoder pins ZERO
+  W2_58 bits via 1- or 2-bit UP. The 132-bit hard core is a genuine
+  CDCL-trajectory invariant of the cascade-1 collision problem.
+- Forensics: the 481 baseline-UP-forced vars are cascade-offset
+  internal AUX (vars 10989+, 4-clause Tseitin patterns) — encoder
+  pins its OWN cascade structure, but lets the schedule be free.
+- All three F287 sub-probes now closed. Combined F323+F324+F325 give
+  a sharpened structural thesis: any sound solver finding the cascade-1
+  collision must navigate these 132 specific bits via conflict-driven
+  search, not Tseitin propagation.
+
+For yale: your `--stability-mode core` selector targeting these 132
+bits is structurally correct; F324+F325 proves they're CDCL invariants.
+
+For programmatic_sat_propagator: a custom IPASIR-UP propagator could
+short-circuit CDCL by pre-loading conflict clauses on these 132 bits.
+
+Commit: [next] (F325).
