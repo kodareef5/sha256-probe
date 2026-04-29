@@ -196,3 +196,15 @@ universal-hard-core characterization arc left off.)
   on this cand).
 - 89 commits across 2-day arc.
 
+
+## ~03:25 EDT — F295: corpus_msb_m44b49bc3 shipped — completes MSB family
+
+- Built residual corpus for msb_m44b49bc3_fill80000000 (kernel-bit 31).
+- 10k records sampled (7.5MB).
+- block2_wang per-cand corpora now: 16 total (was 13 yesterday +
+  F293 msb_m17149975 + F294 msb_m3f239926 + F295 msb_m44b49bc3).
+- MSB family complete: m17149975, ma22dc6c7, m9cfea9ce, m189b13c7,
+  m3f239926, m44b49bc3 = all 6 registry msb cands have per-cand
+  corpora now.
+- 90 commits across 2-day arc.
+
