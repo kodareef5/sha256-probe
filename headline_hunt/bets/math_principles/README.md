@@ -23,6 +23,7 @@ python3 headline_hunt/bets/math_principles/encoders/rank_influence_priors.py
 python3 headline_hunt/bets/math_principles/encoders/audit_carry_invariants.py
 python3 headline_hunt/bets/math_principles/encoders/select_submodular_masks.py
 python3 headline_hunt/bets/math_principles/encoders/summarize_submodular_scan.py
+python3 headline_hunt/bets/math_principles/encoders/build_cluster_atlas.py
 ```
 
 Default outputs:
@@ -35,6 +36,7 @@ Default outputs:
 - `results/20260429_F342_carry_invariant_audit.{json,md}`
 - `results/20260429_F343_submodular_selectors.{json,md}`
 - `results/20260429_F344_submodular_mask_calibration_scan_summary.{json,md}`
+- `results/20260429_F345_cluster_atlas.{json,md}`
 
 ## Readout
 
@@ -60,8 +62,12 @@ F344 scanned that F343 list with the existing block2 active-subset scanner.
 The result is negative at this budget: best score 92, no score <= 90, and the
 best unseen selector mask scored 96.
 
+F345 is the first Track 2 cluster atlas. It graphs observed active masks by
+one-word swaps and checks whether low scores are isolated or connected through
+near-score bridges.
+
 ## Next tracks
 
 - add outcome-aware calibration before spending more budget on F343-style selectors
 - use F342 stable-core coordinates as hard features for BP/matroid audits
-- turn F340 low-score masks into explicit multi-seed basin-walk experiments
+- turn F345 radius-one bridge neighborhoods into explicit multi-seed basin-walk experiments
