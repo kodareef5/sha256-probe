@@ -32,6 +32,7 @@ python3 headline_hunt/bets/math_principles/encoders/probe_atlas_neighborhood.py
 python3 headline_hunt/bets/math_principles/encoders/continue_atlas_from_seed.py
 python3 headline_hunt/bets/math_principles/encoders/chamber_seed_linear_lift.py
 python3 headline_hunt/bets/math_principles/encoders/optimize_chamber_seed_freevars.py
+python3 headline_hunt/bets/math_principles/encoders/build_chamber_seed_pareto_front.py
 ```
 
 The original manifest slice intentionally excludes downstream math-principles
@@ -69,6 +70,7 @@ Default outputs:
 - `results/20260429_F357_chamber_seed_freevar_opt.{json,md}`
 - `results/20260429_F358_chamber_seed_freevar_opt_long.{json,md}`
 - `results/20260429_F359_chamber_seed_freevar_atlas_objective.{json,md}`
+- `results/20260429_F360_chamber_seed_pareto_front.{json,md}`
 
 ## Readout
 
@@ -150,9 +152,16 @@ objective settled at 29-bit schedule mismatch with `a57=17`. This exposes a
 Pareto problem rather than a simple weighted-sum problem: schedule closeness,
 chart membership, and the a57 guard should be tracked as separate fronts.
 
+F360 implements that Pareto-front view over true `W57..W59` mismatch, chart
+penalty, `a57_xor_hw`, and `D61_hw`. The 84k-eval run produced a 43-point
+front. The best mismatch member is 26 bits but off-chart; the best chart/guard
+member is `a57=5` on `dh,dCh` but 50 bits from the chamber schedule. This
+confirms the chamber-seed problem is a multi-objective tradeoff, not a
+weight-tuning problem.
+
 ## Next tracks
 
 - add outcome-aware calibration before spending more budget on F343-style selectors
 - use F342 stable-core coordinates as hard features for BP/matroid audits
 - use common-mode atlas continuation as a post-atlas polish operator
-- convert the F359 free-variable optimizer to Pareto-front selection
+- continue from selected F360 Pareto-front representatives
