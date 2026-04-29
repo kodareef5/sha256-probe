@@ -29,7 +29,41 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-04-29T11:50:00Z'
+last_heartbeat: '2026-04-29T13:05:00Z'
+recent_progress_2026-04-29_morning_tools: |
+  Morning 2026-04-29 (post-overnight summary): three mechanism-changing
+  tools shipped + cross-machine combo with yale.
+
+  F311 CARRY-CHART ATLAS (singular_chamber_rank/tools/carry_chart_atlas.py):
+    Verified vs C ground truth byte-for-byte on idx=0 HW4 chamber.
+    All 3 cross-cand HW4 chambers (idx 0/8/17) live in chart (dh,dCh)
+    with a57_xor=0. 420 single-bit moves on (W57,W58,W59) tested:
+    ZERO preserve the chart. Chamber attractor is brittle in 1-bit
+    neighborhoods.
+
+  F312 ATLAS-LOSS SCHEDULE-SPACE SEARCH (block2_wang/encoders/
+  search_schedule_space.py + preimage_lift.py):
+    Pivoted from preimage-lift plan (provably dense, honest negative
+    documented). Replaced chain-output-diff loss with carry-chart
+    atlas score (4*a57_xor + D61 + 8*chart_penalty + 0.05*tail63).
+    8x50k pilot vs F115 baseline (same compute):
+      F115 chain-output-diff: atlas_score=104.45, chart=(dSig1,dCh)
+      F312 atlas-loss:        atlas_score=38.85,  chart=(dh,dCh)
+    63% loss reduction. 8/8 restarts in chamber chart family vs 1/5.
+    Chamber attractor (a57=0, D61=4) still unreached.
+
+  F313 CROSS-MACHINE COMBO with yale's F351 cluster atlas:
+    Ran F312 search on yale's 5 score-87/88 active masks. All 5
+    masks reach (dh,dCh) chart with a57_xor 4-6, D61 12-14. Mask
+    choice isn't the bottleneck; chamber-attractor brittleness is.
+
+  STATUS:
+    Mechanism-changing tools shipped. Block2_wang historical chain-
+    output-diff search now demonstrably steered into the wrong
+    half-plane. F143 weak form holds + atlas-loss reaches chamber
+    chart family reliably; reaching the chamber attractor itself
+    needs methods beyond single-bit gradient descent.
+
 recent_progress_2026-04-29_overnight: |
   Overnight 2026-04-28 → 2026-04-29 macbook session arc:
 

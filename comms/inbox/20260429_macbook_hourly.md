@@ -348,3 +348,19 @@ ATLAS LOSS as fitness function would re-rank masks and sharpen the
 cluster atlas — happy to wire it together if you'd like.
 
 Commits: 6983258 (F311), 2644a56 (F312), [next] (F313).
+
+
+## ~09:10 EDT — F314: a57_xor quasi-floor at 5 (alpha sweep)
+
+- Pumped alpha (a57 weight) 4→8→16→32→64 on mask 2,6,11,12,13:
+  best a57_xor_hw stays at 5 across all alphas. 8x weight pump
+  doesn't break the floor.
+- High alpha hurts overall search (340-416 atlas score at alpha=64
+  vs 38-50 at alpha=4). Loss-weight balance matters; cranking one
+  term distorts the landscape.
+- Structural conclusion: cascade-1 hardlock + chamber attractor is
+  a sharp constraint not reachable from random init via single-bit
+  dM moves, regardless of penalty weight. Need chamber-seeded
+  initialization or multi-bit moves.
+
+Commit: [next] (F314).
