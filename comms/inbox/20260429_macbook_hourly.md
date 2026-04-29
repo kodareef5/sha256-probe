@@ -93,3 +93,24 @@ universal-hard-core characterization arc left off.)
   effective inputs than other bit positions.
 - 83 commits across 2-day arc.
 
+
+## ~01:42 EDT — F288: σ1² fanin hypothesis REFUTED (5th retraction-class finding)
+
+- Computed σ1² effective fanin (after XOR cancellation) for all
+  32 bit positions:
+  - bits 15-21: fanin=2 (minimum, 7 bits)
+  - bits 0,1,2,13,14: fanin=3
+  - bits 3,4,12,22-31: fanin=4
+  - bits 5-11: fanin=5 (maximum)
+- F286 universal-core anchors: bit 14 (fanin=3, NOT minimum) and
+  bit 26 (fanin=4, also NOT minimum).
+- σ1² fanin alone does NOT predict universal-anchoring positions.
+- F287's "σ1² simplification" hypothesis REFUTED — partial
+  finding was insufficient mechanism.
+- 5th retraction-class finding of session arc (F205, F232, F237,
+  F279, F288).
+- The W2_58[14]/[26] universal-anchoring still requires
+  explanation. Likely needs σ0 contribution + cascade-1 hardlock
+  + carry-chain analysis, or encoder-specific Tseitin layout.
+- 84 commits across 2-day arc.
+
