@@ -45,6 +45,7 @@ python3 headline_hunt/bets/math_principles/encoders/beam_kernel_safe_neighborhoo
 python3 headline_hunt/bets/math_principles/encoders/search_kernel_safe_junction.py
 python3 headline_hunt/bets/math_principles/encoders/build_kernel_safe_pareto_bridge.py
 python3 headline_hunt/bets/math_principles/encoders/continue_kernel_safe_bridge_anchors.py
+python3 headline_hunt/bets/math_principles/encoders/probe_bridge_anchor_neighborhood.py
 ```
 
 The original manifest slice intentionally excludes downstream math-principles
@@ -98,6 +99,7 @@ Default outputs:
 - `results/20260429_F373_kernel_safe_junction_search.{json,md}`
 - `results/20260429_F374_kernel_safe_pareto_bridge.{json,md}`
 - `results/20260429_F375_kernel_safe_bridge_anchor_continuation.{json,md}`
+- `results/20260429_F376_bridge_anchor_neighborhood.{json,md}`
 
 ## Readout
 
@@ -277,9 +279,15 @@ This is a real strict-kernel bridge from the D61 side back toward the guard
 basin, but it still pays for guard repair by losing the D61=5 advantage. The
 F334 auditor reports 52/52 PASS, 0 DRIFT.
 
+F376 deterministically probes the improved F375 bridge point at radius 1. All
+1,536 common-mode moves are kernel-valid. No move improves default score,
+profile score, or guard; 179 moves lower D61, but zero lower D61 while
+preserving the repaired `a57<=5` chamber chart. The F375 bridge is therefore a
+one-move local minimum on the repaired guard/chart side.
+
 ## Next tracks
 
 - add outcome-aware calibration before spending more budget on F343-style selectors
 - use F342 stable-core coordinates as hard features for BP/matroid audits
 - use common-mode atlas continuation as a post-atlas polish operator
-- deterministic neighborhood check around the improved F375 low-D61-to-guard bridge
+- compare F322/F374/F375 strict-kernel basins with a shared bridge/audit table
