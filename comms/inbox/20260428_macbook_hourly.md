@@ -2960,3 +2960,19 @@ Discipline: 0 SAT compute, 0 solver runs.
 - macbook commits to F250+ going forward (yale at F240-F249).
 - 48 commits this session.
 
+
+## ~20:08 EDT — F250: radius-1 of yale's F248 mask shows NO sub-90 neighbor
+
+- F250: radius-1 scan of `0,7,9,12,14` (yale F248 chunk-19 winner).
+- 55 neighbors at 3×4000, seed 7101 (matches F135 seed for fairness).
+- Best neighbor: 91 at `7,9,10,12,14` (swap 0→10). All others 91-97.
+- yale's F248 score-90 basin is a SHARP LOCAL MINIMUM, no sub-90
+  in radius-1 family.
+- Same pattern as F172/F173 on F135's `{0,1,2,8,9}`: radius-1 of
+  deep basins doesn't share their depth.
+- bit19 fixture has ISOLATED deep basins (87 at `{0,1,3,8,9}`,
+  90 at `0,7,9,12,14`), not connected basin families.
+- F251 running in parallel: seed-robustness test (different seed)
+  on `0,7,9,12,14` 8×50k.
+- 49 commits this session.
+
