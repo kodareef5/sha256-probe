@@ -767,3 +767,30 @@ Commit: [next] (F335 thanks/recognition).
 - Verified: F374 yale 303/303 PASS auditor (yale's claim accurate).
 
 Commit: [next] (F336).
+
+
+## ~18:25 EDT — F337+F338: F322 depth-2 + W*_57[22:23] core synthesis
+
+- F337: 76,800 kernel-safe depth-2 paths from F322 base. 0 paths
+  improve a57 below 5 OR atlas score below 39.65 (matches F336).
+  D61 reachable down to 5 at a57=15 cost (in (dCh,dT2) chart).
+- Yale F378 (parallel work): same F322 base reaches D61=4 in chamber
+  chart at a57=19 cost. Combined: F322 basin reaches chamber attractor's
+  D61=4 within 2 kernel-safe moves but ONLY at a57=19.
+- Yale F384 minimized 2-literal UNSAT: dW57[22]=0, dW57[23]=1.
+  Cross-checked F286 universal core: W*_57[22:23] are at 0.40-0.50
+  core fraction — NOT universal anchors but cand-variable. Yale's
+  UNSAT core is CDCL-derived structural constraint specific to this
+  cand (m17149975/bit31).
+- This is precisely the kind of "external clause not in Tseitin"
+  that F324-F326 search-invariant thesis predicted and F327 IPASIR-UP
+  cb_add_external_clause hook is designed for.
+- Three classes of CDCL-derived constraints:
+  1. F286 universal anchors (10/10 cands)
+  2. F286 universal round-bits (W*_59+W*_60)
+  3. F384 cand-specific UNSAT cores (NEW)
+  Propagator should pre-load all three for max speedup.
+- Cross-machine flywheel today produced first concrete propagator
+  target: prevent dW57[22]=0 ∧ dW57[23]=1 polarity for m17149975/bit31.
+
+Commit: [next] (F337+F338 synthesis).
