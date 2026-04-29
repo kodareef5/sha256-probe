@@ -1,0 +1,123 @@
+{
+  "bridge_count": 1,
+  "combined_target_hits": [],
+  "decision": "The strict-kernel front has distinct basins and coordinate bridges, but no combined chamber-attractor hit.",
+  "distinct_basin_count": 2,
+  "front_rows": [
+    {
+      "D61": 11,
+      "a57": 4,
+      "basin": "chamber_seed",
+      "chart": "dT2,dCh",
+      "label": "F374_low_guard",
+      "note": "nontrivial a57=4 corner",
+      "profile_score": null,
+      "score": 40.8,
+      "source": "F374",
+      "tail63": 116
+    },
+    {
+      "D61": 13,
+      "a57": 5,
+      "basin": "bridge",
+      "chart": "dCh,dh",
+      "label": "F375_D61_to_guard",
+      "note": "D61-side bridge repairs guard but loses D61=5",
+      "profile_score": null,
+      "score": 39.1,
+      "source": "F375",
+      "tail63": 122
+    },
+    {
+      "D61": 14,
+      "a57": 5,
+      "basin": "random_init",
+      "chart": "dh,dCh",
+      "label": "F322_seed_F336",
+      "note": "depth-1 local minimum",
+      "profile_score": null,
+      "score": 39.65,
+      "source": "F336",
+      "tail63": 113
+    },
+    {
+      "D61": 8,
+      "a57": 6,
+      "basin": "chamber_seed",
+      "chart": "dh,dCh",
+      "label": "F372_best_score",
+      "note": "best strict scalar score",
+      "profile_score": null,
+      "score": 37.8,
+      "source": "F372",
+      "tail63": 116
+    },
+    {
+      "D61": 13,
+      "a57": 6,
+      "basin": "chamber_seed",
+      "chart": "dh,dCh",
+      "label": "F374_balanced",
+      "note": "chart bridge anchor",
+      "profile_score": null,
+      "score": 43.0,
+      "source": "F374",
+      "tail63": 120
+    },
+    {
+      "D61": 5,
+      "a57": 12,
+      "basin": "chamber_seed",
+      "chart": "dCh,dh",
+      "label": "F374_low_D61",
+      "note": "Pareto D61=5 anchor",
+      "profile_score": null,
+      "score": 59.1,
+      "source": "F374",
+      "tail63": 122
+    },
+    {
+      "D61": 5,
+      "a57": 15,
+      "basin": "chamber_seed",
+      "chart": "dCh,dh",
+      "label": "F372_best_D61",
+      "note": "strict D61=5 corner",
+      "profile_score": null,
+      "score": 71.45,
+      "source": "F372",
+      "tail63": 129
+    }
+  ],
+  "local_checks": [
+    {
+      "D61_improve": 302,
+      "base": "a57=5 D61=14 chart=dh,dCh",
+      "guard_improve": 0,
+      "moves": 1536,
+      "probe": "F336_depth1_from_F322",
+      "score_improve": 0,
+      "strict_hits": 0,
+      "target_repair": 0
+    },
+    {
+      "D61_improve": 179,
+      "base": "a57=5 D61=13 chart=dCh,dh",
+      "guard_improve": 0,
+      "moves": 1536,
+      "probe": "F376_depth1_from_F375_bridge",
+      "score_improve": 0,
+      "strict_hits": 0,
+      "target_repair": 0
+    }
+  ],
+  "report_id": "F377",
+  "sources": {
+    "F336": "headline_hunt/bets/block2_wang/results/search_artifacts/20260429_F336_kernel_safe_depth1_from_F322.json",
+    "F372": "headline_hunt/bets/math_principles/results/20260429_F372_kernel_safe_beam_probe.json",
+    "F374": "headline_hunt/bets/math_principles/results/20260429_F374_kernel_safe_pareto_bridge.json",
+    "F375": "headline_hunt/bets/math_principles/results/20260429_F375_kernel_safe_bridge_anchor_continuation.json",
+    "F376": "headline_hunt/bets/math_principles/results/20260429_F376_bridge_anchor_neighborhood.json"
+  },
+  "verdict": "strict_kernel_basins_split_with_bridges"
+}

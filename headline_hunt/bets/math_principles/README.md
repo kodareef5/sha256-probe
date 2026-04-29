@@ -46,6 +46,7 @@ python3 headline_hunt/bets/math_principles/encoders/search_kernel_safe_junction.
 python3 headline_hunt/bets/math_principles/encoders/build_kernel_safe_pareto_bridge.py
 python3 headline_hunt/bets/math_principles/encoders/continue_kernel_safe_bridge_anchors.py
 python3 headline_hunt/bets/math_principles/encoders/probe_bridge_anchor_neighborhood.py
+python3 headline_hunt/bets/math_principles/encoders/summarize_strict_kernel_basins.py
 ```
 
 The original manifest slice intentionally excludes downstream math-principles
@@ -100,6 +101,7 @@ Default outputs:
 - `results/20260429_F374_kernel_safe_pareto_bridge.{json,md}`
 - `results/20260429_F375_kernel_safe_bridge_anchor_continuation.{json,md}`
 - `results/20260429_F376_bridge_anchor_neighborhood.{json,md}`
+- `results/20260429_F377_strict_kernel_basin_comparison.{json,md}`
 
 ## Readout
 
@@ -285,9 +287,17 @@ profile score, or guard; 179 moves lower D61, but zero lower D61 while
 preserving the repaired `a57<=5` chamber chart. The F375 bridge is therefore a
 one-move local minimum on the repaired guard/chart side.
 
+F377 compares the strict-kernel basins in one table, incorporating MacBook's
+F336 depth-1 probe from the F322 random-init seed. The record now shows a split
+front rather than a single basin: random-init owns the low-a57 chamber-chart
+corner, the chamber-seed path owns the D61=5 and off-chart a57=4 corners, and
+F375 supplies a one-way bridge that repairs guard only by giving D61 back. Both
+F336 and F376 show the same local pattern: many D61-lowering moves, zero guard
+or score improvements, and zero target repairs at radius 1.
+
 ## Next tracks
 
 - add outcome-aware calibration before spending more budget on F343-style selectors
 - use F342 stable-core coordinates as hard features for BP/matroid audits
 - use common-mode atlas continuation as a post-atlas polish operator
-- compare F322/F374/F375 strict-kernel basins with a shared bridge/audit table
+- decide whether to spend the next compute on F322 depth-2 enumeration or pivot to CDCL/conflict-guided bridge design
