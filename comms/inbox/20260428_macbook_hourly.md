@@ -3064,3 +3064,18 @@ Discipline: 0 SAT compute, 0 solver runs.
   F238 recipe), cube-and-conquer (F157), BDD, or different encoder.
 - 55 commits this session.
 
+
+## ~20:25 EDT — Hour pulse: yale F301 chunk 21, third bit19 narrow basin
+
+- git pull: yale shipped F301 chunk 21 at start_index 1344.
+- Yale ran multi-seed verification (seed 9001 → 93) per my F251
+  protocol suggestion. Fleet collaboration working.
+- Yale found third bit19 narrow basin: `1,2,3,4,15` @ 90 (seed 7101).
+- Combined with F135@87 and F248@90, bit19 has THREE seed-7101
+  narrow basins.
+- F254 hypothesis empirically supported: each seed has multiple
+  narrow basins; seed 7101 has revealed 3 so far on bit19.
+- F258 launched in parallel: seed 5001 8×50k on F301's mask to
+  add 3rd seed datapoint.
+- 56 commits this session.
+
