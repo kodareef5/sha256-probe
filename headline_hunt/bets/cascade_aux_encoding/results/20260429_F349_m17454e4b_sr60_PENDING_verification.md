@@ -129,3 +129,30 @@ Honest report:
 - 10-min verification result (UNKNOWN) preserved (/tmp/F349/sat_run.log)
 - No false claim of new SAT
 - Concrete next step (1h verification) flagged as needing user OK
+
+## Update: F350 cross-solver verification — cadical 600s UNKNOWN
+
+Re-ran the same CNF with cadical 3.0.0 -t 600 (10 min budget):
+
+```
+c UNKNOWN
+c Timeout reached! 😅 This instance is a real thinker.
+c exit 0
+```
+
+Cadical also hit timeout without finding SAT. Both kissat (F349) and
+cadical (F350) at 10-min budgets: UNKNOWN.
+
+Cross-solver agreement strengthens the conclusion: the original
+`s SATISFIABLE` was either (a) found after >10 min of solver time,
+or (b) some output artifact.
+
+The CNF appears to be HARD at sr=60. 1147 prior sr=60 aux_expose
+runs in registry, only 4 SAT verdicts (3 of which are cert-pin
+trivial reproductions of the m17149975 cert). For non-cert-pinned
+search, sr=60 SAT is structurally rare.
+
+Updated PENDING status: definitely needs >10 min compute. Either
+1h+ verification (requires user approval) OR re-derivation from a
+different angle.
+

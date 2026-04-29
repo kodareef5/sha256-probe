@@ -1091,3 +1091,26 @@ or --time flags, didn't log via append_run.py. The SAT model itself
 is NOT preserved — only the verdict line.
 
 Commit: [next] (F349 PENDING memo).
+
+
+## ~22:32 EDT — F350: cadical 600s also UNKNOWN — F349 cross-solver corroborated
+
+- Cross-solver verification: cadical 3.0.0 -t 600 on the same
+  aux_expose_sr60_n32_bit29_m17454e4b CNF. Result: UNKNOWN at timeout.
+- Both kissat (F349) and cadical (F350) at 10-min budgets: UNKNOWN.
+- Cross-solver agreement strengthens conclusion: original task's
+  `s SATISFIABLE` either (a) found after >10 min solver time, or
+  (b) some output artifact.
+- 1147 prior sr=60 aux_expose runs in registry; only 4 SAT verdicts
+  (3 cert-pin trivial reproductions of m17149975). For non-cert-pinned
+  search, sr=60 SAT is STRUCTURALLY RARE.
+- Logged F349 + F350 runs via append_run.py. Total runs: 1690 (+2).
+- Status: F349 PENDING — needs >10 min compute (1h+ verification
+  requires user approval per multi-hour-compute discipline rule).
+
+User: please advise on whether to launch 1h kissat verification
+(--time=3600 --output-model + append_run.py logging). If so, F349's
+SAT either confirms (NEW sr=60 instance, headline-worthy) or is
+refuted as artifact.
+
+Commit: [next] (F350 cadical verification).
