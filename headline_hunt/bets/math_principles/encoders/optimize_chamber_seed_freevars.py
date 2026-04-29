@@ -167,7 +167,7 @@ def write_md(path: Path, payload: dict[str, Any]) -> None:
         "status: CHAMBER_SEED_FREEVAR_OPT",
         "---",
         "",
-        "# F357: chamber-seed free-variable optimization",
+        f"# {payload['report_id']}: chamber-seed free-variable optimization",
         "",
         "## Summary",
         "",
@@ -206,6 +206,7 @@ def main() -> int:
     ap.add_argument("--max-flips", type=int, default=2)
     ap.add_argument("--free-prob", type=float, default=0.5)
     ap.add_argument("--seed", type=int, default=35700)
+    ap.add_argument("--report-id", default="F357")
     ap.add_argument("--out-json", type=Path, default=DEFAULT_OUT_JSON)
     ap.add_argument("--out-md", type=Path, default=None)
     args = ap.parse_args()
@@ -292,7 +293,7 @@ def main() -> int:
         kernel_bit,
     )
     payload = {
-        "report_id": "F357",
+        "report_id": args.report_id,
         "chamber": args.chamber,
         "candidate_idx": idx,
         "kernel_bit": kernel_bit,

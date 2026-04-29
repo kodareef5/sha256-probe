@@ -67,6 +67,7 @@ Default outputs:
 - `results/20260429_F355_seeded_atlas_commonmode_continuation_4x20k.{json,md}`
 - `results/20260429_F356_chamber_seed_linear_lift.{json,md}`
 - `results/20260429_F357_chamber_seed_freevar_opt.{json,md}`
+- `results/20260429_F358_chamber_seed_freevar_opt_long.{json,md}`
 
 ## Readout
 
@@ -136,9 +137,15 @@ free variables against true modular `W57..W59` mismatch. A short 4x50k run
 improves 30 bits to 25 bits, confirming that the free variables carry real
 correction signal even before adding a carry-feature objective.
 
+F358 lengthens the free-variable search to 8x100k with up to four free-bit
+flips per proposal. It improves the chamber schedule mismatch again, reaching
+24 bits (`6,12,6` by round). That crosses the near-chamber gate, but the atlas
+rec is still off-attractor (`a57=14`, chart `dSig1,dh`), so schedule proximity
+and cascade-state proximity must be optimized together next.
+
 ## Next tracks
 
 - add outcome-aware calibration before spending more budget on F343-style selectors
 - use F342 stable-core coordinates as hard features for BP/matroid audits
 - use common-mode atlas continuation as a post-atlas polish operator
-- add carry-feature terms to F357 and run a larger free-variable optimizer
+- add atlas/cascade-state terms to the free-variable optimizer

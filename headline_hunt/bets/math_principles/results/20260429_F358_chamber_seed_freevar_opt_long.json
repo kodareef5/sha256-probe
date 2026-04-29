@@ -1,0 +1,324 @@
+{
+  "best": {
+    "M1": [
+      "0xd905444c",
+      "0xf3b7b74a",
+      "0x039d016d",
+      "0xd2e71e31",
+      "0x047d8fee",
+      "0x83ef0b55",
+      "0x9bef3637",
+      "0xc650d077",
+      "0x6808c181",
+      "0x853795ee",
+      "0x64b04129",
+      "0x7bbd35df",
+      "0x97fbe2a9",
+      "0x63474a4e",
+      "0x3e457cc5",
+      "0x190c99a0"
+    ],
+    "M2_kernel": [
+      "0x5905444c",
+      "0xf3b7b74a",
+      "0x039d016d",
+      "0xd2e71e31",
+      "0x047d8fee",
+      "0x83ef0b55",
+      "0x9bef3637",
+      "0xc650d077",
+      "0x6808c181",
+      "0x053795ee",
+      "0x64b04129",
+      "0x7bbd35df",
+      "0x97fbe2a9",
+      "0x63474a4e",
+      "0x3e457cc5",
+      "0x190c99a0"
+    ],
+    "atlas_rec": {
+      "D61_hw": 15,
+      "a57_xor_hw": 14,
+      "chart_top2": [
+        "dSig1",
+        "dh"
+      ],
+      "tail63_state_diff_hw": 131
+    },
+    "linear_mismatch_hw": 0,
+    "message_hw": 258,
+    "mismatch_by_round": [
+      {
+        "linear": "0x370fef5f",
+        "linear_mismatch_hw": 0,
+        "round": 57,
+        "target": "0x370fef5f",
+        "true": "0xb20d8f5f",
+        "true_mismatch_hw": 6
+      },
+      {
+        "linear": "0x6ced4182",
+        "linear_mismatch_hw": 0,
+        "round": 58,
+        "target": "0x6ced4182",
+        "true": "0xabec5289",
+        "true_mismatch_hw": 12
+      },
+      {
+        "linear": "0x9af03606",
+        "linear_mismatch_hw": 0,
+        "round": 59,
+        "target": "0x9af03606",
+        "true": "0x8bf02717",
+        "true_mismatch_hw": 6
+      }
+    ],
+    "true_mismatch_hw": 24
+  },
+  "candidate_idx": 0,
+  "chamber": "0:0x370fef5f:0x6ced4182:0x9af03606",
+  "decision": "Run a longer free-variable search and then test atlas-loss continuation from the best seed.",
+  "free_columns": 416,
+  "free_prob": 0.5,
+  "improvements": [
+    {
+      "message_hw": 245,
+      "mismatch_by_round": [
+        11,
+        10,
+        10
+      ],
+      "restart": 0,
+      "step": 10404,
+      "true_mismatch_hw": 31
+    },
+    {
+      "message_hw": 241,
+      "mismatch_by_round": [
+        9,
+        10,
+        9
+      ],
+      "restart": 0,
+      "step": 13305,
+      "true_mismatch_hw": 28
+    },
+    {
+      "message_hw": 232,
+      "mismatch_by_round": [
+        7,
+        8,
+        13
+      ],
+      "restart": 3,
+      "step": 7702,
+      "true_mismatch_hw": 28
+    },
+    {
+      "message_hw": 251,
+      "mismatch_by_round": [
+        15,
+        4,
+        8
+      ],
+      "restart": 3,
+      "step": 64322,
+      "true_mismatch_hw": 27
+    },
+    {
+      "message_hw": 258,
+      "mismatch_by_round": [
+        6,
+        12,
+        6
+      ],
+      "restart": 7,
+      "step": 58156,
+      "true_mismatch_hw": 24
+    }
+  ],
+  "kernel_bit": 31,
+  "max_flips": 4,
+  "rank": 96,
+  "report_id": "F358",
+  "restart_summaries": [
+    {
+      "accepts": 12208,
+      "best_message_hw": 241,
+      "best_mismatch_by_round": [
+        9,
+        10,
+        9
+      ],
+      "best_mismatch_hw": 28,
+      "restart": 0,
+      "start_mismatch_hw": 31
+    },
+    {
+      "accepts": 13036,
+      "best_message_hw": 260,
+      "best_mismatch_by_round": [
+        10,
+        8,
+        10
+      ],
+      "best_mismatch_hw": 28,
+      "restart": 1,
+      "start_mismatch_hw": null
+    },
+    {
+      "accepts": 13252,
+      "best_message_hw": 232,
+      "best_mismatch_by_round": [
+        8,
+        11,
+        10
+      ],
+      "best_mismatch_hw": 29,
+      "restart": 2,
+      "start_mismatch_hw": null
+    },
+    {
+      "accepts": 13545,
+      "best_message_hw": 251,
+      "best_mismatch_by_round": [
+        15,
+        4,
+        8
+      ],
+      "best_mismatch_hw": 27,
+      "restart": 3,
+      "start_mismatch_hw": null
+    },
+    {
+      "accepts": 12965,
+      "best_message_hw": 255,
+      "best_mismatch_by_round": [
+        11,
+        11,
+        5
+      ],
+      "best_mismatch_hw": 27,
+      "restart": 4,
+      "start_mismatch_hw": null
+    },
+    {
+      "accepts": 12866,
+      "best_message_hw": 267,
+      "best_mismatch_by_round": [
+        12,
+        9,
+        7
+      ],
+      "best_mismatch_hw": 28,
+      "restart": 5,
+      "start_mismatch_hw": null
+    },
+    {
+      "accepts": 12585,
+      "best_message_hw": 256,
+      "best_mismatch_by_round": [
+        7,
+        13,
+        7
+      ],
+      "best_mismatch_hw": 27,
+      "restart": 6,
+      "start_mismatch_hw": null
+    },
+    {
+      "accepts": 13415,
+      "best_message_hw": 258,
+      "best_mismatch_by_round": [
+        6,
+        12,
+        6
+      ],
+      "best_mismatch_hw": 24,
+      "restart": 7,
+      "start_mismatch_hw": null
+    }
+  ],
+  "restarts": 8,
+  "seed": 35800,
+  "seed_best": {
+    "M1": [
+      "0xe1552e48",
+      "0xf7b7fa8e",
+      "0xb246f48e",
+      "0xd8a7276c",
+      "0x940a0dfb",
+      "0x5b40d880",
+      "0xb88c6b74",
+      "0x80aca298",
+      "0x7bdb4f5a",
+      "0xf02f7cc4",
+      "0xa80d717f",
+      "0xe0d01344",
+      "0xca379c53",
+      "0xb5841fdb",
+      "0xca594b0b",
+      "0x62873f05"
+    ],
+    "M2_kernel": [
+      "0x61552e48",
+      "0xf7b7fa8e",
+      "0xb246f48e",
+      "0xd8a7276c",
+      "0x940a0dfb",
+      "0x5b40d880",
+      "0xb88c6b74",
+      "0x80aca298",
+      "0x7bdb4f5a",
+      "0x702f7cc4",
+      "0xa80d717f",
+      "0xe0d01344",
+      "0xca379c53",
+      "0xb5841fdb",
+      "0xca594b0b",
+      "0x62873f05"
+    ],
+    "atlas_rec": {
+      "D61_hw": 24,
+      "a57_xor_hw": 17,
+      "chart_top2": [
+        "dT2",
+        "dCh"
+      ],
+      "tail63_state_diff_hw": 123
+    },
+    "linear_mismatch_hw": 0,
+    "message_hw": 254,
+    "mismatch_by_round": [
+      {
+        "linear": "0x370fef5f",
+        "linear_mismatch_hw": 0,
+        "round": 57,
+        "target": "0x370fef5f",
+        "true": "0x0c05ee09",
+        "true_mismatch_hw": 12
+      },
+      {
+        "linear": "0x6ced4182",
+        "linear_mismatch_hw": 0,
+        "round": 58,
+        "target": "0x6ced4182",
+        "true": "0xca790293",
+        "true_mismatch_hw": 12
+      },
+      {
+        "linear": "0x9af03606",
+        "linear_mismatch_hw": 0,
+        "round": 59,
+        "target": "0x9af03606",
+        "true": "0x9ce00624",
+        "true_mismatch_hw": 7
+      }
+    ],
+    "true_mismatch_hw": 31
+  },
+  "steps": 100000,
+  "verdict": "freevar_opt_near_chamber_schedule",
+  "wall_seconds": 45.081095,
+  "warmup_samples": 8000
+}
