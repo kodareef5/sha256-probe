@@ -2944,3 +2944,19 @@ Discipline: 0 SAT compute, 0 solver runs.
   score-87 as "verified floor" but it's seed-7101 singular per F180).
 - 45 commits this session.
 
+
+## ~20:05 EDT — Yale chunks 11-19 review + F248 acknowledgment
+
+- Yale shipped chunks 11-19 in last 30 min:
+  - Chunks 11-18: scores 91-95 (no improvement over F186/F215 robust floor)
+  - **Chunk 19: score 90 mask `0,7,9,12,14`, VERIFIED at 8×50k**
+- Yale's F248 chunk-19 finding is significant: SECOND deep basin
+  on bit19, distinct from F135's `0,1,3,8,9`@87 family.
+- 8×50k continuation reaching 90 means it's NOT a transient minimum
+  (F205 problem) — real basin reproducible from seed 7101.
+- Sent yale F250 acknowledgment with two structural follow-ups:
+  - Radius-1 of `0,7,9,12,14` (55 neighbors)
+  - Basin-init descent test from F248 score-90 pair
+- macbook commits to F250+ going forward (yale at F240-F249).
+- 48 commits this session.
+
