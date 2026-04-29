@@ -224,3 +224,13 @@ universal-hard-core characterization arc left off.)
 - block2_wang per-cand corpora now: 20 (was 18, +2 this hour).
 - 92 commits across 2-day arc.
 
+
+## ~04:27 EDT — F300 batch: 3 more corpora shipped (23 per-cand total)
+
+- corpus_bit06_m88fab888_fill55555555: 10k records
+- corpus_bit10_m27e646e1_fill55555555: 10k records
+- corpus_bit11_m56076c68_fill55555555: 10k records
+- block2_wang per-cand corpora: 23 (was 13 yesterday + 10 added
+  this 2-day arc).
+- 93 commits across 2-day arc.
+
