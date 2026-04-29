@@ -33,6 +33,7 @@ python3 headline_hunt/bets/math_principles/encoders/continue_atlas_from_seed.py
 python3 headline_hunt/bets/math_principles/encoders/chamber_seed_linear_lift.py
 python3 headline_hunt/bets/math_principles/encoders/optimize_chamber_seed_freevars.py
 python3 headline_hunt/bets/math_principles/encoders/build_chamber_seed_pareto_front.py
+python3 headline_hunt/bets/math_principles/encoders/continue_atlas_from_pareto.py
 ```
 
 The original manifest slice intentionally excludes downstream math-principles
@@ -71,6 +72,7 @@ Default outputs:
 - `results/20260429_F358_chamber_seed_freevar_opt_long.{json,md}`
 - `results/20260429_F359_chamber_seed_freevar_atlas_objective.{json,md}`
 - `results/20260429_F360_chamber_seed_pareto_front.{json,md}`
+- `results/20260429_F361_pareto_seeded_atlas_continuation.{json,md}`
 
 ## Readout
 
@@ -159,9 +161,15 @@ member is `a57=5` on `dh,dCh` but 50 bits from the chamber schedule. This
 confirms the chamber-seed problem is a multi-objective tradeoff, not a
 weight-tuning problem.
 
+F361 continues three F360 front representatives under atlas loss. The
+`best_mismatch` seed improves atlas score 74.3 -> 43.8 and enters the chamber
+chart at `a57=6`; the `best_D61` seed improves 62.9 -> 44.85 and enters
+`dh,dCh` with D61=10. The Pareto front is therefore actionable: off-chart
+schedule/D61 representatives can be pulled back into the chamber chart.
+
 ## Next tracks
 
 - add outcome-aware calibration before spending more budget on F343-style selectors
 - use F342 stable-core coordinates as hard features for BP/matroid audits
 - use common-mode atlas continuation as a post-atlas polish operator
-- continue from selected F360 Pareto-front representatives
+- continue the F361 improved `best_mismatch` and `best_D61` descendants
