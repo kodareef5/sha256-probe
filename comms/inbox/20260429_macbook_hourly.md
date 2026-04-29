@@ -1236,3 +1236,25 @@ Commit: [next] (F355 sr-invariant validation).
 F353 verification still running (~21min in).
 
 Commit: [next] (F356 mode-invariance).
+
+
+## ~23:58 EDT — F357: F343 preflight on F235 hard cand + F340 refuted
+
+- Ran F343 preflight on F235 reopen-target cand (m09990bd2/bit25/0x80000000)
+  at sr=61 force-mode. 20s wall.
+- Result: dW57[0] forced=0, W57[22:23] forbidden=(0, 0).
+- Combined 8-cand table spans 4 kernel-bits, 4 fill values.
+- F340 "fill bit-31 → polarity" hypothesis REFUTED:
+    bit25 fill=0x80000000 (bit-31 SET) → (0,0) [should be (0,1) per F340]
+    bit29 fill=0xffffffff (bit-31 SET) → (0,0) [should be (0,1) per F340]
+- Polarity correlates with KERNEL-BIT instead:
+    (0, 1): kernel-bits {0, 10, 17, 31}
+    (0, 0): kernel-bits {11, 13, 25, 29}
+  No obvious arithmetic pattern; non-trivial function of (M[0], fill, kernel-bit).
+- F235 reopen path: 2 mined clauses ready for IPASIR-UP injection. Need
+  to map var IDs from aux_force to F235's basic cascade encoder (~30 min)
+  OR build F343 var-discovery on F235 directly.
+
+F353 verification still running (~62 min/240 min). Will trigger on SAT.
+
+Commit: [next] (F357).
