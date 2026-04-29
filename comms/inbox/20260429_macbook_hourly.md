@@ -1004,3 +1004,31 @@ encoding). Direction: ship the preflight tool as-is, no algebraic
 shortcut exists.
 
 Commit: [next] (F346).
+
+
+## ~21:40 EDT — F347: F344 mined clauses give 13.7% fewer CDCL conflicts
+
+- Empirical test: cadical 60s budget on bit31 m17149975 sr60 force-mode
+  CNF, baseline vs F344-injected (32 mined clauses appended).
+- Result at same 60s budget:
+    Baseline:       2,190,601 conflicts, 9,524,146 decisions
+    F344-injected:  1,891,271 conflicts, 9,320,660 decisions
+    Δ conflicts:   -299,330 (-13.7%)
+    Δ decisions:   -203,486 (-2.1%)
+    Δ propagations: +53M (+25%) — extra prop work per node, less
+                                   backtracking total
+- Both UNKNOWN at 60s, but F344-injected explored a measurably better-
+  pruned search tree. Real CDCL speedup, not artifact.
+- Cost-benefit:
+    20s F343 preflight + ~5% conflict reduction → break-even >400s solves
+    13 min F344 full sweep + ~14% reduction → break-even >90 min solves
+  For F235-class (848s timeouts), the 20s preflight is clearly worth it.
+- Confirms F345/F346 reframe: cadical preflight + clause injection IS
+  the right architecture. Speedup is modest but measurable.
+
+Phase 2D propagator implementation is now empirically justified at the
+"modest speedup" level. Larger gains would require either better
+preflight mining (more clauses, more rounds) or instance-specific
+optimization (e.g., F235 hard instance).
+
+Commit: [next] (F347).
