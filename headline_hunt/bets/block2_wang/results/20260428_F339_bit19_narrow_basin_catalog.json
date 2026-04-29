@@ -1,0 +1,59 @@
+{
+  "candidate": "bit19_m51ca0b34_fill55555555",
+  "bundle": "headline_hunt/bets/block2_wang/trails/sample_trail_bundles/bit19_HW56_51ca0b34_naive_blocktwo.json",
+  "status": "seed_7101_narrow_basin_catalog",
+  "basins": [
+    {
+      "id": "F135",
+      "chunk": 1,
+      "active_words": [0, 1, 3, 8, 9],
+      "best_score": 87,
+      "contains_1_3": true,
+      "seed_notes": "seed-7101 narrow-basin floor from earlier scan"
+    },
+    {
+      "id": "F335",
+      "chunk": 26,
+      "active_words": [1, 3, 5, 6, 11],
+      "best_score": 88,
+      "contains_1_3": true,
+      "seed_notes": "seed7101/chunk-init=88, init continuation=88, seed9001=95, seed5001=92"
+    },
+    {
+      "id": "F248",
+      "chunk": 19,
+      "active_words": [0, 7, 9, 12, 14],
+      "best_score": 90,
+      "contains_1_3": false,
+      "seed_notes": "seed7101/chunk-init=90, init continuation=90"
+    },
+    {
+      "id": "F301",
+      "chunk": 21,
+      "active_words": [1, 2, 3, 4, 15],
+      "best_score": 90,
+      "contains_1_3": true,
+      "seed_notes": "seed7101/chunk-init=90, init continuation=90, seed9001=93"
+    },
+    {
+      "id": "F337",
+      "chunk": 27,
+      "active_words": [1, 3, 6, 8, 12],
+      "best_score": 90,
+      "contains_1_3": true,
+      "seed_notes": "seed7101/chunk-init=90, init continuation=90, seed9001=92, seed5001=92"
+    }
+  ],
+  "summary": {
+    "basin_count": 5,
+    "contains_1_3_count": 4,
+    "best_score": 87,
+    "non_7101_seed_best_range_observed": [92, 95],
+    "interpretation": "Most low bit19 basins are seed-7101/init narrow. Four of five contain active words {1,3}; F248 is the current outlier."
+  },
+  "next_probe_candidates": [
+    "Run a forced-{1,3} size-5/6 scan with diverse seeds instead of seed7101 only.",
+    "Run local radius-1/radius-2 mask neighborhoods around F335 and F337 under seed5001/9001.",
+    "Keep F248 as an outlier control when testing any {1,3} structural explanation."
+  ]
+}
