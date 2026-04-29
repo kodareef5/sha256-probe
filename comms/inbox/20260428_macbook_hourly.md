@@ -3319,3 +3319,20 @@ Discipline: 0 SAT compute, 0 solver runs.
   than F211's original BP design.
 - 70 commits this session.
 
+
+## ~22:28 EDT — F276: yale F335 score-88 confirmed seed-7101 narrow
+
+- F276 8×50k seed 5001 on yale F335 mask `1,3,5,6,11`: best 92.
+- Three-seed verification:
+  - seed 7101 (yale F335): 88 ✓
+  - seed 9001 (yale F335): 95
+  - seed 5001 (F276): 92
+- bit19 seed-7101 narrow basin catalog (now 4 known):
+  - F135 chunk 1: `0,1,3,8,9` @ 87
+  - F335 chunk 26: `1,3,5,6,11` @ 88
+  - F248 chunk 19: `0,7,9,12,14` @ 90
+  - F301 chunk 21: `1,2,3,4,15` @ 90
+- Each is sharp + seed-7101 narrow. Same calibration pattern.
+- Robust floor across non-7101 seeds: 91-95.
+- 71 commits this session.
+
