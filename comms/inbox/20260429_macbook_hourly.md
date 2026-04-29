@@ -869,3 +869,26 @@ Concrete next: cross-cand validate dW57[0]=1 on the 5 other cands from
 F340; test dW58[0]/dW59[0]/dW60[0] for additional unit-clause UNSAT.
 
 Commit: [next] (F341).
+
+
+## ~20:15 EDT — F342: dW57[0] universally single-bit constrained, cand-specific polarity
+
+- Tested dW57[0] / dW58[0] / dW59[0] / dW60[0] across 5 cands (180s wall).
+- ALL 5 cands have exactly ONE polarity at dW57[0] UNSAT in ~0.01s.
+  Plus F341 (bit31): 6/6 cands universally constrained at dW57[0].
+- Forced value flips per cand:
+    forced=0: bit0/0x80000000, bit10/0x80000000, bit13/0x55555555
+    forced=1: bit11/0x00000000, bit17/0x80000000, bit31/0xffffffff
+  Not determined by fill bit-31 alone — combination of (M[0], fill,
+  kernel-bit) determines the polarity.
+- dW58[0]/dW59[0]/dW60[0]: NO fast UNSAT in any cand. Single-bit
+  mechanism is round-57-specific (matches F286: LSB anchors at
+  W*_57[0], not W*_58[0]/W*_59[0]/W*_60[0]).
+- Refined picture: TWO classes of universal-with-cand-parameterized-
+  polarity constraints now identified:
+    Class 1a-univ: dW57[0] (single-bit, F342)
+    Class 2-univ:  W57[22:23] (2-bit, F340)
+  Both can be pre-loaded by F327 propagator via ~0.1s cadical preflight
+  per cand (~free preprocessing for hard sr=61 instances).
+
+Commit: [next] (F342).
