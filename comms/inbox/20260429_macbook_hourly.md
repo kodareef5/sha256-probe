@@ -892,3 +892,29 @@ Commit: [next] (F341).
   per cand (~free preprocessing for hard sr=61 instances).
 
 Commit: [next] (F342).
+
+
+## ~20:35 EDT — F343: preflight_clause_miner.py shipped + 6-cand clause library
+
+- Built `propagators/preflight_clause_miner.py` (~250 LOC) — runs
+  cadical 5s probes to extract Class 1a-univ unit clauses (dW57[0])
+  and Class 2-univ pair clauses (W57[22:23]) from any cascade-1
+  cand's CNF.
+- Per-cand cost: ~20s wall (5 cadical probes per cand).
+- Caught a tool bug during shipping: cadical 3.0.0 rejects float
+  budgets ("-t 5.0" → "invalid argument"). Fixed to integer.
+- Mined clauses for all 6 cands (bit0/bit10/bit11/bit13/bit17/bit31).
+  Each cand emits 2 ready-to-inject clauses for IPASIR-UP propagator's
+  cb_add_external_clause hook at solver init.
+- This is the concrete implementation step F327 was waiting for. Phase
+  2D propagator can now ingest per-cand JSON and inject clauses
+  immediately. Mining results in
+  bets/programmatic_sat_propagator/results/preflight_2026-04-29/.
+- Cross-cand pattern confirmed: dW57[0] forced is per-cand, W57[22:23]
+  forbidden polarity tracks fill bit-31 (F340 verified).
+
+Cross-machine yale→macbook chain this 2-day arc:
+  F378-F384 cube/UNSAT mining → F339 cross-validation → F340 cross-cand →
+  F341 single-bit → F342 cross-cand single-bit → F343 preflight tool.
+
+Commit: [next] (F343).

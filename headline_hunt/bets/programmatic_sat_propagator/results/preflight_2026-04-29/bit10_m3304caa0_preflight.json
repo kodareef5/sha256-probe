@@ -1,0 +1,66 @@
+{
+  "cnf": "/tmp/F340_varmaps/bit10_m3304caa0_fill80000000.cnf",
+  "budget_seconds": 5.0,
+  "rounds_probed": [
+    57
+  ],
+  "unit_clauses": [
+    {
+      "round": 57,
+      "bit": 0,
+      "var": 12317,
+      "forced": 0,
+      "probes": {
+        "0": {
+          "verdict": "UNKNOWN",
+          "wall_s": 5.013
+        },
+        "1": {
+          "verdict": "UNSATISFIABLE",
+          "wall_s": 0.013
+        }
+      },
+      "inject_unit": -12317
+    }
+  ],
+  "pair_clauses": [
+    {
+      "round": 57,
+      "bits": [
+        22,
+        23
+      ],
+      "vars": [
+        12339,
+        12340
+      ],
+      "forbidden_polarity": [
+        0,
+        1
+      ],
+      "probes": {
+        "00": {
+          "verdict": "UNKNOWN",
+          "wall_s": 5.015
+        },
+        "01": {
+          "verdict": "UNSATISFIABLE",
+          "wall_s": 0.075
+        },
+        "10": {
+          "verdict": "UNKNOWN",
+          "wall_s": 5.014
+        },
+        "11": {
+          "verdict": "UNKNOWN",
+          "wall_s": 5.015
+        }
+      },
+      "inject_pair": [
+        12339,
+        -12340
+      ]
+    }
+  ],
+  "preflight_wall_seconds": 20.16
+}
