@@ -3242,3 +3242,23 @@ Discipline: 0 SAT compute, 0 solver runs.
   in future sessions.
 - 66 commits this session.
 
+
+## ~21:28 EDT — F270/F271: 128 UNIVERSAL HARD-CORE BITS identified across sr60 cands
+
+- F270: generated bit13 sr60 hard-core JSON (added to F269's bit10+bit11).
+- F271: ran yale's F317 stability tool on 3 sr60 JSONs.
+- HEADLINE: 128 universal hard-core bits = W*_59 + W*_60 (all 32 each)
+  invariantly hard-core across all 3 sr60 cands.
+- W1_58 universally SHELL (32/32 across all cands) — confirms F214
+  cascade-1 hardlock empirically.
+- 60 cand-variable bits in W1_57, W2_57, W2_58 — require per-cand
+  JSONs for targeted cube selection.
+- Cross-fleet pipeline now complete: macbook structural analysis (F213)
+  + yale extension (--out-json) + yale stability tool (F317) +
+  macbook expansion (F269/F270) + macbook universal-pattern finding
+  (F271) = empirically-defined 128-bit universal cube target.
+- Concrete reopen test for cascade_aux bet: yale's --stability-mode
+  core cube selector targeting the 128 universal bits with depth-2
+  cubes at 200k+ conflicts.
+- 67 commits this session.
+
