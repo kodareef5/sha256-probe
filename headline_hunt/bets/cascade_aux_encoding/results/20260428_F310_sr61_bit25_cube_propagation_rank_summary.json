@@ -1,0 +1,541 @@
+{
+  "metric": "propagations",
+  "min_assignment_count": 1,
+  "min_pair_count": 2,
+  "rows": 92,
+  "sources": [
+    "headline_hunt/bets/cascade_aux_encoding/results/20260428_F306_auxforce_sr61_bit25_dw59_depth1_cadical_50k_stats.jsonl",
+    "headline_hunt/bets/cascade_aux_encoding/results/20260428_F307_auxforce_sr61_bit25_dw59_ranked_pairs_cadical_100k_stats.jsonl",
+    "headline_hunt/bets/cascade_aux_encoding/results/20260428_F309_auxforce_sr61_bit25_dw59_depth3_outlier_expansion_cadical_100k_stats.jsonl"
+  ],
+  "top_assignments": [
+    {
+      "assignment": "dw[59].b29=1",
+      "count": 9,
+      "max": 19213056.0,
+      "mean": 17298272.222222,
+      "median": 18025093.0,
+      "min": 9287208.0
+    },
+    {
+      "assignment": "dw[59].b29=0",
+      "count": 17,
+      "max": 19395538.0,
+      "mean": 17225080.647059,
+      "median": 17821093.0,
+      "min": 7720588.0
+    },
+    {
+      "assignment": "dw[59].b19=1",
+      "count": 13,
+      "max": 19395538.0,
+      "mean": 16968313.230769,
+      "median": 17651560.0,
+      "min": 8696883.0
+    },
+    {
+      "assignment": "dw[59].b3=0",
+      "count": 6,
+      "max": 19213056.0,
+      "mean": 16581632.833333,
+      "median": 17811648.0,
+      "min": 8721129.0
+    },
+    {
+      "assignment": "dw[59].b3=1",
+      "count": 6,
+      "max": 18533586.0,
+      "mean": 16483347.333333,
+      "median": 17739125.0,
+      "min": 9891553.0
+    },
+    {
+      "assignment": "dw[59].b1=1",
+      "count": 4,
+      "max": 18951335.0,
+      "mean": 15991498.5,
+      "median": 17977268.0,
+      "min": 9060123.0
+    },
+    {
+      "assignment": "dw[59].b19=0",
+      "count": 5,
+      "max": 17927878.0,
+      "mean": 15937595.8,
+      "median": 17474933.0,
+      "min": 9744430.0
+    },
+    {
+      "assignment": "dw[59].b31=0",
+      "count": 4,
+      "max": 19097694.0,
+      "mean": 15709684.0,
+      "median": 17417550.5,
+      "min": 8905941.0
+    }
+  ],
+  "top_cubes": [
+    {
+      "assignments": [
+        {
+          "bit": 19,
+          "clauses": [
+            [
+              85,
+              181
+            ],
+            [
+              -85,
+              -181
+            ]
+          ],
+          "round": 59,
+          "target": "dw",
+          "value": 1,
+          "w1_var": 85,
+          "w2_var": 181
+        },
+        {
+          "bit": 29,
+          "clauses": [
+            [
+              95,
+              -191
+            ],
+            [
+              -95,
+              191
+            ]
+          ],
+          "round": 59,
+          "target": "dw",
+          "value": 0,
+          "w1_var": 95,
+          "w2_var": 191
+        },
+        {
+          "bit": 27,
+          "clauses": [
+            [
+              93,
+              189
+            ],
+            [
+              -93,
+              -189
+            ]
+          ],
+          "round": 59,
+          "target": "dw",
+          "value": 1,
+          "w1_var": 93,
+          "w2_var": 189
+        }
+      ],
+      "cube_id": "dwr59b19v1__dwr59b29v0__dwr59b27v1",
+      "metric": "propagations",
+      "source": "headline_hunt/bets/cascade_aux_encoding/results/20260428_F309_auxforce_sr61_bit25_dw59_depth3_outlier_expansion_cadical_100k_stats.jsonl",
+      "status": "UNKNOWN",
+      "value": 19395538.0
+    },
+    {
+      "assignments": [
+        {
+          "bit": 3,
+          "clauses": [
+            [
+              69,
+              -165
+            ],
+            [
+              -69,
+              165
+            ]
+          ],
+          "round": 59,
+          "target": "dw",
+          "value": 0,
+          "w1_var": 69,
+          "w2_var": 165
+        },
+        {
+          "bit": 29,
+          "clauses": [
+            [
+              95,
+              191
+            ],
+            [
+              -95,
+              -191
+            ]
+          ],
+          "round": 59,
+          "target": "dw",
+          "value": 1,
+          "w1_var": 95,
+          "w2_var": 191
+        }
+      ],
+      "cube_id": "dwr59b03v0__dwr59b29v1",
+      "metric": "propagations",
+      "source": "headline_hunt/bets/cascade_aux_encoding/results/20260428_F307_auxforce_sr61_bit25_dw59_ranked_pairs_cadical_100k_stats.jsonl",
+      "status": "UNKNOWN",
+      "value": 19213056.0
+    },
+    {
+      "assignments": [
+        {
+          "bit": 29,
+          "clauses": [
+            [
+              95,
+              191
+            ],
+            [
+              -95,
+              -191
+            ]
+          ],
+          "round": 59,
+          "target": "dw",
+          "value": 1,
+          "w1_var": 95,
+          "w2_var": 191
+        },
+        {
+          "bit": 31,
+          "clauses": [
+            [
+              97,
+              -193
+            ],
+            [
+              -97,
+              193
+            ]
+          ],
+          "round": 59,
+          "target": "dw",
+          "value": 0,
+          "w1_var": 97,
+          "w2_var": 193
+        }
+      ],
+      "cube_id": "dwr59b29v1__dwr59b31v0",
+      "metric": "propagations",
+      "source": "headline_hunt/bets/cascade_aux_encoding/results/20260428_F307_auxforce_sr61_bit25_dw59_ranked_pairs_cadical_100k_stats.jsonl",
+      "status": "UNKNOWN",
+      "value": 19097694.0
+    },
+    {
+      "assignments": [
+        {
+          "bit": 1,
+          "clauses": [
+            [
+              67,
+              163
+            ],
+            [
+              -67,
+              -163
+            ]
+          ],
+          "round": 59,
+          "target": "dw",
+          "value": 1,
+          "w1_var": 67,
+          "w2_var": 163
+        },
+        {
+          "bit": 29,
+          "clauses": [
+            [
+              95,
+              191
+            ],
+            [
+              -95,
+              -191
+            ]
+          ],
+          "round": 59,
+          "target": "dw",
+          "value": 1,
+          "w1_var": 95,
+          "w2_var": 191
+        }
+      ],
+      "cube_id": "dwr59b01v1__dwr59b29v1",
+      "metric": "propagations",
+      "source": "headline_hunt/bets/cascade_aux_encoding/results/20260428_F307_auxforce_sr61_bit25_dw59_ranked_pairs_cadical_100k_stats.jsonl",
+      "status": "UNKNOWN",
+      "value": 18951335.0
+    },
+    {
+      "assignments": [
+        {
+          "bit": 1,
+          "clauses": [
+            [
+              67,
+              -163
+            ],
+            [
+              -67,
+              163
+            ]
+          ],
+          "round": 59,
+          "target": "dw",
+          "value": 0,
+          "w1_var": 67,
+          "w2_var": 163
+        },
+        {
+          "bit": 29,
+          "clauses": [
+            [
+              95,
+              191
+            ],
+            [
+              -95,
+              -191
+            ]
+          ],
+          "round": 59,
+          "target": "dw",
+          "value": 1,
+          "w1_var": 95,
+          "w2_var": 191
+        }
+      ],
+      "cube_id": "dwr59b01v0__dwr59b29v1",
+      "metric": "propagations",
+      "source": "headline_hunt/bets/cascade_aux_encoding/results/20260428_F307_auxforce_sr61_bit25_dw59_ranked_pairs_cadical_100k_stats.jsonl",
+      "status": "UNKNOWN",
+      "value": 18716514.0
+    },
+    {
+      "assignments": [
+        {
+          "bit": 19,
+          "clauses": [
+            [
+              85,
+              181
+            ],
+            [
+              -85,
+              -181
+            ]
+          ],
+          "round": 59,
+          "target": "dw",
+          "value": 1,
+          "w1_var": 85,
+          "w2_var": 181
+        },
+        {
+          "bit": 29,
+          "clauses": [
+            [
+              95,
+              -191
+            ],
+            [
+              -95,
+              191
+            ]
+          ],
+          "round": 59,
+          "target": "dw",
+          "value": 0,
+          "w1_var": 95,
+          "w2_var": 191
+        },
+        {
+          "bit": 3,
+          "clauses": [
+            [
+              69,
+              -165
+            ],
+            [
+              -69,
+              165
+            ]
+          ],
+          "round": 59,
+          "target": "dw",
+          "value": 0,
+          "w1_var": 69,
+          "w2_var": 165
+        }
+      ],
+      "cube_id": "dwr59b19v1__dwr59b29v0__dwr59b03v0",
+      "metric": "propagations",
+      "source": "headline_hunt/bets/cascade_aux_encoding/results/20260428_F309_auxforce_sr61_bit25_dw59_depth3_outlier_expansion_cadical_100k_stats.jsonl",
+      "status": "UNKNOWN",
+      "value": 18619844.0
+    },
+    {
+      "assignments": [
+        {
+          "bit": 3,
+          "clauses": [
+            [
+              69,
+              165
+            ],
+            [
+              -69,
+              -165
+            ]
+          ],
+          "round": 59,
+          "target": "dw",
+          "value": 1,
+          "w1_var": 69,
+          "w2_var": 165
+        },
+        {
+          "bit": 29,
+          "clauses": [
+            [
+              95,
+              -191
+            ],
+            [
+              -95,
+              191
+            ]
+          ],
+          "round": 59,
+          "target": "dw",
+          "value": 0,
+          "w1_var": 95,
+          "w2_var": 191
+        }
+      ],
+      "cube_id": "dwr59b03v1__dwr59b29v0",
+      "metric": "propagations",
+      "source": "headline_hunt/bets/cascade_aux_encoding/results/20260428_F307_auxforce_sr61_bit25_dw59_ranked_pairs_cadical_100k_stats.jsonl",
+      "status": "UNKNOWN",
+      "value": 18533586.0
+    },
+    {
+      "assignments": [
+        {
+          "bit": 29,
+          "clauses": [
+            [
+              95,
+              -191
+            ],
+            [
+              -95,
+              191
+            ]
+          ],
+          "round": 59,
+          "target": "dw",
+          "value": 0,
+          "w1_var": 95,
+          "w2_var": 191
+        },
+        {
+          "bit": 31,
+          "clauses": [
+            [
+              97,
+              193
+            ],
+            [
+              -97,
+              -193
+            ]
+          ],
+          "round": 59,
+          "target": "dw",
+          "value": 1,
+          "w1_var": 97,
+          "w2_var": 193
+        }
+      ],
+      "cube_id": "dwr59b29v0__dwr59b31v1",
+      "metric": "propagations",
+      "source": "headline_hunt/bets/cascade_aux_encoding/results/20260428_F307_auxforce_sr61_bit25_dw59_ranked_pairs_cadical_100k_stats.jsonl",
+      "status": "UNKNOWN",
+      "value": 18504162.0
+    }
+  ],
+  "top_pairs": [
+    {
+      "count": 2,
+      "max": 18619844.0,
+      "mean": 18384103.5,
+      "median": 18384103.5,
+      "min": 18148363.0,
+      "pair": "dw[59].b29=0 & dw[59].b3=0"
+    },
+    {
+      "count": 2,
+      "max": 18533586.0,
+      "mean": 18177339.5,
+      "median": 18177339.5,
+      "min": 17821093.0,
+      "pair": "dw[59].b29=0 & dw[59].b3=1"
+    },
+    {
+      "count": 2,
+      "max": 18207287.0,
+      "mean": 17977268.0,
+      "median": 17977268.0,
+      "min": 17747249.0,
+      "pair": "dw[59].b1=1 & dw[59].b29=0"
+    },
+    {
+      "count": 2,
+      "max": 18504162.0,
+      "mean": 17972028.0,
+      "median": 17972028.0,
+      "min": 17439894.0,
+      "pair": "dw[59].b29=0 & dw[59].b31=1"
+    },
+    {
+      "count": 2,
+      "max": 18619844.0,
+      "mean": 17966158.0,
+      "median": 17966158.0,
+      "min": 17312472.0,
+      "pair": "dw[59].b19=1 & dw[59].b3=0"
+    },
+    {
+      "count": 2,
+      "max": 17821093.0,
+      "mean": 17739125.0,
+      "median": 17739125.0,
+      "min": 17657157.0,
+      "pair": "dw[59].b19=1 & dw[59].b3=1"
+    },
+    {
+      "count": 9,
+      "max": 19395538.0,
+      "mean": 17724848.0,
+      "median": 17747249.0,
+      "min": 14869660.0,
+      "pair": "dw[59].b19=1 & dw[59].b29=0"
+    },
+    {
+      "count": 2,
+      "max": 18432886.0,
+      "mean": 17702284.0,
+      "median": 17702284.0,
+      "min": 16971682.0,
+      "pair": "dw[59].b1=0 & dw[59].b29=0"
+    }
+  ]
+}
