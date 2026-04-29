@@ -47,6 +47,7 @@ python3 headline_hunt/bets/math_principles/encoders/build_kernel_safe_pareto_bri
 python3 headline_hunt/bets/math_principles/encoders/continue_kernel_safe_bridge_anchors.py
 python3 headline_hunt/bets/math_principles/encoders/probe_bridge_anchor_neighborhood.py
 python3 headline_hunt/bets/math_principles/encoders/summarize_strict_kernel_basins.py
+python3 headline_hunt/bets/math_principles/encoders/beam_f322_kernel_safe_depth2.py
 ```
 
 The original manifest slice intentionally excludes downstream math-principles
@@ -102,6 +103,7 @@ Default outputs:
 - `results/20260429_F375_kernel_safe_bridge_anchor_continuation.{json,md}`
 - `results/20260429_F376_bridge_anchor_neighborhood.{json,md}`
 - `results/20260429_F377_strict_kernel_basin_comparison.{json,md}`
+- `results/20260429_F378_f322_kernel_safe_depth2_beam.{json,md}`
 
 ## Readout
 
@@ -295,9 +297,16 @@ F375 supplies a one-way bridge that repairs guard only by giving D61 back. Both
 F336 and F376 show the same local pattern: many D61-lowering moves, zero guard
 or score improvements, and zero target repairs at radius 1.
 
+F378 spends a bounded depth-2 beam on the F322/F336 random-init basin. Across
+63,248 strict-kernel states it still finds zero score improvements and zero
+guard improvements. It does, however, reach D61=4 on chamber chart
+`dCh,dh`, but only with `a57=19` and score 86.1. This is the clearest
+coordinate split yet: the random-init basin can touch the chamber D61 floor
+under strict kernel, but the cascade-1 guard explodes.
+
 ## Next tracks
 
 - add outcome-aware calibration before spending more budget on F343-style selectors
 - use F342 stable-core coordinates as hard features for BP/matroid audits
 - use common-mode atlas continuation as a post-atlas polish operator
-- decide whether to spend the next compute on F322 depth-2 enumeration or pivot to CDCL/conflict-guided bridge design
+- pivot from common-mode basin search toward CDCL/conflict-guided bridge design, using F378's D61=4/a57=19 split as a diagnostic target
