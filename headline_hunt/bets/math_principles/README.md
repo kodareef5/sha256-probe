@@ -48,6 +48,7 @@ python3 headline_hunt/bets/math_principles/encoders/continue_kernel_safe_bridge_
 python3 headline_hunt/bets/math_principles/encoders/probe_bridge_anchor_neighborhood.py
 python3 headline_hunt/bets/math_principles/encoders/summarize_strict_kernel_basins.py
 python3 headline_hunt/bets/math_principles/encoders/beam_f322_kernel_safe_depth2.py
+python3 headline_hunt/bets/math_principles/encoders/design_conflict_guided_bridge.py
 ```
 
 The original manifest slice intentionally excludes downstream math-principles
@@ -104,6 +105,7 @@ Default outputs:
 - `results/20260429_F376_bridge_anchor_neighborhood.{json,md}`
 - `results/20260429_F377_strict_kernel_basin_comparison.{json,md}`
 - `results/20260429_F378_f322_kernel_safe_depth2_beam.{json,md}`
+- `results/20260429_F379_conflict_guided_bridge_design.{json,md}`
 
 ## Readout
 
@@ -304,9 +306,17 @@ guard improvements. It does, however, reach D61=4 on chamber chart
 coordinate split yet: the random-init basin can touch the chamber D61 floor
 under strict kernel, but the cascade-1 guard explodes.
 
+F379 pivots that split into a sound conflict-guided bridge design. The
+diagnostic targets are the strict scalar floor, the off-chart low-guard corner,
+F378's D61=4/a57=19 point, and F375's D61-to-guard bridge. The important rule:
+proven cascade arithmetic may be propagated as clauses, but the empirical
+132-bit hard core must start as decision priority or assumption-cube evidence,
+not as unsound injected clauses. The first experiments are bridge cubes,
+`cb_decide` core priorities, and a narrow Rule 4/5 bridge propagator.
+
 ## Next tracks
 
 - add outcome-aware calibration before spending more budget on F343-style selectors
 - use F342 stable-core coordinates as hard features for BP/matroid audits
 - use common-mode atlas continuation as a post-atlas polish operator
-- pivot from common-mode basin search toward CDCL/conflict-guided bridge design, using F378's D61=4/a57=19 split as a diagnostic target
+- build the first bridge-cube generator for F379 E1

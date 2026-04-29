@@ -1,0 +1,120 @@
+{
+  "decision": "Use F378 as a diagnostic target for sound CDCL/propagator experiments; do not inject empirical hard-core clauses as facts.",
+  "diagnostic_targets": [
+    {
+      "id": "scalar_floor",
+      "rec": {
+        "D61": 8,
+        "a57": 6,
+        "chart": "dh,dCh",
+        "score": 37.8,
+        "tail63": null
+      },
+      "source": "F372/F377",
+      "use": "baseline strict score floor to beat"
+    },
+    {
+      "id": "guard_corner",
+      "rec": {
+        "D61": 11,
+        "a57": 4,
+        "chart": "dT2,dCh",
+        "score": 40.8,
+        "tail63": null
+      },
+      "source": "F374/F377",
+      "use": "a57=4 branch; chart repair target"
+    },
+    {
+      "id": "D61_floor_guard_explosion",
+      "rec": {
+        "D61": 4,
+        "a57": 19,
+        "chart": "dCh,dh",
+        "score": 86.1,
+        "tail63": 122
+      },
+      "source": "F378",
+      "use": "diagnostic cube: D61 reaches chamber floor while guard explodes"
+    },
+    {
+      "id": "D61_to_guard_bridge",
+      "rec": {
+        "D61": 13,
+        "a57": 5,
+        "chart": "dCh,dh",
+        "score": 39.1,
+        "tail63": null
+      },
+      "source": "F375/F377",
+      "use": "confirmed bridge direction; loses D61 while repairing guard"
+    }
+  ],
+  "experiments": [
+    {
+      "goal": "Turn F378 D61=4/a57=19 and F375 a57=5/D61=13 into assumption cubes against the F322/F372 CNFs.",
+      "output": "conflict counts, first-conflict levels, and learned clauses touching W57-W60/core bits",
+      "step": "E1_bridge_cubes",
+      "stop_condition": "no distinct conflict signature versus baseline after 20 cubes"
+    },
+    {
+      "goal": "Use 132 hard-core bits plus F378 split bits as cb_decide priorities without adding clauses.",
+      "output": "conflict/decision/restart deltas against vanilla CaDiCaL on the same CNFs",
+      "step": "E2_cb_decide_core_priority",
+      "stop_condition": "<1.5x conflict reduction at 100k and 1M caps"
+    },
+    {
+      "goal": "Implement only sound Rule 4/5 modular consequences at the D61/a57 bridge boundary.",
+      "output": "propagations fired, reason-clause sizes, conflict reduction, and zero model-rejection false positives",
+      "step": "E3_sound_rule4_bridge",
+      "stop_condition": "reason clauses exceed useful size or conflicts do not drop by >=2x on bridge cubes"
+    }
+  ],
+  "implementation_notes": [
+    "Use `add_observed_var` narrowly: W57-W60, the 132 hard-core schedule bits, and register bits needed for D61/a57 bridge rules.",
+    "F378's D61=4/a57=19 point is the first diagnostic where the chamber D61 floor is reached under strict kernel; it should be the first cube.",
+    "The bridge experiments should log learned clauses and variable decision ranks, because the thesis is about CDCL trajectory, not UP.",
+    "A successful propagator must beat common-mode search by reducing conflicts or producing a bridge clause; another local-search run is not enough evidence."
+  ],
+  "report_id": "F379",
+  "soundness_split": [
+    {
+      "api_hooks": [
+        "cb_propagate",
+        "cb_add_reason_clause_lit",
+        "cb_check_found_model"
+      ],
+      "class": "sound_arithmetic",
+      "rule": "Only proven cascade arithmetic, schedule recurrence, and modular-add consequences may be injected as clauses."
+    },
+    {
+      "api_hooks": [
+        "cb_decide"
+      ],
+      "class": "empirical_core_prior",
+      "rule": "F286/F324-F326 hard-core bits are decision priorities, not clauses, unless separately derived for the current CNF."
+    },
+    {
+      "api_hooks": [
+        "solver assumptions",
+        "conflict/decision logging"
+      ],
+      "class": "diagnostic_assumption_cube",
+      "rule": "F378 and F375 split points become cubes for measuring conflict paths and extracting learned-clause candidates."
+    },
+    {
+      "api_hooks": [],
+      "class": "forbidden_unsound_clause",
+      "rule": "Do not add clauses merely saying the chamber target must hold; that would solve a different problem."
+    }
+  ],
+  "sources": {
+    "F324": "headline_hunt/bets/cascade_aux_encoding/results/20260429_F324_universal_core_is_search_artifact_not_encoder.md",
+    "F325": "headline_hunt/bets/cascade_aux_encoding/results/20260429_F325_pair_propagation_confirms_search_invariant.md",
+    "F326": "headline_hunt/bets/cascade_aux_encoding/results/20260429_F326_multicand_up_universal_481.md",
+    "F377": "headline_hunt/bets/math_principles/results/20260429_F377_strict_kernel_basin_comparison.json",
+    "F378": "headline_hunt/bets/math_principles/results/20260429_F378_f322_kernel_safe_depth2_beam.json",
+    "IPASIR": "headline_hunt/bets/programmatic_sat_propagator/propagators/IPASIR_UP_API.md"
+  },
+  "verdict": "conflict_guided_bridge_design_ready"
+}
