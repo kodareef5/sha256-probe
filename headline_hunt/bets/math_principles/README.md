@@ -68,6 +68,7 @@ Default outputs:
 - `results/20260429_F356_chamber_seed_linear_lift.{json,md}`
 - `results/20260429_F357_chamber_seed_freevar_opt.{json,md}`
 - `results/20260429_F358_chamber_seed_freevar_opt_long.{json,md}`
+- `results/20260429_F359_chamber_seed_freevar_atlas_objective.{json,md}`
 
 ## Readout
 
@@ -143,9 +144,15 @@ flips per proposal. It improves the chamber schedule mismatch again, reaching
 rec is still off-attractor (`a57=14`, chart `dSig1,dh`), so schedule proximity
 and cascade-state proximity must be optimized together next.
 
+F359 adds atlas terms to the free-variable objective. It can hold the
+chamber chart and found an accepted `a57=8` side candidate, but the best scalar
+objective settled at 29-bit schedule mismatch with `a57=17`. This exposes a
+Pareto problem rather than a simple weighted-sum problem: schedule closeness,
+chart membership, and the a57 guard should be tracked as separate fronts.
+
 ## Next tracks
 
 - add outcome-aware calibration before spending more budget on F343-style selectors
 - use F342 stable-core coordinates as hard features for BP/matroid audits
 - use common-mode atlas continuation as a post-atlas polish operator
-- add atlas/cascade-state terms to the free-variable optimizer
+- convert the F359 free-variable optimizer to Pareto-front selection

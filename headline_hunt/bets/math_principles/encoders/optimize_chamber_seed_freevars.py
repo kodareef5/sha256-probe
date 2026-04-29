@@ -34,6 +34,9 @@ from headline_hunt.bets.math_principles.encoders.chamber_seed_linear_lift import
     schedule_modular,
     target_bits,
 )
+from headline_hunt.bets.block2_wang.encoders.search_schedule_space import (  # noqa: E402
+    atlas_evaluate,
+)
 
 
 DEFAULT_OUT_JSON = (
@@ -87,6 +90,19 @@ def true_mismatch_hw(
     return sum(by_round), by_round
 
 
+def kernel_pair(M1: list[int], kernel_bit: int) -> list[int]:
+    M2 = list(M1)
+    M2[0] ^= 1 << kernel_bit
+    M2[9] ^= 1 << kernel_bit
+    return M2
+
+
+def chart_match(chart: Any) -> bool:
+    if not isinstance(chart, (list, tuple)) or len(chart) != 2:
+        return False
+    return tuple(chart) in {("dh", "dCh"), ("dCh", "dh")}
+
+
 def free_bit_count(free_bits: int) -> int:
     return free_bits.bit_count()
 
@@ -98,16 +114,36 @@ def make_eval(
     pivots: list[int],
     target_rounds: list[int],
     target_words: list[int],
+    kernel_bit: int,
+    objective_weights: dict[str, float],
 ) -> dict[str, Any]:
     x = solution_from_free(rows, rhs, pivots, free_bits)
     M1 = int_to_words(x)
     mismatch, by_round = true_mismatch_hw(M1, target_rounds, target_words)
+    objective = objective_weights["mismatch"] * mismatch
+    atlas_rec = None
+    if any(objective_weights[key] for key in ("a57", "D61", "chart", "tail")):
+        atlas = atlas_evaluate(M1, kernel_pair(M1, kernel_bit))
+        atlas_rec = {
+            "a57_xor_hw": atlas["a57_xor_hw"],
+            "D61_hw": atlas["D61_hw"],
+            "chart_top2": list(atlas["chart_top2"]),
+            "tail63_state_diff_hw": atlas["tail63_state_diff_hw"],
+        }
+        objective += objective_weights["a57"] * atlas_rec["a57_xor_hw"]
+        objective += objective_weights["D61"] * atlas_rec["D61_hw"]
+        objective += objective_weights["chart"] * (
+            0.0 if chart_match(atlas_rec["chart_top2"]) else 1.0
+        )
+        objective += objective_weights["tail"] * atlas_rec["tail63_state_diff_hw"]
     return {
         "free_bits": free_bits,
         "solution": x,
         "M1": M1,
+        "objective_score": round(objective, 6),
         "true_mismatch_hw": mismatch,
         "mismatch_by_round": by_round,
+        "atlas_rec": atlas_rec,
         "message_hw": sum(hw(word) for word in M1),
         "free_bit_count": free_bit_count(free_bits),
     }
@@ -115,7 +151,10 @@ def make_eval(
 
 def rank_key(row: dict[str, Any]) -> tuple[Any, ...]:
     return (
+        row.get("objective_score", row["true_mismatch_hw"]),
         row["true_mismatch_hw"],
+        (row.get("atlas_rec") or {}).get("a57_xor_hw", 999),
+        (row.get("atlas_rec") or {}).get("D61_hw", 999),
         row["message_hw"],
         abs(row["free_bit_count"] - 208),
     )
@@ -207,6 +246,11 @@ def main() -> int:
     ap.add_argument("--free-prob", type=float, default=0.5)
     ap.add_argument("--seed", type=int, default=35700)
     ap.add_argument("--report-id", default="F357")
+    ap.add_argument("--mismatch-weight", type=float, default=1.0)
+    ap.add_argument("--atlas-a57-weight", type=float, default=0.0)
+    ap.add_argument("--atlas-d61-weight", type=float, default=0.0)
+    ap.add_argument("--atlas-chart-weight", type=float, default=0.0)
+    ap.add_argument("--atlas-tail-weight", type=float, default=0.0)
     ap.add_argument("--out-json", type=Path, default=DEFAULT_OUT_JSON)
     ap.add_argument("--out-md", type=Path, default=None)
     args = ap.parse_args()
@@ -215,6 +259,13 @@ def main() -> int:
         raise SystemExit("warmup, steps, and restarts must be positive")
     if args.max_flips < 1 or args.max_flips > 4:
         raise SystemExit("--max-flips must be in [1,4]")
+    objective_weights = {
+        "mismatch": args.mismatch_weight,
+        "a57": args.atlas_a57_weight,
+        "D61": args.atlas_d61_weight,
+        "chart": args.atlas_chart_weight,
+        "tail": args.atlas_tail_weight,
+    }
     idx, target_words = parse_chamber(args.chamber)
     kernel_bit = KERNEL_BITS.get(idx, 31)
     target_rounds = [57, 58, 59]
@@ -233,6 +284,8 @@ def main() -> int:
             pivots,
             target_rounds,
             target_words,
+            kernel_bit,
+            objective_weights,
         )
         for _ in range(args.warmup_samples)
     ]
@@ -250,7 +303,16 @@ def main() -> int:
         accepts = 0
         for step in range(args.steps):
             cand_free = propose(rng, current["free_bits"], free_cols, args.max_flips)
-            cand = make_eval(cand_free, rows, rhs, pivots, target_rounds, target_words)
+            cand = make_eval(
+                cand_free,
+                rows,
+                rhs,
+                pivots,
+                target_rounds,
+                target_words,
+                kernel_bit,
+                objective_weights,
+            )
             accept = rank_key(cand) < rank_key(current)
             if not accept:
                 temp = max(0.25, 4.0 * (1.0 - step / max(1, args.steps)))
@@ -267,16 +329,20 @@ def main() -> int:
                     improvements.append({
                         "restart": restart,
                         "step": step,
+                        "objective_score": current["objective_score"],
                         "true_mismatch_hw": current["true_mismatch_hw"],
                         "mismatch_by_round": current["mismatch_by_round"],
+                        "atlas_rec": current.get("atlas_rec"),
                         "message_hw": current["message_hw"],
                     })
         restart_summaries.append({
             "restart": restart,
             "accepts": accepts,
             "start_mismatch_hw": seed_best["true_mismatch_hw"] if restart == 0 else None,
+            "best_objective_score": restart_best["objective_score"],
             "best_mismatch_hw": restart_best["true_mismatch_hw"],
             "best_mismatch_by_round": restart_best["mismatch_by_round"],
+            "best_atlas_rec": restart_best.get("atlas_rec"),
             "best_message_hw": restart_best["message_hw"],
         })
 
@@ -304,6 +370,7 @@ def main() -> int:
         "restarts": args.restarts,
         "max_flips": args.max_flips,
         "free_prob": args.free_prob,
+        "objective_weights": objective_weights,
         "seed": args.seed,
         "seed_best": seed_full,
         "best": best_full,
