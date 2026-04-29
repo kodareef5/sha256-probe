@@ -3299,3 +3299,23 @@ Discipline: 0 SAT compute, 0 solver runs.
   --stability-mode selector with appropriate n_free JSONs.
 - 69 commits this session.
 
+
+## ~22:25 EDT — Hour pulse: Yale F335 score-88 + F321-F336 burst
+
+- git pull: yale shipped 9 commits in ~25min:
+  - chunks 22-26 (yale chunked-scan continuing)
+  - F335 chunk 26: NEW score-88 narrow basin at `1,3,5,6,11`!
+    8×50k seed 7101 verifies; seed 9001 → 95 (seed-narrow)
+  - F336 sr61 4-cand stability (used my F274/F275 data, materialized
+    yale's analysis on top of macbook contributions)
+  - F321-F329 cube experiments at 1M conflicts (all UNKNOWN)
+  - F328/F329 Tanner profile: high-mult pairs are p1/p2 STATE-BIT
+    aliases (sharper interpretation of F207 finding)
+- bit19 now has FOUR known seed-7101 narrow basins:
+  F135@87, F248@90, F301@90, F335@88
+- F276 launched: macbook third-seed (5001) verification of F335.
+- Yale's BP recommendation: paired p1/p2 state-bit marginal
+  decoder (NOT raw gap-9/11 cluster correction). Different shape
+  than F211's original BP design.
+- 70 commits this session.
+
