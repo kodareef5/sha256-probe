@@ -49,6 +49,7 @@ python3 headline_hunt/bets/math_principles/encoders/probe_bridge_anchor_neighbor
 python3 headline_hunt/bets/math_principles/encoders/summarize_strict_kernel_basins.py
 python3 headline_hunt/bets/math_principles/encoders/beam_f322_kernel_safe_depth2.py
 python3 headline_hunt/bets/math_principles/encoders/design_conflict_guided_bridge.py
+python3 headline_hunt/bets/math_principles/encoders/generate_bridge_cubes.py
 ```
 
 The original manifest slice intentionally excludes downstream math-principles
@@ -106,6 +107,9 @@ Default outputs:
 - `results/20260429_F377_strict_kernel_basin_comparison.{json,md}`
 - `results/20260429_F378_f322_kernel_safe_depth2_beam.{json,md}`
 - `results/20260429_F379_conflict_guided_bridge_design.{json,md}`
+- `results/20260429_F380_bridge_cubes.{json,md}`
+- `data/20260429_F380_bridge_cubes.dimacs.txt`
+- `data/20260429_F380_aux_force_sr60_n32_bit31_m17149975_fillffffffff.varmap.json`
 
 ## Readout
 
@@ -314,9 +318,16 @@ proven cascade arithmetic may be propagated as clauses, but the empirical
 not as unsound injected clauses. The first experiments are bridge cubes,
 `cb_decide` core priorities, and a narrow Rule 4/5 bridge propagator.
 
+F380 generates the first bridge cubes for F379 E1. It emits coordinate cubes
+and DIMACS assumption literals against a matching sr60 bit31 force-mode varmap.
+The three targets are F378's D61=4/a57=19 split, F375's D61-to-guard bridge,
+and F374's low-guard corner; each gets `ones_w57_w63`, `w61`, and `w57_w60`
+cube variants. The literal sidecar is diagnostic input for CaDiCaL conflict
+signature runs, not a proof artifact.
+
 ## Next tracks
 
 - add outcome-aware calibration before spending more budget on F343-style selectors
 - use F342 stable-core coordinates as hard features for BP/matroid audits
 - use common-mode atlas continuation as a post-atlas polish operator
-- build the first bridge-cube generator for F379 E1
+- run bridge-cube UP/small-conflict smoke tests before full CDCL experiments
