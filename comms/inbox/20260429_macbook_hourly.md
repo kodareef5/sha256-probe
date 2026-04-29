@@ -973,3 +973,34 @@ overblown. The algebraic-preflight path is the one that gives the
 "32-bit unit clause injection" benefit cleanly.
 
 Commit: [next] (F345).
+
+
+## ~21:25 EDT — F346: algebraic dW57 preflight from M alone is STRUCTURALLY WRONG
+
+- Attempted algebraic dW57 preflight: compute W1[57], W2[57] via
+  schedule recurrence from M, take XOR.
+- Empirical mismatch on bit0 cand: algebra says XOR LSB = 1, but cadical
+  preflight says forced = 0 (F342). Doesn't agree.
+- Read cascade_aux_encoder.py source: for sr=60, W1[57]/W1[58]/W1[59]/
+  W1[60] are FREE schedule words (n_free=4). Solver chooses them
+  constrained by cascade-1 hardlock at round 60. They're NOT determined
+  by M alone.
+- My algebra computed "M-derived W[57]" via schedule recurrence, but
+  the encoder treats W[57] as free — different model.
+- Refutes F345's "what's next (d)": there is NO microseconds-algebraic
+  preflight for sr=60. Cadical preflight IS the right approach.
+- Phase 2D propagator architecture confirmed:
+    1. Init: receive cand metadata
+    2. Preflight: cadical ~20s probe extracts mined clauses (F343 tool)
+    3. Inject: cb_add_external_clause loads them at solver init
+    4. Solve: main cadical/kissat run with propagator active
+
+Net: ~20s preflight overhead, saves CDCL re-derivation (~3-5s per
+solve attempt). Modest speedup, but the architecture is sound.
+
+Honest reframe: F344+F345 mining work stands; F346 attempted shortcut
+fails for structural reasons (W57..W60 freedom in sr=60 force-mode
+encoding). Direction: ship the preflight tool as-is, no algebraic
+shortcut exists.
+
+Commit: [next] (F346).
