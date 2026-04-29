@@ -39,6 +39,7 @@ python3 headline_hunt/bets/math_principles/encoders/probe_descendant_neighborhoo
 python3 headline_hunt/bets/math_principles/encoders/probe_d61_repair_moves.py
 python3 headline_hunt/bets/math_principles/encoders/probe_guard_repair_third_moves.py
 python3 headline_hunt/bets/math_principles/encoders/continue_atlas_kernel_safe.py
+python3 headline_hunt/bets/math_principles/encoders/extend_kernel_safe_continuation.py
 ```
 
 The original manifest slice intentionally excludes downstream math-principles
@@ -86,6 +87,7 @@ Default outputs:
 - `results/20260429_F367_guard_repair_third_probe.{json,md}`
 - `results/20260429_F368_guard_lowered_fourth_probe.{json,md}`
 - `results/20260429_F369_kernel_safe_pareto_continuation.{json,md}`
+- `results/20260429_F370_kernel_safe_descendant_continuation.{json,md}`
 
 ## Readout
 
@@ -224,9 +226,14 @@ preservation enforced after every proposed move. The front is still actionable:
 benchmark for the Pareto path; it is higher than the drift-allowed F362 score
 35.4 but structurally meaningful.
 
+F370 extends the F369 `best_D61` descendant under the same strict kernel guard.
+It does not improve at 4x30k: seed and best remain score 37.8, `a57=6`,
+D61=8, chart `dh,dCh`. This is the current local floor for common-mode,
+kernel-preserving atlas continuation from the Pareto path.
+
 ## Next tracks
 
 - add outcome-aware calibration before spending more budget on F343-style selectors
 - use F342 stable-core coordinates as hard features for BP/matroid audits
 - use common-mode atlas continuation as a post-atlas polish operator
-- extend the F369 strict-kernel `best_D61` descendant with kernel guard enabled
+- probe deterministic strict-kernel neighborhoods around the F370 basin
