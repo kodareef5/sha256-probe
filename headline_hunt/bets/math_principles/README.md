@@ -43,6 +43,7 @@ python3 headline_hunt/bets/math_principles/encoders/extend_kernel_safe_continuat
 python3 headline_hunt/bets/math_principles/encoders/probe_kernel_safe_neighborhood.py
 python3 headline_hunt/bets/math_principles/encoders/beam_kernel_safe_neighborhood.py
 python3 headline_hunt/bets/math_principles/encoders/search_kernel_safe_junction.py
+python3 headline_hunt/bets/math_principles/encoders/build_kernel_safe_pareto_bridge.py
 ```
 
 The original manifest slice intentionally excludes downstream math-principles
@@ -94,6 +95,7 @@ Default outputs:
 - `results/20260429_F371_kernel_safe_neighborhood_r1.{json,md}`
 - `results/20260429_F372_kernel_safe_beam_probe.{json,md}`
 - `results/20260429_F373_kernel_safe_junction_search.{json,md}`
+- `results/20260429_F374_kernel_safe_pareto_bridge.{json,md}`
 
 ## Readout
 
@@ -257,9 +259,17 @@ reach D61=13 only after giving guard back to `a57=6`, while the low-D61 branch
 can repair guard/chart only by losing D61 to 20. The nontrivial depth-2 common
 neighborhood still separates guard and D61.
 
+F374 keeps the nontrivial F373 neighborhood as a strict-kernel Pareto bridge
+instead of asking for a single repaired candidate. Across 126,486 evaluated
+states the nondominated front has 57 members and passes the F334 auditor with
+303/303 kernel-preserving pairs. The anchors are: low-guard/off-chart score
+40.8 (`a57=4`, D61=11), chart-compatible balanced score 43.0 (`a57=6`,
+D61=13), and chart-compatible low-D61 score 59.1 (`a57=12`, D61=5). No member
+beats the strict benchmark score 37.8 with chart, guard, and D61 preserved.
+
 ## Next tracks
 
 - add outcome-aware calibration before spending more budget on F343-style selectors
 - use F342 stable-core coordinates as hard features for BP/matroid audits
 - use common-mode atlas continuation as a post-atlas polish operator
-- escalate F373 from branch repair to a small Pareto bridge over nontrivial strict-kernel states
+- continue from the F374 anchors with target-specific strict-kernel weights
