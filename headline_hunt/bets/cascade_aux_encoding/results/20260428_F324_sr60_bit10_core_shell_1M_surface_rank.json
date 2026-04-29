@@ -1,0 +1,179 @@
+{
+  "inputs": [
+    {
+      "path": "headline_hunt/bets/cascade_aux_encoding/results/20260428_F323_sr60_bit10_top_core_cadical_1M_stats.jsonl",
+      "surface": "core_dw59_1M"
+    },
+    {
+      "path": "headline_hunt/bets/cascade_aux_encoding/results/20260428_F323_sr60_bit10_top_shell_cadical_1M_stats.jsonl",
+      "surface": "shell_w1r58_1M"
+    }
+  ],
+  "metric": "decisions",
+  "order": "descending",
+  "rows": 2,
+  "surface_summaries": [
+    {
+      "decisions": {
+        "count": 1,
+        "max": 4642809.0,
+        "mean": 4642809.0,
+        "median": 4642809.0,
+        "min": 4642809.0
+      },
+      "rows": 1,
+      "statuses": {
+        "UNKNOWN": 1
+      },
+      "surface": "core_dw59_1M",
+      "wall_seconds": {
+        "count": 1,
+        "max": 31.631522,
+        "mean": 31.631522,
+        "median": 31.631522,
+        "min": 31.631522
+      }
+    },
+    {
+      "decisions": {
+        "count": 1,
+        "max": 5188785.0,
+        "mean": 5188785.0,
+        "median": 5188785.0,
+        "min": 5188785.0
+      },
+      "rows": 1,
+      "statuses": {
+        "UNKNOWN": 1
+      },
+      "surface": "shell_w1r58_1M",
+      "wall_seconds": {
+        "count": 1,
+        "max": 41.05286,
+        "mean": 41.05286,
+        "median": 41.05286,
+        "min": 41.05286
+      }
+    }
+  ],
+  "top_assignments": [
+    {
+      "assignment": "w1[58].b1=1",
+      "count": 1,
+      "max": 5188785.0,
+      "mean": 5188785.0,
+      "median": 5188785.0,
+      "min": 5188785.0,
+      "surfaces": {
+        "shell_w1r58_1M": 1
+      }
+    },
+    {
+      "assignment": "w1[58].b29=0",
+      "count": 1,
+      "max": 5188785.0,
+      "mean": 5188785.0,
+      "median": 5188785.0,
+      "min": 5188785.0,
+      "surfaces": {
+        "shell_w1r58_1M": 1
+      }
+    },
+    {
+      "assignment": "dw[59].b29=1",
+      "count": 1,
+      "max": 4642809.0,
+      "mean": 4642809.0,
+      "median": 4642809.0,
+      "min": 4642809.0,
+      "surfaces": {
+        "core_dw59_1M": 1
+      }
+    },
+    {
+      "assignment": "dw[59].b3=0",
+      "count": 1,
+      "max": 4642809.0,
+      "mean": 4642809.0,
+      "median": 4642809.0,
+      "min": 4642809.0,
+      "surfaces": {
+        "core_dw59_1M": 1
+      }
+    }
+  ],
+  "top_cubes": [
+    {
+      "assignments": [
+        {
+          "bit": 1,
+          "literal": 35,
+          "round": 58,
+          "target": "w1",
+          "value": 1
+        },
+        {
+          "bit": 29,
+          "literal": -63,
+          "round": 58,
+          "target": "w1",
+          "value": 0
+        }
+      ],
+      "cube_id": "w1r58b01v1__w1r58b29v0",
+      "metric": "decisions",
+      "source": "headline_hunt/bets/cascade_aux_encoding/results/20260428_F323_sr60_bit10_top_shell_cadical_1M_stats.jsonl",
+      "status": "UNKNOWN",
+      "surface": "shell_w1r58_1M",
+      "value": 5188785.0,
+      "wall_seconds": 41.05286
+    },
+    {
+      "assignments": [
+        {
+          "bit": 29,
+          "clauses": [
+            [
+              95,
+              223
+            ],
+            [
+              -95,
+              -223
+            ]
+          ],
+          "round": 59,
+          "target": "dw",
+          "value": 1,
+          "w1_var": 95,
+          "w2_var": 223
+        },
+        {
+          "bit": 3,
+          "clauses": [
+            [
+              69,
+              -197
+            ],
+            [
+              -69,
+              197
+            ]
+          ],
+          "round": 59,
+          "target": "dw",
+          "value": 0,
+          "w1_var": 69,
+          "w2_var": 197
+        }
+      ],
+      "cube_id": "dwr59b29v1__dwr59b03v0",
+      "metric": "decisions",
+      "source": "headline_hunt/bets/cascade_aux_encoding/results/20260428_F323_sr60_bit10_top_core_cadical_1M_stats.jsonl",
+      "status": "UNKNOWN",
+      "surface": "core_dw59_1M",
+      "value": 4642809.0,
+      "wall_seconds": 31.631522
+    }
+  ]
+}

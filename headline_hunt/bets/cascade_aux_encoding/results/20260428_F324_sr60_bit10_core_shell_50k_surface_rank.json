@@ -1,0 +1,627 @@
+{
+  "inputs": [
+    {
+      "path": "headline_hunt/bets/cascade_aux_encoding/results/20260428_F321_sr60_bit10_dw59_universal_core_depth2_cadical_50k_stats.jsonl",
+      "surface": "core_dw59_50k"
+    },
+    {
+      "path": "headline_hunt/bets/cascade_aux_encoding/results/20260428_F322_sr60_bit10_w1r58_shell_matched_depth2_cadical_50k_stats.jsonl",
+      "surface": "shell_w1r58_50k"
+    }
+  ],
+  "metric": "decisions",
+  "order": "descending",
+  "rows": 48,
+  "surface_summaries": [
+    {
+      "decisions": {
+        "count": 24,
+        "max": 424826.0,
+        "mean": 379529.208333,
+        "median": 375481.5,
+        "min": 341028.0
+      },
+      "rows": 24,
+      "statuses": {
+        "UNKNOWN": 24
+      },
+      "surface": "core_dw59_50k",
+      "wall_seconds": {
+        "count": 24,
+        "max": 1.826278,
+        "mean": 1.633505,
+        "median": 1.631772,
+        "min": 1.455487
+      }
+    },
+    {
+      "decisions": {
+        "count": 24,
+        "max": 440612.0,
+        "mean": 382985.083333,
+        "median": 377663.5,
+        "min": 359778.0
+      },
+      "rows": 24,
+      "statuses": {
+        "UNKNOWN": 24
+      },
+      "surface": "shell_w1r58_50k",
+      "wall_seconds": {
+        "count": 24,
+        "max": 1.850809,
+        "mean": 1.689133,
+        "median": 1.661685,
+        "min": 1.509837
+      }
+    }
+  ],
+  "top_assignments": [
+    {
+      "assignment": "w1[58].b1=0",
+      "count": 6,
+      "max": 438094.0,
+      "mean": 395093.333333,
+      "median": 388077.5,
+      "min": 372987.0,
+      "surfaces": {
+        "shell_w1r58_50k": 6
+      }
+    },
+    {
+      "assignment": "dw[59].b3=0",
+      "count": 6,
+      "max": 424826.0,
+      "mean": 394287.333333,
+      "median": 391391.5,
+      "min": 364358.0,
+      "surfaces": {
+        "core_dw59_50k": 6
+      }
+    },
+    {
+      "assignment": "w1[58].b1=1",
+      "count": 6,
+      "max": 440612.0,
+      "mean": 386414.166667,
+      "median": 379646.0,
+      "min": 359778.0,
+      "surfaces": {
+        "shell_w1r58_50k": 6
+      }
+    },
+    {
+      "assignment": "w1[58].b19=1",
+      "count": 6,
+      "max": 438094.0,
+      "mean": 385495.666667,
+      "median": 376845.0,
+      "min": 364127.0,
+      "surfaces": {
+        "shell_w1r58_50k": 6
+      }
+    },
+    {
+      "assignment": "w1[58].b29=0",
+      "count": 6,
+      "max": 440612.0,
+      "mean": 385005.833333,
+      "median": 376663.5,
+      "min": 360931.0,
+      "surfaces": {
+        "shell_w1r58_50k": 6
+      }
+    },
+    {
+      "assignment": "dw[59].b29=1",
+      "count": 6,
+      "max": 424815.0,
+      "mean": 384107.666667,
+      "median": 378625.5,
+      "min": 341028.0,
+      "surfaces": {
+        "core_dw59_50k": 6
+      }
+    },
+    {
+      "assignment": "dw[59].b1=1",
+      "count": 6,
+      "max": 424826.0,
+      "mean": 381175.833333,
+      "median": 375405.5,
+      "min": 357587.0,
+      "surfaces": {
+        "core_dw59_50k": 6
+      }
+    },
+    {
+      "assignment": "w1[58].b3=1",
+      "count": 6,
+      "max": 405842.0,
+      "mean": 379706.166667,
+      "median": 377775.0,
+      "min": 360931.0,
+      "surfaces": {
+        "shell_w1r58_50k": 6
+      }
+    },
+    {
+      "assignment": "w1[58].b3=0",
+      "count": 6,
+      "max": 385807.0,
+      "mean": 379596.0,
+      "median": 380513.5,
+      "min": 372987.0,
+      "surfaces": {
+        "shell_w1r58_50k": 6
+      }
+    },
+    {
+      "assignment": "dw[59].b1=0",
+      "count": 6,
+      "max": 423965.0,
+      "mean": 378942.333333,
+      "median": 371109.5,
+      "min": 360979.0,
+      "surfaces": {
+        "core_dw59_50k": 6
+      }
+    },
+    {
+      "assignment": "w1[58].b29=1",
+      "count": 6,
+      "max": 393152.0,
+      "mean": 378503.333333,
+      "median": 374444.0,
+      "min": 367016.0,
+      "surfaces": {
+        "shell_w1r58_50k": 6
+      }
+    },
+    {
+      "assignment": "dw[59].b29=0",
+      "count": 6,
+      "max": 408203.0,
+      "mean": 377886.0,
+      "median": 375073.0,
+      "min": 360076.0,
+      "surfaces": {
+        "core_dw59_50k": 6
+      }
+    }
+  ],
+  "top_cubes": [
+    {
+      "assignments": [
+        {
+          "bit": 1,
+          "literal": 35,
+          "round": 58,
+          "target": "w1",
+          "value": 1
+        },
+        {
+          "bit": 29,
+          "literal": -63,
+          "round": 58,
+          "target": "w1",
+          "value": 0
+        }
+      ],
+      "cube_id": "w1r58b01v1__w1r58b29v0",
+      "metric": "decisions",
+      "source": "headline_hunt/bets/cascade_aux_encoding/results/20260428_F322_sr60_bit10_w1r58_shell_matched_depth2_cadical_50k_stats.jsonl",
+      "status": "UNKNOWN",
+      "surface": "shell_w1r58_50k",
+      "value": 440612.0,
+      "wall_seconds": 1.850809
+    },
+    {
+      "assignments": [
+        {
+          "bit": 1,
+          "literal": -35,
+          "round": 58,
+          "target": "w1",
+          "value": 0
+        },
+        {
+          "bit": 19,
+          "literal": 53,
+          "round": 58,
+          "target": "w1",
+          "value": 1
+        }
+      ],
+      "cube_id": "w1r58b01v0__w1r58b19v1",
+      "metric": "decisions",
+      "source": "headline_hunt/bets/cascade_aux_encoding/results/20260428_F322_sr60_bit10_w1r58_shell_matched_depth2_cadical_50k_stats.jsonl",
+      "status": "UNKNOWN",
+      "surface": "shell_w1r58_50k",
+      "value": 438094.0,
+      "wall_seconds": 1.650886
+    },
+    {
+      "assignments": [
+        {
+          "bit": 1,
+          "clauses": [
+            [
+              67,
+              195
+            ],
+            [
+              -67,
+              -195
+            ]
+          ],
+          "round": 59,
+          "target": "dw",
+          "value": 1,
+          "w1_var": 67,
+          "w2_var": 195
+        },
+        {
+          "bit": 3,
+          "clauses": [
+            [
+              69,
+              -197
+            ],
+            [
+              -69,
+              197
+            ]
+          ],
+          "round": 59,
+          "target": "dw",
+          "value": 0,
+          "w1_var": 69,
+          "w2_var": 197
+        }
+      ],
+      "cube_id": "dwr59b01v1__dwr59b03v0",
+      "metric": "decisions",
+      "source": "headline_hunt/bets/cascade_aux_encoding/results/20260428_F321_sr60_bit10_dw59_universal_core_depth2_cadical_50k_stats.jsonl",
+      "status": "UNKNOWN",
+      "surface": "core_dw59_50k",
+      "value": 424826.0,
+      "wall_seconds": 1.819334
+    },
+    {
+      "assignments": [
+        {
+          "bit": 29,
+          "clauses": [
+            [
+              95,
+              223
+            ],
+            [
+              -95,
+              -223
+            ]
+          ],
+          "round": 59,
+          "target": "dw",
+          "value": 1,
+          "w1_var": 95,
+          "w2_var": 223
+        },
+        {
+          "bit": 3,
+          "clauses": [
+            [
+              69,
+              -197
+            ],
+            [
+              -69,
+              197
+            ]
+          ],
+          "round": 59,
+          "target": "dw",
+          "value": 0,
+          "w1_var": 69,
+          "w2_var": 197
+        }
+      ],
+      "cube_id": "dwr59b29v1__dwr59b03v0",
+      "metric": "decisions",
+      "source": "headline_hunt/bets/cascade_aux_encoding/results/20260428_F321_sr60_bit10_dw59_universal_core_depth2_cadical_50k_stats.jsonl",
+      "status": "UNKNOWN",
+      "surface": "core_dw59_50k",
+      "value": 424815.0,
+      "wall_seconds": 1.681141
+    },
+    {
+      "assignments": [
+        {
+          "bit": 29,
+          "clauses": [
+            [
+              95,
+              223
+            ],
+            [
+              -95,
+              -223
+            ]
+          ],
+          "round": 59,
+          "target": "dw",
+          "value": 1,
+          "w1_var": 95,
+          "w2_var": 223
+        },
+        {
+          "bit": 1,
+          "clauses": [
+            [
+              67,
+              -195
+            ],
+            [
+              -67,
+              195
+            ]
+          ],
+          "round": 59,
+          "target": "dw",
+          "value": 0,
+          "w1_var": 67,
+          "w2_var": 195
+        }
+      ],
+      "cube_id": "dwr59b29v1__dwr59b01v0",
+      "metric": "decisions",
+      "source": "headline_hunt/bets/cascade_aux_encoding/results/20260428_F321_sr60_bit10_dw59_universal_core_depth2_cadical_50k_stats.jsonl",
+      "status": "UNKNOWN",
+      "surface": "core_dw59_50k",
+      "value": 423965.0,
+      "wall_seconds": 1.70509
+    },
+    {
+      "assignments": [
+        {
+          "bit": 29,
+          "clauses": [
+            [
+              95,
+              -223
+            ],
+            [
+              -95,
+              223
+            ]
+          ],
+          "round": 59,
+          "target": "dw",
+          "value": 0,
+          "w1_var": 95,
+          "w2_var": 223
+        },
+        {
+          "bit": 3,
+          "clauses": [
+            [
+              69,
+              -197
+            ],
+            [
+              -69,
+              197
+            ]
+          ],
+          "round": 59,
+          "target": "dw",
+          "value": 0,
+          "w1_var": 69,
+          "w2_var": 197
+        }
+      ],
+      "cube_id": "dwr59b29v0__dwr59b03v0",
+      "metric": "decisions",
+      "source": "headline_hunt/bets/cascade_aux_encoding/results/20260428_F321_sr60_bit10_dw59_universal_core_depth2_cadical_50k_stats.jsonl",
+      "status": "UNKNOWN",
+      "surface": "core_dw59_50k",
+      "value": 408203.0,
+      "wall_seconds": 1.718148
+    },
+    {
+      "assignments": [
+        {
+          "bit": 1,
+          "literal": -35,
+          "round": 58,
+          "target": "w1",
+          "value": 0
+        },
+        {
+          "bit": 3,
+          "literal": 37,
+          "round": 58,
+          "target": "w1",
+          "value": 1
+        }
+      ],
+      "cube_id": "w1r58b01v0__w1r58b03v1",
+      "metric": "decisions",
+      "source": "headline_hunt/bets/cascade_aux_encoding/results/20260428_F322_sr60_bit10_w1r58_shell_matched_depth2_cadical_50k_stats.jsonl",
+      "status": "UNKNOWN",
+      "surface": "shell_w1r58_50k",
+      "value": 405842.0,
+      "wall_seconds": 1.566447
+    },
+    {
+      "assignments": [
+        {
+          "bit": 1,
+          "literal": -35,
+          "round": 58,
+          "target": "w1",
+          "value": 0
+        },
+        {
+          "bit": 29,
+          "literal": 63,
+          "round": 58,
+          "target": "w1",
+          "value": 1
+        }
+      ],
+      "cube_id": "w1r58b01v0__w1r58b29v1",
+      "metric": "decisions",
+      "source": "headline_hunt/bets/cascade_aux_encoding/results/20260428_F322_sr60_bit10_w1r58_shell_matched_depth2_cadical_50k_stats.jsonl",
+      "status": "UNKNOWN",
+      "surface": "shell_w1r58_50k",
+      "value": 393152.0,
+      "wall_seconds": 1.680154
+    },
+    {
+      "assignments": [
+        {
+          "bit": 1,
+          "literal": 35,
+          "round": 58,
+          "target": "w1",
+          "value": 1
+        },
+        {
+          "bit": 3,
+          "literal": 37,
+          "round": 58,
+          "target": "w1",
+          "value": 1
+        }
+      ],
+      "cube_id": "w1r58b01v1__w1r58b03v1",
+      "metric": "decisions",
+      "source": "headline_hunt/bets/cascade_aux_encoding/results/20260428_F322_sr60_bit10_w1r58_shell_matched_depth2_cadical_50k_stats.jsonl",
+      "status": "UNKNOWN",
+      "surface": "shell_w1r58_50k",
+      "value": 391787.0,
+      "wall_seconds": 1.509837
+    },
+    {
+      "assignments": [
+        {
+          "bit": 19,
+          "clauses": [
+            [
+              85,
+              213
+            ],
+            [
+              -85,
+              -213
+            ]
+          ],
+          "round": 59,
+          "target": "dw",
+          "value": 1,
+          "w1_var": 85,
+          "w2_var": 213
+        },
+        {
+          "bit": 1,
+          "clauses": [
+            [
+              67,
+              195
+            ],
+            [
+              -67,
+              -195
+            ]
+          ],
+          "round": 59,
+          "target": "dw",
+          "value": 1,
+          "w1_var": 67,
+          "w2_var": 195
+        }
+      ],
+      "cube_id": "dwr59b19v1__dwr59b01v1",
+      "metric": "decisions",
+      "source": "headline_hunt/bets/cascade_aux_encoding/results/20260428_F321_sr60_bit10_dw59_universal_core_depth2_cadical_50k_stats.jsonl",
+      "status": "UNKNOWN",
+      "surface": "core_dw59_50k",
+      "value": 388740.0,
+      "wall_seconds": 1.749729
+    },
+    {
+      "assignments": [
+        {
+          "bit": 3,
+          "literal": 37,
+          "round": 58,
+          "target": "w1",
+          "value": 1
+        },
+        {
+          "bit": 29,
+          "literal": 63,
+          "round": 58,
+          "target": "w1",
+          "value": 1
+        }
+      ],
+      "cube_id": "w1r58b03v1__w1r58b29v1",
+      "metric": "decisions",
+      "source": "headline_hunt/bets/cascade_aux_encoding/results/20260428_F322_sr60_bit10_w1r58_shell_matched_depth2_cadical_50k_stats.jsonl",
+      "status": "UNKNOWN",
+      "surface": "shell_w1r58_50k",
+      "value": 388645.0,
+      "wall_seconds": 1.828957
+    },
+    {
+      "assignments": [
+        {
+          "bit": 19,
+          "clauses": [
+            [
+              85,
+              213
+            ],
+            [
+              -85,
+              -213
+            ]
+          ],
+          "round": 59,
+          "target": "dw",
+          "value": 1,
+          "w1_var": 85,
+          "w2_var": 213
+        },
+        {
+          "bit": 3,
+          "clauses": [
+            [
+              69,
+              197
+            ],
+            [
+              -69,
+              -197
+            ]
+          ],
+          "round": 59,
+          "target": "dw",
+          "value": 1,
+          "w1_var": 69,
+          "w2_var": 197
+        }
+      ],
+      "cube_id": "dwr59b19v1__dwr59b03v1",
+      "metric": "decisions",
+      "source": "headline_hunt/bets/cascade_aux_encoding/results/20260428_F321_sr60_bit10_dw59_universal_core_depth2_cadical_50k_stats.jsonl",
+      "status": "UNKNOWN",
+      "surface": "core_dw59_50k",
+      "value": 388523.0,
+      "wall_seconds": 1.668816
+    }
+  ]
+}
