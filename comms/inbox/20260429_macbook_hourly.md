@@ -1211,3 +1211,28 @@ Commit: [next] (F354).
 F353 verification (4h kissat/cadical) at 20/240min, no SAT yet.
 
 Commit: [next] (F355 sr-invariant validation).
+
+
+## ~23:35 EDT — F356: F343 preflight is mode-invariant (force vs expose)
+
+- Ran F343 preflight on sr=60 EXPOSE mode for 5 cands + bit29 FORCE
+  mode (completing bit29 cross-mode coverage).
+- Result: ALL 7 cands have IDENTICAL preflight output across tested
+  mode/sr combinations:
+    sr60-force = sr60-expose = sr61-force per cand
+- F343 mined clauses are properties of the CASCADE-1 COLLISION
+  PROBLEM (round-57 differential), NOT of encoding choice.
+- Per-cand mining at sr=60 force-mode (cheapest combo) gives the
+  clauses for ALL sr levels and BOTH encoding modes.
+- BUT: injection EFFECT is mode-dependent:
+    F347 (sr60 FORCE, 32 mined clauses): -13.7% conflicts
+    F352 (sr60 EXPOSE, 2 mined clauses): -1.06% conflicts
+  Hypothesis: FORCE has 481 cascade-offset AUX clauses where the
+  mined clauses provide "shortcut hints"; EXPOSE has fewer such
+  clauses so the marginal value is smaller.
+- Phase 2D propagator: prioritize FORCE mode injection (5-14% measurable
+  speedup); EXPOSE mode injection still positive but smaller.
+
+F353 verification still running (~21min in).
+
+Commit: [next] (F356 mode-invariance).
