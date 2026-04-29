@@ -37,7 +37,13 @@ STAT_KEYS = {
 }
 
 
-def solver_command(solver: str, cnf: Path, conflicts: int, stats: bool) -> list[str]:
+def solver_command(
+    solver: str,
+    cnf: Path,
+    conflicts: int,
+    stats: bool,
+    solver_time_sec: float,
+) -> list[str]:
     if solver == "cadical":
         cmd = ["cadical"]
         if stats:
@@ -46,6 +52,9 @@ def solver_command(solver: str, cnf: Path, conflicts: int, stats: bool) -> list[
             cmd.append("-q")
         if conflicts > 0:
             cmd.extend(["-c", str(conflicts)])
+        if solver_time_sec > 0:
+            time_arg = str(int(solver_time_sec)) if solver_time_sec.is_integer() else f"{solver_time_sec:g}"
+            cmd.extend(["-t", time_arg])
         cmd.append(str(cnf))
         return cmd
     if solver == "kissat":
@@ -117,8 +126,12 @@ def main() -> int:
     ap.add_argument("--solver", choices=("cadical", "kissat"), default="cadical")
     ap.add_argument("--limit", type=int, default=0,
                     help="maximum cube records to execute; 0 means all")
+    ap.add_argument("--cube-id", action="append",
+                    help="only execute this cube id; may be passed more than once")
     ap.add_argument("--conflicts", type=int, default=0,
                     help="solver conflict limit if supported; 0 means none")
+    ap.add_argument("--solver-time-sec", type=float, default=0.0,
+                    help="solver-native time limit if supported; CaDiCaL uses -t")
     ap.add_argument("--timeout-sec", type=float, default=0.0,
                     help="per-cube wall timeout; 0 means no Python timeout")
     ap.add_argument("--stats", action="store_true",
@@ -143,21 +156,30 @@ def main() -> int:
 
     args.out_jsonl.parent.mkdir(parents=True, exist_ok=True)
     executed = 0
+    wanted_cube_ids = set(args.cube_id or [])
     try:
         with args.manifest.open() as inp, args.out_jsonl.open("w") as out:
             for line in inp:
-                if args.limit and executed >= args.limit:
-                    break
                 if not line.strip():
                     continue
                 rec = json.loads(line)
+                if wanted_cube_ids and rec["cube_id"] not in wanted_cube_ids:
+                    continue
+                if args.limit and executed >= args.limit:
+                    break
                 cnf_path = Path(rec["cnf_path"]) if rec.get("cnf_path") else None
                 if cnf_path is None or not cnf_path.exists():
                     base = Path(rec["base_cnf"])
                     cnf_path = work_dir / f"{base.stem}__{rec['cube_id']}.cnf"
                     write_augmented_cnf(base, cnf_path, rec["clauses"], rec["cube_id"])
 
-                cmd = solver_command(args.solver, cnf_path, args.conflicts, args.stats)
+                cmd = solver_command(
+                    args.solver,
+                    cnf_path,
+                    args.conflicts,
+                    args.stats,
+                    args.solver_time_sec,
+                )
                 t0 = time.monotonic()
                 timed_out = False
                 try:
@@ -186,6 +208,7 @@ def main() -> int:
                     "assignments": rec["assignments"],
                     "solver": args.solver,
                     "conflicts": args.conflicts,
+                    "solver_time_sec": args.solver_time_sec,
                     "timeout_sec": args.timeout_sec,
                     "status": classify_result(rc, output, timed_out),
                     "returncode": rc,
