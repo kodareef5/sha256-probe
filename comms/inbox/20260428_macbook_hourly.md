@@ -3385,3 +3385,16 @@ Discipline: 0 SAT compute, 0 solver runs.
 - Score-87 floor remains seed-7101 specific.
 - 75 commits this session.
 
+
+## ~23:28 EDT — F281: cross-cand cube test on bit18 — same UNKNOWN pattern
+
+- F281: depth-2 dW[60] universal-core cubes on bit18 cand (NEW),
+  100k conflicts each.
+- Result: 112/112 UNKNOWN. Mean wall 2s.
+- Compare to yale's bit10 F321 (same protocol): same pattern.
+- Universal-core targeting works UNIFORMLY across sr60 cands; the
+  128-bit hard core is uniformly intractable at 100k conflicts.
+- The cube-and-conquer infrastructure pipeline is sound and
+  cand-portable. The 128-bit hard core is the limit, not the tool.
+- 76 commits this session.
+
