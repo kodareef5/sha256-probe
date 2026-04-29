@@ -745,3 +745,25 @@ Commit: [next] (F335 thanks/recognition).
 - Hour summary: F333 (yale drift confirmed) + F334 (auditor + survey)
   + F335 (thanks + new D61=5 low recognition). Cross-machine flywheel
   productive: 6 yale commits + 4 macbook commits this hour.
+
+
+## ~17:50 EDT — F336: F322 random-init seed is a kernel-safe local minimum
+
+- Enumerated all 1536 kernel-safe single moves (common_xor + common_add±)
+  on F322 best M1/M2 (a57=5 D61=14 score=39.65 chart=(dh,dCh)).
+- 0/1536 moves improve a57 below 5 OR atlas score below 39.65.
+  302 lower D61 but all break chart or hike a57 to 8-17.
+- F322 random-init seed is a STRICT LOCAL MINIMUM in kernel-safe single-
+  move space. F374's a57=4 territory is reached only via yale's chamber-
+  seed basin, NOT random-init.
+- Cross-machine Pareto front under strict kernel preservation now has at
+  least 2 distinct basins:
+    Random-init basin (F322): low-a57-with-chamber-chart corner
+    Chamber-seed basin (F370-F374): mixed corners across multiple charts
+- Implication: chamber attractor brittleness extends to "kernel-safe
+  Pareto front splits into multiple disjoint basins, each with own
+  local minimum, NONE contain the attractor". CDCL conflict analysis
+  remains the structurally-distinct mechanism.
+- Verified: F374 yale 303/303 PASS auditor (yale's claim accurate).
+
+Commit: [next] (F336).
