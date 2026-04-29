@@ -1,0 +1,787 @@
+{
+  "active_words": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+  ],
+  "args": {
+    "active_words": "0-15",
+    "alpha": null,
+    "beta": 2.0,
+    "delta": null,
+    "gamma": null,
+    "init_kicks": 0,
+    "iterations": 40000,
+    "labels": "best_D61",
+    "max_flips": 2,
+    "modes": "common_xor,common_add,raw_m2",
+    "out_json": "headline_hunt/bets/math_principles/results/20260429_F363_d61_weighted_descendant_continuation.json",
+    "out_md": null,
+    "report_id": "F363",
+    "restarts": 4,
+    "seed": 36300,
+    "source": "headline_hunt/bets/math_principles/results/20260429_F362_pareto_descendant_continuation.json"
+  },
+  "decision": "The F361 descendants are local basins under this move budget.",
+  "descendant_runs": [
+    {
+      "best": {
+        "M1": [
+          "0x616d09b3",
+          "0xa2e54113",
+          "0x2b19d81b",
+          "0x4c5613af",
+          "0x35cfef4e",
+          "0x41ea948d",
+          "0x9f3791bc",
+          "0x426e61d3",
+          "0x1b9e4c58",
+          "0x1b300697",
+          "0x9cd9337e",
+          "0x86c4082b",
+          "0x93cd9527",
+          "0x359b1231",
+          "0x770c8260",
+          "0x0ea6b814"
+        ],
+        "M2": [
+          "0xe34d0993",
+          "0xa6e54113",
+          "0x6ab5587b",
+          "0x4c56172f",
+          "0x31cfa746",
+          "0x45e89485",
+          "0x9f3383bc",
+          "0x4746e1d3",
+          "0x1bbe4c50",
+          "0x1a30421f",
+          "0x905d333e",
+          "0x9ec4082b",
+          "0x8bc99427",
+          "0x31931673",
+          "0x671c86a0",
+          "0x0ea6b81c"
+        ],
+        "rec": {
+          "D61_hw": 9,
+          "a57_xor_hw": 5,
+          "chart_match": true,
+          "chart_top2": [
+            "dh",
+            "dCh"
+          ],
+          "tail63_state_diff_hw": 128
+        },
+        "score": 44.4
+      },
+      "label": "best_D61",
+      "restarts": [
+        {
+          "accepted_mode_histogram": {
+            "common_add": 18,
+            "common_xor": 16,
+            "raw_m2": 10
+          },
+          "accepts": 22,
+          "best_a57": {
+            "M1": [
+              "0x616d09b3",
+              "0xa2e54113",
+              "0x2b19d81b",
+              "0x4c5613af",
+              "0x35cfef4e",
+              "0x41ea948d",
+              "0x9f3791bc",
+              "0x426e61d3",
+              "0x1b9e4c58",
+              "0x1b300697",
+              "0x9cd9337e",
+              "0x86c4082b",
+              "0x93cd9527",
+              "0x359b1231",
+              "0x770c8260",
+              "0x0ea6b814"
+            ],
+            "M2": [
+              "0xe34d0993",
+              "0xa6e54113",
+              "0x6ab5587b",
+              "0x4c56172f",
+              "0x31cfa746",
+              "0x45e89485",
+              "0x9f3383bc",
+              "0x4746e1d3",
+              "0x1bbe4c50",
+              "0x1a30421f",
+              "0x905d333e",
+              "0x9ec4082b",
+              "0x8bc99427",
+              "0x31931673",
+              "0x671c86a0",
+              "0x0ea6b81c"
+            ],
+            "rec": {
+              "D61_hw": 9,
+              "a57_xor_hw": 5,
+              "chart_match": true,
+              "chart_top2": [
+                "dh",
+                "dCh"
+              ],
+              "tail63_state_diff_hw": 128
+            },
+            "score": 44.4
+          },
+          "best_chart": {
+            "M1": [
+              "0x616d09b3",
+              "0xa2e54113",
+              "0x2b19d81b",
+              "0x4c5613af",
+              "0x35cfef4e",
+              "0x41ea948d",
+              "0x9f3791bc",
+              "0x426e61d3",
+              "0x1b9e4c58",
+              "0x1b300697",
+              "0x9cd9337e",
+              "0x86c4082b",
+              "0x93cd9527",
+              "0x359b1231",
+              "0x770c8260",
+              "0x0ea6b814"
+            ],
+            "M2": [
+              "0xe34d0993",
+              "0xa6e54113",
+              "0x6ab5587b",
+              "0x4c56172f",
+              "0x31cfa746",
+              "0x45e89485",
+              "0x9f3383bc",
+              "0x4746e1d3",
+              "0x1bbe4c50",
+              "0x1a30421f",
+              "0x905d333e",
+              "0x9ec4082b",
+              "0x8bc99427",
+              "0x31931673",
+              "0x671c86a0",
+              "0x0ea6b81c"
+            ],
+            "rec": {
+              "D61_hw": 9,
+              "a57_xor_hw": 5,
+              "chart_match": true,
+              "chart_top2": [
+                "dh",
+                "dCh"
+              ],
+              "tail63_state_diff_hw": 128
+            },
+            "score": 44.4
+          },
+          "best_score": {
+            "M1": [
+              "0x616d09b3",
+              "0xa2e54113",
+              "0x2b19d81b",
+              "0x4c5613af",
+              "0x35cfef4e",
+              "0x41ea948d",
+              "0x9f3791bc",
+              "0x426e61d3",
+              "0x1b9e4c58",
+              "0x1b300697",
+              "0x9cd9337e",
+              "0x86c4082b",
+              "0x93cd9527",
+              "0x359b1231",
+              "0x770c8260",
+              "0x0ea6b814"
+            ],
+            "M2": [
+              "0xe34d0993",
+              "0xa6e54113",
+              "0x6ab5587b",
+              "0x4c56172f",
+              "0x31cfa746",
+              "0x45e89485",
+              "0x9f3383bc",
+              "0x4746e1d3",
+              "0x1bbe4c50",
+              "0x1a30421f",
+              "0x905d333e",
+              "0x9ec4082b",
+              "0x8bc99427",
+              "0x31931673",
+              "0x671c86a0",
+              "0x0ea6b81c"
+            ],
+            "rec": {
+              "D61_hw": 9,
+              "a57_xor_hw": 5,
+              "chart_match": true,
+              "chart_top2": [
+                "dh",
+                "dCh"
+              ],
+              "tail63_state_diff_hw": 128
+            },
+            "score": 44.4
+          },
+          "improvement_tail": [],
+          "restart": 0
+        },
+        {
+          "accepted_mode_histogram": {
+            "common_add": 11,
+            "common_xor": 3,
+            "raw_m2": 8
+          },
+          "accepts": 11,
+          "best_a57": {
+            "M1": [
+              "0x616d09b3",
+              "0xa2e54113",
+              "0x2b19d81b",
+              "0x4c5613af",
+              "0x35cfef4e",
+              "0x41ea948d",
+              "0x9f3791bc",
+              "0x426e61d3",
+              "0x1b9e4c58",
+              "0x1b300697",
+              "0x9cd9337e",
+              "0x86c4082b",
+              "0x93cd9527",
+              "0x359b1231",
+              "0x770c8260",
+              "0x0ea6b814"
+            ],
+            "M2": [
+              "0xe34d0993",
+              "0xa6e54113",
+              "0x6ab5587b",
+              "0x4c56172f",
+              "0x31cfa746",
+              "0x45e89485",
+              "0x9f3383bc",
+              "0x4746e1d3",
+              "0x1bbe4c50",
+              "0x1a30421f",
+              "0x905d333e",
+              "0x9ec4082b",
+              "0x8bc99427",
+              "0x31931673",
+              "0x671c86a0",
+              "0x0ea6b81c"
+            ],
+            "rec": {
+              "D61_hw": 9,
+              "a57_xor_hw": 5,
+              "chart_match": true,
+              "chart_top2": [
+                "dh",
+                "dCh"
+              ],
+              "tail63_state_diff_hw": 128
+            },
+            "score": 44.4
+          },
+          "best_chart": {
+            "M1": [
+              "0x616d09b3",
+              "0xa2e54113",
+              "0x2b19d81b",
+              "0x4c5613af",
+              "0x35cfef4e",
+              "0x41ea948d",
+              "0x9f3791bc",
+              "0x426e61d3",
+              "0x1b9e4c58",
+              "0x1b300697",
+              "0x9cd9337e",
+              "0x86c4082b",
+              "0x93cd9527",
+              "0x359b1231",
+              "0x770c8260",
+              "0x0ea6b814"
+            ],
+            "M2": [
+              "0xe34d0993",
+              "0xa6e54113",
+              "0x6ab5587b",
+              "0x4c56172f",
+              "0x31cfa746",
+              "0x45e89485",
+              "0x9f3383bc",
+              "0x4746e1d3",
+              "0x1bbe4c50",
+              "0x1a30421f",
+              "0x905d333e",
+              "0x9ec4082b",
+              "0x8bc99427",
+              "0x31931673",
+              "0x671c86a0",
+              "0x0ea6b81c"
+            ],
+            "rec": {
+              "D61_hw": 9,
+              "a57_xor_hw": 5,
+              "chart_match": true,
+              "chart_top2": [
+                "dh",
+                "dCh"
+              ],
+              "tail63_state_diff_hw": 128
+            },
+            "score": 44.4
+          },
+          "best_score": {
+            "M1": [
+              "0x616d09b3",
+              "0xa2e54113",
+              "0x2b19d81b",
+              "0x4c5613af",
+              "0x35cfef4e",
+              "0x41ea948d",
+              "0x9f3791bc",
+              "0x426e61d3",
+              "0x1b9e4c58",
+              "0x1b300697",
+              "0x9cd9337e",
+              "0x86c4082b",
+              "0x93cd9527",
+              "0x359b1231",
+              "0x770c8260",
+              "0x0ea6b814"
+            ],
+            "M2": [
+              "0xe34d0993",
+              "0xa6e54113",
+              "0x6ab5587b",
+              "0x4c56172f",
+              "0x31cfa746",
+              "0x45e89485",
+              "0x9f3383bc",
+              "0x4746e1d3",
+              "0x1bbe4c50",
+              "0x1a30421f",
+              "0x905d333e",
+              "0x9ec4082b",
+              "0x8bc99427",
+              "0x31931673",
+              "0x671c86a0",
+              "0x0ea6b81c"
+            ],
+            "rec": {
+              "D61_hw": 9,
+              "a57_xor_hw": 5,
+              "chart_match": true,
+              "chart_top2": [
+                "dh",
+                "dCh"
+              ],
+              "tail63_state_diff_hw": 128
+            },
+            "score": 44.4
+          },
+          "improvement_tail": [],
+          "restart": 1
+        },
+        {
+          "accepted_mode_histogram": {
+            "common_add": 7,
+            "common_xor": 17,
+            "raw_m2": 12
+          },
+          "accepts": 18,
+          "best_a57": {
+            "M1": [
+              "0x616d09b3",
+              "0xa2e54113",
+              "0x2b19d81b",
+              "0x4c5613af",
+              "0x35cfef4e",
+              "0x41ea948d",
+              "0x9f3791bc",
+              "0x426e61d3",
+              "0x1b9e4c58",
+              "0x1b300697",
+              "0x9cd9337e",
+              "0x86c4082b",
+              "0x93cd9527",
+              "0x359b1231",
+              "0x770c8260",
+              "0x0ea6b814"
+            ],
+            "M2": [
+              "0xe34d0993",
+              "0xa6e54113",
+              "0x6ab5587b",
+              "0x4c56172f",
+              "0x31cfa746",
+              "0x45e89485",
+              "0x9f3383bc",
+              "0x4746e1d3",
+              "0x1bbe4c50",
+              "0x1a30421f",
+              "0x905d333e",
+              "0x9ec4082b",
+              "0x8bc99427",
+              "0x31931673",
+              "0x671c86a0",
+              "0x0ea6b81c"
+            ],
+            "rec": {
+              "D61_hw": 9,
+              "a57_xor_hw": 5,
+              "chart_match": true,
+              "chart_top2": [
+                "dh",
+                "dCh"
+              ],
+              "tail63_state_diff_hw": 128
+            },
+            "score": 44.4
+          },
+          "best_chart": {
+            "M1": [
+              "0x616d09b3",
+              "0xa2e54113",
+              "0x2b19d81b",
+              "0x4c5613af",
+              "0x35cfef4e",
+              "0x41ea948d",
+              "0x9f3791bc",
+              "0x426e61d3",
+              "0x1b9e4c58",
+              "0x1b300697",
+              "0x9cd9337e",
+              "0x86c4082b",
+              "0x93cd9527",
+              "0x359b1231",
+              "0x770c8260",
+              "0x0ea6b814"
+            ],
+            "M2": [
+              "0xe34d0993",
+              "0xa6e54113",
+              "0x6ab5587b",
+              "0x4c56172f",
+              "0x31cfa746",
+              "0x45e89485",
+              "0x9f3383bc",
+              "0x4746e1d3",
+              "0x1bbe4c50",
+              "0x1a30421f",
+              "0x905d333e",
+              "0x9ec4082b",
+              "0x8bc99427",
+              "0x31931673",
+              "0x671c86a0",
+              "0x0ea6b81c"
+            ],
+            "rec": {
+              "D61_hw": 9,
+              "a57_xor_hw": 5,
+              "chart_match": true,
+              "chart_top2": [
+                "dh",
+                "dCh"
+              ],
+              "tail63_state_diff_hw": 128
+            },
+            "score": 44.4
+          },
+          "best_score": {
+            "M1": [
+              "0x616d09b3",
+              "0xa2e54113",
+              "0x2b19d81b",
+              "0x4c5613af",
+              "0x35cfef4e",
+              "0x41ea948d",
+              "0x9f3791bc",
+              "0x426e61d3",
+              "0x1b9e4c58",
+              "0x1b300697",
+              "0x9cd9337e",
+              "0x86c4082b",
+              "0x93cd9527",
+              "0x359b1231",
+              "0x770c8260",
+              "0x0ea6b814"
+            ],
+            "M2": [
+              "0xe34d0993",
+              "0xa6e54113",
+              "0x6ab5587b",
+              "0x4c56172f",
+              "0x31cfa746",
+              "0x45e89485",
+              "0x9f3383bc",
+              "0x4746e1d3",
+              "0x1bbe4c50",
+              "0x1a30421f",
+              "0x905d333e",
+              "0x9ec4082b",
+              "0x8bc99427",
+              "0x31931673",
+              "0x671c86a0",
+              "0x0ea6b81c"
+            ],
+            "rec": {
+              "D61_hw": 9,
+              "a57_xor_hw": 5,
+              "chart_match": true,
+              "chart_top2": [
+                "dh",
+                "dCh"
+              ],
+              "tail63_state_diff_hw": 128
+            },
+            "score": 44.4
+          },
+          "improvement_tail": [],
+          "restart": 2
+        },
+        {
+          "accepted_mode_histogram": {
+            "common_add": 8,
+            "common_xor": 12,
+            "raw_m2": 4
+          },
+          "accepts": 12,
+          "best_a57": {
+            "M1": [
+              "0x616d09b3",
+              "0xa2e54113",
+              "0x2b19d81b",
+              "0x4c5613af",
+              "0x35cfef4e",
+              "0x41ea948d",
+              "0x9f3791bc",
+              "0x426e61d3",
+              "0x1b9e4c58",
+              "0x1b300697",
+              "0x9cd9337e",
+              "0x86c4082b",
+              "0x93cd9527",
+              "0x359b1231",
+              "0x770c8260",
+              "0x0ea6b814"
+            ],
+            "M2": [
+              "0xe34d0993",
+              "0xa6e54113",
+              "0x6ab5587b",
+              "0x4c56172f",
+              "0x31cfa746",
+              "0x45e89485",
+              "0x9f3383bc",
+              "0x4746e1d3",
+              "0x1bbe4c50",
+              "0x1a30421f",
+              "0x905d333e",
+              "0x9ec4082b",
+              "0x8bc99427",
+              "0x31931673",
+              "0x671c86a0",
+              "0x0ea6b81c"
+            ],
+            "rec": {
+              "D61_hw": 9,
+              "a57_xor_hw": 5,
+              "chart_match": true,
+              "chart_top2": [
+                "dh",
+                "dCh"
+              ],
+              "tail63_state_diff_hw": 128
+            },
+            "score": 44.4
+          },
+          "best_chart": {
+            "M1": [
+              "0x616d09b3",
+              "0xa2e54113",
+              "0x2b19d81b",
+              "0x4c5613af",
+              "0x35cfef4e",
+              "0x41ea948d",
+              "0x9f3791bc",
+              "0x426e61d3",
+              "0x1b9e4c58",
+              "0x1b300697",
+              "0x9cd9337e",
+              "0x86c4082b",
+              "0x93cd9527",
+              "0x359b1231",
+              "0x770c8260",
+              "0x0ea6b814"
+            ],
+            "M2": [
+              "0xe34d0993",
+              "0xa6e54113",
+              "0x6ab5587b",
+              "0x4c56172f",
+              "0x31cfa746",
+              "0x45e89485",
+              "0x9f3383bc",
+              "0x4746e1d3",
+              "0x1bbe4c50",
+              "0x1a30421f",
+              "0x905d333e",
+              "0x9ec4082b",
+              "0x8bc99427",
+              "0x31931673",
+              "0x671c86a0",
+              "0x0ea6b81c"
+            ],
+            "rec": {
+              "D61_hw": 9,
+              "a57_xor_hw": 5,
+              "chart_match": true,
+              "chart_top2": [
+                "dh",
+                "dCh"
+              ],
+              "tail63_state_diff_hw": 128
+            },
+            "score": 44.4
+          },
+          "best_score": {
+            "M1": [
+              "0x616d09b3",
+              "0xa2e54113",
+              "0x2b19d81b",
+              "0x4c5613af",
+              "0x35cfef4e",
+              "0x41ea948d",
+              "0x9f3791bc",
+              "0x426e61d3",
+              "0x1b9e4c58",
+              "0x1b300697",
+              "0x9cd9337e",
+              "0x86c4082b",
+              "0x93cd9527",
+              "0x359b1231",
+              "0x770c8260",
+              "0x0ea6b814"
+            ],
+            "M2": [
+              "0xe34d0993",
+              "0xa6e54113",
+              "0x6ab5587b",
+              "0x4c56172f",
+              "0x31cfa746",
+              "0x45e89485",
+              "0x9f3383bc",
+              "0x4746e1d3",
+              "0x1bbe4c50",
+              "0x1a30421f",
+              "0x905d333e",
+              "0x9ec4082b",
+              "0x8bc99427",
+              "0x31931673",
+              "0x671c86a0",
+              "0x0ea6b81c"
+            ],
+            "rec": {
+              "D61_hw": 9,
+              "a57_xor_hw": 5,
+              "chart_match": true,
+              "chart_top2": [
+                "dh",
+                "dCh"
+              ],
+              "tail63_state_diff_hw": 128
+            },
+            "score": 44.4
+          },
+          "improvement_tail": [],
+          "restart": 3
+        }
+      ],
+      "seed": {
+        "M1": [
+          "0x616d09b3",
+          "0xa2e54113",
+          "0x2b19d81b",
+          "0x4c5613af",
+          "0x35cfef4e",
+          "0x41ea948d",
+          "0x9f3791bc",
+          "0x426e61d3",
+          "0x1b9e4c58",
+          "0x1b300697",
+          "0x9cd9337e",
+          "0x86c4082b",
+          "0x93cd9527",
+          "0x359b1231",
+          "0x770c8260",
+          "0x0ea6b814"
+        ],
+        "M2": [
+          "0xe34d0993",
+          "0xa6e54113",
+          "0x6ab5587b",
+          "0x4c56172f",
+          "0x31cfa746",
+          "0x45e89485",
+          "0x9f3383bc",
+          "0x4746e1d3",
+          "0x1bbe4c50",
+          "0x1a30421f",
+          "0x905d333e",
+          "0x9ec4082b",
+          "0x8bc99427",
+          "0x31931673",
+          "0x671c86a0",
+          "0x0ea6b81c"
+        ],
+        "rec": {
+          "D61_hw": 9,
+          "a57_xor_hw": 5,
+          "chart_match": true,
+          "chart_top2": [
+            "dh",
+            "dCh"
+          ],
+          "tail63_state_diff_hw": 128
+        },
+        "score": 44.4
+      }
+    }
+  ],
+  "modes": [
+    "common_xor",
+    "common_add",
+    "raw_m2"
+  ],
+  "report_id": "F363",
+  "score_kwargs": {
+    "atlas_alpha": 4.0,
+    "atlas_beta": 2.0,
+    "atlas_delta": 0.05,
+    "atlas_gamma": 8.0
+  },
+  "source": "headline_hunt/bets/math_principles/results/20260429_F362_pareto_descendant_continuation.json",
+  "verdict": "descendant_continuation_no_improvement",
+  "wall_seconds": 61.451025
+}

@@ -75,6 +75,7 @@ Default outputs:
 - `results/20260429_F360_chamber_seed_pareto_front.{json,md}`
 - `results/20260429_F361_pareto_seeded_atlas_continuation.{json,md}`
 - `results/20260429_F362_pareto_descendant_continuation.{json,md}`
+- `results/20260429_F363_d61_weighted_descendant_continuation.{json,md}`
 
 ## Readout
 
@@ -175,9 +176,14 @@ F362 extends the improved F361 descendants. Both branches improve again:
 the strongest evidence so far that Pareto-front seeds plus atlas continuation
 are a productive operator, even though the `a57=0` attractor remains unreached.
 
+F363 reruns the F362 `best_D61` descendant with D61 weighted twice as heavily.
+It does not descend: under the beta=2 score, seed and best both remain 44.4
+with `a57=5`, D61=9, chart `dh,dCh`. The current raw/common message move set
+appears locally stuck at that basin.
+
 ## Next tracks
 
 - add outcome-aware calibration before spending more budget on F343-style selectors
 - use F342 stable-core coordinates as hard features for BP/matroid audits
 - use common-mode atlas continuation as a post-atlas polish operator
-- extend the F362 `best_D61` descendant with lower-temperature D61 tracking
+- try a different move family around the F362 basin, not just heavier D61 scoring

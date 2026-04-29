@@ -18,9 +18,12 @@ REPO = Path(__file__).resolve().parents[4]
 sys.path.insert(0, str(REPO))
 
 from headline_hunt.bets.block2_wang.encoders.search_schedule_space import (  # noqa: E402
+    atlas_evaluate,
+    atlas_score,
     parse_active_words,
 )
 from headline_hunt.bets.math_principles.encoders.continue_atlas_from_seed import (  # noqa: E402
+    compact_candidate,
     from_hex_words,
     repo_path,
     run_restart,
@@ -46,7 +49,7 @@ def read_json(path: Path) -> dict[str, Any]:
 
 
 def selected_rows(source: dict[str, Any], labels: list[str]) -> list[dict[str, Any]]:
-    rows = source.get("representative_runs", [])
+    rows = source.get("descendant_runs") or source.get("representative_runs", [])
     by_label = {row["label"]: row for row in rows}
     out = []
     for label in labels:
@@ -89,7 +92,7 @@ def write_md(path: Path, payload: dict[str, Any]) -> None:
         "status: PARETO_DESCENDANT_CONTINUATION",
         "---",
         "",
-        "# F362: Pareto-descendant continuation",
+        f"# {payload['report_id']}: Pareto-descendant continuation",
         "",
         "## Summary",
         "",
@@ -129,6 +132,11 @@ def main() -> int:
     ap.add_argument("--iterations", type=int, default=30000)
     ap.add_argument("--init-kicks", type=int, default=1)
     ap.add_argument("--seed", type=int, default=36200)
+    ap.add_argument("--report-id", default="F362")
+    ap.add_argument("--alpha", type=float, default=None)
+    ap.add_argument("--beta", type=float, default=None)
+    ap.add_argument("--gamma", type=float, default=None)
+    ap.add_argument("--delta", type=float, default=None)
     ap.add_argument("--out-json", type=Path, default=DEFAULT_OUT_JSON)
     ap.add_argument("--out-md", type=Path, default=None)
     args = ap.parse_args()
@@ -137,19 +145,32 @@ def main() -> int:
     labels = [part.strip() for part in args.labels.split(",") if part.strip()]
     active_words = parse_active_words(args.active_words)
     modes = [part.strip() for part in args.modes.split(",") if part.strip()]
-    score_kwargs = source.get("score_kwargs") or {
+    base_score_kwargs = source.get("score_kwargs") or {
         "atlas_alpha": 4.0,
         "atlas_beta": 1.0,
         "atlas_gamma": 8.0,
         "atlas_delta": 0.05,
     }
+    score_kwargs = {
+        "atlas_alpha": args.alpha if args.alpha is not None else base_score_kwargs["atlas_alpha"],
+        "atlas_beta": args.beta if args.beta is not None else base_score_kwargs["atlas_beta"],
+        "atlas_gamma": args.gamma if args.gamma is not None else base_score_kwargs["atlas_gamma"],
+        "atlas_delta": args.delta if args.delta is not None else base_score_kwargs["atlas_delta"],
+    }
     rng = random.Random(args.seed)
     t0 = time.time()
     descendant_runs = []
     for row in selected_rows(source, labels):
-        seed_candidate = row["best"]
-        M1 = from_hex_words(seed_candidate["M1"])
-        M2 = from_hex_words(seed_candidate["M2"])
+        source_seed = row["best"]
+        M1 = from_hex_words(source_seed["M1"])
+        M2 = from_hex_words(source_seed["M2"])
+        seed_rec = atlas_evaluate(M1, M2)
+        seed_candidate = compact_candidate(
+            M1,
+            M2,
+            seed_rec,
+            atlas_score(seed_rec, **score_kwargs),
+        )
         restarts = [
             run_restart(
                 M1,
@@ -173,7 +194,7 @@ def main() -> int:
         })
 
     payload = {
-        "report_id": "F362",
+        "report_id": args.report_id,
         "source": repo_path(args.source),
         "args": {
             **vars(args),
