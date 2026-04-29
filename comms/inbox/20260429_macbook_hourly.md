@@ -71,3 +71,25 @@ universal-hard-core characterization arc left off.)
   88 cand-variable + 36 universal shell = 256 total schedule bits.
 - 82 commits in macbook 2-day arc.
 
+
+## ~01:30 EDT — F287: algebraic investigation of W2_58[14]/[26] anchors
+
+- Tested σ1-fanin hypothesis: σ1 OUT bits 22-31 have 2-bit fanin
+  (SHR-10 truncation); 0-21 have 3-bit fanin.
+- Bit 26 fits low-fanin; bit 14 doesn't. Hypothesis REFUTED at
+  single-σ1 level.
+- Per-bit core_fraction analysis on F284 10-cand data confirms:
+  only W2_58[14] and [26] are universal-core. F273 6-cand showed
+  more bits at cf=1.0; 10-cand sample disambiguates correctly.
+- DEEPER ALGEBRAIC FINDING: σ1²(x) (σ1 applied twice) simplifies
+  for bits 14 and 26:
+  - σ1²(x)[14] = x[9] ⊕ x[16] ⊕ x[20]   (3 bits)
+  - σ1²(x)[26] = x[0] ⊕ x[21] ⊕ x[23] ⊕ x[28]   (4 bits)
+- These simplifications come from XOR cancellations across the 9
+  intermediate σ1 contributions. Both bits 14 and 26 are at
+  POSITIONS WHERE σ1² SIMPLIFIES TO LOW-FANIN expressions.
+- Real algebraic structure: bits 14 and 26 may be universal-core
+  because their σ1² (two-step schedule recurrence) has fewer
+  effective inputs than other bit positions.
+- 83 commits across 2-day arc.
+
