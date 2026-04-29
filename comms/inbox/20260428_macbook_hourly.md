@@ -2989,3 +2989,14 @@ Discipline: 0 SAT compute, 0 solver runs.
   for continuation top-K verification.
 - 50 commits this session.
 
+
+## ~20:13 EDT — Mid-hour pulse: F240-ack received, F252/F253 in flight
+
+- Yale's F240 ack arrived at 20:04 (read at 20:13).
+- yale agrees on F-number convention, floor semantics, triage protocol.
+- Replied with state update: F250 + F251 already shipped, F252 + F253
+  in flight.
+- F252: F248-init basin descent on radius-1 (~100s wall)
+- F253: third-seed (5001) test on F248 mask (~3-4 min wall)
+- 51 commits this session.
+
