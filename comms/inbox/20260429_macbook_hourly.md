@@ -918,3 +918,33 @@ Cross-machine yale→macbook chain this 2-day arc:
   F341 single-bit → F342 cross-cand single-bit → F343 preflight tool.
 
 Commit: [next] (F343).
+
+
+## ~20:55 EDT — F344: dW57 row is FULLY over-constrained at 2-bit adjacent level
+
+- Ran preflight tool's full sweep mode on m17149975/bit31: 32 single
+  bits + 31 adjacent pairs (dW57[i], dW57[i+1]). 13 min wall, 63 cadical
+  probes total.
+- Result: 1 single-bit forced (dW57[0]=1, per F341) + 31 / 31 ADJACENT
+  PAIRS forbidden. ALL consecutive bit pairs on dW57 row have exactly
+  one forbidden polarity. That's a fully dense 2-bit constraint surface.
+- Forbidden polarities all have form (0, ?). Lower bit's "0" value is
+  always part of the forbidden combination. Upper bit varies — pattern:
+  (0,0) at i ∈ {0,3,4,6,7,9,12,13,15,18,19,20,24,26,27,28,29}
+  (0,1) at i ∈ {1,2,5,8,10,11,14,16,17,21,22,23,25,30}
+  yale's F384 W57[22:23]=(0,1) is one of these 31.
+- Structural interpretation: dW57 = W2[57] - W1[57] mod 2^32 is encoded
+  via ripple-borrow subtractor. Each adjacent pair is a Tseitin-derived
+  carry-chain constraint. CDCL conflict analysis fast-derives them all.
+- Implication: dW57 is essentially DETERMINED by cand metadata. Phase
+  2D propagator can pre-inject all 32 dW57 clauses at solver init,
+  freeing CDCL to focus on dW58/dW59/dW60 + absorber compatibility.
+
+Concrete next:
+  (a) Verify dW57 has unique SAT model under 32-clause system → 32 unit
+      injection clauses at solver init
+  (b) Sweep W58/W59/W60 adjacent pairs (~10 min each)
+  (c) Cross-cand sweep (~80 min total for all 6 cands)
+  (d) Algebraic closed-form: compute dW57 from (M[0], fill, kernel-bit, sr)
+
+Commit: [next] (F344).
