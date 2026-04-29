@@ -48,6 +48,29 @@ def parse_bits(spec: str) -> list[int]:
     return out
 
 
+def parse_combos(spec: str) -> list[tuple[int, ...]]:
+    combos: list[tuple[int, ...]] = []
+    for part in spec.split(","):
+        part = part.strip()
+        if not part:
+            continue
+        combo = tuple(int(x) for x in part.replace(":", "+").split("+") if x)
+        if not combo:
+            continue
+        bad = [b for b in combo if b < 0 or b > 31]
+        if bad:
+            raise ValueError(f"combo bits outside 0..31: {bad}")
+        if len(set(combo)) != len(combo):
+            raise ValueError(f"combo repeats a bit: {part}")
+        combos.append(combo)
+    if not combos:
+        raise ValueError("no combos parsed")
+    depths = {len(c) for c in combos}
+    if len(depths) != 1:
+        raise ValueError(f"all combos must have the same depth, got {sorted(depths)}")
+    return combos
+
+
 def infer_sr_from_name(path: Path) -> int | None:
     for sr in (59, 60, 61):
         if f"sr{sr}" in path.name:
@@ -134,13 +157,19 @@ def cube_records(
     round_: int,
     bits: list[int],
     depth: int,
+    combos: list[tuple[int, ...]] | None = None,
 ) -> Iterable[dict]:
-    if depth < 1:
-        raise ValueError("depth must be >= 1")
-    if depth > len(bits):
-        raise ValueError("depth cannot exceed number of selected bits")
+    if combos is None:
+        if depth < 1:
+            raise ValueError("depth must be >= 1")
+        if depth > len(bits):
+            raise ValueError("depth cannot exceed number of selected bits")
+        selected_combos: Iterable[tuple[int, ...]] = itertools.combinations(bits, depth)
+    else:
+        selected_combos = combos
+        depth = len(combos[0])
 
-    for combo in itertools.combinations(bits, depth):
+    for combo in selected_combos:
         for values in itertools.product((0, 1), repeat=depth):
             clauses: list[list[int]] = []
             assignments: list[dict] = []
@@ -198,6 +227,8 @@ def main() -> int:
     ap.add_argument("--bits", default="0-31", help="bit list/ranges, e.g. 0-7,16,31")
     ap.add_argument("--depth", type=int, default=1,
                     help="number of bit positions fixed per cube")
+    ap.add_argument("--combos",
+                    help="explicit bit combos, e.g. 22:26,25:28; overrides --bits")
     ap.add_argument("--limit", type=int, default=0,
                     help="maximum manifest records to write; 0 means all")
     ap.add_argument("--out-jsonl", required=True, type=Path, help="cube manifest JSONL")
@@ -210,6 +241,7 @@ def main() -> int:
     sr = args.sr if args.sr is not None else infer_sr_from_name(args.cnf)
     if sr is None:
         raise SystemExit("could not infer sr from CNF name; pass --sr")
+    combos = parse_combos(args.combos) if args.combos else None
     bits = parse_bits(args.bits)
     max_var, n_clauses = parse_dimacs_header(args.cnf)
 
@@ -217,7 +249,7 @@ def main() -> int:
     n_records = 0
     n_emitted = 0
     with args.out_jsonl.open("w") as out:
-        for rec in cube_records(sr, args.target, args.round, bits, args.depth):
+        for rec in cube_records(sr, args.target, args.round, bits, args.depth, combos):
             if args.limit and n_records >= args.limit:
                 break
             rec["base_cnf"] = str(args.cnf)

@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import subprocess
 import tempfile
 import time
@@ -20,9 +21,29 @@ from pathlib import Path
 from schedule_cube_planner import write_augmented_cnf
 
 
-def solver_command(solver: str, cnf: Path, conflicts: int) -> list[str]:
+STAT_KEYS = {
+    "conflicts",
+    "decisions",
+    "propagations",
+    "restarts",
+    "learned",
+    "eliminated",
+    "fixed",
+    "substituted",
+    "ticks",
+    "total process time since initialization",
+    "total real time since initialization",
+    "maximum resident set size of process",
+}
+
+
+def solver_command(solver: str, cnf: Path, conflicts: int, stats: bool) -> list[str]:
     if solver == "cadical":
-        cmd = ["cadical", "-q"]
+        cmd = ["cadical"]
+        if stats:
+            cmd.append("--stats")
+        else:
+            cmd.append("-q")
         if conflicts > 0:
             cmd.extend(["-c", str(conflicts)])
         cmd.append(str(cnf))
@@ -57,6 +78,37 @@ def output_tail(text: str, max_lines: int = 12) -> list[str]:
     return lines[-max_lines:]
 
 
+def parse_cadical_stats(text: str) -> dict[str, float | int]:
+    stats: dict[str, float | int] = {}
+    for line in text.splitlines():
+        if not line.startswith("c "):
+            continue
+        body_raw = line[2:]
+        if body_raw.startswith(" "):
+            continue
+        body = body_raw.strip()
+        if ":" not in body:
+            continue
+        key, rest = body.split(":", 1)
+        key = key.strip()
+        if key not in STAT_KEYS:
+            continue
+        match = re.search(r"[-+]?(?:\d+\.\d+|\d+)", rest)
+        if not match:
+            continue
+        raw = match.group(0)
+        value: float | int
+        if "." in raw:
+            value = float(raw)
+        else:
+            value = int(raw)
+        out_key = key.replace(" ", "_").replace(".", "")
+        if out_key in stats:
+            continue
+        stats[out_key] = value
+    return stats
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--manifest", required=True, type=Path,
@@ -69,6 +121,8 @@ def main() -> int:
                     help="solver conflict limit if supported; 0 means none")
     ap.add_argument("--timeout-sec", type=float, default=0.0,
                     help="per-cube wall timeout; 0 means no Python timeout")
+    ap.add_argument("--stats", action="store_true",
+                    help="capture solver statistics; currently parsed for CaDiCaL")
     ap.add_argument("--work-dir", type=Path,
                     help="where to materialize cube CNFs; default is a temp dir")
     ap.add_argument("--keep-cnfs", action="store_true",
@@ -103,7 +157,7 @@ def main() -> int:
                     cnf_path = work_dir / f"{base.stem}__{rec['cube_id']}.cnf"
                     write_augmented_cnf(base, cnf_path, rec["clauses"], rec["cube_id"])
 
-                cmd = solver_command(args.solver, cnf_path, args.conflicts)
+                cmd = solver_command(args.solver, cnf_path, args.conflicts, args.stats)
                 t0 = time.monotonic()
                 timed_out = False
                 try:
@@ -139,6 +193,8 @@ def main() -> int:
                     "cnf_path": str(cnf_path),
                     "output_tail": output_tail(output),
                 }
+                if args.stats and args.solver == "cadical":
+                    result["stats"] = parse_cadical_stats(output)
                 out.write(json.dumps(result, sort_keys=True))
                 out.write("\n")
                 out.flush()
