@@ -50,6 +50,7 @@ python3 headline_hunt/bets/math_principles/encoders/summarize_strict_kernel_basi
 python3 headline_hunt/bets/math_principles/encoders/beam_f322_kernel_safe_depth2.py
 python3 headline_hunt/bets/math_principles/encoders/design_conflict_guided_bridge.py
 python3 headline_hunt/bets/math_principles/encoders/generate_bridge_cubes.py
+python3 headline_hunt/bets/math_principles/encoders/smoke_bridge_cubes.py
 ```
 
 The original manifest slice intentionally excludes downstream math-principles
@@ -110,6 +111,7 @@ Default outputs:
 - `results/20260429_F380_bridge_cubes.{json,md}`
 - `data/20260429_F380_bridge_cubes.dimacs.txt`
 - `data/20260429_F380_aux_force_sr60_n32_bit31_m17149975_fillffffffff.varmap.json`
+- `results/20260429_F381_bridge_cube_smoke.{json,md}`
 
 ## Readout
 
@@ -325,9 +327,16 @@ and F374's low-guard corner; each gets `ones_w57_w63`, `w61`, and `w57_w60`
 cube variants. The literal sidecar is diagnostic input for CaDiCaL conflict
 signature runs, not a proof artifact.
 
+F381 smoke-tests those bridge cubes by appending them as unit assumptions to
+the matching aux-force CNF and running CaDiCaL at a 5k conflict cap. All three
+`ones_w57_w63` sparse-positive cubes remain UNKNOWN, while all six full `w61`
+and `w57_w60` assignment cubes are UNSAT in under 0.18s. The bridge cubes are
+therefore live CDCL diagnostics: full schedule-diff cubes conflict immediately,
+while sparse positive cubes survive long enough for deeper signature runs.
+
 ## Next tracks
 
 - add outcome-aware calibration before spending more budget on F343-style selectors
 - use F342 stable-core coordinates as hard features for BP/matroid audits
 - use common-mode atlas continuation as a post-atlas polish operator
-- run bridge-cube UP/small-conflict smoke tests before full CDCL experiments
+- extract/compare proof or conflict traces for the F381 UNSAT bridge cubes
