@@ -16,7 +16,7 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Any
 
-from schedule_cube_planner import n_free_words, schedule_var
+from schedule_cube_planner import cube_records, n_free_words, parse_dimacs_header, schedule_var
 
 
 def metric_value(row: dict[str, Any], metric: str) -> float | None:
@@ -180,6 +180,62 @@ def rank_bits(
     return rows
 
 
+def emit_manifest(
+    rows: list[dict[str, Any]],
+    hard_core: dict[str, Any],
+    cnf: Path,
+    out_jsonl: Path,
+    target: str,
+    round_: int,
+    metric: str,
+    core_weight: float,
+    depth: int,
+    limit_bits: int,
+    only_core_classes: set[str],
+) -> int:
+    sr = 64 - int(hard_core["n_free"])
+    selected_rows = [
+        row for row in rows
+        if not only_core_classes or row["core_class"] in only_core_classes
+    ][:limit_bits]
+    bits = [int(row["bit"]) for row in selected_rows]
+    if not bits:
+        raise ValueError("no bits selected for manifest")
+    if depth < 1 or depth > len(bits):
+        raise ValueError(f"emit depth {depth} incompatible with {len(bits)} selected bits")
+
+    max_var, n_clauses = parse_dimacs_header(cnf)
+    row_by_bit = {int(row["bit"]): row for row in selected_rows}
+
+    out_jsonl.parent.mkdir(parents=True, exist_ok=True)
+    n_records = 0
+    with out_jsonl.open("w") as out:
+        for rec in cube_records(sr, target, round_, bits, depth):
+            rec["base_cnf"] = str(cnf)
+            rec["base_vars"] = max_var
+            rec["base_clauses"] = n_clauses
+            rec["augmented_clauses"] = n_clauses + rec["added_clause_count"]
+            rec["cnf_path"] = None
+            rec["selector"] = {
+                "tool": "hard_core_cube_seeds.py",
+                "metric": metric,
+                "core_weight": core_weight,
+                "bits": [
+                    {
+                        "bit": int(assignment["bit"]),
+                        "score": row_by_bit[int(assignment["bit"])]["score"],
+                        "core_class": row_by_bit[int(assignment["bit"])]["core_class"],
+                        "preferred_value": row_by_bit[int(assignment["bit"])]["preferred_value"],
+                    }
+                    for assignment in rec["assignments"]
+                ],
+            }
+            out.write(json.dumps(rec, sort_keys=True))
+            out.write("\n")
+            n_records += 1
+    return n_records
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--hard-core-json", required=True, type=Path)
@@ -192,6 +248,16 @@ def main() -> int:
                     help="weight applied to structural core membership")
     ap.add_argument("--top", type=int, default=12)
     ap.add_argument("--out-json", type=Path)
+    ap.add_argument("--cnf", type=Path,
+                    help="base CNF, required when emitting a manifest")
+    ap.add_argument("--emit-manifest", type=Path,
+                    help="optional cube manifest from selected ranked bits")
+    ap.add_argument("--emit-depth", type=int, default=1,
+                    help="cube depth for --emit-manifest")
+    ap.add_argument("--emit-top", type=int, default=0,
+                    help="number of ranked bits to use for --emit-manifest; 0 uses --top")
+    ap.add_argument("--only-core-class", action="append", default=[],
+                    help="filter manifest bits to a core_class, e.g. shell or both_core")
     args = ap.parse_args()
 
     with args.hard_core_json.open() as f:
@@ -211,6 +277,10 @@ def main() -> int:
         observed,
         args.core_weight,
     )
+    display_rows = [
+        row for row in rows
+        if not args.only_core_class or row["core_class"] in set(args.only_core_class)
+    ]
     summary = {
         "hard_core_json": str(args.hard_core_json),
         "target": args.target,
@@ -218,16 +288,34 @@ def main() -> int:
         "metric": args.metric,
         "stats_jsonl": [str(p) for p in args.stats_jsonl],
         "core_weight": args.core_weight,
+        "only_core_class": args.only_core_class,
         "rows": rows,
-        "top": rows[:args.top],
+        "top": display_rows[:args.top],
     }
 
-    print(json.dumps({"top": rows[:args.top]}, indent=2, sort_keys=True))
+    print(json.dumps({"top": display_rows[:args.top]}, indent=2, sort_keys=True))
     if args.out_json:
         args.out_json.parent.mkdir(parents=True, exist_ok=True)
         with args.out_json.open("w") as f:
             json.dump(summary, f, indent=2, sort_keys=True)
             f.write("\n")
+    if args.emit_manifest:
+        if args.cnf is None:
+            raise SystemExit("--cnf is required with --emit-manifest")
+        n_records = emit_manifest(
+            rows,
+            hard_core,
+            args.cnf,
+            args.emit_manifest,
+            args.target,
+            args.round,
+            args.metric,
+            args.core_weight,
+            args.emit_depth,
+            args.emit_top or args.top,
+            set(args.only_core_class),
+        )
+        print(f"wrote {n_records} cube records to {args.emit_manifest}")
     return 0
 
 
