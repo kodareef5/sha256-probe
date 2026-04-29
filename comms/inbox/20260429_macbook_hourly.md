@@ -310,3 +310,12 @@ universal-hard-core characterization arc left off.)
 - block2_wang per-cand corpora: 46 (was 43, +3 this hour).
 - 101 commits across 2-day arc.
 
+
+## ~07:30 EDT — F310: corpus_bit00_m8299b36f shipped (47 total)
+
+- corpus_bit00_m8299b36f_fill80000000: 10k records
+- F309 batch was redundant (3 cands already had corpora — naming
+  confusion). Pivoted to F310 with truly-missing bit00_m8299b36f.
+- block2_wang per-cand corpora: 47 (was 46, +1 this hour).
+- 102 commits across 2-day arc.
+
