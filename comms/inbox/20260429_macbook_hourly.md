@@ -846,3 +846,26 @@ universal-with-flip constraints. Algebraic derivation of σ-arithmetic
 that produces the polarity flip.
 
 Commit: [next] (F340).
+
+
+## ~19:45 EDT — F341: dW57[0] = 1 single-bit CDCL UNSAT (LSB anchor mechanism)
+
+- Enumerated all 32 dW57[i] × 2 polarity assignments on m17149975/bit31
+  via cadical 5s budget. Wall: 316s.
+- Result: EXACTLY ONE polarity is UNSAT — dW57[0] = 0 in 0.02s.
+  This forces dW57[0] = 1 (LSB of W57 differential).
+- Connects directly to F286 universal anchors W1_57[0] and W2_57[0]
+  (both 10/10 core fraction): their XOR (= dW57[0]) must be a universal
+  CONSTANT, and F341 verifies cadical immediately UNSATs the wrong polarity.
+- This is a NEW class of CDCL-derived structural constraint:
+  Class 1a — single-bit unit clause, derivable in 0.02s.
+- Combined picture (Phase 2D propagator clause library):
+    1. dW57[0] = 1 (unit, all cands per F286)
+    2. NOT(dW57[22]=0 ∧ dW57[23]=¬fill_bit31) (2-bit, F340)
+    3. Branching priority on F286 132 universal core
+    4. Cand-specific cores from yale F378-F384 pipeline
+
+Concrete next: cross-cand validate dW57[0]=1 on the 5 other cands from
+F340; test dW58[0]/dW59[0]/dW60[0] for additional unit-clause UNSAT.
+
+Commit: [next] (F341).
