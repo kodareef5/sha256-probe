@@ -81,7 +81,7 @@ def write_md(path: Path, payload: dict[str, Any]) -> None:
         "status: INFLUENCE_PRIORS",
         "---",
         "",
-        "# F341: empirical influence priors",
+        f"# {payload['report_id']}: empirical influence priors",
         "",
         "## Summary",
         "",
@@ -126,6 +126,7 @@ def write_md(path: Path, payload: dict[str, Any]) -> None:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("manifest", type=Path, nargs="?", default=DEFAULT_MANIFEST)
+    ap.add_argument("--report-id", default="F341")
     ap.add_argument("--positive-score", type=int, default=90)
     ap.add_argument("--out-json", type=Path, default=REPO / "headline_hunt/bets/math_principles/results/20260429_F341_influence_priors.json")
     ap.add_argument("--out-md", type=Path, default=REPO / "headline_hunt/bets/math_principles/results/20260429_F341_influence_priors.md")
@@ -151,6 +152,7 @@ def main() -> int:
     pair_1_3 = next(row for row in pair_priors if row["feature"] == [1, 3])
     payload = {
         "manifest": repo_path(args.manifest),
+        "report_id": args.report_id,
         "positive_score_threshold": args.positive_score,
         "background_count": len(background),
         "positive_count": len(positives),

@@ -29,12 +29,24 @@ python3 headline_hunt/bets/math_principles/encoders/summarize_radius1_scan.py
 python3 headline_hunt/bets/math_principles/encoders/summarize_new88_continuation.py
 ```
 
+The original manifest slice intentionally excludes downstream math-principles
+calibration scans. To build a v2 manifest that promotes F347/F350 discoveries:
+
+```bash
+python3 headline_hunt/bets/math_principles/encoders/build_principles_manifest.py \
+  --include-math-results \
+  --out-jsonl headline_hunt/bets/math_principles/data/20260429_principles_manifest_v2.jsonl \
+  --summary-json headline_hunt/bets/math_principles/results/20260429_F351_manifest_v2_summary.json
+```
+
 Default outputs:
 
 - `data/20260429_principles_manifest.jsonl`
+- `data/20260429_principles_manifest_v2.jsonl`
 - `data/20260429_F343_submodular_masks.txt`
 - `data/20260429_F346_radius1_basin_walk_masks.txt`
 - `results/20260429_manifest_summary.json`
+- `results/20260429_F351_manifest_v2_summary.json`
 - `results/20260429_F340_tail_law.{json,md}`
 - `results/20260429_F341_influence_priors.{json,md}`
 - `results/20260429_F342_carry_invariant_audit.{json,md}`
@@ -81,6 +93,10 @@ F347 scanned the F346 queue at 4x10k and found a new unseen score-88 mask:
 
 F350 continued the new score-88 mask. It is narrow: no-kick seeding preserves
 88, kicked continuation loses the basin, and single-bit polish does not descend.
+
+F351 rebuilds the manifest with F344/F347/F350 included. The promoted score-88
+mask increases the low-score set to 16 masks; the <=90 graph now has 5 direct
+one-swap edges and a largest low component of 4 masks.
 
 ## Next tracks
 

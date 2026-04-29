@@ -127,7 +127,7 @@ def write_md(path: Path, payload: dict[str, Any]) -> None:
         "status: TAIL_LAW_TRIAGE",
         "---",
         "",
-        "# F340: REM / tail-law triage",
+        f"# {payload['report_id']}: REM / tail-law triage",
         "",
         "## Summary",
         "",
@@ -162,6 +162,7 @@ def write_md(path: Path, payload: dict[str, Any]) -> None:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("manifest", type=Path, nargs="?", default=DEFAULT_MANIFEST)
+    ap.add_argument("--report-id", default="F340")
     ap.add_argument("--out-json", type=Path, default=REPO / "headline_hunt/bets/math_principles/results/20260429_F340_tail_law.json")
     ap.add_argument("--out-md", type=Path, default=REPO / "headline_hunt/bets/math_principles/results/20260429_F340_tail_law.md")
     args = ap.parse_args()
@@ -172,6 +173,7 @@ def main() -> int:
     basin_rows = [row for row in rows if row.get("kind") == "block2_basin_catalog"]
     payload = {
         "manifest": repo_path(args.manifest),
+        "report_id": args.report_id,
         "active_subset_scores": score_stats(active_rows),
         "local_search_scores": score_stats(local_rows),
         "basin_catalog_scores": score_stats(basin_rows),

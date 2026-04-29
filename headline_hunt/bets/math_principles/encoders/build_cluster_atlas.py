@@ -205,7 +205,7 @@ def write_md(path: Path, payload: dict[str, Any]) -> None:
         "status: CLUSTER_ATLAS",
         "---",
         "",
-        "# F345: active-mask cluster atlas",
+        f"# {payload['report_id']}: active-mask cluster atlas",
         "",
         "## Summary",
         "",
@@ -261,6 +261,7 @@ def write_md(path: Path, payload: dict[str, Any]) -> None:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--manifest", type=Path, default=DEFAULT_MANIFEST)
+    ap.add_argument("--report-id", default="F345")
     ap.add_argument("--low-threshold", type=int, default=90)
     ap.add_argument("--bridge-threshold", type=int, default=95)
     ap.add_argument("--edge-distance", type=int, default=2)
@@ -282,6 +283,7 @@ def main() -> int:
     radius = radius_stats(low_masks, masks, args.edge_distance, [90, 92, 95])
     payload = {
         "manifest": repo_path(args.manifest),
+        "report_id": args.report_id,
         "observed_mask_count": len(masks),
         "low_threshold": args.low_threshold,
         "bridge_threshold": args.bridge_threshold,

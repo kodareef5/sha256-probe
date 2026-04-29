@@ -210,11 +210,12 @@ def ingest_tanner_motifs(path: Path) -> list[dict[str, Any]]:
     return rows
 
 
-def default_paths() -> dict[str, list[Path]]:
+def default_paths(include_math_results: bool = False) -> dict[str, list[Path]]:
     block2 = REPO / "headline_hunt/bets/block2_wang/results"
     cascade = REPO / "headline_hunt/bets/cascade_aux_encoding/results"
+    math_results = REPO / "headline_hunt/bets/math_principles/results"
     search = block2 / "search_artifacts"
-    return {
+    paths = {
         "basin_catalog": [block2 / "20260428_F339_bit19_narrow_basin_catalog.json"],
         "active_subset": sorted(search.glob("*bit19_fullpool_size5_chunk*_64x3x4k.json")),
         "local_search": sorted([
@@ -229,10 +230,23 @@ def default_paths() -> dict[str, list[Path]]:
             cascade / "20260428_F331_sr60_tanner_motif_compare_maxlabels16.json",
         ],
     }
+    if include_math_results:
+        paths["active_subset"].extend([
+            math_results / "20260429_F344_submodular_mask_calibration_scan.json",
+            math_results / "20260429_F347_radius1_basin_walk_scan.json",
+        ])
+        paths["local_search"].extend([
+            math_results / "20260429_F348_radius1_new88_continuation_8x50k.json",
+            math_results / "20260429_F349_radius1_new88_seeded_8x50k.json",
+            math_results / "20260429_F350_radius1_new88_polish.json",
+        ])
+        paths["active_subset"] = sorted(set(paths["active_subset"]))
+        paths["local_search"] = sorted(set(paths["local_search"]))
+    return paths
 
 
-def build_manifest() -> list[dict[str, Any]]:
-    paths = default_paths()
+def build_manifest(include_math_results: bool = False) -> list[dict[str, Any]]:
+    paths = default_paths(include_math_results=include_math_results)
     records: list[dict[str, Any]] = []
     for path in paths["basin_catalog"]:
         if path.exists():
@@ -258,7 +272,11 @@ def write_jsonl(path: Path, records: list[dict[str, Any]]) -> None:
             f.write("\n")
 
 
-def write_summary(path: Path, records: list[dict[str, Any]]) -> dict[str, Any]:
+def write_summary(
+    path: Path,
+    records: list[dict[str, Any]],
+    include_math_results: bool = False,
+) -> dict[str, Any]:
     by_kind = Counter(record["kind"] for record in records)
     score_records = [
         record for record in records
@@ -281,6 +299,7 @@ def write_summary(path: Path, records: list[dict[str, Any]]) -> dict[str, Any]:
                 if record["kind"] == "hard_core_stability_bit"
             }),
         },
+        "include_math_results": include_math_results,
     }
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w") as f:
@@ -291,17 +310,22 @@ def write_summary(path: Path, records: list[dict[str, Any]]) -> dict[str, Any]:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--include-math-results", action="store_true",
+                    help="Include math_principles calibration scans and continuations.")
     ap.add_argument("--out-jsonl", type=Path, default=REPO / "headline_hunt/bets/math_principles/data/20260429_principles_manifest.jsonl")
     ap.add_argument("--summary-json", type=Path, default=REPO / "headline_hunt/bets/math_principles/results/20260429_manifest_summary.json")
     args = ap.parse_args()
 
-    records = build_manifest()
+    records = build_manifest(include_math_results=args.include_math_results)
     write_jsonl(args.out_jsonl, records)
-    summary = write_summary(args.summary_json, records)
+    summary = write_summary(
+        args.summary_json,
+        records,
+        include_math_results=args.include_math_results,
+    )
     print(json.dumps(summary, indent=2, sort_keys=True))
     return 0
 
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
