@@ -40,6 +40,7 @@ python3 headline_hunt/bets/math_principles/encoders/probe_d61_repair_moves.py
 python3 headline_hunt/bets/math_principles/encoders/probe_guard_repair_third_moves.py
 python3 headline_hunt/bets/math_principles/encoders/continue_atlas_kernel_safe.py
 python3 headline_hunt/bets/math_principles/encoders/extend_kernel_safe_continuation.py
+python3 headline_hunt/bets/math_principles/encoders/probe_kernel_safe_neighborhood.py
 ```
 
 The original manifest slice intentionally excludes downstream math-principles
@@ -88,6 +89,7 @@ Default outputs:
 - `results/20260429_F368_guard_lowered_fourth_probe.{json,md}`
 - `results/20260429_F369_kernel_safe_pareto_continuation.{json,md}`
 - `results/20260429_F370_kernel_safe_descendant_continuation.{json,md}`
+- `results/20260429_F371_kernel_safe_neighborhood_r1.{json,md}`
 
 ## Readout
 
@@ -231,9 +233,14 @@ It does not improve at 4x30k: seed and best remain score 37.8, `a57=6`,
 D61=8, chart `dh,dCh`. This is the current local floor for common-mode,
 kernel-preserving atlas continuation from the Pareto path.
 
+F371 deterministically probes the F370 strict-kernel basin at radius 1 using
+only kernel-preserving common moves. Across 1536 valid moves it finds no score
+improvement, no `a57` improvement, and no D61 improvement. The score-37.8
+strict-kernel basin is a radius-1 local minimum under common-mode moves.
+
 ## Next tracks
 
 - add outcome-aware calibration before spending more budget on F343-style selectors
 - use F342 stable-core coordinates as hard features for BP/matroid audits
 - use common-mode atlas continuation as a post-atlas polish operator
-- probe deterministic strict-kernel neighborhoods around the F370 basin
+- try radius-2 strict-kernel common-mode beam/probe around the F370 basin
