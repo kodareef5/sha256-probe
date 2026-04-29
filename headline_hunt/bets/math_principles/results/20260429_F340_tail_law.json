@@ -1,0 +1,135 @@
+{
+  "active_subset_scores": {
+    "expected_min_rem_gaussian": 88.829948,
+    "max": 107.0,
+    "mean": 98.930804,
+    "median": 99.0,
+    "min": 87.0,
+    "min_minus_expected": -1.829948,
+    "n": 2688,
+    "q01": 91.0,
+    "q05": 94.0,
+    "q10": 96.0,
+    "stdev": 2.541701,
+    "thresholds": {
+      "90": {
+        "gaussian_expected": 0.593902,
+        "observed": 16,
+        "observed_over_expected": 26.940451
+      },
+      "92": {
+        "gaussian_expected": 8.594152,
+        "observed": 46,
+        "observed_over_expected": 5.352477
+      },
+      "95": {
+        "gaussian_expected": 163.938181,
+        "observed": 244,
+        "observed_over_expected": 1.488366
+      }
+    }
+  },
+  "basin_catalog_scores": {
+    "expected_min_rem_gaussian": 86.730595,
+    "max": 90.0,
+    "mean": 89.0,
+    "median": 90.0,
+    "min": 87.0,
+    "min_minus_expected": 0.269405,
+    "n": 5,
+    "q01": 87.03999999999999,
+    "q05": 87.20000000000002,
+    "q10": 87.4,
+    "stdev": 1.264911,
+    "thresholds": {
+      "90": {
+        "gaussian_expected": 3.927012,
+        "observed": 5,
+        "observed_over_expected": 1.273233
+      },
+      "92": {
+        "gaussian_expected": 4.955735,
+        "observed": 5,
+        "observed_over_expected": 1.008932
+      },
+      "95": {
+        "gaussian_expected": 4.999995,
+        "observed": 5,
+        "observed_over_expected": 1.000001
+      }
+    }
+  },
+  "local_search_scores": {
+    "expected_min_rem_gaussian": 88.04553,
+    "max": 100.0,
+    "mean": 95.725962,
+    "median": 96.0,
+    "min": 87.0,
+    "min_minus_expected": -1.04553,
+    "n": 208,
+    "q01": 88.14,
+    "q05": 92.0,
+    "q10": 92.0,
+    "stdev": 2.350716,
+    "thresholds": {
+      "90": {
+        "gaussian_expected": 1.545165,
+        "observed": 7,
+        "observed_over_expected": 4.53026
+      },
+      "92": {
+        "gaussian_expected": 11.747724,
+        "observed": 24,
+        "observed_over_expected": 2.042949
+      },
+      "95": {
+        "gaussian_expected": 78.775225,
+        "observed": 85,
+        "observed_over_expected": 1.079019
+      }
+    }
+  },
+  "low_score_pattern": {
+    "contains_1_3_count": 9,
+    "contains_1_3_fraction": 0.428571,
+    "distinct_masks": 15,
+    "low_count": 21,
+    "threshold": 90,
+    "top_masks": [
+      [
+        "0,1,3,8,9",
+        3
+      ],
+      [
+        "0,7,9,12,14",
+        2
+      ],
+      [
+        "1,2,3,4,15",
+        2
+      ],
+      [
+        "1,3,5,6,11",
+        2
+      ],
+      [
+        "1,3,6,8,12",
+        2
+      ],
+      [
+        "0,1,2,7,15",
+        1
+      ],
+      [
+        "1,7,10,11,15",
+        1
+      ],
+      [
+        "2,3,7,13,15",
+        1
+      ]
+    ]
+  },
+  "manifest": "headline_hunt/bets/math_principles/data/20260429_principles_manifest.jsonl",
+  "verdict": "clustered_or_heavy_tail_evidence"
+}

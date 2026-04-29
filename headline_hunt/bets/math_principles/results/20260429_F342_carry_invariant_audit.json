@@ -1,0 +1,144 @@
+{
+  "manifest": "headline_hunt/bets/math_principles/data/20260429_principles_manifest.jsonl",
+  "modes": [
+    {
+      "first_round_bits": 64,
+      "first_round_stable_shell": 5,
+      "first_round_variable": 56,
+      "free_rounds": [
+        57,
+        58,
+        59,
+        60
+      ],
+      "last_two_bits": 128,
+      "last_two_rounds": [
+        59,
+        60
+      ],
+      "last_two_stable_core": 128,
+      "mode": "sr60",
+      "word_rounds": {
+        "w1[57]": {
+          "mean_core_fraction": 0.401042,
+          "stable_core": 1,
+          "stable_shell": 1,
+          "variable": 30
+        },
+        "w1[58]": {
+          "mean_core_fraction": 0.0,
+          "stable_core": 0,
+          "stable_shell": 32,
+          "variable": 0
+        },
+        "w1[59]": {
+          "mean_core_fraction": 1.0,
+          "stable_core": 32,
+          "stable_shell": 0,
+          "variable": 0
+        },
+        "w1[60]": {
+          "mean_core_fraction": 1.0,
+          "stable_core": 32,
+          "stable_shell": 0,
+          "variable": 0
+        },
+        "w2[57]": {
+          "mean_core_fraction": 0.447917,
+          "stable_core": 2,
+          "stable_shell": 4,
+          "variable": 26
+        },
+        "w2[58]": {
+          "mean_core_fraction": 0.75,
+          "stable_core": 8,
+          "stable_shell": 1,
+          "variable": 23
+        },
+        "w2[59]": {
+          "mean_core_fraction": 1.0,
+          "stable_core": 32,
+          "stable_shell": 0,
+          "variable": 0
+        },
+        "w2[60]": {
+          "mean_core_fraction": 1.0,
+          "stable_core": 32,
+          "stable_shell": 0,
+          "variable": 0
+        }
+      }
+    },
+    {
+      "first_round_bits": 64,
+      "first_round_stable_shell": 8,
+      "first_round_variable": 54,
+      "free_rounds": [
+        57,
+        58,
+        59
+      ],
+      "last_two_bits": 128,
+      "last_two_rounds": [
+        58,
+        59
+      ],
+      "last_two_stable_core": 127,
+      "mode": "sr61",
+      "word_rounds": {
+        "w1[57]": {
+          "mean_core_fraction": 0.414062,
+          "stable_core": 1,
+          "stable_shell": 3,
+          "variable": 28
+        },
+        "w1[58]": {
+          "mean_core_fraction": 0.984375,
+          "stable_core": 31,
+          "stable_shell": 0,
+          "variable": 1
+        },
+        "w1[59]": {
+          "mean_core_fraction": 1.0,
+          "stable_core": 32,
+          "stable_shell": 0,
+          "variable": 0
+        },
+        "w2[57]": {
+          "mean_core_fraction": 0.40625,
+          "stable_core": 1,
+          "stable_shell": 5,
+          "variable": 26
+        },
+        "w2[58]": {
+          "mean_core_fraction": 1.0,
+          "stable_core": 32,
+          "stable_shell": 0,
+          "variable": 0
+        },
+        "w2[59]": {
+          "mean_core_fraction": 1.0,
+          "stable_core": 32,
+          "stable_shell": 0,
+          "variable": 0
+        }
+      }
+    }
+  ],
+  "verdicts": [
+    {
+      "bits": 128,
+      "invariant": "last_two_free_rounds_are_stable_core",
+      "mode": "sr60",
+      "stable_core": 128,
+      "status": "holds_exact"
+    },
+    {
+      "bits": 128,
+      "invariant": "last_two_free_rounds_are_stable_core",
+      "mode": "sr61",
+      "stable_core": 127,
+      "status": "holds_with_single_exception"
+    }
+  ]
+}
