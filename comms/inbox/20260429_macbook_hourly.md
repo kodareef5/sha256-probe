@@ -485,3 +485,21 @@ it must enforce M2 = M1 ^ kernel rigid for cascade-1 claims.
 
 Commits: [next] (F320), [next+1] (F321 kernel-preserving), [next+2] (F322
 RETRACTION + random-init kernel baseline).
+
+
+## ~14:15 EDT — F324: universal hard core is CDCL-search property, NOT encoder
+
+- UP test on aux_force sr60 bit31 CNF: 0/32 W2_58 bits forced by
+  baseline UP, 0/32 force UNSAT under single-bit assumption.
+- 0/256 schedule bits (W*_57..W*_60) are UP-forced. The 481 baseline-
+  UP-forced vars are AUX/CONST_TRUE/equality, not schedule.
+- F286 132-bit universal hard core is a CDCL-search invariant of the
+  SHA-256 cascade-1 collision problem, NOT an encoder Tseitin artifact.
+  Stronger structural finding than encoder-pinning would have been —
+  not removable by re-encoding.
+- Both F287 hypotheses (σ1 fan-in F323, encoder-pin F324) closed with
+  negatives, reframing into the positive structural conclusion above.
+- For programmatic_sat_propagator: if we build IPASIR-UP, it should
+  accelerate CDCL trajectory through these 132 bits.
+
+Commit: [next] (F324).
