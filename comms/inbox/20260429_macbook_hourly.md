@@ -1114,3 +1114,31 @@ SAT either confirms (NEW sr=60 instance, headline-worthy) or is
 refuted as artifact.
 
 Commit: [next] (F350 cadical verification).
+
+
+## ~22:45 EDT — F351+F352: F343 preflight on F349 CNF (sr60 expose) + injection still UNKNOWN
+
+- F351: ran F343 preflight on m17454e4b/bit29 sr60 EXPOSE CNF.
+    dW57[0] forced=1 (Class 1a-univ confirmed for kernel-bit-29
+    EXPOSE — extends F341/F342 finding cross-mode + cross-kernel-bit)
+    W57[22:23] forbidden=(0, 0) (different polarity from bit31's
+    (0,1) at same fill=0xffffffff in FORCE mode — F340 hypothesis
+    refines: more factors than fill alone)
+- F352: cross-solver injection test (cadical 600s + kissat 600s
+  parallel on F349 CNF + F351's 2 mined clauses).
+    BOTH solvers UNKNOWN at 600s budget.
+    kissat injected: 20.46M conflicts (vs 20.68M baseline = -1.06%)
+    cadical injected: 15.35M conflicts (similar magnitude to baseline)
+- Speedup MUCH smaller than F347's 13.7% on FORCE-mode bit31. Either:
+    (a) EXPOSE mode benefits less from F343-mined clauses
+    (b) The 2-clause injection works differently across cands
+- F349 still PENDING. Original 24h-window task SAT not reproducible
+  in 10min by either solver, with or without injection.
+- Logged 4 runs total this hour via append_run.py. Total runs.jsonl: 1692.
+
+Concrete next: the injection mechanism IS structurally validated for
+sr=60 FORCE mode (F347 13.7% speedup on bit31), but EXPOSE mode shows
+weaker effect. Worth noting in F327 IPASIR-UP design: per-mode
+calibration may matter.
+
+Commit: [next] (F351+F352 PENDING-extension memo).
