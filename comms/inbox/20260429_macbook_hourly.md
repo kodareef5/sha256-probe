@@ -382,3 +382,25 @@ natural step: longer free-var run (1M steps) to drive true_mismatch_hw
 below 20 — F315 should then hit the attractor.
 
 Commit: [next] (F315).
+
+
+## ~09:50 EDT — F316: F359 atlas-aware seed comparison
+
+- Ran F315-style search seeded from yale's F359 (atlas-aware) instead
+  of F358 (true-mismatch). Best a57=4, D61=11, score=38.40 — slightly
+  better score than F315.
+- BOTH F358 and F359 seeds break the F314 a57=5 quasi-floor.
+  Mechanism (chamber-adjacent init) is robust; specific seed objective
+  is secondary.
+- F316 r4 is best chart-coherent point: a57=5, D61=12, chart=(dCh,dh).
+  F315 r0 had lower a57 (4) but in non-chamber chart. Tradeoff.
+- Chamber attractor still unreached at 16 restarts × 20k = 320k iters
+  total from chamber-adjacent init. Single-bit dM moves likely insufficient
+  for the attractor's basin.
+
+Yale: F359 atlas-aware free-var compute was 10x less than F358
+(80k vs 800k). At MATCHED compute, atlas-aware should reach
+true_mismatch_hw < 20 with chart=(dCh,dh) — best seed config.
+Worth a 1M-step run if you have cycles.
+
+Commit: [next] (F316).
