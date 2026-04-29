@@ -3015,3 +3015,17 @@ Discipline: 0 SAT compute, 0 solver runs.
   campaign cost; not worth without headline-relevance per F237)
 - 52 commits this session.
 
+
+## ~20:19 EDT — F255: F248 basin internally isolated at 8×50k
+
+- F255: 8×50k F248-init on `7,9,10,12,14` (F250's radius-1 winner).
+- Best across 8 restarts: 92 (restart 4, random init).
+- Restart 0 (F248-seeded): scored 97 — basin-init did NOT help.
+- Confirms: F248's score-90 basin is INTERNALLY isolated. Even
+  longer budget (8×50k) with basin-init doesn't connect to nearby
+  active-word geometries.
+- bit19 basin landscape: deep basins are sharp + seed-narrow +
+  internally isolated. Heuristic local search has saturated this
+  fixture's exploitable structure.
+- 53 commits this session.
+
