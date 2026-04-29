@@ -38,6 +38,7 @@ python3 headline_hunt/bets/math_principles/encoders/extend_atlas_continuation.py
 python3 headline_hunt/bets/math_principles/encoders/probe_descendant_neighborhood.py
 python3 headline_hunt/bets/math_principles/encoders/probe_d61_repair_moves.py
 python3 headline_hunt/bets/math_principles/encoders/probe_guard_repair_third_moves.py
+python3 headline_hunt/bets/math_principles/encoders/continue_atlas_kernel_safe.py
 ```
 
 The original manifest slice intentionally excludes downstream math-principles
@@ -84,6 +85,7 @@ Default outputs:
 - `results/20260429_F366_d61_repair_pair_probe.{json,md}`
 - `results/20260429_F367_guard_repair_third_probe.{json,md}`
 - `results/20260429_F368_guard_lowered_fourth_probe.{json,md}`
+- `results/20260429_F369_kernel_safe_pareto_continuation.{json,md}`
 
 ## Readout
 
@@ -172,22 +174,22 @@ member is `a57=5` on `dh,dCh` but 50 bits from the chamber schedule. This
 confirms the chamber-seed problem is a multi-objective tradeoff, not a
 weight-tuning problem.
 
-F361 continues three F360 front representatives under atlas loss. The
-`best_mismatch` seed improves atlas score 74.3 -> 43.8 and enters the chamber
-chart at `a57=6`; the `best_D61` seed improves 62.9 -> 44.85 and enters
-`dh,dCh` with D61=10. The Pareto front is therefore actionable: off-chart
-schedule/D61 representatives can be pulled back into the chamber chart.
+F361 continues three F360 front representatives under atlas loss in the
+drift-allowed move space. The `best_mismatch` seed improves atlas score 74.3
+-> 43.8 and enters the chamber chart at `a57=6`; the `best_D61` seed improves
+62.9 -> 44.85 and enters `dh,dCh` with D61=10. The Pareto front is actionable
+as an atlas-landscape object, but this run is not cascade-kernel strict.
 
-F362 extends the improved F361 descendants. Both branches improve again:
+F362 extends the improved F361 descendants in the same drift-allowed move
+space. Both branches improve again:
 `best_mismatch` reaches score 38.1 with `a57=5`, D61=11, chart `dh,dCh`;
 `best_D61` reaches score 35.4 with `a57=5`, D61=9, chart `dh,dCh`. This is
-the strongest evidence so far that Pareto-front seeds plus atlas continuation
-are a productive operator, even though the `a57=0` attractor remains unreached.
+useful landscape evidence but should not be quoted as cascade-1 progress.
 
 F363 reruns the F362 `best_D61` descendant with D61 weighted twice as heavily.
 It does not descend: under the beta=2 score, seed and best both remain 44.4
 with `a57=5`, D61=9, chart `dh,dCh`. The current raw/common message move set
-appears locally stuck at that basin.
+appears locally stuck at that drift-allowed basin.
 
 F364 changes the move family around the same F362 `best_D61` descendant by
 adding raw M1-side flips and allowing 3-flip proposals. It still does not
@@ -215,9 +217,16 @@ chart) and enumerates one more move. It finds zero moves satisfying the target
 combination `a57<=6`, chart match, and D61<=9. The local repair graph cycles
 between D61/chart repair and guard repair rather than combining them.
 
+F369 reruns the F361-style Pareto continuation with strict cascade-1 kernel
+preservation enforced after every proposed move. The front is still actionable:
+`best_D61` improves score 62.9 -> 37.8 while remaining kernel-valid, with
+`a57=6`, D61=8, chart `dh,dCh`. This is the current cascade-kernel-safe atlas
+benchmark for the Pareto path; it is higher than the drift-allowed F362 score
+35.4 but structurally meaningful.
+
 ## Next tracks
 
 - add outcome-aware calibration before spending more budget on F343-style selectors
 - use F342 stable-core coordinates as hard features for BP/matroid audits
 - use common-mode atlas continuation as a post-atlas polish operator
-- move beyond local bit repairs: schedule-coordinate or learned multi-bit proposals
+- extend the F369 strict-kernel `best_D61` descendant with kernel guard enabled
