@@ -133,3 +133,25 @@ universal-hard-core characterization arc left off.)
   encoder-specific. Single-σ-fanin doesn't predict.
 - 85 commits across 2-day arc.
 
+
+## ~02:15 EDT — F290: cascade_aux force-mode pins REGISTER diffs, not schedule bits
+
+- Read cascade_aux_encoder.py force-mode source (lines 263-285).
+- Theorem 1: cascade diagonal — registers a[57..60], b[58..60],
+  c[59..60], d[60] differences pinned to 0
+- Theorem 2: register e[60] difference = 0
+- Theorem 3: e[61..63] differences = 0
+- Theorem 4: a[61] = e[61] (register-bit equality)
+- NONE of these directly pin schedule W[r] bits.
+- Therefore: W2_58[14]/[26] universal-anchoring emerges INDIRECTLY
+  through cascade propagation from register constraints to schedule.
+- The propagation involves BIG-Σ (Σ0, Σ1) on registers AND
+  schedule-recurrence small-σ on W. Multi-step interaction.
+- Single-σ (small) fanin analysis (F287/F288/F289) couldn't predict
+  the anchors because the actual mechanism involves register-Σ
+  composition with schedule-σ.
+- F290 explanation closes the F286-F289 algebraic-investigation arc
+  with the right structural framing: TSEITIN propagation chain, not
+  direct algebraic prediction.
+- 86 commits across 2-day arc.
+
