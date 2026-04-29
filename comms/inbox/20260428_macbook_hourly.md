@@ -3398,3 +3398,15 @@ Discipline: 0 SAT compute, 0 solver runs.
   cand-portable. The 128-bit hard core is the limit, not the tool.
 - 76 commits this session.
 
+
+## ~23:55 EDT — F282: bit18 top-3 cubes at 1M conflicts — all UNKNOWN
+
+- F282: 3 fastest cubes from F281 promoted to 1M conflicts.
+- Result: 3/3 UNKNOWN, ~20s each. Linear scaling from F281's 2s
+  at 100k.
+- Consistent with yale's F326 (bit10 cubes at 1M also UNKNOWN).
+- Conclusion: depth-2 cube + 1M conflicts insufficient on sr60
+  cands across catalog. Intractability is structural, not solver-
+  budget-limited at this regime.
+- 77 commits this session.
+
