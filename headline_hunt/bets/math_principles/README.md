@@ -42,6 +42,7 @@ python3 headline_hunt/bets/math_principles/encoders/continue_atlas_kernel_safe.p
 python3 headline_hunt/bets/math_principles/encoders/extend_kernel_safe_continuation.py
 python3 headline_hunt/bets/math_principles/encoders/probe_kernel_safe_neighborhood.py
 python3 headline_hunt/bets/math_principles/encoders/beam_kernel_safe_neighborhood.py
+python3 headline_hunt/bets/math_principles/encoders/search_kernel_safe_junction.py
 ```
 
 The original manifest slice intentionally excludes downstream math-principles
@@ -92,6 +93,7 @@ Default outputs:
 - `results/20260429_F370_kernel_safe_descendant_continuation.{json,md}`
 - `results/20260429_F371_kernel_safe_neighborhood_r1.{json,md}`
 - `results/20260429_F372_kernel_safe_beam_probe.{json,md}`
+- `results/20260429_F373_kernel_safe_junction_search.{json,md}`
 
 ## Readout
 
@@ -247,9 +249,17 @@ with D61=22, while another reaches D61=5 with `a57=15`. The next useful move
 is a targeted junction/repair search between those branches, not more blind
 budget around the unchanged scalar floor.
 
+F373 turns the F372 split into a strict-kernel junction search. The literal
+union of the low-guard and low-D61 moves stays kernel-valid but lands off-chart
+at score 85.25. Bounded repair beams from both branch points reduce target
+violations but do not close them: the low-guard branch can restore chart and
+reach D61=13 only after giving guard back to `a57=6`, while the low-D61 branch
+can repair guard/chart only by losing D61 to 20. The nontrivial depth-2 common
+neighborhood still separates guard and D61.
+
 ## Next tracks
 
 - add outcome-aware calibration before spending more budget on F343-style selectors
 - use F342 stable-core coordinates as hard features for BP/matroid audits
 - use common-mode atlas continuation as a post-atlas polish operator
-- build a strict-kernel junction search between the F372 low-guard and low-D61 branches
+- escalate F373 from branch repair to a small Pareto bridge over nontrivial strict-kernel states
