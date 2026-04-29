@@ -580,3 +580,24 @@ sharpened Phase 2D recipe is the most structurally-motivated path
 forward for cracking the 132-bit CDCL bottleneck.
 
 Commit: [next] (F327 API survey update).
+
+
+## ~15:25 EDT — F328+F329: full 132-bit UP test + force/expose mode comparison
+
+- F328: tested all 128 round-bits (W*_59 + W*_60) on aux_force_sr60
+  bit31. Result: 0/128 UP-forced (any polarity). Combined with F324
+  W2_58 result, all 132 universal-hard-core bits are UP-free.
+- F329: same CNF but aux_EXPOSE mode. Baseline UP forces only 1 var
+  (just CONST_TRUE) vs force mode's 481 (cascade-offset AUX). The
+  480-var difference IS the cascade-1 hardlock encoding.
+- BOTH modes have 0/256 schedule bits UP-forced. Encoder-mode-
+  independent confirmation that the 132-bit core lives entirely in
+  CDCL-search invariant space.
+- Combined F324-F329 thesis: 132-bit core is a SHA-256 cascade-1
+  collision PROBLEM property, robust across encoding mode, cand
+  identity, single-bit and 2-bit UP assumptions.
+- F327 IPASIR-UP design choices reconfirmed: cb_propagate correctly
+  DOWNGRADED (encoder-independent), cb_decide / cb_add_external_clause
+  correctly HIGH priority.
+
+Commit: [next] (F328+F329).
