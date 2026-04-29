@@ -794,3 +794,27 @@ Commit: [next] (F336).
   target: prevent dW57[22]=0 ∧ dW57[23]=1 polarity for m17149975/bit31.
 
 Commit: [next] (F337+F338 synthesis).
+
+
+## ~18:50 EDT — F339: yale's W57[22:23]=(0,1) UNSAT cross-validated independently
+
+- Independent cadical 10s run on aux_force_sr60_n32_bit31_m17149975 CNF:
+    polarity (0, 1):  UNSAT in 0.08s ← yale F384 confirmed
+    other 3 polarities: UNKNOWN at 10s budget
+- Python UP test (F324 codepath): all 4 polarities UP-OK with 483 forced.
+  UP cannot see the (0,1) UNSAT — confirms F324-F326 search-invariant
+  thesis. The constraint emerges from CDCL conflict analysis, not Tseitin.
+- This is the first independently-verified cand-specific 2-literal CDCL
+  UNSAT core. Adds a 3rd class of CDCL-derived structural constraint:
+    Class 1: F286 universal anchors (4 specific bits)
+    Class 2: F286 universal round-bits (W*_59+W*_60, 128 bits)
+    Class 3: F384 cand-specific UNSAT cores ← NEW
+- Concrete next step: F327 cb_add_external_clause should support both
+  universal (init-time) AND cand-specific (per-cand-mine) clauses. The
+  W57[22:23]=(0,1) clause is the first verified test injection.
+
+Cross-machine cycle this hour:
+  yale F378-F384 conflict-guided cube mining → macbook F337 depth-2 →
+  F338 universal-core cross-check → F339 independent UNSAT verification.
+
+Commit: [next] (F339).
