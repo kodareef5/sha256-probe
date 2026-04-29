@@ -3229,3 +3229,16 @@ Discipline: 0 SAT compute, 0 solver runs.
 - F269 (hard-core JSONs for 2 more cands) running in parallel.
 - 65 commits this session.
 
+
+## ~21:18 EDT — F269: hard-core JSONs for 2 more sr=60 cands; cross-cand consistency
+
+- F269: hard-core JSONs for sr60_bit10_m3304caa0 + sr60_bit11_m45b0a5f6.
+- Cross-cand pattern (compared to F311 sr61_bit25):
+  - All cands: hard core ~3800-4000 vars (consistent with F213's 3,907)
+  - sr=60: ~80 schedule vars in shell, ~177 in core (~31% shell)
+  - sr=61: ~42 schedule vars in shell, ~151 in core (~22% shell)
+- Yale's selector pipeline applies uniformly across cand catalog.
+- More cands now have JSON ready for selector-based cube experiments
+  in future sessions.
+- 66 commits this session.
+
