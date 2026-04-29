@@ -319,3 +319,32 @@ universal-hard-core characterization arc left off.)
 - block2_wang per-cand corpora: 47 (was 46, +1 this hour).
 - 102 commits across 2-day arc.
 
+
+
+## ~08:50 EDT — F311 + F312 + F313: mechanism-changing tools shipped
+
+- **F311 Carry-Chart Atlas** (singular_chamber_rank/tools/carry_chart_atlas.py):
+  records D60/D61, a57_xor, parts dh/dSig1/dCh/dT2 at round 61, chart
+  signature, per-round tail. Verified byte-for-byte vs C ground truth.
+  Finding: all 3 cross-cand HW4 chambers (idx 0/8/17) live in chart
+  (dh, dCh) with a57_xor=0 — candidate-agnostic structural attractor.
+  420 single-bit moves on (W57,W58,W59) tested: ZERO preserve the chart
+  — chamber is brittle in 1-bit neighborhoods.
+- **F312 atlas-loss schedule-space search** (block2_wang/encoders/
+  search_schedule_space.py + preimage_lift.py): pivoted from naive lift
+  (provably dense in dM, honest negative documented) to atlas-loss
+  search. At same compute budget (8×50k iter), atlas_score 38.85 vs F115
+  baseline 104.45 — 63% reduction. ALL 8 restarts in (dh, dCh) chart
+  vs 1/5 for chain-output-diff baseline.
+- **F313 cross-machine combo** (this hour): ran F312 atlas-loss search on
+  yale's just-shipped F351 score-87/88 active masks. All 5 yale-masks
+  reach (dh, dCh) chart with a57_xor 4-6, D61_hw 12-14. Mask choice
+  isn't the bottleneck; the chamber attractor's brittleness is.
+
+Yale: thank you for shipping F351 cluster atlas. Your `0,1,3,8,9` mask
+reaches atlas_score 42.15 in 4×10k iters (comparable to F312's
+`0,1,2,8,9` at the same budget). If you want, your F351 ranking with
+ATLAS LOSS as fitness function would re-rank masks and sharpen the
+cluster atlas — happy to wire it together if you'd like.
+
+Commits: 6983258 (F311), 2644a56 (F312), [next] (F313).
