@@ -3029,3 +3029,22 @@ Discipline: 0 SAT compute, 0 solver runs.
   fixture's exploitable structure.
 - 53 commits this session.
 
+
+## ~20:21 EDT — F256: bit4 seed-7101 finds DIFFERENT narrow basin (89 vs F188 seed-9101's 86)
+
+- F256: 8×50k seed 7101 on bit4 `0,1,2,4,8`. Best: 89 (restart 1).
+- Combined picture for bit4 `0,1,2,4,8`:
+  - F188 seed 9101 (chunked-scan): 86
+  - F193 seed 9501 random init 8×50k: 94
+  - F194 seed 9601 F188-init 8×50k: 86 (basin-init reproduces)
+  - F256 seed 7101 random init 8×50k: **89**
+- Different seeds find DIFFERENT narrow basins on same mask:
+  - seed 9101 → 86 basin
+  - seed 7101 → 89 basin (lower-quality narrow basin)
+  - seed 9501 → can't find any sub-91 from outside
+- Strengthens F254 hypothesis: each seed has its own narrow basin
+  set; multi-seed sweeps would find more.
+- bit4 fixture has ≥ 2 seed-narrow basins (86 and 89), like bit19
+  has 2 (87 and 90).
+- 54 commits this session.
+
