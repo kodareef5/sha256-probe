@@ -684,3 +684,22 @@ What's still valid from F36x: Pareto-landscape structure (F360),
 multi-bit brittleness extension (F366-F368 0-count rates).
 
 Commit: [next] (F333).
+
+
+## ~16:55 EDT — F334: kernel-preservation auditor + fleet-wide drift survey
+
+- Shipped infra/audit_kernel_preservation.py — recursive JSON walker
+  that flags non-cascade-1 (M1, M2) pairs. --block-context block1
+  (default, DRIFT = bug) or block2 (DRIFT = expected absorber search).
+- Verified against known-good F321/F322 (PASS) and known-drift F315/F362
+  (DRIFT). Tool works.
+- Fleet-wide block-1 atlas-loss survey across today's ship:
+  - block2_wang search artifacts: ~104/128 pairs DRIFT (81%)
+  - math_principles atlas results: ~715/722 pairs DRIFT (99%)
+- The 31 PASS pairs are: F321 (8), F322 (8), F361 partial (7), and the
+  6 macbook search-artifact files I'd already retracted in F322.
+- This catches the F322/F333 class of bug systematically. Future
+  cross-machine work can pass through the auditor as a one-line check
+  before claims propagate.
+
+Commit: [next] (F334).
