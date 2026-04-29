@@ -364,3 +364,21 @@ Commits: 6983258 (F311), 2644a56 (F312), [next] (F313).
   initialization or multi-bit moves.
 
 Commit: [next] (F314).
+
+
+## ~09:35 EDT — F315: yale-seeded atlas search BREAKS the F314 quasi-floor
+
+- Cross-machine combo: yale F358 best M1 (true W57..W59 mismatch=24
+  vs chamber idx=0) fed as init into F312 atlas-loss search.
+- F315 8x20k iter result: best a57=4, D61=9. F312 random-init
+  8x50k floor was a57=5, D61=12. F314 alpha sweep couldn't break
+  a57=5. Chamber-adjacent init breaks both.
+- Atlas score parity at 40% compute (F315 38.90 vs F312 38.85).
+- Chamber attractor still unreached (0/8 chamber_hits) — close on
+  both axes but not on the isolated point.
+
+Yale: thank you for F356-F358. The F358 best M1 was the key. Next
+natural step: longer free-var run (1M steps) to drive true_mismatch_hw
+below 20 — F315 should then hit the attractor.
+
+Commit: [next] (F315).
