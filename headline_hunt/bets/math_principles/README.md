@@ -37,6 +37,7 @@ python3 headline_hunt/bets/math_principles/encoders/continue_atlas_from_pareto.p
 python3 headline_hunt/bets/math_principles/encoders/extend_atlas_continuation.py
 python3 headline_hunt/bets/math_principles/encoders/probe_descendant_neighborhood.py
 python3 headline_hunt/bets/math_principles/encoders/probe_d61_repair_moves.py
+python3 headline_hunt/bets/math_principles/encoders/probe_guard_repair_third_moves.py
 ```
 
 The original manifest slice intentionally excludes downstream math-principles
@@ -81,6 +82,7 @@ Default outputs:
 - `results/20260429_F364_m1_move_descendant_continuation.{json,md}`
 - `results/20260429_F365_descendant_neighborhood_r1.{json,md}`
 - `results/20260429_F366_d61_repair_pair_probe.{json,md}`
+- `results/20260429_F367_guard_repair_third_probe.{json,md}`
 
 ## Readout
 
@@ -202,9 +204,14 @@ nontrivial pair can preserve D61=8 and repair the chart (`dCh,dh`), but `a57`
 stays high at 11 and the score is 58.3. The D61/chart conflict is repairable
 with two moves; the remaining blocker is guard repair.
 
+F367 starts from the F366 D61-preserving chart-repaired pair and enumerates a
+third move. Guard can move: 51 moves lower `a57`, with the best guard move
+reaching `a57=6`. But no third move lowers guard while also preserving chart
+and D61<=8. The three constraints remain coupled.
+
 ## Next tracks
 
 - add outcome-aware calibration before spending more budget on F343-style selectors
 - use F342 stable-core coordinates as hard features for BP/matroid audits
 - use common-mode atlas continuation as a post-atlas polish operator
-- test third moves from the F366 D61-preserving chart repair to target the guard
+- explore fourth-move repairs from the F367 guard-lowered candidate
