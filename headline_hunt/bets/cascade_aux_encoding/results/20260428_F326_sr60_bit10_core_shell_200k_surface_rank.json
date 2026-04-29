@@ -1,0 +1,439 @@
+{
+  "inputs": [
+    {
+      "path": "headline_hunt/bets/cascade_aux_encoding/results/20260428_F322_sr60_bit10_dw59_universal_core_top4_cadical_200k_stats.jsonl",
+      "surface": "core_dw59_200k"
+    },
+    {
+      "path": "headline_hunt/bets/cascade_aux_encoding/results/20260428_F326_sr60_bit10_w1r58_shell_top4_cadical_200k_stats.jsonl",
+      "surface": "shell_w1r58_200k"
+    }
+  ],
+  "metric": "decisions",
+  "order": "descending",
+  "rows": 8,
+  "surface_summaries": [
+    {
+      "decisions": {
+        "count": 4,
+        "max": 1196790.0,
+        "mean": 1146026.25,
+        "median": 1157472.5,
+        "min": 1072370.0
+      },
+      "rows": 4,
+      "statuses": {
+        "UNKNOWN": 4
+      },
+      "surface": "core_dw59_200k",
+      "wall_seconds": {
+        "count": 4,
+        "max": 5.829737,
+        "mean": 5.720158,
+        "median": 5.702013,
+        "min": 5.646868
+      }
+    },
+    {
+      "decisions": {
+        "count": 4,
+        "max": 1323542.0,
+        "mean": 1244820.25,
+        "median": 1232158.0,
+        "min": 1191423.0
+      },
+      "rows": 4,
+      "statuses": {
+        "UNKNOWN": 4
+      },
+      "surface": "shell_w1r58_200k",
+      "wall_seconds": {
+        "count": 4,
+        "max": 7.195824,
+        "mean": 6.520456,
+        "median": 6.501565,
+        "min": 5.88287
+      }
+    }
+  ],
+  "top_assignments": [
+    {
+      "assignment": "w1[58].b19=1",
+      "count": 1,
+      "max": 1323542.0,
+      "mean": 1323542.0,
+      "median": 1323542.0,
+      "min": 1323542.0,
+      "surfaces": {
+        "shell_w1r58_200k": 1
+      }
+    },
+    {
+      "assignment": "w1[58].b1=0",
+      "count": 3,
+      "max": 1323542.0,
+      "mean": 1249411.666667,
+      "median": 1233270.0,
+      "min": 1191423.0,
+      "surfaces": {
+        "shell_w1r58_200k": 3
+      }
+    },
+    {
+      "assignment": "w1[58].b3=1",
+      "count": 1,
+      "max": 1233270.0,
+      "mean": 1233270.0,
+      "median": 1233270.0,
+      "min": 1233270.0,
+      "surfaces": {
+        "shell_w1r58_200k": 1
+      }
+    },
+    {
+      "assignment": "w1[58].b1=1",
+      "count": 1,
+      "max": 1231046.0,
+      "mean": 1231046.0,
+      "median": 1231046.0,
+      "min": 1231046.0,
+      "surfaces": {
+        "shell_w1r58_200k": 1
+      }
+    },
+    {
+      "assignment": "w1[58].b29=0",
+      "count": 1,
+      "max": 1231046.0,
+      "mean": 1231046.0,
+      "median": 1231046.0,
+      "min": 1231046.0,
+      "surfaces": {
+        "shell_w1r58_200k": 1
+      }
+    },
+    {
+      "assignment": "w1[58].b29=1",
+      "count": 1,
+      "max": 1191423.0,
+      "mean": 1191423.0,
+      "median": 1191423.0,
+      "min": 1191423.0,
+      "surfaces": {
+        "shell_w1r58_200k": 1
+      }
+    },
+    {
+      "assignment": "dw[59].b29=1",
+      "count": 2,
+      "max": 1196790.0,
+      "mean": 1189976.0,
+      "median": 1189976.0,
+      "min": 1183162.0,
+      "surfaces": {
+        "core_dw59_200k": 2
+      }
+    },
+    {
+      "assignment": "dw[59].b1=0",
+      "count": 1,
+      "max": 1183162.0,
+      "mean": 1183162.0,
+      "median": 1183162.0,
+      "min": 1183162.0,
+      "surfaces": {
+        "core_dw59_200k": 1
+      }
+    }
+  ],
+  "top_cubes": [
+    {
+      "assignments": [
+        {
+          "bit": 1,
+          "literal": -35,
+          "round": 58,
+          "target": "w1",
+          "value": 0
+        },
+        {
+          "bit": 19,
+          "literal": 53,
+          "round": 58,
+          "target": "w1",
+          "value": 1
+        }
+      ],
+      "cube_id": "w1r58b01v0__w1r58b19v1",
+      "metric": "decisions",
+      "source": "headline_hunt/bets/cascade_aux_encoding/results/20260428_F326_sr60_bit10_w1r58_shell_top4_cadical_200k_stats.jsonl",
+      "status": "UNKNOWN",
+      "surface": "shell_w1r58_200k",
+      "value": 1323542.0,
+      "wall_seconds": 7.097082
+    },
+    {
+      "assignments": [
+        {
+          "bit": 1,
+          "literal": -35,
+          "round": 58,
+          "target": "w1",
+          "value": 0
+        },
+        {
+          "bit": 3,
+          "literal": 37,
+          "round": 58,
+          "target": "w1",
+          "value": 1
+        }
+      ],
+      "cube_id": "w1r58b01v0__w1r58b03v1",
+      "metric": "decisions",
+      "source": "headline_hunt/bets/cascade_aux_encoding/results/20260428_F326_sr60_bit10_w1r58_shell_top4_cadical_200k_stats.jsonl",
+      "status": "UNKNOWN",
+      "surface": "shell_w1r58_200k",
+      "value": 1233270.0,
+      "wall_seconds": 5.906048
+    },
+    {
+      "assignments": [
+        {
+          "bit": 1,
+          "literal": 35,
+          "round": 58,
+          "target": "w1",
+          "value": 1
+        },
+        {
+          "bit": 29,
+          "literal": -63,
+          "round": 58,
+          "target": "w1",
+          "value": 0
+        }
+      ],
+      "cube_id": "w1r58b01v1__w1r58b29v0",
+      "metric": "decisions",
+      "source": "headline_hunt/bets/cascade_aux_encoding/results/20260428_F326_sr60_bit10_w1r58_shell_top4_cadical_200k_stats.jsonl",
+      "status": "UNKNOWN",
+      "surface": "shell_w1r58_200k",
+      "value": 1231046.0,
+      "wall_seconds": 7.195824
+    },
+    {
+      "assignments": [
+        {
+          "bit": 29,
+          "clauses": [
+            [
+              95,
+              223
+            ],
+            [
+              -95,
+              -223
+            ]
+          ],
+          "round": 59,
+          "target": "dw",
+          "value": 1,
+          "w1_var": 95,
+          "w2_var": 223
+        },
+        {
+          "bit": 3,
+          "clauses": [
+            [
+              69,
+              -197
+            ],
+            [
+              -69,
+              197
+            ]
+          ],
+          "round": 59,
+          "target": "dw",
+          "value": 0,
+          "w1_var": 69,
+          "w2_var": 197
+        }
+      ],
+      "cube_id": "dwr59b29v1__dwr59b03v0",
+      "metric": "decisions",
+      "source": "headline_hunt/bets/cascade_aux_encoding/results/20260428_F322_sr60_bit10_dw59_universal_core_top4_cadical_200k_stats.jsonl",
+      "status": "UNKNOWN",
+      "surface": "core_dw59_200k",
+      "value": 1196790.0,
+      "wall_seconds": 5.677281
+    },
+    {
+      "assignments": [
+        {
+          "bit": 1,
+          "literal": -35,
+          "round": 58,
+          "target": "w1",
+          "value": 0
+        },
+        {
+          "bit": 29,
+          "literal": 63,
+          "round": 58,
+          "target": "w1",
+          "value": 1
+        }
+      ],
+      "cube_id": "w1r58b01v0__w1r58b29v1",
+      "metric": "decisions",
+      "source": "headline_hunt/bets/cascade_aux_encoding/results/20260428_F326_sr60_bit10_w1r58_shell_top4_cadical_200k_stats.jsonl",
+      "status": "UNKNOWN",
+      "surface": "shell_w1r58_200k",
+      "value": 1191423.0,
+      "wall_seconds": 5.88287
+    },
+    {
+      "assignments": [
+        {
+          "bit": 29,
+          "clauses": [
+            [
+              95,
+              223
+            ],
+            [
+              -95,
+              -223
+            ]
+          ],
+          "round": 59,
+          "target": "dw",
+          "value": 1,
+          "w1_var": 95,
+          "w2_var": 223
+        },
+        {
+          "bit": 1,
+          "clauses": [
+            [
+              67,
+              -195
+            ],
+            [
+              -67,
+              195
+            ]
+          ],
+          "round": 59,
+          "target": "dw",
+          "value": 0,
+          "w1_var": 67,
+          "w2_var": 195
+        }
+      ],
+      "cube_id": "dwr59b29v1__dwr59b01v0",
+      "metric": "decisions",
+      "source": "headline_hunt/bets/cascade_aux_encoding/results/20260428_F322_sr60_bit10_dw59_universal_core_top4_cadical_200k_stats.jsonl",
+      "status": "UNKNOWN",
+      "surface": "core_dw59_200k",
+      "value": 1183162.0,
+      "wall_seconds": 5.726746
+    },
+    {
+      "assignments": [
+        {
+          "bit": 29,
+          "clauses": [
+            [
+              95,
+              -223
+            ],
+            [
+              -95,
+              223
+            ]
+          ],
+          "round": 59,
+          "target": "dw",
+          "value": 0,
+          "w1_var": 95,
+          "w2_var": 223
+        },
+        {
+          "bit": 3,
+          "clauses": [
+            [
+              69,
+              -197
+            ],
+            [
+              -69,
+              197
+            ]
+          ],
+          "round": 59,
+          "target": "dw",
+          "value": 0,
+          "w1_var": 69,
+          "w2_var": 197
+        }
+      ],
+      "cube_id": "dwr59b29v0__dwr59b03v0",
+      "metric": "decisions",
+      "source": "headline_hunt/bets/cascade_aux_encoding/results/20260428_F322_sr60_bit10_dw59_universal_core_top4_cadical_200k_stats.jsonl",
+      "status": "UNKNOWN",
+      "surface": "core_dw59_200k",
+      "value": 1131783.0,
+      "wall_seconds": 5.646868
+    },
+    {
+      "assignments": [
+        {
+          "bit": 1,
+          "clauses": [
+            [
+              67,
+              195
+            ],
+            [
+              -67,
+              -195
+            ]
+          ],
+          "round": 59,
+          "target": "dw",
+          "value": 1,
+          "w1_var": 67,
+          "w2_var": 195
+        },
+        {
+          "bit": 3,
+          "clauses": [
+            [
+              69,
+              -197
+            ],
+            [
+              -69,
+              197
+            ]
+          ],
+          "round": 59,
+          "target": "dw",
+          "value": 0,
+          "w1_var": 69,
+          "w2_var": 197
+        }
+      ],
+      "cube_id": "dwr59b01v1__dwr59b03v0",
+      "metric": "decisions",
+      "source": "headline_hunt/bets/cascade_aux_encoding/results/20260428_F322_sr60_bit10_dw59_universal_core_top4_cadical_200k_stats.jsonl",
+      "status": "UNKNOWN",
+      "surface": "core_dw59_200k",
+      "value": 1072370.0,
+      "wall_seconds": 5.829737
+    }
+  ]
+}

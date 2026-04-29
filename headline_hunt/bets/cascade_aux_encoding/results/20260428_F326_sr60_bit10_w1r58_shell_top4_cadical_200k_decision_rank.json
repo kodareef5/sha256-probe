@@ -1,0 +1,187 @@
+{
+  "metric": "decisions",
+  "min_assignment_count": 1,
+  "min_pair_count": 1,
+  "rows": 4,
+  "sources": [
+    "headline_hunt/bets/cascade_aux_encoding/results/20260428_F326_sr60_bit10_w1r58_shell_top4_cadical_200k_stats.jsonl"
+  ],
+  "top_assignments": [
+    {
+      "assignment": "w1[58].b19=1",
+      "count": 1,
+      "max": 1323542.0,
+      "mean": 1323542.0,
+      "median": 1323542.0,
+      "min": 1323542.0
+    },
+    {
+      "assignment": "w1[58].b1=0",
+      "count": 3,
+      "max": 1323542.0,
+      "mean": 1249411.666667,
+      "median": 1233270.0,
+      "min": 1191423.0
+    },
+    {
+      "assignment": "w1[58].b3=1",
+      "count": 1,
+      "max": 1233270.0,
+      "mean": 1233270.0,
+      "median": 1233270.0,
+      "min": 1233270.0
+    },
+    {
+      "assignment": "w1[58].b1=1",
+      "count": 1,
+      "max": 1231046.0,
+      "mean": 1231046.0,
+      "median": 1231046.0,
+      "min": 1231046.0
+    },
+    {
+      "assignment": "w1[58].b29=0",
+      "count": 1,
+      "max": 1231046.0,
+      "mean": 1231046.0,
+      "median": 1231046.0,
+      "min": 1231046.0
+    },
+    {
+      "assignment": "w1[58].b29=1",
+      "count": 1,
+      "max": 1191423.0,
+      "mean": 1191423.0,
+      "median": 1191423.0,
+      "min": 1191423.0
+    }
+  ],
+  "top_cubes": [
+    {
+      "assignments": [
+        {
+          "bit": 1,
+          "literal": -35,
+          "round": 58,
+          "target": "w1",
+          "value": 0
+        },
+        {
+          "bit": 19,
+          "literal": 53,
+          "round": 58,
+          "target": "w1",
+          "value": 1
+        }
+      ],
+      "cube_id": "w1r58b01v0__w1r58b19v1",
+      "metric": "decisions",
+      "source": "headline_hunt/bets/cascade_aux_encoding/results/20260428_F326_sr60_bit10_w1r58_shell_top4_cadical_200k_stats.jsonl",
+      "status": "UNKNOWN",
+      "value": 1323542.0
+    },
+    {
+      "assignments": [
+        {
+          "bit": 1,
+          "literal": -35,
+          "round": 58,
+          "target": "w1",
+          "value": 0
+        },
+        {
+          "bit": 3,
+          "literal": 37,
+          "round": 58,
+          "target": "w1",
+          "value": 1
+        }
+      ],
+      "cube_id": "w1r58b01v0__w1r58b03v1",
+      "metric": "decisions",
+      "source": "headline_hunt/bets/cascade_aux_encoding/results/20260428_F326_sr60_bit10_w1r58_shell_top4_cadical_200k_stats.jsonl",
+      "status": "UNKNOWN",
+      "value": 1233270.0
+    },
+    {
+      "assignments": [
+        {
+          "bit": 1,
+          "literal": 35,
+          "round": 58,
+          "target": "w1",
+          "value": 1
+        },
+        {
+          "bit": 29,
+          "literal": -63,
+          "round": 58,
+          "target": "w1",
+          "value": 0
+        }
+      ],
+      "cube_id": "w1r58b01v1__w1r58b29v0",
+      "metric": "decisions",
+      "source": "headline_hunt/bets/cascade_aux_encoding/results/20260428_F326_sr60_bit10_w1r58_shell_top4_cadical_200k_stats.jsonl",
+      "status": "UNKNOWN",
+      "value": 1231046.0
+    },
+    {
+      "assignments": [
+        {
+          "bit": 1,
+          "literal": -35,
+          "round": 58,
+          "target": "w1",
+          "value": 0
+        },
+        {
+          "bit": 29,
+          "literal": 63,
+          "round": 58,
+          "target": "w1",
+          "value": 1
+        }
+      ],
+      "cube_id": "w1r58b01v0__w1r58b29v1",
+      "metric": "decisions",
+      "source": "headline_hunt/bets/cascade_aux_encoding/results/20260428_F326_sr60_bit10_w1r58_shell_top4_cadical_200k_stats.jsonl",
+      "status": "UNKNOWN",
+      "value": 1191423.0
+    }
+  ],
+  "top_pairs": [
+    {
+      "count": 1,
+      "max": 1323542.0,
+      "mean": 1323542.0,
+      "median": 1323542.0,
+      "min": 1323542.0,
+      "pair": "w1[58].b19=1 & w1[58].b1=0"
+    },
+    {
+      "count": 1,
+      "max": 1233270.0,
+      "mean": 1233270.0,
+      "median": 1233270.0,
+      "min": 1233270.0,
+      "pair": "w1[58].b1=0 & w1[58].b3=1"
+    },
+    {
+      "count": 1,
+      "max": 1231046.0,
+      "mean": 1231046.0,
+      "median": 1231046.0,
+      "min": 1231046.0,
+      "pair": "w1[58].b1=1 & w1[58].b29=0"
+    },
+    {
+      "count": 1,
+      "max": 1191423.0,
+      "mean": 1191423.0,
+      "median": 1191423.0,
+      "min": 1191423.0,
+      "pair": "w1[58].b1=0 & w1[58].b29=1"
+    }
+  ]
+}
