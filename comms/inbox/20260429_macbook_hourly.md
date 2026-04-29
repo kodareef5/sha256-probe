@@ -299,3 +299,14 @@ universal-hard-core characterization arc left off.)
 - block2_wang per-cand corpora: 43 (was 40, +3 this hour).
 - 100 commits MILESTONE across 2-day arc.
 
+
+## ~07:15 EDT — F308 batch: 3 bit10 corpora (46 total)
+
+- corpus_bit10_m5f59b67c_fill80000000: 10k records
+- corpus_bit10_m9e157d24_fill80000000: 10k records
+- corpus_bit10_mc45e4115_fill80000000: 10k records
+- bit10 family now: 6 cands (m075cb3b9 + m24451221 + m27e646e1 +
+  m3304caa0 + m5f59b67c + m9e157d24 + mc45e4115 = 7 cands actually)
+- block2_wang per-cand corpora: 46 (was 43, +3 this hour).
+- 101 commits across 2-day arc.
+
