@@ -948,3 +948,28 @@ Concrete next:
   (d) Algebraic closed-form: compute dW57 from (M[0], fill, kernel-bit, sr)
 
 Commit: [next] (F344).
+
+
+## ~21:05 EDT — F345: F344's 32 dW57 clauses are NECESSARY but NOT SUFFICIENT
+
+- Solved the 32-clause dW57 system in isolation (1 unit + 31 adjacent
+  pairs) with UP + DPLL model counting.
+- Result: only 1/32 bits assigned by UP (just dW57[0]=1). >1000 SAT
+  models exist within the isolated 32-clause system.
+- Refutes naive "pre-inject 32 dW57 unit clauses" hypothesis from F344.
+  The 32 clauses are NECESSARY structural constraints (CDCL fast-derives
+  them) but the actual unique dW57 value emerges only from coupling
+  with the rest of the CNF.
+- Refined propagator value: inject the 32 clauses as LEARNED CLAUSES
+  (saves ~3-5s of cadical re-derivation per solve). Modest speedup.
+- BIGGER win path: algebraic derivation of dW57 from (M[0], fill,
+  kernel-bit, sr) — compute the schedule forward 57 rounds + cascade
+  offset, get all 32 dW57 bits in microseconds. Then inject 32 actual
+  unit clauses for FULL speedup. Concrete next move.
+
+Honest reframe: F344 was structurally informative (dW57 is dense
+2-bit constrained) but the naive propagator-pre-inject claim was
+overblown. The algebraic-preflight path is the one that gives the
+"32-bit unit clause injection" benefit cleanly.
+
+Commit: [next] (F345).
