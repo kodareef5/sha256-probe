@@ -20,3 +20,20 @@ universal-hard-core characterization arc left off.)
   diversity in bits (19, 20, 25, 31) maximizes statistical leverage.
 - Yale paused at 7863041 (~3 hrs ago); macbook continues with cross-
   cand structural sample expansion.
+
+## ~00:18 EDT — F284: 10-cand stability ROBUSTLY confirms 128-bit universal hard core
+
+- F283: 4 more sr60 hard-core JSONs (bits 19, 20, 25, 31).
+- F284: stability across 10 sr60 cands (F269+F270+F272+F283):
+  - stable_core: 132 bits
+  - stable_shell: 36 bits
+  - variable: 88 bits (up from 6-cand 79)
+- 128-bit UNIVERSAL HARD CORE confirmed across 10 cands:
+  W1_59, W1_60, W2_59, W2_60 all 32/32 stable_core.
+- W1_58 UNIVERSAL SHELL confirmed across 10 cands: 32/32 stable_shell.
+- Cand-variable bits expand with sample size (suggests ~95-100 bits
+  asymptotic cand-dependent variation).
+- The 128-bit universal architecture is empirically saturated as
+  the strongest cross-cand structural fact of the bet.
+- 80 commits in macbook session arc (28+29 combined).
+
