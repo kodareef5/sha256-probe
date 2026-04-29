@@ -44,6 +44,7 @@ python3 headline_hunt/bets/math_principles/encoders/probe_kernel_safe_neighborho
 python3 headline_hunt/bets/math_principles/encoders/beam_kernel_safe_neighborhood.py
 python3 headline_hunt/bets/math_principles/encoders/search_kernel_safe_junction.py
 python3 headline_hunt/bets/math_principles/encoders/build_kernel_safe_pareto_bridge.py
+python3 headline_hunt/bets/math_principles/encoders/continue_kernel_safe_bridge_anchors.py
 ```
 
 The original manifest slice intentionally excludes downstream math-principles
@@ -96,6 +97,7 @@ Default outputs:
 - `results/20260429_F372_kernel_safe_beam_probe.{json,md}`
 - `results/20260429_F373_kernel_safe_junction_search.{json,md}`
 - `results/20260429_F374_kernel_safe_pareto_bridge.{json,md}`
+- `results/20260429_F375_kernel_safe_bridge_anchor_continuation.{json,md}`
 
 ## Readout
 
@@ -267,9 +269,17 @@ states the nondominated front has 57 members and passes the F334 auditor with
 D61=13), and chart-compatible low-D61 score 59.1 (`a57=12`, D61=5). No member
 beats the strict benchmark score 37.8 with chart, guard, and D61 preserved.
 
+F375 continues the F374 anchors with target-specific strict-kernel weights.
+The low-guard and balanced anchors do not descend under their repair profiles,
+but the low-D61 anchor does: under a guard-repair profile it improves from
+profile score 131.1 to 69.1 and reaches chart `dCh,dh` with `a57=5`, D61=13.
+This is a real strict-kernel bridge from the D61 side back toward the guard
+basin, but it still pays for guard repair by losing the D61=5 advantage. The
+F334 auditor reports 52/52 PASS, 0 DRIFT.
+
 ## Next tracks
 
 - add outcome-aware calibration before spending more budget on F343-style selectors
 - use F342 stable-core coordinates as hard features for BP/matroid audits
 - use common-mode atlas continuation as a post-atlas polish operator
-- continue from the F374 anchors with target-specific strict-kernel weights
+- deterministic neighborhood check around the improved F375 low-D61-to-guard bridge
