@@ -95,6 +95,40 @@ def best_value(observed: dict[str, Any] | None) -> int | None:
     return candidates[0][2]
 
 
+def load_stability(path: Path | None) -> dict[str, dict[str, float]] | None:
+    if path is None:
+        return None
+    with path.open() as f:
+        data = json.load(f)
+    return {
+        row["key"]: {
+            "core_fraction": float(row["core_fraction"]),
+            "shell_fraction": float(row["shell_fraction"]),
+        }
+        for row in data.get("rows", [])
+    }
+
+
+def stability_component(
+    stability: dict[str, dict[str, float]] | None,
+    target: str,
+    round_: int,
+    bit: int,
+    mode: str,
+) -> float:
+    if not stability:
+        return 0.0
+    field = "core_fraction" if mode == "core" else "shell_fraction"
+    if target == "dw":
+        keys = [f"w1[{round_}].b{bit}", f"w2[{round_}].b{bit}"]
+    else:
+        keys = [f"{target}[{round_}].b{bit}"]
+    values = [stability[key][field] for key in keys if key in stability]
+    if not values:
+        return 0.0
+    return sum(values) / len(values)
+
+
 def rank_bits(
     hard_core: dict[str, Any],
     target: str,
@@ -102,6 +136,9 @@ def rank_bits(
     metric: str,
     observed: dict[int, dict[str, Any]],
     core_weight: float,
+    stability: dict[str, dict[str, float]] | None,
+    stability_weight: float,
+    stability_mode: str,
 ) -> list[dict[str, Any]]:
     sr = 64 - int(hard_core["n_free"])
     n_free = n_free_words(sr)
@@ -121,6 +158,13 @@ def rank_bits(
         obs = observed.get(bit)
         observed_mean = float(obs["all"]["mean"]) if obs and obs.get("all") else 0.0
         observed_component = observed_mean / observed_max if observed_max else 0.0
+        stable_component = stability_component(
+            stability,
+            target,
+            round_,
+            bit,
+            stability_mode,
+        )
 
         if target == "dw":
             w1 = schedule_var(sr, "w1", round_, bit)
@@ -160,9 +204,14 @@ def rank_bits(
 
         row.update({
             "metric": metric,
-            "score": round(core_weight * base + observed_component, 6),
+            "score": round(
+                core_weight * base + observed_component + stability_weight * stable_component,
+                6,
+            ),
             "structural_score": base,
             "observed_component": round(observed_component, 6),
+            "stability_component": round(stable_component, 6),
+            "stability_mode": stability_mode if stability else None,
             "observed": obs,
             "preferred_value": best_value(obs),
         })
@@ -189,6 +238,7 @@ def emit_manifest(
     round_: int,
     metric: str,
     core_weight: float,
+    stability_weight: float,
     depth: int,
     limit_bits: int,
     only_core_classes: set[str],
@@ -220,12 +270,14 @@ def emit_manifest(
                 "tool": "hard_core_cube_seeds.py",
                 "metric": metric,
                 "core_weight": core_weight,
+                "stability_weight": stability_weight,
                 "bits": [
                     {
                         "bit": int(assignment["bit"]),
                         "score": row_by_bit[int(assignment["bit"])]["score"],
                         "core_class": row_by_bit[int(assignment["bit"])]["core_class"],
                         "preferred_value": row_by_bit[int(assignment["bit"])]["preferred_value"],
+                        "stability_component": row_by_bit[int(assignment["bit"])]["stability_component"],
                     }
                     for assignment in rec["assignments"]
                 ],
@@ -246,6 +298,12 @@ def main() -> int:
                     help="optional run_schedule_cubes.py --stats JSONL; repeatable")
     ap.add_argument("--core-weight", type=float, default=2.0,
                     help="weight applied to structural core membership")
+    ap.add_argument("--stability-json", type=Path,
+                    help="optional summarize_hard_core_stability.py JSON")
+    ap.add_argument("--stability-weight", type=float, default=0.0,
+                    help="weight applied to stability component")
+    ap.add_argument("--stability-mode", choices=("core", "shell"), default="core",
+                    help="which stability fraction to use")
     ap.add_argument("--top", type=int, default=12)
     ap.add_argument("--out-json", type=Path)
     ap.add_argument("--cnf", type=Path,
@@ -269,6 +327,7 @@ def main() -> int:
         args.target,
         args.round,
     )
+    stability = load_stability(args.stability_json)
     rows = rank_bits(
         hard_core,
         args.target,
@@ -276,6 +335,9 @@ def main() -> int:
         args.metric,
         observed,
         args.core_weight,
+        stability,
+        args.stability_weight,
+        args.stability_mode,
     )
     display_rows = [
         row for row in rows
@@ -288,6 +350,9 @@ def main() -> int:
         "metric": args.metric,
         "stats_jsonl": [str(p) for p in args.stats_jsonl],
         "core_weight": args.core_weight,
+        "stability_json": str(args.stability_json) if args.stability_json else None,
+        "stability_weight": args.stability_weight,
+        "stability_mode": args.stability_mode if stability else None,
         "only_core_class": args.only_core_class,
         "rows": rows,
         "top": display_rows[:args.top],
@@ -311,6 +376,7 @@ def main() -> int:
             args.round,
             args.metric,
             args.core_weight,
+            args.stability_weight,
             args.emit_depth,
             args.emit_top or args.top,
             set(args.only_core_class),
