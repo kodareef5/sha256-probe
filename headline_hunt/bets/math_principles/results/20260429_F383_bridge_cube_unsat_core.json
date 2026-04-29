@@ -1,0 +1,44 @@
+{
+  "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit31_m17149975_fillffffffff.cnf",
+  "core_coordinates": [
+    {
+      "assumed_value": 0,
+      "coordinates": [
+        {
+          "bit": 22,
+          "kind": "W_xor",
+          "polarity": 1,
+          "round": 57
+        }
+      ],
+      "literal": -12419
+    },
+    {
+      "assumed_value": 1,
+      "coordinates": [
+        {
+          "bit": 23,
+          "kind": "W_xor",
+          "polarity": 1,
+          "round": 57
+        }
+      ],
+      "literal": 12420
+    }
+  ],
+  "core_literals": [
+    -12419,
+    12420
+  ],
+  "core_size": 2,
+  "core_status": "UNSATISFIABLE",
+  "cube_id": "F374_low_guard_corner::w57_w60",
+  "cubes": "headline_hunt/bets/math_principles/data/20260429_F380_bridge_cubes.dimacs.txt",
+  "decision": "Use the minimized coordinate core as the first bridge-conflict target.",
+  "initial_size": 128,
+  "report_id": "F383",
+  "tests_run": 132,
+  "total_wall_seconds": 27.681077,
+  "varmap": "headline_hunt/bets/math_principles/data/20260429_F380_aux_force_sr60_n32_bit31_m17149975_fillffffffff.varmap.json",
+  "verdict": "bridge_cube_core_minimized"
+}

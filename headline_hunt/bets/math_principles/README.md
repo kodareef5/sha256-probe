@@ -52,6 +52,7 @@ python3 headline_hunt/bets/math_principles/encoders/design_conflict_guided_bridg
 python3 headline_hunt/bets/math_principles/encoders/generate_bridge_cubes.py
 python3 headline_hunt/bets/math_principles/encoders/smoke_bridge_cubes.py
 python3 headline_hunt/bets/math_principles/encoders/extract_bridge_cube_proofs.py
+python3 headline_hunt/bets/math_principles/encoders/minimize_bridge_cube_core.py
 ```
 
 The original manifest slice intentionally excludes downstream math-principles
@@ -115,6 +116,7 @@ Default outputs:
 - `results/20260429_F381_bridge_cube_smoke.{json,md}`
 - `results/20260429_F382_bridge_cube_proof_metadata.{json,md}`
 - `data/20260429_F382_bridge_cube_proofs/*.drat`
+- `results/20260429_F383_bridge_cube_unsat_core.{json,md}`
 
 ## Readout
 
@@ -344,9 +346,15 @@ the low-guard corner's full W57-W60 assignment is structurally inconsistent
 with the force-mode CNF almost at propagation level, making it the best first
 target for clause inspection.
 
+F383 greedily minimizes the F374 low-guard `w57_w60` UNSAT cube. The 128-bit
+assignment collapses to a two-literal UNSAT core:
+`dW57[22]=0` and `dW57[23]=1` under the sr60 bit31 force-mode CNF. This is the
+first concrete bridge-conflict clause target produced by the strict-kernel
+basin work.
+
 ## Next tracks
 
 - add outcome-aware calibration before spending more budget on F343-style selectors
 - use F342 stable-core coordinates as hard features for BP/matroid audits
 - use common-mode atlas continuation as a post-atlas polish operator
-- inspect the tiny F382 proof/cube to identify which W57-W60 assumptions conflict first
+- explain the F383 two-bit W57 core algebraically and cross-check it on neighboring bridge cubes
