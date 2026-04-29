@@ -34,6 +34,7 @@ python3 headline_hunt/bets/math_principles/encoders/chamber_seed_linear_lift.py
 python3 headline_hunt/bets/math_principles/encoders/optimize_chamber_seed_freevars.py
 python3 headline_hunt/bets/math_principles/encoders/build_chamber_seed_pareto_front.py
 python3 headline_hunt/bets/math_principles/encoders/continue_atlas_from_pareto.py
+python3 headline_hunt/bets/math_principles/encoders/extend_atlas_continuation.py
 ```
 
 The original manifest slice intentionally excludes downstream math-principles
@@ -73,6 +74,7 @@ Default outputs:
 - `results/20260429_F359_chamber_seed_freevar_atlas_objective.{json,md}`
 - `results/20260429_F360_chamber_seed_pareto_front.{json,md}`
 - `results/20260429_F361_pareto_seeded_atlas_continuation.{json,md}`
+- `results/20260429_F362_pareto_descendant_continuation.{json,md}`
 
 ## Readout
 
@@ -167,9 +169,15 @@ chart at `a57=6`; the `best_D61` seed improves 62.9 -> 44.85 and enters
 `dh,dCh` with D61=10. The Pareto front is therefore actionable: off-chart
 schedule/D61 representatives can be pulled back into the chamber chart.
 
+F362 extends the improved F361 descendants. Both branches improve again:
+`best_mismatch` reaches score 38.1 with `a57=5`, D61=11, chart `dh,dCh`;
+`best_D61` reaches score 35.4 with `a57=5`, D61=9, chart `dh,dCh`. This is
+the strongest evidence so far that Pareto-front seeds plus atlas continuation
+are a productive operator, even though the `a57=0` attractor remains unreached.
+
 ## Next tracks
 
 - add outcome-aware calibration before spending more budget on F343-style selectors
 - use F342 stable-core coordinates as hard features for BP/matroid audits
 - use common-mode atlas continuation as a post-atlas polish operator
-- continue the F361 improved `best_mismatch` and `best_D61` descendants
+- extend the F362 `best_D61` descendant with lower-temperature D61 tracking
