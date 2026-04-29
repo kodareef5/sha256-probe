@@ -3000,3 +3000,18 @@ Discipline: 0 SAT compute, 0 solver runs.
 - F253: third-seed (5001) test on F248 mask (~3-4 min wall)
 - 51 commits this session.
 
+
+## ~20:13 EDT — F252/F253/F254: convergent yale-macbook characterization of F248
+
+- F252 (F248-init radius-1): best neighbor 91, basin doesn't propagate
+- F253 (3rd seed 5001 8×50k): 92 (matches F251 seed 9001, confirms
+  F248 score-90 is seed-7101-specific)
+- Yale's F300 (parallel radius-1 with different ordering): best 93
+- Convergent conclusion: yale F248 score-90 is sharp + seed-narrow
+- Bit19 has at least 3 basin patterns: robust 91-92 floor + 2
+  seed-7101 narrow basins (F135@87, F248@90)
+- Structural prediction: each seed likely has its own narrow basins;
+  multi-seed sweep would discover MORE deep basins (~5× current
+  campaign cost; not worth without headline-relevance per F237)
+- 52 commits this session.
+
