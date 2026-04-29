@@ -114,3 +114,22 @@ universal-hard-core characterization arc left off.)
   + carry-chain analysis, or encoder-specific Tseitin layout.
 - 84 commits across 2-day arc.
 
+
+## ~01:50 EDT — F289: σ0² fanin analysis — bit 26 at minimum, bit 14 not
+
+- σ0² fanin distribution:
+  - Minimum: bits 26, 27, 28 (fanin=2)
+  - Most bits: fanin=3
+  - Some at fanin=4 (bits 11, 12, 13, 22, 23, 24, 29, 30, 31)
+- F286 anchor bit 26: σ0²-fanin=2 ✓ (matches minimum-fanin
+  hypothesis at σ0² level)
+- F286 anchor bit 14: σ0²-fanin=3 ✗ (not at minimum)
+- Combined σ1+σ0 single-step fanin: minimum at bits 29-31 (total=4)
+  vs bit 26 (5), bit 14 (6).
+- Conclusion: bit 26 has a multi-mechanism algebraic story
+  (σ0² minimum, σ1 light); bit 14 doesn't fit any single fanin
+  property tested.
+- The W2_58[14]/[26] universal-anchoring is multi-mechanism or
+  encoder-specific. Single-σ-fanin doesn't predict.
+- 85 commits across 2-day arc.
+
