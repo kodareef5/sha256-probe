@@ -601,3 +601,25 @@ Commit: [next] (F327 API survey update).
   correctly HIGH priority.
 
 Commit: [next] (F328+F329).
+
+
+## ~15:45 EDT — F330: sr=61 + F235 hard instance UP cross-validation
+
+- sr=61 aux_force (cand bit10): 481 baseline UP forced (IDENTICAL to
+  sr=60), 0/192 schedule bits forced. The thesis transfers cleanly to
+  the open frontier (sr=61 has no SAT yet).
+- F235 hard instance (basic cascade encoder, kissat 562s timeout):
+  baseline UP forces only 1 var (CONST_TRUE) — basic cascade has cascade
+  equations as direct clauses, not aux_force's 481 ripple-borrow AUX.
+  Random-var UP probes all UP-feasible.
+- Cascade location is sr-dependent: sr60 = W*_59+W*_60+anchors, sr61 =
+  W*_57+W*_58+W*_59+anchors. F327 propagator design uses cand-specific
+  F286 stability data which generalizes correctly.
+
+Headline implication: F327 IPASIR-UP design (Phase 2D+2D') is now
+structurally validated across 6 cands × 2 encoder modes × 2 sr levels
++ basic cascade. If projected 2-5x speedup on mid-difficulty sr=61
+materializes, that's the path to FIRST SAT on sr=61 — extending
+Viragh 2026's sr=59 by two rounds = headline-worthy.
+
+Commit: [next] (F330).
