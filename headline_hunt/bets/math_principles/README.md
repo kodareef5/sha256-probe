@@ -24,12 +24,16 @@ python3 headline_hunt/bets/math_principles/encoders/audit_carry_invariants.py
 python3 headline_hunt/bets/math_principles/encoders/select_submodular_masks.py
 python3 headline_hunt/bets/math_principles/encoders/summarize_submodular_scan.py
 python3 headline_hunt/bets/math_principles/encoders/build_cluster_atlas.py
+python3 headline_hunt/bets/math_principles/encoders/plan_radius1_basin_walk.py
+python3 headline_hunt/bets/math_principles/encoders/summarize_radius1_scan.py
+python3 headline_hunt/bets/math_principles/encoders/summarize_new88_continuation.py
 ```
 
 Default outputs:
 
 - `data/20260429_principles_manifest.jsonl`
 - `data/20260429_F343_submodular_masks.txt`
+- `data/20260429_F346_radius1_basin_walk_masks.txt`
 - `results/20260429_manifest_summary.json`
 - `results/20260429_F340_tail_law.{json,md}`
 - `results/20260429_F341_influence_priors.{json,md}`
@@ -37,6 +41,9 @@ Default outputs:
 - `results/20260429_F343_submodular_selectors.{json,md}`
 - `results/20260429_F344_submodular_mask_calibration_scan_summary.{json,md}`
 - `results/20260429_F345_cluster_atlas.{json,md}`
+- `results/20260429_F346_radius1_basin_walk_plan.{json,md}`
+- `results/20260429_F347_radius1_basin_walk_scan_summary.{json,md}`
+- `results/20260429_F350_radius1_new88_continuation_summary.{json,md}`
 
 ## Readout
 
@@ -66,8 +73,17 @@ F345 is the first Track 2 cluster atlas. It graphs observed active masks by
 one-word swaps and checks whether low scores are isolated or connected through
 near-score bridges.
 
+F346 turns the F345 atlas into a bounded queue: known <=95 bridge controls
+plus unseen one-swap neighbors around the score <=90 masks.
+
+F347 scanned the F346 queue at 4x10k and found a new unseen score-88 mask:
+`2,6,11,12,13`.
+
+F350 continued the new score-88 mask. It is narrow: no-kick seeding preserves
+88, kicked continuation loses the basin, and single-bit polish does not descend.
+
 ## Next tracks
 
 - add outcome-aware calibration before spending more budget on F343-style selectors
 - use F342 stable-core coordinates as hard features for BP/matroid audits
-- turn F345 radius-one bridge neighborhoods into explicit multi-seed basin-walk experiments
+- rebuild the shared manifest so F347/F350 become part of the next priors
