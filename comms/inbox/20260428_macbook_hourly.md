@@ -3279,3 +3279,23 @@ Discipline: 0 SAT compute, 0 solver runs.
   ALIASES (not Σ rotation gaps). Sharper than F207's interpretation.
 - 68 commits this session.
 
+
+## ~22:16 EDT — F274/F275: 128-bit universal hard-core pattern holds for sr=61
+
+- F274: generated 3 sr=61 hard-core JSONs (bit10/bit13/bit18).
+- F275: stability across 4 sr=61 cands (yale F311 + my F274):
+  - stable_core: 129 bits
+  - W1_58: 31/32 universal core (1 variable)
+  - W1_59, W2_58, W2_59: ALL 32/32 universal core
+  - = ~127 universal hard-core bits on sr=61
+- Cross-mode pattern: LAST 2 ROUNDS are universal hard-core in both
+  encoder modes:
+  - sr=60 (n_free=4): W*_59, W*_60 = 128 bits
+  - sr=61 (n_free=3): W*_58, W*_59 = ~127 bits
+- Cascade-1 hardlock manifests at FIRST free round (W*_57) in both,
+  but with different forward-projection (W1_58 universal shell on
+  sr=60; no universal shell on sr=61 because no room to project).
+- Universal cube-targeting works for both modes via yale's
+  --stability-mode selector with appropriate n_free JSONs.
+- 69 commits this session.
+
