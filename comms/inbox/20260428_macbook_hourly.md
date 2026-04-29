@@ -3094,3 +3094,21 @@ Discipline: 0 SAT compute, 0 solver runs.
   heuristic methods needed for sub-86.
 - 57 commits this session.
 
+
+## ~20:31 EDT — F261: seed 9101 reaches 90 on bit3 (partial luck)
+
+- F261: 8×50k seed 9101 on bit3 `0,1,2,8,9` → 90.
+- bit3 multi-seed picture for this mask:
+  - yale pre-pause (multi-seed): 86 (deepest)
+  - F261 seed 9101: 90
+  - F259 seed 7101: 94
+  - F206 seed 9911: 95
+- Seed 9101 has PARTIAL luck on bit3 (better than 7101/9911) but
+  doesn't reach 86. Distinct from seed 9101's bit4 success (86).
+- Each (seed, fixture, mask) triple has its own narrow-basin
+  reachability. The cascade-1 basin landscape is fine-grained.
+- Seed 9101 looks more universally-lucky than seed 7101 (finds
+  basins on both bit3 and bit4); but neither pierces 86 anywhere
+  it doesn't already exist.
+- 58 commits this session.
+
