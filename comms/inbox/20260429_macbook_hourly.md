@@ -623,3 +623,23 @@ materializes, that's the path to FIRST SAT on sr=61 — extending
 Viragh 2026's sr=59 by two rounds = headline-worthy.
 
 Commit: [next] (F330).
+
+
+## ~16:00 EDT — F331 cross-machine drift warning to yale (F366/F367)
+
+- Yale shipped F366 (pair moves) + F367 (third moves) extending F311
+  brittleness to 2-3 bit radius. Findings:
+    F366: 0/2559 pair moves beat base score; 9 preserve D61
+    F367: 0/2560 triple moves combine a57-down + chart + D61<=seed
+- Critical issue caught: yale's `apply_move()` has `raw_m1` and `raw_m2`
+  modes that break cascade-1 kernel preservation (change M1^M2 at the
+  flip position). F366's top 3 candidates ALL use a raw_m2 flip at
+  word 5 bit 21 — not a cascade-1 collision pair.
+- Same drift artifact as F322. Sent F331 coordination note to yale
+  flagging this. Suggestion: re-run with --modes common_xor,common_add
+  only for cascade-1-valid results.
+- What still stands: count statistics (456/458/11/0) are real landscape
+  measurements; F367's "0 triple-good moves" extends F311 brittleness
+  to triple moves regardless of drift status.
+
+Commit: [next] (F331 coordination note).
