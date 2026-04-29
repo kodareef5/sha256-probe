@@ -155,3 +155,17 @@ universal-hard-core characterization arc left off.)
   direct algebraic prediction.
 - 86 commits across 2-day arc.
 
+
+## ~02:28 EDT — F291: bit06_m6781a62a residual corpus build — ZERO HW≤16 hits
+
+- Built block2_wang residual corpus for bit06_m6781a62a_fillaaaaaaaa
+  via build_corpus.py (100k samples, HW threshold 16).
+- Result: 0 residuals passed filter. Min HW observed = 64, max = 125.
+- bit06_m6781a62a has no detectable near-collisions at the
+  standard threshold from random W[57..60] sampling.
+- Empty corpus file deleted (no useful data to commit).
+- Empirically informative: this cand is NOT a strong block2_wang
+  trail-search target. Other cands (bit3, bit10, bit19) with non-
+  empty corpora are better targets.
+- 87 commits across 2-day arc.
+
