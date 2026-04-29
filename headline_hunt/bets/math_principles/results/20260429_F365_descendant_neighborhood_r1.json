@@ -1,0 +1,3273 @@
+{
+  "active_words": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+  ],
+  "base": {
+    "M1": [
+      "0x616d09b3",
+      "0xa2e54113",
+      "0x2b19d81b",
+      "0x4c5613af",
+      "0x35cfef4e",
+      "0x41ea948d",
+      "0x9f3791bc",
+      "0x426e61d3",
+      "0x1b9e4c58",
+      "0x1b300697",
+      "0x9cd9337e",
+      "0x86c4082b",
+      "0x93cd9527",
+      "0x359b1231",
+      "0x770c8260",
+      "0x0ea6b814"
+    ],
+    "M2": [
+      "0xe34d0993",
+      "0xa6e54113",
+      "0x6ab5587b",
+      "0x4c56172f",
+      "0x31cfa746",
+      "0x45e89485",
+      "0x9f3383bc",
+      "0x4746e1d3",
+      "0x1bbe4c50",
+      "0x1a30421f",
+      "0x905d333e",
+      "0x9ec4082b",
+      "0x8bc99427",
+      "0x31931673",
+      "0x671c86a0",
+      "0x0ea6b81c"
+    ],
+    "delta_rec": {
+      "D61_hw": 0,
+      "a57_xor_hw": 0,
+      "chart_changed": false,
+      "tail63_state_diff_hw": 0
+    },
+    "delta_score": 0.0,
+    "flips": [],
+    "rec": {
+      "D61_hw": 9,
+      "a57_xor_hw": 5,
+      "chart_match": true,
+      "chart_top2": [
+        "dh",
+        "dCh"
+      ],
+      "tail63_state_diff_hw": 128
+    },
+    "score": 35.4
+  },
+  "best_d61_lower": {
+    "M1": [
+      "0x616d09b3",
+      "0xa2e54113",
+      "0x2b19d81b",
+      "0x4c5613af",
+      "0x35cfef4e",
+      "0x41ea948d",
+      "0x9f3791bc",
+      "0x426e61d3",
+      "0x1b9e4c58",
+      "0x1b300697",
+      "0x9cd9337e",
+      "0x86c4082b",
+      "0x93cd9527",
+      "0x359b1231",
+      "0x770c8260",
+      "0x0ea6b814"
+    ],
+    "M2": [
+      "0xe34d0993",
+      "0xa6e54113",
+      "0x6ab5587b",
+      "0x4c56172f",
+      "0x31cfa746",
+      "0x45c89485",
+      "0x9f3383bc",
+      "0x4746e1d3",
+      "0x1bbe4c50",
+      "0x1a30421f",
+      "0x905d333e",
+      "0x9ec4082b",
+      "0x8bc99427",
+      "0x31931673",
+      "0x671c86a0",
+      "0x0ea6b81c"
+    ],
+    "delta_rec": {
+      "D61_hw": -1,
+      "a57_xor_hw": 6,
+      "chart_changed": true,
+      "tail63_state_diff_hw": 9
+    },
+    "delta_score": 31.45,
+    "flips": [
+      {
+        "bit": 21,
+        "mode": "raw_m2",
+        "word": 5
+      }
+    ],
+    "rec": {
+      "D61_hw": 8,
+      "a57_xor_hw": 11,
+      "chart_match": false,
+      "chart_top2": [
+        "dT2",
+        "dCh"
+      ],
+      "tail63_state_diff_hw": 137
+    },
+    "score": 66.85
+  },
+  "d61_lower_count": 1,
+  "decision": "D61 can move locally, but not under the current scalar atlas objective.",
+  "label": "best_D61",
+  "modes": [
+    {
+      "a57_improved_count": 0,
+      "chart_improved_count": 0,
+      "improved_score_count": 0,
+      "mode": "raw_m1",
+      "positions": 512,
+      "radius": 1,
+      "scanned": 512,
+      "top": [
+        {
+          "M1": [
+            "0x616d09b3",
+            "0xa2e54113",
+            "0x2b19d81b",
+            "0x4c5613af",
+            "0x35cfef4e",
+            "0x41ea948d",
+            "0x9f3791bc",
+            "0x426e61d3",
+            "0x1b9e4c58",
+            "0x1b300697",
+            "0x9cd9337e",
+            "0x86d4082b",
+            "0x93cd9527",
+            "0x359b1231",
+            "0x770c8260",
+            "0x0ea6b814"
+          ],
+          "M2": [
+            "0xe34d0993",
+            "0xa6e54113",
+            "0x6ab5587b",
+            "0x4c56172f",
+            "0x31cfa746",
+            "0x45e89485",
+            "0x9f3383bc",
+            "0x4746e1d3",
+            "0x1bbe4c50",
+            "0x1a30421f",
+            "0x905d333e",
+            "0x9ec4082b",
+            "0x8bc99427",
+            "0x31931673",
+            "0x671c86a0",
+            "0x0ea6b81c"
+          ],
+          "delta_rec": {
+            "D61_hw": 1,
+            "a57_xor_hw": 5,
+            "chart_changed": false,
+            "tail63_state_diff_hw": 1
+          },
+          "delta_score": 21.05,
+          "flips": [
+            {
+              "bit": 20,
+              "mode": "raw_m1",
+              "word": 11
+            }
+          ],
+          "rec": {
+            "D61_hw": 10,
+            "a57_xor_hw": 10,
+            "chart_match": true,
+            "chart_top2": [
+              "dh",
+              "dCh"
+            ],
+            "tail63_state_diff_hw": 129
+          },
+          "score": 56.45
+        },
+        {
+          "M1": [
+            "0x616d09b3",
+            "0xa2e54113",
+            "0x2b39d81b",
+            "0x4c5613af",
+            "0x35cfef4e",
+            "0x41ea948d",
+            "0x9f3791bc",
+            "0x426e61d3",
+            "0x1b9e4c58",
+            "0x1b300697",
+            "0x9cd9337e",
+            "0x86c4082b",
+            "0x93cd9527",
+            "0x359b1231",
+            "0x770c8260",
+            "0x0ea6b814"
+          ],
+          "M2": [
+            "0xe34d0993",
+            "0xa6e54113",
+            "0x6ab5587b",
+            "0x4c56172f",
+            "0x31cfa746",
+            "0x45e89485",
+            "0x9f3383bc",
+            "0x4746e1d3",
+            "0x1bbe4c50",
+            "0x1a30421f",
+            "0x905d333e",
+            "0x9ec4082b",
+            "0x8bc99427",
+            "0x31931673",
+            "0x671c86a0",
+            "0x0ea6b81c"
+          ],
+          "delta_rec": {
+            "D61_hw": 5,
+            "a57_xor_hw": 3,
+            "chart_changed": true,
+            "tail63_state_diff_hw": 3
+          },
+          "delta_score": 25.15,
+          "flips": [
+            {
+              "bit": 21,
+              "mode": "raw_m1",
+              "word": 2
+            }
+          ],
+          "rec": {
+            "D61_hw": 14,
+            "a57_xor_hw": 8,
+            "chart_match": false,
+            "chart_top2": [
+              "dCh",
+              "dSig1"
+            ],
+            "tail63_state_diff_hw": 131
+          },
+          "score": 60.55
+        },
+        {
+          "M1": [
+            "0x616d09b3",
+            "0xa2e54113",
+            "0x2b19d81b",
+            "0x4c5613af",
+            "0x35cfef4e",
+            "0x41ea948d",
+            "0x9f3791bc",
+            "0x426e61d3",
+            "0x1b9e4c58",
+            "0x1b300697",
+            "0x9cd9337e",
+            "0x86c4082b",
+            "0x93cd9527",
+            "0x359b1231",
+            "0x770c8240",
+            "0x0ea6b814"
+          ],
+          "M2": [
+            "0xe34d0993",
+            "0xa6e54113",
+            "0x6ab5587b",
+            "0x4c56172f",
+            "0x31cfa746",
+            "0x45e89485",
+            "0x9f3383bc",
+            "0x4746e1d3",
+            "0x1bbe4c50",
+            "0x1a30421f",
+            "0x905d333e",
+            "0x9ec4082b",
+            "0x8bc99427",
+            "0x31931673",
+            "0x671c86a0",
+            "0x0ea6b81c"
+          ],
+          "delta_rec": {
+            "D61_hw": 4,
+            "a57_xor_hw": 6,
+            "chart_changed": true,
+            "tail63_state_diff_hw": -20
+          },
+          "delta_score": 27.0,
+          "flips": [
+            {
+              "bit": 5,
+              "mode": "raw_m1",
+              "word": 14
+            }
+          ],
+          "rec": {
+            "D61_hw": 13,
+            "a57_xor_hw": 11,
+            "chart_match": true,
+            "chart_top2": [
+              "dCh",
+              "dh"
+            ],
+            "tail63_state_diff_hw": 108
+          },
+          "score": 62.4
+        },
+        {
+          "M1": [
+            "0x616d09b3",
+            "0xa2e54113",
+            "0x2b19d81b",
+            "0x4c5613af",
+            "0x35cfef4e",
+            "0x41ea948d",
+            "0x9f3791bc",
+            "0x426e61d3",
+            "0x1b9e4c58",
+            "0x1b300697",
+            "0x9cd9337e",
+            "0x86c4082b",
+            "0x93cd9527",
+            "0x359b1239",
+            "0x770c8260",
+            "0x0ea6b814"
+          ],
+          "M2": [
+            "0xe34d0993",
+            "0xa6e54113",
+            "0x6ab5587b",
+            "0x4c56172f",
+            "0x31cfa746",
+            "0x45e89485",
+            "0x9f3383bc",
+            "0x4746e1d3",
+            "0x1bbe4c50",
+            "0x1a30421f",
+            "0x905d333e",
+            "0x9ec4082b",
+            "0x8bc99427",
+            "0x31931673",
+            "0x671c86a0",
+            "0x0ea6b81c"
+          ],
+          "delta_rec": {
+            "D61_hw": 4,
+            "a57_xor_hw": 4,
+            "chart_changed": true,
+            "tail63_state_diff_hw": 0
+          },
+          "delta_score": 28.0,
+          "flips": [
+            {
+              "bit": 3,
+              "mode": "raw_m1",
+              "word": 13
+            }
+          ],
+          "rec": {
+            "D61_hw": 13,
+            "a57_xor_hw": 9,
+            "chart_match": false,
+            "chart_top2": [
+              "dSig1",
+              "dCh"
+            ],
+            "tail63_state_diff_hw": 128
+          },
+          "score": 63.4
+        },
+        {
+          "M1": [
+            "0x616d09b3",
+            "0xa2e54113",
+            "0x2b19d81b",
+            "0x4c5613af",
+            "0x35cfef4e",
+            "0x41ea948d",
+            "0x9f3791bc",
+            "0x426e61d3",
+            "0x1b9e4c58",
+            "0x1b300797",
+            "0x9cd9337e",
+            "0x86c4082b",
+            "0x93cd9527",
+            "0x359b1231",
+            "0x770c8260",
+            "0x0ea6b814"
+          ],
+          "M2": [
+            "0xe34d0993",
+            "0xa6e54113",
+            "0x6ab5587b",
+            "0x4c56172f",
+            "0x31cfa746",
+            "0x45e89485",
+            "0x9f3383bc",
+            "0x4746e1d3",
+            "0x1bbe4c50",
+            "0x1a30421f",
+            "0x905d333e",
+            "0x9ec4082b",
+            "0x8bc99427",
+            "0x31931673",
+            "0x671c86a0",
+            "0x0ea6b81c"
+          ],
+          "delta_rec": {
+            "D61_hw": 9,
+            "a57_xor_hw": 5,
+            "chart_changed": false,
+            "tail63_state_diff_hw": -8
+          },
+          "delta_score": 28.6,
+          "flips": [
+            {
+              "bit": 8,
+              "mode": "raw_m1",
+              "word": 9
+            }
+          ],
+          "rec": {
+            "D61_hw": 18,
+            "a57_xor_hw": 10,
+            "chart_match": true,
+            "chart_top2": [
+              "dh",
+              "dCh"
+            ],
+            "tail63_state_diff_hw": 120
+          },
+          "score": 64.0
+        },
+        {
+          "M1": [
+            "0x616d09b3",
+            "0xa2e54113",
+            "0x2b19d81b",
+            "0x4c5613af",
+            "0x35cfef4e",
+            "0x41ea948d",
+            "0x9f3791bc",
+            "0x426e61d3",
+            "0x1b9e4c58",
+            "0x1b300697",
+            "0x9cd9337e",
+            "0x86c4082b",
+            "0x93cd9527",
+            "0x359b1233",
+            "0x770c8260",
+            "0x0ea6b814"
+          ],
+          "M2": [
+            "0xe34d0993",
+            "0xa6e54113",
+            "0x6ab5587b",
+            "0x4c56172f",
+            "0x31cfa746",
+            "0x45e89485",
+            "0x9f3383bc",
+            "0x4746e1d3",
+            "0x1bbe4c50",
+            "0x1a30421f",
+            "0x905d333e",
+            "0x9ec4082b",
+            "0x8bc99427",
+            "0x31931673",
+            "0x671c86a0",
+            "0x0ea6b81c"
+          ],
+          "delta_rec": {
+            "D61_hw": 6,
+            "a57_xor_hw": 4,
+            "chart_changed": true,
+            "tail63_state_diff_hw": -17
+          },
+          "delta_score": 29.15,
+          "flips": [
+            {
+              "bit": 1,
+              "mode": "raw_m1",
+              "word": 13
+            }
+          ],
+          "rec": {
+            "D61_hw": 15,
+            "a57_xor_hw": 9,
+            "chart_match": false,
+            "chart_top2": [
+              "dCh",
+              "dSig1"
+            ],
+            "tail63_state_diff_hw": 111
+          },
+          "score": 64.55
+        },
+        {
+          "M1": [
+            "0x606d09b3",
+            "0xa2e54113",
+            "0x2b19d81b",
+            "0x4c5613af",
+            "0x35cfef4e",
+            "0x41ea948d",
+            "0x9f3791bc",
+            "0x426e61d3",
+            "0x1b9e4c58",
+            "0x1b300697",
+            "0x9cd9337e",
+            "0x86c4082b",
+            "0x93cd9527",
+            "0x359b1231",
+            "0x770c8260",
+            "0x0ea6b814"
+          ],
+          "M2": [
+            "0xe34d0993",
+            "0xa6e54113",
+            "0x6ab5587b",
+            "0x4c56172f",
+            "0x31cfa746",
+            "0x45e89485",
+            "0x9f3383bc",
+            "0x4746e1d3",
+            "0x1bbe4c50",
+            "0x1a30421f",
+            "0x905d333e",
+            "0x9ec4082b",
+            "0x8bc99427",
+            "0x31931673",
+            "0x671c86a0",
+            "0x0ea6b81c"
+          ],
+          "delta_rec": {
+            "D61_hw": 5,
+            "a57_xor_hw": 4,
+            "chart_changed": true,
+            "tail63_state_diff_hw": 7
+          },
+          "delta_score": 29.35,
+          "flips": [
+            {
+              "bit": 24,
+              "mode": "raw_m1",
+              "word": 0
+            }
+          ],
+          "rec": {
+            "D61_hw": 14,
+            "a57_xor_hw": 9,
+            "chart_match": false,
+            "chart_top2": [
+              "dCh",
+              "dT2"
+            ],
+            "tail63_state_diff_hw": 135
+          },
+          "score": 64.75
+        },
+        {
+          "M1": [
+            "0x616d09b3",
+            "0xa2e54113",
+            "0x2b19981b",
+            "0x4c5613af",
+            "0x35cfef4e",
+            "0x41ea948d",
+            "0x9f3791bc",
+            "0x426e61d3",
+            "0x1b9e4c58",
+            "0x1b300697",
+            "0x9cd9337e",
+            "0x86c4082b",
+            "0x93cd9527",
+            "0x359b1231",
+            "0x770c8260",
+            "0x0ea6b814"
+          ],
+          "M2": [
+            "0xe34d0993",
+            "0xa6e54113",
+            "0x6ab5587b",
+            "0x4c56172f",
+            "0x31cfa746",
+            "0x45e89485",
+            "0x9f3383bc",
+            "0x4746e1d3",
+            "0x1bbe4c50",
+            "0x1a30421f",
+            "0x905d333e",
+            "0x9ec4082b",
+            "0x8bc99427",
+            "0x31931673",
+            "0x671c86a0",
+            "0x0ea6b81c"
+          ],
+          "delta_rec": {
+            "D61_hw": 5,
+            "a57_xor_hw": 6,
+            "chart_changed": true,
+            "tail63_state_diff_hw": 10
+          },
+          "delta_score": 29.5,
+          "flips": [
+            {
+              "bit": 14,
+              "mode": "raw_m1",
+              "word": 2
+            }
+          ],
+          "rec": {
+            "D61_hw": 14,
+            "a57_xor_hw": 11,
+            "chart_match": true,
+            "chart_top2": [
+              "dCh",
+              "dh"
+            ],
+            "tail63_state_diff_hw": 138
+          },
+          "score": 64.9
+        },
+        {
+          "M1": [
+            "0x616d09b3",
+            "0xa2e54113",
+            "0x2b19d81b",
+            "0x4c5613af",
+            "0x35cfef4e",
+            "0x41ea948d",
+            "0x9f3791bc",
+            "0x426e61d3",
+            "0x1b9e4c58",
+            "0x1b300697",
+            "0x9cd9337e",
+            "0x86c5082b",
+            "0x93cd9527",
+            "0x359b1231",
+            "0x770c8260",
+            "0x0ea6b814"
+          ],
+          "M2": [
+            "0xe34d0993",
+            "0xa6e54113",
+            "0x6ab5587b",
+            "0x4c56172f",
+            "0x31cfa746",
+            "0x45e89485",
+            "0x9f3383bc",
+            "0x4746e1d3",
+            "0x1bbe4c50",
+            "0x1a30421f",
+            "0x905d333e",
+            "0x9ec4082b",
+            "0x8bc99427",
+            "0x31931673",
+            "0x671c86a0",
+            "0x0ea6b81c"
+          ],
+          "delta_rec": {
+            "D61_hw": 12,
+            "a57_xor_hw": 3,
+            "chart_changed": true,
+            "tail63_state_diff_hw": -6
+          },
+          "delta_score": 31.7,
+          "flips": [
+            {
+              "bit": 16,
+              "mode": "raw_m1",
+              "word": 11
+            }
+          ],
+          "rec": {
+            "D61_hw": 21,
+            "a57_xor_hw": 8,
+            "chart_match": false,
+            "chart_top2": [
+              "dh",
+              "dSig1"
+            ],
+            "tail63_state_diff_hw": 122
+          },
+          "score": 67.1
+        },
+        {
+          "M1": [
+            "0x616d09b3",
+            "0xa2e54113",
+            "0x2b19d81b",
+            "0x4c5613af",
+            "0x75cfef4e",
+            "0x41ea948d",
+            "0x9f3791bc",
+            "0x426e61d3",
+            "0x1b9e4c58",
+            "0x1b300697",
+            "0x9cd9337e",
+            "0x86c4082b",
+            "0x93cd9527",
+            "0x359b1231",
+            "0x770c8260",
+            "0x0ea6b814"
+          ],
+          "M2": [
+            "0xe34d0993",
+            "0xa6e54113",
+            "0x6ab5587b",
+            "0x4c56172f",
+            "0x31cfa746",
+            "0x45e89485",
+            "0x9f3383bc",
+            "0x4746e1d3",
+            "0x1bbe4c50",
+            "0x1a30421f",
+            "0x905d333e",
+            "0x9ec4082b",
+            "0x8bc99427",
+            "0x31931673",
+            "0x671c86a0",
+            "0x0ea6b81c"
+          ],
+          "delta_rec": {
+            "D61_hw": 8,
+            "a57_xor_hw": 6,
+            "chart_changed": false,
+            "tail63_state_diff_hw": 0
+          },
+          "delta_score": 32.0,
+          "flips": [
+            {
+              "bit": 30,
+              "mode": "raw_m1",
+              "word": 4
+            }
+          ],
+          "rec": {
+            "D61_hw": 17,
+            "a57_xor_hw": 11,
+            "chart_match": true,
+            "chart_top2": [
+              "dh",
+              "dCh"
+            ],
+            "tail63_state_diff_hw": 128
+          },
+          "score": 67.4
+        },
+        {
+          "M1": [
+            "0x616d09b3",
+            "0xa2e54113",
+            "0x2b19d81b",
+            "0x4c5613af",
+            "0x35cfef4e",
+            "0x41ea948d",
+            "0x9f3791bc",
+            "0x426e61d3",
+            "0x1b9e4c58",
+            "0x1b700697",
+            "0x9cd9337e",
+            "0x86c4082b",
+            "0x93cd9527",
+            "0x359b1231",
+            "0x770c8260",
+            "0x0ea6b814"
+          ],
+          "M2": [
+            "0xe34d0993",
+            "0xa6e54113",
+            "0x6ab5587b",
+            "0x4c56172f",
+            "0x31cfa746",
+            "0x45e89485",
+            "0x9f3383bc",
+            "0x4746e1d3",
+            "0x1bbe4c50",
+            "0x1a30421f",
+            "0x905d333e",
+            "0x9ec4082b",
+            "0x8bc99427",
+            "0x31931673",
+            "0x671c86a0",
+            "0x0ea6b81c"
+          ],
+          "delta_rec": {
+            "D61_hw": 4,
+            "a57_xor_hw": 7,
+            "chart_changed": false,
+            "tail63_state_diff_hw": 4
+          },
+          "delta_score": 32.2,
+          "flips": [
+            {
+              "bit": 22,
+              "mode": "raw_m1",
+              "word": 9
+            }
+          ],
+          "rec": {
+            "D61_hw": 13,
+            "a57_xor_hw": 12,
+            "chart_match": true,
+            "chart_top2": [
+              "dh",
+              "dCh"
+            ],
+            "tail63_state_diff_hw": 132
+          },
+          "score": 67.6
+        },
+        {
+          "M1": [
+            "0x616d09b3",
+            "0xa2e54113",
+            "0x2b19d81b",
+            "0x4c5613af",
+            "0x35cfef4e",
+            "0x41ea948d",
+            "0x9f3791bc",
+            "0x4a6e61d3",
+            "0x1b9e4c58",
+            "0x1b300697",
+            "0x9cd9337e",
+            "0x86c4082b",
+            "0x93cd9527",
+            "0x359b1231",
+            "0x770c8260",
+            "0x0ea6b814"
+          ],
+          "M2": [
+            "0xe34d0993",
+            "0xa6e54113",
+            "0x6ab5587b",
+            "0x4c56172f",
+            "0x31cfa746",
+            "0x45e89485",
+            "0x9f3383bc",
+            "0x4746e1d3",
+            "0x1bbe4c50",
+            "0x1a30421f",
+            "0x905d333e",
+            "0x9ec4082b",
+            "0x8bc99427",
+            "0x31931673",
+            "0x671c86a0",
+            "0x0ea6b81c"
+          ],
+          "delta_rec": {
+            "D61_hw": 12,
+            "a57_xor_hw": 3,
+            "chart_changed": true,
+            "tail63_state_diff_hw": 7
+          },
+          "delta_score": 32.35,
+          "flips": [
+            {
+              "bit": 27,
+              "mode": "raw_m1",
+              "word": 7
+            }
+          ],
+          "rec": {
+            "D61_hw": 21,
+            "a57_xor_hw": 8,
+            "chart_match": false,
+            "chart_top2": [
+              "dSig1",
+              "dCh"
+            ],
+            "tail63_state_diff_hw": 135
+          },
+          "score": 67.75
+        }
+      ],
+      "top_chart_histogram": {
+        "dCh,dSig1": 2,
+        "dCh,dT2": 1,
+        "dCh,dh": 2,
+        "dSig1,dCh": 2,
+        "dh,dCh": 4,
+        "dh,dSig1": 1
+      }
+    },
+    {
+      "a57_improved_count": 0,
+      "chart_improved_count": 0,
+      "improved_score_count": 0,
+      "mode": "raw_m2",
+      "positions": 512,
+      "radius": 1,
+      "scanned": 512,
+      "top": [
+        {
+          "M1": [
+            "0x616d09b3",
+            "0xa2e54113",
+            "0x2b19d81b",
+            "0x4c5613af",
+            "0x35cfef4e",
+            "0x41ea948d",
+            "0x9f3791bc",
+            "0x426e61d3",
+            "0x1b9e4c58",
+            "0x1b300697",
+            "0x9cd9337e",
+            "0x86c4082b",
+            "0x93cd9527",
+            "0x359b1231",
+            "0x770c8260",
+            "0x0ea6b814"
+          ],
+          "M2": [
+            "0xe34d0993",
+            "0xa6e54113",
+            "0x6ab7587b",
+            "0x4c56172f",
+            "0x31cfa746",
+            "0x45e89485",
+            "0x9f3383bc",
+            "0x4746e1d3",
+            "0x1bbe4c50",
+            "0x1a30421f",
+            "0x905d333e",
+            "0x9ec4082b",
+            "0x8bc99427",
+            "0x31931673",
+            "0x671c86a0",
+            "0x0ea6b81c"
+          ],
+          "delta_rec": {
+            "D61_hw": 5,
+            "a57_xor_hw": 2,
+            "chart_changed": true,
+            "tail63_state_diff_hw": -14
+          },
+          "delta_score": 20.3,
+          "flips": [
+            {
+              "bit": 17,
+              "mode": "raw_m2",
+              "word": 2
+            }
+          ],
+          "rec": {
+            "D61_hw": 14,
+            "a57_xor_hw": 7,
+            "chart_match": false,
+            "chart_top2": [
+              "dCh",
+              "dSig1"
+            ],
+            "tail63_state_diff_hw": 114
+          },
+          "score": 55.7
+        },
+        {
+          "M1": [
+            "0x616d09b3",
+            "0xa2e54113",
+            "0x2b19d81b",
+            "0x4c5613af",
+            "0x35cfef4e",
+            "0x41ea948d",
+            "0x9f3791bc",
+            "0x426e61d3",
+            "0x1b9e4c58",
+            "0x1b300697",
+            "0x9cd9337e",
+            "0x86c4082b",
+            "0x93cd9527",
+            "0x359b1231",
+            "0x770c8260",
+            "0x0ea6b814"
+          ],
+          "M2": [
+            "0xe36d0993",
+            "0xa6e54113",
+            "0x6ab5587b",
+            "0x4c56172f",
+            "0x31cfa746",
+            "0x45e89485",
+            "0x9f3383bc",
+            "0x4746e1d3",
+            "0x1bbe4c50",
+            "0x1a30421f",
+            "0x905d333e",
+            "0x9ec4082b",
+            "0x8bc99427",
+            "0x31931673",
+            "0x671c86a0",
+            "0x0ea6b81c"
+          ],
+          "delta_rec": {
+            "D61_hw": 7,
+            "a57_xor_hw": 2,
+            "chart_changed": true,
+            "tail63_state_diff_hw": 8
+          },
+          "delta_score": 23.4,
+          "flips": [
+            {
+              "bit": 21,
+              "mode": "raw_m2",
+              "word": 0
+            }
+          ],
+          "rec": {
+            "D61_hw": 16,
+            "a57_xor_hw": 7,
+            "chart_match": false,
+            "chart_top2": [
+              "dCh",
+              "dSig1"
+            ],
+            "tail63_state_diff_hw": 136
+          },
+          "score": 58.8
+        },
+        {
+          "M1": [
+            "0x616d09b3",
+            "0xa2e54113",
+            "0x2b19d81b",
+            "0x4c5613af",
+            "0x35cfef4e",
+            "0x41ea948d",
+            "0x9f3791bc",
+            "0x426e61d3",
+            "0x1b9e4c58",
+            "0x1b300697",
+            "0x9cd9337e",
+            "0x86c4082b",
+            "0x93cd9527",
+            "0x359b1231",
+            "0x770c8260",
+            "0x0ea6b814"
+          ],
+          "M2": [
+            "0xe34d0993",
+            "0xa6e54113",
+            "0x6ab5587b",
+            "0x4c56172f",
+            "0x31cfa746",
+            "0x45e89485",
+            "0x9f3383bc",
+            "0x4746e1d3",
+            "0x1bbe4c50",
+            "0x1a30421f",
+            "0x905d333e",
+            "0x9ec4082b",
+            "0x8bc99427",
+            "0x35931673",
+            "0x671c86a0",
+            "0x0ea6b81c"
+          ],
+          "delta_rec": {
+            "D61_hw": 6,
+            "a57_xor_hw": 3,
+            "chart_changed": true,
+            "tail63_state_diff_hw": 3
+          },
+          "delta_score": 26.15,
+          "flips": [
+            {
+              "bit": 26,
+              "mode": "raw_m2",
+              "word": 13
+            }
+          ],
+          "rec": {
+            "D61_hw": 15,
+            "a57_xor_hw": 8,
+            "chart_match": false,
+            "chart_top2": [
+              "dT2",
+              "dSig1"
+            ],
+            "tail63_state_diff_hw": 131
+          },
+          "score": 61.55
+        },
+        {
+          "M1": [
+            "0x616d09b3",
+            "0xa2e54113",
+            "0x2b19d81b",
+            "0x4c5613af",
+            "0x35cfef4e",
+            "0x41ea948d",
+            "0x9f3791bc",
+            "0x426e61d3",
+            "0x1b9e4c58",
+            "0x1b300697",
+            "0x9cd9337e",
+            "0x86c4082b",
+            "0x93cd9527",
+            "0x359b1231",
+            "0x770c8260",
+            "0x0ea6b814"
+          ],
+          "M2": [
+            "0xe34d0993",
+            "0xa6e54113",
+            "0x6ab5587b",
+            "0x4c56172f",
+            "0x31cfa746",
+            "0x45e89485",
+            "0x9f3383bc",
+            "0x4746e1d3",
+            "0x1bbe4c50",
+            "0x0a30421f",
+            "0x905d333e",
+            "0x9ec4082b",
+            "0x8bc99427",
+            "0x31931673",
+            "0x671c86a0",
+            "0x0ea6b81c"
+          ],
+          "delta_rec": {
+            "D61_hw": 6,
+            "a57_xor_hw": 5,
+            "chart_changed": false,
+            "tail63_state_diff_hw": 7
+          },
+          "delta_score": 26.35,
+          "flips": [
+            {
+              "bit": 28,
+              "mode": "raw_m2",
+              "word": 9
+            }
+          ],
+          "rec": {
+            "D61_hw": 15,
+            "a57_xor_hw": 10,
+            "chart_match": true,
+            "chart_top2": [
+              "dh",
+              "dCh"
+            ],
+            "tail63_state_diff_hw": 135
+          },
+          "score": 61.75
+        },
+        {
+          "M1": [
+            "0x616d09b3",
+            "0xa2e54113",
+            "0x2b19d81b",
+            "0x4c5613af",
+            "0x35cfef4e",
+            "0x41ea948d",
+            "0x9f3791bc",
+            "0x426e61d3",
+            "0x1b9e4c58",
+            "0x1b300697",
+            "0x9cd9337e",
+            "0x86c4082b",
+            "0x93cd9527",
+            "0x359b1231",
+            "0x770c8260",
+            "0x0ea6b814"
+          ],
+          "M2": [
+            "0xe34d0993",
+            "0xa6e54013",
+            "0x6ab5587b",
+            "0x4c56172f",
+            "0x31cfa746",
+            "0x45e89485",
+            "0x9f3383bc",
+            "0x4746e1d3",
+            "0x1bbe4c50",
+            "0x1a30421f",
+            "0x905d333e",
+            "0x9ec4082b",
+            "0x8bc99427",
+            "0x31931673",
+            "0x671c86a0",
+            "0x0ea6b81c"
+          ],
+          "delta_rec": {
+            "D61_hw": 7,
+            "a57_xor_hw": 5,
+            "chart_changed": true,
+            "tail63_state_diff_hw": 5
+          },
+          "delta_score": 27.25,
+          "flips": [
+            {
+              "bit": 8,
+              "mode": "raw_m2",
+              "word": 1
+            }
+          ],
+          "rec": {
+            "D61_hw": 16,
+            "a57_xor_hw": 10,
+            "chart_match": true,
+            "chart_top2": [
+              "dCh",
+              "dh"
+            ],
+            "tail63_state_diff_hw": 133
+          },
+          "score": 62.65
+        },
+        {
+          "M1": [
+            "0x616d09b3",
+            "0xa2e54113",
+            "0x2b19d81b",
+            "0x4c5613af",
+            "0x35cfef4e",
+            "0x41ea948d",
+            "0x9f3791bc",
+            "0x426e61d3",
+            "0x1b9e4c58",
+            "0x1b300697",
+            "0x9cd9337e",
+            "0x86c4082b",
+            "0x93cd9527",
+            "0x359b1231",
+            "0x770c8260",
+            "0x0ea6b814"
+          ],
+          "M2": [
+            "0xe34d0993",
+            "0xa6e54113",
+            "0x6ab5587b",
+            "0x4c56172f",
+            "0x31cfa746",
+            "0x45e89485",
+            "0x9f3393bc",
+            "0x4746e1d3",
+            "0x1bbe4c50",
+            "0x1a30421f",
+            "0x905d333e",
+            "0x9ec4082b",
+            "0x8bc99427",
+            "0x31931673",
+            "0x671c86a0",
+            "0x0ea6b81c"
+          ],
+          "delta_rec": {
+            "D61_hw": 4,
+            "a57_xor_hw": 4,
+            "chart_changed": true,
+            "tail63_state_diff_hw": 4
+          },
+          "delta_score": 28.2,
+          "flips": [
+            {
+              "bit": 12,
+              "mode": "raw_m2",
+              "word": 6
+            }
+          ],
+          "rec": {
+            "D61_hw": 13,
+            "a57_xor_hw": 9,
+            "chart_match": false,
+            "chart_top2": [
+              "dT2",
+              "dh"
+            ],
+            "tail63_state_diff_hw": 132
+          },
+          "score": 63.6
+        },
+        {
+          "M1": [
+            "0x616d09b3",
+            "0xa2e54113",
+            "0x2b19d81b",
+            "0x4c5613af",
+            "0x35cfef4e",
+            "0x41ea948d",
+            "0x9f3791bc",
+            "0x426e61d3",
+            "0x1b9e4c58",
+            "0x1b300697",
+            "0x9cd9337e",
+            "0x86c4082b",
+            "0x93cd9527",
+            "0x359b1231",
+            "0x770c8260",
+            "0x0ea6b814"
+          ],
+          "M2": [
+            "0xe34d0993",
+            "0xa6e54113",
+            "0x6ab5587b",
+            "0x4c56172f",
+            "0x31cfa746",
+            "0x45e89485",
+            "0x9f3383bc",
+            "0x4746e1d3",
+            "0x1bbe4c50",
+            "0x1a30421f",
+            "0x905d333e",
+            "0x9ec4082b",
+            "0x8bc99427",
+            "0x31931677",
+            "0x671c86a0",
+            "0x0ea6b81c"
+          ],
+          "delta_rec": {
+            "D61_hw": 9,
+            "a57_xor_hw": 5,
+            "chart_changed": true,
+            "tail63_state_diff_hw": 1
+          },
+          "delta_score": 29.05,
+          "flips": [
+            {
+              "bit": 2,
+              "mode": "raw_m2",
+              "word": 13
+            }
+          ],
+          "rec": {
+            "D61_hw": 18,
+            "a57_xor_hw": 10,
+            "chart_match": true,
+            "chart_top2": [
+              "dCh",
+              "dh"
+            ],
+            "tail63_state_diff_hw": 129
+          },
+          "score": 64.45
+        },
+        {
+          "M1": [
+            "0x616d09b3",
+            "0xa2e54113",
+            "0x2b19d81b",
+            "0x4c5613af",
+            "0x35cfef4e",
+            "0x41ea948d",
+            "0x9f3791bc",
+            "0x426e61d3",
+            "0x1b9e4c58",
+            "0x1b300697",
+            "0x9cd9337e",
+            "0x86c4082b",
+            "0x93cd9527",
+            "0x359b1231",
+            "0x770c8260",
+            "0x0ea6b814"
+          ],
+          "M2": [
+            "0xe34d0993",
+            "0xa6e54113",
+            "0x6ab5587b",
+            "0x4c56172f",
+            "0x31cfa746",
+            "0x45e89485",
+            "0x9f338bbc",
+            "0x4746e1d3",
+            "0x1bbe4c50",
+            "0x1a30421f",
+            "0x905d333e",
+            "0x9ec4082b",
+            "0x8bc99427",
+            "0x31931673",
+            "0x671c86a0",
+            "0x0ea6b81c"
+          ],
+          "delta_rec": {
+            "D61_hw": 1,
+            "a57_xor_hw": 5,
+            "chart_changed": true,
+            "tail63_state_diff_hw": 1
+          },
+          "delta_score": 29.05,
+          "flips": [
+            {
+              "bit": 11,
+              "mode": "raw_m2",
+              "word": 6
+            }
+          ],
+          "rec": {
+            "D61_hw": 10,
+            "a57_xor_hw": 10,
+            "chart_match": false,
+            "chart_top2": [
+              "dCh",
+              "dT2"
+            ],
+            "tail63_state_diff_hw": 129
+          },
+          "score": 64.45
+        },
+        {
+          "M1": [
+            "0x616d09b3",
+            "0xa2e54113",
+            "0x2b19d81b",
+            "0x4c5613af",
+            "0x35cfef4e",
+            "0x41ea948d",
+            "0x9f3791bc",
+            "0x426e61d3",
+            "0x1b9e4c58",
+            "0x1b300697",
+            "0x9cd9337e",
+            "0x86c4082b",
+            "0x93cd9527",
+            "0x359b1231",
+            "0x770c8260",
+            "0x0ea6b814"
+          ],
+          "M2": [
+            "0xe34d0993",
+            "0xa6e54113",
+            "0x6ab5587b",
+            "0x4c54172f",
+            "0x31cfa746",
+            "0x45e89485",
+            "0x9f3383bc",
+            "0x4746e1d3",
+            "0x1bbe4c50",
+            "0x1a30421f",
+            "0x905d333e",
+            "0x9ec4082b",
+            "0x8bc99427",
+            "0x31931673",
+            "0x671c86a0",
+            "0x0ea6b81c"
+          ],
+          "delta_rec": {
+            "D61_hw": 3,
+            "a57_xor_hw": 5,
+            "chart_changed": true,
+            "tail63_state_diff_hw": -2
+          },
+          "delta_score": 30.9,
+          "flips": [
+            {
+              "bit": 17,
+              "mode": "raw_m2",
+              "word": 3
+            }
+          ],
+          "rec": {
+            "D61_hw": 12,
+            "a57_xor_hw": 10,
+            "chart_match": false,
+            "chart_top2": [
+              "dh",
+              "dSig1"
+            ],
+            "tail63_state_diff_hw": 126
+          },
+          "score": 66.3
+        },
+        {
+          "M1": [
+            "0x616d09b3",
+            "0xa2e54113",
+            "0x2b19d81b",
+            "0x4c5613af",
+            "0x35cfef4e",
+            "0x41ea948d",
+            "0x9f3791bc",
+            "0x426e61d3",
+            "0x1b9e4c58",
+            "0x1b300697",
+            "0x9cd9337e",
+            "0x86c4082b",
+            "0x93cd9527",
+            "0x359b1231",
+            "0x770c8260",
+            "0x0ea6b814"
+          ],
+          "M2": [
+            "0xe34d0993",
+            "0xa6e54113",
+            "0x6ab55873",
+            "0x4c56172f",
+            "0x31cfa746",
+            "0x45e89485",
+            "0x9f3383bc",
+            "0x4746e1d3",
+            "0x1bbe4c50",
+            "0x1a30421f",
+            "0x905d333e",
+            "0x9ec4082b",
+            "0x8bc99427",
+            "0x31931673",
+            "0x671c86a0",
+            "0x0ea6b81c"
+          ],
+          "delta_rec": {
+            "D61_hw": 11,
+            "a57_xor_hw": 5,
+            "chart_changed": false,
+            "tail63_state_diff_hw": 9
+          },
+          "delta_score": 31.45,
+          "flips": [
+            {
+              "bit": 3,
+              "mode": "raw_m2",
+              "word": 2
+            }
+          ],
+          "rec": {
+            "D61_hw": 20,
+            "a57_xor_hw": 10,
+            "chart_match": true,
+            "chart_top2": [
+              "dh",
+              "dCh"
+            ],
+            "tail63_state_diff_hw": 137
+          },
+          "score": 66.85
+        },
+        {
+          "M1": [
+            "0x616d09b3",
+            "0xa2e54113",
+            "0x2b19d81b",
+            "0x4c5613af",
+            "0x35cfef4e",
+            "0x41ea948d",
+            "0x9f3791bc",
+            "0x426e61d3",
+            "0x1b9e4c58",
+            "0x1b300697",
+            "0x9cd9337e",
+            "0x86c4082b",
+            "0x93cd9527",
+            "0x359b1231",
+            "0x770c8260",
+            "0x0ea6b814"
+          ],
+          "M2": [
+            "0xe34d0993",
+            "0xa6e54113",
+            "0x6ab5587b",
+            "0x4c56172f",
+            "0x31cfa746",
+            "0x45c89485",
+            "0x9f3383bc",
+            "0x4746e1d3",
+            "0x1bbe4c50",
+            "0x1a30421f",
+            "0x905d333e",
+            "0x9ec4082b",
+            "0x8bc99427",
+            "0x31931673",
+            "0x671c86a0",
+            "0x0ea6b81c"
+          ],
+          "delta_rec": {
+            "D61_hw": -1,
+            "a57_xor_hw": 6,
+            "chart_changed": true,
+            "tail63_state_diff_hw": 9
+          },
+          "delta_score": 31.45,
+          "flips": [
+            {
+              "bit": 21,
+              "mode": "raw_m2",
+              "word": 5
+            }
+          ],
+          "rec": {
+            "D61_hw": 8,
+            "a57_xor_hw": 11,
+            "chart_match": false,
+            "chart_top2": [
+              "dT2",
+              "dCh"
+            ],
+            "tail63_state_diff_hw": 137
+          },
+          "score": 66.85
+        },
+        {
+          "M1": [
+            "0x616d09b3",
+            "0xa2e54113",
+            "0x2b19d81b",
+            "0x4c5613af",
+            "0x35cfef4e",
+            "0x41ea948d",
+            "0x9f3791bc",
+            "0x426e61d3",
+            "0x1b9e4c58",
+            "0x1b300697",
+            "0x9cd9337e",
+            "0x86c4082b",
+            "0x93cd9527",
+            "0x359b1231",
+            "0x770c8260",
+            "0x0ea6b814"
+          ],
+          "M2": [
+            "0xe34d0993",
+            "0xa6e54113",
+            "0x6ab5587b",
+            "0x4c56172f",
+            "0x31cfa746",
+            "0x45e89485",
+            "0x9f3383bc",
+            "0x4746e1d3",
+            "0x1bbe4c50",
+            "0x1a30421f",
+            "0x905d333c",
+            "0x9ec4082b",
+            "0x8bc99427",
+            "0x31931673",
+            "0x671c86a0",
+            "0x0ea6b81c"
+          ],
+          "delta_rec": {
+            "D61_hw": 8,
+            "a57_xor_hw": 6,
+            "chart_changed": false,
+            "tail63_state_diff_hw": -1
+          },
+          "delta_score": 31.95,
+          "flips": [
+            {
+              "bit": 1,
+              "mode": "raw_m2",
+              "word": 10
+            }
+          ],
+          "rec": {
+            "D61_hw": 17,
+            "a57_xor_hw": 11,
+            "chart_match": true,
+            "chart_top2": [
+              "dh",
+              "dCh"
+            ],
+            "tail63_state_diff_hw": 127
+          },
+          "score": 67.35
+        }
+      ],
+      "top_chart_histogram": {
+        "dCh,dSig1": 2,
+        "dCh,dT2": 1,
+        "dCh,dh": 2,
+        "dT2,dCh": 1,
+        "dT2,dSig1": 1,
+        "dT2,dh": 1,
+        "dh,dCh": 3,
+        "dh,dSig1": 1
+      }
+    },
+    {
+      "a57_improved_count": 0,
+      "chart_improved_count": 0,
+      "improved_score_count": 0,
+      "mode": "common_xor",
+      "positions": 512,
+      "radius": 1,
+      "scanned": 512,
+      "top": [
+        {
+          "M1": [
+            "0x616d09b3",
+            "0xa2e54113",
+            "0x2b19d81b",
+            "0x4c5613bf",
+            "0x35cfef4e",
+            "0x41ea948d",
+            "0x9f3791bc",
+            "0x426e61d3",
+            "0x1b9e4c58",
+            "0x1b300697",
+            "0x9cd9337e",
+            "0x86c4082b",
+            "0x93cd9527",
+            "0x359b1231",
+            "0x770c8260",
+            "0x0ea6b814"
+          ],
+          "M2": [
+            "0xe34d0993",
+            "0xa6e54113",
+            "0x6ab5587b",
+            "0x4c56173f",
+            "0x31cfa746",
+            "0x45e89485",
+            "0x9f3383bc",
+            "0x4746e1d3",
+            "0x1bbe4c50",
+            "0x1a30421f",
+            "0x905d333e",
+            "0x9ec4082b",
+            "0x8bc99427",
+            "0x31931673",
+            "0x671c86a0",
+            "0x0ea6b81c"
+          ],
+          "delta_rec": {
+            "D61_hw": 6,
+            "a57_xor_hw": 1,
+            "chart_changed": true,
+            "tail63_state_diff_hw": -9
+          },
+          "delta_score": 17.55,
+          "flips": [
+            {
+              "bit": 4,
+              "mode": "common_xor",
+              "word": 3
+            }
+          ],
+          "rec": {
+            "D61_hw": 15,
+            "a57_xor_hw": 6,
+            "chart_match": false,
+            "chart_top2": [
+              "dCh",
+              "dT2"
+            ],
+            "tail63_state_diff_hw": 119
+          },
+          "score": 52.95
+        },
+        {
+          "M1": [
+            "0x616d09b3",
+            "0xa2e54113",
+            "0x2b19d81b",
+            "0x4c5613af",
+            "0x35cfef4e",
+            "0x41ea948d",
+            "0x9f3791bc",
+            "0x426e61d3",
+            "0x1b9e4c58",
+            "0x1b300697",
+            "0x8cd9337e",
+            "0x86c4082b",
+            "0x93cd9527",
+            "0x359b1231",
+            "0x770c8260",
+            "0x0ea6b814"
+          ],
+          "M2": [
+            "0xe34d0993",
+            "0xa6e54113",
+            "0x6ab5587b",
+            "0x4c56172f",
+            "0x31cfa746",
+            "0x45e89485",
+            "0x9f3383bc",
+            "0x4746e1d3",
+            "0x1bbe4c50",
+            "0x1a30421f",
+            "0x805d333e",
+            "0x9ec4082b",
+            "0x8bc99427",
+            "0x31931673",
+            "0x671c86a0",
+            "0x0ea6b81c"
+          ],
+          "delta_rec": {
+            "D61_hw": 7,
+            "a57_xor_hw": 1,
+            "chart_changed": true,
+            "tail63_state_diff_hw": 8
+          },
+          "delta_score": 19.4,
+          "flips": [
+            {
+              "bit": 28,
+              "mode": "common_xor",
+              "word": 10
+            }
+          ],
+          "rec": {
+            "D61_hw": 16,
+            "a57_xor_hw": 6,
+            "chart_match": false,
+            "chart_top2": [
+              "dCh",
+              "dSig1"
+            ],
+            "tail63_state_diff_hw": 136
+          },
+          "score": 54.8
+        },
+        {
+          "M1": [
+            "0x616d09b3",
+            "0xe2e54113",
+            "0x2b19d81b",
+            "0x4c5613af",
+            "0x35cfef4e",
+            "0x41ea948d",
+            "0x9f3791bc",
+            "0x426e61d3",
+            "0x1b9e4c58",
+            "0x1b300697",
+            "0x9cd9337e",
+            "0x86c4082b",
+            "0x93cd9527",
+            "0x359b1231",
+            "0x770c8260",
+            "0x0ea6b814"
+          ],
+          "M2": [
+            "0xe34d0993",
+            "0xe6e54113",
+            "0x6ab5587b",
+            "0x4c56172f",
+            "0x31cfa746",
+            "0x45e89485",
+            "0x9f3383bc",
+            "0x4746e1d3",
+            "0x1bbe4c50",
+            "0x1a30421f",
+            "0x905d333e",
+            "0x9ec4082b",
+            "0x8bc99427",
+            "0x31931673",
+            "0x671c86a0",
+            "0x0ea6b81c"
+          ],
+          "delta_rec": {
+            "D61_hw": 9,
+            "a57_xor_hw": 3,
+            "chart_changed": false,
+            "tail63_state_diff_hw": -7
+          },
+          "delta_score": 20.65,
+          "flips": [
+            {
+              "bit": 30,
+              "mode": "common_xor",
+              "word": 1
+            }
+          ],
+          "rec": {
+            "D61_hw": 18,
+            "a57_xor_hw": 8,
+            "chart_match": true,
+            "chart_top2": [
+              "dh",
+              "dCh"
+            ],
+            "tail63_state_diff_hw": 121
+          },
+          "score": 56.05
+        },
+        {
+          "M1": [
+            "0x617d09b3",
+            "0xa2e54113",
+            "0x2b19d81b",
+            "0x4c5613af",
+            "0x35cfef4e",
+            "0x41ea948d",
+            "0x9f3791bc",
+            "0x426e61d3",
+            "0x1b9e4c58",
+            "0x1b300697",
+            "0x9cd9337e",
+            "0x86c4082b",
+            "0x93cd9527",
+            "0x359b1231",
+            "0x770c8260",
+            "0x0ea6b814"
+          ],
+          "M2": [
+            "0xe35d0993",
+            "0xa6e54113",
+            "0x6ab5587b",
+            "0x4c56172f",
+            "0x31cfa746",
+            "0x45e89485",
+            "0x9f3383bc",
+            "0x4746e1d3",
+            "0x1bbe4c50",
+            "0x1a30421f",
+            "0x905d333e",
+            "0x9ec4082b",
+            "0x8bc99427",
+            "0x31931673",
+            "0x671c86a0",
+            "0x0ea6b81c"
+          ],
+          "delta_rec": {
+            "D61_hw": 2,
+            "a57_xor_hw": 5,
+            "chart_changed": true,
+            "tail63_state_diff_hw": 9
+          },
+          "delta_score": 22.45,
+          "flips": [
+            {
+              "bit": 20,
+              "mode": "common_xor",
+              "word": 0
+            }
+          ],
+          "rec": {
+            "D61_hw": 11,
+            "a57_xor_hw": 10,
+            "chart_match": true,
+            "chart_top2": [
+              "dCh",
+              "dh"
+            ],
+            "tail63_state_diff_hw": 137
+          },
+          "score": 57.85
+        },
+        {
+          "M1": [
+            "0x616d09b3",
+            "0xa2e54113",
+            "0x2b19d81b",
+            "0x4c5613af",
+            "0x35cfef4e",
+            "0x41ea948d",
+            "0x9fb791bc",
+            "0x426e61d3",
+            "0x1b9e4c58",
+            "0x1b300697",
+            "0x9cd9337e",
+            "0x86c4082b",
+            "0x93cd9527",
+            "0x359b1231",
+            "0x770c8260",
+            "0x0ea6b814"
+          ],
+          "M2": [
+            "0xe34d0993",
+            "0xa6e54113",
+            "0x6ab5587b",
+            "0x4c56172f",
+            "0x31cfa746",
+            "0x45e89485",
+            "0x9fb383bc",
+            "0x4746e1d3",
+            "0x1bbe4c50",
+            "0x1a30421f",
+            "0x905d333e",
+            "0x9ec4082b",
+            "0x8bc99427",
+            "0x31931673",
+            "0x671c86a0",
+            "0x0ea6b81c"
+          ],
+          "delta_rec": {
+            "D61_hw": 7,
+            "a57_xor_hw": 2,
+            "chart_changed": true,
+            "tail63_state_diff_hw": 0
+          },
+          "delta_score": 23.0,
+          "flips": [
+            {
+              "bit": 23,
+              "mode": "common_xor",
+              "word": 6
+            }
+          ],
+          "rec": {
+            "D61_hw": 16,
+            "a57_xor_hw": 7,
+            "chart_match": false,
+            "chart_top2": [
+              "dh",
+              "dSig1"
+            ],
+            "tail63_state_diff_hw": 128
+          },
+          "score": 58.4
+        },
+        {
+          "M1": [
+            "0x616d09b3",
+            "0xa2e54113",
+            "0x2b19d81b",
+            "0x4c5613ad",
+            "0x35cfef4e",
+            "0x41ea948d",
+            "0x9f3791bc",
+            "0x426e61d3",
+            "0x1b9e4c58",
+            "0x1b300697",
+            "0x9cd9337e",
+            "0x86c4082b",
+            "0x93cd9527",
+            "0x359b1231",
+            "0x770c8260",
+            "0x0ea6b814"
+          ],
+          "M2": [
+            "0xe34d0993",
+            "0xa6e54113",
+            "0x6ab5587b",
+            "0x4c56172d",
+            "0x31cfa746",
+            "0x45e89485",
+            "0x9f3383bc",
+            "0x4746e1d3",
+            "0x1bbe4c50",
+            "0x1a30421f",
+            "0x905d333e",
+            "0x9ec4082b",
+            "0x8bc99427",
+            "0x31931673",
+            "0x671c86a0",
+            "0x0ea6b81c"
+          ],
+          "delta_rec": {
+            "D61_hw": 0,
+            "a57_xor_hw": 5,
+            "chart_changed": true,
+            "tail63_state_diff_hw": -11
+          },
+          "delta_score": 27.45,
+          "flips": [
+            {
+              "bit": 1,
+              "mode": "common_xor",
+              "word": 3
+            }
+          ],
+          "rec": {
+            "D61_hw": 9,
+            "a57_xor_hw": 10,
+            "chart_match": false,
+            "chart_top2": [
+              "dT2",
+              "dh"
+            ],
+            "tail63_state_diff_hw": 117
+          },
+          "score": 62.85
+        },
+        {
+          "M1": [
+            "0x616d09b3",
+            "0xa2e54113",
+            "0x2b59d81b",
+            "0x4c5613af",
+            "0x35cfef4e",
+            "0x41ea948d",
+            "0x9f3791bc",
+            "0x426e61d3",
+            "0x1b9e4c58",
+            "0x1b300697",
+            "0x9cd9337e",
+            "0x86c4082b",
+            "0x93cd9527",
+            "0x359b1231",
+            "0x770c8260",
+            "0x0ea6b814"
+          ],
+          "M2": [
+            "0xe34d0993",
+            "0xa6e54113",
+            "0x6af5587b",
+            "0x4c56172f",
+            "0x31cfa746",
+            "0x45e89485",
+            "0x9f3383bc",
+            "0x4746e1d3",
+            "0x1bbe4c50",
+            "0x1a30421f",
+            "0x905d333e",
+            "0x9ec4082b",
+            "0x8bc99427",
+            "0x31931673",
+            "0x671c86a0",
+            "0x0ea6b81c"
+          ],
+          "delta_rec": {
+            "D61_hw": 0,
+            "a57_xor_hw": 7,
+            "chart_changed": true,
+            "tail63_state_diff_hw": -5
+          },
+          "delta_score": 27.75,
+          "flips": [
+            {
+              "bit": 22,
+              "mode": "common_xor",
+              "word": 2
+            }
+          ],
+          "rec": {
+            "D61_hw": 9,
+            "a57_xor_hw": 12,
+            "chart_match": true,
+            "chart_top2": [
+              "dCh",
+              "dh"
+            ],
+            "tail63_state_diff_hw": 123
+          },
+          "score": 63.15
+        },
+        {
+          "M1": [
+            "0x616d09b3",
+            "0xa2e54113",
+            "0x2b19d81b",
+            "0x4c5613af",
+            "0x35cfef4e",
+            "0x41ea948d",
+            "0x9f3791bc",
+            "0x426e61d3",
+            "0x1b9e4c58",
+            "0x1b300697",
+            "0x9cd9337e",
+            "0x86c4082b",
+            "0x93cd9427",
+            "0x359b1231",
+            "0x770c8260",
+            "0x0ea6b814"
+          ],
+          "M2": [
+            "0xe34d0993",
+            "0xa6e54113",
+            "0x6ab5587b",
+            "0x4c56172f",
+            "0x31cfa746",
+            "0x45e89485",
+            "0x9f3383bc",
+            "0x4746e1d3",
+            "0x1bbe4c50",
+            "0x1a30421f",
+            "0x905d333e",
+            "0x9ec4082b",
+            "0x8bc99527",
+            "0x31931673",
+            "0x671c86a0",
+            "0x0ea6b81c"
+          ],
+          "delta_rec": {
+            "D61_hw": 2,
+            "a57_xor_hw": 5,
+            "chart_changed": true,
+            "tail63_state_diff_hw": 0
+          },
+          "delta_score": 30.0,
+          "flips": [
+            {
+              "bit": 8,
+              "mode": "common_xor",
+              "word": 12
+            }
+          ],
+          "rec": {
+            "D61_hw": 11,
+            "a57_xor_hw": 10,
+            "chart_match": false,
+            "chart_top2": [
+              "dT2",
+              "dSig1"
+            ],
+            "tail63_state_diff_hw": 128
+          },
+          "score": 65.4
+        },
+        {
+          "M1": [
+            "0x616d09b3",
+            "0xa2e54113",
+            "0x2b19d81b",
+            "0x4c5613af",
+            "0x35cfef4e",
+            "0x41ea948d",
+            "0x9f3791bc",
+            "0x426e61d3",
+            "0x1b9e4c58",
+            "0x1b301697",
+            "0x9cd9337e",
+            "0x86c4082b",
+            "0x93cd9527",
+            "0x359b1231",
+            "0x770c8260",
+            "0x0ea6b814"
+          ],
+          "M2": [
+            "0xe34d0993",
+            "0xa6e54113",
+            "0x6ab5587b",
+            "0x4c56172f",
+            "0x31cfa746",
+            "0x45e89485",
+            "0x9f3383bc",
+            "0x4746e1d3",
+            "0x1bbe4c50",
+            "0x1a30521f",
+            "0x905d333e",
+            "0x9ec4082b",
+            "0x8bc99427",
+            "0x31931673",
+            "0x671c86a0",
+            "0x0ea6b81c"
+          ],
+          "delta_rec": {
+            "D61_hw": 3,
+            "a57_xor_hw": 5,
+            "chart_changed": true,
+            "tail63_state_diff_hw": 11
+          },
+          "delta_score": 31.55,
+          "flips": [
+            {
+              "bit": 12,
+              "mode": "common_xor",
+              "word": 9
+            }
+          ],
+          "rec": {
+            "D61_hw": 12,
+            "a57_xor_hw": 10,
+            "chart_match": false,
+            "chart_top2": [
+              "dSig1",
+              "dh"
+            ],
+            "tail63_state_diff_hw": 139
+          },
+          "score": 66.95
+        },
+        {
+          "M1": [
+            "0x616d09b3",
+            "0xa2e54113",
+            "0x2b19d81b",
+            "0x4c5613af",
+            "0x35cfef4e",
+            "0x41ea948d",
+            "0x9f3791bc",
+            "0x426e61d3",
+            "0x1b9e4c58",
+            "0x1b300697",
+            "0x9cd9337e",
+            "0x86c4082b",
+            "0x93cd9527",
+            "0x359b1231",
+            "0x770c8260",
+            "0x0aa6b814"
+          ],
+          "M2": [
+            "0xe34d0993",
+            "0xa6e54113",
+            "0x6ab5587b",
+            "0x4c56172f",
+            "0x31cfa746",
+            "0x45e89485",
+            "0x9f3383bc",
+            "0x4746e1d3",
+            "0x1bbe4c50",
+            "0x1a30421f",
+            "0x905d333e",
+            "0x9ec4082b",
+            "0x8bc99427",
+            "0x31931673",
+            "0x671c86a0",
+            "0x0aa6b81c"
+          ],
+          "delta_rec": {
+            "D61_hw": 9,
+            "a57_xor_hw": 4,
+            "chart_changed": true,
+            "tail63_state_diff_hw": -7
+          },
+          "delta_score": 32.65,
+          "flips": [
+            {
+              "bit": 26,
+              "mode": "common_xor",
+              "word": 15
+            }
+          ],
+          "rec": {
+            "D61_hw": 18,
+            "a57_xor_hw": 9,
+            "chart_match": false,
+            "chart_top2": [
+              "dT2",
+              "dCh"
+            ],
+            "tail63_state_diff_hw": 121
+          },
+          "score": 68.05
+        },
+        {
+          "M1": [
+            "0x616d09b3",
+            "0xa2e54113",
+            "0x2b19d81b",
+            "0x4c5613af",
+            "0x35cfef4e",
+            "0x41ea948d",
+            "0x9f3791ac",
+            "0x426e61d3",
+            "0x1b9e4c58",
+            "0x1b300697",
+            "0x9cd9337e",
+            "0x86c4082b",
+            "0x93cd9527",
+            "0x359b1231",
+            "0x770c8260",
+            "0x0ea6b814"
+          ],
+          "M2": [
+            "0xe34d0993",
+            "0xa6e54113",
+            "0x6ab5587b",
+            "0x4c56172f",
+            "0x31cfa746",
+            "0x45e89485",
+            "0x9f3383ac",
+            "0x4746e1d3",
+            "0x1bbe4c50",
+            "0x1a30421f",
+            "0x905d333e",
+            "0x9ec4082b",
+            "0x8bc99427",
+            "0x31931673",
+            "0x671c86a0",
+            "0x0ea6b81c"
+          ],
+          "delta_rec": {
+            "D61_hw": 5,
+            "a57_xor_hw": 5,
+            "chart_changed": true,
+            "tail63_state_diff_hw": -5
+          },
+          "delta_score": 32.75,
+          "flips": [
+            {
+              "bit": 4,
+              "mode": "common_xor",
+              "word": 6
+            }
+          ],
+          "rec": {
+            "D61_hw": 14,
+            "a57_xor_hw": 10,
+            "chart_match": false,
+            "chart_top2": [
+              "dT2",
+              "dSig1"
+            ],
+            "tail63_state_diff_hw": 123
+          },
+          "score": 68.15
+        },
+        {
+          "M1": [
+            "0x616d09b3",
+            "0xa2e54113",
+            "0x2b19d81b",
+            "0x4e5613af",
+            "0x35cfef4e",
+            "0x41ea948d",
+            "0x9f3791bc",
+            "0x426e61d3",
+            "0x1b9e4c58",
+            "0x1b300697",
+            "0x9cd9337e",
+            "0x86c4082b",
+            "0x93cd9527",
+            "0x359b1231",
+            "0x770c8260",
+            "0x0ea6b814"
+          ],
+          "M2": [
+            "0xe34d0993",
+            "0xa6e54113",
+            "0x6ab5587b",
+            "0x4e56172f",
+            "0x31cfa746",
+            "0x45e89485",
+            "0x9f3383bc",
+            "0x4746e1d3",
+            "0x1bbe4c50",
+            "0x1a30421f",
+            "0x905d333e",
+            "0x9ec4082b",
+            "0x8bc99427",
+            "0x31931673",
+            "0x671c86a0",
+            "0x0ea6b81c"
+          ],
+          "delta_rec": {
+            "D61_hw": 5,
+            "a57_xor_hw": 5,
+            "chart_changed": true,
+            "tail63_state_diff_hw": 1
+          },
+          "delta_score": 33.05,
+          "flips": [
+            {
+              "bit": 25,
+              "mode": "common_xor",
+              "word": 3
+            }
+          ],
+          "rec": {
+            "D61_hw": 14,
+            "a57_xor_hw": 10,
+            "chart_match": false,
+            "chart_top2": [
+              "dSig1",
+              "dh"
+            ],
+            "tail63_state_diff_hw": 129
+          },
+          "score": 68.45
+        }
+      ],
+      "top_chart_histogram": {
+        "dCh,dSig1": 1,
+        "dCh,dT2": 1,
+        "dCh,dh": 2,
+        "dSig1,dh": 2,
+        "dT2,dCh": 1,
+        "dT2,dSig1": 2,
+        "dT2,dh": 1,
+        "dh,dCh": 1,
+        "dh,dSig1": 1
+      }
+    },
+    {
+      "a57_improved_count": 0,
+      "chart_improved_count": 0,
+      "improved_score_count": 0,
+      "mode": "common_add",
+      "positions": 1024,
+      "radius": 1,
+      "scanned": 1024,
+      "top": [
+        {
+          "M1": [
+            "0x616d09b3",
+            "0xa2e54113",
+            "0x2b19d81b",
+            "0x4c5613bf",
+            "0x35cfef4e",
+            "0x41ea948d",
+            "0x9f3791bc",
+            "0x426e61d3",
+            "0x1b9e4c58",
+            "0x1b300697",
+            "0x9cd9337e",
+            "0x86c4082b",
+            "0x93cd9527",
+            "0x359b1231",
+            "0x770c8260",
+            "0x0ea6b814"
+          ],
+          "M2": [
+            "0xe34d0993",
+            "0xa6e54113",
+            "0x6ab5587b",
+            "0x4c56173f",
+            "0x31cfa746",
+            "0x45e89485",
+            "0x9f3383bc",
+            "0x4746e1d3",
+            "0x1bbe4c50",
+            "0x1a30421f",
+            "0x905d333e",
+            "0x9ec4082b",
+            "0x8bc99427",
+            "0x31931673",
+            "0x671c86a0",
+            "0x0ea6b81c"
+          ],
+          "delta_rec": {
+            "D61_hw": 6,
+            "a57_xor_hw": 1,
+            "chart_changed": true,
+            "tail63_state_diff_hw": -9
+          },
+          "delta_score": 17.55,
+          "flips": [
+            {
+              "bit": 4,
+              "mode": "common_add",
+              "sign": 1,
+              "word": 3
+            }
+          ],
+          "rec": {
+            "D61_hw": 15,
+            "a57_xor_hw": 6,
+            "chart_match": false,
+            "chart_top2": [
+              "dCh",
+              "dT2"
+            ],
+            "tail63_state_diff_hw": 119
+          },
+          "score": 52.95
+        },
+        {
+          "M1": [
+            "0x616d09b3",
+            "0xa2e54113",
+            "0x2b19d81b",
+            "0x4c5613af",
+            "0x35cfef4e",
+            "0x41ea948d",
+            "0x9f3791bc",
+            "0x426e61d3",
+            "0x1b9e4c58",
+            "0x1b30068f",
+            "0x9cd9337e",
+            "0x86c4082b",
+            "0x93cd9527",
+            "0x359b1231",
+            "0x770c8260",
+            "0x0ea6b814"
+          ],
+          "M2": [
+            "0xe34d0993",
+            "0xa6e54113",
+            "0x6ab5587b",
+            "0x4c56172f",
+            "0x31cfa746",
+            "0x45e89485",
+            "0x9f3383bc",
+            "0x4746e1d3",
+            "0x1bbe4c50",
+            "0x1a304217",
+            "0x905d333e",
+            "0x9ec4082b",
+            "0x8bc99427",
+            "0x31931673",
+            "0x671c86a0",
+            "0x0ea6b81c"
+          ],
+          "delta_rec": {
+            "D61_hw": 6,
+            "a57_xor_hw": 3,
+            "chart_changed": false,
+            "tail63_state_diff_hw": 2
+          },
+          "delta_score": 18.1,
+          "flips": [
+            {
+              "bit": 3,
+              "mode": "common_add",
+              "sign": -1,
+              "word": 9
+            }
+          ],
+          "rec": {
+            "D61_hw": 15,
+            "a57_xor_hw": 8,
+            "chart_match": true,
+            "chart_top2": [
+              "dh",
+              "dCh"
+            ],
+            "tail63_state_diff_hw": 130
+          },
+          "score": 53.5
+        },
+        {
+          "M1": [
+            "0x616d09b3",
+            "0xa2e54113",
+            "0x2b19d81b",
+            "0x4c5613af",
+            "0x35cfef4e",
+            "0x41ea948d",
+            "0x9f3791bc",
+            "0x426e61d3",
+            "0x1b9e4c58",
+            "0x1b300697",
+            "0x9cd9337e",
+            "0x86c4082b",
+            "0x93cd9527",
+            "0x359b1231",
+            "0x770c8160",
+            "0x0ea6b814"
+          ],
+          "M2": [
+            "0xe34d0993",
+            "0xa6e54113",
+            "0x6ab5587b",
+            "0x4c56172f",
+            "0x31cfa746",
+            "0x45e89485",
+            "0x9f3383bc",
+            "0x4746e1d3",
+            "0x1bbe4c50",
+            "0x1a30421f",
+            "0x905d333e",
+            "0x9ec4082b",
+            "0x8bc99427",
+            "0x31931673",
+            "0x671c85a0",
+            "0x0ea6b81c"
+          ],
+          "delta_rec": {
+            "D61_hw": 6,
+            "a57_xor_hw": 3,
+            "chart_changed": false,
+            "tail63_state_diff_hw": 6
+          },
+          "delta_score": 18.3,
+          "flips": [
+            {
+              "bit": 8,
+              "mode": "common_add",
+              "sign": -1,
+              "word": 14
+            }
+          ],
+          "rec": {
+            "D61_hw": 15,
+            "a57_xor_hw": 8,
+            "chart_match": true,
+            "chart_top2": [
+              "dh",
+              "dCh"
+            ],
+            "tail63_state_diff_hw": 134
+          },
+          "score": 53.7
+        },
+        {
+          "M1": [
+            "0x616d09b3",
+            "0xa2e54113",
+            "0x2b19d81b",
+            "0x4c5613af",
+            "0x35cfef4e",
+            "0x41ea948d",
+            "0x9f3791bc",
+            "0x426e61d3",
+            "0x1b9e4c58",
+            "0x1b300697",
+            "0x8cd9337e",
+            "0x86c4082b",
+            "0x93cd9527",
+            "0x359b1231",
+            "0x770c8260",
+            "0x0ea6b814"
+          ],
+          "M2": [
+            "0xe34d0993",
+            "0xa6e54113",
+            "0x6ab5587b",
+            "0x4c56172f",
+            "0x31cfa746",
+            "0x45e89485",
+            "0x9f3383bc",
+            "0x4746e1d3",
+            "0x1bbe4c50",
+            "0x1a30421f",
+            "0x805d333e",
+            "0x9ec4082b",
+            "0x8bc99427",
+            "0x31931673",
+            "0x671c86a0",
+            "0x0ea6b81c"
+          ],
+          "delta_rec": {
+            "D61_hw": 7,
+            "a57_xor_hw": 1,
+            "chart_changed": true,
+            "tail63_state_diff_hw": 8
+          },
+          "delta_score": 19.4,
+          "flips": [
+            {
+              "bit": 28,
+              "mode": "common_add",
+              "sign": -1,
+              "word": 10
+            }
+          ],
+          "rec": {
+            "D61_hw": 16,
+            "a57_xor_hw": 6,
+            "chart_match": false,
+            "chart_top2": [
+              "dCh",
+              "dSig1"
+            ],
+            "tail63_state_diff_hw": 136
+          },
+          "score": 54.8
+        },
+        {
+          "M1": [
+            "0x616d09b3",
+            "0xe2e54113",
+            "0x2b19d81b",
+            "0x4c5613af",
+            "0x35cfef4e",
+            "0x41ea948d",
+            "0x9f3791bc",
+            "0x426e61d3",
+            "0x1b9e4c58",
+            "0x1b300697",
+            "0x9cd9337e",
+            "0x86c4082b",
+            "0x93cd9527",
+            "0x359b1231",
+            "0x770c8260",
+            "0x0ea6b814"
+          ],
+          "M2": [
+            "0xe34d0993",
+            "0xe6e54113",
+            "0x6ab5587b",
+            "0x4c56172f",
+            "0x31cfa746",
+            "0x45e89485",
+            "0x9f3383bc",
+            "0x4746e1d3",
+            "0x1bbe4c50",
+            "0x1a30421f",
+            "0x905d333e",
+            "0x9ec4082b",
+            "0x8bc99427",
+            "0x31931673",
+            "0x671c86a0",
+            "0x0ea6b81c"
+          ],
+          "delta_rec": {
+            "D61_hw": 9,
+            "a57_xor_hw": 3,
+            "chart_changed": false,
+            "tail63_state_diff_hw": -7
+          },
+          "delta_score": 20.65,
+          "flips": [
+            {
+              "bit": 30,
+              "mode": "common_add",
+              "sign": 1,
+              "word": 1
+            }
+          ],
+          "rec": {
+            "D61_hw": 18,
+            "a57_xor_hw": 8,
+            "chart_match": true,
+            "chart_top2": [
+              "dh",
+              "dCh"
+            ],
+            "tail63_state_diff_hw": 121
+          },
+          "score": 56.05
+        },
+        {
+          "M1": [
+            "0x617d09b3",
+            "0xa2e54113",
+            "0x2b19d81b",
+            "0x4c5613af",
+            "0x35cfef4e",
+            "0x41ea948d",
+            "0x9f3791bc",
+            "0x426e61d3",
+            "0x1b9e4c58",
+            "0x1b300697",
+            "0x9cd9337e",
+            "0x86c4082b",
+            "0x93cd9527",
+            "0x359b1231",
+            "0x770c8260",
+            "0x0ea6b814"
+          ],
+          "M2": [
+            "0xe35d0993",
+            "0xa6e54113",
+            "0x6ab5587b",
+            "0x4c56172f",
+            "0x31cfa746",
+            "0x45e89485",
+            "0x9f3383bc",
+            "0x4746e1d3",
+            "0x1bbe4c50",
+            "0x1a30421f",
+            "0x905d333e",
+            "0x9ec4082b",
+            "0x8bc99427",
+            "0x31931673",
+            "0x671c86a0",
+            "0x0ea6b81c"
+          ],
+          "delta_rec": {
+            "D61_hw": 2,
+            "a57_xor_hw": 5,
+            "chart_changed": true,
+            "tail63_state_diff_hw": 9
+          },
+          "delta_score": 22.45,
+          "flips": [
+            {
+              "bit": 20,
+              "mode": "common_add",
+              "sign": 1,
+              "word": 0
+            }
+          ],
+          "rec": {
+            "D61_hw": 11,
+            "a57_xor_hw": 10,
+            "chart_match": true,
+            "chart_top2": [
+              "dCh",
+              "dh"
+            ],
+            "tail63_state_diff_hw": 137
+          },
+          "score": 57.85
+        },
+        {
+          "M1": [
+            "0x616d09b3",
+            "0xa2e54113",
+            "0x2b19d81b",
+            "0x4c5613af",
+            "0x35cfef4e",
+            "0x41ea948d",
+            "0x9fb791bc",
+            "0x426e61d3",
+            "0x1b9e4c58",
+            "0x1b300697",
+            "0x9cd9337e",
+            "0x86c4082b",
+            "0x93cd9527",
+            "0x359b1231",
+            "0x770c8260",
+            "0x0ea6b814"
+          ],
+          "M2": [
+            "0xe34d0993",
+            "0xa6e54113",
+            "0x6ab5587b",
+            "0x4c56172f",
+            "0x31cfa746",
+            "0x45e89485",
+            "0x9fb383bc",
+            "0x4746e1d3",
+            "0x1bbe4c50",
+            "0x1a30421f",
+            "0x905d333e",
+            "0x9ec4082b",
+            "0x8bc99427",
+            "0x31931673",
+            "0x671c86a0",
+            "0x0ea6b81c"
+          ],
+          "delta_rec": {
+            "D61_hw": 7,
+            "a57_xor_hw": 2,
+            "chart_changed": true,
+            "tail63_state_diff_hw": 0
+          },
+          "delta_score": 23.0,
+          "flips": [
+            {
+              "bit": 23,
+              "mode": "common_add",
+              "sign": 1,
+              "word": 6
+            }
+          ],
+          "rec": {
+            "D61_hw": 16,
+            "a57_xor_hw": 7,
+            "chart_match": false,
+            "chart_top2": [
+              "dh",
+              "dSig1"
+            ],
+            "tail63_state_diff_hw": 128
+          },
+          "score": 58.4
+        },
+        {
+          "M1": [
+            "0x616d09b3",
+            "0xa2e54113",
+            "0x2b19d81b",
+            "0x4c5613af",
+            "0x35cfef4e",
+            "0x41ea948d",
+            "0x9f3791bc",
+            "0x426e61d3",
+            "0x1b9e4c58",
+            "0x1b300697",
+            "0x9cd9337e",
+            "0x86c4082b",
+            "0x93cd9527",
+            "0x359b1231",
+            "0x770c8260",
+            "0x0eaab814"
+          ],
+          "M2": [
+            "0xe34d0993",
+            "0xa6e54113",
+            "0x6ab5587b",
+            "0x4c56172f",
+            "0x31cfa746",
+            "0x45e89485",
+            "0x9f3383bc",
+            "0x4746e1d3",
+            "0x1bbe4c50",
+            "0x1a30421f",
+            "0x905d333e",
+            "0x9ec4082b",
+            "0x8bc99427",
+            "0x31931673",
+            "0x671c86a0",
+            "0x0eaab81c"
+          ],
+          "delta_rec": {
+            "D61_hw": 6,
+            "a57_xor_hw": 5,
+            "chart_changed": false,
+            "tail63_state_diff_hw": -4
+          },
+          "delta_score": 25.8,
+          "flips": [
+            {
+              "bit": 18,
+              "mode": "common_add",
+              "sign": 1,
+              "word": 15
+            }
+          ],
+          "rec": {
+            "D61_hw": 15,
+            "a57_xor_hw": 10,
+            "chart_match": true,
+            "chart_top2": [
+              "dh",
+              "dCh"
+            ],
+            "tail63_state_diff_hw": 124
+          },
+          "score": 61.2
+        },
+        {
+          "M1": [
+            "0x616d09b3",
+            "0xa2e54113",
+            "0x2b19d81b",
+            "0x4c5613ad",
+            "0x35cfef4e",
+            "0x41ea948d",
+            "0x9f3791bc",
+            "0x426e61d3",
+            "0x1b9e4c58",
+            "0x1b300697",
+            "0x9cd9337e",
+            "0x86c4082b",
+            "0x93cd9527",
+            "0x359b1231",
+            "0x770c8260",
+            "0x0ea6b814"
+          ],
+          "M2": [
+            "0xe34d0993",
+            "0xa6e54113",
+            "0x6ab5587b",
+            "0x4c56172d",
+            "0x31cfa746",
+            "0x45e89485",
+            "0x9f3383bc",
+            "0x4746e1d3",
+            "0x1bbe4c50",
+            "0x1a30421f",
+            "0x905d333e",
+            "0x9ec4082b",
+            "0x8bc99427",
+            "0x31931673",
+            "0x671c86a0",
+            "0x0ea6b81c"
+          ],
+          "delta_rec": {
+            "D61_hw": 0,
+            "a57_xor_hw": 5,
+            "chart_changed": true,
+            "tail63_state_diff_hw": -11
+          },
+          "delta_score": 27.45,
+          "flips": [
+            {
+              "bit": 1,
+              "mode": "common_add",
+              "sign": -1,
+              "word": 3
+            }
+          ],
+          "rec": {
+            "D61_hw": 9,
+            "a57_xor_hw": 10,
+            "chart_match": false,
+            "chart_top2": [
+              "dT2",
+              "dh"
+            ],
+            "tail63_state_diff_hw": 117
+          },
+          "score": 62.85
+        },
+        {
+          "M1": [
+            "0x616d09b3",
+            "0xa2e54113",
+            "0x2b59d81b",
+            "0x4c5613af",
+            "0x35cfef4e",
+            "0x41ea948d",
+            "0x9f3791bc",
+            "0x426e61d3",
+            "0x1b9e4c58",
+            "0x1b300697",
+            "0x9cd9337e",
+            "0x86c4082b",
+            "0x93cd9527",
+            "0x359b1231",
+            "0x770c8260",
+            "0x0ea6b814"
+          ],
+          "M2": [
+            "0xe34d0993",
+            "0xa6e54113",
+            "0x6af5587b",
+            "0x4c56172f",
+            "0x31cfa746",
+            "0x45e89485",
+            "0x9f3383bc",
+            "0x4746e1d3",
+            "0x1bbe4c50",
+            "0x1a30421f",
+            "0x905d333e",
+            "0x9ec4082b",
+            "0x8bc99427",
+            "0x31931673",
+            "0x671c86a0",
+            "0x0ea6b81c"
+          ],
+          "delta_rec": {
+            "D61_hw": 0,
+            "a57_xor_hw": 7,
+            "chart_changed": true,
+            "tail63_state_diff_hw": -5
+          },
+          "delta_score": 27.75,
+          "flips": [
+            {
+              "bit": 22,
+              "mode": "common_add",
+              "sign": 1,
+              "word": 2
+            }
+          ],
+          "rec": {
+            "D61_hw": 9,
+            "a57_xor_hw": 12,
+            "chart_match": true,
+            "chart_top2": [
+              "dCh",
+              "dh"
+            ],
+            "tail63_state_diff_hw": 123
+          },
+          "score": 63.15
+        },
+        {
+          "M1": [
+            "0x616d09b3",
+            "0xa2e54113",
+            "0x2b19d81b",
+            "0x4c5613af",
+            "0x31cfef4e",
+            "0x41ea948d",
+            "0x9f3791bc",
+            "0x426e61d3",
+            "0x1b9e4c58",
+            "0x1b300697",
+            "0x9cd9337e",
+            "0x86c4082b",
+            "0x93cd9527",
+            "0x359b1231",
+            "0x770c8260",
+            "0x0ea6b814"
+          ],
+          "M2": [
+            "0xe34d0993",
+            "0xa6e54113",
+            "0x6ab5587b",
+            "0x4c56172f",
+            "0x2dcfa746",
+            "0x45e89485",
+            "0x9f3383bc",
+            "0x4746e1d3",
+            "0x1bbe4c50",
+            "0x1a30421f",
+            "0x905d333e",
+            "0x9ec4082b",
+            "0x8bc99427",
+            "0x31931673",
+            "0x671c86a0",
+            "0x0ea6b81c"
+          ],
+          "delta_rec": {
+            "D61_hw": 8,
+            "a57_xor_hw": 3,
+            "chart_changed": true,
+            "tail63_state_diff_hw": -1
+          },
+          "delta_score": 27.95,
+          "flips": [
+            {
+              "bit": 26,
+              "mode": "common_add",
+              "sign": -1,
+              "word": 4
+            }
+          ],
+          "rec": {
+            "D61_hw": 17,
+            "a57_xor_hw": 8,
+            "chart_match": false,
+            "chart_top2": [
+              "dCh",
+              "dT2"
+            ],
+            "tail63_state_diff_hw": 127
+          },
+          "score": 63.35
+        },
+        {
+          "M1": [
+            "0x616d09b3",
+            "0xa2e54113",
+            "0x2b19d81b",
+            "0x4c5613af",
+            "0x35cfef4e",
+            "0x41ea948d",
+            "0x9f3791bc",
+            "0x426e61d3",
+            "0x1b9e4c58",
+            "0x1b300697",
+            "0x9cd93382",
+            "0x86c4082b",
+            "0x93cd9527",
+            "0x359b1231",
+            "0x770c8260",
+            "0x0ea6b814"
+          ],
+          "M2": [
+            "0xe34d0993",
+            "0xa6e54113",
+            "0x6ab5587b",
+            "0x4c56172f",
+            "0x31cfa746",
+            "0x45e89485",
+            "0x9f3383bc",
+            "0x4746e1d3",
+            "0x1bbe4c50",
+            "0x1a30421f",
+            "0x905d3342",
+            "0x9ec4082b",
+            "0x8bc99427",
+            "0x31931673",
+            "0x671c86a0",
+            "0x0ea6b81c"
+          ],
+          "delta_rec": {
+            "D61_hw": 5,
+            "a57_xor_hw": 4,
+            "chart_changed": true,
+            "tail63_state_diff_hw": -7
+          },
+          "delta_score": 28.65,
+          "flips": [
+            {
+              "bit": 2,
+              "mode": "common_add",
+              "sign": 1,
+              "word": 10
+            }
+          ],
+          "rec": {
+            "D61_hw": 14,
+            "a57_xor_hw": 9,
+            "chart_match": false,
+            "chart_top2": [
+              "dT2",
+              "dCh"
+            ],
+            "tail63_state_diff_hw": 121
+          },
+          "score": 64.05
+        }
+      ],
+      "top_chart_histogram": {
+        "dCh,dSig1": 1,
+        "dCh,dT2": 2,
+        "dCh,dh": 2,
+        "dT2,dCh": 1,
+        "dT2,dh": 1,
+        "dh,dCh": 4,
+        "dh,dSig1": 1
+      }
+    }
+  ],
+  "report_id": "F365",
+  "score_kwargs": {
+    "atlas_alpha": 4.0,
+    "atlas_beta": 1.0,
+    "atlas_delta": 0.05,
+    "atlas_gamma": 8.0
+  },
+  "source": "headline_hunt/bets/math_principles/results/20260429_F362_pareto_descendant_continuation.json",
+  "verdict": "descendant_probe_found_D61_only_descent",
+  "wall_seconds": 0.986989
+}

@@ -35,6 +35,7 @@ python3 headline_hunt/bets/math_principles/encoders/optimize_chamber_seed_freeva
 python3 headline_hunt/bets/math_principles/encoders/build_chamber_seed_pareto_front.py
 python3 headline_hunt/bets/math_principles/encoders/continue_atlas_from_pareto.py
 python3 headline_hunt/bets/math_principles/encoders/extend_atlas_continuation.py
+python3 headline_hunt/bets/math_principles/encoders/probe_descendant_neighborhood.py
 ```
 
 The original manifest slice intentionally excludes downstream math-principles
@@ -77,6 +78,7 @@ Default outputs:
 - `results/20260429_F362_pareto_descendant_continuation.{json,md}`
 - `results/20260429_F363_d61_weighted_descendant_continuation.{json,md}`
 - `results/20260429_F364_m1_move_descendant_continuation.{json,md}`
+- `results/20260429_F365_descendant_neighborhood_r1.{json,md}`
 
 ## Readout
 
@@ -187,9 +189,15 @@ adding raw M1-side flips and allowing 3-flip proposals. It still does not
 descend: seed and best remain score 35.4, `a57=5`, D61=9, chart `dh,dCh`.
 This makes the basin look genuinely local under message-side bit moves.
 
+F365 deterministically probes radius-1 moves around the F362 `best_D61` basin.
+No single raw/common message move improves the atlas score. One raw M2 move
+does lower D61 from 9 to 8, but only by breaking the chart and raising `a57` to
+11. D61 is locally movable, but not independently of the guard/chart
+coordinates.
+
 ## Next tracks
 
 - add outcome-aware calibration before spending more budget on F343-style selectors
 - use F342 stable-core coordinates as hard features for BP/matroid audits
 - use common-mode atlas continuation as a post-atlas polish operator
-- probe deterministic neighborhoods around the F362 basin to identify blocked coordinates
+- test paired repair moves that combine the F365 D61-lowering bit with chart/guard repair
