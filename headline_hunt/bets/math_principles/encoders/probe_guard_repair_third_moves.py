@@ -81,6 +81,11 @@ def rank_preserve(row: dict[str, Any]) -> tuple[Any, ...]:
 
 
 def verdict(payload: dict[str, Any]) -> tuple[str, str]:
+    if payload["target_preserve_count"]:
+        return (
+            "next_move_hits_target_constraints",
+            "Promote the target-preserving candidate as the next continuation seed.",
+        )
     if payload["guard_repair_preserve_count"]:
         return (
             "third_move_repairs_guard_with_D61_chart_preserved",
@@ -106,7 +111,7 @@ def write_md(path: Path, payload: dict[str, Any]) -> None:
         "status: GUARD_REPAIR_THIRD_PROBE",
         "---",
         "",
-        "# F367: guard-repair third-move probe",
+        f"# {payload['report_id']}: guard-repair next-move probe",
         "",
         "## Summary",
         "",
@@ -133,6 +138,7 @@ def write_md(path: Path, payload: dict[str, Any]) -> None:
         f"- chart-preserving moves: {payload['chart_preserve_count']}",
         f"- D61<=seed moves: {payload['d61_preserve_count']}",
         f"- a57-lowering with chart and D61<=seed: {payload['guard_repair_preserve_count']}",
+        f"- target a57/chart/D61 moves: {payload['target_preserve_count']}",
         "",
         "## Decision",
         "",
@@ -146,7 +152,11 @@ def write_md(path: Path, payload: dict[str, Any]) -> None:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("source", nargs="?", type=Path, default=DEFAULT_SOURCE)
-    ap.add_argument("--candidate", choices=["best_d61", "best_score", "best_repair"], default="best_d61")
+    ap.add_argument(
+        "--candidate",
+        choices=["best_d61", "best_score", "best_repair", "best_guard", "best_preserve"],
+        default="best_d61",
+    )
     ap.add_argument("--active-words", default="0-15")
     ap.add_argument("--modes", default="raw_m1,raw_m2,common_xor,common_add")
     ap.add_argument("--top", type=int, default=12)
@@ -154,6 +164,9 @@ def main() -> int:
     ap.add_argument("--beta", type=float, default=1.0)
     ap.add_argument("--gamma", type=float, default=8.0)
     ap.add_argument("--delta", type=float, default=0.05)
+    ap.add_argument("--report-id", default="F367")
+    ap.add_argument("--target-a57", type=int, default=None)
+    ap.add_argument("--target-d61", type=int, default=None)
     ap.add_argument("--out-json", type=Path, default=DEFAULT_OUT_JSON)
     ap.add_argument("--out-md", type=Path, default=None)
     args = ap.parse_args()
@@ -193,11 +206,13 @@ def main() -> int:
             scanned += 1
     seed_a57 = seed_rec["a57_xor_hw"]
     seed_d61 = seed_rec["D61_hw"]
+    target_a57 = seed_a57 if args.target_a57 is None else args.target_a57
+    target_d61 = seed_d61 if args.target_d61 is None else args.target_d61
     best_score = min(candidates, key=rank_score)
     best_guard = min(candidates, key=rank_guard)
     best_preserve = min(candidates, key=rank_preserve)
     payload = {
-        "report_id": "F367",
+        "report_id": args.report_id,
         "source": repo_path(args.source),
         "candidate": args.candidate,
         "active_words": active_words,
@@ -212,6 +227,14 @@ def main() -> int:
             if row["rec"]["a57_xor_hw"] < seed_a57
             and row["rec"]["chart_match"]
             and row["rec"]["D61_hw"] <= seed_d61
+        ),
+        "target_a57": target_a57,
+        "target_d61": target_d61,
+        "target_preserve_count": sum(
+            1 for row in candidates
+            if row["rec"]["a57_xor_hw"] <= target_a57
+            and row["rec"]["chart_match"]
+            and row["rec"]["D61_hw"] <= target_d61
         ),
         "best_score": best_score,
         "best_guard": best_guard,

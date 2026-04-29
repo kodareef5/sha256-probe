@@ -83,6 +83,7 @@ Default outputs:
 - `results/20260429_F365_descendant_neighborhood_r1.{json,md}`
 - `results/20260429_F366_d61_repair_pair_probe.{json,md}`
 - `results/20260429_F367_guard_repair_third_probe.{json,md}`
+- `results/20260429_F368_guard_lowered_fourth_probe.{json,md}`
 
 ## Readout
 
@@ -209,9 +210,14 @@ third move. Guard can move: 51 moves lower `a57`, with the best guard move
 reaching `a57=6`. But no third move lowers guard while also preserving chart
 and D61<=8. The three constraints remain coupled.
 
+F368 starts from the F367 guard-lowered candidate (`a57=6`, D61=13, wrong
+chart) and enumerates one more move. It finds zero moves satisfying the target
+combination `a57<=6`, chart match, and D61<=9. The local repair graph cycles
+between D61/chart repair and guard repair rather than combining them.
+
 ## Next tracks
 
 - add outcome-aware calibration before spending more budget on F343-style selectors
 - use F342 stable-core coordinates as hard features for BP/matroid audits
 - use common-mode atlas continuation as a post-atlas polish operator
-- explore fourth-move repairs from the F367 guard-lowered candidate
+- move beyond local bit repairs: schedule-coordinate or learned multi-bit proposals
