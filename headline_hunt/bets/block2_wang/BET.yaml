@@ -29,7 +29,36 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-04-29T13:05:00Z'
+last_heartbeat: '2026-04-29T13:55:00Z'
+recent_progress_2026-04-29_late_morning_retraction: |
+  Late-morning 2026-04-29: F315-F322 + RETRACTION.
+
+  Built on yale's F356-F358 chamber-seed work. F315/F316/F318/F320 reported
+  "yale chamber-seed breaks a57=5 quasi-floor" (best a57=3, D61=7 in chamber
+  chart). F321 implemented strict cascade-1 kernel-preserving search;
+  F322 ran random-init kernel-preserving baseline.
+
+  CRITICAL: F315-F320 were a DRIFT ARTIFACT. Inspecting F318 r2's "best"
+  pair revealed M1^M2 was NOT the cascade-1 kernel pattern (bit-31 on
+  M[0]+M[9]). The M2-mutation was drifting outside cascade-1 search space.
+
+  TRUE cascade-1 floor (kernel preserved):
+    F321 yale-seeded cascade-1: a57=5, D61=10 in chamber chart
+    F322 random-init cascade-1: a57=5, D61=8 in chamber chart  ← actual floor
+  Yale chamber-seed adds NO benefit for cascade-1 search at this compute.
+  F314's a57=5 quasi-floor IS the cascade-1 floor.
+
+  5th retraction this 2-day arc (after F205, F232, F237, F279, F288, F309).
+  Shipped within 30 min of structural discovery. F1 verification protocol
+  applied.
+
+  STATUS:
+    Real cascade-1 floor: a57=5 D61=8 in chart=(dh,dCh).
+    Chamber attractor (a57=0, D61=4) still unreached.
+    Single-machine dM-mutation work has plateaued under both drift-allowed
+    and kernel-preserving regimes.
+    Yale must retrofit kernel-preservation in their free-var search.
+
 recent_progress_2026-04-29_morning_tools: |
   Morning 2026-04-29 (post-overnight summary): three mechanism-changing
   tools shipped + cross-machine combo with yale.
