@@ -3355,3 +3355,19 @@ Discipline: 0 SAT compute, 0 solver runs.
   No further sub-87 found despite ~27 chunks scanned.
 - 72 commits this session.
 
+
+## ~23:10 EDT — F278/F279: forced-{1,3} score-87 was transient — F279 retracts F278
+
+- F278 forced-{1,3} chunked-scan (seed 9001) found 87 at `1,3,4,7,11`.
+- F279 8×50k verification (seed 9001 same mask): best 92.
+- F278's 87 was a TRANSIENT minimum (per F205 pattern). NOT a robust
+  multi-seed score-87 unlock.
+- {1,3} structural pattern still valid as descriptive (4 of 5
+  narrow basins have it), but doesn't transfer score-87 to other
+  seeds at 8×50k.
+- 4th retraction-class finding of session: F205 (F201), F232 (v1 bug),
+  F237 (F211 thesis), F279 (F278 transient).
+- Ship-correction discipline holding (~5 min announcement to retraction).
+- Score-87 on bit19 remains seed-7101 specific (F135 + F173/F174).
+- 73 commits this session.
+
