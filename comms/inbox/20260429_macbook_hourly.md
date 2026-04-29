@@ -529,3 +529,27 @@ For programmatic_sat_propagator: a custom IPASIR-UP propagator could
 short-circuit CDCL by pre-loading conflict clauses on these 132 bits.
 
 Commit: [next] (F325).
+
+
+## ~14:45 EDT — F326: cross-cand UP validation — encoder pinning is candidate-agnostic
+
+- Re-ran F324 UP test on 5 cands (bit0, bit10, bit11, bit13, bit17).
+  ALL 5 show EXACTLY 481 baseline UP-forced vars (same number!) and
+  0/32 W2_58 bits forced. Combined with F324's bit31 cand: 6 cands
+  all identical pattern.
+- The 481 forced are cascade-offset AUX Tseitin chains (vars 10989+,
+  4-clause XOR gadgets). The encoder's structural commitment is a
+  fixed-size invariant of the cascade-1 encoding architecture.
+- Sharpened thesis: 132-bit universal hard core is a candidate-agnostic
+  CDCL-search invariant of the SHA-256 cascade-1 collision problem.
+  Cannot be eliminated by re-encoding; not detectable by 1- or 2-bit
+  UP; manifests only via CDCL conflict analysis.
+- All three bets (block2_wang, math_principles, cascade_aux_encoding)
+  converge on the same structural object: 132-bit algebraic constraint
+  surface for cascade-1 collisions.
+
+Direction for programmatic_sat_propagator: IPASIR-UP propagator
+pre-loading conflict clauses on the 132 bits could give 2-10x CDCL
+speedup. ~10-20 hr build, measurable on TRUE sr=61 N=32 instances.
+
+Commit: [next] (F326).
