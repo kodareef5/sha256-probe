@@ -3207,3 +3207,25 @@ Discipline: 0 SAT compute, 0 solver runs.
   matched JSON for correct ranking.
 - 64 commits this session.
 
+
+## ~21:17 EDT — F268: top-ranked depth-2 cubes at 200k conflicts — all UNKNOWN
+
+- F268: 4 cubes (dW[59] bits 31,3 in all 4 polarities) at cadical
+  200k conflicts each.
+- Result: 4/4 UNKNOWN, ~5.5s each, ~22s total.
+- Even with F267's selector-ranked top targets at 4× yale's F306
+  budget, F235 doesn't yield to depth-2 cube-and-conquer.
+- Combined cube experiment matrix (F262/F263/F306-F309/F268):
+  - depth 1, 30s timeout: ineffective
+  - depth 2, 10k conflicts: UNKNOWN
+  - depth 2, 50k conflicts (yale F306): UNKNOWN
+  - depth 2, 100k conflicts (yale F307): UNKNOWN
+  - depth 2, 200k conflicts (F268, top-ranked): UNKNOWN
+  - depth 3, 100k conflicts (yale F309): UNKNOWN
+- F235 intractability is robust against cube depth/budget/targeting.
+  The 128-bit hard core (per F264/F265) is the decisive structure.
+- Path forward: deeper cubes (depth 4+, exponentially expensive),
+  IPASIR-UP propagator (F238 unimplemented), or different encoding.
+- F269 (hard-core JSONs for 2 more cands) running in parallel.
+- 65 commits this session.
+
