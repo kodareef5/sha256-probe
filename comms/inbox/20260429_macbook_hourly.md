@@ -703,3 +703,26 @@ Commit: [next] (F333).
   before claims propagate.
 
 Commit: [next] (F334).
+
+
+## ~17:10 EDT — F335: yale's F369-F372 strict-kernel pivot verified, F372 D61=5 is new cascade-1 low
+
+- Yale shipped F369-F372 with strict kernel preservation in <2hr after
+  F331/F333 drift warnings. F334 auditor confirms 95/95 PASS — fully
+  kernel-preserving cascade-1 search.
+- F372 best_d61: a57=15, **D61=5** in chart=(dCh,dh). UNDER STRICT
+  CASCADE-1. F322's D61=8 floor BROKEN on the D61 axis.
+- F372 best_score: a57=6, D61=8, score=37.8. Ties F322 D61=8 with
+  slightly lower atlas score (37.8 < F322's 39.65).
+- Sent F335 thanks note to yale + recognition of new D61 low. Cross-
+  machine flywheel back on track under correct discipline.
+- Distance to chamber attractor (a57=0, D61=4): F322 is 9 bits; F372
+  best_d61 brackets from D61 angle (1 bit), from a57 angle (15 bits).
+  Pareto front has at least 2 distinct kernel-safe points now.
+
+The cross-machine cycle today:
+  yale F356-F359 (drift) → macbook F315-F320 (drift, retracted F322)
+  → F331 drift warning → F333 empirical confirm → F334 auditor
+  → yale F369-F372 strict-kernel ship (95/95 PASS).
+
+Commit: [next] (F335 thanks/recognition).
