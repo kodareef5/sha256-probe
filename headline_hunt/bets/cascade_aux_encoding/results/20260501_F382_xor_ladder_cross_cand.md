@@ -1,13 +1,32 @@
 ---
 date: 2026-05-01
 bet: cascade_aux_encoding
-status: CROSS_CAND_PATTERN_FOUND — fill-bit-31 distinguishes structural Tseitin XOR ladder
+status: PARTIALLY_RETRACTED — fill-bit-31 axis falsified by F383 with n=6 cands; actual axis is fill=0xffffffff
 parent: F381 (deliverable #5 unblock test on bit31)
+retracted_by: F383 (same date, ~30 min later)
+retracted_claims:
+  - "fill-bit-31 distinguishes 2 structural classes" — falsified by bit10
+    and bit17 (both fill=0x80000000, bit-31=1) producing NO ladder.
+  - The actual axis appears to be fill=0xffffffff specifically.
+preserved:
+  - The XOR ladder structure itself is real (31-step contiguous run for
+    bit31 + bit2)
+  - Per-cand var-mapped invariance of the ladder shape stands
+  - Implications for Phase 2D pre-injection design stand (just narrower
+    target class than claimed)
 type: deliverable_5_progress
 compute: 2 cadical 30s runs (bit11 + bit2); 1 reuse of bit31 from F381
 ---
 
 # F382: cross-cand Tseitin XOR analysis on cadical LRAT proofs — fill-bit-31 distinguishes the ladder
+
+> **⚠ RETRACTION (2026-05-01 ~10:25 EDT)**: F382's "fill-bit-31 axis"
+> claim was based on n=3 cands and was disambiguated by F383 with
+> 3 additional cands (bit13, bit10, bit17). The actual axis is
+> **fill = 0xffffffff specifically** — bit10 and bit17 with
+> fill=0x80000000 (bit-31=1) show NO ladder, falsifying the
+> fill-bit-31 hypothesis. See `F383_xor_ladder_fill_axis_FALSIFIED.md`
+> for the corrected analysis.
 
 ## Setup
 
