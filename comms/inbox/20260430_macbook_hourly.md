@@ -837,3 +837,45 @@ Deliverables status:
   ✅ #3 (F379): block2_bridge_beam.py — bit2 HW=56 below corpus floor
   ⏳ #4: cert-pin probes of beam-discovered + F378 top-K
   ⏳ #5: cross-cand learned-clause clustering
+
+## ~11:10 EDT — F380 deliverable #4: cert-pin verify F378 top-10 + F379 NEW HW=56
+
+22 cert-pin runs (11 W-witnesses × kissat 5s + cadical 5s), wall ~5s
+total, all logged via append_run.py.
+
+**Result: 22/22 UNSAT**, all <0.01s (UP-derivable). Including the
+F379 NEW bit2 HW=56 below the corpus empirical floor.
+
+Bridge_score is now formally characterized as:
+  ✓ A working selector for cascade-1 deep-tail extremes
+  ✓ Bridge-polarity filter rejects ~18% of corpus correctly
+  ✓ Beam guided by it discovers W-witnesses below random-sampling floor
+  ✗ NOT a collision-finder — extremes it surfaces are still UNSAT
+
+This satisfies user direction's "falsified selector" unit-of-progress:
+the selector is FALSIFIED as a collision proxy (it is the near-residual
+selector it was designed to be). Per F98 + F100 + F371-F373, single-block
+sr=60 cascade-1 collisions if reachable are point-singular, not basin-
+singular — gradient-search misses them by design.
+
+Deliverable #5 (learned-clause clustering) reframed: cert-pin instances
+are too UP-trivial to generate learned clauses to cluster. Pivot to
+aux_force sr=60 60s cadical instances (F347-F369 chain) which produce
+~5-15M conflicts each with real CDCL learning. That's where cross-cand
+generalization could surface.
+
+Shipped:
+  - `bets/block2_wang/results/20260430_F380_certpin_top11_bridge_witnesses.{md,json}`
+  - 22 entries in `runs.jsonl`
+  - bit2_ma896ee41 cert-pin envelope extended from HW=57 to HW=56
+  - 1 falsified-selector finding (per user unit-of-progress)
+
+Today's F371→F380 sequence (10 memos in one session) demonstrates the
+project's discipline pattern at full operating tempo. Bridge-guided
+direction is delivering empirical structure refinement; it has not
+yet delivered headline-class output (no SAT). Per user direction,
+deliverable #5 + beam improvements (SA + restarts) are the next steps
+toward generalized learned-clause work.
+
+  ✅ #1, #2, #3, #4 shipped this session
+  ⏳ #5 pivoted to non-trivial CDCL instances

@@ -1,0 +1,265 @@
+{
+  "description": "F380: cert-pin verify top 11 bridge_score W-witnesses (F378 top-10 + F379 NEW bit2 HW=56)",
+  "encoder": "cascade_aux_v1_modeA_sr60_expose_certpin",
+  "solvers": [
+    "kissat 4.0.4",
+    "cadical 3.0.0"
+  ],
+  "budget_seconds": 5,
+  "n_witnesses": 11,
+  "results": [
+    {
+      "src": "F378_top1",
+      "cand": "cand_n32_bit13_m916a56aa_fillffffffff",
+      "hw_total": 59,
+      "W": [
+        "0x5228ed8d",
+        "0x61a1a29c",
+        "0xea7a8c21",
+        "0xb6befe82"
+      ],
+      "solvers": {
+        "kissat": {
+          "status": "UNSAT",
+          "wall": 0.008,
+          "version": "4.0.4"
+        },
+        "cadical": {
+          "status": "UNSAT",
+          "wall": 0.015,
+          "version": "3.0.0"
+        }
+      }
+    },
+    {
+      "src": "F378_top2",
+      "cand": "cand_n32_bit2_ma896ee41_fillffffffff",
+      "hw_total": 57,
+      "W": [
+        "0xff475d9a",
+        "0xa591bc06",
+        "0x952b5159",
+        "0xb6befe82"
+      ],
+      "solvers": {
+        "kissat": {
+          "status": "UNSAT",
+          "wall": 0.006,
+          "version": "4.0.4"
+        },
+        "cadical": {
+          "status": "UNSAT",
+          "wall": 0.012,
+          "version": "3.0.0"
+        }
+      }
+    },
+    {
+      "src": "F378_top3",
+      "cand": "cand_n32_bit2_ma896ee41_fillffffffff",
+      "hw_total": 60,
+      "W": [
+        "0xb97559b2",
+        "0x48f682fc",
+        "0xbd68d4e1",
+        "0xb6befe82"
+      ],
+      "solvers": {
+        "kissat": {
+          "status": "UNSAT",
+          "wall": 0.006,
+          "version": "4.0.4"
+        },
+        "cadical": {
+          "status": "UNSAT",
+          "wall": 0.012,
+          "version": "3.0.0"
+        }
+      }
+    },
+    {
+      "src": "F378_top4",
+      "cand": "cand_n32_bit28_md1acca79_fillffffffff",
+      "hw_total": 67,
+      "W": [
+        "0xd99005b2",
+        "0xe3093c74",
+        "0xa98521e3",
+        "0x0a0627e6"
+      ],
+      "solvers": {
+        "kissat": {
+          "status": "UNSAT",
+          "wall": 0.006,
+          "version": "4.0.4"
+        },
+        "cadical": {
+          "status": "UNSAT",
+          "wall": 0.012,
+          "version": "3.0.0"
+        }
+      }
+    },
+    {
+      "src": "F378_top5",
+      "cand": "cand_n32_bit2_ma896ee41_fillffffffff",
+      "hw_total": 66,
+      "W": [
+        "0xb8efb7f2",
+        "0x9bff3017",
+        "0xe64e8fb8",
+        "0xb6befe82"
+      ],
+      "solvers": {
+        "kissat": {
+          "status": "UNSAT",
+          "wall": 0.007,
+          "version": "4.0.4"
+        },
+        "cadical": {
+          "status": "UNSAT",
+          "wall": 0.012,
+          "version": "3.0.0"
+        }
+      }
+    },
+    {
+      "src": "F378_top6",
+      "cand": "cand_n32_bit2_ma896ee41_fillffffffff",
+      "hw_total": 63,
+      "W": [
+        "0x64444b7c",
+        "0x5f1860e1",
+        "0xaee1ac0a",
+        "0xb6befe82"
+      ],
+      "solvers": {
+        "kissat": {
+          "status": "UNSAT",
+          "wall": 0.006,
+          "version": "4.0.4"
+        },
+        "cadical": {
+          "status": "UNSAT",
+          "wall": 0.011,
+          "version": "3.0.0"
+        }
+      }
+    },
+    {
+      "src": "F378_top7",
+      "cand": "cand_n32_bit28_md1acca79_fillffffffff",
+      "hw_total": 67,
+      "W": [
+        "0xa861ea3f",
+        "0xe2344c18",
+        "0xf2f2f40a",
+        "0x0a0627e6"
+      ],
+      "solvers": {
+        "kissat": {
+          "status": "UNSAT",
+          "wall": 0.006,
+          "version": "4.0.4"
+        },
+        "cadical": {
+          "status": "UNSAT",
+          "wall": 0.011,
+          "version": "3.0.0"
+        }
+      }
+    },
+    {
+      "src": "F378_top8",
+      "cand": "cand_n32_bit2_ma896ee41_fillffffffff",
+      "hw_total": 67,
+      "W": [
+        "0x1d73d774",
+        "0x6b7cc088",
+        "0xdd1eb8c8",
+        "0xb6befe82"
+      ],
+      "solvers": {
+        "kissat": {
+          "status": "UNSAT",
+          "wall": 0.006,
+          "version": "4.0.4"
+        },
+        "cadical": {
+          "status": "UNSAT",
+          "wall": 0.012,
+          "version": "3.0.0"
+        }
+      }
+    },
+    {
+      "src": "F378_top9",
+      "cand": "cand_n32_bit28_md1acca79_fillffffffff",
+      "hw_total": 63,
+      "W": [
+        "0x6f93327d",
+        "0x9e46fcb1",
+        "0xfacd237b",
+        "0x0a0627e6"
+      ],
+      "solvers": {
+        "kissat": {
+          "status": "UNSAT",
+          "wall": 0.006,
+          "version": "4.0.4"
+        },
+        "cadical": {
+          "status": "UNSAT",
+          "wall": 0.012,
+          "version": "3.0.0"
+        }
+      }
+    },
+    {
+      "src": "F378_top10",
+      "cand": "cand_n32_bit28_md1acca79_fillffffffff",
+      "hw_total": 63,
+      "W": [
+        "0xe9085d4e",
+        "0x045b2f7a",
+        "0xc4839871",
+        "0x0a0627e6"
+      ],
+      "solvers": {
+        "kissat": {
+          "status": "UNSAT",
+          "wall": 0.006,
+          "version": "4.0.4"
+        },
+        "cadical": {
+          "status": "UNSAT",
+          "wall": 0.012,
+          "version": "3.0.0"
+        }
+      }
+    },
+    {
+      "src": "F379_NEW_below_floor",
+      "cand": "cand_n32_bit2_ma896ee41_fillffffffff",
+      "hw_total": 56,
+      "W": [
+        "0x2264b1ed",
+        "0x91b7504a",
+        "0xd8f36adf",
+        "0xa9603614"
+      ],
+      "solvers": {
+        "kissat": {
+          "status": "UNSAT",
+          "wall": 0.006,
+          "version": "4.0.4"
+        },
+        "cadical": {
+          "status": "UNSAT",
+          "wall": 0.012,
+          "version": "3.0.0"
+        }
+      }
+    }
+  ]
+}
