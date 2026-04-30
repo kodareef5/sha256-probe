@@ -23,6 +23,7 @@
 #include <fstream>
 #include <iostream>
 #include <map>
+#include <regex>
 #include <set>
 #include <string>
 #include <unordered_map>
@@ -330,6 +331,7 @@ public:
         level_eq_assignments.push_back({});
         level_actual_undo.push_back({});
         level_rule4_undo.push_back({});
+        level_decision_priority_undo.push_back({});
     }
 
     // Try firing Rule 4 at r=62: force bits of aux_modular_diff[("e", 62)]
@@ -426,6 +428,18 @@ public:
 
     void notify_assignment(const std::vector<int>& lits) override {
         n_assignments += lits.size();
+
+        // Decision-priority bookkeeping for F397 priority lists.  CaDiCaL only
+        // reports observed vars, so main() registers every priority var.
+        for (int lit : lits) {
+            int var = std::abs(lit);
+            if (decision_priority_vars.find(var) == decision_priority_vars.end()) continue;
+            int prev = -1;
+            auto prev_it = decision_priority_values.find(var);
+            if (prev_it != decision_priority_values.end()) prev = prev_it->second;
+            decision_priority_values[var] = (lit > 0) ? 1 : 0;
+            level_decision_priority_undo.back().push_back({var, prev});
+        }
 
         // Rule 4 r=62/63 substrate: track actual register-value bits.
         // SAT vars are reused across (reg, round) pairs via shift register —
@@ -527,6 +541,7 @@ public:
         level_eq_assignments.push_back({});
         level_actual_undo.push_back({});
         level_rule4_undo.push_back({});
+        level_decision_priority_undo.push_back({});
         n_decisions++;
     }
 
@@ -573,6 +588,15 @@ public:
             }
             level_rule4_undo.pop_back();
         }
+        // Undo decision-priority assignment tracking.
+        while (level_decision_priority_undo.size() > new_level + 1) {
+            for (auto it = level_decision_priority_undo.back().rbegin();
+                 it != level_decision_priority_undo.back().rend(); ++it) {
+                if (it->prev == -1) decision_priority_values.erase(it->var);
+                else decision_priority_values[it->var] = it->prev;
+            }
+            level_decision_priority_undo.pop_back();
+        }
     }
 
     bool cb_check_found_model(const std::vector<int>& /*model*/) override {
@@ -611,9 +635,25 @@ public:
     // would complete a Sigma0 input pattern.
     long long n_cb_decide_suggestions = 0;
     bool decision_shaping_enabled = false;  // toggled via --shape-decisions
+    std::string decision_priority_label = "a61_fallback";
+    std::vector<int> decision_priority_lits;
+    std::unordered_set<int> decision_priority_vars;
+    std::unordered_map<int, int> decision_priority_values;  // var -> sat value
+    struct DecisionPriorityUndo { int var; int prev; };
+    std::vector<std::vector<DecisionPriorityUndo>> level_decision_priority_undo;
 
     int cb_decide() override {
         if (!decision_shaping_enabled) return 0;
+        if (!decision_priority_lits.empty()) {
+            for (int lit : decision_priority_lits) {
+                int var = std::abs(lit);
+                if (decision_priority_values.find(var) == decision_priority_values.end()) {
+                    n_cb_decide_suggestions++;
+                    return lit;
+                }
+            }
+            return 0;
+        }
         // Find an undecided bit of a_61 in pair-1 with low bit-index.
         int key_a61 = reg_key_for("a", 61);
         auto it = actual_p1.find(key_a61);
@@ -779,6 +819,61 @@ bool load_varmap(const std::string& path, AuxRegMap& aux_reg,
     return true;
 }
 
+std::string candidate_key_from_cnf(const std::string& path) {
+    std::smatch m;
+    std::regex bit_re("bit([0-9]+)_m([0-9a-f]+)_fill([0-9a-f]+)");
+    std::regex msb_re("msb_m([0-9a-f]+)_fill([0-9a-f]+)");
+    if (std::regex_search(path, m, bit_re)) {
+        return "bit" + m[1].str() + "_m" + m[2].str() + "_fill" + m[3].str();
+    }
+    if (std::regex_search(path, m, msb_re)) {
+        return "bit31_m" + m[1].str() + "_fill" + m[2].str();
+    }
+    return "";
+}
+
+bool load_decision_priority_spec(const std::string& path,
+                                 const std::string& candidate,
+                                 const std::string& set_name,
+                                 std::vector<int>& out_lits,
+                                 std::string& label) {
+    std::ifstream f(path);
+    if (!f) {
+        std::cerr << "ERROR: cannot open priority spec " << path << "\n";
+        return false;
+    }
+    json data;
+    f >> data;
+    if (!data.contains("candidate_specs")) {
+        std::cerr << "ERROR: priority spec missing candidate_specs\n";
+        return false;
+    }
+    for (auto& spec : data["candidate_specs"]) {
+        if (!spec.contains("candidate")
+            || spec["candidate"].get<std::string>() != candidate) continue;
+        if (!spec.contains("priority_sets") || !spec["priority_sets"].contains(set_name)) {
+            std::cerr << "ERROR: priority set " << set_name
+                      << " not found for candidate " << candidate << "\n";
+            return false;
+        }
+        auto pset = spec["priority_sets"][set_name];
+        if (pset.contains("missing") && !pset["missing"].empty()) {
+            std::cerr << "ERROR: priority set " << set_name
+                      << " has missing keys for candidate " << candidate << "\n";
+            return false;
+        }
+        for (auto& v : pset["vars"]) {
+            int var = v.get<int>();
+            if (var > 1) out_lits.push_back(var);
+        }
+        label = set_name + ":" + candidate;
+        return true;
+    }
+    std::cerr << "ERROR: candidate " << candidate
+              << " not found in priority spec " << path << "\n";
+    return false;
+}
+
 // -------- DIMACS CNF loader --------
 
 bool load_cnf(const std::string& path, CaDiCaL::Solver& solver) {
@@ -816,7 +911,10 @@ bool load_cnf(const std::string& path, CaDiCaL::Solver& solver) {
 int main(int argc, char** argv) {
     if (argc < 3) {
         std::cerr << "usage: " << argv[0]
-                  << " <cnf-path> <varmap-path> [--conflicts=N] [--no-propagator]\n";
+                  << " <cnf-path> <varmap-path> [--conflicts=N] [--no-propagator]\n"
+                  << "       [--shape-decisions]\n"
+                  << "       [--priority-spec=F397.json] [--priority-set=f286_132_conservative]\n"
+                  << "       [--priority-candidate=bit10_m3304caa0_fill80000000]\n";
         return 1;
     }
     std::string cnf_path = argv[1];
@@ -824,6 +922,9 @@ int main(int argc, char** argv) {
     long long conflict_limit = 0;  // 0 = no limit
     bool use_propagator = true;
     bool shape_decisions = false;
+    std::string priority_spec_path;
+    std::string priority_set_name = "f286_132_conservative";
+    std::string priority_candidate;
     for (int i = 3; i < argc; i++) {
         std::string arg = argv[i];
         if (arg.rfind("--conflicts=", 0) == 0) {
@@ -832,6 +933,13 @@ int main(int argc, char** argv) {
             use_propagator = false;
         } else if (arg == "--shape-decisions") {
             shape_decisions = true;
+        } else if (arg.rfind("--priority-spec=", 0) == 0) {
+            priority_spec_path = arg.substr(16);
+            shape_decisions = true;
+        } else if (arg.rfind("--priority-set=", 0) == 0) {
+            priority_set_name = arg.substr(15);
+        } else if (arg.rfind("--priority-candidate=", 0) == 0) {
+            priority_candidate = arg.substr(21);
         }
     }
 
@@ -865,6 +973,24 @@ int main(int argc, char** argv) {
 
     // Build cascade propagator
     CascadePropagator prop;
+    if (!priority_spec_path.empty()) {
+        if (priority_candidate.empty()) priority_candidate = candidate_key_from_cnf(cnf_path);
+        if (priority_candidate.empty()) {
+            std::cerr << "ERROR: could not infer --priority-candidate from CNF path\n";
+            return 1;
+        }
+        if (!load_decision_priority_spec(priority_spec_path, priority_candidate,
+                                         priority_set_name,
+                                         prop.decision_priority_lits,
+                                         prop.decision_priority_label)) {
+            return 1;
+        }
+        for (int lit : prop.decision_priority_lits) {
+            prop.decision_priority_vars.insert(std::abs(lit));
+        }
+        std::cerr << "Decision priority loaded: " << prop.decision_priority_label
+                  << " (" << prop.decision_priority_lits.size() << " vars)\n";
+    }
 
     // Rules 1+2: cascade-zero registers under force-mode interpretation:
     //   dA[57..60] = 0  (Theorem 1)
@@ -1014,9 +1140,13 @@ int main(int argc, char** argv) {
     if (use_propagator) {
         prop.decision_shaping_enabled = shape_decisions;
         if (shape_decisions) {
-            std::cerr << "Decision-shaping ENABLED (cb_decide suggests a_61 bits)\n";
+            std::cerr << "Decision-shaping ENABLED (" << prop.decision_priority_label
+                      << ")\n";
         }
         solver.connect_external_propagator(&prop);
+        for (int var : prop.decision_priority_vars) {
+            solver.add_observed_var(var);
+        }
         for (auto& [var, _] : prop.forced_zero_vars) {
             solver.add_observed_var(var);
         }
@@ -1039,7 +1169,8 @@ int main(int argc, char** argv) {
         std::cerr << "Propagator connected: " << prop.forced_zero_vars.size()
                   << " cascade-zero vars + " << prop.r63_eq_lookup.size()
                   << " Rule-5 vars + " << prop.actual_var_lookup.size()
-                  << " actual-register vars observed\n";
+                  << " actual-register vars + " << prop.decision_priority_vars.size()
+                  << " decision-priority vars observed\n";
     } else {
         std::cerr << "Running WITHOUT propagator (baseline)\n";
     }
@@ -1062,6 +1193,8 @@ int main(int argc, char** argv) {
               << "    of which Rule 4@r=61:   " << prop.n_rule4r61_fires << "\n"
               << "    of which Rule 4@r=62 forcings: " << prop.n_rule4_r62_fires << "\n"
               << "  cb_decide suggestions:    " << prop.n_cb_decide_suggestions << "\n"
+              << "  cb_decide priority:       " << prop.decision_priority_label
+              << " (" << prop.decision_priority_lits.size() << " vars)\n"
               << "  actual-reg bit assigns:   " << prop.n_actual_assignments << "\n"
               << "  dT2_62 computable (sample, full): " << prop.n_dT2_62_computable
               << " (out of ~" << (prop.n_actual_assignments / 4096) << " samples)\n"

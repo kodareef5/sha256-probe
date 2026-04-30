@@ -42,8 +42,11 @@ Two possible headlines:
 - [x] **Decision-priority specs.** `propagators/build_decision_priority_specs.py`
   emits F397 cb_decide priority lists for the F286 132-bit core and F332
   139-bit stable-core comparison arm.
-- [ ] **Decision-priority harness.** Wire the F397 lists into cb_decide and run
-  baseline / existing propagator / F286-priority / F332-priority under one cap.
+- [x] **Decision-priority hook wiring.** `cascade_propagator.cc` accepts F397
+  priority specs and feeds them into `cb_decide` (F398). Local compile is
+  blocked on missing CaDiCaL C++ headers.
+- [ ] **Decision-priority run matrix.** Run baseline / existing propagator /
+  F286-priority / F332-priority under one cap on a header-equipped machine.
 - [ ] **Decision gate.** Reopen only if decision priority gives a material
   speedup beyond the saturated F343 clause-injection envelope.
 

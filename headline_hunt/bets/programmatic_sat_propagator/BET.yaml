@@ -142,6 +142,19 @@ recent_progress_2026-05-01_F381_F395_F389_falsified_F343_mechanism: |
   (20260501_macbook_to_yale_F381_F395_chain_summary.md) with
   3 open questions where yale's strict-kernel basin work might help.
 last_heartbeat_old_2026-04-30: '2026-04-30T05:23:00Z'
+recent_progress_2026-04-30_F398_cb_decide_priority_integration: |
+  Yale wired the F397 priority specs into `cascade_propagator.cc`:
+    - new CLI: `--priority-spec`, `--priority-set`, `--priority-candidate`
+    - priority vars are registered as observed vars
+    - `notify_assignment` / `notify_backtrack` track assignment state
+    - `cb_decide` suggests the first unassigned priority literal before
+      falling back to the old a_61 heuristic
+
+  Local runtime validation is blocked because this machine has the CaDiCaL
+  binary but not `cadical.hpp` / libcadical headers. Static integration checks
+  pass. The next real test must compile on MacBook or another header-equipped
+  CaDiCaL environment and run the four-arm matrix: baseline, existing
+  propagator, F286-priority, F332-priority.
 recent_progress_2026-04-30_F343_F369_chain: |
   Major empirical chain shipped 2026-04-29 → 2026-04-30 on this bet. Yale's
   F378-F384 (W57[22:23] bridge-clause UNSAT pair) seeded the macbook side:

@@ -1,0 +1,19 @@
+{
+  "report_id": "F398",
+  "date": "2026-04-30",
+  "bet": "programmatic_sat_propagator",
+  "status": "CB_DECIDE_PRIORITY_INTEGRATION",
+  "changes": [
+    "cascade_propagator.cc accepts --priority-spec, --priority-set, and --priority-candidate",
+    "F397 vars are registered as observed vars and tracked through notify_assignment/backtrack",
+    "cb_decide now consumes priority-spec literals before falling back to the old a_61 heuristic",
+    "solver stats print the selected priority label and var count"
+  ],
+  "local_checks": {
+    "static_priority_integration_checks": "PASS",
+    "compile": "BLOCKED_LOCAL_ENV",
+    "compile_blocker": "cadical.hpp not present under /opt/homebrew/include or /usr/local/include on this machine"
+  },
+  "next_run_command_template": "./cascade_propagator <cnf> <varmap> --conflicts=50000 --priority-spec=headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/F397_decision_priority_specs.json --priority-set=f286_132_conservative",
+  "decision": "Ready for a header-equipped CaDiCaL C++ environment to compile and run the baseline / existing propagator / F286-priority / F332-priority matrix."
+}
