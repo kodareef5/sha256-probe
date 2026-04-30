@@ -1400,3 +1400,30 @@ Commit: [next] (F363).
 F353 verification at ~211/240 min, no SAT yet (~29 min remaining).
 
 Commit: [next] (F364 launch + cascade_aux heartbeat).
+
+
+## ~02:42 EDT (Apr 30) — F364+F365: F347's 13.7% APPEARS TO BE NOISE OUTLIER
+
+- F364 mined full-row sweep on aux_force_sr61 bit31: 32 clauses (same
+  structure as F344 bit31 sr60). 13min wall.
+- F365 injection 5min: -0.08% conflict reduction (5,253,180 → 5,248,930).
+  Essentially ZERO speedup.
+- F347 measured -13.7% on EXACT same setup at sr=60. F365 at sr=61
+  with same cand, same 32 clauses, same encoder: -0.08%.
+- Per F354/F355 sr-invariance of mining: should be similar magnitude.
+  F347's 13.7% is almost certainly noise outlier from N=1 measurement.
+- Updated empirical envelope:
+    F347 sr60 bit31 32 clauses: -13.7% (NOISE)
+    F365 sr61 bit31 32 clauses: -0.08% (real, near-zero)
+    F362/F363/F360 various 2-130 clauses sr61: -0.46% to -0.79%
+    Real speedup ~0-1% on all sr=61 cands.
+- Phase 2D propagator viability SERIOUSLY compromised. F361's 1.16x
+  reopen criterion essentially unreachable with CNF injection.
+- 7th retraction-style finding this 2-day arc.
+
+F353 verification at ~225/240 min, no SAT yet (~15 min remaining).
+
+Next concrete probe: F347 replication with cadical seeds for noise
+floor estimate.
+
+Commit: [next] (F364+F365 F347-refutation).
