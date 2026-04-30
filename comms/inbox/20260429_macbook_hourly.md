@@ -1273,3 +1273,19 @@ F353 4h verification: ~90 min/240 min, no SAT yet. PIDs 8053/8054/8055
 all active.
 
 Commit: [next] (F359).
+
+
+## ~00:36 EDT (Apr 30) — F359: full-row sweep on F235 cand → 34 mined clauses
+
+- F344-style full sweep on aux_force_sr61 m09990bd2/bit25 cand. 12.5min wall.
+- Result: 3 single-bit forced (dW57[0]=0, [1]=0, [2]=1) + 31/31 adjacent
+  pairs forbidden = 34 total mined clauses (vs F357 minimal's 2).
+- m09990bd2/bit25 has MORE single-bit constraints than bit31 (1 single).
+  Cand-specific richness confirmed.
+- Translation to F235 vars (basic cascade encoder) for injection test:
+    3 unit × 2 clauses + 31 pair × 4 clauses (OR-of-XORs) = 130 CNF clauses
+- Expected speedup on F235 (projecting from F347/F348/F358): 5-10%.
+  Would save ~50-85s on F235's 848s baseline.
+- F353 4h verification still running (~106 min/240 min, no SAT yet).
+
+Commit: [next] (F359 full sweep).
