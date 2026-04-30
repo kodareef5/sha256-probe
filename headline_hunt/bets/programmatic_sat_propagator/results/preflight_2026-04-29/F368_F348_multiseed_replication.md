@@ -1,11 +1,35 @@
 ---
 date: 2026-04-30
 bet: programmatic_sat_propagator
-status: REPLICATED_WITH_CAVEAT — F348's -8.78% becomes -7.44% (3-seed mean), one cand crosses zero
+status: PARTIALLY_RETRACTED — encoder-version confound; see F369 for clean number
 parent: F348 cross-cand injection (single-seed)
+retracted_by: F369 (same memo dir, this date)
+retracted_claims:
+  - "fill-polarity-flip" hypothesis (Finding 3): the variance F368 saw was
+    encoder-version mismatch, not polarity. F348 was already per-cand
+    polarity-correct.
+  - bit11 +4.81% "injection HURT" outlier: artifact of old-encoder baseline
+    vs new-encoder injected. In F369 with consistent encoder, bit11 seed 2
+    gives −8.26% (injection HELPS).
+  - "−7.44% grand mean" headline: confounded; clean F369 number is −9.10%
+    σ=2.68% (matches F348 single-seed −8.78% retroactively).
+preserved:
+  - The data tables stand as-is (real cadical runs, real conflict counts).
+  - The runs.jsonl entries stand (real measurements).
+  - The methodology lesson: always cross-check that baseline and
+    treatment CNFs match in `p cnf` line before measuring Δ.
 ---
 
 # F368: F348 5-cand × 3-seed multi-seed replication
+
+> **⚠ RETRACTION (2026-04-30, ~04:50 EDT):** F368's baselines used
+> `cascade_aux/cnfs/aux_force_sr60_n32_bit*.cnf` (old encoder, 12592 vars)
+> while F348's injected CNFs in /tmp use the new encoder (13220 vars).
+> The 628-var / 2136-clause structural difference confounds Δ%. F369
+> reruns with consistent encoder; clean grand mean is **−9.10% σ=2.68%**.
+> F368's polarity-flip hypothesis is RETRACTED (F348 was already per-cand
+> polarity-correct, verified post-hoc by inspecting injected unit-clause
+> polarities). See `F369_consistent_encoder_replication.md`.
 
 ## Setup
 

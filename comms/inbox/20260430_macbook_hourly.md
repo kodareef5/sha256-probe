@@ -66,3 +66,59 @@ Also: in the future these injected CNFs should either get a synthetic
 fingerprint bucket or have header-comment lines preserved by the
 mining/injection pipeline so they audit cleanly. Filed as a follow-up
 note for the propagator bet.
+
+## ~04:50 EDT — F369: F368 ENCODER-MISMATCH CONFOUND, polarity claim retracted
+
+While prepping the F369 polarity-aware re-mining test, I noticed F348's
+injected CNFs (in /tmp) have **13220 vars** while F368's "baselines"
+(`cascade_aux/cnfs/aux_force_sr60_n32_bit*.cnf`) have only **12592 vars**.
+That's an old vs new cascade_aux_encoder version mismatch — 628-var /
+2136-clause structural difference. F368's Δ% was partly measuring that
+upgrade, not pure clause injection.
+
+Inspected F348's per-cand prepended unit clauses: bit0/bit10/bit13 use
+`-12373/-12317/-12369` (dW57[0]=0), bit11/bit17 use `+12369/+12338`
+(dW57[0]=1) — flipped per cand. F348 was already polarity-correct.
+**F368's polarity-flip hypothesis is FALSIFIED.** Retracted.
+
+Ran F369 properly: regenerated 5 fresh aux_force sr=60 CNFs with current
+encoder (matches F348 injected size), ran cadical 60s × 3 seeds × 5 cands
+= 15 baseline runs. Combined with F348+F368's existing injected runs
+(those used the new-encoder injected files, so they're valid):
+
+  3-seed grand mean: **−9.10%**
+  σ_across_cands: **2.68%**  (vs F368's confounded 4.13%)
+  per-cand range: −5.89% (bit13) to −12.03% (bit10)
+
+bit11 seed 2 went from F368's "+4.81% (HURT)" to F369's "−8.26% (HELPS)".
+The "harm" was entirely encoder-mismatch artifact.
+
+F347 → F348 → F368 → F369 chain converged: clean **−9.10% σ=2.68%** at
+60s budget, validating F348's −8.78% single-seed number retroactively.
+
+Shipped:
+  - `F369_consistent_encoder_replication.{md,json}`
+  - 15 fresh-baseline runs in `runs.jsonl`
+  - F368 memo got a RETRACTION header pointing to F369
+
+Lesson: when baseline and treatment files come from different
+script/encoder versions, always cross-check `wc -l` and the `p cnf` line
+BEFORE reporting Δ. F368 shipped with this confound undetected; caught
+1 hour later. Five retraction lessons in a row from this project, and
+the 6th now.
+
+**Dashboard audit-failure rate now 1.44% (25/1731) — flagged as ">1%"**
+but the sr61_n32 kill criterion is NOT tripped: sr61_n32 itself has
+0/83 audit failures. The 25 flagged entries are all in
+`programmatic_sat_propagator`:
+  - 10 × `/tmp/F348_*_injected.cnf` (raw clause-prepended, no header
+    matches a fingerprint pattern; logged with --allow-audit-failure
+    intentionally)
+  - 15 × `/tmp/F369_*_force.cnf` (filename doesn't match `aux_force_sr60_*`
+    pattern; same intentional --allow-audit-failure flag)
+Per CLAUDE.md the kill criterion is per-bet; sr61_n32's audits stay
+clean. The dashboard ">1% global" flag is a useful warning but does NOT
+require shutdown. Filed as: in the next propagator-bet iteration, either
+move /tmp work to `programmatic_sat_propagator/cnfs/F369_*` with proper
+naming OR add a `transient` fingerprint bucket so /tmp scratch CNFs
+audit cleanly without --allow-audit-failure.

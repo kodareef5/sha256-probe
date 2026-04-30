@@ -1,11 +1,11 @@
 # headline_hunt — Runs Dashboard
 
-_Generated 2026-04-30T04:20:39Z_
+_Generated 2026-04-30T04:33:14Z_
 
 ## Global
 
-- Total runs logged: **1716**
-- Audit failure rate: **0.58%**
+- Total runs logged: **1731**
+- Audit failure rate: **1.44%** — **EXCEEDS 1% — investigate**
 
 ## Per-bet rollup
 
@@ -14,7 +14,7 @@ _Generated 2026-04-30T04:20:39Z_
 | block2_wang | 811 | 1 | 810 | 0 | 0 | 0.0 | 0.0 | 2026-04-28T07:14:18Z | 0 |
 | cascade_aux_encoding | 792 | 3 | 22 | 767 | 0 | 16.2 | 24.9 | 2026-04-30T02:55:59Z | 0 |
 | mitm_residue | 10 | 0 | 0 | 10 | 0 | 0.3 | 1.3 | 2026-04-25T00:18:27Z | 0 |
-| programmatic_sat_propagator | 20 | 0 | 0 | 20 | 0 | 0.3 | 0.3 | 2026-04-30T04:19:08Z | 10 |
+| programmatic_sat_propagator | 35 | 0 | 0 | 35 | 0 | 0.6 | 0.6 | 2026-04-30T04:31:31Z | 25 |
 | sr61_n32 | 83 | 0 | 0 | 83 | 0 | 2.3 | 2.9 | 2026-04-30T00:19:11Z | 0 |
 
 ## Notes
