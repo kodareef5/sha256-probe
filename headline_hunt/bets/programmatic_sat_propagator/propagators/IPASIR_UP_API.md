@@ -622,3 +622,116 @@ The 2026-04-29 update's "2-5x" projection was overly optimistic by
 cascade, ~10-15% on aux_force; native-hook injection should match
 aux_force gains.
 
+## 2026-04-30 update (F366-F369): budget dependence + encoder-mismatch corrections
+
+### Summary
+
+The 2026-04-29 envelope above (F347-F360) was further sharpened by:
+
+- **F366** (multi-seed): F347's 13.7% was at a specific 60s budget; the
+  effect saturates as budget grows. At 5min, mean ≈ −0.79%. F347 was
+  REAL but **budget-dependent**, not a universal speedup.
+- **F368** (multi-seed encoder mismatch): F368 attempted to replicate
+  F348's 5-cand result with seeds {1, 2}. Reported −7.44% σ=4.13% with
+  a "fill-polarity-flip" hypothesis on bit11. **CONFOUNDED** — F368's
+  baselines used the OLD cascade_aux encoder (12592 vars) while the
+  injected CNFs used the NEW encoder (13220 vars). The 628-var
+  structural difference contaminated Δ%.
+- **F369** (clean replication): regenerated all 5 baselines with current
+  encoder, ran cadical 60s × 3 seeds × 5 cands. Compared against the
+  same-encoder injected runs from F348 + F368.
+
+### Standing F343 minimal-preflight envelope (corrected)
+
+| Probe | Mode | Cand panel | Budget | n_clauses | Mean Δ conflicts | σ_across_cands |
+|-------|------|-----------|-------:|----------:|-----------------:|---:|
+| F347  | aux_force sr=60 | bit31 m17149975 | 60s | 32 | **−13.7%** | n/a (single seed) |
+| F348  | aux_force sr=60 | 5 cands single-seed | 60s | 2 | −8.78% | n/a |
+| F366b | aux_force sr=60 | bit31 multi-seed | 60s | 32 | **−8.41%** | 2-3% |
+| F366c | aux_force sr=61 | bit31 multi-seed | 60s | 32 | −8.13% | ~2% |
+| F366  | aux_force sr=60 | bit31 multi-seed | 5min | 32 | **−0.79%** | ~3% (saturated) |
+| **F369** | aux_force sr=60 | **5 cands × 3 seeds** | **60s** | **2** | **−9.10%** | **2.68%** |
+| F352  | aux_expose sr=60 | bit29 single-seed | 600s | 2 | −1.06% | n/a |
+| F360  | basic_cascade sr=61 | F235 single-seed | 5min | 130 | −0.79% | n/a |
+
+### Per-cand F369 detail (the standing aux_force sr=60 picture)
+
+| cand            | 3-seed mean | σ    |
+|-----------------|------------:|-----:|
+| bit10_m3304caa0 | −12.03%     | 2.20 |
+| bit17_m427c281d | −11.72%     | 2.07 |
+| bit0_m8299b36f  | −8.33%      | 3.09 |
+| bit11_m45b0a5f6 | −7.56%      | 2.30 |
+| bit13_m4d9f691c | −5.89%      | 1.16 |
+
+No cand is an outlier. F368's bit11 +4.81% "injection HURT" was an
+encoder-mismatch artifact; F369 same cand seed 2 gives −8.26%.
+
+### Two distinct effects to keep separate
+
+1. **CNF-injection speedup is encoder-mode-dependent**:
+   - aux_force: ≈ −9% at 60s (F369), saturates to ≈ 0% at 5min (F366)
+   - aux_expose: ≈ −1% (F352)
+   - basic_cascade: ≈ −1% (F360)
+
+2. **CNF-injection speedup is budget-dependent on aux_force**:
+   - 60s budget: ≈ −9% (F347, F366b/c, F369)
+   - 5min budget: ≈ 0% saturated (F366)
+
+### Phase 2D propagator viability picture (sharpened)
+
+The reopen criterion was originally "≥2x on F235". F343 CNF-injection
+clearly cannot hit 2x. But the propagator approach is still useful for
+specific use cases:
+
+| use case | injection value | recommendation |
+|----------|----------------:|----------------|
+| Cube-and-conquer (many short cubes) | ≈ 9% × N cumulative | **viable** |
+| Single deep solve on aux_force | ≈ 0% (saturates) | **marginal** |
+| Single deep solve on basic_cascade | ≈ 1% | **marginal** |
+| Native-hook (cb_add_external_clause) on basic_cascade | projected: aux_force-class | **untested but the only path to ≥2x** |
+
+The cube-and-conquer use case is the cleanest empirical justification
+for Phase 2D: yale's F378-F384 conflict-guided cube generation produces
+short cubes; macbook's F343 preflight produces injection clauses; the
+combination should give cumulative speedup proportional to cube count.
+
+### Polarity-aware mining is structural, not optional
+
+F348 was already per-cand polarity-correct (verified post-hoc by
+inspecting the prepended unit-literal polarities across 5 cands). The
+F343 preflight tool runs CDCL probes and discovers the polarity per
+cand naturally. The Phase 2D propagator must call F343 mining at solver
+init **per cand** — a single hardcoded polarity from one reference cand
+will fail for cands with different fill bit-31.
+
+### Sixth retraction lesson
+
+F368 → F369 was the 6th retraction in this project's history.
+The lesson stays: when measuring Δ across two CNFs, **always**:
+
+1. `wc -l` both files
+2. Compare `p cnf` lines
+3. Confirm they came from the same encoder build / commit
+
+A 628-var difference between baseline and treatment is enough to
+contaminate any comparison. The audit_cnf.py fingerprint range covers
+both encoder versions (vars [12540, 13256]), so the audit doesn't
+catch this — a future fix is to add an encoder-version field to the
+CNF header comments and have audit_cnf.py warn when baseline and
+treatment disagree.
+
+### Discipline note (cumulative)
+
+After F343-F369, the empirical envelope for Phase 2D is well-grounded.
+The honest reopen criterion is:
+
+> The IPASIR-UP propagator with cb_add_external_clause + per-cand F343
+> mining at init should give ≈ −9% conflict reduction at 60s budget on
+> aux_force sr=60 cands (5-cand × 3-seed mean, σ=2.68%). For
+> cube-and-conquer use cases this scales linearly. For deep single-solve
+> the effect saturates and the propagator gates on cb_decide priorities
+> (F286 132-bit universal core), not on injected clauses.
+
+This is the standing design envelope as of 2026-04-30 ~05:00 EDT.
+

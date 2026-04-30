@@ -122,3 +122,23 @@ require shutdown. Filed as: in the next propagator-bet iteration, either
 move /tmp work to `programmatic_sat_propagator/cnfs/F369_*` with proper
 naming OR add a `transient` fingerprint bucket so /tmp scratch CNFs
 audit cleanly without --allow-audit-failure.
+
+## ~05:05 EDT — IPASIR_UP_API.md envelope updated to F369 numbers
+
+Appended a "2026-04-30 update (F366-F369)" section to the design doc
+(`headline_hunt/bets/programmatic_sat_propagator/propagators/IPASIR_UP_API.md`).
+Closes the loop F361 (F347-F360 envelope) → F366 (budget dep) →
+F368 (confounded) → F369 (clean) by making F369's −9.10% σ=2.68% the
+standing envelope for aux_force sr=60 force-mode at 60s budget.
+
+Includes:
+  - Full corrected table (F347-F369 chain) with per-probe numbers
+  - Per-cand F369 detail (no outliers; bit11 normalized at −7.56%)
+  - Two-distinct-effects framing: encoder-mode-dependence × budget-dependence
+  - Phase 2D viability matrix per use case (cube-and-conquer vs deep solve)
+  - Polarity-awareness as STRUCTURAL design requirement (F343 mining
+    must run per-cand at solver init, not hardcoded once)
+  - Sixth retraction lesson with concrete protocol
+    (`wc -l` + `p cnf` + encoder-version cross-check before measuring Δ)
+  - Standing reopen criterion: "≈ −9% conflict reduction at 60s budget,
+    σ=2.68%" — neither hyperbolic nor sandbagged.
