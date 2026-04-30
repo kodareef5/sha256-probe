@@ -92,3 +92,45 @@ Shipped:
 
 Open: confirm with 1-2 more fill=0xffffffff cands (~1 min compute) to
 firm up the corrected hypothesis. Sub-30-min routine.
+
+## ~10:50 EDT — F384: F383 hypothesis CONFIRMED at n=8
+
+Ran cadical 30s LRAT on bit3_m33ec77ca + bit28_md1acca79 (both
+fill=0xffffffff, both F374 deep-tail dominators). ~60s compute.
+
+Result — 8 cands cleanly partition:
+
+  Class A (fill=0xffffffff): 4/4 cands → ladder_run = 31 EXACTLY
+    bit31_m17149975, bit2_ma896ee41, bit3_m33ec77ca, bit28_md1acca79
+
+  Class B (other fills):     4/4 cands → ladder_run = 1 (no ladder)
+    bit11_m45b0a5f6 (00000000), bit13_m4d9f691c (55555555),
+    bit10_m3304caa0 (80000000), bit17_m427c281d (80000000)
+
+Sharp class boundary, no false pos / false neg. F383's corrected
+hypothesis is empirically validated.
+
+Class A is **31 of 67 registry cands (46%)**. Substantial portion of
+cands get the 31-rung ladder structure for free in their CDCL proofs
+on aux_force sr=60 60s.
+
+Phase 2D pre-injection design:
+  - Class A (31 cands): inject 31-rung ladder (8 size-3 EVEN Tseitin
+    XOR triples + 23 more in arithmetic-progression + 8 size-2
+    aux ⇔ dW57 equivalences) at solver init via cb_add_external_clause
+  - Class B (36 cands): F343's 2-clause baseline preflight only
+
+The F381 → F382 → F383 → F384 chain (3 hours, ~150s of cadical compute)
+went from "discovered some structural clauses" to "sharp class boundary
+on 8/8 cands" with one retraction (F382→F383) and one confirmation
+(F383→F384). Every wrong claim caught and narrowed.
+
+Shipped:
+  - `bets/cascade_aux_encoding/results/20260501_F384_xor_ladder_8cand_confirmed.md`
+  - 2 cadical runs logged via append_run.py
+  - dashboard refreshed
+  - 8-cand fingerprint table; sharp partition validated
+
+Open: F384's open question — test fill=0xfffffffe (1 bit cleared from
+ffffffff) to see if the ladder breaks at exactly 1-bit difference or
+smoothly degrades. ~30s compute. Sub-30-min routine.
