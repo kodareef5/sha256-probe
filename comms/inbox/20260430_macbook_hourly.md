@@ -665,3 +665,54 @@ Cumulative session 2026-04-30 commits to date: 31f902f → 7ae2fad → 6cf6a78
 → 4840bfe → 58e14a0 → (F375). 6-7 commits all green discipline.
 
 `validate_registry.py` post-F375: 0 errors, 0 warnings.
+
+## ~09:30 EDT — F376: F374 universality test on full 447k corpus
+
+Aggregated F374's structural signatures across all 447,278 records in
+the 47 per-cand corpora, stratified by hw_total band. **0 solver runs.**
+
+Key finding: **F374's c/g asymmetry is HW-band-dependent, NOT universal.**
+
+| HW band  | a/b/e/f vs c/g gap |
+|----------|-------------------:|
+| 60-64    | **+25.7%** ← peak  |
+| 65-69    | +21.5%             |
+| 70-79    | +11.4%             |
+| 80-89    | +5.7%              |
+| **90-99**| **−0.1%** ← crossing |
+| 100-109  | −2.3%              |
+| ≥110     | −2.6% ← reversed   |
+
+The mode of the natural cascade-1 distribution (HW 90-99 per F101) is
+the c/g symmetry crossing point. Below the mode the asymmetry is
+positive and grows monotonically toward the deep tail; above the mode
+it reverses.
+
+Other 2 of F374's signatures ARE universal at 100% across all 8 HW
+bands:
+  - active register set [a,b,c,e,f,g] (cascade-1 hardlock)
+  - da_63 ≠ de_63 (Theorem-4 a_61=e_61 doesn't extend to round 63)
+
+Refined block2_wang heuristic:
+  - HW < 80 (sub-mode): prioritize c/g cancellation
+  - HW 90-99 (mode): all 6 registers equivalent
+  - HW ≥ 100 (above mode): prioritize a/b/e/f cancellation (reversed)
+
+Refined Phase 2D propagator cb_decide rule: branch on the LIGHTER
+cluster, which is HW-dependent — c/g at deep tail, a/b/e/f at high
+tail, neither at the mode.
+
+Mechanism-level conjecture: SHA-256 round-function coupling between
+Maj/Ch path (a/b/e/f) vs the other registers (c/g) is statistically
+washed out at typical HW (mode), but DOMINATES the residual structure
+at the deep tail where the constraint "register diff is small" leaves
+round-function asymmetry as the dominant feature. At the high tail
+the gap reverses, presumably because Maj-coupled registers accumulate
+HW more slowly than free-path registers when diffs are large.
+
+Shipped:
+  - `bets/block2_wang/results/20260430_F376_universality_test_F374_signatures.md`
+  - 0 solver runs (pure analysis)
+  - F374 signatures 1+2 confirmed universal; signature 3 refined into
+    HW-band-dependent piecewise model; signature 4 explained as
+    consistent with band structure
