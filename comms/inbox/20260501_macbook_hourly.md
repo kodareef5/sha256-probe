@@ -322,3 +322,50 @@ Shipped:
 
 Open: F387 algebraic derivation from encoder source; deployable
 propagator extension code. Both sub-30-min for next session.
+
+## ~13:30 EDT — F389: F387/F384 packaged into deployable propagator pre-injection tool
+
+Built `bridge_preflight_extended.py` (~250 LOC) — turns the F387 rule
+into a deployable Phase 2D pre-injection tool. End-to-end pipeline:
+
+  Input: aux_force CNF + (optional) varmap
+  - F387 class decision in O(1) per (m0, fill)
+  - For Class A: cadical 30s LRAT + classifier extracts 31-rung ladder
+  - For Class B: F343 baseline only
+  Output: JSON spec with all clauses ready for cb_add_external_clause
+
+Smoke tests (3 cands):
+  bit31 (Class A Path 2: fill rich): 124 size-3 ladder clauses mined
+  bit10_m9e157d24 (Class A Path 1: m0 b31): 124 ladder + 2 F343 = 126
+  bit11_m45b0a5f6 (Class B): 0 clauses (no varmap; F343 skipped)
+
+124 clauses per Class A cand = 31 XOR triples × 4 polarities each.
+Plus F343 baseline (~2 clauses) = ~126 total injection per Class A.
+
+For registry-wide deployment: 51 Class A cands × 30s mining = 25 min
+total, one-time. Resulting JSON specs cached for fast Phase 2D
+consumption.
+
+Empirical projection: F343 alone gives −9.10% conflict reduction at
+60s (F369 measurement). F384 ladder pre-injection adds ~+0.9% (per
+F384 estimate). Combined: ~−10% on Class A cands. Not headline-class
+but a real ~10% improvement to the 51-cand Phase 2D Class A panel.
+
+Shipped:
+  - `bets/programmatic_sat_propagator/propagators/bridge_preflight_extended.py`
+  - `bets/programmatic_sat_propagator/results/preflight_2026-04-29/F389_bridge_preflight_extended_deployable.md`
+  - 3 smoke-test cadical runs logged via append_run.py
+  - dashboard refreshed; validate_registry: 0/0
+
+The F381 → F389 chain is now end-to-end deployable:
+  F381: discovered structure (1 cand)
+  F382-F386: 6 falsified hypotheses
+  F387: rule fits 14/14
+  F388: anchored at 16/16, Path 1 confirmed independent
+  F389: packaged as deployable Phase 2D pre-injection tool
+
+11 numbered memos, 22 commits, ~5-6 hours, ~360s cadical compute.
+Phase 2D pre-injection can now be shipped from this F389 spec.
+
+Open for next session: registry-wide Class A clause spec generation
+(~25 min compute, all 51 cands cached as JSON).
