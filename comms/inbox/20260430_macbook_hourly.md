@@ -801,3 +801,39 @@ the most asymmetric. Correct selector behavior.
 Deliverables #2-#5 queued. Progress unit per direction: "a new bridge
 selector, a falsified selector, or a generalized learned clause". This
 hour shipped a new bridge selector + validated.
+
+## ~10:50 EDT — F379 deliverable #3: bridge-guided hillclimb produces NEW LOWEST HW=56 for bit2
+
+Built `block2_bridge_beam.py` — greedy W-space hillclimb using
+forward_table_builder cascade-1 primitives + bridge_score evaluator.
+4 cands × 3 seeds × 10k iters = 120k hillclimb steps. Wall: 5.4s.
+
+Result:
+  bit2_ma896ee41 NEW HW=56 (corpus floor was 57) ← below empirical floor
+  bit2 score 55.96 (very high, beating F378's corpus #1 of 57.92's
+  closest comparator on this cand)
+  bit3/bit28/bit13_m916a56aa beams plateaued in local optima at
+  HW 61-64 (corpus floors 55/59/59) — greedy single-bit-flip can't
+  escape without restarts/SA
+
+bit2 HW=56 W-witness:
+  W1[57:60] = 0x2264b1ed 0x91b7504a 0xd8f36adf 0xa9603614
+  W2[57:60] = 0x51ae863c 0x82f96c37 0xaae18478 0xe6019e05
+  hw63 = [10, 11, 5, 0, 14, 11, 5, 0] (c=5, g=5 — strongly asymmetric)
+
+This is a NEW data point not in any corpus. Highest-priority deliverable
+#4 target: cert-pin verify it. Sub-30s compute. If UNSAT (likely),
+falsified — adds discipline-noted negative. If SAT, **headline-class**.
+
+Shipped:
+  - `bets/block2_wang/encoders/block2_bridge_beam.py` (~250 LOC)
+  - `bets/block2_wang/results/20260430_F379_bridge_beam_results.md`
+  - `bets/block2_wang/results/search_artifacts/20260430_F379_bridge_beam.json`
+  - 1 NEW data point below the empirical HW floor for bit2
+
+Deliverables status:
+  ✅ #1 (F378): bridge_score.py
+  ✅ #2 (F378): hold-out validation, F371 in top 30/368k
+  ✅ #3 (F379): block2_bridge_beam.py — bit2 HW=56 below corpus floor
+  ⏳ #4: cert-pin probes of beam-discovered + F378 top-K
+  ⏳ #5: cross-cand learned-clause clustering
