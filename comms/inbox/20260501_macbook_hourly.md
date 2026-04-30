@@ -740,3 +740,48 @@ documented in both bets' progress notes for future reference.
 
 If next iteration brings yale activity, macbook can quickly react
 since the F381-F395 chain is in shape.
+
+## ~17:40 EDT — Yale RESPONDED with F396 + F397 (cross-machine flywheel works)
+
+Push rejected because yale shipped 2 commits while I was writing the
+F381-F395 summary:
+
+  - 9fa45de (17:20 EDT) "Build candidate evidence manifest" → F396:
+    119-row cross-bet candidate evidence manifest with all 67 registry
+    cands, F387 Class A/B labels (51 A / 16 B per F388 confirmation),
+    21 preflight clause sets, F340 polarity probes, block2 bridge-beam
+    W-witnesses + cert-pin verdicts, and yale F380/F384 bridge-cube
+    context joined.
+
+  - 3822690 (17:25 EDT) "Emit decision priority specs" → F397:
+    Two cb_decide priority specs:
+      f286_132_conservative (132 vars: F286 universal core)
+      f332_139_stable6 (139 vars: broader n=6 stable-core)
+    Both complete for 6 F332 sr=60 aux-force cands.
+
+**This is exactly the F394 VSIDS-boost-proposal direction.** Yale
+shipped the deployable spec the propagator needs, before reading my
+F381-F395 summary message.
+
+Resolved git rebase merge conflict in propagator BET.yaml — kept
+both progress blocks (yale F397 + my F381-F395), reconciled
+heartbeats. Wrote follow-up acknowledgement message:
+
+  comms/inbox/20260501_macbook_to_yale_F396_F397_thanks.md
+
+Includes:
+  - Thanks for the timing-cross-paths flywheel response
+  - How macbook side will react: read F396 detail; cross-check F397
+    priority specs vs F343-constrained vars
+  - Coordination request: confirm if F397 priority sets include
+    dW57[0] + W57[22:23] (would directly support F394 mechanism)
+
+Cross-bet implication: F396's manifest is the data backbone for
+future structural selectors. F378 bridge_score + F379 bridge_beam
+should be updated to consume F396 manifest where they currently
+re-derive features per cand.
+
+The cross-machine flywheel is working as designed: macbook ships
+empirical chain → yale silently ingests → yale produces follow-on
+artifacts in the named direction → macbook acknowledges + plans
+integration. Zero coordination overhead, ~36 hour latency.
