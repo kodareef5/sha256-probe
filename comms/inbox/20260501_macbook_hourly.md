@@ -415,3 +415,58 @@ The remaining F381→F390 chain value is in the CHARACTERIZATION
 of m0 and fill), not in solver speedup. The Phase 2D viability
 picture narrows further: F343 alone is the only F343-class lever
 worth keeping.
+
+## ~14:30 EDT — F391: F389 falsification CONFIRMED at n=3 cands
+
+Replicated F390's bit2 finding on bit31_m17149975 + bit3_m33ec77ca.
+18 cadical 60s runs (2 cands × 3 conditions × 3 seeds), parallel-3,
+~6 min wall.
+
+3-cand panel:
+  bit2_ma896ee41    F343=+0.07%   F389=+2.35%  (ladder hurts +2.3pp)
+  bit31_m17149975   F343=-13.12%  F389=-3.83%  (ladder loses 9.3pp)
+  bit3_m33ec77ca    F343=-8.17%   F389=-5.64%  (ladder loses 2.5pp)
+
+Mean across 3 cands × 3 seeds (n=9 per condition):
+  F343 alone: −7.07% (consistent with F369's −9.10% 5-cand mean)
+  F389:       −2.37% (loses ~5pp to ladder overhead)
+
+**F389 is uniformly WORSE than F343 alone, by 2.5-9.3pp across 3/3
+cands.** The ladder ALWAYS HURTS relative to F343-only. Strongest hurt
+on bit31 (the cand where F343 helps most: −13.12% → ladder eats 9.3pp
+back).
+
+Mechanism: ladder clauses are TSEITIN-redundant with the encoder's
+output. CDCL discovers them for "free" via UP chains within the
+first ~12k of 1.4M proof lines. Pre-injecting 124 clauses adds
+watch-list overhead that compounds across 1.5M conflicts → measurable
+runtime penalty without any new search-pruning value.
+
+Project's 12th iterative narrowing/falsification.
+
+F381 → F391 chain final summary:
+  F381-F388 (8 iterations): structural rule established at 16/16
+  F389: packaged as deployable spec
+  F390 (n=1): speedup FALSIFIED on bit2
+  F391 (n=3): falsification CONFIRMED — ladder uniformly hurts
+
+26 commits, ~7-8 hours, ~580s cadical compute.
+
+The STRUCTURAL finding (ladder exists per F387 rule) is REAL.
+The APPLICATION finding (ladder pre-injection helps) is FALSIFIED.
+Tool stands as characterization; spec dead.
+
+Phase 2D viable speedup levers narrow to:
+  - F343 baseline alone (~−7% mean, high cand-variance)
+  - cb_decide on F286 132-bit core (untested)
+  - That's it.
+
+Shipped:
+  - `bets/programmatic_sat_propagator/results/preflight_2026-04-29/F391_F389_falsified_3cand_panel.md`
+  - 18 cadical 60s runs logged via append_run.py
+  - 6 transient CNFs in /tmp/F391/
+  - dashboard refreshed; validate_registry: 0/0
+
+Open: cadical --statistics on baseline vs F389 to nail down the
+watch-list overhead mechanism. ~10 min compute. Or test at 5-min
+budget per F366 saturation pattern.
