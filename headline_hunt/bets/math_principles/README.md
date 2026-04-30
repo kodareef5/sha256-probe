@@ -54,6 +54,7 @@ python3 headline_hunt/bets/math_principles/encoders/smoke_bridge_cubes.py
 python3 headline_hunt/bets/math_principles/encoders/extract_bridge_cube_proofs.py
 python3 headline_hunt/bets/math_principles/encoders/minimize_bridge_cube_core.py
 python3 headline_hunt/bets/math_principles/encoders/analyze_w57_core_pair.py
+python3 headline_hunt/bets/math_principles/encoders/build_candidate_evidence_manifest.py
 ```
 
 The original manifest slice intentionally excludes downstream math-principles
@@ -74,6 +75,8 @@ Default outputs:
 - `data/20260429_F346_radius1_basin_walk_masks.txt`
 - `results/20260429_manifest_summary.json`
 - `results/20260429_F351_manifest_v2_summary.json`
+- `data/20260430_F396_candidate_evidence_manifest.jsonl`
+- `results/20260430_F396_candidate_evidence_manifest_summary.{json,md}`
 - `results/20260429_F340_tail_law.{json,md}`
 - `results/20260429_F341_influence_priors.{json,md}`
 - `results/20260429_F342_carry_invariant_audit.{json,md}`
@@ -361,9 +364,18 @@ F374's low-guard corner, while F375's repaired-guard bridge has the opposite
 pair `1,0`. That makes the W57 pair a concrete clause candidate explaining one
 guard/D61 split.
 
+F396 adds the cross-bet candidate evidence manifest promised by Phase 0 of the
+attack plan. It joins the 67 registry candidates, F387 class labels, MacBook
+preflight clause sets, F340 W57 polarity probes, block2 bridge-beam/cert-pin
+witnesses, and Yale F380/F384 bridge-cube context into one JSONL table keyed by
+candidate. The first pass has 119 rows over all 67 registry candidates:
+51 F387 Class A / 16 Class B, 21 preflight clause sets, 11 block2 cert-pin
+witnesses, and the HW=56 block2 bridge-beam floor. This is now the join point
+for REM/tail, influence, preflight, and bridge-score follow-ups.
+
 ## Next tracks
 
 - add outcome-aware calibration before spending more budget on F343-style selectors
 - use F342 stable-core coordinates as hard features for BP/matroid audits
 - use common-mode atlas continuation as a post-atlas polish operator
-- turn the F384 W57 forbidden-pair finding into a comms note and a propagator/cube follow-up target
+- use the F396 manifest to choose decision-priority / VSIDS-trajectory experiments, since F395 largely exhausted the clause-count axis
