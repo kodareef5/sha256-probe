@@ -306,16 +306,20 @@
     point already known. F98 control on m17149975 random low-HW W-witnesses (HW 62-67) confirmed UNSAT, demonstrating
     "collisions are point-singular, not basin-singular."
 
-    F371 (2026-04-30) refinement: F100's per-cand cert-pin sweep was actually 54 cands (not the full 67 stated above). The
-    remaining 13 cands had their cert-pin coverage from the older shared `F32_deep_corpus_enriched.jsonl` corpus. Of the 13
-    cands that had per-cand corpora ready but were SKIPPED by F100, **4 have W-witnesses below F100's covered min_hw=61
-    floor**: bit3_m33ec77ca (HW=55), bit2_ma896ee41 (HW=57), bit28_md1acca79 (HW=59), bit13_m4e560940 (HW=61). These 4
-    sub-floor witnesses have NOT been cert-pin verified. See bets/block2_wang/results/20260430_F371_F100_blindspot_13_cands_HW55_lead.md
-    for the full 13-cand table and the bit3 HW=55 W-vector ready for cert-pin construction.
+    F371 (2026-04-30) refinement: F100's per-cand cert-pin sweep was actually 54 cands (not the full 67 stated above).
+    F372 (2026-04-30) closed the 4 sub-floor witnesses (HW 55-61) — all UNSAT, 8 cert-pin runs logged.
+    F373 (2026-04-30) closed the 9 remaining blind-spot cands (HW 61-69) — all UNSAT, 18 cert-pin runs logged.
+
+    **Final state: direct cert-pin coverage 67/67 = 100%.** F100 (54 cands, ~540 runs) + F372 (4 sub-floor cands, 8 runs) +
+    F373 (9 remaining blind-spot cands, 18 runs). All 566 cert-pin verifications across the full registry returned UNSAT
+    with kissat + cadical (and CMS for F100's subset) agreement. Per-cand lowest-HW witness range tested: [55, 69]. The
+    "67-cand registry coverage" claim originally in this entry is now empirically grounded at strict 67/67 verification,
+    not via the older shared F32_deep_corpus_enriched proxy. See bets/block2_wang/results/20260430_F371*, F372*, F373* for
+    the full chain.
   would_change_my_mind:
   - Yale's online Pareto sampler finds a single-block W-witness producing SAT under certpin_verify --solver all (would be
     HEADLINE-class).
-  - "[F371 ADDED 2026-04-30] An existing-registry cand whose corpus contains a W-witness below F100's covered min_hw floor (61) admits single-block SAT under cert-pin. Highest-priority targets per F371: bit3_m33ec77ca (HW=55), bit2_ma896ee41 (HW=57), bit28_md1acca79 (HW=59), bit13_m4e560940 (HW=61)."
+  - "[F371 ADDED 2026-04-30, NOT_FIRED 2026-04-30 by F372+F373] An existing-registry cand whose corpus contains a W-witness below F100's covered min_hw floor (61) admits single-block SAT under cert-pin. Tested 4 sub-floor (F372) + 9 remaining blind-spot (F373) = 13/13 NOT_FIRED. Trigger now subsumed by 100% coverage."
   - A new candidate added to the registry (m0/fill outside the current 67) admits single-block SAT — would suggest the
     invariant is registry-bounded, not structural.
   - HW>120 region tested and produces SAT (extreme high HW; would suggest invariant has an upper-HW boundary).

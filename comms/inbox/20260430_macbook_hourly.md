@@ -558,3 +558,33 @@ single lead the residual corpus had hiding (bit3 HW=55, below F100's
 covered floor); F372 verified within minutes that it's a near-residual,
 not a collision. Discipline-correct, mechanism-relevant, and
 honestly negative.
+
+## ~08:30 EDT — F373: extended F372 to all 9 remaining blind-spot cands → 67/67 = 100% direct coverage
+
+Same pipeline as F372 applied to the remaining 9 blind-spot cands
+(HW 61-69, including bit25_m09990bd2 = F235's cand). All 18 runs
+(9 cands × 2 solvers) returned UNSAT in 0.01-0.03s.
+
+Cumulative cert-pin coverage (after F373):
+  F100 (2026-04-28): 54 cands, ~540 runs, all UNSAT
+  F372 (2026-04-30): 4 sub-floor cands, 8 runs, all UNSAT
+  F373 (2026-04-30): 9 remaining cands, 18 runs, all UNSAT
+  ────────────────────────────────────────────────────────────
+  Total direct: **67/67 cands (100%), ~566 runs, 0 SAT.**
+
+negatives.yaml updated: `single_block_cascade1_sat_at_compute_scale`
+why_closed now reflects 100% direct coverage (previously characterized
+as 54-cand effective per F100 with F32 shared proxy for 13). F371's
+would_change_my_mind trigger is **NOT_FIRED 13/13** at all blind-spot
+cands; trigger now subsumed by 100% coverage.
+
+Shipped:
+  - `bets/block2_wang/results/20260430_F373_remaining_blindspot_certpin.{md,json}`
+  - 18 entries in `runs.jsonl`
+  - dashboard.md refreshed
+  - negatives.yaml soft-revision (100% coverage finding)
+
+Total session F371+F372+F373 chain: ~3 minutes wall, 26 cert-pin runs,
+direct registry coverage went 54/67 → 67/67 in three commits. Headline
+conclusion (no single-block sr=60 cascade-1 collisions at our compute
+scale) now empirically grounded at strict registry-wide verification.
