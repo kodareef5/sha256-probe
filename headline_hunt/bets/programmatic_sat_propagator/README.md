@@ -33,13 +33,19 @@ Two possible headlines:
 
 ## What's built / TODO
 
-- [ ] **API survey.** Read CaDiCaL IPASIR-UP docs / Alamgir et al. SAT/CAS paper
-  (literature.yaml#alamgir_nejati_bright_sat_cas_sha256) for closest analog.
-- [ ] **Propagation rule set.** Sketch which carry modes, which offsets, which
-  W[60] constraints to expose. Document in `propagators/SPEC.md`.
-- [ ] **N=8 prototype.** Implement against CaDiCaL external propagator.
-- [ ] **Conflict-count comparison** vs. vanilla Kissat / CaDiCaL on same instance.
-- [ ] **Decision gate**: 10x conflict reduction at N=8 OR kill.
+- [x] **API survey.** `propagators/IPASIR_UP_API.md` covers the CaDiCaL 3.0.0
+  hook surface and keeps the reopen recipe current.
+- [x] **Propagation rule set.** `propagators/cascade_propagator.cc` implements
+  the Phase 2B/2C rule substrate.
+- [x] **Preflight clause mining.** `propagators/preflight_clause_miner.py`
+  ships the F343 two-clause baseline used in F347-F395.
+- [x] **Decision-priority specs.** `propagators/build_decision_priority_specs.py`
+  emits F397 cb_decide priority lists for the F286 132-bit core and F332
+  139-bit stable-core comparison arm.
+- [ ] **Decision-priority harness.** Wire the F397 lists into cb_decide and run
+  baseline / existing propagator / F286-priority / F332-priority under one cap.
+- [ ] **Decision gate.** Reopen only if decision priority gives a material
+  speedup beyond the saturated F343 clause-injection envelope.
 
 ## Related
 
