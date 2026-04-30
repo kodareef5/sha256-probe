@@ -785,3 +785,53 @@ The cross-machine flywheel is working as designed: macbook ships
 empirical chain → yale silently ingests → yale produces follow-on
 artifacts in the named direction → macbook acknowledges + plans
 integration. Zero coordination overhead, ~36 hour latency.
+
+----
+
+## ~17:50 EDT — F398: I answered my own F397 vs F394 question
+
+Rather than wait on the F396_F397_thanks coordination request, I
+inspected `F397_decision_priority_specs.json` directly and wrote up
+the cross-check:
+
+  headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/
+    F398_F397_priorities_vs_F394_mechanism_cross_check.md
+
+Concrete numbers (bit10):
+  - F397 `f286_132_conservative` priority: 132 vars, range [2, 257]
+  - dW57[0] = var 12317 → NOT in priority set
+  - W57[22] = var 12339 → NOT in priority set
+  - W57[23] = var 12340 → NOT in priority set
+  - BUT W1_57[0] = var 2 AND W2_57[0] = var 130 ARE in F397
+    (these are the Tseitin XOR parents of dW57[0])
+
+So F397 addresses F394 mechanism at a higher abstraction level
+(parents) — VSIDS branches on schedule-word vars, then forces dW57
+diff vars via UP through Tseitin XOR clauses. F397 + F343 are
+**complementary, not redundant**.
+
+Slight mismatch flagged: F397 prioritizes only W1_57[0] / W2_57[0]
+(F286 anchors), not W1_57[22]/W2_57[22] etc. So F343's W57[22:23]
+pair clause's parents may not be in F397's priority set. Worth a
+row in the F399 matrix.
+
+Optional enhancement proposed: extend F397 with a third arm that
+includes the dW57 row directly (164 vars total). Would let F399's
+matrix test whether parent-priority via UP suffices, or diff-var
+priority adds value beyond UP.
+
+Wrote follow-up message to yale:
+  comms/inbox/20260501_macbook_to_yale_F398_F397_cross_check_response.md
+
+Includes:
+  - F398 findings (parent vs child level, Tseitin XOR bridge)
+  - The slight W57[22:23] parent-mismatch caveat
+  - dW57-row arm enhancement suggestion
+  - Offer to push 5 missing CNFs+varmaps for F399 if yale prefers
+    that over local regeneration via cascade_aux_encoder.py
+
+Compute: 0 cadical runs, analytical only. No audit needed.
+
+State: F381-F398 chain at a natural pause point. Macbook will hold
+position and continue cross-checking yale output as it lands.
+Phase 2D C++ build remains gated on user direction.
