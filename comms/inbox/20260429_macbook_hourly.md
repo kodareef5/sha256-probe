@@ -1378,3 +1378,25 @@ Commit: [next] (F362 noise-level finding + cand-variance reframe).
 F353 verification at ~210/240 min, no SAT yet (final 30 min).
 
 Commit: [next] (F363).
+
+
+## ~02:25 EDT (Apr 30) — F364 launched + cascade_aux_encoding heartbeat refreshed
+
+- F364: F344-style full-row sweep on aux_force_sr61 bit31 m17149975
+  (the F347 13.7% outlier cand at sr=61). 13min mining, then 10min
+  injection comparison.
+  Will tell us: does F347's 13.7% reproduce at sr=61 with 32 clauses?
+  Or was it sr=60 specific / noise?
+- Refreshed cascade_aux_encoding BET.yaml heartbeat with substantive
+  progress notes covering F341-F363 chain (~30-line update).
+  Documents:
+    - 4 structural classes (Class 1a/2 universal, Class 3 F286, Class 4 yale-style)
+    - SR/mode invariance (F354-F356)
+    - Empirical speedup envelope (F347 to F363, cand variance)
+    - F322/F358 retractions
+    - F349 PENDING SAT verification ongoing
+- registry validates 0/0.
+
+F353 verification at ~211/240 min, no SAT yet (~29 min remaining).
+
+Commit: [next] (F364 launch + cascade_aux heartbeat).

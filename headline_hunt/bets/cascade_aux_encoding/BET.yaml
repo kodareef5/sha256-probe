@@ -75,7 +75,51 @@ current_progress: |
   = 72 CNFs, all CONFIRMED. Bet remains characterized (Mode B 2-3.4× front-
   loaded preprocessing, not a path to cascade-DP SAT discovery).
 
-last_heartbeat: "2026-04-28T21:30:00Z"
+last_heartbeat: "2026-04-30T02:25:00Z"
+recent_progress_2026-04-30_F341_F363_propagator_chain: |
+  Late-evening Apr 29 → early Apr 30 substantive structural arc.
+  Built on yale F378-F384 conflict-guided cube + UNSAT minimization.
+
+  STRUCTURAL CLASSES IDENTIFIED (F341-F344):
+    Class 1a-univ: dW57[0] forced (single-bit unit, all 6 cands)
+    Class 2-univ: W57[22:23] forbidden (2-bit pair, 6 cands)
+    Class 3:      F286 132-bit universal hard core
+    Class 4:      yale-style cand-specific UNSAT cores
+  F344 found dW57 row over-constrained (32 clauses).
+
+  SR/MODE INVARIANCE (F354-F356):
+    F343 mining produces IDENTICAL clauses across:
+      sr=60 force vs sr=61 force vs sr=60 expose
+    Per-cand mining at cheapest combo (sr=60 force) serves all sr/mode.
+
+  PREFLIGHT TOOL (F343):
+    propagators/preflight_clause_miner.py — extracts mined clauses
+    via cadical 5s probes. ~20s per cand minimal preflight.
+
+  EMPIRICAL SPEEDUP ENVELOPE (F347-F363):
+    F347 sr60 aux_force bit31 32 clauses: -13.7% (outlier or noise)
+    F348 sr60 aux_force 5-mean 2 clauses: -8.8%
+    F352 sr60 aux_expose bit29 2 clauses: -1.06%
+    F360 sr61 basic_cas bit25 130 clauses: -0.79%  ← F235 cand
+    F362 sr61 aux_force bit25 34 clauses:  -0.46%
+    F363 sr61 aux_force bit31 2 clauses:   -0.72%
+  Cand-specific variance dominates; 2-clause minimal ~1% across cands.
+
+  RETRACTIONS:
+    F322 retraction: F315-F320 chamber-seed claims (M2 drift artifact)
+    F358 retraction: 4-literal CNF encoding bug (truth-table check)
+
+  PENDING:
+    F349 m17454e4b/bit29 sr60 SAT report from yesterday's bg task.
+    User-approved 4h verification (F353) ongoing — kissat baseline +
+    injected + cadical baseline parallel runs. ~210/240 min, no SAT yet.
+
+  STATUS:
+    Phase 2D propagator design empirically grounded but speedup smaller
+    than F327 projected. Real envelope: ~1% on most cands, up to 14%
+    on bit31-class outliers. Cand variance dominates. Phase 2D reopen
+    criterion sharpened from "2x" → "1.16x bit31-class only".
+
 recent_progress_2026-04-28_F207_F214: |
   STRUCTURAL PIVOT — cascade_aux Tanner graph fully characterized.
 
