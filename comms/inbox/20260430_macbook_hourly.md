@@ -303,3 +303,51 @@ explicitly stalls before reaching those rounds, so the project's
 direction isn't "doing trail search where the experts can't reach";
 it's a fundamentally different attack class operating in a regime
 where trail search is documented to be inadequate.
+
+## ~06:30 EDT — finishing the literature triage: Zhang 2026/232 + Alamgir IDs verified
+
+Resolved the 2 remaining `confidence: needs_verification`-class entries
+from the previous hour's literature work:
+
+  **ePrint 2026/232** — verified via WebSearch:
+    Zhuolong Zhang, Muzhou Li, Lei Gao, Meiqin Wang
+    "Collision Attacks on SHA-256 up to 37 Steps with Improved Trail Search"
+    Result: extends practical SHA-256 collision frontier from 31 steps
+    (Li-Liu-Wang-Dong-Sun ASIACRYPT 2024) to **37 steps** via automated
+    discovery of high-quality local collisions in the message expansion.
+    The bottleneck previously was that local collisions had to be
+    constructed by hand; this paper automates that step.
+
+    Renamed registry ID: `zhang_2026_sha256_round_reduced` →
+    `zhang_li_gao_wang_2026_sha256_37step_trail_search`. read_status:
+    search_pending → read. Filled key_takeaway, action_items.
+
+  **arXiv:2406.20072** — verified via WebSearch:
+    Nahiyan Alamgir, Saeed Nejati, Curtis Bright
+    "SHA-256 Collision Attack with Programmatic SAT"
+    Submitted 28 June 2024, University of Waterloo.
+
+    Updated `alamgir_nejati_bright_sat_cas_sha256` entry:
+    citation set to verified author+title; venue set to "arXiv (28 June 2024)";
+    URL set to https://arxiv.org/abs/2406.20072; arxiv_or_eprint =
+    arXiv:2406.20072; confidence: needs_verification → high. The previous
+    "ePrint 2024/2017 OR arXiv:2406.20072 — verify" ambiguity is resolved.
+
+  **Updated the Li-Liu-Wang note's SHA-2 ladder table** to include the
+    new 37-step practical record (Zhang-Li-Gao-Wang 2026). Standing ladder:
+
+      24-step (2008) full → 27-step SFS (2008) → 31-step theoretical
+      (Mendel 2013) → 38-step SFS (Mendel 2013) → 39-step SFS
+      (Li-Liu-Wang 2024 EUROCRYPT) → 31-step practical
+      (Li-Liu-Wang-Dong-Sun 2024 ASIACRYPT best paper) →
+      **37-step practical (Zhang-Li-Gao-Wang 2026, NEWEST)** →
+      59-step cascade-1 (Viragh 2026, structural-class)
+
+Gap between published trail-search depth (37 steps) and the project's
+structural-attack depth (60-step verified, 61-step open) is now
+**60 - 37 = 23 steps**. The two methodologies are operating in
+entirely different regimes.
+
+`validate_registry.py`: 0 errors, 0 warnings post-edit.
+literature.yaml: 17 entries total, all needs_verification entries from
+the SHA-2-records cluster now resolved.

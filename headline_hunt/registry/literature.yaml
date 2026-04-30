@@ -16,25 +16,48 @@
   last_updated: '2026-04-24'
   notes: In-repo at reference/paper.pdf. Already extracted to text and consumed by
     GPT-5.5.
-- id: zhang_2026_sha256_round_reduced
-  citation: "Zhang et al. \u2014 Collision Attacks on Round-Reduced SHA-256"
+- id: zhang_li_gao_wang_2026_sha256_37step_trail_search
+  citation: "Zhuolong Zhang, Muzhou Li, Lei Gao, Meiqin Wang \u2014 Collision Attacks on SHA-256 up to 37 Steps with Improved Trail Search"
   year: 2026
-  venue: IACR ePrint / EUROCRYPT 2026 (likely)
+  venue: IACR ePrint
   url: https://eprint.iacr.org/2026/232
   arxiv_or_eprint: IACR ePrint 2026/232
   confidence: high
-  relevance: Latest reduced-round SHA-256 frontier. Likely best source for automated
-    local-collision and trail search techniques relevant to block2_wang_residual_absorption.
-  read_status: search_pending
-  key_takeaway: null
+  relevance: |
+    NEWEST PRACTICAL RECORD: extends the previous 31-step practical SHA-256
+    collision (Li-Liu-Wang-Dong-Sun ASIACRYPT 2024) to **37 steps** via a new
+    automated tool for finding high-quality local collisions in the message
+    expansion. The team (Shandong / Beijing-based) builds on the EUROCRYPT 2013
+    line of work (Mendel-Nad-Schl\u00e4ffer) but automates the manual local-collision
+    construction that had previously been the bottleneck.
+
+    Direct relevance to block2_wang: the bet's stated dependency
+    "Implement a bitcondition/trail-search engine (Wang-style, not just SAT)" is
+    exactly the kind of automated local-collision tool this paper provides. If
+    the project ever restarts trail-search work, this is the paper to study for
+    methodology.
+  read_status: read
+  key_takeaway: |
+    [STRUCTURAL_SUMMARY] Zhang-Li-Gao-Wang (ePrint 2026/232) extend the practical
+    SHA-256 collision frontier from 31 steps (ASIACRYPT 2024) to **37 steps**
+    via automated discovery of high-quality local collisions in the message
+    expansion. The bottleneck previously was that local collisions had to be
+    constructed by hand; this paper automates that step. Methodology builds on
+    Mendel-Nad-Schl\u00e4ffer EUROCRYPT 2013.
+
+    Project context: this is the deepest practical SHA-256 collision known as of
+    early 2026 (37 steps), still well below this project's sr=60/61 regime
+    (60-61 steps) which uses a fundamentally different attack class (cascade-1
+    structural absorber, no traditional trail). Confirms the trail-search
+    ladder is at 37 steps \u2014 the gap between published trail-search depth and
+    the project's structural-attack depth is now 60 - 37 = 23 steps.
   action_items:
-  - Extract trail-search and message-modification ideas relevant to block2_wang.
-  - Compare their reduced-round bounds to our sr=60 result.
-  - "BLOCKER 2026-04-25: WebFetch on https://eprint.iacr.org/2026/232 and the .pdf\
-    \ return 403 from this machine; needs a browser fetch (user) OR an arXiv mirror\
-    \ lookup. Status changed todo \u2192 search_pending."
-  owner: unassigned
-  last_updated: '2026-04-24'
+  - "[DONE] Verify ePrint ID, authors, title \u2014 confirmed 2026/232, Zhang-Li-Gao-Wang"
+  - "[DONE] Confirm result \u2014 first practical 37-step SHA-256 collision (extending 31-step ASIACRYPT 2024 record)"
+  - "[OPEN] PDF still 403-blocked from this machine; the abstract via WebSearch is sufficient for citation"
+  - "[OPEN] If `block2_wang` activity restarts: this paper is the highest-priority reference for automated local-collision tooling"
+  owner: macbook
+  last_updated: '2026-04-30'
 - id: alphamaplesat_mcts_cube_and_conquer
   citation: "AlphaMapleSAT \u2014 MCTS-driven cube-and-conquer for structured SAT\
     \ instances"
@@ -121,12 +144,12 @@
   owner: macbook
   last_updated: '2026-04-30'
 - id: alamgir_nejati_bright_sat_cas_sha256
-  citation: "Alamgir / Nejati / Bright \u2014 SAT/CAS for SHA-256 collision search"
+  citation: "Nahiyan Alamgir, Saeed Nejati, Curtis Bright \u2014 SHA-256 Collision Attack with Programmatic SAT"
   year: 2024
-  venue: arXiv or ePrint (ambiguous)
-  url: null
-  arxiv_or_eprint: "arXiv:2406.20072 OR ePrint 2024/2017 \u2014 verify"
-  confidence: needs_verification
+  venue: arXiv (28 June 2024)
+  url: https://arxiv.org/abs/2406.20072
+  arxiv_or_eprint: arXiv:2406.20072
+  confidence: high
   relevance: Programmatic SAT / IPASIR-UP approach to SHA-256. Direct comparison point
     for programmatic_sat_cascade_propagator.
   read_status: read

@@ -40,6 +40,7 @@ literature.yaml entry has been renamed and its citation corrected.
 | 38    | SFS collision | 2013 | Mendel-Nad-Schläffer (EUROCRYPT 2013) |
 | **39** | **SFS collision** | **2024** | **Li-Liu-Wang (this paper)** |
 | 31    | **practical full collision** | 2024 | Li-Liu-Wang-Dong-Sun (ASIACRYPT 2024 best paper, follow-on) |
+| **37** | **practical full collision** | **2026** | **Zhang-Li-Gao-Wang (ePrint 2026/232)** ← latest record |
 | 59    | cascade-1 single-block (SFS-class) | 2026 | Viragh ("92% broken") |
 
 **Project context**: This project's work at sr=60 (60-step) / sr=61
