@@ -588,3 +588,45 @@ Total session F371+F372+F373 chain: ~3 minutes wall, 26 cert-pin runs,
 direct registry coverage went 54/67 → 67/67 in three commits. Headline
 conclusion (no single-block sr=60 cascade-1 collisions at our compute
 scale) now empirically grounded at strict registry-wide verification.
+
+## ~08:50 EDT — F374: cluster analysis on 171 sub-65 cascade-1 residuals (4 strong signatures)
+
+Pure data exploration on the existing 47 corpora — no compute.
+Used `extract_top_residuals.py --hw-max 65` to dump 171 records
+across 17 cands.
+
+**4 strong structural signatures found:**
+
+1. **Active register set is 100% [a, b, c, e, f, g]** — universal
+   cascade-1 hardlock at d=h=0 across the entire deep tail.
+
+2. **`da_63 ≠ de_63` for 100% of sub-65 records.** The Theorem-4
+   a_61=e_61 symmetry does NOT extend to round-63 residuals.
+   Implication: trail-search heuristics that constrain da=de will
+   SKIP all sub-65 W-witnesses. **Don't constrain da=de in any
+   sub-65-targeted block2_wang search.**
+
+3. **Per-register HW is non-uniformly distributed.** c and g are
+   systematically ~3 HW LIGHTER than a/b/e/f:
+     a/b/e/f mean HW ≈ 11.5 (heavier tail)
+     c/g     mean HW ≈ 8.6  (lighter tail, 25% lower)
+   This is a load-bearing structural asymmetry of cascade-1 round
+   dynamics that the existing block2_wang search does not exploit.
+   **Concrete heuristic recommendation: prioritize c and g residual
+   cancellation in trail-search.**
+
+4. **bit3 / bit2 / bit28 dominate the deep tail.** These 3 cands
+   contribute 93/171 = 54% of sub-65 records. If single-block
+   sr=60 cascade-1 collisions are reachable at our compute scale,
+   bit3/bit2/bit28 are the most likely source. (F372 already
+   cert-pin verified each at its lowest-HW W-witness → all UNSAT.)
+
+Cross-bet implication for `programmatic_sat_cascade_propagator` Phase 2D:
+the per-register HW asymmetry suggests an additional `cb_decide`
+priority — branch on c/g state vars before a/b/e/f at rounds 62-63.
+Adds to the F286-bit-prioritized hook without changing soundness.
+
+Shipped:
+  - `bets/block2_wang/results/20260430_F374_sub65_residual_cluster_analysis.md`
+  - 0 solver runs (pure analysis)
+  - 4 concrete predictive findings, 1 cross-bet design recommendation
