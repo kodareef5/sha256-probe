@@ -168,3 +168,35 @@ Includes:
     bets, no kill criterion tripped, owner=fleet stays in_flight.
 
 `validate_registry.py`: 0 errors, 0 warnings post-edit.
+
+## ~05:40 EDT — diff_cnf.py: infra fix for F368-class confounds
+
+Wrote `headline_hunt/infra/diff_cnf.py` (~140 LOC). Compares two CNF
+files for structural compatibility BEFORE you measure any Δ% across
+them. Flags hard-fail confounds (n_vars mismatch >1%, malformed DIMACS,
+encoder header DIFFERS) and soft notes (header missing on one side
+when n_vars match — common for clause-injected files).
+
+Validated against the actual F368 vs F369 cases:
+  - **F368 confound** (old 12592-var baseline vs new 13220-var injected):
+    `VERDICT: INCOMPATIBLE`, exit 1, with explicit
+    `n_vars MISMATCH: 12592 vs 13220 (Δ=+628, 4.99% > 1.0% threshold)
+    — LIKELY ENCODER-VERSION CONFOUND` finding. Would have caught F368
+    in 100ms had it existed 1 hour ago.
+  - **F369 clean case** (matched 13220-var baseline vs same-encoder
+    injected): `VERDICT: compatible`, exit 0, with soft info note about
+    the injected file's missing header.
+  - **Self-compare**: `compatible (no findings)`, exit 0.
+
+Exit codes: 0 = safe to measure Δ, 1 = confound likely. Use as a
+preflight check before any baseline-vs-treatment cadical/kissat run.
+
+Sixth retraction lesson now closed with a tool, not just a memo. The
+2026-04-30 IPASIR_UP_API.md update referenced this exact discipline:
+"`wc -l` + `p cnf` + encoder-version cross-check before any Δ" —
+diff_cnf.py automates exactly that triple-check.
+
+Filed in `headline_hunt/infra/` next to audit_cnf.py and append_run.py;
+no integration with audit_cnf.py yet (separate single-file tool keeps
+audit clean). Future iteration could add an `--also-diff <baseline>`
+flag to audit_cnf.py if usage warrants.
