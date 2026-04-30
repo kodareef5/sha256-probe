@@ -1,10 +1,44 @@
 ---
 date: 2026-04-29
 bet: cascade_aux_encoding
-status: PENDING_VERIFICATION — original task got SAT, 10-min reproduction got UNKNOWN
+status: CLOSED 2026-04-30 — UNREPRODUCED_PENDING_EVIDENCE; no model artifact preserved, no further chase
 ---
 
 # F349: m17454e4b/bit29 sr60 aux_expose SAT — pending longer verification
+
+## CLOSURE 2026-04-30 (per user direction)
+
+After F353 consumed 12 user-approved CPU-hours (4h × 3 runs: kissat
+baseline, kissat + injected clauses, cadical baseline) on the same
+F349 CNF — all 3 returned UNKNOWN — the original SAT report has
+NOT been reproduced. The original bg-task run did not preserve a
+model, proof, or solver-output log; only an exit signal and a single
+`s SATISFIABLE` line.
+
+User direction (2026-04-30 ~10:00 EDT): "Do one final exact-reproduction
+run only if it preserves model/proof/output and has a hard cap; otherwise
+close it as unreproduced pending evidence. No open-ended SAT chasing
+from a lost model."
+
+**Closure decision:** no model artifact exists to reproduce. No further
+compute should be invested chasing this lead. F349 is **CLOSED as
+UNREPRODUCED_PENDING_EVIDENCE**.
+
+If the bg-task SAT report was real, it would re-emerge from the same
+CNF under sufficient compute. The 12h cross-solver budget already
+consumed represents a solid negative; any further investigation gates
+on a NEW model preservation pipeline (kissat/cadical with `--proof`
+output captured to disk before the solver exits), not on retrying the
+same instance.
+
+CLAIMS.md was correctly NOT updated when the original bg-task fired
+SAT; nothing to retract. The PENDING status is replaced with this
+formal closure.
+
+---
+
+## Original PENDING memo (preserved for the record)
+
 
 ## What happened
 

@@ -757,3 +757,47 @@ Shipped:
   - 3 preflight JSONs in /tmp
   - 9-cand kbit-polarity table for future cross-reference
   - 1 falsified hypothesis (F340) + 1 tentative replacement (HW-parity)
+
+## ~10:30 EDT — User direction received: bridge-guided block2_wang. Executing.
+
+User direction (verbatim summary):
+  1. F349: close as UNREPRODUCED_PENDING_EVIDENCE; no model preserved
+  2. Phase 2D propagator: NOT now; gate on bridge-cube harness
+  3. MAIN: combine F374 + yale F378-F384 into bridge-guided block2 toolchain
+  4. Concrete deliverables (5):
+     #1 bridge_score.py: c/g cancellation, abef load, da≠de, D61/guard,
+        W57[22:23] bridge polarity
+     #2 validate against held-out corpora (rank known sub-65/sub-60 over controls)
+     #3 block2_bridge_beam.py: beam over bit3/bit2/bit28 + 1 control
+     #4 bridge assumption cubes + identical short solver probes
+     #5 cross-cand learned clause clustering
+  5. Cleanup: stale shells (none running), dashboard audit-failure split
+
+Shipped this hour:
+  - F349 CLOSED (status: UNREPRODUCED_PENDING_EVIDENCE) — no further chase
+  - dashboard audit-failure-rate split: real failures 0.00% vs intentional
+    --allow-skip 51 (2.90%) — explanation in dashboard.md, summarize_runs.py
+    updated to track them separately going forward
+  - **F378 deliverable #1: bridge_score.py (~250 LOC, stdlib only)**
+    Validated on full 447k corpus:
+      Hard rejects: **17.61%** of records (78,745 — the F377 bridge polarity
+                    filter is doing real work)
+      F371 sub-floor cands rank in top 30 of 368,533 accepted records
+        (top 0.01%):
+          bit2_ma896ee41:  rank #2  (score 49.59 hw=57)
+          bit28_md1acca79: rank #4  (score 48.29 hw=67)
+          bit3_m33ec77ca:  rank #11 (score 45.17 hw=63)
+          bit13_m4e560940: rank #30 (score 42.41 hw=68)
+      **New lead surfaced**: bit13_m916a56aa_fillffffffff scores #1
+        (57.92, hw=59) — NOT in F374 dominator set, NOT in F371 sub-floor.
+        Score is high because c/g are unusually light relative to a/b/e/f
+        at this HW. Worth direct verification.
+
+bridge_score.py is a different signal from extract_top_residuals.py:
+the former captures structural asymmetry; the latter ranks by hw_total.
+bit3 HW=55 (lowest absolute) ranks #11 because its c/g (HW 8, 9) aren't
+the most asymmetric. Correct selector behavior.
+
+Deliverables #2-#5 queued. Progress unit per direction: "a new bridge
+selector, a falsified selector, or a generalized learned clause". This
+hour shipped a new bridge selector + validated.
