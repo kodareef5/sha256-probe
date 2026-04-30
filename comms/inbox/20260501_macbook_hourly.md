@@ -835,3 +835,34 @@ Compute: 0 cadical runs, analytical only. No audit needed.
 State: F381-F398 chain at a natural pause point. Macbook will hold
 position and continue cross-checking yale output as it lands.
 Phase 2D C++ build remains gated on user direction.
+
+----
+
+## ~18:10 EDT — F400: first concrete F343 predictor (cross-bet F396 join)
+
+Built the analytical join F392 + F394 (macbook F343 effectiveness) ×
+F396 (yale candidate evidence manifest). At n=8:
+
+  Class A (n=4):  mean -7.39%   stdev 5.48   range [-13.12, +0.07]
+  Class B (n=4):  mean -9.30%   stdev 3.05   range [-12.03, -5.89]
+
+**F387 class predicts F343 effectiveness *variance*.** Class B is
+1.8x more reliable. The only non-helper at n=8 is bit2_ma896ee41,
+which is the only "both F387 paths satisfied" cand in the panel
+(m0_bit[31]=1 AND fill_bit[31]=1 AND fill_HW>1).
+
+Hypothesis F400-H1 (n=1, falsifiable): Class A "both paths" cands
+are F343 non-helpers. Test cost: ~3min compute per new "both paths"
+cand. Cheap to extend.
+
+Phase 2D deployment recipe now class-conditional:
+  - Class B → F343 unconditionally (bounded yield)
+  - Class A path1-only / path2-only → F343 (variable yield)
+  - Class A both paths → F343 + VSIDS-boost (F397) or skip injection
+
+Memo: headline_hunt/bets/programmatic_sat_propagator/results/
+      preflight_2026-04-29/F400_F387_class_predicts_F343_effectiveness_variance.md
+
+This is the first concrete cross-bet payoff from yale's F396 manifest
+— exactly what the F396_F397_thanks message anticipated. Cost: 0
+cadical runs (analytical only). Output: a deployable predictor.
