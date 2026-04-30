@@ -344,3 +344,65 @@
     separate a57_delta=-1 terrace that raises defect57 to HW16. Random affine prefix-gauge repair has full rank but
     high-Hamming corrections and did not land.
     Open: carry-bit compensation that also preserves/repairs the message-space a57 guard?"
+
+- id: math_principles_calibration
+  name: "Math principles → measurement and triage tools"
+  headline_if_success: A principles-derived predictor identifies headline-class candidates that empirical search alone misses
+  hypothesis: |
+    The April 2026 math-principles framework (REM/tail-law fits, influence priors,
+    submodular selectors, carry-invariant audits) can be turned into checkable tools
+    that consume existing repo artifacts. Some subset of these tools should produce
+    a predictor with prescriptive (not just descriptive) power on block2_wang
+    absorber search and singular_chamber_rank basin geometry.
+  structural_basis:
+  - REM/tail-law: distribution of low-score absorber states should follow extreme-value statistics if active-word interactions are independent enough
+  - Influence priors: per-active-word marginal contributions to score should be empirically measurable from existing F100-class corpora
+  - Submodular selectors: greedy active-word selection should outperform random sampling if the score function has diminishing returns
+  - Carry-invariant audit: hard-core/carry-invariance from sr60/sr61 stability artifacts should be representable as a small set of equational constraints
+  - Strict-kernel basin search: yale's F378-F384 chain produced the W57[22:23] bridge-clause UNSAT pair empirically reproduced by macbook F339-F341
+  status: in_flight
+  priority: 5
+  expected_info_per_cpu_hour: high
+  dependencies:
+  - Existing block2_wang absorber-score corpus (F100/F132/F135/F153/F159/F160 datasets)
+  - Existing singular_chamber_rank chamber-seed Pareto fronts
+  - Existing sr60/sr61 stability artifacts in cascade_aux_encoding/results
+  next_action: |
+    Yale to refresh BET.yaml/kill_criteria.md (both currently scaffolded by
+    macbook 2026-04-30) with real values. Then yale to ship the next iteration
+    after F384 — the W57 bridge-clause target macbook acknowledged in
+    `comms/inbox/20260430_macbook_to_yale_F367_chain_thanks_F378_enabled.md`
+    has been operationalized on the macbook side; yale's natural follow-up is
+    to extend the bridge-cube CDCL chain or move to the next math-principles
+    tool from the README's stated v2 manifest direction.
+  evidence_for:
+  - bets/math_principles/README.md
+  - bets/math_principles/results/  # 100+ result memos, F340-F384 chain
+  - comms/inbox/20260429_yale_to_macbook_F378_F384_bridge_clause_target.md
+  - comms/inbox/20260430_macbook_to_yale_F367_chain_thanks_F378_enabled.md
+  evidence_against:
+  - None recorded yet — bet has not yet hit a published kill_criteria threshold
+    (kill_criteria.md is currently scaffolded as TBD by macbook 2026-04-30)
+  kill_criteria:
+  - "[SCAFFOLDED 2026-04-30 by macbook; yale to replace] REM/tail-law predictive R² < 0.3 on out-of-sample candidates added after fit construction."
+  - "[SCAFFOLDED 2026-04-30 by macbook; yale to replace] Submodular-greedy active-word selection no better than uniform-random masks at finding low-score absorbers (within ±1σ across 5 cands)."
+  - "[SCAFFOLDED 2026-04-30 by macbook; yale to replace] Strict-kernel basin search produces no novel SAT-class artifact beyond what the macbook IPASIR-UP propagator path produces independently."
+  reopen_criteria:
+  - A math-principles fit predicts a candidate that, when run through block2_wang, yields a score < 80 (current best is 86) — would indicate prescriptive (not just descriptive) power.
+  - Yale's bridge-cube design produces a SAT model that solver-only search has not reached.
+  - A new abstraction (sub-corpus structure, hidden symmetry) emerges from the principles framework that was not visible to direct empirical search.
+  owner: yale
+  last_updated: '2026-04-30'
+  notes: |
+    Bet was created by yale on 2026-04-29 (commit ef27a8e) and has been
+    actively populated with ~50 yale commits and 100+ result memos through
+    2026-04-29. The yale F378-F384 chain produced the W57[22:23] bridge-clause
+    UNSAT pair that seeded macbook's F339-F369 propagator chain (clean −9.10%
+    σ=2.68% conflict reduction at 60s budget on aux_force sr=60). This is the
+    cleanest cross-machine flywheel produced this 2-day arc.
+
+    This mechanism entry was scaffolded by macbook 2026-04-30 to close the
+    discipline gap — yale's bet directory was actively producing results but
+    had no mechanisms.yaml entry, no BET.yaml, and no runs.jsonl entries.
+    Yale should review and replace placeholder values (priority, budget,
+    kill_criteria) with real ones.

@@ -1,0 +1,70 @@
+mechanism_id: math_principles_calibration
+priority: 5
+status: in_flight
+owner: yale
+machines_assigned: [yale]
+compute_budget_cpu_hours: 50  # TBD — yale to set; this is a placeholder
+cpu_hours_spent: 0  # TBD — yale to track via append_run.py going forward
+
+current_progress: |
+  Bet directory `headline_hunt/bets/math_principles/` was created by yale on
+  2026-04-29 (commit ef27a8e: "Implement math principles triage slice") and
+  has been actively populated with ~50 yale commits and >100 result memos
+  through 2026-04-29 (latest commit 746f27b: "Share W57 bridge clause target").
+
+  This BET.yaml was SCAFFOLDED by macbook 2026-04-30 to close a registry
+  discipline gap — yale's bet directory was actively producing F340-F384
+  results but had no BET.yaml entry, no mechanisms.yaml entry, and no runs
+  in registry/runs.jsonl. The `math_principles` directory was the only
+  bet directory missing both BET.yaml and kill_criteria.md.
+
+  Yale's actual scope (inferred from the README + 100+ result memos):
+    - REM/tail-law fitting on block2 absorber-search scores
+    - Empirical influence priors over active words/pairs
+    - Hard-core / carry-invariant audits from sr=60/sr=61 stability artifacts
+    - Submodular mask selection + calibration scans
+    - Cluster atlas construction + radius-1 basin walks
+    - Pareto-front continuation atlases (chamber-seed linear lifts)
+    - Kernel-safe basin search + bridge-cube CDCL conflict-guided design
+    - The F378-F384 chain that produced the W57[22:23] bridge-clause UNSAT
+      pair empirically confirmed by macbook's F339-F341 the next day
+
+  Cross-bet relationships:
+    - block2_wang: math_principles consumes block2 absorber-score corpora
+      (REM tail-law fitting), feeds back submodular-prioritized active-word
+      sets that block2 search uses as starting points.
+    - singular_chamber_rank: math_principles reuses chamber-seed Pareto
+      fronts; F378 strict-kernel depth-2 beam came out of this overlap.
+    - programmatic_sat_propagator (macbook): yale's F378-F384 bridge-clause
+      target seeded macbook's F339-F369 propagator chain (clean −9.10%
+      σ=2.68% conflict reduction at 60s budget, F369). Direct cross-machine
+      flywheel.
+
+  Status as of 2026-04-29 (last yale commit):
+    - F378-F384 chain shipped (yale)
+    - W57 bridge clause target identified (yale F384)
+    - Forwarded to macbook for cross-confirmation (received F339-F341)
+    - Bet stays in_flight; yale's next iteration not yet announced
+
+last_heartbeat: '2026-04-29T16:55:00Z'  # last yale commit timestamp; yale to refresh
+heartbeat_interval_days: 7
+audit_required: false  # math_principles tools consume existing artifacts; no new CNFs
+
+scaffold_notes_2026-04-30: |
+  This BET.yaml entry was created by macbook 2026-04-30 (post-cd30628) to
+  close the registry-discipline gap. Yale should:
+
+  1. Verify owner / machines_assigned correctness.
+  2. Set compute_budget_cpu_hours to a real value (current 50 is placeholder).
+  3. Backfill cpu_hours_spent from yale-side telemetry if available.
+  4. Decide whether yale wants append_run.py-class logging for the
+     math_principles tools (most consume existing artifacts, so logging
+     may not be applicable; current `audit_required: false` reflects that).
+  5. Write `kill_criteria.md` (also scaffolded as TBD-only by macbook).
+  6. Add a `recent_progress_*` block when ready.
+  7. Refresh `last_heartbeat`. macbook used the timestamp of yale's last
+     commit (2026-04-29T16:55 EDT) as a proxy.
+
+  All scaffold values are clearly marked. Nothing destructive: yale's
+  100+ result memos and 50+ commits are unaffected. The bet is now
+  registered, discoverable via validate_registry, and the gap is closed.

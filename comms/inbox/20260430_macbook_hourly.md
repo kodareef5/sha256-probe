@@ -387,3 +387,49 @@ PyYAML's default formatting (single quotes, different line-wrap width).
 Content preserved verbatim — validate_registry confirms. The
 re-formatting is a one-time normalization; future edits via the same
 tool will produce minimal diffs against this baseline.
+
+## ~07:15 EDT — math_principles bet was UNDOCUMENTED in the registry
+
+While surveying bets for SPEC/kill_criteria coverage, found that
+**`headline_hunt/bets/math_principles/`** had:
+  - 50+ yale commits
+  - 100+ result memos (F340-F384 chain)
+  - README.md with full scope description
+  - **NO BET.yaml**
+  - **NO kill_criteria.md**
+  - **NO mechanisms.yaml entry**
+  - 0 entries in runs.jsonl
+
+This is yale's bet — directory created 2026-04-29 by yale (commit
+ef27a8e: "Implement math principles triage slice"). The F378-F384
+chain that seeded macbook's F339-F369 propagator work is also in this
+bet's results/ directory. The cross-machine flywheel was real but the
+bet itself was invisible to discipline tooling.
+
+Scaffolded the missing files with clear `[SCAFFOLDED 2026-04-30 by
+macbook; yale to replace]` markers on every placeholder value:
+
+  - `headline_hunt/bets/math_principles/BET.yaml`: owner=yale,
+    in_flight, last_heartbeat=2026-04-29T16:55Z (yale's last commit
+    timestamp), heartbeat_interval_days=7, audit_required=false (most
+    math_principles tools consume existing artifacts), placeholder
+    compute_budget=50 CPU-h, scope summary inferred from README.
+
+  - `headline_hunt/bets/math_principles/kill_criteria.md`: three
+    placeholder kill criteria (REM tail-law predictive R²<0.3,
+    submodular vs random no-better-than, strict-kernel basin no novel
+    SAT) + three reopen triggers. All clearly marked TBD.
+
+  - `headline_hunt/registry/mechanisms.yaml`: added new entry
+    `math_principles_calibration`. Required fields populated; placeholder
+    kill_criteria/reopen_criteria duplicated from kill_criteria.md.
+
+  - `comms/inbox/20260430_macbook_to_yale_math_principles_BET_scaffolded.md`:
+    HEADS_UP message to yale with explicit checklist of placeholders to
+    review/replace. Nothing destructive — purely additive scaffolding.
+
+`validate_registry.py`: 0 errors, 0 warnings post-scaffolding. The bet
+is now discoverable, the discipline gap is closed, and yale gets a
+clear hand-off note. If yale prefers different placeholders or
+completely different kill criteria, the markers make it obvious which
+fields are macbook's guesses vs yale's content.
