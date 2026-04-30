@@ -1314,3 +1314,23 @@ Commit: [next] (F359 full sweep).
 F353 verification at 117 min/240 min, no SAT.
 
 Commit: [next] (F360 retraction).
+
+
+## ~01:00 EDT (Apr 30) — F361: IPASIR_UP_API.md updated with real F343-F360 measurements
+
+- Extended propagators/IPASIR_UP_API.md with 2026-04-30 update
+  documenting empirical envelope from F347-F360 sequence.
+- Honest revision of F327's 2-5x speedup projection:
+    F347 aux_force 32 clauses: -13.7% (best)
+    F348 aux_force 2 clauses: -8.8% mean
+    F352 aux_expose 2 clauses: -1.06%
+    F360 basic_cascade 130 clauses: -0.79% (worst — F235 measurement)
+- F360 retraction integrated: F358's claimed -2.1% was buggy CNF.
+- Phase 2D reopen criterion REVISED: 2x is unrealistic for CNF-only;
+  native-hook injection might hit ~1.16x via F347-class speedup.
+- For Phase 2D implementer: concrete recommendations + reopen gate updated.
+
+F353 verification at 122/240 min, no SAT yet. SAT-detection monitor
+re-armed (60 min more).
+
+Commit: [next] (F361 doc update).

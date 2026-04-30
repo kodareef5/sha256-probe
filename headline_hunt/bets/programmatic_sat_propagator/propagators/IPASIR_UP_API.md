@@ -530,3 +530,95 @@ motivated by empirical evidence on multiple cands.
 If/when reopened: implement 2D + 2D' as the FIRST cycle (one combined
 ship of cb_decide + cb_add_external_clause). The Phase 2E cb_propagate
 direction is no longer recommended as a primary path.
+
+## 2026-04-30 update: F343-F360 empirical envelope (real measurements)
+
+### Summary
+
+Between 2026-04-29 (F343) and 2026-04-30 (F360), the projected speedups
+from F327's design were empirically measured. The 2026-04-29 update
+projected "2-5x speedup on TRUE sr=61 N=32 instances ... 1-2x on hard
+F235-class". The actual measurements are MUCH smaller.
+
+### Real measurements
+
+| Probe | Mode | Cand | Clauses | Speedup |
+|---|---|---|---:|---:|
+| F347 | sr=60 aux_force | bit31 m17149975 | 32 | -13.7% |
+| F348 | sr=60 aux_force | 5 cands mean | 2 | -8.8% |
+| F352 | sr=60 aux_expose | bit29 m17454e4b | 2 | -1.06% |
+| F360 | sr=61 basic_cascade | bit25 m09990bd2 | 130 | **-0.79%** |
+
+The F360 measurement is on the F235 reopen-target instance specifically.
+
+### F358 retraction note
+
+An earlier draft (F358) reported -2.1% on F235 with 6 mined clauses.
+F360 caught a CNF-encoding bug in F358's OR-of-XOR clauses (wrong
+polarities). The bug was that F358's 4 clauses for forbidden=(0,0)
+DID NOT actually forbid the (W1[i]=W2[i] AND W1[j]=W2[j]) polarity.
+Truth-table check confirmed.
+
+After fix: F360 with 130 correctly-encoded clauses gives -0.79%.
+
+### Sharpened mode-dependence (per F356)
+
+Same F343-mined clauses for the same cand are IDENTICAL across
+sr=60/sr=61 force-mode AND across force/expose modes (F354/F355/F356).
+But injection EFFECT differs by encoder:
+
+- aux_force: -8.8% to -13.7% (F347, F348)
+- aux_expose: -1.06% (F352)
+- basic_cascade: -0.79% (F360)
+
+The basic-cascade encoder gives the smallest CNF-injection benefit.
+For F235 (basic cascade, sr=61), CNF-only injection is structurally
+near-noise.
+
+### Why CNF-only injection underperforms on basic cascade
+
+In aux_force mode, the encoder allocates 481 cascade-offset AUX
+variables (Tseitin chains for the cascade-1 hardlock subtractor). The
+2 mined clauses serve as "shortcut hints" guiding CDCL through this
+dense AUX zone — high marginal value.
+
+In basic cascade mode, there are NO aux dW57 variables. The mined
+constraint "(dW57[i], dW57[j]) forbidden=(va, vb)" must be re-expressed
+as a 4-literal OR-of-XOR over W1[i], W2[i], W1[j], W2[j]. This:
+- Is propagation-slower (4-literal clauses are weaker units)
+- Requires 4 clauses per pair (vs 1 in aux_force) → 124 added clauses
+  contribute more per-conflict overhead than they save in pruning
+
+NATIVE injection via IPASIR-UP `cb_add_external_clause` would inject
+the constraint as native 2-literal aux clauses (or as decision
+priorities) — bypassing the basic-cascade overhead. Projected speedup
+on F235 with NATIVE injection: F347-class ~13.7%, NOT F360's 0.79%.
+
+### Updated reopen criterion gate
+
+Phase 2D propagator's reopen test target was "≥2x speedup on F235".
+The F360 measurement strongly suggests that CNF-only injection cannot
+hit 2x (the gap from -0.79% to 2x is enormous).
+
+The ACTUAL Phase 2D test must be IPASIR-UP native-hook injection. If
+that gives ≥2x on F235, reopen is justified. If only ~13.7% (per F347
+projection), reopen with revised criterion (~1.16x speedup, not 2x).
+
+### Concrete recommendations for Phase 2D implementer
+
+1. Use cadical 3.0.0 IPASIR-UP API (already characterized in this doc).
+2. Pre-load Class 1a-univ unit clauses + Class 2-univ pair clauses via
+   `cb_add_external_clause` at solver init.
+3. Use `cb_decide` to prioritize branching on F286 132 universal-core
+   bits (mode-agnostic).
+4. Test on F235 first. If ≥1.16x speedup measured, proceed to other
+   sr=61 cands. If <1.1x, scope expansion or kill bet.
+
+### Discipline note
+
+This update reflects actual empirical measurement (F347-F360 sequence).
+The 2026-04-29 update's "2-5x" projection was overly optimistic by
+~2-10x. Honest revision: realistic CNF-only injection is ~1% on basic
+cascade, ~10-15% on aux_force; native-hook injection should match
+aux_force gains.
+
