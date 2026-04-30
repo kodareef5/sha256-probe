@@ -75,7 +75,54 @@ current_progress: |
   = 72 CNFs, all CONFIRMED. Bet remains characterized (Mode B 2-3.4× front-
   loaded preprocessing, not a path to cascade-DP SAT discovery).
 
-last_heartbeat: "2026-04-30T02:25:00Z"
+last_heartbeat: "2026-05-01T17:30:00Z"
+recent_progress_2026-05-01_F381_F395_xor_ladder_chain: |
+  2026-05-01: 16-memo F381-F395 chain on cadical CDCL proof structure.
+
+  STRUCTURAL FINDING (F381-F388, anchored at n=16):
+    cadical's CDCL proof on aux_force sr=60 contains a 31-rung Tseitin
+    XOR ladder iff (m0_bit[31]=1) OR (fill_bit[31]=1 AND fill_HW > 1).
+    Class A (ladders): 51 of 67 registry cands (76%). Universal shape;
+    only per-cand var-base offsets differ.
+
+  APPLICATIONS TESTED:
+    F389 deployable spec: bridge_preflight_extended.py packages the
+      F387 rule + F384 ladder mining as a Phase 2D pre-injection tool.
+      Output: JSON with F343 baseline (always) + F384 ladder (Class A).
+    F389 SPEEDUP CLAIM FALSIFIED at n=3 cands (F390 + F391):
+      Ladder pre-injection HURTS by 2.5-9.3pp vs F343 alone.
+      Mechanism: ladder is Tseitin-redundant; CDCL discovers it for
+      free in first 12k of 1.4M proof lines; pre-injection adds
+      watch-list overhead that compounds across 1.5M conflicts.
+
+  MECHANISM (F392-F395, n=4 cands cadical --stats):
+    F343 clauses propagate on ALL cands (+5-34% propagations). But
+    only PRUNE when cadical's VSIDS reaches the F343-constrained vars
+    (dW57[0], W57[22:23]). bit2 is the "wasted propagation" outlier.
+    Two-factor model:
+      Factor A: VSIDS reaches constrained vars? (binary; bit2=NO)
+      Factor B: When reached, conflict-trigger yield? (graded; bit3=0.68)
+    Clause-count axis exhausted: F344 32-clause variant gives only
+    +1.4pp marginal over F343's 2 clauses on bit2.
+
+  RE-EXAMINED F347 HEADLINE: F347's reported -13.7% on bit31 with F344
+  was mostly F343's contribution (F343 alone gives -13.12% on bit31).
+  F344's marginal benefit is just 0.6-1.4pp across cands tested.
+  F347 wasn't showing a unique F344 benefit.
+
+  PHASE 2D PRE-INJECTION DESIGN (locked):
+    F343 baseline (2 clauses): apply universally → ~-7-9% mean
+    NOT F344 (32 clauses): 32x mining cost, 1-3pp marginal
+    NOT F384 ladder: falsified
+    VSIDS-boost intervention (F394 proposal): only remaining
+      mechanism-aligned axis. Requires C++ propagator instrumentation.
+
+  Compute summary: ~1500s cadical, 33 commits, 16 memos, ~12 hours.
+
+  Yale comms shipped (20260501_macbook_to_yale_F381_F395_chain_summary.md)
+  with structural finding + falsified application + open questions
+  (VSIDS-boost; Factor B yield variance; algebraic derivation).
+last_heartbeat_old_2026-04-30: "2026-04-30T02:25:00Z"
 recent_progress_2026-04-30_F341_F363_propagator_chain: |
   Late-evening Apr 29 → early Apr 30 substantive structural arc.
   Built on yale F378-F384 conflict-guided cube + UNSAT minimization.

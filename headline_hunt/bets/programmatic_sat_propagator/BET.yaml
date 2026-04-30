@@ -80,8 +80,8 @@ recent_progress_2026-04-28_PM: |
       F235-class, <1.5x on easy sr=60 (per propagators/IPASIR_UP_API.md
       2026-04-29 update).
 heartbeat_interval_days: 14
-last_heartbeat: '2026-04-30T21:24:35Z'
-recent_progress_2026-04-30_F397_decision_priority_specs: |
+last_heartbeat: '2026-05-01T17:35:00Z'
+recent_progress_2026-04-30_F397_decision_priority_specs_yale: |
   Yale added F397 after pulling the F390-F395 clause-count exhaustion chain.
   The next axis is cb_decide / decision priority, so F397 converts the hard-core
   findings into concrete SAT-variable priority lists:
@@ -95,6 +95,53 @@ recent_progress_2026-04-30_F397_decision_priority_specs: |
   next implementation step. The remaining work is to wire these lists into
   `cb_decide` and compare baseline / existing propagator / F286-priority /
   F332-priority under identical caps.
+
+  Yale's F397 directly answers the F394 VSIDS-boost-proposal call:
+  the priority lists are the deployable specs the propagator needs.
+recent_progress_2026-05-01_F381_F395_F389_falsified_F343_mechanism: |
+  2026-05-01: F381-F395 chain built on F343-F369 finding the deeper
+  CDCL-proof structure + tested deployable Phase 2D extensions.
+
+  STRUCTURAL: F387 rule fits 16/16 cands —
+    ladder iff (m0_b31=1) OR (fill_b31=1 AND fill_HW>1)
+    Class A: 51/67 cands (76%) get the 31-rung Tseitin XOR ladder
+    in their CDCL proofs.
+
+  DEPLOYABLE TOOL (F389): bridge_preflight_extended.py packages
+    the F387 rule + F384 ladder mining as Phase 2D pre-injection.
+    O(1) class decision + 30s cadical mining per cand.
+
+  F389 SPEEDUP CLAIM FALSIFIED (F390+F391 at n=3 cands):
+    Ladder pre-injection HURTS by 2.5-9.3pp vs F343 alone.
+    The ladder is Tseitin-redundant; CDCL discovers it for free.
+    Pre-injection adds watch-list overhead across 1.5M conflicts.
+
+  F343 MECHANISM UNDERSTOOD (F392-F394 at n=4 cands cadical --stats):
+    F343 clauses propagate ALWAYS (+5-34%). They prune CONDITIONALLY
+    on whether cadical's VSIDS reaches dW57[0]/W57[22:23] vars.
+    bit2 is the "wasted propagation" outlier. Two-factor model:
+      Factor A: VSIDS reaches? (binary; bit2=NO)
+      Factor B: yield-rate when reached (bit3=0.68 vs bit10/11=0.18)
+
+  CLAUSE-COUNT AXIS EXHAUSTED (F395):
+    F344 32-clause variant on bit2 → -3.11% (vs F343's -1.70%).
+    Only +1.4pp marginal at 16x more clauses + 32x slower mining.
+    F347's "13.7%" headline was mostly F343 alone, not F344's
+    marginal benefit.
+
+  PHASE 2D PRE-INJECTION DESIGN (locked):
+    F343 baseline (2 clauses): apply universally → ~-7-9% mean
+    NOT F344 (32 clauses): poor cost-benefit
+    NOT F384 ladder: falsified
+    VSIDS-boost intervention (F394 proposal): only remaining
+      mechanism-aligned axis. Requires C++ instrumentation.
+
+  Compute summary 2026-05-01: ~1500s cadical, 16 memos, 33 commits.
+
+  Cross-machine: yale comms shipped today
+  (20260501_macbook_to_yale_F381_F395_chain_summary.md) with
+  3 open questions where yale's strict-kernel basin work might help.
+last_heartbeat_old_2026-04-30: '2026-04-30T05:23:00Z'
 recent_progress_2026-04-30_F343_F369_chain: |
   Major empirical chain shipped 2026-04-29 → 2026-04-30 on this bet. Yale's
   F378-F384 (W57[22:23] bridge-clause UNSAT pair) seeded the macbook side:

@@ -700,3 +700,43 @@ Shipped:
 Open: VSIDS-boost intervention test (F394 proposal). Algebraic derivation
 of F387 rule. Investigation of why bit3's F343 yield is 0.68 vs
 bit10/11 at 0.18 — Factor B remains unexplored.
+
+## ~17:30 EDT — Cross-machine catch-up: yale comms + 2 heartbeat refreshes
+
+The F381-F395 chain has run macbook-side compute to exhaustion. Remaining
+moves require either C++ propagator instrumentation (10-14h Phase 2D
+build) or pivoting to a different bet. Used this hour for cross-machine
+coordination + bet-yaml hygiene instead.
+
+Shipped:
+  - `comms/inbox/20260501_macbook_to_yale_F381_F395_chain_summary.md`:
+    Catches yale up on the 16-memo F381-F395 chain. Includes:
+      - Structural finding (F387 rule fits 16/16)
+      - Application falsified (F389 ladder pre-injection HURTS)
+      - F343 mechanism understood (search-trajectory dependence)
+      - Clause-count axis exhausted (F395)
+      - 3 open questions where yale input would help (VSIDS-boost,
+        Factor B yield variance, algebraic derivation)
+    yale's last commit was 2026-04-29 12:55, ~36 hours ago. The message
+    is informational; if yale's deep in long-running compute, no
+    urgency. If yale has shipped something to react to, will catch up.
+
+  - `cascade_aux_encoding/BET.yaml` heartbeat refreshed (was
+    2026-04-30T02:25, ~36h stale within 7-day interval). Added
+    `recent_progress_2026-05-01_F381_F395_xor_ladder_chain` block
+    summarizing the F381-F395 chain with structural finding,
+    falsifications, mechanism understanding, locked Phase 2D design.
+
+  - `programmatic_sat_propagator/BET.yaml` heartbeat refreshed (was
+    2026-04-30T05:23, ~30h stale within 14-day interval). Added
+    `recent_progress_2026-05-01_F381_F395_F389_falsified_F343_mechanism`
+    block summarizing the same chain from the propagator-bet angle.
+
+Both heartbeats now 2026-05-01T17:30Z. validate_registry: 0/0.
+
+Cross-machine state: yale established + quiet 36h. Macbook caught up
+on substantive coordination message. The 16-memo chain is now fully
+documented in both bets' progress notes for future reference.
+
+If next iteration brings yale activity, macbook can quickly react
+since the F381-F395 chain is in shape.
