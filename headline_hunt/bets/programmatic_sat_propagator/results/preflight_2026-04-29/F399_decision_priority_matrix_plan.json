@@ -1,0 +1,110 @@
+{
+  "binary": "/tmp/F399_cascade_propagator",
+  "compile_command": [
+    "g++",
+    "-std=c++17",
+    "-O2",
+    "-I/opt/homebrew/include",
+    "-I/usr/local/include",
+    "-L/opt/homebrew/lib",
+    "-L/usr/local/lib",
+    "/home/yale/sha256_probe/headline_hunt/bets/programmatic_sat_propagator/propagators/cascade_propagator.cc",
+    "-lcadical",
+    "-o",
+    "/tmp/F399_cascade_propagator"
+  ],
+  "conflicts": 50000,
+  "missing_inputs": [
+    {
+      "candidate": "bit11_m45b0a5f6_fill00000000",
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit11_m45b0a5f6_fill00000000.cnf",
+      "missing_cnf": true,
+      "missing_varmap": true,
+      "varmap": null
+    },
+    {
+      "candidate": "bit13_m4d9f691c_fill55555555",
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit13_m4d9f691c_fill55555555.cnf",
+      "missing_cnf": true,
+      "missing_varmap": true,
+      "varmap": null
+    },
+    {
+      "candidate": "bit0_m8299b36f_fill80000000",
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit0_m8299b36f_fill80000000.cnf",
+      "missing_cnf": true,
+      "missing_varmap": true,
+      "varmap": null
+    },
+    {
+      "candidate": "bit17_m427c281d_fill80000000",
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit17_m427c281d_fill80000000.cnf",
+      "missing_cnf": true,
+      "missing_varmap": true,
+      "varmap": null
+    },
+    {
+      "candidate": "bit18_m347b0144_fill00000000",
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit18_m347b0144_fill00000000.cnf",
+      "missing_cnf": false,
+      "missing_varmap": true,
+      "varmap": null
+    }
+  ],
+  "mode": "dry_run",
+  "priority_spec": "headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/F397_decision_priority_specs.json",
+  "report_id": "F399",
+  "runnable_candidates": [
+    {
+      "candidate": "bit10_m3304caa0_fill80000000",
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit10_m3304caa0_fill80000000.cnf",
+      "commands": [
+        {
+          "arm": "baseline_no_propagator",
+          "cmd": [
+            "/tmp/F399_cascade_propagator",
+            "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit10_m3304caa0_fill80000000.cnf",
+            "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit10_m3304caa0_fill80000000.cnf.varmap.json",
+            "--conflicts=50000",
+            "--no-propagator"
+          ]
+        },
+        {
+          "arm": "existing_propagator",
+          "cmd": [
+            "/tmp/F399_cascade_propagator",
+            "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit10_m3304caa0_fill80000000.cnf",
+            "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit10_m3304caa0_fill80000000.cnf.varmap.json",
+            "--conflicts=50000"
+          ]
+        },
+        {
+          "arm": "priority_f286_132",
+          "cmd": [
+            "/tmp/F399_cascade_propagator",
+            "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit10_m3304caa0_fill80000000.cnf",
+            "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit10_m3304caa0_fill80000000.cnf.varmap.json",
+            "--conflicts=50000",
+            "--priority-spec=/home/yale/sha256_probe/headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/F397_decision_priority_specs.json",
+            "--priority-set=f286_132_conservative",
+            "--priority-candidate=bit10_m3304caa0_fill80000000"
+          ]
+        },
+        {
+          "arm": "priority_f332_139",
+          "cmd": [
+            "/tmp/F399_cascade_propagator",
+            "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit10_m3304caa0_fill80000000.cnf",
+            "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit10_m3304caa0_fill80000000.cnf.varmap.json",
+            "--conflicts=50000",
+            "--priority-spec=/home/yale/sha256_probe/headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/F397_decision_priority_specs.json",
+            "--priority-set=f332_139_stable6",
+            "--priority-candidate=bit10_m3304caa0_fill80000000"
+          ]
+        }
+      ],
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit10_m3304caa0_fill80000000.cnf.varmap.json"
+    }
+  ],
+  "source": "headline_hunt/bets/programmatic_sat_propagator/propagators/cascade_propagator.cc"
+}

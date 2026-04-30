@@ -45,6 +45,9 @@ Two possible headlines:
 - [x] **Decision-priority hook wiring.** `cascade_propagator.cc` accepts F397
   priority specs and feeds them into `cb_decide` (F398). Local compile is
   blocked on missing CaDiCaL C++ headers.
+- [x] **Decision-priority matrix runner.** `run_decision_priority_matrix.py`
+  emits the exact four-arm F399 command matrix and runs it when headers are
+  available.
 - [ ] **Decision-priority run matrix.** Run baseline / existing propagator /
   F286-priority / F332-priority under one cap on a header-equipped machine.
 - [ ] **Decision gate.** Reopen only if decision priority gives a material
