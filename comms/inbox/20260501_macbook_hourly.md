@@ -535,3 +535,57 @@ the variance, falsifies the simple structural-feature predictors,
 proposes search-implementation investigation as next-iteration work.
 Per user direction, this is the "documented open mystery" form of
 unit-of-progress — neither a false claim nor a missed observation.
+
+## ~15:30 EDT — F393: cadical --stats supports search-trajectory hypothesis
+
+Ran cadical 60s with --stats=true on bit2 + bit3 × baseline + F343
+(4 conditions, ~4 min CPU). Extracted propagation/conflict/learning
+metrics:
+
+  bit2 baseline → F343:
+    conflicts:    2,331,726 → 2,347,411  (+0.67%, slight increase)
+    propagations: 236,944,236 → 250,184,545  (+5.59%)
+
+  bit3 baseline → F343:
+    conflicts:    2,469,936 → 2,247,794  (-8.99%)
+    propagations: 225,886,123 → 255,825,461  (+13.25%)
+
+**Critical finding: F343 clauses ARE activated on both cands** (visible
+propagation rise). But only bit3 sees conflict reduction. On bit2 the
++5.59% propagations buy ZERO conflict reduction — propagations happen
+but don't prune the search tree.
+
+This SUPPORTS F392 hypothesis (a): search-trajectory dependence. F343
+clauses constrain dW57[0] and W57[22:23] vars. For pruning to work,
+cadical's VSIDS must bring those vars to high decision priority.
+On bit3 it does; on bit2 it doesn't (cadical's search trajectory
+ignores the constrained region).
+
+Falsifies the "F343 doesn't fire on bit2" sub-hypothesis. Activations
+happen — they're just wasted because cadical doesn't decide on the
+relevant branches.
+
+**Phase 2D mechanism-aligned proposal**: extend F343 with VSIDS-bumping
+of dW57[0] + W57[22:23] vars at solver init. Could force cadical to
+consider those branches, potentially extracting F343 benefit on cands
+like bit2 where current F343 doesn't help. Untested but mechanism-
+aligned.
+
+F381 → F393 chain (14 memos, ~9 hours, ~620s cadical compute):
+  Structural finding (F387 ladder rule): REAL
+  Application 1 (ladder pre-injection per F389): FALSIFIED
+  Application 2 (F343 baseline): WORKS but per-cand-variable
+    Mechanism: propagation always works; pruning depends on
+    cadical's VSIDS reaching the constrained vars
+  Phase 2D proposal: VSIDS-boost on F343 target vars (untested)
+
+Shipped:
+  - `bets/programmatic_sat_propagator/results/preflight_2026-04-29/F393_F343_mechanism_propagation_no_pruning_bit2.md`
+  - 4 cadical 60s --stats runs logged via append_run.py
+  - 4 transient logs in /tmp/F393/
+  - dashboard refreshed; validate_registry: 0/0
+
+Open: verify search-trajectory hypothesis at n=2-3 more cands (bit10
+helps -12%, bit11 helps -7% — both should show prop+ AND conflict-
+patterns). And test the VSIDS-boost proposal with cadical's
+--bumpreason or activity-priming. Sub-30-min routine for next session.
