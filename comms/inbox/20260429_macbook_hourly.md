@@ -1258,3 +1258,18 @@ Commit: [next] (F356 mode-invariance).
 F353 verification still running (~62 min/240 min). Will trigger on SAT.
 
 Commit: [next] (F357).
+
+
+## ~00:23 EDT (Apr 30) — F359 launched: full-row sweep on F235 cand
+
+- Launched F344-style full-row sweep on aux_force_sr61 m09990bd2/bit25.
+  Target: ~32 clauses (vs F357's 2). 13min wall.
+- Plan: translate the ~32 mined clauses to F235's basic-cascade vars
+  and re-test injection. Expected: stronger speedup than F358's 2.1%.
+- Per F344 result on bit31 sr60: full-row gave 13.7% vs 2-clause's
+  baseline. Rough projection for F235: 4-6% if scaling holds.
+
+F353 4h verification: ~90 min/240 min, no SAT yet. PIDs 8053/8054/8055
+all active.
+
+Commit: [next] (F359).
