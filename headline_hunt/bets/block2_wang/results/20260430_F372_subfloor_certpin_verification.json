@@ -1,0 +1,97 @@
+{
+  "description": "F372: cert-pin verify F371's 4 sub-floor W-witnesses (persisted CNFs)",
+  "encoder": "cascade_aux_v1_modeA_sr60_expose_certpin",
+  "solvers": [
+    "kissat 4.0.4",
+    "cadical 3.0.0"
+  ],
+  "budget_seconds": 5,
+  "results": [
+    {
+      "cand": "cand_n32_bit3_m33ec77ca_fillffffffff",
+      "short": "bit3_m33ec77ca",
+      "hw_total": 55,
+      "pinned_cnf": "/tmp/F372_bit3_m33ec77ca_certpin.cnf",
+      "enc_wall": 0.06,
+      "pin_wall": 0.03,
+      "solvers": {
+        "kissat": {
+          "status": "UNSAT",
+          "wall": 0.008,
+          "version": "4.0.4"
+        },
+        "cadical": {
+          "status": "UNSAT",
+          "wall": 0.013,
+          "version": "3.0.0"
+        }
+      }
+    },
+    {
+      "cand": "cand_n32_bit2_ma896ee41_fillffffffff",
+      "short": "bit2_ma896ee41",
+      "hw_total": 57,
+      "pinned_cnf": "/tmp/F372_bit2_ma896ee41_certpin.cnf",
+      "enc_wall": 0.06,
+      "pin_wall": 0.03,
+      "solvers": {
+        "kissat": {
+          "status": "UNSAT",
+          "wall": 0.006,
+          "version": "4.0.4"
+        },
+        "cadical": {
+          "status": "UNSAT",
+          "wall": 0.011,
+          "version": "3.0.0"
+        }
+      }
+    },
+    {
+      "cand": "cand_n32_bit28_md1acca79_fillffffffff",
+      "short": "bit28_md1acca79",
+      "hw_total": 59,
+      "pinned_cnf": "/tmp/F372_bit28_md1acca79_certpin.cnf",
+      "enc_wall": 0.05,
+      "pin_wall": 0.03,
+      "solvers": {
+        "kissat": {
+          "status": "UNSAT",
+          "wall": 0.006,
+          "version": "4.0.4"
+        },
+        "cadical": {
+          "status": "UNSAT",
+          "wall": 0.011,
+          "version": "3.0.0"
+        }
+      }
+    },
+    {
+      "cand": "cand_n32_bit13_m4e560940_fillaaaaaaaa",
+      "short": "bit13_m4e560940",
+      "hw_total": 61,
+      "pinned_cnf": "/tmp/F372_bit13_m4e560940_certpin.cnf",
+      "enc_wall": 0.05,
+      "pin_wall": 0.03,
+      "solvers": {
+        "kissat": {
+          "status": "UNSAT",
+          "wall": 0.006,
+          "version": "4.0.4"
+        },
+        "cadical": {
+          "status": "UNSAT",
+          "wall": 0.011,
+          "version": "3.0.0"
+        }
+      }
+    }
+  ],
+  "summary": {
+    "total_runs": 8,
+    "sat_count": 0,
+    "unsat_count": 8,
+    "all_solvers_agree_unsat": true
+  }
+}

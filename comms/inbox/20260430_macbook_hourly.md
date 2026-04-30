@@ -523,3 +523,38 @@ HW=55 is structurally the lowest known cascade-1 residual in the
 project. **Deferring launch to next pulse for explicit go-ahead** since
 this crosses the routine-vs-experimental boundary (4 cert-pin builds
 + 12 solver runs). Documented as proposed move (a) in F371 memo.
+
+## ~08:10 EDT — F372: F371 blind spot CLOSED EMPIRICALLY (4/4 UNSAT)
+
+Ran the F371 follow-up cert-pin verification with full discipline.
+
+  Pipeline per cand: cascade_aux_encoder.py (sr=60, expose) → varmap →
+    build_certpin.py → kissat 5s + cadical 5s. CNFs persisted to /tmp.
+
+  4 cands × 2 solvers = 8 runs, all logged via append_run.py:
+    bit3_m33ec77ca  HW=55  kissat UNSAT 0.01s   cadical UNSAT 0.01s
+    bit2_ma896ee41  HW=57  kissat UNSAT 0.01s   cadical UNSAT 0.01s
+    bit28_md1acca79 HW=59  kissat UNSAT 0.01s   cadical UNSAT 0.01s
+    bit13_m4e560940 HW=61  kissat UNSAT 0.01s   cadical UNSAT 0.01s
+
+  Total wall: ~30s for CNF building, ~0.1s for solver runs.
+
+**All 8 UNSAT — F371's blind-spot lead does NOT contain a single-block
+sr=60 collision.** Cert-pin instances are UP-derivable UNSAT in <0.01s,
+consistent with F100's pattern. F100's conclusion stands.
+
+**Cert-pin coverage now 58/67 cands directly verified (was 54/67):**
+54 from F100 + 4 from F372 = 58. The remaining 9 blind-spot cands
+have HW≥62 (within F100's covered HW range) and can be swept in a
+future iteration to reach 67/67 if desired.
+
+Shipped:
+  - `bets/block2_wang/results/20260430_F372_subfloor_certpin_verification.{md,json}`
+  - 8 entries in `runs.jsonl`
+  - dashboard.md refreshed
+
+The F371 + F372 pair is a clean closure: F371 surfaced the strongest
+single lead the residual corpus had hiding (bit3 HW=55, below F100's
+covered floor); F372 verified within minutes that it's a near-residual,
+not a collision. Discipline-correct, mechanism-relevant, and
+honestly negative.
