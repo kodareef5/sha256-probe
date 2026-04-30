@@ -1334,3 +1334,28 @@ F353 verification at 122/240 min, no SAT yet. SAT-detection monitor
 re-armed (60 min more).
 
 Commit: [next] (F361 doc update).
+
+
+## ~01:58 EDT (Apr 30) — F362: aux_force_sr61 bit25 only -0.46% (noise level)
+
+- Tested F359's 34 mined clauses NATIVELY on aux_force_sr61 m09990bd2/bit25.
+  cadical 5min: 5,348,445 baseline → 5,324,083 injected = -0.46%.
+- Combined with F360's -0.79% on basic-cascade for SAME cand: both
+  ~1% or below — INDISTINGUISHABLE FROM NOISE.
+- F347's 13.7% on bit31 sr60 was an OUTLIER. Cand-specific variance
+  dominates injection benefit.
+- Updated speedup envelope:
+    F347 sr60 aux_force bit31 (32 clauses): -13.7%  ← outlier
+    F348 sr60 aux_force 5-cand mean (2):    -8.8%
+    F352 sr60 aux_expose bit29 (2):         -1.06%
+    F360 sr61 basic_cascade bit25 (130):    -0.79%
+    F362 sr61 aux_force bit25 (34):         -0.46%  ← noise
+- Phase 2D reopen recipe sharpened: F235 (bit25) is NOT ideal test
+  instance — speedup too small. Best candidates for native injection
+  are bit31-class cands where F347 measured the outlier 13.7%.
+- Need controlled test: bit31 m17149975 at sr=61 with native injection
+  to isolate variables (cand vs sr vs mode).
+
+F353 verification at 182/240 min, no SAT yet. Re-arming monitor.
+
+Commit: [next] (F362 noise-level finding + cand-variance reframe).
