@@ -200,3 +200,41 @@ Filed in `headline_hunt/infra/` next to audit_cnf.py and append_run.py;
 no integration with audit_cnf.py yet (separate single-file tool keeps
 audit clean). Future iteration could add an `--also-diff <baseline>`
 flag to audit_cnf.py if usage warrants.
+
+## ~05:55 EDT — negatives.yaml: seed_farming_unchanged_sr61 REOPENED (FIRED trigger)
+
+Reviewed `headline_hunt/registry/negatives.yaml` for any
+`would_change_my_mind` triggers that have been empirically fired but
+not yet reflected in the registry. Found one:
+
+  **seed_farming_unchanged_sr61** (closed 2026-04-20):
+    Trigger: "A new encoding (cascade-aux, XOR preprocessing)
+    demonstrably changes solver conflict count or restart pattern."
+    Status: **FIRED 2026-04-30** by the F347-F369 chain.
+
+The F343 preflight clause-injection produces a measurable −9.10% σ=2.68%
+conflict-count reduction on aux_force sr=60 force-mode at 60s budget
+(F369 5 cands × 3 seeds). That's well outside the seed-variance noise
+floor (σ ≈ 2-3% per F366) and directly satisfies the would_change_my_mind
+condition.
+
+Update: `seed_farming_unchanged_sr61` status → `reopened`, evidence_level
+downgraded `VERIFIED → EVIDENCE`, added `reopened_date: 2026-04-30`,
+`why_reopened` block referencing F347/F348/F366/F369, FIRED tag inline
+on the trigger, and `refined_scope_after_reopen` clarifying the original
+"more SEEDS yield no information" claim still stands at deep budgets
+(5min+, F366 saturation) but is FALSIFIED at short budgets (60s) when
+the encoding is mutated via F343 injection.
+
+Implication: cube-and-conquer pipelines (many short cubes per cand)
+gain ~9% × N cumulative speedup. Single-deep-solve pipelines remain
+effectively unchanged.
+
+Followed the precedent set by `bdd_marginals_uniform` (reopened
+2026-04-26 with refined_scope). Same pattern: original closed claim
+was scope-limited; new evidence falsifies a sub-scope without
+overturning the whole.
+
+`validate_registry.py` post-edit: 0 errors, 0 warnings (after fixing
+mechanism-ID typo `programmatic_sat_propagator` →
+`programmatic_sat_cascade_propagator`).

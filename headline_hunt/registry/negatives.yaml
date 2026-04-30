@@ -146,19 +146,50 @@
 - id: seed_farming_unchanged_sr61
   claim: More seeds on unchanged sr=61 CNF encodings yield no SAT and no information.
   scope: 1800 CPU-hours post-audit on TRUE sr=61 CNFs across 36 seeds.
-  status: closed
-  evidence_level: VERIFIED
+  status: reopened
+  evidence_level: EVIDENCE
   closed_date: '2026-04-20'
+  reopened_date: '2026-04-30'
   evidence_files:
   - writeups/20260420_project_pause_summary.md
+  - headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/F348_cross_cand_injection.md
+  - headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/F366_BUDGET_DEPENDENCE.md
+  - headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/F369_consistent_encoder_replication.md
   why_closed: Solver behavior is qualitatively the same across seeds at this CPU budget; no SAT, no UNSAT signal, no actionable
     timing variance.
+  why_reopened: |
+    The F347-F369 chain (2026-04-29 → 2026-04-30) measured a structural
+    conflict-count reduction from F343 preflight clause injection on
+    aux_force sr=60 force-mode CNFs:
+      F347 (single seed bit31, 32 clauses): -13.7% conflicts (60s budget)
+      F348 (single seed, 5 cands, 2 clauses): -8.78%
+      F368 (3-seed, 5 cands, 2 clauses, encoder-mismatched): -7.44%  [confounded; retracted]
+      F369 (3-seed, 5 cands, 2 clauses, consistent encoder): **-9.10% σ=2.68%**
+      F366 (5min budget, sr=60 bit31, 3 seeds): -0.79% (saturated)
+
+    The would_change_my_mind trigger "A new encoding (cascade-aux, XOR
+    preprocessing) demonstrably changes solver conflict count or restart
+    pattern" is empirically FIRED at 60s budget. The 9.10% σ=2.68% signal
+    is well outside the seed-variance noise floor (F366 σ ≈ 2-3%). The
+    effect saturates at 5min budget — so "infinite seeds will eventually
+    converge" remains true asymptotically, but the original closed claim
+    (no actionable timing variance) is now falsified for short-budget
+    cube-and-conquer use cases.
   would_change_my_mind:
-  - A new encoding (cascade-aux, XOR preprocessing) demonstrably changes solver conflict count or restart pattern.
+  - "[FIRED 2026-04-30] A new encoding (cascade-aux, XOR preprocessing) demonstrably changes solver conflict count or restart pattern. — F347-F369 chain measured -9.10% σ=2.68% at 60s budget."
   - A predictor identifies promising candidates that have NOT been seed-farmed yet.
+  refined_scope_after_reopen: |
+    The closed claim "more SEEDS yield no information" stands at deep
+    budgets (5min+, F366 saturation). It is FALSIFIED at short budgets
+    (60s) when the encoding is mutated via F343 mined-clause injection:
+    -9.10% conflict reduction across 5 cands × 3 seeds is statistically
+    significant. Implication: cube-and-conquer pipelines (many short
+    cubes per cand) gain ~9% × N cumulative speedup. Single deep-solve
+    pipelines remain effectively unchanged (per F366 saturation).
   related_mechanisms:
   - true_sr61_n32
   - cascade_auxiliary_encoding
+  - programmatic_sat_cascade_propagator
   owner: fleet
 - id: rotation_aligned_kernels_not_structural
   claim: Rotation-aligned kernels give ~20% candidate yield boost but no structural advantage for SAT solving.
