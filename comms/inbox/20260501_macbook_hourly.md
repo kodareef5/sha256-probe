@@ -642,3 +642,61 @@ Open: test VSIDS-boost intervention via cadical's `--bumpreason` or
 activity-priming; investigate Factor B (yield rate variance among
 helping cands); test F344 32-clause variant on bit10/11 to see if
 richer clause sets close the yield gap.
+
+## ~17:00 EDT — F395: F344 32-clause variant on bit2 — marginal help, doesn't break pattern
+
+Mined F344-class clauses for bit2 (`scan_all` single bits +
+`scan_adjacent` pairs). 13 min wall. Result: 1 unit (only dW57[0]
+forced) + 31 pairs = **32 injectable clauses**.
+
+Ran cadical 60s × 3 seeds × {baseline, F343 (2 clauses), F344 (32
+clauses)} on bit2. Parallel-3, ~3 min wall.
+
+Mean conflicts:
+  baseline: 2,216,525
+  F343:     2,178,939   Δ = -1.70%
+  F344:     2,147,695   Δ = -3.11%
+
+F344 helps bit2 by ~3% — modestly better than F343's 1.7%, but doesn't
+transform bit2 into a "F343 helps a lot" cand like bit3 (-9% with 2
+clauses). The marginal F344-over-F343 gain is **+1.4pp** at 16x more
+clauses.
+
+This SUPPORTS F394's search-trajectory hypothesis: clause richness
+alone doesn't compensate for VSIDS-trajectory mismatch. Even with
+16x more clauses, bit2's effect stays modest because the issue is
+decision-priority, not clause count.
+
+Cost-benefit: F344 mining = 13 min vs F343 = 20s (~32x slower). 1-3pp
+marginal benefit per cand. Poor cost-benefit; F343 is the right
+routine intervention.
+
+**Re-examining F347's "-13.7%" headline**: F347 reported F344 → -13.7%
+on bit31. F391 found F343 alone → -13.12% on bit31. F344's marginal
+benefit on bit31 is just 0.6pp. **F347's headline number was mostly
+F343's contribution, not F344's.** F347 wasn't showing a unique F344
+benefit — just F343's peak at 60s budget on bit31. Consistent with
+F366's budget-dependence finding.
+
+Phase 2D pre-injection design (locked in):
+  - F343 (2 clauses) universally → ~-7-9% mean (high variance)
+  - NOT F344 (32 clauses) → 32x mining cost, 1-3pp marginal
+  - NOT F384 ladder → falsified (F391)
+  - VSIDS-boost intervention (F394 proposal) → only remaining unexplored
+    mechanism-aligned axis
+
+F381 → F395 chain (16 memos, ~11 hours, ~1500s cadical):
+  Structural rule REAL; ladder pre-injection FALSIFIED;
+  F343 effectiveness MECHANISM UNDERSTOOD (search-trajectory);
+  Clause-count axis EXHAUSTED (F344 marginal); only VSIDS axis remains
+  for mechanism-aligned improvement.
+
+Shipped:
+  - `bets/programmatic_sat_propagator/results/preflight_2026-04-29/F395_F344_32clause_bit2_marginal_help.md`
+  - 9 cadical 60s runs logged via append_run.py
+  - 1 new bit2_F344.cnf in /tmp/F395/
+  - dashboard refreshed; validate_registry: 0/0
+
+Open: VSIDS-boost intervention test (F394 proposal). Algebraic derivation
+of F387 rule. Investigation of why bit3's F343 yield is 0.68 vs
+bit10/11 at 0.18 — Factor B remains unexplored.
