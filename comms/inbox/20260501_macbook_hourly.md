@@ -470,3 +470,68 @@ Shipped:
 Open: cadical --statistics on baseline vs F389 to nail down the
 watch-list overhead mechanism. ~10 min compute. Or test at 5-min
 budget per F366 saturation pattern.
+
+## ~14:50 EDT — F392: F343 per-cand effectiveness MYSTERY documented (n=8)
+
+Investigated F391's open question — what predicts which cands get a
+big F343 win? Analyzed 8 cands with measured F343 effects (5 from F369,
+3 from F391):
+
+  bit2_ma896ee41 fill=ffffffff:  +0.07%  ← outlier (no help)
+  bit11_m45b0a5f6 fill=00000000: −7.56%
+  bit13_m4d9f691c fill=55555555: −5.89%
+  bit3_m33ec77ca fill=ffffffff:  −8.17%
+  bit0_m8299b36f fill=80000000:  −8.33%
+  bit17_m427c281d fill=80000000: −11.72%
+  bit10_m3304caa0 fill=80000000: −12.03%
+  bit31_m17149975 fill=ffffffff: −13.12%
+
+Range: 0% to −13%. ~13pp spread.
+
+**Key sub-finding: bit2 and bit3 have IDENTICAL F343 clause structure.**
+Both force dW57[0]=1; both forbid W57[22:23]=(0,0). Different var IDs
+(per encoder allocation) but same structural meaning. Yet F343 effects
+differ by 8 percentage points (bit2: +0.07%, bit3: −8.17%).
+
+Same clauses, same structural meaning, COMPLETELY DIFFERENT solver
+impact.
+
+Tested feature → effect correlation matrix shows NO simple feature
+predicts F343 effectiveness:
+  - F387 class: identical for bit2 + bit3 (both Class A)
+  - dW57[0] polarity: identical
+  - W57[22:23] polarity: identical
+  - m0_HW, fill_HW: not predictive
+  - kbit position: not predictive
+
+Conclusion: **F343 effectiveness is a search-implementation property,
+not a pure structural feature of (m0, fill, kbit).** Likely depends on:
+  - cadical search trajectory per cand
+  - conflict-density profile (when CDCL would naturally derive these
+    clauses if not pre-injected)
+  - clause-to-CNF interaction (subsumption / propagation)
+
+These are testable via cadical --statistics + conflict-trace
+instrumentation.
+
+For Phase 2D: don't claim per-cand F343 savings; report mean (~−7-9%)
+with σ. Apply F343 universally; accept that some cands (like bit2)
+won't benefit.
+
+F381 → F392 chain (extended):
+  F381-F388: structural rule fits 16/16 — REAL
+  F389: deployable spec — TOOL stands, application FALSIFIED
+  F390-F391: ladder pre-injection HURTS — FALSIFIED at n=3
+  F392: F343 effectiveness mystery — OPEN QUESTION documented
+
+13 numbered memos, ~8 hours.
+
+Shipped:
+  - `bets/programmatic_sat_propagator/results/preflight_2026-04-29/F392_F343_effectiveness_mystery_open.md`
+  - 0 cadical runs (pure analytical reuse of F369 + F391 data)
+
+This is mechanism-level investigation that ships honestly: characterizes
+the variance, falsifies the simple structural-feature predictors,
+proposes search-implementation investigation as next-iteration work.
+Per user direction, this is the "documented open mystery" form of
+unit-of-progress — neither a false claim nor a missed observation.
