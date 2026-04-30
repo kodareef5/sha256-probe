@@ -1,7 +1,7 @@
 ---
 date: 2026-05-01
 bet: programmatic_sat_propagator × cascade_aux_encoding
-status: DEPLOYABLE — F387 rule + F384 ladder mining packaged into a single tool
+status: PARTIALLY_FALSIFIED — F390 measured ladder pre-injection HURTS bit2 by +2.35%; tool stands as characterization, speedup claim retracted
 parent: F388 (F387 anchored at n=16); user direction (build deployable code, gate Phase 2D)
 type: deliverable — tool shipped
 compute: 2 cadical 30s LRAT runs (smoke tests on bit31 + bit10 + bit11)

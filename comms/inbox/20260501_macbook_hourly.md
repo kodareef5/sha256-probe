@@ -369,3 +369,49 @@ Phase 2D pre-injection can now be shipped from this F389 spec.
 
 Open for next session: registry-wide Class A clause spec generation
 (~25 min compute, all 51 cands cached as JSON).
+
+## ~14:15 EDT — F390: F389 ladder pre-injection HURTS bit2 by +2.35% (FALSIFIED)
+
+Direct empirical test of F389's "+0.9% additive speedup from ladder
+pre-injection" projection. Built 3 CNFs (baseline, F343-only,
+F389-extended) and ran cadical 60s × 3 seeds × 3 conditions =
+9 runs, parallel-3, ~3 min wall.
+
+Result on bit2_ma896ee41 (Class A Path 1+2, fill=ffffffff):
+  baseline: mean 1,603,414 conflicts
+  F343:     mean 1,604,473 (Δ=+0.07%, within F369 σ=2.68% noise)
+  F389:     mean 1,641,126 (Δ=+2.35%, HURT — outside σ noise)
+
+**F389's ladder pre-injection EMPIRICALLY HURTS by +2.35% conflicts.**
+Adding 124 ladder clauses to the F343 baseline costs more in
+clause-watching overhead than it saves in conflict avoidance.
+
+The F381 → F388 STRUCTURAL finding (ladder exists in proofs) stands.
+The F389 APPLICATION claim (pre-inject for additive speedup) is
+falsified at n=1 cand × 3 seeds. Worth confirming on 1-2 more
+Class A cands but the directional finding is clear.
+
+F389 retraction: speedup claim retracted; tool stands as a
+characterization of cascade-aux CDCL proof structure (Class A vs B
+per F387 rule). Phase 2D propagator design: stay with F343's 2-clause
+baseline; don't ship the ladder extension.
+
+Project's 11th iterative narrowing/falsification. Pattern continues:
+small empirical claims falsified within hours of being proposed.
+
+The F381 → F390 chain ended on a clean negative for Phase 2D speedup
+mechanism. The structural picture is real; it doesn't translate to
+solver performance gains.
+
+Shipped:
+  - `bets/programmatic_sat_propagator/results/preflight_2026-04-29/F390_F389_ladder_injection_FALSIFIED_bit2.md`
+  - 9 cadical 60s runs logged via append_run.py
+  - F389 retraction header pointing to F390
+  - dashboard refreshed; validate_registry: 0/0
+  - 3 transient CNFs in /tmp/F390/
+
+The remaining F381→F390 chain value is in the CHARACTERIZATION
+(where structural Tseitin XOR ladders appear in proofs as a function
+of m0 and fill), not in solver speedup. The Phase 2D viability
+picture narrows further: F343 alone is the only F343-class lever
+worth keeping.
