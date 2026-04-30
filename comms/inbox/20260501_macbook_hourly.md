@@ -226,3 +226,57 @@ The F381 → F386 chain converged: 9 iterations, ~240s cadical compute,
 pre-injection becomes deterministic** — for each cand's fill, the
 rule decides ladder injection or not. 37 of 67 cands get the
 31-rung ladder; the rest get F343's 2-clause baseline.
+
+## ~12:30 EDT — F387: BOTH F385 + F386 FALSIFIED; new rule fits 14/14
+
+Distinguishing tests of F385 vs F386 on 2 cands:
+  bit6_m88fab888 fill=0x55555555 kbit=6: F385→A, F386→B → empirical: A
+    Falsifies F386 (fill > 0x80000000 was wrong)
+  bit0_mf3a909cc fill=0xaaaaaaaa kbit=0: F385→B, F386→A → empirical: A
+    Falsifies F385 (fill_bit[kbit]=1 was wrong)
+
+Both rules falsified within ~10 min of being proposed.
+
+Re-derived on full n=14 truth table. Found rule fitting 14/14:
+
+  **`ladder iff (m0_bit[31] = 1) OR (fill_bit[31] = 1 AND fill_HW > 1)`**
+
+Two paths to Class A:
+  PATH 1: m0 has bit-31 set
+  PATH 2: fill has bit-31 set AND fill is rich (HW > 1)
+
+bit6_m88fab888 reaches Class A via Path 1 (m0=0x88fab888 has bit-31=1,
+even though fill=0x55555555 has bit-31=0).
+
+Mechanism: bit-31 information flows into the cascade-1 region either
+via M[0]=m0 (rotation propagation) or via M[1..15]=fill (schedule
+recurrence). Either path triggers sigma1's rich-bit Tseitin output.
+fill=0x80000000 is too sparse to activate Path 2; fill_bit[31]=0
+disables Path 2 entirely.
+
+**Class A coverage under F387 rule: 51/67 = 76% of registry** (much
+broader than F386's 55%):
+  via Path 2 (fill_bit[31]=1 AND HW>1): 37 cands
+  via Path 1 only (m0_bit[31]=1, fill not Path 2): 14 cands
+  Class B: 16 cands
+
+This is the project's **10th iterative rule narrowing**, ~270s cadical
+total. The picture has been remarkably consistent in pattern: each
+rule shipped, falsified within hours by edge cases, refined to fit
+larger n. F387 fits 14/14 — strongest empirical anchor yet.
+
+Phase 2D pre-injection becomes a per-(m0, fill) decision:
+```python
+def class_a(m0: int, fill: int) -> bool:
+    return ((m0 >> 31) & 1) or (((fill >> 31) & 1) and bin(fill).count("1") > 1)
+```
+
+Shipped:
+  - `bets/cascade_aux_encoding/results/20260501_F387_distinguishing_tests_falsify_both_F385_F386.md`
+  - 2 cadical 30s runs logged (bit6_m88fab888, bit0_mf3a909cc)
+  - 2 new aux_force CNFs in cascade_aux/cnfs/, audited CONFIRMED
+  - dashboard refreshed
+
+Open: confirm F387 by testing 1-2 m0_bit[31]=1 cands at fill=0x80000000
+(predicted Class A by F387, would be FALSE for F386). Strong test of
+Path 1.
