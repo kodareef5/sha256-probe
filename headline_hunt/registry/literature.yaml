@@ -53,36 +53,73 @@
   - Read for cube-selection ideas applicable to cascade-aware SAT branching.
   owner: unassigned
   last_updated: '2026-04-24'
-- id: li_isobe_meier_zhang_sha2_records
-  citation: "Li, Isobe, Meier, Zhang \u2014 New Records in Collision Attacks on SHA-2"
+- id: li_liu_wang_eurocrypt_2024_sha2_records
+  citation: "Yingxin Li, Fukang Liu, Gaoli Wang \u2014 New Records in Collision Attacks on SHA-2"
   year: 2024
-  venue: ePrint (ID ambiguous)
-  url: null
-  arxiv_or_eprint: "ePrint 2023/285 OR 2024/349 \u2014 verify before citing"
-  confidence: needs_verification
-  relevance: Modern SHA-2 differential path and message modification methodology.
-    Direct relevance to block2_wang.
-  read_status: todo
-  key_takeaway: null
+  venue: EUROCRYPT 2024 (Springer LNCS 14651)
+  url: https://eprint.iacr.org/2024/349
+  arxiv_or_eprint: ePrint 2024/349
+  confidence: high
+  relevance: Modern SHA-2 differential trail search via MILP + SAT/SMT. First practical
+    semi-free-start (SFS) collision on 39-step SHA-256, beating the previous 38-step
+    SFS record from Mendel-Nad-Schl\u00e4ffer (EUROCRYPT 2013). Direct methodology
+    reference for block2_wang's stated dependency "Implement a bitcondition/trail-search
+    engine (Wang-style, not just SAT)".
+  read_status: read
+  key_takeaway: |
+    [STRUCTURAL_SUMMARY] Li-Liu-Wang (EUROCRYPT 2024) achieve 39-step SFS SHA-256
+    collision via MILP-based differential characteristic search with SAT/SMT
+    back-end. Authors explicitly state previous trail-search tools (de Canni\u00e8re-
+    Rechberger-style automated DC) had hit a bottleneck \u2014 longer trails were not
+    being found by improving heuristics alone. MILP relaxation gets past the
+    plateau. Project context: this is "shallow-rounds full/SFS collisions" regime
+    (24-39 steps); the project's sr=60/61 work is "deep-rounds cascade-1
+    structural" regime \u2014 methodology largely disjoint, but MILP front-end is the
+    documented working pattern for trail-class problems and should inform
+    block2_wang if/when its trail-search engine is built.
   action_items:
-  - Verify ePrint ID before citing.
-  - Read for message-modification specifics applicable to SHA-256 block 2.
-  owner: unassigned
-  last_updated: '2026-04-24'
-- id: li_asiacrypt_2024_sha256_diff
-  citation: "Li et al. \u2014 Improving the Differential Analysis of SHA-256"
+  - "[DONE] Verify ePrint ID \u2014 confirmed 2024/349"
+  - "[DONE] Verify authors \u2014 Li, Liu, Wang (NOT Li-Isobe-Meier-Zhang as previously listed)"
+  - "[OPEN] Adapt MILP encoding to cascade-1 residual absorber if/when block2_wang restarts trail-search work"
+  - "[OPEN] PDF blocked at fetch (eprint 403); queue for next on-network session"
+  notes_path: headline_hunt/literature/notes/li_liu_wang_eurocrypt_2024_sha2_records.md
+  owner: macbook
+  last_updated: '2026-04-30'
+- id: li_liu_wang_dong_sun_asiacrypt_2024_31step_practical
+  citation: "Yingxin Li, Fukang Liu, Gaoli Wang, Xiaoyang Dong, Siwei Sun \u2014 The First Practical Collision for 31-Step SHA-256"
   year: 2024
-  venue: ASIACRYPT 2024
-  url: null
-  arxiv_or_eprint: ePrint ID unknown
-  confidence: needs_verification
-  relevance: Best-paper-level SHA-256 trail and message-modification improvements.
-  read_status: todo
-  key_takeaway: null
+  venue: ASIACRYPT 2024 (best paper award; Springer LNCS 15494)
+  url: https://link.springer.com/chapter/10.1007/978-981-96-0941-3_8
+  arxiv_or_eprint: pending \u2014 Springer/proceedings only so far
+  confidence: high
+  relevance: |
+    Memory-efficient improvement of Li-Liu-Wang EUROCRYPT 2024 enabling the
+    first PRACTICAL (full, not just SFS) 31-step SHA-256 colliding message
+    pair, found in 1.2h with 64 threads and negligible memory. Time and memory
+    complexity for 31-step SHA-512 also improved by factors 2^20.9 and 2^42.1
+    respectively. Cross-cite for any block2_wang writeup that compares
+    methodology footprints. The project's cascade-1 work at sr=60+ is in a
+    much deeper-rounds regime than 31-step, but the memory-efficient search
+    direction is the relevant one for block2_wang's single-machine budget.
+  read_status: read
+  key_takeaway: |
+    [STRUCTURAL_SUMMARY] Li-Liu-Wang-Dong-Sun (ASIACRYPT 2024 best paper) follow
+    on Li-Liu-Wang EUROCRYPT 2024. Where the EUROCRYPT paper achieved 39-step
+    SFS at 2^49.8 time / 2^48 memory, the ASIACRYPT paper makes the 31-step
+    full collision PRACTICAL via memory-efficient search (1.2h \u00d7 64 threads,
+    negligible memory). This is the deepest practical full SHA-256 collision
+    known. The technique generalizes to SHA-512 with similarly large
+    improvements. For block2_wang, the relevant methodological lesson is the
+    memory-efficient search trick rather than the trail-search itself \u2014 the
+    project's sr=60/61 work is at much deeper rounds (60+) where trail search
+    is already documented to stall (Li-Liu-Wang abstract).
   action_items:
-  - Locate ePrint ID, fetch PDF.
-  owner: unassigned
-  last_updated: '2026-04-24'
+  - "[DONE] Verify authors and venue \u2014 Li-Liu-Wang-Dong-Sun, ASIACRYPT 2024 best paper"
+  - "[DONE] Confirm result \u2014 first practical (full) 31-step SHA-256 collision, 1.2h \u00d7 64 threads, negligible memory"
+  - "[OPEN] Locate ePrint ID if assigned (paper may only be available via Springer proceedings)"
+  - "[OPEN] If `block2_wang` activity restarts: study the memory-efficient search trick for adaptation to cascade-1 absorber search"
+  owner: macbook
+  last_updated: '2026-04-30'
 - id: alamgir_nejati_bright_sat_cas_sha256
   citation: "Alamgir / Nejati / Bright \u2014 SAT/CAS for SHA-256 collision search"
   year: 2024

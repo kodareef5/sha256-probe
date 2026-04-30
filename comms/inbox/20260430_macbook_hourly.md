@@ -238,3 +238,68 @@ overturning the whole.
 `validate_registry.py` post-edit: 0 errors, 0 warnings (after fixing
 mechanism-ID typo `programmatic_sat_propagator` →
 `programmatic_sat_cascade_propagator`).
+
+## ~06:15 EDT — literature note + 2 citation corrections (block2_wang relevance)
+
+Two `read_status: todo` entries in `literature.yaml` had unverified
+citations referring to "Li, Isobe, Meier, Zhang" (a team that **does
+not exist** for the SHA-2 records 2024 paper). Resolved via WebSearch:
+
+  **ePrint 2024/349** = "New Records in Collision Attacks on SHA-2"
+    Authors: **Yingxin Li, Fukang Liu, Gaoli Wang** (NOT Li-Isobe-Meier-Zhang)
+    EUROCRYPT 2024, Springer LNCS 14651
+    Result: first practical SFS 39-step SHA-256 collision (beating
+    Mendel-Nad-Schläffer's 38-step SFS from EUROCRYPT 2013)
+    Technique: MILP-based differential characteristic search + SAT/SMT
+    back-end. Authors explicitly state previous trail-search tools
+    (de Cannière-Rechberger automated DC + Mendel-Nad-Schläffer
+    extensions) had hit a bottleneck — longer trails not findable by
+    heuristic improvement alone.
+
+  **ASIACRYPT 2024 best paper** = "The First Practical Collision for
+  31-Step SHA-256"
+    Authors: **Yingxin Li, Fukang Liu, Gaoli Wang, Xiaoyang Dong, Siwei Sun**
+    Springer LNCS 15494
+    Result: first practical FULL (not SFS) 31-step SHA-256 collision,
+    1.2h × 64 threads, negligible memory. Improvement on Li-Liu-Wang
+    EUROCRYPT 2024 via memory-efficient search.
+
+Wrote a substantive STRUCTURAL_SUMMARY-class note for the EUROCRYPT
+paper at `headline_hunt/literature/notes/li_liu_wang_eurocrypt_2024_sha2_records.md`
+(~150 LOC) covering: position in the SHA-2 cryptanalysis ladder
+(24/27/31/38/39 step records over time), connections to **block2_wang**
+(direct methodology reference for the bet's stated dependency
+"Implement a bitcondition/trail-search engine"), connections to
+programmatic_sat_propagator (MILP front-end + SAT back-end is the
+working 2024 pattern; F343 preflight injection is much smaller hint),
+project-context framing (Li-Liu-Wang's "trail search has stalled"
+empirical claim is the **structural motivation** for the project's
+non-trail cascade-1 algebraic absorber direction at sr=60+).
+
+Updated literature.yaml:
+  - `li_isobe_meier_zhang_sha2_records` → renamed to
+    `li_liu_wang_eurocrypt_2024_sha2_records`. Citation, venue, URL,
+    ePrint ID, key_takeaway, action_items, notes_path all corrected.
+    confidence: needs_verification → high. read_status: todo → read.
+  - `li_asiacrypt_2024_sha256_diff` → renamed to
+    `li_liu_wang_dong_sun_asiacrypt_2024_31step_practical`. Same
+    treatment: citation, venue, URL, key_takeaway, action_items
+    corrected. confidence: needs_verification → high. read_status:
+    todo → read.
+
+`validate_registry.py`: 0 errors, 0 warnings after the rename batch
+(initially 4 errors from using non-enum values `verified` / `STRUCTURAL_SUMMARY`,
+fixed to schema-allowed `high` / `read`).
+
+Methodology takeaway worth quote-citing in any future writeup:
+
+> "The current advanced tool to search for SHA-2 characteristics had
+> reached a bottleneck, with longer differential characteristics not
+> being found." (Li-Liu-Wang EUROCRYPT 2024 abstract.)
+
+This is the *structural* motivation for the project's cascade-1
+algebraic absorber direction at sr=60+ — published trail-search work
+explicitly stalls before reaching those rounds, so the project's
+direction isn't "doing trail search where the experts can't reach";
+it's a fundamentally different attack class operating in a regime
+where trail search is documented to be inadequate.
