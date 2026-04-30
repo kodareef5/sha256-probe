@@ -1427,3 +1427,26 @@ Next concrete probe: F347 replication with cadical seeds for noise
 floor estimate.
 
 Commit: [next] (F364+F365 F347-refutation).
+
+
+## ~02:55 EDT (Apr 30) — F353 4h verification COMPLETE: F349 SAT NOT REPRODUCED
+
+- All 3 parallel 4h runs ended at budget cap, all UNKNOWN:
+    kissat baseline:  230.7M conflicts UNKNOWN (3h 58m)
+    kissat injected:  233.8M conflicts UNKNOWN (3h 58m) — +1.31% MORE
+    cadical baseline: 128M conflicts UNKNOWN (4h)
+- F349 SAT NOT REPRODUCIBLE IN 4 HOURS.
+- Per F362-F365: F343 injection effect at sr=61 is ~0-1% noise level.
+  4h kissat injected gave +1.31% conflicts (slightly worse than baseline).
+- Updated F349 memo to PENDING_NEGATIVE_EVIDENCE_4H. Original 24h-window
+  task SAT report stays UNVERIFIED. NOT updating CLAIMS.md.
+- Logged all 3 runs via append_run.py. Total runs.jsonl: 1696.
+
+User: 4h compute budget consumed. Result: F349 SAT not reproduced.
+Recommend: leave F349 as PENDING and move on; OR commit another 24h+
+verification budget to match original timeline. Your call.
+
+For now, F353 is closed-with-negative-evidence. Continuing with other
+work.
+
+Commit: [next] (F353 final verdict).

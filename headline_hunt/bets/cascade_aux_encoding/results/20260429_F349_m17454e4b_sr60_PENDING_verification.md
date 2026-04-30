@@ -156,3 +156,48 @@ Updated PENDING status: definitely needs >10 min compute. Either
 1h+ verification (requires user approval) OR re-derivation from a
 different angle.
 
+
+## Update: F353 4h verification COMPLETE (2026-04-30 02:55 EDT)
+
+User-approved 4h budget × 3 parallel runs ALL returned UNKNOWN:
+
+```
+kissat baseline:  230.7M conflicts UNKNOWN (3h 58m wall)
+kissat injected:  233.8M conflicts UNKNOWN (3h 58m wall) [+1.31% conflicts]
+cadical baseline: 128M conflicts UNKNOWN (4h wall)
+```
+
+F349 SAT NOT REPRODUCIBLE IN 4 HOURS.
+
+The original task ran with no time limit and reported `s SATISFIABLE`
+after ~24h wall time. My 4h verification at 3.5x the bet's 1.16x reopen
+criterion compute time still doesn't reproduce.
+
+Two remaining possibilities:
+1. **Original SAT is real but very deep** (between 4h and 24h to find).
+   24h verification needed for definitive resolution.
+2. **Original output was an artifact**. The `s SATISFIABLE` line in
+   the bg task could have been from a different source or output
+   stream contamination. No model was preserved (no --output-model
+   flag used by original task).
+
+**Final status (this iteration)**: F349 remains PENDING. Updating
+to PENDING_NEGATIVE_EVIDENCE_4H — 4h compute didn't reproduce; further
+verification would need 24h match of original timeline.
+
+**Logged in runs.jsonl**:
+- run_20260430_025558_kissat_baseline_4h
+- run_20260430_025558_kissat_injected_4h
+- run_20260430_025559_cadical_baseline_4h
+
+**Per-run TIMEOUT statuses** appended via append_run.py.
+
+**Decision**: do NOT update CLAIMS.md or candidates.yaml with new SAT.
+F349's SAT report stays unverified. The cand m17454e4b/bit29/sr=60
+remains in the same status as before the bg task: untested at sr=60
+in registry, sr=61 testing only.
+
+**Discipline**: 4h compute ($10-15 of CPU time) committed to verifying
+a single bg task report, did not produce a confirmed SAT. Honest
+negative.
+
