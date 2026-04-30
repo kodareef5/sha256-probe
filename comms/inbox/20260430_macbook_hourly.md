@@ -433,3 +433,48 @@ is now discoverable, the discipline gap is closed, and yale gets a
 clear hand-off note. If yale prefers different placeholders or
 completely different kill criteria, the markers make it obvious which
 fields are macbook's guesses vs yale's content.
+
+## ~07:30 EDT — block2_wang/residuals/extract_top_residuals.py: stub operationalized
+
+The user-suggested move: "operationalize a stub from another bet (e.g.,
+write a residual-extraction one-liner for block2_wang)". Surveyed
+`bets/block2_wang/residuals/`:
+
+  - 47 per-cand corpora exist in `by_candidate/corpus_*.jsonl`, each
+    with full W-witness records (w1_{57..60}, w2_{57..60}, iv1_63,
+    iv2_63, diff63, hw63, hw_total, active_regs, da_eq_de).
+  - F100_registry_top10_sweep.json aggregates top-10 HWs per cand but
+    OMITS the W-witness vectors that produced them.
+  - Gap: no tool emits per-cand top-K residuals with full vectors as
+    a JSON feed for downstream trail-search consumption.
+
+Wrote `headline_hunt/bets/block2_wang/residuals/extract_top_residuals.py`
+(~120 LOC). Walks `by_candidate/corpus_*.jsonl`, sorts by hw_total
+(heap-based for memory efficiency on the larger corpora), emits
+per-cand top-K records with full W-witness vectors. Supports:
+
+  --cand <suffix>     filter to one cand (substring match)
+  --top-k N           per-cand top-K (default 3)
+  --hw-max H          filter records hw_total ≤ H (then top-K)
+  --out PATH          write to file (default stdout)
+  --corpus-dir DIR    override default by_candidate/ location
+
+Smoke-tested:
+  - --top-k 1 across all cands → 47 corpora processed in <1s
+  - grand_min_hw_total = 55 (cand: bit3_m33ec77ca_fillffffffff)
+  - 5 lowest-min cands: bit3 (55), bit19 (56), bit2 (57), bit13 (59), bit28 (59)
+  - emits full W vectors + iv1_63/iv2_63/diff63/hw63 ready for
+    `simulate_2block_absorption.py` / `build_2block_certpin.py` ingestion
+
+Concrete trail-search lead from the smoke test: **cand
+bit3_m33ec77ca_fillffffffff has a HW=55 W-witness already cataloged**
+that hasn't been highlighted before. F100 reports this cand had
+cert-pin coverage but only top-10 HWs (62-66 range), so the HW=55
+record is BELOW the top-10 floor — it's in the corpus but was missed.
+This is exactly the kind of artifact the F100 sweep was supposed to
+surface but couldn't without W-witness data.
+
+Tool is dependency-free (stdlib only) and reusable for cluster-analysis
+follow-ups: feed `extract_top_residuals.py --hw-max 60 --top-k 1000`
+into a clustering script to find structural patterns across the
+sub-60 residuals.
