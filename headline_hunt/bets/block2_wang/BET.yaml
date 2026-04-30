@@ -29,7 +29,35 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-04-29T13:55:00Z'
+last_heartbeat: '2026-05-01T13:35:00Z'
+recent_progress_2026-04-30_F371_F380_bridge_guided_chain: |
+  2026-04-30 session: 10-memo chain F371→F380 closing F100 cert-pin coverage
+  to 67/67 (100%) and shipping bridge-guided block2 toolchain per user direction.
+
+    F371: F100 had 13-cand blind spot — bit3_m33ec77ca HW=55 surfaced
+    F372: 4 sub-floor witnesses (HW 55-61) cert-pin verified → 8 UNSAT
+    F373: 9 remaining blind-spot cands (HW 61-69) → 18 UNSAT, coverage 67/67
+    F374: 4 structural signatures of sub-65 residuals (universal active
+          set, da≠de always, c/g 25% lighter, bit3/bit2/bit28 dominate)
+    F375: 10 missing aux variants generated for F374 deep-tail cands
+    F376: F374 universality test on full 447k corpus — c/g asymmetry
+          is HW-band-dependent (peaks +25.7% at HW 60-64, crosses zero
+          at the F101 mode region HW 90-99, reverses at HW≥100)
+    F377: F340 polarity hypothesis FALSIFIED — kbit-dependent, not fill-dependent
+    F378: bridge_score.py — selector with F374/F376/F377 hard constraints
+          + soft asymmetry score; 18% of corpus hard-rejected
+    F379: block2_bridge_beam.py — greedy W-space hillclimb; bit2 NEW
+          HW=56 below corpus floor of 57
+    F380: cert-pin verify F378 top-10 + F379 NEW → 22/22 UNSAT
+
+  Headline-class output: not yet. Bridge_score formally characterized
+  as near-residual selector, falsified as collision-finder. Per F98 +
+  F100 + F380, single-block sr=60 cascade-1 collisions if reachable
+  are point-singular, not basin-singular.
+
+  Next session: deliverable #5 (cross-cand learned-clause clustering on
+  F347-F369 60s cadical instances) + beam improvements (SA + restarts
+  for the 3 plateaued cands).
 recent_progress_2026-04-29_late_morning_retraction: |
   Late-morning 2026-04-29: F315-F322 + RETRACTION.
 
