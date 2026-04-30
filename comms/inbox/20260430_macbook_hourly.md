@@ -351,3 +351,39 @@ entirely different regimes.
 `validate_registry.py`: 0 errors, 0 warnings post-edit.
 literature.yaml: 17 entries total, all needs_verification entries from
 the SHA-2-records cluster now resolved.
+
+## ~06:50 EDT — F370: 11 unreferenced cnfs_n32/ files attached to candidates
+
+Routine registry hygiene found 11 CNF files in `cnfs_n32/` that were NOT
+referenced by any candidate's `artifacts.cnfs` list. These are alternative
+encoder variants (TRUE_sr61_*, sr61_cascade_*) of registered cands whose
+artifacts only listed the primary `_enf0.cnf` variant.
+
+Pattern of misses:
+  - 4 × TRUE_sr61_bit{B}_{m0_prefix}.cnf  (bit10/10/17/19)
+  - 7 × sr61_cascade_m{m0}_f{fill}_bit{B}.cnf
+
+All 11 attached via filename → cand-key matching. 7 cands updated:
+  - cand_n32_msb_m17149975_fillffffffff (verified-collision; +cascade variant)
+  - cand_n32_bit06_m6781a62a_fillaaaaaaaa
+  - cand_n32_bit06_m88fab888_fill55555555
+  - cand_n32_bit10_m24451221_fill55555555 (+TRUE +cascade)
+  - cand_n32_bit10_m3304caa0_fill80000000 (+TRUE +cascade)
+  - cand_n32_bit17_m8c752c40_fill00000000 (+TRUE +cascade)
+  - cand_n32_bit19_m51ca0b34_fill55555555 (+TRUE +cascade)
+
+Caught one matching bug en route: my `m0_norm("0x00000000")` returned
+empty string (lstrip strips '0' and 'x' chars from both directions) —
+the fill `0x00000000` collapsed to `''`. Worked around with manual
+attachment for the last file. Logged as a note for future similar tools.
+
+Post-edit verification:
+  - 78 CNFs in cnfs_n32/ → 78 referenced by some candidate (was 67)
+  - validate_registry.py: 0 errors, 0 warnings
+  - cnf_fingerprints.yaml audit (re-run): all 78 still CONFIRMED
+
+Diff: ~190 lines because yaml.safe_dump re-flows the entire file with
+PyYAML's default formatting (single quotes, different line-wrap width).
+Content preserved verbatim — validate_registry confirms. The
+re-formatting is a one-time normalization; future edits via the same
+tool will produce minimal diffs against this baseline.

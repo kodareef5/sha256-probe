@@ -35,12 +35,13 @@
       evidence: []
       cpu_hours: 0
   artifacts:
-    cnfs: []
+    cnfs:
+    - cnfs_n32/sr61_cascade_m17149975_fffffffff_bit31.cnf
     certs:
     - datasets/certificates/sr60_n32_m17149975.yaml
     logs: []
   last_tested: '2026-04-20'
-  last_updated: '2026-04-25'
+  last_updated: '2026-04-30'
   owner: macbook
   evidence_level: VERIFIED
 - id: cand_n32_msb_ma22dc6c7_fillffffffff
@@ -590,10 +591,11 @@
   artifacts:
     cnfs:
     - cnfs_n32/sr61_n32_bit06_m6781a62a_fillaaaaaaaa_enf0.cnf
+    - cnfs_n32/sr61_cascade_m6781a62a_faaaaaaaa_bit6.cnf
     certs: []
     logs: []
   last_tested: '2026-04-20'
-  last_updated: '2026-04-25'
+  last_updated: '2026-04-30'
   owner: fleet
   evidence_level: UNTESTED
 - id: cand_n32_bit06_m6e173e58_fillffffffff
@@ -678,10 +680,11 @@
   artifacts:
     cnfs:
     - cnfs_n32/sr61_n32_bit06_m88fab888_fill55555555_enf0.cnf
+    - cnfs_n32/sr61_cascade_m88fab888_f55555555_bit6.cnf
     certs: []
     logs: []
   last_tested: '2026-04-20'
-  last_updated: '2026-04-25'
+  last_updated: '2026-04-30'
   owner: fleet
   evidence_level: UNTESTED
 - id: cand_n32_bit06_ma8fc79d1_fill00000000
@@ -810,10 +813,12 @@
   artifacts:
     cnfs:
     - cnfs_n32/sr61_n32_bit10_m24451221_fill55555555_enf0.cnf
+    - cnfs_n32/TRUE_sr61_bit10_2445.cnf
+    - cnfs_n32/sr61_cascade_m24451221_f55555555_bit10.cnf
     certs: []
     logs: []
   last_tested: '2026-04-20'
-  last_updated: '2026-04-25'
+  last_updated: '2026-04-30'
   owner: fleet
   evidence_level: UNTESTED
 - id: cand_n32_bit10_m27e646e1_fill55555555
@@ -898,10 +903,12 @@
   artifacts:
     cnfs:
     - cnfs_n32/sr61_n32_bit10_m3304caa0_fill80000000_enf0.cnf
+    - cnfs_n32/TRUE_sr61_bit10_3304.cnf
+    - cnfs_n32/sr61_cascade_m3304caa0_f80000000_bit10.cnf
     certs: []
     logs: []
   last_tested: '2026-04-20'
-  last_updated: '2026-04-25'
+  last_updated: '2026-04-30'
   owner: fleet
   evidence_level: UNTESTED
 - id: cand_n32_bit10_m5f59b67c_fill80000000
@@ -1470,10 +1477,12 @@
   artifacts:
     cnfs:
     - cnfs_n32/sr61_n32_bit17_m8c752c40_fill00000000_enf0.cnf
+    - cnfs_n32/TRUE_sr61_bit17_8c75.cnf
+    - cnfs_n32/sr61_cascade_m8c752c40_f00000000_bit17.cnf
     certs: []
     logs: []
   last_tested: '2026-04-20'
-  last_updated: '2026-04-25'
+  last_updated: '2026-04-30'
   owner: fleet
   evidence_level: UNTESTED
 - id: cand_n32_bit17_mb36375a2_fill00000000
@@ -1551,7 +1560,9 @@
       status: not_applicable
       evidence: []
       cert_id: null
-      notes: "block2_wang absorber-search testbed 2026-04-28: F153 corpus built (200K samples → 3597 records < HW=80, min HW=56), F153 fixture bit19_HW56_naive_blocktwo.json shipped, F132/F134/F135/F159/F160 fixture-local scan ongoing (best {0,1,3,8,9} score 87, parallel-discovered). F143 structural-distinction partially redeemed."
+      notes: "block2_wang absorber-search testbed 2026-04-28: F153 corpus built (200K samples \u2192 3597 records < HW=80,\
+        \ min HW=56), F153 fixture bit19_HW56_naive_blocktwo.json shipped, F132/F134/F135/F159/F160 fixture-local scan ongoing\
+        \ (best {0,1,3,8,9} score 87, parallel-discovered). F143 structural-distinction partially redeemed."
     true_sr61:
       status: in_flight
       evidence: []
@@ -1559,10 +1570,12 @@
   artifacts:
     cnfs:
     - cnfs_n32/sr61_n32_bit19_m51ca0b34_fill55555555_enf0.cnf
+    - cnfs_n32/TRUE_sr61_bit19_51ca.cnf
+    - cnfs_n32/sr61_cascade_m51ca0b34_f55555555_bit19.cnf
     certs: []
     logs: []
   last_tested: '2026-04-20'
-  last_updated: '2026-04-25'
+  last_updated: '2026-04-30'
   owner: fleet
   evidence_level: UNTESTED
 - id: cand_n32_bit25_m09990bd2_fill80000000
@@ -1620,8 +1633,7 @@
     - 9
     bit: 18
     diff_hex: '0x00040000'
-  source: 2026-04-26 cascade_eligibility_sweep at bit=18 fill=0xff (full 2^32 m0);
-    first new candidate found
+  source: 2026-04-26 cascade_eligibility_sweep at bit=18 fill=0xff (full 2^32 m0); first new candidate found
   da56:
     status: verified
     state_hash: null
@@ -1638,7 +1650,7 @@
       status: unknown
       evidence: []
       cert_id: null
-      notes: "F70-F102 cert-pin coverage 2026-04-28: 44 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale"
+      notes: 'F70-F102 cert-pin coverage 2026-04-28: 44 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale'
     true_sr61:
       status: unknown
       evidence: []
@@ -1662,8 +1674,7 @@
     - 9
     bit: 18
     diff_hex: '0x00040000'
-  source: 2026-04-26 cascade_eligibility_sweep at bit=18 fill=0xff (2nd of 2 eligible
-    in 2^32)
+  source: 2026-04-26 cascade_eligibility_sweep at bit=18 fill=0xff (2nd of 2 eligible in 2^32)
   da56:
     status: verified
     state_hash: null
@@ -1680,7 +1691,7 @@
       status: unknown
       evidence: []
       cert_id: null
-      notes: "F70-F102 cert-pin coverage 2026-04-28: 23 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale"
+      notes: 'F70-F102 cert-pin coverage 2026-04-28: 23 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale'
     true_sr61:
       status: unknown
       evidence: []
@@ -1704,8 +1715,8 @@
     - 9
     bit: 3
     diff_hex: '0x00000008'
-  source: "2026-04-26 cascade_eligibility_sweep at bit=3 fill=0xff (NEW \u03C30-aligned,\
-    \ falsifies hypothesis at 2nd \u03C30 bit)"
+  source: "2026-04-26 cascade_eligibility_sweep at bit=3 fill=0xff (NEW \u03C30-aligned, falsifies hypothesis at 2nd \u03C3\
+    0 bit)"
   da56:
     status: verified
     state_hash: null
@@ -1722,7 +1733,7 @@
       status: unknown
       evidence: []
       cert_id: null
-      notes: "F70-F102 cert-pin coverage 2026-04-28: 92 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale"
+      notes: 'F70-F102 cert-pin coverage 2026-04-28: 92 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale'
     true_sr61:
       status: unknown
       evidence: []
@@ -1763,7 +1774,7 @@
       status: unknown
       evidence: []
       cert_id: null
-      notes: "F70-F102 cert-pin coverage 2026-04-28: 23 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale"
+      notes: 'F70-F102 cert-pin coverage 2026-04-28: 23 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale'
     true_sr61:
       status: unknown
       evidence: []
@@ -1787,8 +1798,7 @@
     - 9
     bit: 18
     diff_hex: '0x00040000'
-  source: "2026-04-26 cascade_eligibility_sweep at bit=18 fill=0x00 (NEW kernel-bit\xD7\
-    fill cell)"
+  source: "2026-04-26 cascade_eligibility_sweep at bit=18 fill=0x00 (NEW kernel-bit\xD7fill cell)"
   da56:
     status: verified
     state_hash: null
@@ -1805,7 +1815,7 @@
       status: unknown
       evidence: []
       cert_id: null
-      notes: "F70-F102 cert-pin coverage 2026-04-28: 11 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale"
+      notes: 'F70-F102 cert-pin coverage 2026-04-28: 11 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale'
     true_sr61:
       status: unknown
       evidence: []
@@ -1829,8 +1839,7 @@
     - 9
     bit: 18
     diff_hex: '0x00040000'
-  source: "2026-04-26 cascade_eligibility_sweep at bit=18 fill=0x00 (NEW kernel-bit\xD7\
-    fill cell)"
+  source: "2026-04-26 cascade_eligibility_sweep at bit=18 fill=0x00 (NEW kernel-bit\xD7fill cell)"
   da56:
     status: verified
     state_hash: null
@@ -1847,7 +1856,7 @@
       status: unknown
       evidence: []
       cert_id: null
-      notes: "F70-F102 cert-pin coverage 2026-04-28: 11 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale"
+      notes: 'F70-F102 cert-pin coverage 2026-04-28: 11 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale'
     true_sr61:
       status: unknown
       evidence: []
@@ -1871,8 +1880,7 @@
     - 9
     bit: 18
     diff_hex: '0x00040000'
-  source: "2026-04-26 cascade_eligibility_sweep at bit=18 fill=0x00 (NEW kernel-bit\xD7\
-    fill cell)"
+  source: "2026-04-26 cascade_eligibility_sweep at bit=18 fill=0x00 (NEW kernel-bit\xD7fill cell)"
   da56:
     status: verified
     state_hash: null
@@ -1889,7 +1897,7 @@
       status: unknown
       evidence: []
       cert_id: null
-      notes: "F70-F102 cert-pin coverage 2026-04-28: 26 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale"
+      notes: 'F70-F102 cert-pin coverage 2026-04-28: 26 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale'
     true_sr61:
       status: unknown
       evidence: []
@@ -1913,8 +1921,7 @@
     - 9
     bit: 4
     diff_hex: '0x00000010'
-  source: 2026-04-26 cascade_eligibility_sweep at bit=4 fill=0xff (NON-aligned bit,
-    fully closes hypothesis)
+  source: 2026-04-26 cascade_eligibility_sweep at bit=4 fill=0xff (NON-aligned bit, fully closes hypothesis)
   da56:
     status: verified
     state_hash: null
@@ -1932,11 +1939,10 @@
       evidence: []
       cert_id: null
       notes: "F70-F102 cert-pin coverage 2026-04-28: 35 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale.\
-        \ F191 absorber-search 2026-04-28 PM: bit4 chunk-0 random init seed 9101 found\
-        \ {0,1,2,4,8} at score 86 (msgHW 66) — TIES bit3 floor on a distinguished cand.\
-        \ F193 8x50k random init: best 94 (basin narrow). F194 8x50k F188 basin-init:\
-        \ best 86 (reproduces, no descent). bit4 has findable deep basin matching\
-        \ bit3's floor; sub-86 not reachable via 8x50k chunked-scan + basin-init."
+        \ F191 absorber-search 2026-04-28 PM: bit4 chunk-0 random init seed 9101 found {0,1,2,4,8} at score 86 (msgHW 66)\
+        \ \u2014 TIES bit3 floor on a distinguished cand. F193 8x50k random init: best 94 (basin narrow). F194 8x50k F188\
+        \ basin-init: best 86 (reproduces, no descent). bit4 has findable deep basin matching bit3's floor; sub-86 not reachable\
+        \ via 8x50k chunked-scan + basin-init."
     true_sr61:
       status: unknown
       evidence: []
@@ -1960,8 +1966,7 @@
     - 9
     bit: 4
     diff_hex: '0x00000010'
-  source: 2026-04-26 cascade_eligibility_sweep at bit=4 fill=0xff (NON-aligned bit,
-    fully closes hypothesis)
+  source: 2026-04-26 cascade_eligibility_sweep at bit=4 fill=0xff (NON-aligned bit, fully closes hypothesis)
   da56:
     status: verified
     state_hash: null
@@ -1978,7 +1983,7 @@
       status: unknown
       evidence: []
       cert_id: null
-      notes: "F70-F102 cert-pin coverage 2026-04-28: 16 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale"
+      notes: 'F70-F102 cert-pin coverage 2026-04-28: 16 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale'
     true_sr61:
       status: unknown
       evidence: []
@@ -2002,8 +2007,7 @@
     - 9
     bit: 25
     diff_hex: '0x02000000'
-  source: 2026-04-26 cascade_eligibility_sweep at bit=25 fill=0xff (sigma1-aligned,
-    NEW cell)
+  source: 2026-04-26 cascade_eligibility_sweep at bit=25 fill=0xff (sigma1-aligned, NEW cell)
   da56:
     status: verified
     state_hash: null
@@ -2020,7 +2024,7 @@
       status: unknown
       evidence: []
       cert_id: null
-      notes: "F70-F102 cert-pin coverage 2026-04-28: 23 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale"
+      notes: 'F70-F102 cert-pin coverage 2026-04-28: 23 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale'
     true_sr61:
       status: unknown
       evidence: []
@@ -2044,8 +2048,7 @@
     - 9
     bit: 25
     diff_hex: '0x02000000'
-  source: 2026-04-26 cascade_eligibility_sweep at bit=25 fill=0xff (sigma1-aligned,
-    NEW cell)
+  source: 2026-04-26 cascade_eligibility_sweep at bit=25 fill=0xff (sigma1-aligned, NEW cell)
   da56:
     status: verified
     state_hash: null
@@ -2062,7 +2065,7 @@
       status: unknown
       evidence: []
       cert_id: null
-      notes: "F70-F102 cert-pin coverage 2026-04-28: 35 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale"
+      notes: 'F70-F102 cert-pin coverage 2026-04-28: 35 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale'
     true_sr61:
       status: unknown
       evidence: []
@@ -2086,8 +2089,7 @@
     - 9
     bit: 2
     diff_hex: '0x00000004'
-  source: "2026-04-26 cascade_eligibility_sweep at bit=2 fill=0xff (\u03A30-aligned,\
-    \ NEW; 3-of-3 in this cell)"
+  source: "2026-04-26 cascade_eligibility_sweep at bit=2 fill=0xff (\u03A30-aligned, NEW; 3-of-3 in this cell)"
   da56:
     status: verified
     state_hash: null
@@ -2104,7 +2106,7 @@
       status: unknown
       evidence: []
       cert_id: null
-      notes: "F70-F102 cert-pin coverage 2026-04-28: 11 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale"
+      notes: 'F70-F102 cert-pin coverage 2026-04-28: 11 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale'
     true_sr61:
       status: unknown
       evidence: []
@@ -2128,8 +2130,7 @@
     - 9
     bit: 2
     diff_hex: '0x00000004'
-  source: "2026-04-26 cascade_eligibility_sweep at bit=2 fill=0xff (\u03A30-aligned,\
-    \ NEW; 3-of-3 in this cell)"
+  source: "2026-04-26 cascade_eligibility_sweep at bit=2 fill=0xff (\u03A30-aligned, NEW; 3-of-3 in this cell)"
   da56:
     status: verified
     state_hash: null
@@ -2146,7 +2147,7 @@
       status: unknown
       evidence: []
       cert_id: null
-      notes: "F70-F102 cert-pin coverage 2026-04-28: 11 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale"
+      notes: 'F70-F102 cert-pin coverage 2026-04-28: 11 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale'
     true_sr61:
       status: unknown
       evidence: []
@@ -2170,8 +2171,7 @@
     - 9
     bit: 2
     diff_hex: '0x00000004'
-  source: "2026-04-26 cascade_eligibility_sweep at bit=2 fill=0xff (\u03A30-aligned,\
-    \ NEW; 3-of-3 in this cell)"
+  source: "2026-04-26 cascade_eligibility_sweep at bit=2 fill=0xff (\u03A30-aligned, NEW; 3-of-3 in this cell)"
   da56:
     status: verified
     state_hash: null
@@ -2188,7 +2188,7 @@
       status: unknown
       evidence: []
       cert_id: null
-      notes: "F70-F102 cert-pin coverage 2026-04-28: 76 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale"
+      notes: 'F70-F102 cert-pin coverage 2026-04-28: 76 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale'
     true_sr61:
       status: unknown
       evidence: []
@@ -2212,8 +2212,7 @@
     - 9
     bit: 13
     diff_hex: '0x00002000'
-  source: 2026-04-26 cascade_eligibility_sweep at bit=13 fill=0x80 (gap-fill, NEW
-    fill for bit=13)
+  source: 2026-04-26 cascade_eligibility_sweep at bit=13 fill=0x80 (gap-fill, NEW fill for bit=13)
   da56:
     status: verified
     state_hash: null
@@ -2230,7 +2229,7 @@
       status: unknown
       evidence: []
       cert_id: null
-      notes: "F70-F102 cert-pin coverage 2026-04-28: 10 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale"
+      notes: 'F70-F102 cert-pin coverage 2026-04-28: 10 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale'
     true_sr61:
       status: unknown
       evidence: []
@@ -2254,8 +2253,7 @@
     - 9
     bit: 1
     diff_hex: '0x00000002'
-  source: 2026-04-26 cascade_eligibility_sweep at bit=1 fill=0xff (NEW first-time-tested
-    bit)
+  source: 2026-04-26 cascade_eligibility_sweep at bit=1 fill=0xff (NEW first-time-tested bit)
   da56:
     status: verified
     state_hash: null
@@ -2272,7 +2270,7 @@
       status: unknown
       evidence: []
       cert_id: null
-      notes: "F70-F102 cert-pin coverage 2026-04-28: 17 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale"
+      notes: 'F70-F102 cert-pin coverage 2026-04-28: 17 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale'
     true_sr61:
       status: unknown
       evidence: []
@@ -2296,8 +2294,7 @@
     - 9
     bit: 14
     diff_hex: '0x00004000'
-  source: 2026-04-26 cascade_eligibility_sweep at bit=14 fill=0xff (NEW first-time-tested
-    bit)
+  source: 2026-04-26 cascade_eligibility_sweep at bit=14 fill=0xff (NEW first-time-tested bit)
   da56:
     status: verified
     state_hash: null
@@ -2314,7 +2311,7 @@
       status: unknown
       evidence: []
       cert_id: null
-      notes: "F70-F102 cert-pin coverage 2026-04-28: 25 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale"
+      notes: 'F70-F102 cert-pin coverage 2026-04-28: 25 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale'
     true_sr61:
       status: unknown
       evidence: []
@@ -2338,8 +2335,7 @@
     - 9
     bit: 14
     diff_hex: '0x00004000'
-  source: 2026-04-26 cascade_eligibility_sweep at bit=14 fill=0xff (NEW first-time-tested
-    bit)
+  source: 2026-04-26 cascade_eligibility_sweep at bit=14 fill=0xff (NEW first-time-tested bit)
   da56:
     status: verified
     state_hash: null
@@ -2356,7 +2352,7 @@
       status: unknown
       evidence: []
       cert_id: null
-      notes: "F70-F102 cert-pin coverage 2026-04-28: 17 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale"
+      notes: 'F70-F102 cert-pin coverage 2026-04-28: 17 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale'
     true_sr61:
       status: unknown
       evidence: []
@@ -2380,8 +2376,7 @@
     - 9
     bit: 14
     diff_hex: '0x00004000'
-  source: 2026-04-26 cascade_eligibility_sweep at bit=14 fill=0xff (NEW first-time-tested
-    bit)
+  source: 2026-04-26 cascade_eligibility_sweep at bit=14 fill=0xff (NEW first-time-tested bit)
   da56:
     status: verified
     state_hash: null
@@ -2398,7 +2393,7 @@
       status: unknown
       evidence: []
       cert_id: null
-      notes: "F70-F102 cert-pin coverage 2026-04-28: 22 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale"
+      notes: 'F70-F102 cert-pin coverage 2026-04-28: 22 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale'
     true_sr61:
       status: unknown
       evidence: []
@@ -2422,8 +2417,7 @@
     - 9
     bit: 12
     diff_hex: '0x00001000'
-  source: 2026-04-26 cascade_eligibility_sweep at bit=12 fill=0xff (NEW first-time-tested
-    bit, queue8)
+  source: 2026-04-26 cascade_eligibility_sweep at bit=12 fill=0xff (NEW first-time-tested bit, queue8)
   da56:
     status: verified
     state_hash: null
@@ -2440,7 +2434,7 @@
       status: unknown
       evidence: []
       cert_id: null
-      notes: "F70-F102 cert-pin coverage 2026-04-28: 11 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale"
+      notes: 'F70-F102 cert-pin coverage 2026-04-28: 11 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale'
     true_sr61:
       status: unknown
       evidence: []
@@ -2464,8 +2458,7 @@
     - 9
     bit: 15
     diff_hex: '0x00008000'
-  source: 2026-04-26 cascade_eligibility_sweep at bit=15 fill=0xff (NEW first-time-tested
-    bit, queue8)
+  source: 2026-04-26 cascade_eligibility_sweep at bit=15 fill=0xff (NEW first-time-tested bit, queue8)
   da56:
     status: verified
     state_hash: null
@@ -2482,7 +2475,7 @@
       status: unknown
       evidence: []
       cert_id: null
-      notes: "F70-F102 cert-pin coverage 2026-04-28: 11 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale"
+      notes: 'F70-F102 cert-pin coverage 2026-04-28: 11 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale'
     true_sr61:
       status: unknown
       evidence: []
@@ -2506,8 +2499,7 @@
     - 9
     bit: 15
     diff_hex: '0x00008000'
-  source: 2026-04-26 cascade_eligibility_sweep at bit=15 fill=0xff (NEW first-time-tested
-    bit, queue8)
+  source: 2026-04-26 cascade_eligibility_sweep at bit=15 fill=0xff (NEW first-time-tested bit, queue8)
   da56:
     status: verified
     state_hash: null
@@ -2524,7 +2516,7 @@
       status: unknown
       evidence: []
       cert_id: null
-      notes: "F70-F102 cert-pin coverage 2026-04-28: 11 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale"
+      notes: 'F70-F102 cert-pin coverage 2026-04-28: 11 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale'
     true_sr61:
       status: unknown
       evidence: []
@@ -2548,8 +2540,8 @@
     - 9
     bit: 15
     diff_hex: '0x00008000'
-  source: 2026-04-26 cascade_eligibility_sweep at bit=15 fill=0xff (NEW first-time-tested
-    bit, queue8) — hardlock_bits=14 (high)
+  source: "2026-04-26 cascade_eligibility_sweep at bit=15 fill=0xff (NEW first-time-tested bit, queue8) \u2014 hardlock_bits=14\
+    \ (high)"
   da56:
     status: verified
     state_hash: null
@@ -2566,7 +2558,7 @@
       status: unknown
       evidence: []
       cert_id: null
-      notes: "F70-F102 cert-pin coverage 2026-04-28: 23 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale"
+      notes: 'F70-F102 cert-pin coverage 2026-04-28: 23 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale'
     true_sr61:
       status: unknown
       evidence: []
@@ -2592,8 +2584,8 @@
     - 9
     bit: 20
     diff_hex: '0x00100000'
-  source: 2026-04-26 cascade_eligibility_sweep at bit=20 fill=0xff (NEW first-time-tested
-    bit, queue8) — hardlock_bits=15 (high)
+  source: "2026-04-26 cascade_eligibility_sweep at bit=20 fill=0xff (NEW first-time-tested bit, queue8) \u2014 hardlock_bits=15\
+    \ (high)"
   da56:
     status: verified
     state_hash: null
@@ -2610,7 +2602,7 @@
       status: unknown
       evidence: []
       cert_id: null
-      notes: "F70-F102 cert-pin coverage 2026-04-28: 39 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale"
+      notes: 'F70-F102 cert-pin coverage 2026-04-28: 39 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale'
     true_sr61:
       status: unknown
       evidence: []
@@ -2636,8 +2628,7 @@
     - 9
     bit: 24
     diff_hex: '0x01000000'
-  source: 2026-04-26 cascade_eligibility_sweep at bit=24 fill=0xff (NEW first-time-tested
-    bit, queue9)
+  source: 2026-04-26 cascade_eligibility_sweep at bit=24 fill=0xff (NEW first-time-tested bit, queue9)
   da56:
     status: verified
     state_hash: null
@@ -2654,7 +2645,7 @@
       status: unknown
       evidence: []
       cert_id: null
-      notes: "F70-F102 cert-pin coverage 2026-04-28: 37 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale"
+      notes: 'F70-F102 cert-pin coverage 2026-04-28: 37 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale'
     true_sr61:
       status: unknown
       evidence: []
@@ -2678,8 +2669,7 @@
     - 9
     bit: 26
     diff_hex: '0x04000000'
-  source: 2026-04-26 cascade_eligibility_sweep at bit=26 fill=0xff (NEW first-time-tested
-    bit, queue9)
+  source: 2026-04-26 cascade_eligibility_sweep at bit=26 fill=0xff (NEW first-time-tested bit, queue9)
   da56:
     status: verified
     state_hash: null
@@ -2696,7 +2686,7 @@
       status: unknown
       evidence: []
       cert_id: null
-      notes: "F70-F102 cert-pin coverage 2026-04-28: 16 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale"
+      notes: 'F70-F102 cert-pin coverage 2026-04-28: 16 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale'
     true_sr61:
       status: unknown
       evidence: []
@@ -2722,7 +2712,8 @@
     - 9
     bit: 28
     diff_hex: '0x10000000'
-  source: "2026-04-26 cascade_eligibility_sweep at bit=28 fill=0xff (NEW first-time-tested bit, queue10) — STRUCTURAL: de58_size=2048 + hl_bits=15 (compressed AND constrained)"
+  source: "2026-04-26 cascade_eligibility_sweep at bit=28 fill=0xff (NEW first-time-tested bit, queue10) \u2014 STRUCTURAL:\
+    \ de58_size=2048 + hl_bits=15 (compressed AND constrained)"
   da56:
     status: verified
     state_hash: null
@@ -2739,7 +2730,7 @@
       status: unknown
       evidence: []
       cert_id: null
-      notes: "F70-F102 cert-pin coverage 2026-04-28: 94 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale"
+      notes: 'F70-F102 cert-pin coverage 2026-04-28: 94 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale'
     true_sr61:
       status: unknown
       evidence: []
@@ -2763,8 +2754,7 @@
     - 9
     bit: 28
     diff_hex: '0x10000000'
-  source: 2026-04-26 cascade_eligibility_sweep at bit=28 fill=0xff (NEW first-time-tested
-    bit, queue10)
+  source: 2026-04-26 cascade_eligibility_sweep at bit=28 fill=0xff (NEW first-time-tested bit, queue10)
   da56:
     status: verified
     state_hash: null
@@ -2781,7 +2771,7 @@
       status: unknown
       evidence: []
       cert_id: null
-      notes: "F70-F102 cert-pin coverage 2026-04-28: 10 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale"
+      notes: 'F70-F102 cert-pin coverage 2026-04-28: 10 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale'
     true_sr61:
       status: unknown
       evidence: []
@@ -2805,8 +2795,7 @@
     - 9
     bit: 28
     diff_hex: '0x10000000'
-  source: 2026-04-26 cascade_eligibility_sweep at bit=28 fill=0xff (NEW first-time-tested
-    bit, queue10)
+  source: 2026-04-26 cascade_eligibility_sweep at bit=28 fill=0xff (NEW first-time-tested bit, queue10)
   da56:
     status: verified
     state_hash: null
@@ -2823,7 +2812,7 @@
       status: unknown
       evidence: []
       cert_id: null
-      notes: "F70-F102 cert-pin coverage 2026-04-28: 36 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale"
+      notes: 'F70-F102 cert-pin coverage 2026-04-28: 36 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale'
     true_sr61:
       status: unknown
       evidence: []
@@ -2847,8 +2836,7 @@
     - 9
     bit: 28
     diff_hex: '0x10000000'
-  source: 2026-04-26 cascade_eligibility_sweep at bit=28 fill=0xff (NEW first-time-tested
-    bit, queue10)
+  source: 2026-04-26 cascade_eligibility_sweep at bit=28 fill=0xff (NEW first-time-tested bit, queue10)
   da56:
     status: verified
     state_hash: null
@@ -2865,7 +2853,7 @@
       status: unknown
       evidence: []
       cert_id: null
-      notes: "F70-F102 cert-pin coverage 2026-04-28: 10 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale"
+      notes: 'F70-F102 cert-pin coverage 2026-04-28: 10 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale'
     true_sr61:
       status: unknown
       evidence: []
@@ -2889,8 +2877,7 @@
     - 9
     bit: 29
     diff_hex: '0x20000000'
-  source: 2026-04-26 cascade_eligibility_sweep at bit=29 fill=0xff (NEW first-time-tested
-    bit, queue10)
+  source: 2026-04-26 cascade_eligibility_sweep at bit=29 fill=0xff (NEW first-time-tested bit, queue10)
   da56:
     status: verified
     state_hash: null
@@ -2907,7 +2894,7 @@
       status: unknown
       evidence: []
       cert_id: null
-      notes: "F70-F102 cert-pin coverage 2026-04-28: 24 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale"
+      notes: 'F70-F102 cert-pin coverage 2026-04-28: 24 runs logged, all UNSAT in HW range [44,120]; see negatives.yaml#single_block_cascade1_sat_at_compute_scale'
     true_sr61:
       status: unknown
       evidence: []
