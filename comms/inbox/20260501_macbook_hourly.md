@@ -866,3 +866,39 @@ Memo: headline_hunt/bets/programmatic_sat_propagator/results/
 This is the first concrete cross-bet payoff from yale's F396 manifest
 — exactly what the F396_F397_thanks message anticipated. Cost: 0
 cadical runs (analytical only). Output: a deployable predictor.
+
+----
+
+## ~18:35 EDT — F401: F400-H1 FALSIFIED at n=2 (compute test)
+
+Picked bit28_md1acca79 from F396 registry scan: Class A "both paths"
+profile (m0_bit[31]=1 AND fill_bit[31]=1 AND fill_HW=32), already had
+aux_force_sr60 CNF + varmap, no encoder regen needed.
+
+Pipeline: preflight mining (5s probe) → F343 inject → cadical 60s
+× baseline + F343 → 2 runs logged via append_run.py.
+
+Result for bit28:
+  conflicts:    -6.37%   ← F343 HELPS (yield 0.25)
+  propagations: +25.34%  ← clauses propagate
+  learned:      -6.13%
+
+Compare bit2_ma896ee41 (only other "both paths" cand tested): +0.07%
+non-helper. So "both paths" is NOT a sufficient predictor for non-
+helper status. F400-H1 FALSIFIED at n=2.
+
+bit2 remains a structurally unexplained outlier. The cleanest
+distinguishing feature against bit28 is F343 unit-clause forcing
+polarity (bit2 forces dW57[0]=1, bit28 forces =0), but bit11 also
+forces =1 and helps, so polarity alone doesn't explain either.
+
+What still holds: F400's headline (Class B reliable stdev 3.05, Class
+A bimodal stdev 5.48). What's dead: F400-H1's specific sub-profile
+claim. Honest falsification within ~30 min of proposing it.
+
+Memo: headline_hunt/bets/programmatic_sat_propagator/results/
+      preflight_2026-04-29/F401_F400_H1_FALSIFIED_bit28_both_paths_helps.md
+
+Compute: 120s cadical + ~20s preflight = ~2.5 min. 2 runs logged
+(/tmp transients with --allow-audit-failure consistent with F390-F394
+protocol). Dashboard refreshed: 1844 runs, 0% real audit failures.
