@@ -142,3 +142,29 @@ Includes:
     (`wc -l` + `p cnf` + encoder-version cross-check before measuring Δ)
   - Standing reopen criterion: "≈ −9% conflict reduction at 60s budget,
     σ=2.68%" — neither hyperbolic nor sandbagged.
+
+## ~05:25 EDT — heartbeat refreshes (2 bets, real progress notes)
+
+**programmatic_sat_propagator/BET.yaml**:
+  - Removed duplicate `last_heartbeat` field (had stale 2026-04-28T23:15
+    AND newer 2026-04-29T15:05 — YAML parser was keeping the second,
+    but the dup was a smell).
+  - Refreshed to 2026-04-30T05:23Z.
+  - Added `recent_progress_2026-04-30_F343_F369_chain` block: full
+    F339-F369 chronology (~50 lines), standing F343-injection envelope,
+    Phase 2D viability matrix. The BET.yaml `current_progress` field
+    remains the older Phase-2 ENGINEERING-COMPLETE narrative; the new
+    block captures the empirical chain that didn't fit anywhere else.
+
+**sr61_n32/BET.yaml**:
+  - Heartbeat was 4 days stale (2026-04-26, interval=3).
+  - Refreshed to 2026-04-30T05:23Z.
+  - Added `recent_progress_2026-04-30_F358_F360_cross_bet` block:
+    documents that the only sr61_n32 activity since 2026-04-26 was the
+    F358 baseline cadical run on F235 (single TIMEOUT, logged), and the
+    cross-bet F360 finding that CNF-only F343 injection on basic_cascade
+    gives ~−0.79% (near-noise). HONEST: bet has no structural progress
+    in 4 days; the work that benefits sr61_n32 is happening in adjacent
+    bets, no kill criterion tripped, owner=fleet stays in_flight.
+
+`validate_registry.py`: 0 errors, 0 warnings post-edit.

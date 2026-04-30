@@ -42,6 +42,38 @@ current_progress: |
   is EXHAUSTIVE for this (kernel_bit, fill) cell. Σ1/σ1 alignment hypothesis
   (registry/notes/20260425_covered_bits_pattern.md) still being tested at
   σ0-aligned bits {7, 18} and Σ0-aligned bit 22.
-last_heartbeat: "2026-04-26T00:38:00Z"
+last_heartbeat: "2026-04-30T05:23:00Z"
 heartbeat_interval_days: 3      # higher cadence — this is the most-likely-to-drift bet
 audit_required: true
+recent_progress_2026-04-30_F358_F360_cross_bet: |
+  Cross-bet activity from programmatic_sat_propagator's F343-F369 chain
+  (2026-04-29 → 2026-04-30). The F235 hard instance
+  (sr61_cascade_m09990bd2_f80000000_bit25.cnf, kissat 848s timeout
+  reference) was used as the basic_cascade encoder test substrate:
+
+    F358 baseline: cadical --seed=0 -t 295s on F235. 5,448,917 conflicts
+    UNKNOWN. Logged as run_20260430_001911_sr61_n32_cadical_seed0_8a4285e8.
+    Cross-solver pair partner for F358 injection-speedup measurement.
+
+    F360 (logged under programmatic_sat_propagator): F358 + 130 corrected
+    OR-of-XOR clauses → −0.79% conflict reduction at 5min. CNF-only
+    injection on basic_cascade gives near-noise speedup. F358's earlier
+    −2.1% was a polarity-encoding bug (caught + corrected).
+
+  Implication for sr61_n32: the basic_cascade encoder family doesn't
+  benefit from CNF-only F343 injection. The 1800 CPU-h baseline isn't
+  going to be easily reduced via this path. The leverage point would be
+  IPASIR-UP native-hook injection (cb_add_external_clause) which would
+  bypass the OR-of-XOR overhead — but that's programmatic_sat_propagator's
+  Phase 2D, not sr61_n32's scope.
+
+  No new sr61_n32-tagged compute since 2026-04-26 outside the F358 single
+  baseline run. Bet stays in_flight, owner=fleet, no machine actively
+  pursuing it. cnfs_n32/ corpus stable (78 CONFIRMED CNFs, last full
+  audit 2026-04-30 ~03:30 EDT, observed bounds match 2026-04-28 envelope).
+
+  Honest: this is a heartbeat refresh on a bet that has not made
+  structural progress in 4 days. The work that benefits sr61_n32 is
+  being done in adjacent bets (programmatic_sat_propagator, math_principles).
+  No action needed; no kill criterion tripped (audit-failure rate 0/83
+  on this bet's CNFs).

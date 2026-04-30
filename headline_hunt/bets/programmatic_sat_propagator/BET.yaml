@@ -23,7 +23,6 @@ current_progress: "ENGINEERING-COMPLETE (2026-04-25): Phase 2 propagator impleme
   Recommend NOT initiating multi-hour compute experiments on Rule 4 alone.\nMode B (cascade_aux_encoding force mode) achieves\
   \ ~80% of the\npropagator's preprocessing effect with 10% of the complexity.\n\nCross-kernel diagnostic for any future re-test:\
   \ focus on bit-25 (249\nfires) and bit-19 (209 fires, 32 max bits in 1 sample) where the\npropagator's value-add is concentrated.\n"
-last_heartbeat: '2026-04-28T23:15:00Z'
 recent_progress_2026-04-28_PM: |
   REOPEN RATIONALE STRENGTHENED via F237 + F238 (cascade_aux_encoding
   bet's findings).
@@ -81,7 +80,62 @@ recent_progress_2026-04-28_PM: |
       F235-class, <1.5x on easy sr=60 (per propagators/IPASIR_UP_API.md
       2026-04-29 update).
 heartbeat_interval_days: 14
-last_heartbeat: '2026-04-29T15:05:00Z'
+last_heartbeat: '2026-04-30T05:23:00Z'
+recent_progress_2026-04-30_F343_F369_chain: |
+  Major empirical chain shipped 2026-04-29 → 2026-04-30 on this bet. Yale's
+  F378-F384 (W57[22:23] bridge-clause UNSAT pair) seeded the macbook side:
+
+    F339-F342: independent confirmation across 6 cands. Class 1a-univ
+               (dW57[0] forced) + Class 2-univ (W57[22:23] forbidden,
+               polarity flips with bit-31-of-fill) established as
+               universal-with-flip CDCL facts.
+    F343:      preflight_clause_miner.py (~250 LOC) — runs cadical 5s
+               probes + extracts the 2 mined clauses per cand at solver
+               init. ~20s wall per cand.
+    F344-F346: row-extension (32 clauses) and algebraic-prediction
+               attempts. F345 falsified F344's "32 clauses sufficient"
+               (model count >1000); F346 falsified algebraic dW57
+               prediction from M alone. Stays at the 2-clause minimal.
+    F347:      first measured speedup — single seed bit31 32-clause:
+               −13.7% conflict reduction at 60s.
+    F348:      cross-cand 5-cand 2-clause single-seed: −8.78%.
+    F351-F353: F349 SAT-report verification (24h bg-task → 4h cadical+
+               kissat parallel under user approval); SAT NOT REPRODUCED.
+               F349 stays PENDING_NEGATIVE_EVIDENCE_4H.
+    F354-F357: sr-invariance (sr=60 = sr=61 force-mode), mode-invariance
+               (force = expose), and basic-cascade encoder F235 test.
+    F358:      F235 with 6 mined clauses → −2.1%; subsequently caught a
+               polarity bug in the OR-of-XOR clauses.
+    F360:      F358 corrected → −0.79% on basic_cascade. Effect is much
+               smaller on basic_cascade than aux_force.
+    F361:      IPASIR_UP_API.md envelope updated (F347-F360 picture).
+    F362-F363: sr=61 cands → ~−0.5% to −0.7% (basic_cascade-class).
+    F364-F366: budget dependence test. F347's 13.7% saturates from
+               −8.4% at 60s to −0.79% at 5min. Multi-seed σ ≈ 2-3%.
+    F368:      F348 5-cand replication seeds {1,2}. **CONFOUNDED** —
+               old-encoder (12592 vars) baseline vs new-encoder (13220
+               vars) injected. Reported "fill-polarity-flip" hypothesis.
+    F369:      F368 confound resolved — fresh-encoder baselines.
+               Clean grand mean: **−9.10% σ=2.68%** (5 cands × 3 seeds,
+               60s budget, aux_force sr=60). F368's polarity-flip claim
+               RETRACTED.
+
+  Standing F343-injection envelope (post-F369):
+    aux_force sr=60, 60s cadical: −9.10% σ=2.68% (5 cands × 3 seeds)
+    aux_force sr=60/61, 5min cadical: −0.79% (saturated)
+    aux_expose sr=60: −1.06% (single seed)
+    basic_cascade sr=61: −0.79% (single seed, F235)
+
+  Phase 2D propagator viability (sharpened by this chain):
+    Cube-and-conquer use:    VIABLE (cumulative ≈ 9% × N cubes)
+    Single deep solve:       MARGINAL (~1% saturated)
+    Native cb_add_external_clause on basic_cascade: only path to ≥2x
+
+  Sixth retraction lesson: always cross-check `wc -l` and `p cnf` and
+  encoder-version on baseline+treatment before measuring Δ.
+
+  Bet stays CLOSED. Phase 2D C++ build (~10-14h) gates on user direction.
+  Empirical foundation now well-grounded.
 reopen_candidate_2026_04_29_F326_sharpened: |
   F326 cross-cand validation (cascade_aux_encoding) confirms the 132-bit
   universal hard core is a CDCL-search invariant of the cascade-1
