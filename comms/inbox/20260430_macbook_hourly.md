@@ -630,3 +630,38 @@ Shipped:
   - `bets/block2_wang/results/20260430_F374_sub65_residual_cluster_analysis.md`
   - 0 solver runs (pure analysis)
   - 4 concrete predictive findings, 1 cross-bet design recommendation
+
+## ~09:10 EDT — F375 + yale cross-machine message
+
+**F375: 10 missing aux variants generated for F374 deep-tail cands.**
+Coverage check found bit2_ma896ee41 (0/4), bit13_m4e560940 (0/4), and
+bit28_md1acca79 (2/4 sr=61-only) had aux corpus gaps. Generated the
+10 missing CNFs via `cascade_aux_encoder.py`, audited each → all 10
+CONFIRMED. Updated `cnf_fingerprints.yaml` for all 4 buckets (sr60_force,
+sr60_expose, sr61_force, sr61_expose) with new observed_n_kernels +
+last_audited 2026-04-30.
+
+  Aux corpus counts now: sr60_force 31 (was 28), sr60_expose 63 (was 60),
+                         sr61_force 34 (was 32), sr61_expose 34 (was 32).
+                         Total 162 (was 152, +10).
+
+bit2 + bit13 + bit28 are now first-class participants in cascade_aux.
+Future F343-class preflight measurements + F348-class cross-cand
+injection sweeps can include them without per-cand encoder gaps.
+
+**Cross-machine message to yale**: wrote
+`comms/inbox/20260430_macbook_to_yale_F374_cluster_findings_for_math_principles.md`
+explicitly tying F374's 4 signatures into yale's math_principles bet's
+stated lines:
+  - Signature 2 (`da≠de` 100%) is testable from yale's atlas continuations
+  - Signature 3 (c/g 25% lighter) feeds yale's submodular mask selection
+    + influence priors + REM/tail-law fitting
+  - Signature 4 (bit3/bit2/bit28 dominate deep tail) suggests per-cand
+    REM fit + prioritized seed selection in yale's strict-kernel work
+  - F375's symmetric-corpus update enables yale to use bit2/bit13/bit28
+    aux variants directly without re-encoding
+
+Cumulative session 2026-04-30 commits to date: 31f902f → 7ae2fad → 6cf6a78
+→ 4840bfe → 58e14a0 → (F375). 6-7 commits all green discipline.
+
+`validate_registry.py` post-F375: 0 errors, 0 warnings.

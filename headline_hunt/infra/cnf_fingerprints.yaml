@@ -107,11 +107,11 @@
   vars_range: [12450, 13350]   # widened 2026-04-25 for modular-diff aux (Phase 2C-Rule4); cap < sr61 range
   clauses_range: [52400, 55300]
   example_file: "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_expose_sr60_n32_bit31_m17149975_fillffffffff.cnf"
-  observed_n_kernels: 24
+  observed_n_kernels: 25
   observed_vars: [12540, 13256]   # before / after modular-diff aux added
   observed_clauses: [52454, 54947]
-  last_audited: "2026-04-28"
-  notes: "2026-04-28 re-audit: 60 sr60 expose CNFs in cascade_aux/cnfs/ (largest bucket), 24 distinct kernel-bits. Empirical range [12540,13256] / [52454,54947] within fingerprint envelope."
+  last_audited: "2026-04-30"
+  notes: "2026-04-30 F375 re-audit: 63 sr60 expose CNFs (was 60), 25 distinct kernel-bits (was 24). 3 new aux variants added for F374 deep-tail cands (bit2_ma896ee41, bit13_m4e560940, bit28_md1acca79). All CONFIRMED, observed range unchanged ([12540,13256] / [52454,54947])."
 
 - bucket_id: sr60_n32_cascade_aux_force
   sr_level: 60
@@ -119,12 +119,12 @@
   encoder_variant: "cascade_aux_force"
   vars_range: [12450, 13350]   # widened 2026-04-25 for modular-diff aux (Phase 2C-Rule4); cap < sr61 range
   clauses_range: [52400, 55300]
-  observed_n_kernels: 15
+  observed_n_kernels: 16
   observed_vars: [12540, 13255]
   observed_clauses: [52454, 54947]
   example_file: "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit31_m17149975_fillffffffff.cnf"
-  last_audited: "2026-04-28"
-  notes: "2026-04-28 re-audit: 28 sr60 force CNFs in cascade_aux/cnfs/, 15 distinct kernel-bits. Empirical range [12540,13255] / [52454,54947] within fingerprint envelope."
+  last_audited: "2026-04-30"
+  notes: "2026-04-30 F375 re-audit: 31 sr60 force CNFs (was 28), 16 distinct kernel-bits (was 15). 3 new aux variants added for F374 deep-tail cands. All CONFIRMED, observed range unchanged."
 
 - bucket_id: sr61_n32_cascade_aux_expose
   sr_level: 61
@@ -132,11 +132,11 @@
   encoder_variant: "cascade_aux_expose"
   vars_range: [13360, 14000]   # widened 2026-04-25 for modular-diff aux; floor > sr60 cap
   clauses_range: [55400, 56500]
-  observed_n_kernels: 18
-  observed_vars: [13444, 13900]    # 2026-04-28 re-audit: 32 CNFs, 18 distinct kernel-bits
+  observed_n_kernels: 19
+  observed_vars: [13444, 13900]    # 2026-04-30 re-audit: 34 CNFs, 19 distinct kernel-bits
   observed_clauses: [55834, 56233]
   example_file: "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_expose_sr61_n32_bit31_m17149975_fillffffffff.cnf"
-  last_audited: "2026-04-28"
+  last_audited: "2026-04-30"
   notes: |
     2026-04-26: locked-bit-hint wrapper output (locked_bit_hint_wrapper.py)
     SHARES this fingerprint range. Naming convention:
@@ -144,6 +144,10 @@
     Adds 6-13 unit clauses on aux_reg[("e",58)] vs base. n=18 LBH-augmented
     CNFs measured: vars [13463, 13536], clauses [55891, 56218] — within
     range. Audits CONFIRMED with current pattern.
+    2026-04-30 F375 re-audit: 34 sr61 expose CNFs (was 32), 19 distinct
+    kernel-bits (was 18). 2 new aux variants added for F374 deep-tail
+    cands (bit2_ma896ee41, bit13_m4e560940). All CONFIRMED, observed
+    range unchanged ([13444, 13900] vars).
 
 - bucket_id: sr61_n32_cascade_aux_force
   sr_level: 61
@@ -151,14 +155,17 @@
   encoder_variant: "cascade_aux_force"
   vars_range: [13360, 14000]
   clauses_range: [55400, 56500]
-  observed_n_kernels: 18
-  observed_vars: [13444, 13900]    # 2026-04-28 re-audit: 32 CNFs, 18 distinct kernel-bits
+  observed_n_kernels: 19
+  observed_vars: [13444, 13900]    # 2026-04-30 re-audit: 34 CNFs, 19 distinct kernel-bits
   observed_clauses: [55834, 56233]
   example_file: "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr61_n32_bit31_m17149975_fillffffffff.cnf"
-  last_audited: "2026-04-28"
+  last_audited: "2026-04-30"
   notes: |
     2026-04-26: locked-bit-hint wrapper output (Mode B + hints) shares this
     fingerprint range when named aux_force_sr61_*_lbh.cnf. n=18 verified.
+    2026-04-30 F375 re-audit: 34 sr61 force CNFs (was 32), 19 distinct
+    kernel-bits (was 18). 2 new aux variants added for F374 deep-tail
+    cands. All CONFIRMED, observed range unchanged.
 
 # sr=59 cascade-aux: 5 free rounds (57-61). Smaller search space than sr=60.
 # Viragh's published 2026 collision is at sr=59, so SAT-finding here serves as
