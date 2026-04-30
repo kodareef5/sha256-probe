@@ -280,3 +280,45 @@ Shipped:
 Open: confirm F387 by testing 1-2 m0_bit[31]=1 cands at fill=0x80000000
 (predicted Class A by F387, would be FALSE for F386). Strong test of
 Path 1.
+
+## ~13:15 EDT — F388: F387 Path 1 CONFIRMED at n=16
+
+Tested 2 cands where Path 2 fails completely (fill_HW ≤ 1) but Path 1
+holds (m0_bit[31]=1):
+
+  bit10_m9e157d24 fill=0x80000000 (HW=1): m0=0x9e157d24 has bit-31=1
+  msb_m9cfea9ce   fill=0x00000000 (HW=0): m0=0x9cfea9ce has bit-31=1
+
+Both predicted Class A by F387 Path 1. Both predicted Class B by F386
+(which lacked Path 1).
+
+Empirical: BOTH ladder=31 (Class A). **F387 confirmed.**
+
+This is the cleanest test of Path 1's independent existence — fill
+contributes nothing in either case (HW≤1) but the ladder still appears.
+M[0]=m0 with bit-31 set is sufficient on its own to propagate bit-31
+through the round function into the cascade-1 region.
+
+F387 rule now anchored at n=16:
+
+  ladder iff (m0_bit[31] = 1) OR (fill_bit[31] = 1 AND fill_HW > 1)
+
+Path 1 (m0): 14 cands (excl. fill=ffffffff/aaaaaaaa) → 14 + Path 2's 37 = 51 of 67 (76%)
+Path 2 (fill): 37 cands
+
+Project's rule has stabilized: 0 falsifications since F387's proposal.
+
+Phase 2D pre-injection becomes:
+```python
+def class_a(m0, fill):
+    return ((m0 >> 31) & 1) or (((fill >> 31) & 1) and bin(fill).count("1") > 1)
+```
+
+Shipped:
+  - `bets/cascade_aux_encoding/results/20260501_F388_path1_confirmed_F387_anchored_n16.md`
+  - 2 cadical 30s runs logged via append_run.py
+  - 1 new aux_force CNF (bit10_m9e157d24 generated, audited CONFIRMED)
+  - F387 rule anchored at n=16 (10 iterations, ~330s cadical total)
+
+Open: F387 algebraic derivation from encoder source; deployable
+propagator extension code. Both sub-30-min for next session.
