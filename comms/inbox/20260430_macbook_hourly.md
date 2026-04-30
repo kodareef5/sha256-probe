@@ -716,3 +716,44 @@ Shipped:
   - F374 signatures 1+2 confirmed universal; signature 3 refined into
     HW-band-dependent piecewise model; signature 4 explained as
     consistent with band structure
+
+## ~09:50 EDT — F377: F343 preflight on F375 cands FALSIFIES F340 polarity hypothesis
+
+Ran F343 preflight on the 3 F375-generated aux_force_sr60 CNFs
+(bit2_ma896ee41, bit13_m4e560940, bit28_md1acca79) to test F340's
+"bit-31-of-fill SET → (0,1); CLEAR → (0,0)" rule. ~60s total compute.
+
+All 3 have fill bit-31 SET, so F340 predicts (0,1) for all 3.
+Empirical result: **all 3 give forbidden=(0,0).**
+
+Combining F340 (6 cands) + F377 (3 cands) into a 9-cand panel:
+
+  polarity (0,1) ← kbit ∈ {0, 10, 17, 31}
+  polarity (0,0) ← kbit ∈ {2, 11, 13, 28}
+
+The polarity is **kbit-dependent, NOT fill-dependent**. F340 saw a
+correlation in the original 6-cand sample where kbit set and fill
+bit-31 happened to co-vary, but couldn't disambiguate. F377
+disambiguates: kbit is load-bearing.
+
+Tentative replacement hypothesis: HW(kbit) parity:
+  HW(kbit) ODD  → (0,0)  — perfect match for {2, 11, 13, 28} (HWs 1,3,3,3)
+  HW(kbit) EVEN → (0,1)  — matches 3/4 of {0, 10, 17}; kbit=31 (HW=5)
+                         is the outlier giving (0,1)
+
+Testable via more F343 preflight runs at unprobed kbits.
+
+Doesn't invalidate F348/F368/F369 conflict-reduction numbers — those
+measured per-cand mining + injection on the same cand. F377 only
+affects the cross-cand explanatory narrative.
+
+Yale should be told (via the next comms): the F367 acknowledgement
+message I sent yesterday cited F340's fill-bit-31 rule; that's now
+superseded by F377's kbit-dependent finding.
+
+Shipped:
+  - `bets/programmatic_sat_propagator/results/preflight_2026-04-29/F377_polarity_extension_F340_falsified.md`
+  - `F377_polarity_extension.json` aggregate
+  - 3 preflight JSONs in /tmp
+  - 9-cand kbit-polarity table for future cross-reference
+  - 1 falsified hypothesis (F340) + 1 tentative replacement (HW-parity)
