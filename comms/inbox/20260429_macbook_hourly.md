@@ -1289,3 +1289,28 @@ Commit: [next] (F359).
 - F353 4h verification still running (~106 min/240 min, no SAT yet).
 
 Commit: [next] (F359 full sweep).
+
+
+## ~00:50 EDT (Apr 30) — F360: F358 RETRACTION + corrected -0.79% measurement
+
+- Caught F358 bug during F360 derivation: my 4-clause OR-of-XOR
+  encoding had wrong polarities, didn't actually forbid the
+  (W1=W2 AND W1=W2) case. Manual truth-table check confirmed.
+- Corrected F359's 34 mined clauses → 130 F235 CNF clauses with
+  proper encoding. Re-ran cadical 5min comparison.
+- Result: -0.79% conflict reduction (vs F358's claimed -2.1% which
+  came from BUGGY clauses).
+- Retracted F358's interpretation. F343 preflight + CNF-only injection
+  on F235 basic cascade encoder gives ~1% best case — much weaker
+  than F347's 13.7% on aux_force.
+- Speedup envelope clarified:
+    aux_force + 32 clauses (F347): -13.7%
+    aux_force + 2 clauses (F348):  -8.8% mean
+    aux_expose + 2 clauses (F352): -1.06%
+    BASIC CASCADE + 130 clauses (F360): -0.79%  ← real F235 measurement
+- 6th retraction this 2-day arc. Phase 2D propagator NATIVE injection
+  via IPASIR-UP remains the path to F347-class 13.7% on F235.
+
+F353 verification at 117 min/240 min, no SAT.
+
+Commit: [next] (F360 retraction).
