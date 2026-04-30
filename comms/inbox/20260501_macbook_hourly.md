@@ -902,3 +902,48 @@ Memo: headline_hunt/bets/programmatic_sat_propagator/results/
 Compute: 120s cadical + ~20s preflight = ~2.5 min. 2 runs logged
 (/tmp transients with --allow-audit-failure consistent with F390-F394
 protocol). Dashboard refreshed: 1844 runs, 0% real audit failures.
+
+----
+
+## ~19:25 EDT — F402: bit2 confirmed singleton outlier at n=4
+
+Extended F401 from n=2 to n=4 in Class A "both paths" sub-profile by
+encoding + testing bit4_md41b678d (kbit=4) and bit24_mdc27e18c
+(kbit=24). Both got fresh aux_force_sr60 CNFs + varmaps via
+cascade_aux_encoder.py, then F343 preflight + inject + cadical 60s.
+
+n=4 "both paths" Class A panel:
+  bit2  (kbit=2):  +0.07%   non-helper
+  bit4  (kbit=4):  -9.40%   helps strongly (yield 0.24)
+  bit24 (kbit=24): -7.13%   helps (yield 0.32)
+  bit28 (kbit=28): -6.37%   helps (yield 0.25)
+
+3/4 help. bit2 is the lone non-helper across all 9 cands tested for
+F343 effectiveness in the F381-F402 chain (Class A both n=4 + Class A
+path1/path2 n=3 + Class B n=4 = 11 cand-conditions, 1 non-helper).
+
+F400-H1 fully falsified: "both paths" is NOT a non-helper sub-profile.
+Mode within "both paths" is "helps with bounded yield ~0.25" — actually
+a tighter cluster than Class B without the bit2 outlier.
+
+bit2's distinguishing features vs bit4/24/28: kbit=2 (low), unit
+forced=1 + pair forbids (0,0). But neither dimension predicts alone
+(bit4 also forces=1 helps; bit11 also forbids (0,0) helps).
+
+bit2 mechanism remains structurally unexplained at F396-feature level.
+
+Updated Phase 2D F343 recipe (n=9): "deploy F343 universally, except
+bit2_ma896ee41" — cand-level rule, not class-level. Cleaner than the
+F400 class-conditional recipe.
+
+Cross-machine note for yale's F399 matrix: include bit2 explicitly to
+test whether F397 VSIDS-boost rescues the singleton outlier.
+
+Memo: headline_hunt/bets/programmatic_sat_propagator/results/
+      preflight_2026-04-29/F402_both_paths_singleton_outlier_n4.md
+
+Compute: ~4 min cadical + ~40s preflight + ~2s encode = ~5 min wall.
+4 runs logged. Dashboard: 1848 runs, 0% real audit failures.
+
+Hypothesis-test cycle (F400 propose → F401 + F402 falsify) closed
+within the same 60-minute window.
