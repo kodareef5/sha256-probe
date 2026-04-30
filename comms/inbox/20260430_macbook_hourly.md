@@ -478,3 +478,48 @@ Tool is dependency-free (stdlib only) and reusable for cluster-analysis
 follow-ups: feed `extract_top_residuals.py --hw-max 60 --top-k 1000`
 into a clustering script to find structural patterns across the
 sub-60 residuals.
+
+## ~07:50 EDT — F371: F100 cert-pin sweep had a 13-cand BLIND SPOT
+
+Used `extract_top_residuals.py` (just shipped) to cross-reference 47
+per-cand corpora against F100's cert-pin coverage. Findings:
+
+  **F100 covered 54 cands, NOT 67 as documented.** The 13 missing
+  cands HAD per-cand corpora at F100 time, but F100 didn't ingest them.
+  4 of those 13 cands have W-witnesses BELOW F100's covered min_hw=61
+  floor:
+    bit3_m33ec77ca_fillffffffff:  HW=55  (lowest in entire dataset)
+    bit2_ma896ee41_fillffffffff:  HW=57
+    bit28_md1acca79_fillffffffff: HW=59
+    bit13_m4e560940_fillaaaaaaaa: HW=61
+
+  These 4 sub-floor W-witnesses have **NOT been cert-pin verified**.
+  If single-block sr=60 cascade-1 collisions are reachable at our
+  compute scale, they're most likely to materialize at the lowest-HW
+  W-witnesses — and 4 such cands were left untested.
+
+The bit3_m33ec77ca HW=55 record is the strongest single lead in the
+project's residual corpus:
+  w1_57=0x3d7df981  w1_58=0xae13c3a4  w1_59=0x49c834bd  w1_60=0x7619ac16
+  w2_57=0x36ed80fa  w2_58=0x8a9db1fa  w2_59=0x5c63c09d  w2_60=0x0a66d006
+  hw63=[11,7,8,0,12,8,9,0]   active_regs={a,b,c,e,f,g}   da_eq_de=false
+
+Shipped:
+  - `bets/block2_wang/results/20260430_F371_F100_blindspot_13_cands_HW55_lead.md`
+  - Updated `negatives.yaml#single_block_cascade1_sat_at_compute_scale`
+    with F371 caveat in why_closed (54-cand actual vs 67-cand stated)
+    + new would_change_my_mind trigger naming the 4 sub-floor cands
+  - Soft-revision: doesn't *invalidate* the F100 conclusion (54 cands
+    × ~11 W-witnesses × 3 solvers all UNSAT remains strong evidence),
+    but updates the scope statement to match what F100 actually ran
+
+`validate_registry.py` post-edit: 0 errors, 0 warnings.
+
+Recommended next-hour move: cert-pin verify the 4 sub-floor W-witnesses
+via `build_2block_certpin.py` + kissat/cadical/CMS at 60s budget.
+~10 min compute. Highest-leverage block2_wang move available from
+existing data — no new corpus building, no big compute, and the bit3
+HW=55 is structurally the lowest known cascade-1 residual in the
+project. **Deferring launch to next pulse for explicit go-ahead** since
+this crosses the routine-vs-experimental boundary (4 cert-pin builds
++ 12 solver runs). Documented as proposed move (a) in F371 memo.
