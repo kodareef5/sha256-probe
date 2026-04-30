@@ -1450,3 +1450,28 @@ For now, F353 is closed-with-negative-evidence. Continuing with other
 work.
 
 Commit: [next] (F353 final verdict).
+
+
+## ~03:25 EDT (Apr 30) — F366: F343 injection is BUDGET-DEPENDENT, F347 was real
+
+- 3-seed variance tests at multiple budgets resolve F347's 13.7% claim:
+    F366  5-min sr60 bit31: mean -0.79% (saturated, near zero)
+    F366b 60s   sr60 bit31: mean -8.41% (σ=2-3%) ← F347-matched budget
+    F366c 60s   sr61 bit31: mean -8.13% (σ=2%)
+- F347's 13.7% was REAL, just at upper edge of σ≈2-3% spread.
+  My F365 retraction was wrong because budget didn't match.
+- New structural finding: F343 injection SATURATES at extended budgets.
+  Mechanism: pre-loaded clauses help CDCL early; cadical re-derives
+  equivalents within ~5 min. For F235 (848s deep search): ~1%. For
+  short solver invocations: ~8%.
+- Phase 2D propagator value: depends on use case. Cube-and-conquer
+  with many short invocations = real cumulative speedup. Single deep
+  solve = modest 1%.
+- F353 4h kissat injected got +1.31% conflicts vs baseline — confirms
+  budget-saturation at the deep extreme.
+
+This nuances all prior speedup claims. F366 partially retracts my
+F365 retraction. F347's measurement WAS valid but only at its
+specific budget.
+
+Commit: [next] (F366 budget-dependence reframe).
