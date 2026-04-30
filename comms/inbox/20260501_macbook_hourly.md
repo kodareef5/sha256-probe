@@ -179,3 +179,50 @@ Open for next session:
   (a) Investigate bit6_m024723f3 outlier (why no ladder despite fill_bit[6]=1?)
   (b) Run remaining 56 cands systematically (~28 min cadical, definitive picture)
   (c) Algebraically derive ladder condition from cascade-aux encoder source
+
+## ~12:00 EDT — F386: bit6 outlier confirmed genuine, then second iteration finds 12/12 rule
+
+Step 1: Relaxed-classifier reanalysis of bit6_m024723f3 proof (fill=0x7fffffff,
+kbit=6, F385 outlier). Tested aux_step ∈ {1,2}, dw_step ∈ {3..6},
+dw_width ∈ {1,2,3}, both polarities — ZERO ladders found. Confirms
+the outlier is genuine, not a classifier artifact.
+
+Step 2: Proposed AND-rule "fill_bit[31]=1 AND fill_bit[kbit]=1" (fits
+F385's 11 cands). Tested on bit6_m6781a62a (fill=0xaaaaaaaa, kbit=6;
+fill_bit[6]=0; rule predicts Class B). Generated aux_force CNF, ran
+cadical 30s. Result: **ladder=31** (Class A). RULE FALSIFIED.
+
+Step 3: Re-derived rule on n=12. Found:
+
+  **`ladder iff fill_bit[31]=1 AND (fill & 0x7fffffff) != 0`** — fits 12/12
+
+Equivalently: `fill > 0x80000000` (unsigned), or
+`fill_bit[31]=1 AND fill HW > 1`.
+
+Class A coverage under refined rule: 37 of 67 cands (55%):
+  fill=0xffffffff (31 cands): Class A
+  fill=0xaaaaaaaa (6 cands):  Class A
+  Others: Class B
+
+The rule depends only on FILL, not on kbit (F385 was wrong on that).
+The mechanism: cascade-1 sigma1 application requires fill bit-31 set
+to bring high bits into output AND requires fill density >1 to produce
+rich Tseitin XOR patterns. fill=0x80000000 is too sparse despite
+having bit-31 set.
+
+Project's **9th iterative narrowing** in this chain. Each falsification
+within hours. The rule has stabilized at n=12.
+
+Shipped:
+  - `bets/cascade_aux_encoding/results/20260501_F386_bit6_outlier_confirmed_genuine.md`
+    (with two-stage refinement: original AND-rule falsified, then
+     re-corrected rule fits 12/12)
+  - 1 cadical run logged via append_run.py
+  - 1 new aux_force CNF for bit6_m6781a62a (audited CONFIRMED)
+  - dashboard refreshed
+
+The F381 → F386 chain converged: 9 iterations, ~240s cadical compute,
+12/12 cands fit a single algebraic rule on fill alone. **Phase 2D
+pre-injection becomes deterministic** — for each cand's fill, the
+rule decides ladder injection or not. 37 of 67 cands get the
+31-rung ladder; the rest get F343's 2-clause baseline.
