@@ -134,3 +134,48 @@ Shipped:
 Open: F384's open question — test fill=0xfffffffe (1 bit cleared from
 ffffffff) to see if the ladder breaks at exactly 1-bit difference or
 smoothly degrades. ~30s compute. Sub-30-min routine.
+
+## ~11:30 EDT — F385: F384's "fill=0xffffffff specifically" axis is too NARROW
+
+3 more cadical 30s LRAT runs (~90s compute):
+  bit6_m024723f3 fill=0x7fffffff (HW=31, near-Class-A) → ladder=1 (no)
+  msb_m3f239926  fill=0xaaaaaaaa (HW=16) → **ladder=31** (Class A!)
+  bit13_m4e560940 fill=0xaaaaaaaa (HW=16) → **ladder=31** (Class A!)
+
+11-cand fingerprint:
+  Class A (ladder=31): 4 fill=ffffffff + 2 fill=aaaaaaaa = 6
+  Class B (ladder=1): 5 cands across 0x7fffffff, 0x55555555, 0x80000000, 0x00000000
+
+F384's claim "Class A = fill=0xffffffff specifically (31 of 67 cands)"
+is FALSIFIED. Class A includes some 0xaaaaaaaa cands too.
+
+Tentative new rule: **ladder iff fill_bit[kbit] = 1**. Fits 10 of 11
+cands. The lone outlier is bit6_m024723f3 (fill=0x7fffffff, kbit=6;
+fill_bit[6]=1 but no ladder appears). Possible explanations:
+  - Rule is incomplete (depends on more than just fill_bit[kbit])
+  - Classifier's arithmetic-progression assumption misses bit6's ladder
+  - bit6_m024723f3 has m0-specific structure that suppresses the ladder
+
+If the rule holds (ignoring bit6), Class A grows from F384's 31 cands
+(46%) to ~41 cands (61%). Bigger pre-injection target for Phase 2D.
+
+The F381→F385 chain is now: 5 numbered memos, 1 falsified hypothesis
+(F382), 2 narrowing iterations (F383→F384, F384→F385), 11-cand sample,
+~210s of cadical compute. Each iteration tightens the structural rule.
+The CORE finding (Tseitin XOR ladder structure exists in proofs) is
+robust across all iterations. The boundary keeps refining.
+
+Discipline pattern: 8 retraction-or-narrowing iterations across the
+project's history. Each one shipped honestly within hours. F384 added
+retraction header pointing to F385.
+
+Shipped:
+  - `bets/cascade_aux_encoding/results/20260501_F385_xor_ladder_class_A_broader_than_claimed.md`
+  - F384 retraction header → "PARTIALLY_NARROWED — F385 found Class A is broader"
+  - 3 cadical runs logged via append_run.py
+  - 11-cand fingerprint table
+
+Open for next session:
+  (a) Investigate bit6_m024723f3 outlier (why no ladder despite fill_bit[6]=1?)
+  (b) Run remaining 56 cands systematically (~28 min cadical, definitive picture)
+  (c) Algebraically derive ladder condition from cascade-aux encoder source

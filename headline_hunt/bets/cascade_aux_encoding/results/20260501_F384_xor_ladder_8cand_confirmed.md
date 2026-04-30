@@ -1,7 +1,7 @@
 ---
 date: 2026-05-01
 bet: cascade_aux_encoding
-status: HYPOTHESIS_CONFIRMED — fill=0xffffffff → 31-step XOR ladder, 8/8 cands cleanly partition
+status: PARTIALLY_NARROWED — F385 found Class A is broader (includes 0xaaaaaaaa cands)
 parent: F383 (corrected F382's fill-bit-31 hypothesis to fill=0xffffffff)
 type: deliverable_5_progress + hypothesis_confirmation
 compute: 2 cadical 30s LRAT runs (bit3 + bit28); reuse of F381+F382+F383 proofs
