@@ -1359,3 +1359,22 @@ Commit: [next] (F361 doc update).
 F353 verification at 182/240 min, no SAT yet. Re-arming monitor.
 
 Commit: [next] (F362 noise-level finding + cand-variance reframe).
+
+
+## ~02:17 EDT (Apr 30) — F363: bit31 sr61 + 2 clauses also ~noise (-0.72%)
+
+- Tested aux_force_sr61 bit31 m17149975 + F354's 2 mined clauses (5min cadical).
+  Result: -0.72% (vs F362 bit25 sr61 -0.46%).
+- 2-clause F343 minimal preflight gives ~1% across all cands tested.
+- F347's 13.7% on bit31 sr60 with 32 clauses is increasingly looking
+  like: (a) 30-extra-clause bulk effect, or (b) noise outlier.
+- F348's -8.8% mean across 5 cands also suspicious — may be similar.
+- Concrete unblock: F344-style full-row sweep on aux_force_sr61 bit31
+  (~13min mining + 10min comparison) would test if 32-clauses give
+  ~13% even at sr=61 (vs 2-clauses' ~1%).
+- Phase 2D propagator viability picture darkens: real speedup on most
+  cands appears ~1%, far below F361's 1.16x reopen criterion.
+
+F353 verification at ~210/240 min, no SAT yet (final 30 min).
+
+Commit: [next] (F363).
