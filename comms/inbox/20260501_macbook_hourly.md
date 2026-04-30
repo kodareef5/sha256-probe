@@ -589,3 +589,56 @@ Open: verify search-trajectory hypothesis at n=2-3 more cands (bit10
 helps -12%, bit11 helps -7% — both should show prop+ AND conflict-
 patterns). And test the VSIDS-boost proposal with cadical's
 --bumpreason or activity-priming. Sub-30-min routine for next session.
+
+## ~16:15 EDT — F394: search-trajectory hypothesis CONFIRMED at n=4
+
+Ran cadical 60s --stats=true on bit10 + bit11 × baseline + F343
+(4 conditions, ~4 min CPU). Combined with F393's bit2 + bit3 data:
+
+  cand     F343 conflicts Δ%   F343 propagations Δ%   pattern
+  bit2     +0.67%               +5.59%                 prop+ NO prune
+  bit3     -8.99%               +13.25%                prop+ AND prune
+  bit10    -5.16%               +28.14%                prop+ AND prune
+  bit11    -7.55%               +33.69%                prop+ AND prune
+
+**Universal pattern at n=4: F343 clauses ALWAYS propagate (+5-34%)**.
+Variance in EFFECTIVENESS depends on whether cadical's VSIDS branches
+on the F343-constrained vars.
+
+bit2 is the lone "wasted propagation" outlier — F343 clauses fire but
+don't translate to conflict-tree-pruning. Other 3 cands all show
+prop-rise CO-INCIDING with conflict-reduction.
+
+Refined into a **2-factor model**:
+  Factor A: does VSIDS reach the F343-constrained vars? (binary;
+            bit2=NO, others=YES)
+  Factor B: when reached, how often do the constraints trigger
+            conflicts? (graded; bit3=high, bit10/11=lower)
+
+bit3 has the BEST yield ratio (-9% conflicts / +13% prop = 0.68).
+bit10/11 have lower yield ratios (~0.18-0.22). Even within
+"helping" cands, the per-prop pruning yield varies.
+
+Phase 2D mechanism-aligned proposal (F393): extend F343 with
+VSIDS-bumping of dW57[0] + W57[22:23] vars at solver init. Addresses
+Factor A specifically. Untested intervention.
+
+F381 → F394 chain: 15 numbered memos, 30 commits, ~10 hours,
+~680s cadical compute.
+
+Direction is now sharper: structural rule REAL (F387 fits 16/16);
+ladder pre-injection FALSIFIED (F391); F343 effectiveness UNDERSTOOD
+mechanistically (propagation always; pruning conditional on VSIDS
+trajectory at n=4 cands); concrete next intervention proposed
+(VSIDS boost).
+
+Shipped:
+  - `bets/programmatic_sat_propagator/results/preflight_2026-04-29/F394_search_trajectory_hypothesis_confirmed_n4.md`
+  - 4 cadical 60s --stats runs logged via append_run.py
+  - 4 transient logs in /tmp/F394/
+  - dashboard refreshed; validate_registry: 0/0
+
+Open: test VSIDS-boost intervention via cadical's `--bumpreason` or
+activity-priming; investigate Factor B (yield rate variance among
+helping cands); test F344 32-clause variant on bit10/11 to see if
+richer clause sets close the yield gap.

@@ -1,12 +1,12 @@
 # headline_hunt — Runs Dashboard
 
-_Generated 2026-04-30T19:30:53Z_
+_Generated 2026-04-30T20:18:02Z_
 
 ## Global
 
-- Total runs logged: **1829**
+- Total runs logged: **1833**
 - Real audit failure rate: **0.00%** (0 entries)
-- Intentional --allow-audit-failure entries: 104 (5.69%) — discipline-noted, not concerning (transient /tmp CNFs from injection/certpin pipelines)
+- Intentional --allow-audit-failure entries: 108 (5.89%) — discipline-noted, not concerning (transient /tmp CNFs from injection/certpin pipelines)
 
 ## Per-bet rollup
 
@@ -15,7 +15,7 @@ _Generated 2026-04-30T19:30:53Z_
 | block2_wang | 859 | 1 | 858 | 0 | 0 | 0.0 | 0.0 | 2026-04-30T13:24:03Z | 0 | 48 |
 | cascade_aux_encoding | 808 | 3 | 22 | 783 | 0 | 16.3 | 25.0 | 2026-04-30T17:14:35Z | 0 | 0 |
 | mitm_residue | 10 | 0 | 0 | 10 | 0 | 0.3 | 1.3 | 2026-04-25T00:18:27Z | 0 | 0 |
-| programmatic_sat_propagator | 69 | 0 | 0 | 69 | 0 | 1.1 | 1.1 | 2026-04-30T19:30:53Z | 0 | 56 |
+| programmatic_sat_propagator | 73 | 0 | 0 | 73 | 0 | 1.2 | 1.2 | 2026-04-30T20:18:02Z | 0 | 60 |
 | sr61_n32 | 83 | 0 | 0 | 83 | 0 | 2.3 | 2.9 | 2026-04-30T00:19:11Z | 0 | 0 |
 
 ## Notes
