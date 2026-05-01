@@ -29,7 +29,24 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-01T22:55:49Z'
+last_heartbeat: '2026-05-01T23:04:28Z'
+recent_progress_2026-05-01_F486_F487_manifest_rank41_breakthrough: |
+  yale-codex returned to the F473 basin seed manifest after objective-ranked
+  pair pools went negative. Two HW41 manifest seeds were tested with the
+  standard wider c/g-protected pair beam:
+    F486 rank 11 HW41: re-found the previous bit13 HW36 record, no
+      improvement.
+      expanded=3,494,072, bridge_pass=3,493,303, wall=298.28s.
+    F487 rank 12 HW41: NEW bit13 record HW35, cert-pin verified UNSAT with
+      kissat and cadical.
+      W1=0x5228ed8d 0x61a1a29c 0x6a7a8409 0xc7d515db
+      W2=0x1cf531f1 0xb6007fec 0x8af8919a 0xa0dae661
+      hw63=[10,7,1,0,9,7,1,0], score=86.364
+      expanded=3,459,651, bridge_pass=3,459,418, wall=295.46s.
+
+  Current panel is now bit13 HW=35, bit28 HW=42, bit24 HW=43. The manifest
+  tail remains live; next work is exact relaxed Hamming closure around HW35.
+
 recent_progress_2026-05-01_F484_F485_cross_panel_objective_negatives: |
   yale-codex tested objective-ranked c/g pair pools across the other live
   panel cands:
