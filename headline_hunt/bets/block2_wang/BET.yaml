@@ -29,7 +29,22 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-01T23:34:23Z'
+last_heartbeat: '2026-05-01T23:45:30Z'
+recent_progress_2026-05-01_F494_F495_f491_rank7_side_basin: |
+  yale-codex changed seed after direct HW35 restarts went negative:
+    F494 F491 rank-7 HW40 seed
+      W1=0x5228ed8d 0x61a1a29c 0x2a7a8409 0x0cbf355b
+      found a new HW38 side basin:
+      W1=0x5228ed8d 0x61a1a29c 0x2a7a8409 0x357ef153
+      hw63=[8,7,1,0,14,7,1,0], score=83.667
+      expanded=3,554,563, bridge_pass=3,549,183, wall=279.51s.
+    F495 restarted from that HW38 point and did not improve it:
+      seed HW38 stayed best, best selected non-seed HW40,
+      expanded=3,540,272, bridge_pass=3,530,432, wall=286.83s.
+
+  Rank 7 is a distinct side basin but pruned under current pair-beam
+  settings. Continue sampling other F491 tail seeds.
+
 recent_progress_2026-05-01_F492_F493_hw35_pair_beam_negatives: |
   yale-codex tested direct pair-beam restarts from the closed F487 HW35
   witness:
