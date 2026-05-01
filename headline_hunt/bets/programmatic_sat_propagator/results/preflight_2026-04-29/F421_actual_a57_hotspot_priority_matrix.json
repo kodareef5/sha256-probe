@@ -1,0 +1,2538 @@
+{
+  "binary": "/tmp/F421_cascade_propagator",
+  "compile_command": [
+    "g++",
+    "-std=c++17",
+    "-O2",
+    "-I/opt/homebrew/include",
+    "-I/usr/local/include",
+    "/Users/mac/Desktop/sha256_review/headline_hunt/bets/programmatic_sat_propagator/propagators/cascade_propagator.cc",
+    "-L/opt/homebrew/lib",
+    "-L/usr/local/lib",
+    "-lcadical",
+    "-o",
+    "/tmp/F421_cascade_propagator"
+  ],
+  "compile_result": {
+    "cmd": [
+      "g++",
+      "-std=c++17",
+      "-O2",
+      "-I/opt/homebrew/include",
+      "-I/usr/local/include",
+      "/Users/mac/Desktop/sha256_review/headline_hunt/bets/programmatic_sat_propagator/propagators/cascade_propagator.cc",
+      "-L/opt/homebrew/lib",
+      "-L/usr/local/lib",
+      "-lcadical",
+      "-o",
+      "/tmp/F421_cascade_propagator"
+    ],
+    "metrics": {},
+    "returncode": 0,
+    "stderr_tail": [],
+    "stdout_tail": [],
+    "wall_seconds": 1.764
+  },
+  "conflicts": 50000,
+  "matrix_kind": "actual_p1_a57_hotspot_priority",
+  "missing_inputs": [],
+  "mode": "run",
+  "priority_max_suggestions": 132,
+  "priority_set": "actual_p1_a57_hotspots",
+  "priority_spec": "headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/F421_actual_a57_hotspot_priority_specs.json",
+  "priority_stride": null,
+  "report_id": "F421",
+  "runnable_candidates": [
+    {
+      "candidate": "bit2_ma896ee41_fillffffffff",
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+      "commands": [
+        {
+          "arm": "baseline",
+          "cmd": [
+            "/tmp/F421_cascade_propagator",
+            "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+            "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+            "--conflicts=50000",
+            "--seed=0"
+          ],
+          "cnf": "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf"
+        },
+        {
+          "arm": "f343",
+          "cmd": [
+            "/tmp/F421_cascade_propagator",
+            "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff_F421_F343.cnf",
+            "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+            "--conflicts=50000",
+            "--seed=0"
+          ],
+          "cnf": "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff_F421_F343.cnf"
+        },
+        {
+          "arm": "hotspot_priority_max132",
+          "cmd": [
+            "/tmp/F421_cascade_propagator",
+            "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+            "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+            "--conflicts=50000",
+            "--seed=0",
+            "--priority-spec=/Users/mac/Desktop/sha256_review/headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/F421_actual_a57_hotspot_priority_specs.json",
+            "--priority-set=actual_p1_a57_hotspots",
+            "--priority-candidate=bit2_ma896ee41_fillffffffff",
+            "--priority-max-suggestions=132"
+          ],
+          "cnf": "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf"
+        },
+        {
+          "arm": "baseline",
+          "cmd": [
+            "/tmp/F421_cascade_propagator",
+            "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+            "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+            "--conflicts=50000",
+            "--seed=1"
+          ],
+          "cnf": "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf"
+        },
+        {
+          "arm": "f343",
+          "cmd": [
+            "/tmp/F421_cascade_propagator",
+            "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff_F421_F343.cnf",
+            "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+            "--conflicts=50000",
+            "--seed=1"
+          ],
+          "cnf": "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff_F421_F343.cnf"
+        },
+        {
+          "arm": "hotspot_priority_max132",
+          "cmd": [
+            "/tmp/F421_cascade_propagator",
+            "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+            "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+            "--conflicts=50000",
+            "--seed=1",
+            "--priority-spec=/Users/mac/Desktop/sha256_review/headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/F421_actual_a57_hotspot_priority_specs.json",
+            "--priority-set=actual_p1_a57_hotspots",
+            "--priority-candidate=bit2_ma896ee41_fillffffffff",
+            "--priority-max-suggestions=132"
+          ],
+          "cnf": "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf"
+        },
+        {
+          "arm": "baseline",
+          "cmd": [
+            "/tmp/F421_cascade_propagator",
+            "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+            "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+            "--conflicts=50000",
+            "--seed=2"
+          ],
+          "cnf": "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf"
+        },
+        {
+          "arm": "f343",
+          "cmd": [
+            "/tmp/F421_cascade_propagator",
+            "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff_F421_F343.cnf",
+            "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+            "--conflicts=50000",
+            "--seed=2"
+          ],
+          "cnf": "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff_F421_F343.cnf"
+        },
+        {
+          "arm": "hotspot_priority_max132",
+          "cmd": [
+            "/tmp/F421_cascade_propagator",
+            "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+            "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+            "--conflicts=50000",
+            "--seed=2",
+            "--priority-spec=/Users/mac/Desktop/sha256_review/headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/F421_actual_a57_hotspot_priority_specs.json",
+            "--priority-set=actual_p1_a57_hotspots",
+            "--priority-candidate=bit2_ma896ee41_fillffffffff",
+            "--priority-max-suggestions=132"
+          ],
+          "cnf": "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf"
+        }
+      ],
+      "f343_cnf": "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff_F421_F343.cnf",
+      "hotspot_bits": [
+        3,
+        7,
+        8
+      ],
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json"
+    },
+    {
+      "candidate": "bit24_mdc27e18c_fillffffffff",
+      "cnf": "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf",
+      "commands": [
+        {
+          "arm": "baseline",
+          "cmd": [
+            "/tmp/F421_cascade_propagator",
+            "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf",
+            "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf.varmap.json",
+            "--conflicts=50000",
+            "--seed=0"
+          ],
+          "cnf": "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf"
+        },
+        {
+          "arm": "f343",
+          "cmd": [
+            "/tmp/F421_cascade_propagator",
+            "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff_F421_F343.cnf",
+            "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf.varmap.json",
+            "--conflicts=50000",
+            "--seed=0"
+          ],
+          "cnf": "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff_F421_F343.cnf"
+        },
+        {
+          "arm": "hotspot_priority_max132",
+          "cmd": [
+            "/tmp/F421_cascade_propagator",
+            "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf",
+            "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf.varmap.json",
+            "--conflicts=50000",
+            "--seed=0",
+            "--priority-spec=/Users/mac/Desktop/sha256_review/headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/F421_actual_a57_hotspot_priority_specs.json",
+            "--priority-set=actual_p1_a57_hotspots",
+            "--priority-candidate=bit24_mdc27e18c_fillffffffff",
+            "--priority-max-suggestions=132"
+          ],
+          "cnf": "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf"
+        },
+        {
+          "arm": "baseline",
+          "cmd": [
+            "/tmp/F421_cascade_propagator",
+            "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf",
+            "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf.varmap.json",
+            "--conflicts=50000",
+            "--seed=1"
+          ],
+          "cnf": "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf"
+        },
+        {
+          "arm": "f343",
+          "cmd": [
+            "/tmp/F421_cascade_propagator",
+            "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff_F421_F343.cnf",
+            "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf.varmap.json",
+            "--conflicts=50000",
+            "--seed=1"
+          ],
+          "cnf": "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff_F421_F343.cnf"
+        },
+        {
+          "arm": "hotspot_priority_max132",
+          "cmd": [
+            "/tmp/F421_cascade_propagator",
+            "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf",
+            "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf.varmap.json",
+            "--conflicts=50000",
+            "--seed=1",
+            "--priority-spec=/Users/mac/Desktop/sha256_review/headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/F421_actual_a57_hotspot_priority_specs.json",
+            "--priority-set=actual_p1_a57_hotspots",
+            "--priority-candidate=bit24_mdc27e18c_fillffffffff",
+            "--priority-max-suggestions=132"
+          ],
+          "cnf": "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf"
+        },
+        {
+          "arm": "baseline",
+          "cmd": [
+            "/tmp/F421_cascade_propagator",
+            "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf",
+            "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf.varmap.json",
+            "--conflicts=50000",
+            "--seed=2"
+          ],
+          "cnf": "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf"
+        },
+        {
+          "arm": "f343",
+          "cmd": [
+            "/tmp/F421_cascade_propagator",
+            "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff_F421_F343.cnf",
+            "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf.varmap.json",
+            "--conflicts=50000",
+            "--seed=2"
+          ],
+          "cnf": "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff_F421_F343.cnf"
+        },
+        {
+          "arm": "hotspot_priority_max132",
+          "cmd": [
+            "/tmp/F421_cascade_propagator",
+            "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf",
+            "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf.varmap.json",
+            "--conflicts=50000",
+            "--seed=2",
+            "--priority-spec=/Users/mac/Desktop/sha256_review/headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/F421_actual_a57_hotspot_priority_specs.json",
+            "--priority-set=actual_p1_a57_hotspots",
+            "--priority-candidate=bit24_mdc27e18c_fillffffffff",
+            "--priority-max-suggestions=132"
+          ],
+          "cnf": "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf"
+        }
+      ],
+      "f343_cnf": "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff_F421_F343.cnf",
+      "hotspot_bits": [
+        14,
+        16,
+        21,
+        22,
+        23,
+        24,
+        25
+      ],
+      "varmap": "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf.varmap.json"
+    },
+    {
+      "candidate": "bit28_md1acca79_fillffffffff",
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+      "commands": [
+        {
+          "arm": "baseline",
+          "cmd": [
+            "/tmp/F421_cascade_propagator",
+            "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+            "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+            "--conflicts=50000",
+            "--seed=0"
+          ],
+          "cnf": "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf"
+        },
+        {
+          "arm": "f343",
+          "cmd": [
+            "/tmp/F421_cascade_propagator",
+            "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit28_md1acca79_fillffffffff_F421_F343.cnf",
+            "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+            "--conflicts=50000",
+            "--seed=0"
+          ],
+          "cnf": "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit28_md1acca79_fillffffffff_F421_F343.cnf"
+        },
+        {
+          "arm": "hotspot_priority_max132",
+          "cmd": [
+            "/tmp/F421_cascade_propagator",
+            "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+            "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+            "--conflicts=50000",
+            "--seed=0",
+            "--priority-spec=/Users/mac/Desktop/sha256_review/headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/F421_actual_a57_hotspot_priority_specs.json",
+            "--priority-set=actual_p1_a57_hotspots",
+            "--priority-candidate=bit28_md1acca79_fillffffffff",
+            "--priority-max-suggestions=132"
+          ],
+          "cnf": "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf"
+        },
+        {
+          "arm": "baseline",
+          "cmd": [
+            "/tmp/F421_cascade_propagator",
+            "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+            "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+            "--conflicts=50000",
+            "--seed=1"
+          ],
+          "cnf": "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf"
+        },
+        {
+          "arm": "f343",
+          "cmd": [
+            "/tmp/F421_cascade_propagator",
+            "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit28_md1acca79_fillffffffff_F421_F343.cnf",
+            "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+            "--conflicts=50000",
+            "--seed=1"
+          ],
+          "cnf": "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit28_md1acca79_fillffffffff_F421_F343.cnf"
+        },
+        {
+          "arm": "hotspot_priority_max132",
+          "cmd": [
+            "/tmp/F421_cascade_propagator",
+            "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+            "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+            "--conflicts=50000",
+            "--seed=1",
+            "--priority-spec=/Users/mac/Desktop/sha256_review/headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/F421_actual_a57_hotspot_priority_specs.json",
+            "--priority-set=actual_p1_a57_hotspots",
+            "--priority-candidate=bit28_md1acca79_fillffffffff",
+            "--priority-max-suggestions=132"
+          ],
+          "cnf": "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf"
+        },
+        {
+          "arm": "baseline",
+          "cmd": [
+            "/tmp/F421_cascade_propagator",
+            "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+            "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+            "--conflicts=50000",
+            "--seed=2"
+          ],
+          "cnf": "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf"
+        },
+        {
+          "arm": "f343",
+          "cmd": [
+            "/tmp/F421_cascade_propagator",
+            "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit28_md1acca79_fillffffffff_F421_F343.cnf",
+            "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+            "--conflicts=50000",
+            "--seed=2"
+          ],
+          "cnf": "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit28_md1acca79_fillffffffff_F421_F343.cnf"
+        },
+        {
+          "arm": "hotspot_priority_max132",
+          "cmd": [
+            "/tmp/F421_cascade_propagator",
+            "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+            "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+            "--conflicts=50000",
+            "--seed=2",
+            "--priority-spec=/Users/mac/Desktop/sha256_review/headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/F421_actual_a57_hotspot_priority_specs.json",
+            "--priority-set=actual_p1_a57_hotspots",
+            "--priority-candidate=bit28_md1acca79_fillffffffff",
+            "--priority-max-suggestions=132"
+          ],
+          "cnf": "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf"
+        }
+      ],
+      "f343_cnf": "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit28_md1acca79_fillffffffff_F421_F343.cnf",
+      "hotspot_bits": [
+        2,
+        5,
+        6
+      ],
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json"
+    }
+  ],
+  "runs": [
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "Appended run_20260501_123822_programmatic_sat_propagator_cadical-ipasir-up_seed0_7ee62727\n"
+      },
+      "arm": "baseline",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13252  clauses=54947",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit2_ma896ee41_fillffffffff",
+      "cmd": [
+        "/tmp/F421_cascade_propagator",
+        "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+        "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=0"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+      "metrics": {
+        "backtracks": 58131,
+        "cb_decide_suggestions": 0,
+        "cb_propagate_fires": 687,
+        "decisions": 353889,
+        "result": 0
+      },
+      "returncode": 2,
+      "seed": 0,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F421_hotspot_priority/bit2_ma896ee41_fillffffffff_baseline_seed0.stderr.log",
+      "stderr_tail": [
+        "Loaded varmap v3: 56 (reg,round) entries, total_vars=13252",
+        "  actual_p1: 56 entries; actual_p2: 56 entries",
+        "  aux_modular_diff: 4 entries (Rule 4 firing targets)",
+        "Solver seed: 0",
+        "Conflict limit: 50000",
+        "Cascade-zero targets: 448 SAT vars observed, 0 bits already const-false",
+        "Rule 5  (dc_63 = dg_63): 32 bit-pairs registered",
+        "Rule 4@r=61 (dA[61] = dE[61]): 32 bit-pairs registered",
+        "Rule 4 r=62/63 substrate: 768 actual-register SAT vars registered (a,b,c at r=59..62)",
+        "Rule 4 firing targets: 128 modular-diff aux SAT vars across 4 (reg,round) entries",
+        "Propagator connected: 448 cascade-zero vars + 128 Rule-5 vars + 384 actual-register vars + 0 decision-priority vars + 0 trace vars observed",
+        "Loaded 54947 clauses from /Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+        "Solving with cascade propagator...",
+        "",
+        "Result: 0 (10=SAT, 20=UNSAT, 0=UNKNOWN)",
+        "Propagator stats:",
+        "  notify_assignment events: 399792",
+        "  cb_propagate fires:       687",
+        "    of which Rule 5 fires:  32",
+        "    of which Rule 4@r=61:   32",
+        "    of which Rule 4@r=62 forcings: 175",
+        "  cb_decide suggestions:    0",
+        "  cb_decide priority:       a61_fallback (0 vars, max_suggestions=-1, stride=1)",
+        "  trace vars first-seen:    0 / 0",
+        "  actual-reg bit assigns:   673285",
+        "  dT2_62 computable (sample, full): 0 (out of ~164 samples)",
+        "  dT2_62 partial-bit firing samples: 20 (max bits forced in any sample: 8)",
+        "  decisions:                353889",
+        "  backtracks:               58131"
+      ],
+      "stdout_log": "/tmp/F421_hotspot_priority/bit2_ma896ee41_fillffffffff_baseline_seed0.stdout.log",
+      "stdout_tail": [
+        "s UNKNOWN"
+      ],
+      "wall_seconds": 2.228794
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "Appended run_20260501_123825_programmatic_sat_propagator_cadical-ipasir-up_seed0_a48f76ff\n"
+      },
+      "arm": "f343",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /tmp/F421_hotspot_priority/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff_F421_F343.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13252  clauses=54949",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit2_ma896ee41_fillffffffff",
+      "cmd": [
+        "/tmp/F421_cascade_propagator",
+        "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff_F421_F343.cnf",
+        "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=0"
+      ],
+      "cnf": "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff_F421_F343.cnf",
+      "metrics": {
+        "backtracks": 57869,
+        "cb_decide_suggestions": 0,
+        "cb_propagate_fires": 687,
+        "decisions": 350989,
+        "result": 0
+      },
+      "returncode": 2,
+      "seed": 0,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F421_hotspot_priority/bit2_ma896ee41_fillffffffff_f343_seed0.stderr.log",
+      "stderr_tail": [
+        "Loaded varmap v3: 56 (reg,round) entries, total_vars=13252",
+        "  actual_p1: 56 entries; actual_p2: 56 entries",
+        "  aux_modular_diff: 4 entries (Rule 4 firing targets)",
+        "Solver seed: 0",
+        "Conflict limit: 50000",
+        "Cascade-zero targets: 448 SAT vars observed, 0 bits already const-false",
+        "Rule 5  (dc_63 = dg_63): 32 bit-pairs registered",
+        "Rule 4@r=61 (dA[61] = dE[61]): 32 bit-pairs registered",
+        "Rule 4 r=62/63 substrate: 768 actual-register SAT vars registered (a,b,c at r=59..62)",
+        "Rule 4 firing targets: 128 modular-diff aux SAT vars across 4 (reg,round) entries",
+        "Propagator connected: 448 cascade-zero vars + 128 Rule-5 vars + 384 actual-register vars + 0 decision-priority vars + 0 trace vars observed",
+        "Loaded 54949 clauses from /tmp/F421_hotspot_priority/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff_F421_F343.cnf",
+        "Solving with cascade propagator...",
+        "",
+        "Result: 0 (10=SAT, 20=UNSAT, 0=UNKNOWN)",
+        "Propagator stats:",
+        "  notify_assignment events: 439713",
+        "  cb_propagate fires:       687",
+        "    of which Rule 5 fires:  32",
+        "    of which Rule 4@r=61:   32",
+        "    of which Rule 4@r=62 forcings: 175",
+        "  cb_decide suggestions:    0",
+        "  cb_decide priority:       a61_fallback (0 vars, max_suggestions=-1, stride=1)",
+        "  trace vars first-seen:    0 / 0",
+        "  actual-reg bit assigns:   792609",
+        "  dT2_62 computable (sample, full): 0 (out of ~193 samples)",
+        "  dT2_62 partial-bit firing samples: 20 (max bits forced in any sample: 8)",
+        "  decisions:                350989",
+        "  backtracks:               57869"
+      ],
+      "stdout_log": "/tmp/F421_hotspot_priority/bit2_ma896ee41_fillffffffff_f343_seed0.stdout.log",
+      "stdout_tail": [
+        "s UNKNOWN"
+      ],
+      "wall_seconds": 2.033582
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "Appended run_20260501_123827_programmatic_sat_propagator_cadical-ipasir-up_seed0_2a10b531\n"
+      },
+      "arm": "hotspot_priority_max132",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13252  clauses=54947",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit2_ma896ee41_fillffffffff",
+      "cmd": [
+        "/tmp/F421_cascade_propagator",
+        "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+        "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=0",
+        "--priority-spec=/Users/mac/Desktop/sha256_review/headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/F421_actual_a57_hotspot_priority_specs.json",
+        "--priority-set=actual_p1_a57_hotspots",
+        "--priority-candidate=bit2_ma896ee41_fillffffffff",
+        "--priority-max-suggestions=132"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+      "metrics": {
+        "backtracks": 58932,
+        "cb_decide_suggestions": 132,
+        "cb_propagate_fires": 1911,
+        "decisions": 408641,
+        "result": 0
+      },
+      "returncode": 2,
+      "seed": 0,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F421_hotspot_priority/bit2_ma896ee41_fillffffffff_hotspot_priority_max132_seed0.stderr.log",
+      "stderr_tail": [
+        "Loaded varmap v3: 56 (reg,round) entries, total_vars=13252",
+        "  actual_p1: 56 entries; actual_p2: 56 entries",
+        "  aux_modular_diff: 4 entries (Rule 4 firing targets)",
+        "Solver seed: 0",
+        "Conflict limit: 50000",
+        "Decision priority loaded: actual_p1_a57_hotspots:bit2_ma896ee41_fillffffffff (3 vars, max_suggestions=132)",
+        "Cascade-zero targets: 448 SAT vars observed, 0 bits already const-false",
+        "Rule 5  (dc_63 = dg_63): 32 bit-pairs registered",
+        "Rule 4@r=61 (dA[61] = dE[61]): 32 bit-pairs registered",
+        "Rule 4 r=62/63 substrate: 768 actual-register SAT vars registered (a,b,c at r=59..62)",
+        "Rule 4 firing targets: 128 modular-diff aux SAT vars across 4 (reg,round) entries",
+        "Decision-shaping ENABLED (actual_p1_a57_hotspots:bit2_ma896ee41_fillffffffff)",
+        "Propagator connected: 448 cascade-zero vars + 128 Rule-5 vars + 384 actual-register vars + 3 decision-priority vars + 0 trace vars observed",
+        "Loaded 54947 clauses from /Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+        "Solving with cascade propagator...",
+        "",
+        "Result: 0 (10=SAT, 20=UNSAT, 0=UNKNOWN)",
+        "Propagator stats:",
+        "  notify_assignment events: 516026",
+        "  cb_propagate fires:       1911",
+        "    of which Rule 5 fires:  32",
+        "    of which Rule 4@r=61:   32",
+        "    of which Rule 4@r=62 forcings: 1399",
+        "  cb_decide suggestions:    132",
+        "  cb_decide priority:       actual_p1_a57_hotspots:bit2_ma896ee41_fillffffffff (3 vars, max_suggestions=132, stride=1)",
+        "  trace vars first-seen:    0 / 0",
+        "  actual-reg bit assigns:   891925",
+        "  dT2_62 computable (sample, full): 0 (out of ~217 samples)",
+        "  dT2_62 partial-bit firing samples: 73 (max bits forced in any sample: 15)",
+        "  decisions:                408641",
+        "  backtracks:               58932"
+      ],
+      "stdout_log": "/tmp/F421_hotspot_priority/bit2_ma896ee41_fillffffffff_hotspot_priority_max132_seed0.stdout.log",
+      "stdout_tail": [
+        "s UNKNOWN"
+      ],
+      "wall_seconds": 2.185163
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "Appended run_20260501_123829_programmatic_sat_propagator_cadical-ipasir-up_seed1_1643872f\n"
+      },
+      "arm": "baseline",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13252  clauses=54947",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit2_ma896ee41_fillffffffff",
+      "cmd": [
+        "/tmp/F421_cascade_propagator",
+        "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+        "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=1"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+      "metrics": {
+        "backtracks": 57907,
+        "cb_decide_suggestions": 0,
+        "cb_propagate_fires": 687,
+        "decisions": 347066,
+        "result": 0
+      },
+      "returncode": 2,
+      "seed": 1,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F421_hotspot_priority/bit2_ma896ee41_fillffffffff_baseline_seed1.stderr.log",
+      "stderr_tail": [
+        "Loaded varmap v3: 56 (reg,round) entries, total_vars=13252",
+        "  actual_p1: 56 entries; actual_p2: 56 entries",
+        "  aux_modular_diff: 4 entries (Rule 4 firing targets)",
+        "Solver seed: 1",
+        "Conflict limit: 50000",
+        "Cascade-zero targets: 448 SAT vars observed, 0 bits already const-false",
+        "Rule 5  (dc_63 = dg_63): 32 bit-pairs registered",
+        "Rule 4@r=61 (dA[61] = dE[61]): 32 bit-pairs registered",
+        "Rule 4 r=62/63 substrate: 768 actual-register SAT vars registered (a,b,c at r=59..62)",
+        "Rule 4 firing targets: 128 modular-diff aux SAT vars across 4 (reg,round) entries",
+        "Propagator connected: 448 cascade-zero vars + 128 Rule-5 vars + 384 actual-register vars + 0 decision-priority vars + 0 trace vars observed",
+        "Loaded 54947 clauses from /Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+        "Solving with cascade propagator...",
+        "",
+        "Result: 0 (10=SAT, 20=UNSAT, 0=UNKNOWN)",
+        "Propagator stats:",
+        "  notify_assignment events: 380015",
+        "  cb_propagate fires:       687",
+        "    of which Rule 5 fires:  32",
+        "    of which Rule 4@r=61:   32",
+        "    of which Rule 4@r=62 forcings: 175",
+        "  cb_decide suggestions:    0",
+        "  cb_decide priority:       a61_fallback (0 vars, max_suggestions=-1, stride=1)",
+        "  trace vars first-seen:    0 / 0",
+        "  actual-reg bit assigns:   630586",
+        "  dT2_62 computable (sample, full): 0 (out of ~153 samples)",
+        "  dT2_62 partial-bit firing samples: 20 (max bits forced in any sample: 8)",
+        "  decisions:                347066",
+        "  backtracks:               57907"
+      ],
+      "stdout_log": "/tmp/F421_hotspot_priority/bit2_ma896ee41_fillffffffff_baseline_seed1.stdout.log",
+      "stdout_tail": [
+        "s UNKNOWN"
+      ],
+      "wall_seconds": 1.904931
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "Appended run_20260501_123831_programmatic_sat_propagator_cadical-ipasir-up_seed1_a5a130f7\n"
+      },
+      "arm": "f343",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /tmp/F421_hotspot_priority/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff_F421_F343.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13252  clauses=54949",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit2_ma896ee41_fillffffffff",
+      "cmd": [
+        "/tmp/F421_cascade_propagator",
+        "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff_F421_F343.cnf",
+        "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=1"
+      ],
+      "cnf": "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff_F421_F343.cnf",
+      "metrics": {
+        "backtracks": 57601,
+        "cb_decide_suggestions": 0,
+        "cb_propagate_fires": 687,
+        "decisions": 339004,
+        "result": 0
+      },
+      "returncode": 2,
+      "seed": 1,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F421_hotspot_priority/bit2_ma896ee41_fillffffffff_f343_seed1.stderr.log",
+      "stderr_tail": [
+        "Loaded varmap v3: 56 (reg,round) entries, total_vars=13252",
+        "  actual_p1: 56 entries; actual_p2: 56 entries",
+        "  aux_modular_diff: 4 entries (Rule 4 firing targets)",
+        "Solver seed: 1",
+        "Conflict limit: 50000",
+        "Cascade-zero targets: 448 SAT vars observed, 0 bits already const-false",
+        "Rule 5  (dc_63 = dg_63): 32 bit-pairs registered",
+        "Rule 4@r=61 (dA[61] = dE[61]): 32 bit-pairs registered",
+        "Rule 4 r=62/63 substrate: 768 actual-register SAT vars registered (a,b,c at r=59..62)",
+        "Rule 4 firing targets: 128 modular-diff aux SAT vars across 4 (reg,round) entries",
+        "Propagator connected: 448 cascade-zero vars + 128 Rule-5 vars + 384 actual-register vars + 0 decision-priority vars + 0 trace vars observed",
+        "Loaded 54949 clauses from /tmp/F421_hotspot_priority/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff_F421_F343.cnf",
+        "Solving with cascade propagator...",
+        "",
+        "Result: 0 (10=SAT, 20=UNSAT, 0=UNKNOWN)",
+        "Propagator stats:",
+        "  notify_assignment events: 441937",
+        "  cb_propagate fires:       687",
+        "    of which Rule 5 fires:  32",
+        "    of which Rule 4@r=61:   32",
+        "    of which Rule 4@r=62 forcings: 175",
+        "  cb_decide suggestions:    0",
+        "  cb_decide priority:       a61_fallback (0 vars, max_suggestions=-1, stride=1)",
+        "  trace vars first-seen:    0 / 0",
+        "  actual-reg bit assigns:   767639",
+        "  dT2_62 computable (sample, full): 0 (out of ~187 samples)",
+        "  dT2_62 partial-bit firing samples: 20 (max bits forced in any sample: 8)",
+        "  decisions:                339004",
+        "  backtracks:               57601"
+      ],
+      "stdout_log": "/tmp/F421_hotspot_priority/bit2_ma896ee41_fillffffffff_f343_seed1.stdout.log",
+      "stdout_tail": [
+        "s UNKNOWN"
+      ],
+      "wall_seconds": 1.979623
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "Appended run_20260501_123834_programmatic_sat_propagator_cadical-ipasir-up_seed1_7de357cb\n"
+      },
+      "arm": "hotspot_priority_max132",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13252  clauses=54947",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit2_ma896ee41_fillffffffff",
+      "cmd": [
+        "/tmp/F421_cascade_propagator",
+        "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+        "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=1",
+        "--priority-spec=/Users/mac/Desktop/sha256_review/headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/F421_actual_a57_hotspot_priority_specs.json",
+        "--priority-set=actual_p1_a57_hotspots",
+        "--priority-candidate=bit2_ma896ee41_fillffffffff",
+        "--priority-max-suggestions=132"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+      "metrics": {
+        "backtracks": 58455,
+        "cb_decide_suggestions": 132,
+        "cb_propagate_fires": 1911,
+        "decisions": 386792,
+        "result": 0
+      },
+      "returncode": 2,
+      "seed": 1,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F421_hotspot_priority/bit2_ma896ee41_fillffffffff_hotspot_priority_max132_seed1.stderr.log",
+      "stderr_tail": [
+        "Loaded varmap v3: 56 (reg,round) entries, total_vars=13252",
+        "  actual_p1: 56 entries; actual_p2: 56 entries",
+        "  aux_modular_diff: 4 entries (Rule 4 firing targets)",
+        "Solver seed: 1",
+        "Conflict limit: 50000",
+        "Decision priority loaded: actual_p1_a57_hotspots:bit2_ma896ee41_fillffffffff (3 vars, max_suggestions=132)",
+        "Cascade-zero targets: 448 SAT vars observed, 0 bits already const-false",
+        "Rule 5  (dc_63 = dg_63): 32 bit-pairs registered",
+        "Rule 4@r=61 (dA[61] = dE[61]): 32 bit-pairs registered",
+        "Rule 4 r=62/63 substrate: 768 actual-register SAT vars registered (a,b,c at r=59..62)",
+        "Rule 4 firing targets: 128 modular-diff aux SAT vars across 4 (reg,round) entries",
+        "Decision-shaping ENABLED (actual_p1_a57_hotspots:bit2_ma896ee41_fillffffffff)",
+        "Propagator connected: 448 cascade-zero vars + 128 Rule-5 vars + 384 actual-register vars + 3 decision-priority vars + 0 trace vars observed",
+        "Loaded 54947 clauses from /Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+        "Solving with cascade propagator...",
+        "",
+        "Result: 0 (10=SAT, 20=UNSAT, 0=UNKNOWN)",
+        "Propagator stats:",
+        "  notify_assignment events: 467509",
+        "  cb_propagate fires:       1911",
+        "    of which Rule 5 fires:  32",
+        "    of which Rule 4@r=61:   32",
+        "    of which Rule 4@r=62 forcings: 1399",
+        "  cb_decide suggestions:    132",
+        "  cb_decide priority:       actual_p1_a57_hotspots:bit2_ma896ee41_fillffffffff (3 vars, max_suggestions=132, stride=1)",
+        "  trace vars first-seen:    0 / 0",
+        "  actual-reg bit assigns:   795219",
+        "  dT2_62 computable (sample, full): 0 (out of ~194 samples)",
+        "  dT2_62 partial-bit firing samples: 73 (max bits forced in any sample: 15)",
+        "  decisions:                386792",
+        "  backtracks:               58455"
+      ],
+      "stdout_log": "/tmp/F421_hotspot_priority/bit2_ma896ee41_fillffffffff_hotspot_priority_max132_seed1.stdout.log",
+      "stdout_tail": [
+        "s UNKNOWN"
+      ],
+      "wall_seconds": 2.009137
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "Appended run_20260501_123836_programmatic_sat_propagator_cadical-ipasir-up_seed2_66bf58cb\n"
+      },
+      "arm": "baseline",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13252  clauses=54947",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit2_ma896ee41_fillffffffff",
+      "cmd": [
+        "/tmp/F421_cascade_propagator",
+        "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+        "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=2"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+      "metrics": {
+        "backtracks": 58035,
+        "cb_decide_suggestions": 0,
+        "cb_propagate_fires": 687,
+        "decisions": 353257,
+        "result": 0
+      },
+      "returncode": 2,
+      "seed": 2,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F421_hotspot_priority/bit2_ma896ee41_fillffffffff_baseline_seed2.stderr.log",
+      "stderr_tail": [
+        "Loaded varmap v3: 56 (reg,round) entries, total_vars=13252",
+        "  actual_p1: 56 entries; actual_p2: 56 entries",
+        "  aux_modular_diff: 4 entries (Rule 4 firing targets)",
+        "Solver seed: 2",
+        "Conflict limit: 50000",
+        "Cascade-zero targets: 448 SAT vars observed, 0 bits already const-false",
+        "Rule 5  (dc_63 = dg_63): 32 bit-pairs registered",
+        "Rule 4@r=61 (dA[61] = dE[61]): 32 bit-pairs registered",
+        "Rule 4 r=62/63 substrate: 768 actual-register SAT vars registered (a,b,c at r=59..62)",
+        "Rule 4 firing targets: 128 modular-diff aux SAT vars across 4 (reg,round) entries",
+        "Propagator connected: 448 cascade-zero vars + 128 Rule-5 vars + 384 actual-register vars + 0 decision-priority vars + 0 trace vars observed",
+        "Loaded 54947 clauses from /Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+        "Solving with cascade propagator...",
+        "",
+        "Result: 0 (10=SAT, 20=UNSAT, 0=UNKNOWN)",
+        "Propagator stats:",
+        "  notify_assignment events: 403764",
+        "  cb_propagate fires:       687",
+        "    of which Rule 5 fires:  32",
+        "    of which Rule 4@r=61:   32",
+        "    of which Rule 4@r=62 forcings: 175",
+        "  cb_decide suggestions:    0",
+        "  cb_decide priority:       a61_fallback (0 vars, max_suggestions=-1, stride=1)",
+        "  trace vars first-seen:    0 / 0",
+        "  actual-reg bit assigns:   693825",
+        "  dT2_62 computable (sample, full): 0 (out of ~169 samples)",
+        "  dT2_62 partial-bit firing samples: 20 (max bits forced in any sample: 8)",
+        "  decisions:                353257",
+        "  backtracks:               58035"
+      ],
+      "stdout_log": "/tmp/F421_hotspot_priority/bit2_ma896ee41_fillffffffff_baseline_seed2.stdout.log",
+      "stdout_tail": [
+        "s UNKNOWN"
+      ],
+      "wall_seconds": 2.019118
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "Appended run_20260501_123838_programmatic_sat_propagator_cadical-ipasir-up_seed2_0b77f736\n"
+      },
+      "arm": "f343",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /tmp/F421_hotspot_priority/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff_F421_F343.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13252  clauses=54949",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit2_ma896ee41_fillffffffff",
+      "cmd": [
+        "/tmp/F421_cascade_propagator",
+        "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff_F421_F343.cnf",
+        "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=2"
+      ],
+      "cnf": "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff_F421_F343.cnf",
+      "metrics": {
+        "backtracks": 57690,
+        "cb_decide_suggestions": 0,
+        "cb_propagate_fires": 687,
+        "decisions": 348412,
+        "result": 0
+      },
+      "returncode": 2,
+      "seed": 2,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F421_hotspot_priority/bit2_ma896ee41_fillffffffff_f343_seed2.stderr.log",
+      "stderr_tail": [
+        "Loaded varmap v3: 56 (reg,round) entries, total_vars=13252",
+        "  actual_p1: 56 entries; actual_p2: 56 entries",
+        "  aux_modular_diff: 4 entries (Rule 4 firing targets)",
+        "Solver seed: 2",
+        "Conflict limit: 50000",
+        "Cascade-zero targets: 448 SAT vars observed, 0 bits already const-false",
+        "Rule 5  (dc_63 = dg_63): 32 bit-pairs registered",
+        "Rule 4@r=61 (dA[61] = dE[61]): 32 bit-pairs registered",
+        "Rule 4 r=62/63 substrate: 768 actual-register SAT vars registered (a,b,c at r=59..62)",
+        "Rule 4 firing targets: 128 modular-diff aux SAT vars across 4 (reg,round) entries",
+        "Propagator connected: 448 cascade-zero vars + 128 Rule-5 vars + 384 actual-register vars + 0 decision-priority vars + 0 trace vars observed",
+        "Loaded 54949 clauses from /tmp/F421_hotspot_priority/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff_F421_F343.cnf",
+        "Solving with cascade propagator...",
+        "",
+        "Result: 0 (10=SAT, 20=UNSAT, 0=UNKNOWN)",
+        "Propagator stats:",
+        "  notify_assignment events: 413225",
+        "  cb_propagate fires:       687",
+        "    of which Rule 5 fires:  32",
+        "    of which Rule 4@r=61:   32",
+        "    of which Rule 4@r=62 forcings: 175",
+        "  cb_decide suggestions:    0",
+        "  cb_decide priority:       a61_fallback (0 vars, max_suggestions=-1, stride=1)",
+        "  trace vars first-seen:    0 / 0",
+        "  actual-reg bit assigns:   708575",
+        "  dT2_62 computable (sample, full): 0 (out of ~172 samples)",
+        "  dT2_62 partial-bit firing samples: 20 (max bits forced in any sample: 8)",
+        "  decisions:                348412",
+        "  backtracks:               57690"
+      ],
+      "stdout_log": "/tmp/F421_hotspot_priority/bit2_ma896ee41_fillffffffff_f343_seed2.stdout.log",
+      "stdout_tail": [
+        "s UNKNOWN"
+      ],
+      "wall_seconds": 1.870709
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "Appended run_20260501_123840_programmatic_sat_propagator_cadical-ipasir-up_seed2_c31fc7cf\n"
+      },
+      "arm": "hotspot_priority_max132",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13252  clauses=54947",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit2_ma896ee41_fillffffffff",
+      "cmd": [
+        "/tmp/F421_cascade_propagator",
+        "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+        "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=2",
+        "--priority-spec=/Users/mac/Desktop/sha256_review/headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/F421_actual_a57_hotspot_priority_specs.json",
+        "--priority-set=actual_p1_a57_hotspots",
+        "--priority-candidate=bit2_ma896ee41_fillffffffff",
+        "--priority-max-suggestions=132"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+      "metrics": {
+        "backtracks": 59098,
+        "cb_decide_suggestions": 132,
+        "cb_propagate_fires": 1911,
+        "decisions": 414719,
+        "result": 0
+      },
+      "returncode": 2,
+      "seed": 2,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F421_hotspot_priority/bit2_ma896ee41_fillffffffff_hotspot_priority_max132_seed2.stderr.log",
+      "stderr_tail": [
+        "Loaded varmap v3: 56 (reg,round) entries, total_vars=13252",
+        "  actual_p1: 56 entries; actual_p2: 56 entries",
+        "  aux_modular_diff: 4 entries (Rule 4 firing targets)",
+        "Solver seed: 2",
+        "Conflict limit: 50000",
+        "Decision priority loaded: actual_p1_a57_hotspots:bit2_ma896ee41_fillffffffff (3 vars, max_suggestions=132)",
+        "Cascade-zero targets: 448 SAT vars observed, 0 bits already const-false",
+        "Rule 5  (dc_63 = dg_63): 32 bit-pairs registered",
+        "Rule 4@r=61 (dA[61] = dE[61]): 32 bit-pairs registered",
+        "Rule 4 r=62/63 substrate: 768 actual-register SAT vars registered (a,b,c at r=59..62)",
+        "Rule 4 firing targets: 128 modular-diff aux SAT vars across 4 (reg,round) entries",
+        "Decision-shaping ENABLED (actual_p1_a57_hotspots:bit2_ma896ee41_fillffffffff)",
+        "Propagator connected: 448 cascade-zero vars + 128 Rule-5 vars + 384 actual-register vars + 3 decision-priority vars + 0 trace vars observed",
+        "Loaded 54947 clauses from /Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+        "Solving with cascade propagator...",
+        "",
+        "Result: 0 (10=SAT, 20=UNSAT, 0=UNKNOWN)",
+        "Propagator stats:",
+        "  notify_assignment events: 519753",
+        "  cb_propagate fires:       1911",
+        "    of which Rule 5 fires:  32",
+        "    of which Rule 4@r=61:   32",
+        "    of which Rule 4@r=62 forcings: 1399",
+        "  cb_decide suggestions:    132",
+        "  cb_decide priority:       actual_p1_a57_hotspots:bit2_ma896ee41_fillffffffff (3 vars, max_suggestions=132, stride=1)",
+        "  trace vars first-seen:    0 / 0",
+        "  actual-reg bit assigns:   900166",
+        "  dT2_62 computable (sample, full): 0 (out of ~219 samples)",
+        "  dT2_62 partial-bit firing samples: 73 (max bits forced in any sample: 15)",
+        "  decisions:                414719",
+        "  backtracks:               59098"
+      ],
+      "stdout_log": "/tmp/F421_hotspot_priority/bit2_ma896ee41_fillffffffff_hotspot_priority_max132_seed2.stdout.log",
+      "stdout_tail": [
+        "s UNKNOWN"
+      ],
+      "wall_seconds": 2.159299
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "Appended run_20260501_123843_programmatic_sat_propagator_cadical-ipasir-up_seed0_e708f780\n"
+      },
+      "arm": "baseline",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13215  clauses=54786",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit24_mdc27e18c_fillffffffff",
+      "cmd": [
+        "/tmp/F421_cascade_propagator",
+        "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf",
+        "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=0"
+      ],
+      "cnf": "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf",
+      "metrics": {
+        "backtracks": 58805,
+        "cb_decide_suggestions": 0,
+        "cb_propagate_fires": 791,
+        "decisions": 396658,
+        "result": 0
+      },
+      "returncode": 2,
+      "seed": 0,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F421_hotspot_priority/bit24_mdc27e18c_fillffffffff_baseline_seed0.stderr.log",
+      "stderr_tail": [
+        "Loaded varmap v3: 56 (reg,round) entries, total_vars=13215",
+        "  actual_p1: 56 entries; actual_p2: 56 entries",
+        "  aux_modular_diff: 4 entries (Rule 4 firing targets)",
+        "Solver seed: 0",
+        "Conflict limit: 50000",
+        "Cascade-zero targets: 448 SAT vars observed, 0 bits already const-false",
+        "Rule 5  (dc_63 = dg_63): 32 bit-pairs registered",
+        "Rule 4@r=61 (dA[61] = dE[61]): 32 bit-pairs registered",
+        "Rule 4 r=62/63 substrate: 768 actual-register SAT vars registered (a,b,c at r=59..62)",
+        "Rule 4 firing targets: 128 modular-diff aux SAT vars across 4 (reg,round) entries",
+        "Propagator connected: 448 cascade-zero vars + 128 Rule-5 vars + 384 actual-register vars + 0 decision-priority vars + 0 trace vars observed",
+        "Loaded 54786 clauses from /tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf",
+        "Solving with cascade propagator...",
+        "",
+        "Result: 0 (10=SAT, 20=UNSAT, 0=UNKNOWN)",
+        "Propagator stats:",
+        "  notify_assignment events: 471520",
+        "  cb_propagate fires:       791",
+        "    of which Rule 5 fires:  32",
+        "    of which Rule 4@r=61:   32",
+        "    of which Rule 4@r=62 forcings: 279",
+        "  cb_decide suggestions:    0",
+        "  cb_decide priority:       a61_fallback (0 vars, max_suggestions=-1, stride=1)",
+        "  trace vars first-seen:    0 / 0",
+        "  actual-reg bit assigns:   806341",
+        "  dT2_62 computable (sample, full): 0 (out of ~196 samples)",
+        "  dT2_62 partial-bit firing samples: 42 (max bits forced in any sample: 15)",
+        "  decisions:                396658",
+        "  backtracks:               58805"
+      ],
+      "stdout_log": "/tmp/F421_hotspot_priority/bit24_mdc27e18c_fillffffffff_baseline_seed0.stdout.log",
+      "stdout_tail": [
+        "s UNKNOWN"
+      ],
+      "wall_seconds": 2.003283
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "Appended run_20260501_123845_programmatic_sat_propagator_cadical-ipasir-up_seed0_0e02115b\n"
+      },
+      "arm": "f343",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff_F421_F343.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13215  clauses=54788",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit24_mdc27e18c_fillffffffff",
+      "cmd": [
+        "/tmp/F421_cascade_propagator",
+        "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff_F421_F343.cnf",
+        "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=0"
+      ],
+      "cnf": "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff_F421_F343.cnf",
+      "metrics": {
+        "backtracks": 58965,
+        "cb_decide_suggestions": 0,
+        "cb_propagate_fires": 743,
+        "decisions": 407049,
+        "result": 0
+      },
+      "returncode": 2,
+      "seed": 0,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F421_hotspot_priority/bit24_mdc27e18c_fillffffffff_f343_seed0.stderr.log",
+      "stderr_tail": [
+        "Loaded varmap v3: 56 (reg,round) entries, total_vars=13215",
+        "  actual_p1: 56 entries; actual_p2: 56 entries",
+        "  aux_modular_diff: 4 entries (Rule 4 firing targets)",
+        "Solver seed: 0",
+        "Conflict limit: 50000",
+        "Cascade-zero targets: 448 SAT vars observed, 0 bits already const-false",
+        "Rule 5  (dc_63 = dg_63): 32 bit-pairs registered",
+        "Rule 4@r=61 (dA[61] = dE[61]): 32 bit-pairs registered",
+        "Rule 4 r=62/63 substrate: 768 actual-register SAT vars registered (a,b,c at r=59..62)",
+        "Rule 4 firing targets: 128 modular-diff aux SAT vars across 4 (reg,round) entries",
+        "Propagator connected: 448 cascade-zero vars + 128 Rule-5 vars + 384 actual-register vars + 0 decision-priority vars + 0 trace vars observed",
+        "Loaded 54788 clauses from /tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff_F421_F343.cnf",
+        "Solving with cascade propagator...",
+        "",
+        "Result: 0 (10=SAT, 20=UNSAT, 0=UNKNOWN)",
+        "Propagator stats:",
+        "  notify_assignment events: 485046",
+        "  cb_propagate fires:       743",
+        "    of which Rule 5 fires:  32",
+        "    of which Rule 4@r=61:   32",
+        "    of which Rule 4@r=62 forcings: 231",
+        "  cb_decide suggestions:    0",
+        "  cb_decide priority:       a61_fallback (0 vars, max_suggestions=-1, stride=1)",
+        "  trace vars first-seen:    0 / 0",
+        "  actual-reg bit assigns:   828447",
+        "  dT2_62 computable (sample, full): 0 (out of ~202 samples)",
+        "  dT2_62 partial-bit firing samples: 40 (max bits forced in any sample: 15)",
+        "  decisions:                407049",
+        "  backtracks:               58965"
+      ],
+      "stdout_log": "/tmp/F421_hotspot_priority/bit24_mdc27e18c_fillffffffff_f343_seed0.stdout.log",
+      "stdout_tail": [
+        "s UNKNOWN"
+      ],
+      "wall_seconds": 2.096342
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "Appended run_20260501_123847_programmatic_sat_propagator_cadical-ipasir-up_seed0_4d9acdf9\n"
+      },
+      "arm": "hotspot_priority_max132",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13215  clauses=54786",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit24_mdc27e18c_fillffffffff",
+      "cmd": [
+        "/tmp/F421_cascade_propagator",
+        "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf",
+        "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=0",
+        "--priority-spec=/Users/mac/Desktop/sha256_review/headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/F421_actual_a57_hotspot_priority_specs.json",
+        "--priority-set=actual_p1_a57_hotspots",
+        "--priority-candidate=bit24_mdc27e18c_fillffffffff",
+        "--priority-max-suggestions=132"
+      ],
+      "cnf": "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf",
+      "metrics": {
+        "backtracks": 55650,
+        "cb_decide_suggestions": 132,
+        "cb_propagate_fires": 1473,
+        "decisions": 239272,
+        "result": 0
+      },
+      "returncode": 2,
+      "seed": 0,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F421_hotspot_priority/bit24_mdc27e18c_fillffffffff_hotspot_priority_max132_seed0.stderr.log",
+      "stderr_tail": [
+        "Loaded varmap v3: 56 (reg,round) entries, total_vars=13215",
+        "  actual_p1: 56 entries; actual_p2: 56 entries",
+        "  aux_modular_diff: 4 entries (Rule 4 firing targets)",
+        "Solver seed: 0",
+        "Conflict limit: 50000",
+        "Decision priority loaded: actual_p1_a57_hotspots:bit24_mdc27e18c_fillffffffff (7 vars, max_suggestions=132)",
+        "Cascade-zero targets: 448 SAT vars observed, 0 bits already const-false",
+        "Rule 5  (dc_63 = dg_63): 32 bit-pairs registered",
+        "Rule 4@r=61 (dA[61] = dE[61]): 32 bit-pairs registered",
+        "Rule 4 r=62/63 substrate: 768 actual-register SAT vars registered (a,b,c at r=59..62)",
+        "Rule 4 firing targets: 128 modular-diff aux SAT vars across 4 (reg,round) entries",
+        "Decision-shaping ENABLED (actual_p1_a57_hotspots:bit24_mdc27e18c_fillffffffff)",
+        "Propagator connected: 448 cascade-zero vars + 128 Rule-5 vars + 384 actual-register vars + 7 decision-priority vars + 0 trace vars observed",
+        "Loaded 54786 clauses from /tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf",
+        "Solving with cascade propagator...",
+        "",
+        "Result: 0 (10=SAT, 20=UNSAT, 0=UNKNOWN)",
+        "Propagator stats:",
+        "  notify_assignment events: 286723",
+        "  cb_propagate fires:       1473",
+        "    of which Rule 5 fires:  32",
+        "    of which Rule 4@r=61:   32",
+        "    of which Rule 4@r=62 forcings: 961",
+        "  cb_decide suggestions:    132",
+        "  cb_decide priority:       actual_p1_a57_hotspots:bit24_mdc27e18c_fillffffffff (7 vars, max_suggestions=132, stride=1)",
+        "  trace vars first-seen:    0 / 0",
+        "  actual-reg bit assigns:   520453",
+        "  dT2_62 computable (sample, full): 0 (out of ~127 samples)",
+        "  dT2_62 partial-bit firing samples: 31 (max bits forced in any sample: 31)",
+        "  decisions:                239272",
+        "  backtracks:               55650"
+      ],
+      "stdout_log": "/tmp/F421_hotspot_priority/bit24_mdc27e18c_fillffffffff_hotspot_priority_max132_seed0.stdout.log",
+      "stdout_tail": [
+        "s UNKNOWN"
+      ],
+      "wall_seconds": 1.717085
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "Appended run_20260501_123849_programmatic_sat_propagator_cadical-ipasir-up_seed1_ecb4d15a\n"
+      },
+      "arm": "baseline",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13215  clauses=54786",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit24_mdc27e18c_fillffffffff",
+      "cmd": [
+        "/tmp/F421_cascade_propagator",
+        "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf",
+        "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=1"
+      ],
+      "cnf": "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf",
+      "metrics": {
+        "backtracks": 59081,
+        "cb_decide_suggestions": 0,
+        "cb_propagate_fires": 791,
+        "decisions": 413480,
+        "result": 0
+      },
+      "returncode": 2,
+      "seed": 1,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F421_hotspot_priority/bit24_mdc27e18c_fillffffffff_baseline_seed1.stderr.log",
+      "stderr_tail": [
+        "Loaded varmap v3: 56 (reg,round) entries, total_vars=13215",
+        "  actual_p1: 56 entries; actual_p2: 56 entries",
+        "  aux_modular_diff: 4 entries (Rule 4 firing targets)",
+        "Solver seed: 1",
+        "Conflict limit: 50000",
+        "Cascade-zero targets: 448 SAT vars observed, 0 bits already const-false",
+        "Rule 5  (dc_63 = dg_63): 32 bit-pairs registered",
+        "Rule 4@r=61 (dA[61] = dE[61]): 32 bit-pairs registered",
+        "Rule 4 r=62/63 substrate: 768 actual-register SAT vars registered (a,b,c at r=59..62)",
+        "Rule 4 firing targets: 128 modular-diff aux SAT vars across 4 (reg,round) entries",
+        "Propagator connected: 448 cascade-zero vars + 128 Rule-5 vars + 384 actual-register vars + 0 decision-priority vars + 0 trace vars observed",
+        "Loaded 54786 clauses from /tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf",
+        "Solving with cascade propagator...",
+        "",
+        "Result: 0 (10=SAT, 20=UNSAT, 0=UNKNOWN)",
+        "Propagator stats:",
+        "  notify_assignment events: 504738",
+        "  cb_propagate fires:       791",
+        "    of which Rule 5 fires:  32",
+        "    of which Rule 4@r=61:   32",
+        "    of which Rule 4@r=62 forcings: 279",
+        "  cb_decide suggestions:    0",
+        "  cb_decide priority:       a61_fallback (0 vars, max_suggestions=-1, stride=1)",
+        "  trace vars first-seen:    0 / 0",
+        "  actual-reg bit assigns:   885529",
+        "  dT2_62 computable (sample, full): 0 (out of ~216 samples)",
+        "  dT2_62 partial-bit firing samples: 42 (max bits forced in any sample: 15)",
+        "  decisions:                413480",
+        "  backtracks:               59081"
+      ],
+      "stdout_log": "/tmp/F421_hotspot_priority/bit24_mdc27e18c_fillffffffff_baseline_seed1.stdout.log",
+      "stdout_tail": [
+        "s UNKNOWN"
+      ],
+      "wall_seconds": 2.166133
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "Appended run_20260501_123852_programmatic_sat_propagator_cadical-ipasir-up_seed1_16fe59e9\n"
+      },
+      "arm": "f343",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff_F421_F343.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13215  clauses=54788",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit24_mdc27e18c_fillffffffff",
+      "cmd": [
+        "/tmp/F421_cascade_propagator",
+        "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff_F421_F343.cnf",
+        "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=1"
+      ],
+      "cnf": "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff_F421_F343.cnf",
+      "metrics": {
+        "backtracks": 58905,
+        "cb_decide_suggestions": 0,
+        "cb_propagate_fires": 743,
+        "decisions": 409851,
+        "result": 0
+      },
+      "returncode": 2,
+      "seed": 1,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F421_hotspot_priority/bit24_mdc27e18c_fillffffffff_f343_seed1.stderr.log",
+      "stderr_tail": [
+        "Loaded varmap v3: 56 (reg,round) entries, total_vars=13215",
+        "  actual_p1: 56 entries; actual_p2: 56 entries",
+        "  aux_modular_diff: 4 entries (Rule 4 firing targets)",
+        "Solver seed: 1",
+        "Conflict limit: 50000",
+        "Cascade-zero targets: 448 SAT vars observed, 0 bits already const-false",
+        "Rule 5  (dc_63 = dg_63): 32 bit-pairs registered",
+        "Rule 4@r=61 (dA[61] = dE[61]): 32 bit-pairs registered",
+        "Rule 4 r=62/63 substrate: 768 actual-register SAT vars registered (a,b,c at r=59..62)",
+        "Rule 4 firing targets: 128 modular-diff aux SAT vars across 4 (reg,round) entries",
+        "Propagator connected: 448 cascade-zero vars + 128 Rule-5 vars + 384 actual-register vars + 0 decision-priority vars + 0 trace vars observed",
+        "Loaded 54788 clauses from /tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff_F421_F343.cnf",
+        "Solving with cascade propagator...",
+        "",
+        "Result: 0 (10=SAT, 20=UNSAT, 0=UNKNOWN)",
+        "Propagator stats:",
+        "  notify_assignment events: 494055",
+        "  cb_propagate fires:       743",
+        "    of which Rule 5 fires:  32",
+        "    of which Rule 4@r=61:   32",
+        "    of which Rule 4@r=62 forcings: 231",
+        "  cb_decide suggestions:    0",
+        "  cb_decide priority:       a61_fallback (0 vars, max_suggestions=-1, stride=1)",
+        "  trace vars first-seen:    0 / 0",
+        "  actual-reg bit assigns:   865506",
+        "  dT2_62 computable (sample, full): 0 (out of ~211 samples)",
+        "  dT2_62 partial-bit firing samples: 40 (max bits forced in any sample: 15)",
+        "  decisions:                409851",
+        "  backtracks:               58905"
+      ],
+      "stdout_log": "/tmp/F421_hotspot_priority/bit24_mdc27e18c_fillffffffff_f343_seed1.stdout.log",
+      "stdout_tail": [
+        "s UNKNOWN"
+      ],
+      "wall_seconds": 2.25453
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "Appended run_20260501_123854_programmatic_sat_propagator_cadical-ipasir-up_seed1_8210f3bc\n"
+      },
+      "arm": "hotspot_priority_max132",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13215  clauses=54786",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit24_mdc27e18c_fillffffffff",
+      "cmd": [
+        "/tmp/F421_cascade_propagator",
+        "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf",
+        "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=1",
+        "--priority-spec=/Users/mac/Desktop/sha256_review/headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/F421_actual_a57_hotspot_priority_specs.json",
+        "--priority-set=actual_p1_a57_hotspots",
+        "--priority-candidate=bit24_mdc27e18c_fillffffffff",
+        "--priority-max-suggestions=132"
+      ],
+      "cnf": "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf",
+      "metrics": {
+        "backtracks": 57742,
+        "cb_decide_suggestions": 132,
+        "cb_propagate_fires": 1473,
+        "decisions": 345474,
+        "result": 0
+      },
+      "returncode": 2,
+      "seed": 1,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F421_hotspot_priority/bit24_mdc27e18c_fillffffffff_hotspot_priority_max132_seed1.stderr.log",
+      "stderr_tail": [
+        "Loaded varmap v3: 56 (reg,round) entries, total_vars=13215",
+        "  actual_p1: 56 entries; actual_p2: 56 entries",
+        "  aux_modular_diff: 4 entries (Rule 4 firing targets)",
+        "Solver seed: 1",
+        "Conflict limit: 50000",
+        "Decision priority loaded: actual_p1_a57_hotspots:bit24_mdc27e18c_fillffffffff (7 vars, max_suggestions=132)",
+        "Cascade-zero targets: 448 SAT vars observed, 0 bits already const-false",
+        "Rule 5  (dc_63 = dg_63): 32 bit-pairs registered",
+        "Rule 4@r=61 (dA[61] = dE[61]): 32 bit-pairs registered",
+        "Rule 4 r=62/63 substrate: 768 actual-register SAT vars registered (a,b,c at r=59..62)",
+        "Rule 4 firing targets: 128 modular-diff aux SAT vars across 4 (reg,round) entries",
+        "Decision-shaping ENABLED (actual_p1_a57_hotspots:bit24_mdc27e18c_fillffffffff)",
+        "Propagator connected: 448 cascade-zero vars + 128 Rule-5 vars + 384 actual-register vars + 7 decision-priority vars + 0 trace vars observed",
+        "Loaded 54786 clauses from /tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf",
+        "Solving with cascade propagator...",
+        "",
+        "Result: 0 (10=SAT, 20=UNSAT, 0=UNKNOWN)",
+        "Propagator stats:",
+        "  notify_assignment events: 430088",
+        "  cb_propagate fires:       1473",
+        "    of which Rule 5 fires:  32",
+        "    of which Rule 4@r=61:   32",
+        "    of which Rule 4@r=62 forcings: 961",
+        "  cb_decide suggestions:    132",
+        "  cb_decide priority:       actual_p1_a57_hotspots:bit24_mdc27e18c_fillffffffff (7 vars, max_suggestions=132, stride=1)",
+        "  trace vars first-seen:    0 / 0",
+        "  actual-reg bit assigns:   728648",
+        "  dT2_62 computable (sample, full): 0 (out of ~177 samples)",
+        "  dT2_62 partial-bit firing samples: 31 (max bits forced in any sample: 31)",
+        "  decisions:                345474",
+        "  backtracks:               57742"
+      ],
+      "stdout_log": "/tmp/F421_hotspot_priority/bit24_mdc27e18c_fillffffffff_hotspot_priority_max132_seed1.stdout.log",
+      "stdout_tail": [
+        "s UNKNOWN"
+      ],
+      "wall_seconds": 2.036553
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "Appended run_20260501_123856_programmatic_sat_propagator_cadical-ipasir-up_seed2_6c2ed147\n"
+      },
+      "arm": "baseline",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13215  clauses=54786",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit24_mdc27e18c_fillffffffff",
+      "cmd": [
+        "/tmp/F421_cascade_propagator",
+        "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf",
+        "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=2"
+      ],
+      "cnf": "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf",
+      "metrics": {
+        "backtracks": 58930,
+        "cb_decide_suggestions": 0,
+        "cb_propagate_fires": 791,
+        "decisions": 409618,
+        "result": 0
+      },
+      "returncode": 2,
+      "seed": 2,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F421_hotspot_priority/bit24_mdc27e18c_fillffffffff_baseline_seed2.stderr.log",
+      "stderr_tail": [
+        "Loaded varmap v3: 56 (reg,round) entries, total_vars=13215",
+        "  actual_p1: 56 entries; actual_p2: 56 entries",
+        "  aux_modular_diff: 4 entries (Rule 4 firing targets)",
+        "Solver seed: 2",
+        "Conflict limit: 50000",
+        "Cascade-zero targets: 448 SAT vars observed, 0 bits already const-false",
+        "Rule 5  (dc_63 = dg_63): 32 bit-pairs registered",
+        "Rule 4@r=61 (dA[61] = dE[61]): 32 bit-pairs registered",
+        "Rule 4 r=62/63 substrate: 768 actual-register SAT vars registered (a,b,c at r=59..62)",
+        "Rule 4 firing targets: 128 modular-diff aux SAT vars across 4 (reg,round) entries",
+        "Propagator connected: 448 cascade-zero vars + 128 Rule-5 vars + 384 actual-register vars + 0 decision-priority vars + 0 trace vars observed",
+        "Loaded 54786 clauses from /tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf",
+        "Solving with cascade propagator...",
+        "",
+        "Result: 0 (10=SAT, 20=UNSAT, 0=UNKNOWN)",
+        "Propagator stats:",
+        "  notify_assignment events: 485762",
+        "  cb_propagate fires:       791",
+        "    of which Rule 5 fires:  32",
+        "    of which Rule 4@r=61:   32",
+        "    of which Rule 4@r=62 forcings: 279",
+        "  cb_decide suggestions:    0",
+        "  cb_decide priority:       a61_fallback (0 vars, max_suggestions=-1, stride=1)",
+        "  trace vars first-seen:    0 / 0",
+        "  actual-reg bit assigns:   839451",
+        "  dT2_62 computable (sample, full): 0 (out of ~204 samples)",
+        "  dT2_62 partial-bit firing samples: 42 (max bits forced in any sample: 15)",
+        "  decisions:                409618",
+        "  backtracks:               58930"
+      ],
+      "stdout_log": "/tmp/F421_hotspot_priority/bit24_mdc27e18c_fillffffffff_baseline_seed2.stdout.log",
+      "stdout_tail": [
+        "s UNKNOWN"
+      ],
+      "wall_seconds": 2.151336
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "Appended run_20260501_123859_programmatic_sat_propagator_cadical-ipasir-up_seed2_4c56a4e5\n"
+      },
+      "arm": "f343",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff_F421_F343.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13215  clauses=54788",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit24_mdc27e18c_fillffffffff",
+      "cmd": [
+        "/tmp/F421_cascade_propagator",
+        "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff_F421_F343.cnf",
+        "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=2"
+      ],
+      "cnf": "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff_F421_F343.cnf",
+      "metrics": {
+        "backtracks": 58701,
+        "cb_decide_suggestions": 0,
+        "cb_propagate_fires": 743,
+        "decisions": 396633,
+        "result": 0
+      },
+      "returncode": 2,
+      "seed": 2,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F421_hotspot_priority/bit24_mdc27e18c_fillffffffff_f343_seed2.stderr.log",
+      "stderr_tail": [
+        "Loaded varmap v3: 56 (reg,round) entries, total_vars=13215",
+        "  actual_p1: 56 entries; actual_p2: 56 entries",
+        "  aux_modular_diff: 4 entries (Rule 4 firing targets)",
+        "Solver seed: 2",
+        "Conflict limit: 50000",
+        "Cascade-zero targets: 448 SAT vars observed, 0 bits already const-false",
+        "Rule 5  (dc_63 = dg_63): 32 bit-pairs registered",
+        "Rule 4@r=61 (dA[61] = dE[61]): 32 bit-pairs registered",
+        "Rule 4 r=62/63 substrate: 768 actual-register SAT vars registered (a,b,c at r=59..62)",
+        "Rule 4 firing targets: 128 modular-diff aux SAT vars across 4 (reg,round) entries",
+        "Propagator connected: 448 cascade-zero vars + 128 Rule-5 vars + 384 actual-register vars + 0 decision-priority vars + 0 trace vars observed",
+        "Loaded 54788 clauses from /tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff_F421_F343.cnf",
+        "Solving with cascade propagator...",
+        "",
+        "Result: 0 (10=SAT, 20=UNSAT, 0=UNKNOWN)",
+        "Propagator stats:",
+        "  notify_assignment events: 470473",
+        "  cb_propagate fires:       743",
+        "    of which Rule 5 fires:  32",
+        "    of which Rule 4@r=61:   32",
+        "    of which Rule 4@r=62 forcings: 231",
+        "  cb_decide suggestions:    0",
+        "  cb_decide priority:       a61_fallback (0 vars, max_suggestions=-1, stride=1)",
+        "  trace vars first-seen:    0 / 0",
+        "  actual-reg bit assigns:   796001",
+        "  dT2_62 computable (sample, full): 0 (out of ~194 samples)",
+        "  dT2_62 partial-bit firing samples: 40 (max bits forced in any sample: 15)",
+        "  decisions:                396633",
+        "  backtracks:               58701"
+      ],
+      "stdout_log": "/tmp/F421_hotspot_priority/bit24_mdc27e18c_fillffffffff_f343_seed2.stdout.log",
+      "stdout_tail": [
+        "s UNKNOWN"
+      ],
+      "wall_seconds": 2.015387
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "Appended run_20260501_123901_programmatic_sat_propagator_cadical-ipasir-up_seed2_227c2bb3\n"
+      },
+      "arm": "hotspot_priority_max132",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13215  clauses=54786",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit24_mdc27e18c_fillffffffff",
+      "cmd": [
+        "/tmp/F421_cascade_propagator",
+        "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf",
+        "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=2",
+        "--priority-spec=/Users/mac/Desktop/sha256_review/headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/F421_actual_a57_hotspot_priority_specs.json",
+        "--priority-set=actual_p1_a57_hotspots",
+        "--priority-candidate=bit24_mdc27e18c_fillffffffff",
+        "--priority-max-suggestions=132"
+      ],
+      "cnf": "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf",
+      "metrics": {
+        "backtracks": 58040,
+        "cb_decide_suggestions": 132,
+        "cb_propagate_fires": 1473,
+        "decisions": 352533,
+        "result": 0
+      },
+      "returncode": 2,
+      "seed": 2,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F421_hotspot_priority/bit24_mdc27e18c_fillffffffff_hotspot_priority_max132_seed2.stderr.log",
+      "stderr_tail": [
+        "Loaded varmap v3: 56 (reg,round) entries, total_vars=13215",
+        "  actual_p1: 56 entries; actual_p2: 56 entries",
+        "  aux_modular_diff: 4 entries (Rule 4 firing targets)",
+        "Solver seed: 2",
+        "Conflict limit: 50000",
+        "Decision priority loaded: actual_p1_a57_hotspots:bit24_mdc27e18c_fillffffffff (7 vars, max_suggestions=132)",
+        "Cascade-zero targets: 448 SAT vars observed, 0 bits already const-false",
+        "Rule 5  (dc_63 = dg_63): 32 bit-pairs registered",
+        "Rule 4@r=61 (dA[61] = dE[61]): 32 bit-pairs registered",
+        "Rule 4 r=62/63 substrate: 768 actual-register SAT vars registered (a,b,c at r=59..62)",
+        "Rule 4 firing targets: 128 modular-diff aux SAT vars across 4 (reg,round) entries",
+        "Decision-shaping ENABLED (actual_p1_a57_hotspots:bit24_mdc27e18c_fillffffffff)",
+        "Propagator connected: 448 cascade-zero vars + 128 Rule-5 vars + 384 actual-register vars + 7 decision-priority vars + 0 trace vars observed",
+        "Loaded 54786 clauses from /tmp/F421_hotspot_priority/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf",
+        "Solving with cascade propagator...",
+        "",
+        "Result: 0 (10=SAT, 20=UNSAT, 0=UNKNOWN)",
+        "Propagator stats:",
+        "  notify_assignment events: 422236",
+        "  cb_propagate fires:       1473",
+        "    of which Rule 5 fires:  32",
+        "    of which Rule 4@r=61:   32",
+        "    of which Rule 4@r=62 forcings: 961",
+        "  cb_decide suggestions:    132",
+        "  cb_decide priority:       actual_p1_a57_hotspots:bit24_mdc27e18c_fillffffffff (7 vars, max_suggestions=132, stride=1)",
+        "  trace vars first-seen:    0 / 0",
+        "  actual-reg bit assigns:   713086",
+        "  dT2_62 computable (sample, full): 0 (out of ~174 samples)",
+        "  dT2_62 partial-bit firing samples: 31 (max bits forced in any sample: 31)",
+        "  decisions:                352533",
+        "  backtracks:               58040"
+      ],
+      "stdout_log": "/tmp/F421_hotspot_priority/bit24_mdc27e18c_fillffffffff_hotspot_priority_max132_seed2.stdout.log",
+      "stdout_tail": [
+        "s UNKNOWN"
+      ],
+      "wall_seconds": 1.951951
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "Appended run_20260501_123903_programmatic_sat_propagator_cadical-ipasir-up_seed0_33543d96\n"
+      },
+      "arm": "baseline",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13203  clauses=54737",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit28_md1acca79_fillffffffff",
+      "cmd": [
+        "/tmp/F421_cascade_propagator",
+        "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+        "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=0"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+      "metrics": {
+        "backtracks": 58046,
+        "cb_decide_suggestions": 0,
+        "cb_propagate_fires": 1160,
+        "decisions": 367451,
+        "result": 0
+      },
+      "returncode": 2,
+      "seed": 0,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F421_hotspot_priority/bit28_md1acca79_fillffffffff_baseline_seed0.stderr.log",
+      "stderr_tail": [
+        "Loaded varmap v3: 56 (reg,round) entries, total_vars=13203",
+        "  actual_p1: 56 entries; actual_p2: 56 entries",
+        "  aux_modular_diff: 4 entries (Rule 4 firing targets)",
+        "Solver seed: 0",
+        "Conflict limit: 50000",
+        "Cascade-zero targets: 448 SAT vars observed, 0 bits already const-false",
+        "Rule 5  (dc_63 = dg_63): 32 bit-pairs registered",
+        "Rule 4@r=61 (dA[61] = dE[61]): 32 bit-pairs registered",
+        "Rule 4 r=62/63 substrate: 768 actual-register SAT vars registered (a,b,c at r=59..62)",
+        "Rule 4 firing targets: 128 modular-diff aux SAT vars across 4 (reg,round) entries",
+        "Propagator connected: 448 cascade-zero vars + 128 Rule-5 vars + 384 actual-register vars + 0 decision-priority vars + 0 trace vars observed",
+        "Loaded 54737 clauses from /Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+        "Solving with cascade propagator...",
+        "",
+        "Result: 0 (10=SAT, 20=UNSAT, 0=UNKNOWN)",
+        "Propagator stats:",
+        "  notify_assignment events: 417645",
+        "  cb_propagate fires:       1160",
+        "    of which Rule 5 fires:  32",
+        "    of which Rule 4@r=61:   32",
+        "    of which Rule 4@r=62 forcings: 648",
+        "  cb_decide suggestions:    0",
+        "  cb_decide priority:       a61_fallback (0 vars, max_suggestions=-1, stride=1)",
+        "  trace vars first-seen:    0 / 0",
+        "  actual-reg bit assigns:   722367",
+        "  dT2_62 computable (sample, full): 0 (out of ~176 samples)",
+        "  dT2_62 partial-bit firing samples: 53 (max bits forced in any sample: 14)",
+        "  decisions:                367451",
+        "  backtracks:               58046"
+      ],
+      "stdout_log": "/tmp/F421_hotspot_priority/bit28_md1acca79_fillffffffff_baseline_seed0.stdout.log",
+      "stdout_tail": [
+        "s UNKNOWN"
+      ],
+      "wall_seconds": 2.031299
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "Appended run_20260501_123905_programmatic_sat_propagator_cadical-ipasir-up_seed0_0e62f0ed\n"
+      },
+      "arm": "f343",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /tmp/F421_hotspot_priority/aux_force_sr60_n32_bit28_md1acca79_fillffffffff_F421_F343.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13203  clauses=54739",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit28_md1acca79_fillffffffff",
+      "cmd": [
+        "/tmp/F421_cascade_propagator",
+        "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit28_md1acca79_fillffffffff_F421_F343.cnf",
+        "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=0"
+      ],
+      "cnf": "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit28_md1acca79_fillffffffff_F421_F343.cnf",
+      "metrics": {
+        "backtracks": 57448,
+        "cb_decide_suggestions": 0,
+        "cb_propagate_fires": 1176,
+        "decisions": 322416,
+        "result": 0
+      },
+      "returncode": 2,
+      "seed": 0,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F421_hotspot_priority/bit28_md1acca79_fillffffffff_f343_seed0.stderr.log",
+      "stderr_tail": [
+        "Loaded varmap v3: 56 (reg,round) entries, total_vars=13203",
+        "  actual_p1: 56 entries; actual_p2: 56 entries",
+        "  aux_modular_diff: 4 entries (Rule 4 firing targets)",
+        "Solver seed: 0",
+        "Conflict limit: 50000",
+        "Cascade-zero targets: 448 SAT vars observed, 0 bits already const-false",
+        "Rule 5  (dc_63 = dg_63): 32 bit-pairs registered",
+        "Rule 4@r=61 (dA[61] = dE[61]): 32 bit-pairs registered",
+        "Rule 4 r=62/63 substrate: 768 actual-register SAT vars registered (a,b,c at r=59..62)",
+        "Rule 4 firing targets: 128 modular-diff aux SAT vars across 4 (reg,round) entries",
+        "Propagator connected: 448 cascade-zero vars + 128 Rule-5 vars + 384 actual-register vars + 0 decision-priority vars + 0 trace vars observed",
+        "Loaded 54739 clauses from /tmp/F421_hotspot_priority/aux_force_sr60_n32_bit28_md1acca79_fillffffffff_F421_F343.cnf",
+        "Solving with cascade propagator...",
+        "",
+        "Result: 0 (10=SAT, 20=UNSAT, 0=UNKNOWN)",
+        "Propagator stats:",
+        "  notify_assignment events: 364487",
+        "  cb_propagate fires:       1176",
+        "    of which Rule 5 fires:  32",
+        "    of which Rule 4@r=61:   32",
+        "    of which Rule 4@r=62 forcings: 664",
+        "  cb_decide suggestions:    0",
+        "  cb_decide priority:       a61_fallback (0 vars, max_suggestions=-1, stride=1)",
+        "  trace vars first-seen:    0 / 0",
+        "  actual-reg bit assigns:   631288",
+        "  dT2_62 computable (sample, full): 0 (out of ~154 samples)",
+        "  dT2_62 partial-bit firing samples: 52 (max bits forced in any sample: 9)",
+        "  decisions:                322416",
+        "  backtracks:               57448"
+      ],
+      "stdout_log": "/tmp/F421_hotspot_priority/bit28_md1acca79_fillffffffff_f343_seed0.stdout.log",
+      "stdout_tail": [
+        "s UNKNOWN"
+      ],
+      "wall_seconds": 1.913756
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "Appended run_20260501_123908_programmatic_sat_propagator_cadical-ipasir-up_seed0_f4eae5fd\n"
+      },
+      "arm": "hotspot_priority_max132",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13203  clauses=54737",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit28_md1acca79_fillffffffff",
+      "cmd": [
+        "/tmp/F421_cascade_propagator",
+        "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+        "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=0",
+        "--priority-spec=/Users/mac/Desktop/sha256_review/headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/F421_actual_a57_hotspot_priority_specs.json",
+        "--priority-set=actual_p1_a57_hotspots",
+        "--priority-candidate=bit28_md1acca79_fillffffffff",
+        "--priority-max-suggestions=132"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+      "metrics": {
+        "backtracks": 58870,
+        "cb_decide_suggestions": 132,
+        "cb_propagate_fires": 1903,
+        "decisions": 411024,
+        "result": 0
+      },
+      "returncode": 2,
+      "seed": 0,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F421_hotspot_priority/bit28_md1acca79_fillffffffff_hotspot_priority_max132_seed0.stderr.log",
+      "stderr_tail": [
+        "Loaded varmap v3: 56 (reg,round) entries, total_vars=13203",
+        "  actual_p1: 56 entries; actual_p2: 56 entries",
+        "  aux_modular_diff: 4 entries (Rule 4 firing targets)",
+        "Solver seed: 0",
+        "Conflict limit: 50000",
+        "Decision priority loaded: actual_p1_a57_hotspots:bit28_md1acca79_fillffffffff (3 vars, max_suggestions=132)",
+        "Cascade-zero targets: 448 SAT vars observed, 0 bits already const-false",
+        "Rule 5  (dc_63 = dg_63): 32 bit-pairs registered",
+        "Rule 4@r=61 (dA[61] = dE[61]): 32 bit-pairs registered",
+        "Rule 4 r=62/63 substrate: 768 actual-register SAT vars registered (a,b,c at r=59..62)",
+        "Rule 4 firing targets: 128 modular-diff aux SAT vars across 4 (reg,round) entries",
+        "Decision-shaping ENABLED (actual_p1_a57_hotspots:bit28_md1acca79_fillffffffff)",
+        "Propagator connected: 448 cascade-zero vars + 128 Rule-5 vars + 384 actual-register vars + 3 decision-priority vars + 0 trace vars observed",
+        "Loaded 54737 clauses from /Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+        "Solving with cascade propagator...",
+        "",
+        "Result: 0 (10=SAT, 20=UNSAT, 0=UNKNOWN)",
+        "Propagator stats:",
+        "  notify_assignment events: 501811",
+        "  cb_propagate fires:       1903",
+        "    of which Rule 5 fires:  32",
+        "    of which Rule 4@r=61:   32",
+        "    of which Rule 4@r=62 forcings: 1391",
+        "  cb_decide suggestions:    132",
+        "  cb_decide priority:       actual_p1_a57_hotspots:bit28_md1acca79_fillffffffff (3 vars, max_suggestions=132, stride=1)",
+        "  trace vars first-seen:    0 / 0",
+        "  actual-reg bit assigns:   881843",
+        "  dT2_62 computable (sample, full): 0 (out of ~215 samples)",
+        "  dT2_62 partial-bit firing samples: 36 (max bits forced in any sample: 32)",
+        "  decisions:                411024",
+        "  backtracks:               58870"
+      ],
+      "stdout_log": "/tmp/F421_hotspot_priority/bit28_md1acca79_fillffffffff_hotspot_priority_max132_seed0.stdout.log",
+      "stdout_tail": [
+        "s UNKNOWN"
+      ],
+      "wall_seconds": 2.190107
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "Appended run_20260501_123910_programmatic_sat_propagator_cadical-ipasir-up_seed1_fae87c3d\n"
+      },
+      "arm": "baseline",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13203  clauses=54737",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit28_md1acca79_fillffffffff",
+      "cmd": [
+        "/tmp/F421_cascade_propagator",
+        "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+        "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=1"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+      "metrics": {
+        "backtracks": 57914,
+        "cb_decide_suggestions": 0,
+        "cb_propagate_fires": 1160,
+        "decisions": 367576,
+        "result": 0
+      },
+      "returncode": 2,
+      "seed": 1,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F421_hotspot_priority/bit28_md1acca79_fillffffffff_baseline_seed1.stderr.log",
+      "stderr_tail": [
+        "Loaded varmap v3: 56 (reg,round) entries, total_vars=13203",
+        "  actual_p1: 56 entries; actual_p2: 56 entries",
+        "  aux_modular_diff: 4 entries (Rule 4 firing targets)",
+        "Solver seed: 1",
+        "Conflict limit: 50000",
+        "Cascade-zero targets: 448 SAT vars observed, 0 bits already const-false",
+        "Rule 5  (dc_63 = dg_63): 32 bit-pairs registered",
+        "Rule 4@r=61 (dA[61] = dE[61]): 32 bit-pairs registered",
+        "Rule 4 r=62/63 substrate: 768 actual-register SAT vars registered (a,b,c at r=59..62)",
+        "Rule 4 firing targets: 128 modular-diff aux SAT vars across 4 (reg,round) entries",
+        "Propagator connected: 448 cascade-zero vars + 128 Rule-5 vars + 384 actual-register vars + 0 decision-priority vars + 0 trace vars observed",
+        "Loaded 54737 clauses from /Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+        "Solving with cascade propagator...",
+        "",
+        "Result: 0 (10=SAT, 20=UNSAT, 0=UNKNOWN)",
+        "Propagator stats:",
+        "  notify_assignment events: 411048",
+        "  cb_propagate fires:       1160",
+        "    of which Rule 5 fires:  32",
+        "    of which Rule 4@r=61:   32",
+        "    of which Rule 4@r=62 forcings: 648",
+        "  cb_decide suggestions:    0",
+        "  cb_decide priority:       a61_fallback (0 vars, max_suggestions=-1, stride=1)",
+        "  trace vars first-seen:    0 / 0",
+        "  actual-reg bit assigns:   714516",
+        "  dT2_62 computable (sample, full): 0 (out of ~174 samples)",
+        "  dT2_62 partial-bit firing samples: 53 (max bits forced in any sample: 14)",
+        "  decisions:                367576",
+        "  backtracks:               57914"
+      ],
+      "stdout_log": "/tmp/F421_hotspot_priority/bit28_md1acca79_fillffffffff_baseline_seed1.stdout.log",
+      "stdout_tail": [
+        "s UNKNOWN"
+      ],
+      "wall_seconds": 2.156375
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "Appended run_20260501_123912_programmatic_sat_propagator_cadical-ipasir-up_seed1_4c58e824\n"
+      },
+      "arm": "f343",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /tmp/F421_hotspot_priority/aux_force_sr60_n32_bit28_md1acca79_fillffffffff_F421_F343.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13203  clauses=54739",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit28_md1acca79_fillffffffff",
+      "cmd": [
+        "/tmp/F421_cascade_propagator",
+        "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit28_md1acca79_fillffffffff_F421_F343.cnf",
+        "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=1"
+      ],
+      "cnf": "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit28_md1acca79_fillffffffff_F421_F343.cnf",
+      "metrics": {
+        "backtracks": 57682,
+        "cb_decide_suggestions": 0,
+        "cb_propagate_fires": 1176,
+        "decisions": 323831,
+        "result": 0
+      },
+      "returncode": 2,
+      "seed": 1,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F421_hotspot_priority/bit28_md1acca79_fillffffffff_f343_seed1.stderr.log",
+      "stderr_tail": [
+        "Loaded varmap v3: 56 (reg,round) entries, total_vars=13203",
+        "  actual_p1: 56 entries; actual_p2: 56 entries",
+        "  aux_modular_diff: 4 entries (Rule 4 firing targets)",
+        "Solver seed: 1",
+        "Conflict limit: 50000",
+        "Cascade-zero targets: 448 SAT vars observed, 0 bits already const-false",
+        "Rule 5  (dc_63 = dg_63): 32 bit-pairs registered",
+        "Rule 4@r=61 (dA[61] = dE[61]): 32 bit-pairs registered",
+        "Rule 4 r=62/63 substrate: 768 actual-register SAT vars registered (a,b,c at r=59..62)",
+        "Rule 4 firing targets: 128 modular-diff aux SAT vars across 4 (reg,round) entries",
+        "Propagator connected: 448 cascade-zero vars + 128 Rule-5 vars + 384 actual-register vars + 0 decision-priority vars + 0 trace vars observed",
+        "Loaded 54739 clauses from /tmp/F421_hotspot_priority/aux_force_sr60_n32_bit28_md1acca79_fillffffffff_F421_F343.cnf",
+        "Solving with cascade propagator...",
+        "",
+        "Result: 0 (10=SAT, 20=UNSAT, 0=UNKNOWN)",
+        "Propagator stats:",
+        "  notify_assignment events: 373918",
+        "  cb_propagate fires:       1176",
+        "    of which Rule 5 fires:  32",
+        "    of which Rule 4@r=61:   32",
+        "    of which Rule 4@r=62 forcings: 664",
+        "  cb_decide suggestions:    0",
+        "  cb_decide priority:       a61_fallback (0 vars, max_suggestions=-1, stride=1)",
+        "  trace vars first-seen:    0 / 0",
+        "  actual-reg bit assigns:   644500",
+        "  dT2_62 computable (sample, full): 0 (out of ~157 samples)",
+        "  dT2_62 partial-bit firing samples: 52 (max bits forced in any sample: 9)",
+        "  decisions:                323831",
+        "  backtracks:               57682"
+      ],
+      "stdout_log": "/tmp/F421_hotspot_priority/bit28_md1acca79_fillffffffff_f343_seed1.stdout.log",
+      "stdout_tail": [
+        "s UNKNOWN"
+      ],
+      "wall_seconds": 1.941679
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "Appended run_20260501_123914_programmatic_sat_propagator_cadical-ipasir-up_seed1_4b7d80b3\n"
+      },
+      "arm": "hotspot_priority_max132",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13203  clauses=54737",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit28_md1acca79_fillffffffff",
+      "cmd": [
+        "/tmp/F421_cascade_propagator",
+        "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+        "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=1",
+        "--priority-spec=/Users/mac/Desktop/sha256_review/headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/F421_actual_a57_hotspot_priority_specs.json",
+        "--priority-set=actual_p1_a57_hotspots",
+        "--priority-candidate=bit28_md1acca79_fillffffffff",
+        "--priority-max-suggestions=132"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+      "metrics": {
+        "backtracks": 58823,
+        "cb_decide_suggestions": 132,
+        "cb_propagate_fires": 1903,
+        "decisions": 410983,
+        "result": 0
+      },
+      "returncode": 2,
+      "seed": 1,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F421_hotspot_priority/bit28_md1acca79_fillffffffff_hotspot_priority_max132_seed1.stderr.log",
+      "stderr_tail": [
+        "Loaded varmap v3: 56 (reg,round) entries, total_vars=13203",
+        "  actual_p1: 56 entries; actual_p2: 56 entries",
+        "  aux_modular_diff: 4 entries (Rule 4 firing targets)",
+        "Solver seed: 1",
+        "Conflict limit: 50000",
+        "Decision priority loaded: actual_p1_a57_hotspots:bit28_md1acca79_fillffffffff (3 vars, max_suggestions=132)",
+        "Cascade-zero targets: 448 SAT vars observed, 0 bits already const-false",
+        "Rule 5  (dc_63 = dg_63): 32 bit-pairs registered",
+        "Rule 4@r=61 (dA[61] = dE[61]): 32 bit-pairs registered",
+        "Rule 4 r=62/63 substrate: 768 actual-register SAT vars registered (a,b,c at r=59..62)",
+        "Rule 4 firing targets: 128 modular-diff aux SAT vars across 4 (reg,round) entries",
+        "Decision-shaping ENABLED (actual_p1_a57_hotspots:bit28_md1acca79_fillffffffff)",
+        "Propagator connected: 448 cascade-zero vars + 128 Rule-5 vars + 384 actual-register vars + 3 decision-priority vars + 0 trace vars observed",
+        "Loaded 54737 clauses from /Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+        "Solving with cascade propagator...",
+        "",
+        "Result: 0 (10=SAT, 20=UNSAT, 0=UNKNOWN)",
+        "Propagator stats:",
+        "  notify_assignment events: 481371",
+        "  cb_propagate fires:       1903",
+        "    of which Rule 5 fires:  32",
+        "    of which Rule 4@r=61:   32",
+        "    of which Rule 4@r=62 forcings: 1391",
+        "  cb_decide suggestions:    132",
+        "  cb_decide priority:       actual_p1_a57_hotspots:bit28_md1acca79_fillffffffff (3 vars, max_suggestions=132, stride=1)",
+        "  trace vars first-seen:    0 / 0",
+        "  actual-reg bit assigns:   817491",
+        "  dT2_62 computable (sample, full): 0 (out of ~199 samples)",
+        "  dT2_62 partial-bit firing samples: 36 (max bits forced in any sample: 32)",
+        "  decisions:                410983",
+        "  backtracks:               58823"
+      ],
+      "stdout_log": "/tmp/F421_hotspot_priority/bit28_md1acca79_fillffffffff_hotspot_priority_max132_seed1.stdout.log",
+      "stdout_tail": [
+        "s UNKNOWN"
+      ],
+      "wall_seconds": 2.152752
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "Appended run_20260501_123917_programmatic_sat_propagator_cadical-ipasir-up_seed2_b6ea5f6a\n"
+      },
+      "arm": "baseline",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13203  clauses=54737",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit28_md1acca79_fillffffffff",
+      "cmd": [
+        "/tmp/F421_cascade_propagator",
+        "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+        "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=2"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+      "metrics": {
+        "backtracks": 58130,
+        "cb_decide_suggestions": 0,
+        "cb_propagate_fires": 1160,
+        "decisions": 371304,
+        "result": 0
+      },
+      "returncode": 2,
+      "seed": 2,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F421_hotspot_priority/bit28_md1acca79_fillffffffff_baseline_seed2.stderr.log",
+      "stderr_tail": [
+        "Loaded varmap v3: 56 (reg,round) entries, total_vars=13203",
+        "  actual_p1: 56 entries; actual_p2: 56 entries",
+        "  aux_modular_diff: 4 entries (Rule 4 firing targets)",
+        "Solver seed: 2",
+        "Conflict limit: 50000",
+        "Cascade-zero targets: 448 SAT vars observed, 0 bits already const-false",
+        "Rule 5  (dc_63 = dg_63): 32 bit-pairs registered",
+        "Rule 4@r=61 (dA[61] = dE[61]): 32 bit-pairs registered",
+        "Rule 4 r=62/63 substrate: 768 actual-register SAT vars registered (a,b,c at r=59..62)",
+        "Rule 4 firing targets: 128 modular-diff aux SAT vars across 4 (reg,round) entries",
+        "Propagator connected: 448 cascade-zero vars + 128 Rule-5 vars + 384 actual-register vars + 0 decision-priority vars + 0 trace vars observed",
+        "Loaded 54737 clauses from /Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+        "Solving with cascade propagator...",
+        "",
+        "Result: 0 (10=SAT, 20=UNSAT, 0=UNKNOWN)",
+        "Propagator stats:",
+        "  notify_assignment events: 414205",
+        "  cb_propagate fires:       1160",
+        "    of which Rule 5 fires:  32",
+        "    of which Rule 4@r=61:   32",
+        "    of which Rule 4@r=62 forcings: 648",
+        "  cb_decide suggestions:    0",
+        "  cb_decide priority:       a61_fallback (0 vars, max_suggestions=-1, stride=1)",
+        "  trace vars first-seen:    0 / 0",
+        "  actual-reg bit assigns:   712884",
+        "  dT2_62 computable (sample, full): 0 (out of ~174 samples)",
+        "  dT2_62 partial-bit firing samples: 53 (max bits forced in any sample: 14)",
+        "  decisions:                371304",
+        "  backtracks:               58130"
+      ],
+      "stdout_log": "/tmp/F421_hotspot_priority/bit28_md1acca79_fillffffffff_baseline_seed2.stdout.log",
+      "stdout_tail": [
+        "s UNKNOWN"
+      ],
+      "wall_seconds": 1.986731
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "Appended run_20260501_123919_programmatic_sat_propagator_cadical-ipasir-up_seed2_3f250ea7\n"
+      },
+      "arm": "f343",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /tmp/F421_hotspot_priority/aux_force_sr60_n32_bit28_md1acca79_fillffffffff_F421_F343.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13203  clauses=54739",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit28_md1acca79_fillffffffff",
+      "cmd": [
+        "/tmp/F421_cascade_propagator",
+        "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit28_md1acca79_fillffffffff_F421_F343.cnf",
+        "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=2"
+      ],
+      "cnf": "/tmp/F421_hotspot_priority/aux_force_sr60_n32_bit28_md1acca79_fillffffffff_F421_F343.cnf",
+      "metrics": {
+        "backtracks": 57287,
+        "cb_decide_suggestions": 0,
+        "cb_propagate_fires": 1176,
+        "decisions": 322196,
+        "result": 0
+      },
+      "returncode": 2,
+      "seed": 2,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F421_hotspot_priority/bit28_md1acca79_fillffffffff_f343_seed2.stderr.log",
+      "stderr_tail": [
+        "Loaded varmap v3: 56 (reg,round) entries, total_vars=13203",
+        "  actual_p1: 56 entries; actual_p2: 56 entries",
+        "  aux_modular_diff: 4 entries (Rule 4 firing targets)",
+        "Solver seed: 2",
+        "Conflict limit: 50000",
+        "Cascade-zero targets: 448 SAT vars observed, 0 bits already const-false",
+        "Rule 5  (dc_63 = dg_63): 32 bit-pairs registered",
+        "Rule 4@r=61 (dA[61] = dE[61]): 32 bit-pairs registered",
+        "Rule 4 r=62/63 substrate: 768 actual-register SAT vars registered (a,b,c at r=59..62)",
+        "Rule 4 firing targets: 128 modular-diff aux SAT vars across 4 (reg,round) entries",
+        "Propagator connected: 448 cascade-zero vars + 128 Rule-5 vars + 384 actual-register vars + 0 decision-priority vars + 0 trace vars observed",
+        "Loaded 54739 clauses from /tmp/F421_hotspot_priority/aux_force_sr60_n32_bit28_md1acca79_fillffffffff_F421_F343.cnf",
+        "Solving with cascade propagator...",
+        "",
+        "Result: 0 (10=SAT, 20=UNSAT, 0=UNKNOWN)",
+        "Propagator stats:",
+        "  notify_assignment events: 367466",
+        "  cb_propagate fires:       1176",
+        "    of which Rule 5 fires:  32",
+        "    of which Rule 4@r=61:   32",
+        "    of which Rule 4@r=62 forcings: 664",
+        "  cb_decide suggestions:    0",
+        "  cb_decide priority:       a61_fallback (0 vars, max_suggestions=-1, stride=1)",
+        "  trace vars first-seen:    0 / 0",
+        "  actual-reg bit assigns:   624928",
+        "  dT2_62 computable (sample, full): 0 (out of ~152 samples)",
+        "  dT2_62 partial-bit firing samples: 52 (max bits forced in any sample: 9)",
+        "  decisions:                322196",
+        "  backtracks:               57287"
+      ],
+      "stdout_log": "/tmp/F421_hotspot_priority/bit28_md1acca79_fillffffffff_f343_seed2.stdout.log",
+      "stdout_tail": [
+        "s UNKNOWN"
+      ],
+      "wall_seconds": 1.976603
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "Appended run_20260501_123921_programmatic_sat_propagator_cadical-ipasir-up_seed2_a5a94df9\n"
+      },
+      "arm": "hotspot_priority_max132",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13203  clauses=54737",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit28_md1acca79_fillffffffff",
+      "cmd": [
+        "/tmp/F421_cascade_propagator",
+        "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+        "/Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=2",
+        "--priority-spec=/Users/mac/Desktop/sha256_review/headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/F421_actual_a57_hotspot_priority_specs.json",
+        "--priority-set=actual_p1_a57_hotspots",
+        "--priority-candidate=bit28_md1acca79_fillffffffff",
+        "--priority-max-suggestions=132"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+      "metrics": {
+        "backtracks": 59091,
+        "cb_decide_suggestions": 132,
+        "cb_propagate_fires": 1903,
+        "decisions": 424673,
+        "result": 0
+      },
+      "returncode": 2,
+      "seed": 2,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F421_hotspot_priority/bit28_md1acca79_fillffffffff_hotspot_priority_max132_seed2.stderr.log",
+      "stderr_tail": [
+        "Loaded varmap v3: 56 (reg,round) entries, total_vars=13203",
+        "  actual_p1: 56 entries; actual_p2: 56 entries",
+        "  aux_modular_diff: 4 entries (Rule 4 firing targets)",
+        "Solver seed: 2",
+        "Conflict limit: 50000",
+        "Decision priority loaded: actual_p1_a57_hotspots:bit28_md1acca79_fillffffffff (3 vars, max_suggestions=132)",
+        "Cascade-zero targets: 448 SAT vars observed, 0 bits already const-false",
+        "Rule 5  (dc_63 = dg_63): 32 bit-pairs registered",
+        "Rule 4@r=61 (dA[61] = dE[61]): 32 bit-pairs registered",
+        "Rule 4 r=62/63 substrate: 768 actual-register SAT vars registered (a,b,c at r=59..62)",
+        "Rule 4 firing targets: 128 modular-diff aux SAT vars across 4 (reg,round) entries",
+        "Decision-shaping ENABLED (actual_p1_a57_hotspots:bit28_md1acca79_fillffffffff)",
+        "Propagator connected: 448 cascade-zero vars + 128 Rule-5 vars + 384 actual-register vars + 3 decision-priority vars + 0 trace vars observed",
+        "Loaded 54737 clauses from /Users/mac/Desktop/sha256_review/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+        "Solving with cascade propagator...",
+        "",
+        "Result: 0 (10=SAT, 20=UNSAT, 0=UNKNOWN)",
+        "Propagator stats:",
+        "  notify_assignment events: 509710",
+        "  cb_propagate fires:       1903",
+        "    of which Rule 5 fires:  32",
+        "    of which Rule 4@r=61:   32",
+        "    of which Rule 4@r=62 forcings: 1391",
+        "  cb_decide suggestions:    132",
+        "  cb_decide priority:       actual_p1_a57_hotspots:bit28_md1acca79_fillffffffff (3 vars, max_suggestions=132, stride=1)",
+        "  trace vars first-seen:    0 / 0",
+        "  actual-reg bit assigns:   872898",
+        "  dT2_62 computable (sample, full): 0 (out of ~213 samples)",
+        "  dT2_62 partial-bit firing samples: 36 (max bits forced in any sample: 32)",
+        "  decisions:                424673",
+        "  backtracks:               59091"
+      ],
+      "stdout_log": "/tmp/F421_hotspot_priority/bit28_md1acca79_fillffffffff_hotspot_priority_max132_seed2.stdout.log",
+      "stdout_tail": [
+        "s UNKNOWN"
+      ],
+      "wall_seconds": 2.26793
+    }
+  ],
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "source": "headline_hunt/bets/programmatic_sat_propagator/propagators/cascade_propagator.cc",
+  "verdict": "matrix_completed"
+}

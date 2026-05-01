@@ -996,6 +996,7 @@ int main(int argc, char** argv) {
                   << "       [--priority-spec=F397.json] [--priority-set=f286_132_conservative]\n"
                   << "       [--priority-candidate=bit10_m3304caa0_fill80000000]\n"
                   << "       [--priority-max-suggestions=N] [--priority-stride=N]\n"
+                  << "       [--seed=N]\n"
                   << "       [--phase-lit=label:lit]\n"
                   << "       [--learn-watch-var=label:var] [--learn-max-size=N]\n"
                   << "       [--trace-var=label:var]\n";
@@ -1006,6 +1007,7 @@ int main(int argc, char** argv) {
     long long conflict_limit = 0;  // 0 = no limit
     bool use_propagator = true;
     bool shape_decisions = false;
+    int seed = 0;
     std::string priority_spec_path;
     std::string priority_set_name = "f286_132_conservative";
     std::string priority_candidate;
@@ -1019,6 +1021,8 @@ int main(int argc, char** argv) {
         std::string arg = argv[i];
         if (arg.rfind("--conflicts=", 0) == 0) {
             conflict_limit = std::stoll(arg.substr(12));
+        } else if (arg.rfind("--seed=", 0) == 0) {
+            seed = std::stoi(arg.substr(7));
         } else if (arg == "--no-propagator") {
             use_propagator = false;
         } else if (arg == "--shape-decisions") {
@@ -1105,6 +1109,8 @@ int main(int argc, char** argv) {
     CaDiCaL::Solver solver;
     solver.set("check", 0);
     solver.set("factor", 0);
+    solver.set("seed", seed);
+    std::cerr << "Solver seed: " << seed << "\n";
     if (conflict_limit > 0) {
         solver.limit("conflicts", conflict_limit);
         std::cerr << "Conflict limit: " << conflict_limit << "\n";

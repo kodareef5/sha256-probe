@@ -73,3 +73,20 @@ F420 result:
 
 Next recommendation from F420: revised Path A, not old Path B. Test priority or
 activity pressure on candidate-specific `actual_p1_a_57` hotspot bits.
+
+## 2026-05-01 ~08:45 EDT
+
+Executed revised Path A as F421.
+
+- Extended `cascade_propagator.cc` with `--seed=N`.
+- Extended `run_decision_priority_matrix.py` with `--hotspot-matrix`.
+- Ran 3 candidates × 3 seeds × 3 arms at 50k conflicts:
+  baseline, F343, hotspot-priority max132.
+- All 27 final runs audited `CONFIRMED` before solve and logged.
+
+Verdict: actual `a_57` hotspot priority does not dominate F343. It is a
+candidate-specific lead: strong for bit24 (-23.16% mean decisions), harmful for
+bit2 (+14.79%) and bit28 (+12.69%). F343 remains the better panel-wide nudge.
+
+Next if continuing this branch: bit24-only decomposition of hotspot bits
+14/16 vs 21-25 and smaller caps. Stop hotspot-priority for bit2/bit28.

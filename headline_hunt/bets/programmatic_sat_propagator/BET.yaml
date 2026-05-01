@@ -243,6 +243,26 @@ recent_progress_2026-05-01_F420_actual_register_learned_neighborhood: |
   Next mechanism-aligned intervention should be revised Path A: priority or
   activity pressure on candidate-specific actual_p1_a_57 hotspot bits, not
   further dW/F343 phase or clause-placement nudges.
+recent_progress_2026-05-01_F421_actual_a57_hotspot_priority: |
+  macbook-codex executed revised Path A from F420. Added `--seed=N` to
+  cascade_propagator.cc and extended run_decision_priority_matrix.py with a
+  `--hotspot-matrix` mode for actual_p1_a_57 hotspot cb_decide priority.
+
+  Matrix: bit2/bit24/bit28 × seeds {0,1,2} × arms {baseline, F343,
+  hotspot_priority_max132}, 50k conflicts, all 27 final CNFs audited
+  CONFIRMED before solve and logged via append_run.py.
+
+  Verdict: hotspot priority does not dominate F343. It is candidate-specific:
+    bit2  mean decisions 351404 baseline, 346135 F343 (-1.50%),
+          403384 hotspot (+14.79%).
+    bit24 mean decisions 406585 baseline, 404511 F343 (-0.51%),
+          312426 hotspot (-23.16%).
+    bit28 mean decisions 368777 baseline, 322814 F343 (-12.46%),
+          415560 hotspot (+12.69%).
+
+  Next if this branch continues: bit24-only refinement splitting hotspot bits
+  14/16 vs 21-25 and testing smaller priority caps. Stop hotspot-priority on
+  bit2 and bit28.
 reopen_candidate_2026_04_29_F326_sharpened: |
   F326 cross-cand validation (cascade_aux_encoding) confirms the 132-bit
   universal hard core is a CDCL-search invariant of the cascade-1
