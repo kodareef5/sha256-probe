@@ -29,7 +29,29 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-01T14:25:00Z'
+last_heartbeat: '2026-05-01T14:35:00Z'
+recent_progress_2026-05-01_F430_w57_59_isolation_confirmed: |
+  macbook-claude symmetric counterpart to F429: enumerated W1[57..59]
+  Hamming-{1,2,3} (W[60] fixed) for all 4 panel cands. 590,144
+  forward evaluations, 26.8s wall, 0 solver runs.
+
+  Result: STRICTLY negative. Zero candidates land at HW <= current
+  best for any cand. Even tying the current best is unreachable in
+  this Hamming ball. Sharper than F429.
+
+  Combined F429 + F430 verdict: current bests are isolated peaks at
+  Hamming-3 over W1[57..60]. bridge_score is NOT the bottleneck (100%
+  bridge-pass for bit2/24/28 in F430; cascade-1 alone is enough to
+  show isolation).
+
+  Implication: deeper records (HW < 43 for bit24, HW < 45 for bit28)
+  require radius > 3, joint W1[57..59]+W1[60] flips that the per-word
+  scans don't cover (F431 candidate), or relaxing cascade-1's
+  c=g=1 constraint geometry.
+
+  Next: F431 joint Hamming-2 over full W1[57..60]; F432 bit13 seeded
+  refinement; or pivot to sr61_n32. Codex quota reset at 13:22 EDT.
+
 recent_progress_2026-05-01_F429_w60_local_optima_confirmed: |
   macbook-claude follow-up to F428: exhaustive W1[60] Hamming-{1,2,3}
   enumeration (5488 W1[60] candidates per cand, 21952 total, 1.1s
