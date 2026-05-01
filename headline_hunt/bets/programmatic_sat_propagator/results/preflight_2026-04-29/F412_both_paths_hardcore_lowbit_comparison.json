@@ -1,0 +1,118 @@
+{
+  "date": "2026-04-30",
+  "parents": [
+    "F402",
+    "F411"
+  ],
+  "question": "Are bit2 missing low-bit F332 keys unique among both-path candidates?",
+  "report_id": "F412",
+  "rows": [
+    {
+      "candidate": "bit2_ma896ee41_fillffffffff",
+      "core_size": 3910,
+      "f286_missing": [],
+      "f332_missing": [
+        "w2[57].b1",
+        "w2[58].b1"
+      ],
+      "f343_effect_pct": 0.07,
+      "f343_status": "non-helper",
+      "hard_core": "headline_hunt/bets/cascade_aux_encoding/results/20260430_F408_aux_force_sr60_n32_bit2_ma896ee41_fillffffffff_hard_core.json",
+      "kbit": 2,
+      "lowbit_key_state": {
+        "w2[57].b1": "shell",
+        "w2[58].b1": "shell"
+      },
+      "m0": "0xa896ee41",
+      "name": "bit2",
+      "schedule_core_count": 182,
+      "schedule_shell_count": 74,
+      "shell_size": 9342
+    },
+    {
+      "candidate": "bit4_md41b678d_fillffffffff",
+      "core_size": 3920,
+      "f286_missing": [
+        "w2[58].b14",
+        "w2[58].b26"
+      ],
+      "f332_missing": [
+        "w2[58].b14",
+        "w2[58].b26",
+        "w2[57].b1",
+        "w2[58].b27",
+        "w2[58].b4"
+      ],
+      "f343_effect_pct": -9.4,
+      "f343_status": "helper",
+      "hard_core": "headline_hunt/bets/cascade_aux_encoding/results/20260430_F412_aux_force_sr60_n32_bit4_md41b678d_fillffffffff_hard_core.json",
+      "kbit": 4,
+      "lowbit_key_state": {
+        "w2[57].b1": "shell",
+        "w2[58].b1": "core"
+      },
+      "m0": "0xd41b678d",
+      "name": "bit4",
+      "schedule_core_count": 175,
+      "schedule_shell_count": 81,
+      "shell_size": 9286
+    },
+    {
+      "candidate": "bit24_mdc27e18c_fillffffffff",
+      "core_size": 3911,
+      "f286_missing": [],
+      "f332_missing": [
+        "w2[58].b4",
+        "w2[58].b8",
+        "w2[58].b9"
+      ],
+      "f343_effect_pct": -7.13,
+      "f343_status": "helper",
+      "hard_core": "headline_hunt/bets/cascade_aux_encoding/results/20260430_F412_aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff_hard_core.json",
+      "kbit": 24,
+      "lowbit_key_state": {
+        "w2[57].b1": "core",
+        "w2[58].b1": "core"
+      },
+      "m0": "0xdc27e18c",
+      "name": "bit24",
+      "schedule_core_count": 181,
+      "schedule_shell_count": 75,
+      "shell_size": 9304
+    },
+    {
+      "candidate": "bit28_md1acca79_fillffffffff",
+      "core_size": 3914,
+      "f286_missing": [],
+      "f332_missing": [
+        "w2[58].b16"
+      ],
+      "f343_effect_pct": -6.37,
+      "f343_status": "helper",
+      "hard_core": "headline_hunt/bets/cascade_aux_encoding/results/20260430_F412_aux_force_sr60_n32_bit28_md1acca79_fillffffffff_hard_core.json",
+      "kbit": 28,
+      "lowbit_key_state": {
+        "w2[57].b1": "core",
+        "w2[58].b1": "core"
+      },
+      "m0": "0xd1acca79",
+      "name": "bit28",
+      "schedule_core_count": 184,
+      "schedule_shell_count": 72,
+      "shell_size": 9289
+    }
+  ],
+  "target_keys": [
+    "w2[57].b1",
+    "w2[58].b1"
+  ],
+  "verdict": {
+    "details": [
+      "bit2 is the only shell-shell candidate on w2[57].b1 and w2[58].b1 in this n=4 panel.",
+      "bit4 also misses w2[57].b1 and has worse F332 completeness, yet F343 helps bit4 strongly.",
+      "bit24 and bit28 keep both low-bit keys in core and also help.",
+      "Therefore F332 low-bit missingness may be a bit2 clue, but it does not explain the singleton outlier by itself."
+    ],
+    "short": "low-bit F332 gap is suggestive but not sufficient"
+  }
+}
