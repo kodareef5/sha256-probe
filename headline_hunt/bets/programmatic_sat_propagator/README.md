@@ -70,10 +70,12 @@ Two possible headlines:
   the useful signal is high `actual_p1_a_57` bits `21-25`, with cap64 beating
   cap132 across all three seeds. F423 found pure high-cluster cap96 is the new
   bit24 lead, but its mean is seed-2-heavy; F343 composition appears to
-  interfere rather than compose.
+  interfere rather than compose. F424 replicated the pure high-cluster effect
+  on seeds 3-7: every cap64-cap112 arm cuts mean decisions by 12-13%, with
+  cap96 only a slight lead.
 - [ ] **Next decision gate.** Reopen broad propagator work only if a
-  replicated pure high-cluster cap sweep beats F343 on bit24 or another known
-  outlier.
+  replicated actual-register hotspot priority transfers beyond the bit24
+  special case.
 
 ## Related
 
