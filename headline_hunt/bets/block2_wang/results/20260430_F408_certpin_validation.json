@@ -1,0 +1,115 @@
+{
+  "description": "F408 cert-pin validation for annealed bridge-beam HW<56 witnesses",
+  "source": "/Users/mac/Desktop/sha256_review/headline_hunt/bets/block2_wang/results/search_artifacts/20260430_F408_bridge_beam_anneal.json",
+  "work_dir": "/tmp/F408",
+  "solvers": {
+    "kissat": "4.0.4",
+    "cadical": "3.0.0"
+  },
+  "results": [
+    {
+      "cand": "bit3_m33ec77ca",
+      "candidate_id": "cand_n32_bit3_m33ec77ca_fillffffffff",
+      "hw_total": 51,
+      "best_score": 71.551,
+      "W": [
+        "0xba476635",
+        "0x8cf9982c",
+        "0x0699c787",
+        "0x8893274d"
+      ],
+      "pinned_cnf": "/tmp/F408/aux_expose_sr60_n32_bit3_m33ec77ca_fillffffffff_F408_certpin.cnf",
+      "audit_verdict": "CONFIRMED",
+      "solvers": {
+        "kissat": {
+          "status": "UNSAT",
+          "wall": 0.0081,
+          "command": "kissat --seed=0 aux_expose_sr60_n32_bit3_m33ec77ca_fillffffffff_F408_certpin.cnf"
+        },
+        "cadical": {
+          "status": "UNSAT",
+          "wall": 0.014,
+          "command": "cadical --seed=0 aux_expose_sr60_n32_bit3_m33ec77ca_fillffffffff_F408_certpin.cnf"
+        }
+      }
+    },
+    {
+      "cand": "bit2_ma896ee41",
+      "candidate_id": "cand_n32_bit2_ma896ee41_fillffffffff",
+      "hw_total": 51,
+      "best_score": 71.551,
+      "W": [
+        "0x504e056e",
+        "0x3e435e29",
+        "0xda594ea2",
+        "0xe37c8fe1"
+      ],
+      "pinned_cnf": "/tmp/F408/aux_expose_sr60_n32_bit2_ma896ee41_fillffffffff_F408_certpin.cnf",
+      "audit_verdict": "CONFIRMED",
+      "solvers": {
+        "kissat": {
+          "status": "UNSAT",
+          "wall": 0.0064,
+          "command": "kissat --seed=0 aux_expose_sr60_n32_bit2_ma896ee41_fillffffffff_F408_certpin.cnf"
+        },
+        "cadical": {
+          "status": "UNSAT",
+          "wall": 0.0118,
+          "command": "cadical --seed=0 aux_expose_sr60_n32_bit2_ma896ee41_fillffffffff_F408_certpin.cnf"
+        }
+      }
+    },
+    {
+      "cand": "bit24_mdc27e18c",
+      "candidate_id": "cand_n32_bit24_mdc27e18c_fillffffffff",
+      "hw_total": 49,
+      "best_score": 73.447,
+      "W": [
+        "0x4be5074f",
+        "0x429efff2",
+        "0xe09458af",
+        "0xd6560e70"
+      ],
+      "pinned_cnf": "/tmp/F408/aux_expose_sr60_n32_bit24_mdc27e18c_fillffffffff_F408_certpin.cnf",
+      "audit_verdict": "CONFIRMED",
+      "solvers": {
+        "kissat": {
+          "status": "UNSAT",
+          "wall": 0.0066,
+          "command": "kissat --seed=0 aux_expose_sr60_n32_bit24_mdc27e18c_fillffffffff_F408_certpin.cnf"
+        },
+        "cadical": {
+          "status": "UNSAT",
+          "wall": 0.0119,
+          "command": "cadical --seed=0 aux_expose_sr60_n32_bit24_mdc27e18c_fillffffffff_F408_certpin.cnf"
+        }
+      }
+    },
+    {
+      "cand": "bit28_md1acca79",
+      "candidate_id": "cand_n32_bit28_md1acca79_fillffffffff",
+      "hw_total": 45,
+      "best_score": 74.146,
+      "W": [
+        "0x307cf0e7",
+        "0x853d504a",
+        "0x78f16a5e",
+        "0x41fc6a74"
+      ],
+      "pinned_cnf": "/tmp/F408/aux_expose_sr60_n32_bit28_md1acca79_fillffffffff_F408_certpin.cnf",
+      "audit_verdict": "CONFIRMED",
+      "solvers": {
+        "kissat": {
+          "status": "UNSAT",
+          "wall": 0.0063,
+          "command": "kissat --seed=0 aux_expose_sr60_n32_bit28_md1acca79_fillffffffff_F408_certpin.cnf"
+        },
+        "cadical": {
+          "status": "UNSAT",
+          "wall": 0.0124,
+          "command": "cadical --seed=0 aux_expose_sr60_n32_bit28_md1acca79_fillffffffff_F408_certpin.cnf"
+        }
+      }
+    }
+  ]
+}

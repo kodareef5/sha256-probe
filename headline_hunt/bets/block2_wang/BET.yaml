@@ -30,6 +30,21 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
 last_heartbeat: '2026-05-01T13:35:00Z'
+recent_progress_2026-04-30_F408_annealed_bridge_beam: |
+  macbook-codex Path C follow-up: extended block2_bridge_beam.py with
+  simulated annealing, restart controls, larger mutation radii, tabu, and
+  candidate selection. Ran 200k iters × 12 seeds on bit3/bit2/bit24/bit28.
+
+  New residual records:
+    bit3  HW 55 -> 51
+    bit2  HW 56 -> 51
+    bit24 HW 57 -> 49
+    bit28 HW 59 -> 45
+
+  All four cert-pin validated with audited CONFIRMED CNFs and cross-solver
+  UNSAT (kissat + cadical), 8 runs logged. Outcome: Path C succeeds at
+  lowering residuals but does not produce a single-block collision. Best
+  new seed for block-2 absorption is bit28_md1acca79 HW=45.
 recent_progress_2026-04-30_F371_F380_bridge_guided_chain: |
   2026-04-30 session: 10-memo chain F371→F380 closing F100 cert-pin coverage
   to 67/67 (100%) and shipping bridge-guided block2 toolchain per user direction.

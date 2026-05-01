@@ -1,21 +1,21 @@
 # headline_hunt — Runs Dashboard
 
-_Generated 2026-04-30T23:30:21Z_
+_Generated 2026-05-01T01:38:43Z_
 
 ## Global
 
-- Total runs logged: **1848**
+- Total runs logged: **1879**
 - Real audit failure rate: **0.00%** (0 entries)
-- Intentional --allow-audit-failure entries: 123 (6.66%) — discipline-noted, not concerning (transient /tmp CNFs from injection/certpin pipelines)
+- Intentional --allow-audit-failure entries: 123 (6.55%) — discipline-noted, not concerning (transient /tmp CNFs from injection/certpin pipelines)
 
 ## Per-bet rollup
 
 | Bet | Runs | SAT | UNSAT | Timeout | Killed | CPU-h | Wall-h | Last activity | Real fail | --allow-skip |
 |---|---:|---:|---:|---:|---:|---:|---:|---|---:|---:|
-| block2_wang | 859 | 1 | 858 | 0 | 0 | 0.0 | 0.0 | 2026-04-30T13:24:03Z | 0 | 48 |
+| block2_wang | 867 | 1 | 866 | 0 | 0 | 0.0 | 0.0 | 2026-05-01T01:03:37Z | 0 | 48 |
 | cascade_aux_encoding | 808 | 3 | 22 | 783 | 0 | 16.3 | 25.0 | 2026-04-30T17:14:35Z | 0 | 0 |
 | mitm_residue | 10 | 0 | 0 | 10 | 0 | 0.3 | 1.3 | 2026-04-25T00:18:27Z | 0 | 0 |
-| programmatic_sat_propagator | 88 | 0 | 0 | 88 | 0 | 1.4 | 1.4 | 2026-04-30T23:29:17Z | 0 | 75 |
+| programmatic_sat_propagator | 111 | 0 | 0 | 111 | 0 | 1.4 | 1.5 | 2026-05-01T01:30:07Z | 0 | 75 |
 | sr61_n32 | 83 | 0 | 0 | 83 | 0 | 2.3 | 2.9 | 2026-04-30T00:19:11Z | 0 | 0 |
 
 ## Notes

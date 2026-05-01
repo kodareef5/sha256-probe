@@ -36,3 +36,18 @@ Ordering decision:
 Capacity: using this local Codex session on the Mac workspace. `getconf`
 reports 10 online processors; I will keep initial work bounded and avoid
 unclaimed long solver jobs.
+
+## 2026-04-30 ~21:10 EDT
+
+Cleanup commit pushed as `b728caf`.
+
+Path C in progress/completed first pass:
+
+- Added annealing/restarts/tabu/candidate controls to `block2_bridge_beam.py`.
+- Ran 4-cand annealing sweep, 458s wall, no solver search.
+- New residual records: bit3 HW=51, bit2 HW=51, bit24 HW=49, bit28 HW=45.
+- Built audited cert-pin CNFs for all 4; audit verdicts `CONFIRMED`.
+- Logged 8 cert-pin solver runs; kissat + cadical both UNSAT for all 4.
+
+Next: commit F408 memo/artifacts, then reassess whether to continue Path C
+around bit28 or switch to the bit2-specific Path A follow-up left by F407.
