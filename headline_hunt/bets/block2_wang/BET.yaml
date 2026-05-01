@@ -29,7 +29,19 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-01T23:45:30Z'
+last_heartbeat: '2026-05-01T23:51:42Z'
+recent_progress_2026-05-01_F496_f491_rank9_reconnects_hw36: |
+  yale-codex tested F491 rank 9, a HW40 seed from the F486 manifest-tail run:
+    W1=0x5228ed8d 0x61a1a29c 0x6a3a8409 0x14ac6d7b
+  F496 re-found the known HW36 basin:
+    W1=0x5228ed8d 0x61a1a29c 0x6a3a8409 0x2c9e917b
+    hw63=[11,3,1,0,13,7,1,0], score=85.471
+    expanded=3,481,732, bridge_pass=3,481,703, wall=303.17s.
+
+  Rank 9 is connected back to the old HW36 basin and is pruned under the
+  current pair-beam operator. Current panel remains bit13 HW=35, bit28 HW=42,
+  bit24 HW=43.
+
 recent_progress_2026-05-01_F494_F495_f491_rank7_side_basin: |
   yale-codex changed seed after direct HW35 restarts went negative:
     F494 F491 rank-7 HW40 seed
