@@ -65,9 +65,13 @@ Two possible headlines:
   `dW58` aux rows and still found zero touch. F419 found bit2's learned
   neighborhood in actual-register variables instead, led by `actual_p1_a_57`
   bits 3/7/8. F420 replicated the actual `a_57` hotspot on bit24 and bit28.
+  F421 showed actual-register hotspot priority is candidate-specific: harmful
+  on bit2/bit28 but strongly helpful on bit24. F422 decomposed bit24 and found
+  the useful signal is high `actual_p1_a_57` bits `21-25`, with cap64 beating
+  cap132 across all three seeds.
 - [ ] **Next decision gate.** Reopen broad propagator work only if a
-  candidate-gated priority/F343 interaction beats F343 on bit2 or another known
-  outlier.
+  candidate-gated high-cluster priority/F343 interaction beats F343 on bit24 or
+  another known outlier.
 
 ## Related
 
