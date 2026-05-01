@@ -165,7 +165,7 @@ def anneal_temperature(i, iterations, temp_start, temp_end):
 
 def hillclimb(short, m0, fill, kbit, iterations, seed=0, verbose=False,
               method="greedy", temp_start=2.0, temp_end=0.1,
-              max_flips=3, tabu_size=0):
+              max_flips=3, tabu_size=0, init_W=None):
     setup = setup_cand(m0, fill, kbit)
     if setup is None:
         return {"cand": short, "error": "not cascade-eligible"}
@@ -177,23 +177,33 @@ def hillclimb(short, m0, fill, kbit, iterations, seed=0, verbose=False,
     def rand_W():
         return tuple(rng.getrandbits(32) for _ in range(4))
 
-    # Find an initial W that lands in cascade-1
     cur_W = None
     cur_rec = None
     cur_score = -1e9
-    for _ in range(2000):
-        w = rand_W()
-        rec = evaluate(s1_init, s2_init, W1_pre, W2_pre, m0, fill, kbit, *w)
+    if init_W is not None:
+        rec = evaluate(s1_init, s2_init, W1_pre, W2_pre, m0, fill, kbit, *init_W)
         if rec is None:
-            continue
+            return {"cand": short, "error": "init_W violates cascade-1"}
         sc = bridge_score(rec, kbit)
-        if sc["score"] is not None:
-            cur_W = w
-            cur_rec = rec
-            cur_score = sc["score"]
-            break
-    if cur_W is None:
-        return {"cand": short, "error": "no cascade-1 + bridge-passing seed found in 2000 attempts"}
+        if sc["score"] is None:
+            return {"cand": short, "error": "init_W fails bridge selector"}
+        cur_W = tuple(init_W)
+        cur_rec = rec
+        cur_score = sc["score"]
+    else:
+        for _ in range(2000):
+            w = rand_W()
+            rec = evaluate(s1_init, s2_init, W1_pre, W2_pre, m0, fill, kbit, *w)
+            if rec is None:
+                continue
+            sc = bridge_score(rec, kbit)
+            if sc["score"] is not None:
+                cur_W = w
+                cur_rec = rec
+                cur_score = sc["score"]
+                break
+        if cur_W is None:
+            return {"cand": short, "error": "no cascade-1 + bridge-passing seed found in 2000 attempts"}
 
     accepts = 0
     accepted_worse = 0
@@ -277,12 +287,21 @@ def main():
     ap.add_argument("--tabu-size", type=int, default=0)
     ap.add_argument("--candidates", default=None,
                     help="Comma-separated candidate shorts. Default: Path C panel bit2,bit3,bit24,bit28.")
+    ap.add_argument("--init-W", default=None,
+                    help="Comma-separated 4 hex words for W57..W60 to seed every restart from a known witness (e.g., F408 HW=45 bit28: 0x307cf0e7,0x853d504a,0x78f16a5e,0x41fc6a74). Applied to all candidates.")
     ap.add_argument("--out", default=None)
     ap.add_argument("--verbose", action="store_true")
     args = ap.parse_args()
 
     if args.max_flips < 1:
         raise SystemExit("--max-flips must be >= 1")
+
+    init_W = None
+    if args.init_W:
+        parts = [p.strip() for p in args.init_W.split(",")]
+        if len(parts) != 4:
+            raise SystemExit("--init-W must be exactly 4 comma-separated hex words")
+        init_W = tuple(int(p, 16) & MASK for p in parts)
 
     default_panel = {"bit2_ma896ee41", "bit3_m33ec77ca", "bit24_mdc27e18c", "bit28_md1acca79"}
     requested = set(args.candidates.split(",")) if args.candidates else default_panel
@@ -306,7 +325,8 @@ def main():
             r = hillclimb(short, m0, fill, kbit, args.iterations, seed=seed,
                           verbose=args.verbose, method=args.method,
                           temp_start=args.temp_start, temp_end=args.temp_end,
-                          max_flips=args.max_flips, tabu_size=args.tabu_size)
+                          max_flips=args.max_flips, tabu_size=args.tabu_size,
+                          init_W=init_W)
             if "error" in r:
                 print(f"    ERROR: {r['error']}")
             else:

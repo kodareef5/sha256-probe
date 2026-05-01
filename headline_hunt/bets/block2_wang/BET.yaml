@@ -29,7 +29,30 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-01T13:35:00Z'
+last_heartbeat: '2026-05-01T13:50:00Z'
+recent_progress_2026-05-01_F427_bit28_seeded_refinement: |
+  macbook-claude Path C follow-up to F408 (codex paused on quota).
+  Extended block2_bridge_beam.py with --init-W flag for seeded restarts,
+  ran 24 restarts x 500k iters x max_flips=3 on bit28 seeded from F408
+  HW=45 witness with tighter temperature 0.5->0.01.
+
+  Result: no HW < 45 found at 3-bit-flip radius.
+  - 14/24 seeds stayed at F408 init (HW=45, score=74.146)
+  - 10/24 seeds escaped to a single 3-bit neighbor (HW=47, score=75.333)
+
+  Side finding: bridge_score and HW are not isomorphic. The score peak
+  at the 3-bit neighbor is HIGHER (75.333 vs 74.146) but its HW is
+  WORSE (47 vs 45). The escape is purely a W1[60] perturbation,
+  Hamming distance 3 (bit positions 8, 11, 19); W57/W58/W59 unchanged.
+
+  Cert-pin control on the HW=47 score-better witness: kissat 0.0092s
+  UNSAT, cadical 0.0149s UNSAT, both audited CONFIRMED, both logged.
+
+  Verdict: F408 HW=45 is a robust local HW optimum. Bridge_score's
+  structural reward terms (c/g asymmetry, dominator bits) reward a
+  different geometry than raw HW. Wider search radius or a directly-HW
+  objective is the next experiment to break HW<45.
+
 recent_progress_2026-04-30_F408_annealed_bridge_beam: |
   macbook-codex Path C follow-up: extended block2_bridge_beam.py with
   simulated annealing, restart controls, larger mutation radii, tabu, and

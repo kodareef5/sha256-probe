@@ -1,0 +1,47 @@
+{
+  "description": "F427 cert-pin control verification of HW=47 score=75.33 record from seeded refinement",
+  "source": "/Users/mac/Desktop/sha256_review/headline_hunt/bets/block2_wang/results/search_artifacts/20260501_F427_bit28_seeded_refinement.json",
+  "work_dir": "/tmp/F427",
+  "purpose": "Verify the score-better/HW-worse trade is also UNSAT (expected) \u2014 confirms F408 HW=45 is HW-extreme but not bridge-score-extreme at this radius.",
+  "comparison": {
+    "F408_witness": {
+      "W": [
+        "0x307cf0e7",
+        "0x853d504a",
+        "0x78f16a5e",
+        "0x41fc6a74"
+      ],
+      "hw_total": 45,
+      "best_score": 74.146,
+      "delta_w60_bits": "reference"
+    },
+    "F427_witness": {
+      "W": [
+        "0x307cf0e7",
+        "0x853d504a",
+        "0x78f16a5e",
+        "0x41f46374"
+      ],
+      "hw_total": 47,
+      "best_score": 75.333,
+      "delta_w60_bits": "differs only in W1[60] from F408 (0x41fc6a74 -> 0x41f46374), Hamming distance 3 (bit positions 8, 11, 19); W57/W58/W59 unchanged"
+    }
+  },
+  "audit_verdict": "CONFIRMED",
+  "cnf_sha256": "171f19bd07b439b46b6ef98233e4c7cbfc9a99a17cadef93204cefbf892075dd",
+  "cand_id": "cand_n32_bit28_md1acca79_fillffffffff",
+  "solvers": {
+    "kissat": {
+      "version": "4.0.4",
+      "status": "UNSAT",
+      "wall_sec": 0.0092,
+      "command": "kissat -q --seed=0 /tmp/F427/aux_expose_sr60_n32_bit28_md1acca79_fillffffffff_F427_certpin.cnf"
+    },
+    "cadical": {
+      "version": "3.0.0",
+      "status": "UNSAT",
+      "wall_sec": 0.0149,
+      "command": "cadical -q --seed=0 /tmp/F427/aux_expose_sr60_n32_bit28_md1acca79_fillffffffff_F427_certpin.cnf"
+    }
+  }
+}
