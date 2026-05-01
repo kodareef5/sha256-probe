@@ -25,6 +25,9 @@ DEFAULT_SOURCE = REPO / "headline_hunt/bets/programmatic_sat_propagator/propagat
 DEFAULT_OUT_JSON = (
     REPO / "headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/F399_decision_priority_matrix_plan.json"
 )
+LOCAL_CADICAL_SRC = REPO / ".deps/cadical/src"
+LOCAL_CADICAL_LIB = REPO / ".deps/cadical/build/libcadical.a"
+LOCAL_NLOHMANN_INCLUDE = REPO / ".deps/nlohmann/include"
 
 
 def rel(path: Path | str) -> str:
@@ -55,19 +58,36 @@ def find_varmap(cnf: Path) -> Path | None:
 
 
 def compile_command(source: Path, binary: Path) -> list[str]:
-    return [
+    include_dirs = []
+    if (LOCAL_CADICAL_SRC / "cadical.hpp").exists():
+        include_dirs.append(LOCAL_CADICAL_SRC)
+    if (LOCAL_NLOHMANN_INCLUDE / "nlohmann/json.hpp").exists():
+        include_dirs.append(LOCAL_NLOHMANN_INCLUDE)
+    include_dirs.extend([
+        Path("/opt/homebrew/include"),
+        Path("/usr/local/include"),
+    ])
+
+    cmd = [
         "g++",
         "-std=c++17",
         "-O2",
-        "-I/opt/homebrew/include",
-        "-I/usr/local/include",
-        "-L/opt/homebrew/lib",
-        "-L/usr/local/lib",
+        *[f"-I{path}" for path in include_dirs],
         str(source),
-        "-lcadical",
+    ]
+    if LOCAL_CADICAL_LIB.exists():
+        cmd.append(str(LOCAL_CADICAL_LIB))
+    else:
+        cmd.extend([
+            "-L/opt/homebrew/lib",
+            "-L/usr/local/lib",
+            "-lcadical",
+        ])
+    cmd.extend([
         "-o",
         str(binary),
-    ]
+    ])
+    return cmd
 
 
 def run_command(cmd: list[str], timeout: int | None = None) -> dict[str, Any]:
@@ -167,7 +187,7 @@ def build_plan(args: argparse.Namespace) -> dict[str, Any]:
         row["commands"] = matrix_commands(binary, args.priority_spec, candidate, cnf, varmap, args.conflicts)
         runnable.append(row)
     return {
-        "report_id": "F399",
+        "report_id": args.report_id,
         "mode": "run" if args.run else "dry_run",
         "priority_spec": rel(args.priority_spec),
         "source": rel(args.source),
@@ -207,18 +227,21 @@ def write_json(path: Path, payload: dict[str, Any]) -> None:
 
 
 def write_md(path: Path, payload: dict[str, Any]) -> None:
+    report_id = payload.get("report_id", "F399")
+    status = "DECISION_PRIORITY_MATRIX_RUN" if payload["mode"] == "run" else "DECISION_PRIORITY_MATRIX_PLAN"
     lines = [
         "---",
         "date: 2026-04-30",
         "bet: programmatic_sat_propagator",
-        "status: DECISION_PRIORITY_MATRIX_PLAN",
+        f"status: {status}",
         "---",
         "",
-        "# F399: decision-priority matrix plan",
+        f"# {report_id}: decision-priority matrix",
         "",
         "## Summary",
         "",
         f"Mode: `{payload['mode']}`.",
+        f"Verdict: `{payload.get('verdict', 'not_run')}`.",
         f"Priority spec: `{payload['priority_spec']}`.",
         f"Conflict cap: {payload['conflicts']}.",
         f"Runnable candidates here: {len(payload['runnable_candidates'])}.",
@@ -248,6 +271,31 @@ def write_md(path: Path, payload: dict[str, Any]) -> None:
         lines.append(
             f"| `{row['candidate']}` | {row['missing_cnf']} | {row['missing_varmap']} |"
         )
+    if "compile_result" in payload:
+        compile_result = payload["compile_result"]
+        lines.extend([
+            "",
+            "## Compile Result",
+            "",
+            f"Return code: `{compile_result['returncode']}`.",
+            f"Wall seconds: `{compile_result['wall_seconds']}`.",
+        ])
+    if payload.get("runs"):
+        lines.extend([
+            "",
+            "## Run Results",
+            "",
+            "| Candidate | Arm | Result | Return Code | Wall s | Decisions | Backtracks | cb_decide | cb_propagate |",
+            "|---|---|---:|---:|---:|---:|---:|---:|---:|",
+        ])
+        for row in payload["runs"]:
+            metrics = row.get("metrics", {})
+            lines.append(
+                f"| `{row['candidate']}` | `{row['arm']}` | "
+                f"{metrics.get('result', '')} | {row['returncode']} | {row['wall_seconds']} | "
+                f"{metrics.get('decisions', '')} | {metrics.get('backtracks', '')} | "
+                f"{metrics.get('cb_decide_suggestions', '')} | {metrics.get('cb_propagate_fires', '')} |"
+            )
     lines.append("")
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text("\n".join(lines))
@@ -266,6 +314,7 @@ def main() -> int:
     ap.add_argument("--timeout", type=int, default=300)
     ap.add_argument("--out-json", type=Path, default=DEFAULT_OUT_JSON)
     ap.add_argument("--out-md", type=Path, default=None)
+    ap.add_argument("--report-id", default="F399")
     args = ap.parse_args()
 
     plan = build_plan(args)
