@@ -29,7 +29,20 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-01T22:43:00Z'
+last_heartbeat: '2026-05-01T22:49:23Z'
+recent_progress_2026-05-01_F482_F483_objective_bcg_negatives: |
+  yale-codex tested objective-ranked pair pools with b,c,g protected instead
+  of c,g:
+    F482 bit13 HW36 record seed: no improvement.
+      best selected non-seed HW=40, seed HW36 stayed best.
+      expanded=3,414,097, bridge_pass=3,413,690, wall=289.28s.
+    F483 manifest rank 8 HW40 seed: no improvement.
+      best selected non-seed HW=42, seed HW40 stayed best.
+      expanded=3,402,770, bridge_pass=3,402,372, wall=288.66s.
+
+  Adding b-lane protection is too conservative here. Current panel remains
+  bit13 HW=36, bit28 HW=42, bit24 HW=43.
+
 recent_progress_2026-05-01_F480_F481_objective_pair_pool: |
   yale-codex added --pair-rank objective to pair_beam_search.py. It ranks
   two-bit pair-pool entries by the same lane-penalized objective used by the
