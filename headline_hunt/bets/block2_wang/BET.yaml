@@ -29,7 +29,21 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-01T23:16:47Z'
+last_heartbeat: '2026-05-01T23:34:23Z'
+recent_progress_2026-05-01_F492_F493_hw35_pair_beam_negatives: |
+  yale-codex tested direct pair-beam restarts from the closed F487 HW35
+  witness:
+    F492 pool=1024, beam=1024: no improvement; seed HW35 stayed best.
+      best selected non-seed HW39, expanded=3,477,116,
+      bridge_pass=3,476,515, wall=273.84s.
+    F493 pool=2048, beam=1024: no improvement; same best selected
+      non-seed HW39, expanded=7,999,859, bridge_pass=7,999,223,
+      wall=650.32s.
+
+  The direct HW35 restart is boxed in under current pair-beam settings.
+  Next useful work is a seed change using the F491 manifest rather than a
+  still-larger direct HW35 pool.
+
 recent_progress_2026-05-01_F488_F491_hw35_closure_and_tools: |
   yale-codex closed the new F487 bit13 HW35 witness under exact relaxed
   W57..W60 radius-4 enumeration:
