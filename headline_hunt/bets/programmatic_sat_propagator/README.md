@@ -72,10 +72,11 @@ Two possible headlines:
   bit24 lead, but its mean is seed-2-heavy; F343 composition appears to
   interfere rather than compose. F424 replicated the pure high-cluster effect
   on seeds 3-7: every cap64-cap112 arm cuts mean decisions by 12-13%, with
-  cap96 only a slight lead.
+  cap96 only a slight lead. F425 tested lower caps on the prior negative
+  candidates bit2/bit28 and found no transfer: F343 wins, while direct hotspot
+  priority still oversteers.
 - [ ] **Next decision gate.** Reopen broad propagator work only if a
-  replicated actual-register hotspot priority transfers beyond the bit24
-  special case.
+  contiguous high actual-register cluster beyond bit24 appears.
 
 ## Related
 

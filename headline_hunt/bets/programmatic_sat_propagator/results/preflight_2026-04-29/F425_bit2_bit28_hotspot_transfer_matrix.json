@@ -1,0 +1,2100 @@
+{
+  "bet": "programmatic_sat_propagator",
+  "binary": "/tmp/F425_cascade_propagator",
+  "compile_result": {
+    "cmd": [
+      "g++",
+      "-std=c++17",
+      "-O2",
+      "-I/home/yale/sha256_probe/.deps/cadical/src",
+      "-I/home/yale/sha256_probe/.deps/nlohmann/include",
+      "-I/opt/homebrew/include",
+      "-I/usr/local/include",
+      "/home/yale/sha256_probe/headline_hunt/bets/programmatic_sat_propagator/propagators/cascade_propagator.cc",
+      "/home/yale/sha256_probe/.deps/cadical/build/libcadical.a",
+      "-o",
+      "/tmp/F425_cascade_propagator"
+    ],
+    "returncode": 0,
+    "stderr_tail": [],
+    "stdout_tail": [],
+    "wall_seconds": 6.317
+  },
+  "conflicts": 50000,
+  "date": "2026-05-01",
+  "f343_cnfs": {
+    "bit28_md1acca79_fillffffffff": "/tmp/F425/aux_force_sr60_n32_bit28_md1acca79_fillffffffff_F425_F343.cnf",
+    "bit2_ma896ee41_fillffffffff": "/tmp/F425/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff_F425_F343.cnf"
+  },
+  "parents": [
+    "F421",
+    "F424"
+  ],
+  "priority_spec": "headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/F425_bit2_bit28_hotspot_transfer_specs.json",
+  "report_id": "F425",
+  "runs": [
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"\n",
+        "stdout": "Appended run_20260501_131702_programmatic_sat_propagator_cadical-ipasir-up_seed3_2d5e409e"
+      },
+      "arm": "baseline",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13252  clauses=54947",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit2_ma896ee41_fillffffffff",
+      "candidate_id": "cand_n32_bit2_ma896ee41_fillffffffff",
+      "cmd": [
+        "/tmp/F425_cascade_propagator",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=3"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+      "metrics": {
+        "backtracks": 58163,
+        "cb_decide_suggestions": 0,
+        "cb_propagate_fires": 687,
+        "decisions": 358533,
+        "notify_assignment_events": 397083,
+        "result": 0
+      },
+      "priority_cap": null,
+      "priority_set": null,
+      "returncode": 2,
+      "seed": 3,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F425/bit2_ma896ee41_fillffffffff_baseline_seed3.stderr.log",
+      "stdout_log": "/tmp/F425/bit2_ma896ee41_fillffffffff_baseline_seed3.stdout.log",
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 3.814939022064209
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"\n",
+        "stdout": "Appended run_20260501_131706_programmatic_sat_propagator_cadical-ipasir-up_seed3_cdfa20e1"
+      },
+      "arm": "f343",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /tmp/F425/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff_F425_F343.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13252  clauses=54949",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit2_ma896ee41_fillffffffff",
+      "candidate_id": "cand_n32_bit2_ma896ee41_fillffffffff",
+      "cmd": [
+        "/tmp/F425_cascade_propagator",
+        "/tmp/F425/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff_F425_F343.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=3"
+      ],
+      "cnf": "/tmp/F425/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff_F425_F343.cnf",
+      "metrics": {
+        "backtracks": 57783,
+        "cb_decide_suggestions": 0,
+        "cb_propagate_fires": 687,
+        "decisions": 339439,
+        "notify_assignment_events": 422690,
+        "result": 0
+      },
+      "priority_cap": null,
+      "priority_set": null,
+      "returncode": 2,
+      "seed": 3,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F425/bit2_ma896ee41_fillffffffff_f343_seed3.stderr.log",
+      "stdout_log": "/tmp/F425/bit2_ma896ee41_fillffffffff_f343_seed3.stdout.log",
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 3.645174980163574
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"\n",
+        "stdout": "Appended run_20260501_131711_programmatic_sat_propagator_cadical-ipasir-up_seed3_665dc644"
+      },
+      "arm": "hotspot_cap64",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13252  clauses=54947",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit2_ma896ee41_fillffffffff",
+      "candidate_id": "cand_n32_bit2_ma896ee41_fillffffffff",
+      "cmd": [
+        "/tmp/F425_cascade_propagator",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=3",
+        "--priority-spec=/home/yale/sha256_probe/headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/F425_bit2_bit28_hotspot_transfer_specs.json",
+        "--priority-set=actual_p1_a57_hotspots",
+        "--priority-candidate=bit2_ma896ee41_fillffffffff",
+        "--priority-max-suggestions=64"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+      "metrics": {
+        "backtracks": 60128,
+        "cb_decide_suggestions": 64,
+        "cb_propagate_fires": 2742,
+        "decisions": 472910,
+        "notify_assignment_events": 566373,
+        "result": 0
+      },
+      "priority_cap": 64,
+      "priority_set": "actual_p1_a57_hotspots",
+      "returncode": 2,
+      "seed": 3,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F425/bit2_ma896ee41_fillffffffff_hotspot_cap64_seed3.stderr.log",
+      "stdout_log": "/tmp/F425/bit2_ma896ee41_fillffffffff_hotspot_cap64_seed3.stdout.log",
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 4.3145592212677
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"\n",
+        "stdout": "Appended run_20260501_131715_programmatic_sat_propagator_cadical-ipasir-up_seed3_99b95c47"
+      },
+      "arm": "hotspot_cap96",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13252  clauses=54947",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit2_ma896ee41_fillffffffff",
+      "candidate_id": "cand_n32_bit2_ma896ee41_fillffffffff",
+      "cmd": [
+        "/tmp/F425_cascade_propagator",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=3",
+        "--priority-spec=/home/yale/sha256_probe/headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/F425_bit2_bit28_hotspot_transfer_specs.json",
+        "--priority-set=actual_p1_a57_hotspots",
+        "--priority-candidate=bit2_ma896ee41_fillffffffff",
+        "--priority-max-suggestions=96"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+      "metrics": {
+        "backtracks": 58928,
+        "cb_decide_suggestions": 96,
+        "cb_propagate_fires": 2154,
+        "decisions": 413922,
+        "notify_assignment_events": 521689,
+        "result": 0
+      },
+      "priority_cap": 96,
+      "priority_set": "actual_p1_a57_hotspots",
+      "returncode": 2,
+      "seed": 3,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F425/bit2_ma896ee41_fillffffffff_hotspot_cap96_seed3.stderr.log",
+      "stdout_log": "/tmp/F425/bit2_ma896ee41_fillffffffff_hotspot_cap96_seed3.stdout.log",
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 3.867309808731079
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"\n",
+        "stdout": "Appended run_20260501_131719_programmatic_sat_propagator_cadical-ipasir-up_seed4_66a13d68"
+      },
+      "arm": "baseline",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13252  clauses=54947",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit2_ma896ee41_fillffffffff",
+      "candidate_id": "cand_n32_bit2_ma896ee41_fillffffffff",
+      "cmd": [
+        "/tmp/F425_cascade_propagator",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=4"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+      "metrics": {
+        "backtracks": 57916,
+        "cb_decide_suggestions": 0,
+        "cb_propagate_fires": 687,
+        "decisions": 355730,
+        "notify_assignment_events": 405983,
+        "result": 0
+      },
+      "priority_cap": null,
+      "priority_set": null,
+      "returncode": 2,
+      "seed": 4,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F425/bit2_ma896ee41_fillffffffff_baseline_seed4.stderr.log",
+      "stdout_log": "/tmp/F425/bit2_ma896ee41_fillffffffff_baseline_seed4.stdout.log",
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 3.794466495513916
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"\n",
+        "stdout": "Appended run_20260501_131723_programmatic_sat_propagator_cadical-ipasir-up_seed4_11144e50"
+      },
+      "arm": "f343",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /tmp/F425/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff_F425_F343.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13252  clauses=54949",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit2_ma896ee41_fillffffffff",
+      "candidate_id": "cand_n32_bit2_ma896ee41_fillffffffff",
+      "cmd": [
+        "/tmp/F425_cascade_propagator",
+        "/tmp/F425/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff_F425_F343.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=4"
+      ],
+      "cnf": "/tmp/F425/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff_F425_F343.cnf",
+      "metrics": {
+        "backtracks": 57968,
+        "cb_decide_suggestions": 0,
+        "cb_propagate_fires": 687,
+        "decisions": 347462,
+        "notify_assignment_events": 435965,
+        "result": 0
+      },
+      "priority_cap": null,
+      "priority_set": null,
+      "returncode": 2,
+      "seed": 4,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F425/bit2_ma896ee41_fillffffffff_f343_seed4.stderr.log",
+      "stdout_log": "/tmp/F425/bit2_ma896ee41_fillffffffff_f343_seed4.stdout.log",
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 3.9485795497894287
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"\n",
+        "stdout": "Appended run_20260501_131728_programmatic_sat_propagator_cadical-ipasir-up_seed4_619f7016"
+      },
+      "arm": "hotspot_cap64",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13252  clauses=54947",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit2_ma896ee41_fillffffffff",
+      "candidate_id": "cand_n32_bit2_ma896ee41_fillffffffff",
+      "cmd": [
+        "/tmp/F425_cascade_propagator",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=4",
+        "--priority-spec=/home/yale/sha256_probe/headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/F425_bit2_bit28_hotspot_transfer_specs.json",
+        "--priority-set=actual_p1_a57_hotspots",
+        "--priority-candidate=bit2_ma896ee41_fillffffffff",
+        "--priority-max-suggestions=64"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+      "metrics": {
+        "backtracks": 59661,
+        "cb_decide_suggestions": 64,
+        "cb_propagate_fires": 2742,
+        "decisions": 515993,
+        "notify_assignment_events": 441757,
+        "result": 0
+      },
+      "priority_cap": 64,
+      "priority_set": "actual_p1_a57_hotspots",
+      "returncode": 2,
+      "seed": 4,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F425/bit2_ma896ee41_fillffffffff_hotspot_cap64_seed4.stderr.log",
+      "stdout_log": "/tmp/F425/bit2_ma896ee41_fillffffffff_hotspot_cap64_seed4.stdout.log",
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 4.0041961669921875
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"\n",
+        "stdout": "Appended run_20260501_131732_programmatic_sat_propagator_cadical-ipasir-up_seed4_cf94e170"
+      },
+      "arm": "hotspot_cap96",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13252  clauses=54947",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit2_ma896ee41_fillffffffff",
+      "candidate_id": "cand_n32_bit2_ma896ee41_fillffffffff",
+      "cmd": [
+        "/tmp/F425_cascade_propagator",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=4",
+        "--priority-spec=/home/yale/sha256_probe/headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/F425_bit2_bit28_hotspot_transfer_specs.json",
+        "--priority-set=actual_p1_a57_hotspots",
+        "--priority-candidate=bit2_ma896ee41_fillffffffff",
+        "--priority-max-suggestions=96"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+      "metrics": {
+        "backtracks": 58943,
+        "cb_decide_suggestions": 96,
+        "cb_propagate_fires": 2154,
+        "decisions": 411861,
+        "notify_assignment_events": 505982,
+        "result": 0
+      },
+      "priority_cap": 96,
+      "priority_set": "actual_p1_a57_hotspots",
+      "returncode": 2,
+      "seed": 4,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F425/bit2_ma896ee41_fillffffffff_hotspot_cap96_seed4.stderr.log",
+      "stdout_log": "/tmp/F425/bit2_ma896ee41_fillffffffff_hotspot_cap96_seed4.stdout.log",
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 4.235571622848511
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"\n",
+        "stdout": "Appended run_20260501_131736_programmatic_sat_propagator_cadical-ipasir-up_seed5_f92d5b19"
+      },
+      "arm": "baseline",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13252  clauses=54947",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit2_ma896ee41_fillffffffff",
+      "candidate_id": "cand_n32_bit2_ma896ee41_fillffffffff",
+      "cmd": [
+        "/tmp/F425_cascade_propagator",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=5"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+      "metrics": {
+        "backtracks": 57807,
+        "cb_decide_suggestions": 0,
+        "cb_propagate_fires": 687,
+        "decisions": 338609,
+        "notify_assignment_events": 390394,
+        "result": 0
+      },
+      "priority_cap": null,
+      "priority_set": null,
+      "returncode": 2,
+      "seed": 5,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F425/bit2_ma896ee41_fillffffffff_baseline_seed5.stderr.log",
+      "stdout_log": "/tmp/F425/bit2_ma896ee41_fillffffffff_baseline_seed5.stdout.log",
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 3.461782693862915
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"\n",
+        "stdout": "Appended run_20260501_131740_programmatic_sat_propagator_cadical-ipasir-up_seed5_e2e30181"
+      },
+      "arm": "f343",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /tmp/F425/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff_F425_F343.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13252  clauses=54949",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit2_ma896ee41_fillffffffff",
+      "candidate_id": "cand_n32_bit2_ma896ee41_fillffffffff",
+      "cmd": [
+        "/tmp/F425_cascade_propagator",
+        "/tmp/F425/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff_F425_F343.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=5"
+      ],
+      "cnf": "/tmp/F425/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff_F425_F343.cnf",
+      "metrics": {
+        "backtracks": 57605,
+        "cb_decide_suggestions": 0,
+        "cb_propagate_fires": 687,
+        "decisions": 335959,
+        "notify_assignment_events": 430470,
+        "result": 0
+      },
+      "priority_cap": null,
+      "priority_set": null,
+      "returncode": 2,
+      "seed": 5,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F425/bit2_ma896ee41_fillffffffff_f343_seed5.stderr.log",
+      "stdout_log": "/tmp/F425/bit2_ma896ee41_fillffffffff_f343_seed5.stdout.log",
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 3.779862642288208
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"\n",
+        "stdout": "Appended run_20260501_131745_programmatic_sat_propagator_cadical-ipasir-up_seed5_d47ab970"
+      },
+      "arm": "hotspot_cap64",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13252  clauses=54947",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit2_ma896ee41_fillffffffff",
+      "candidate_id": "cand_n32_bit2_ma896ee41_fillffffffff",
+      "cmd": [
+        "/tmp/F425_cascade_propagator",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=5",
+        "--priority-spec=/home/yale/sha256_probe/headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/F425_bit2_bit28_hotspot_transfer_specs.json",
+        "--priority-set=actual_p1_a57_hotspots",
+        "--priority-candidate=bit2_ma896ee41_fillffffffff",
+        "--priority-max-suggestions=64"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+      "metrics": {
+        "backtracks": 60095,
+        "cb_decide_suggestions": 64,
+        "cb_propagate_fires": 2742,
+        "decisions": 479023,
+        "notify_assignment_events": 573585,
+        "result": 0
+      },
+      "priority_cap": 64,
+      "priority_set": "actual_p1_a57_hotspots",
+      "returncode": 2,
+      "seed": 5,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F425/bit2_ma896ee41_fillffffffff_hotspot_cap64_seed5.stderr.log",
+      "stdout_log": "/tmp/F425/bit2_ma896ee41_fillffffffff_hotspot_cap64_seed5.stdout.log",
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 4.330761432647705
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"\n",
+        "stdout": "Appended run_20260501_131749_programmatic_sat_propagator_cadical-ipasir-up_seed5_7c4f334d"
+      },
+      "arm": "hotspot_cap96",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13252  clauses=54947",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit2_ma896ee41_fillffffffff",
+      "candidate_id": "cand_n32_bit2_ma896ee41_fillffffffff",
+      "cmd": [
+        "/tmp/F425_cascade_propagator",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=5",
+        "--priority-spec=/home/yale/sha256_probe/headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/F425_bit2_bit28_hotspot_transfer_specs.json",
+        "--priority-set=actual_p1_a57_hotspots",
+        "--priority-candidate=bit2_ma896ee41_fillffffffff",
+        "--priority-max-suggestions=96"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+      "metrics": {
+        "backtracks": 59374,
+        "cb_decide_suggestions": 96,
+        "cb_propagate_fires": 2154,
+        "decisions": 430152,
+        "notify_assignment_events": 529093,
+        "result": 0
+      },
+      "priority_cap": 96,
+      "priority_set": "actual_p1_a57_hotspots",
+      "returncode": 2,
+      "seed": 5,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F425/bit2_ma896ee41_fillffffffff_hotspot_cap96_seed5.stderr.log",
+      "stdout_log": "/tmp/F425/bit2_ma896ee41_fillffffffff_hotspot_cap96_seed5.stdout.log",
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 4.241992950439453
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"\n",
+        "stdout": "Appended run_20260501_131754_programmatic_sat_propagator_cadical-ipasir-up_seed6_4907ceae"
+      },
+      "arm": "baseline",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13252  clauses=54947",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit2_ma896ee41_fillffffffff",
+      "candidate_id": "cand_n32_bit2_ma896ee41_fillffffffff",
+      "cmd": [
+        "/tmp/F425_cascade_propagator",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=6"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+      "metrics": {
+        "backtracks": 58122,
+        "cb_decide_suggestions": 0,
+        "cb_propagate_fires": 687,
+        "decisions": 355823,
+        "notify_assignment_events": 386649,
+        "result": 0
+      },
+      "priority_cap": null,
+      "priority_set": null,
+      "returncode": 2,
+      "seed": 6,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F425/bit2_ma896ee41_fillffffffff_baseline_seed6.stderr.log",
+      "stdout_log": "/tmp/F425/bit2_ma896ee41_fillffffffff_baseline_seed6.stdout.log",
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 4.088758230209351
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"\n",
+        "stdout": "Appended run_20260501_131758_programmatic_sat_propagator_cadical-ipasir-up_seed6_e298bf96"
+      },
+      "arm": "f343",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /tmp/F425/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff_F425_F343.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13252  clauses=54949",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit2_ma896ee41_fillffffffff",
+      "candidate_id": "cand_n32_bit2_ma896ee41_fillffffffff",
+      "cmd": [
+        "/tmp/F425_cascade_propagator",
+        "/tmp/F425/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff_F425_F343.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=6"
+      ],
+      "cnf": "/tmp/F425/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff_F425_F343.cnf",
+      "metrics": {
+        "backtracks": 57706,
+        "cb_decide_suggestions": 0,
+        "cb_propagate_fires": 687,
+        "decisions": 343725,
+        "notify_assignment_events": 437157,
+        "result": 0
+      },
+      "priority_cap": null,
+      "priority_set": null,
+      "returncode": 2,
+      "seed": 6,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F425/bit2_ma896ee41_fillffffffff_f343_seed6.stderr.log",
+      "stdout_log": "/tmp/F425/bit2_ma896ee41_fillffffffff_f343_seed6.stdout.log",
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 3.601712942123413
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"\n",
+        "stdout": "Appended run_20260501_131802_programmatic_sat_propagator_cadical-ipasir-up_seed6_c5620714"
+      },
+      "arm": "hotspot_cap64",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13252  clauses=54947",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit2_ma896ee41_fillffffffff",
+      "candidate_id": "cand_n32_bit2_ma896ee41_fillffffffff",
+      "cmd": [
+        "/tmp/F425_cascade_propagator",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=6",
+        "--priority-spec=/home/yale/sha256_probe/headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/F425_bit2_bit28_hotspot_transfer_specs.json",
+        "--priority-set=actual_p1_a57_hotspots",
+        "--priority-candidate=bit2_ma896ee41_fillffffffff",
+        "--priority-max-suggestions=64"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+      "metrics": {
+        "backtracks": 60001,
+        "cb_decide_suggestions": 64,
+        "cb_propagate_fires": 2742,
+        "decisions": 469792,
+        "notify_assignment_events": 583985,
+        "result": 0
+      },
+      "priority_cap": 64,
+      "priority_set": "actual_p1_a57_hotspots",
+      "returncode": 2,
+      "seed": 6,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F425/bit2_ma896ee41_fillffffffff_hotspot_cap64_seed6.stderr.log",
+      "stdout_log": "/tmp/F425/bit2_ma896ee41_fillffffffff_hotspot_cap64_seed6.stdout.log",
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 4.125012397766113
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"\n",
+        "stdout": "Appended run_20260501_131806_programmatic_sat_propagator_cadical-ipasir-up_seed6_469850f6"
+      },
+      "arm": "hotspot_cap96",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13252  clauses=54947",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit2_ma896ee41_fillffffffff",
+      "candidate_id": "cand_n32_bit2_ma896ee41_fillffffffff",
+      "cmd": [
+        "/tmp/F425_cascade_propagator",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=6",
+        "--priority-spec=/home/yale/sha256_probe/headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/F425_bit2_bit28_hotspot_transfer_specs.json",
+        "--priority-set=actual_p1_a57_hotspots",
+        "--priority-candidate=bit2_ma896ee41_fillffffffff",
+        "--priority-max-suggestions=96"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+      "metrics": {
+        "backtracks": 58779,
+        "cb_decide_suggestions": 96,
+        "cb_propagate_fires": 2154,
+        "decisions": 401687,
+        "notify_assignment_events": 489303,
+        "result": 0
+      },
+      "priority_cap": 96,
+      "priority_set": "actual_p1_a57_hotspots",
+      "returncode": 2,
+      "seed": 6,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F425/bit2_ma896ee41_fillffffffff_hotspot_cap96_seed6.stderr.log",
+      "stdout_log": "/tmp/F425/bit2_ma896ee41_fillffffffff_hotspot_cap96_seed6.stdout.log",
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 3.7848072052001953
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"\n",
+        "stdout": "Appended run_20260501_131810_programmatic_sat_propagator_cadical-ipasir-up_seed7_f4f19eb9"
+      },
+      "arm": "baseline",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13252  clauses=54947",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit2_ma896ee41_fillffffffff",
+      "candidate_id": "cand_n32_bit2_ma896ee41_fillffffffff",
+      "cmd": [
+        "/tmp/F425_cascade_propagator",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=7"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+      "metrics": {
+        "backtracks": 58071,
+        "cb_decide_suggestions": 0,
+        "cb_propagate_fires": 687,
+        "decisions": 355317,
+        "notify_assignment_events": 392278,
+        "result": 0
+      },
+      "priority_cap": null,
+      "priority_set": null,
+      "returncode": 2,
+      "seed": 7,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F425/bit2_ma896ee41_fillffffffff_baseline_seed7.stderr.log",
+      "stdout_log": "/tmp/F425/bit2_ma896ee41_fillffffffff_baseline_seed7.stdout.log",
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 3.535496234893799
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"\n",
+        "stdout": "Appended run_20260501_131815_programmatic_sat_propagator_cadical-ipasir-up_seed7_793fa022"
+      },
+      "arm": "f343",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /tmp/F425/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff_F425_F343.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13252  clauses=54949",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit2_ma896ee41_fillffffffff",
+      "candidate_id": "cand_n32_bit2_ma896ee41_fillffffffff",
+      "cmd": [
+        "/tmp/F425_cascade_propagator",
+        "/tmp/F425/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff_F425_F343.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=7"
+      ],
+      "cnf": "/tmp/F425/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff_F425_F343.cnf",
+      "metrics": {
+        "backtracks": 57412,
+        "cb_decide_suggestions": 0,
+        "cb_propagate_fires": 687,
+        "decisions": 337863,
+        "notify_assignment_events": 422952,
+        "result": 0
+      },
+      "priority_cap": null,
+      "priority_set": null,
+      "returncode": 2,
+      "seed": 7,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F425/bit2_ma896ee41_fillffffffff_f343_seed7.stderr.log",
+      "stdout_log": "/tmp/F425/bit2_ma896ee41_fillffffffff_f343_seed7.stdout.log",
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 4.409945249557495
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"\n",
+        "stdout": "Appended run_20260501_131819_programmatic_sat_propagator_cadical-ipasir-up_seed7_00cbefae"
+      },
+      "arm": "hotspot_cap64",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13252  clauses=54947",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit2_ma896ee41_fillffffffff",
+      "candidate_id": "cand_n32_bit2_ma896ee41_fillffffffff",
+      "cmd": [
+        "/tmp/F425_cascade_propagator",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=7",
+        "--priority-spec=/home/yale/sha256_probe/headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/F425_bit2_bit28_hotspot_transfer_specs.json",
+        "--priority-set=actual_p1_a57_hotspots",
+        "--priority-candidate=bit2_ma896ee41_fillffffffff",
+        "--priority-max-suggestions=64"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+      "metrics": {
+        "backtracks": 59733,
+        "cb_decide_suggestions": 64,
+        "cb_propagate_fires": 2742,
+        "decisions": 445021,
+        "notify_assignment_events": 538583,
+        "result": 0
+      },
+      "priority_cap": 64,
+      "priority_set": "actual_p1_a57_hotspots",
+      "returncode": 2,
+      "seed": 7,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F425/bit2_ma896ee41_fillffffffff_hotspot_cap64_seed7.stderr.log",
+      "stdout_log": "/tmp/F425/bit2_ma896ee41_fillffffffff_hotspot_cap64_seed7.stdout.log",
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 4.209704399108887
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"\n",
+        "stdout": "Appended run_20260501_131824_programmatic_sat_propagator_cadical-ipasir-up_seed7_06d9650b"
+      },
+      "arm": "hotspot_cap96",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13252  clauses=54947",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit2_ma896ee41_fillffffffff",
+      "candidate_id": "cand_n32_bit2_ma896ee41_fillffffffff",
+      "cmd": [
+        "/tmp/F425_cascade_propagator",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=7",
+        "--priority-spec=/home/yale/sha256_probe/headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/F425_bit2_bit28_hotspot_transfer_specs.json",
+        "--priority-set=actual_p1_a57_hotspots",
+        "--priority-candidate=bit2_ma896ee41_fillffffffff",
+        "--priority-max-suggestions=96"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+      "metrics": {
+        "backtracks": 58090,
+        "cb_decide_suggestions": 96,
+        "cb_propagate_fires": 2154,
+        "decisions": 367922,
+        "notify_assignment_events": 445298,
+        "result": 0
+      },
+      "priority_cap": 96,
+      "priority_set": "actual_p1_a57_hotspots",
+      "returncode": 2,
+      "seed": 7,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F425/bit2_ma896ee41_fillffffffff_hotspot_cap96_seed7.stderr.log",
+      "stdout_log": "/tmp/F425/bit2_ma896ee41_fillffffffff_hotspot_cap96_seed7.stdout.log",
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 3.9352381229400635
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"\n",
+        "stdout": "Appended run_20260501_131828_programmatic_sat_propagator_cadical-ipasir-up_seed3_f0eb0935"
+      },
+      "arm": "baseline",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13203  clauses=54737",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit28_md1acca79_fillffffffff",
+      "candidate_id": "cand_n32_bit28_md1acca79_fillffffffff",
+      "cmd": [
+        "/tmp/F425_cascade_propagator",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=3"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+      "metrics": {
+        "backtracks": 58178,
+        "cb_decide_suggestions": 0,
+        "cb_propagate_fires": 1160,
+        "decisions": 371767,
+        "notify_assignment_events": 423753,
+        "result": 0
+      },
+      "priority_cap": null,
+      "priority_set": null,
+      "returncode": 2,
+      "seed": 3,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F425/bit28_md1acca79_fillffffffff_baseline_seed3.stderr.log",
+      "stdout_log": "/tmp/F425/bit28_md1acca79_fillffffffff_baseline_seed3.stdout.log",
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 3.8090498447418213
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"\n",
+        "stdout": "Appended run_20260501_131832_programmatic_sat_propagator_cadical-ipasir-up_seed3_08ef18bb"
+      },
+      "arm": "f343",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /tmp/F425/aux_force_sr60_n32_bit28_md1acca79_fillffffffff_F425_F343.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13203  clauses=54739",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit28_md1acca79_fillffffffff",
+      "candidate_id": "cand_n32_bit28_md1acca79_fillffffffff",
+      "cmd": [
+        "/tmp/F425_cascade_propagator",
+        "/tmp/F425/aux_force_sr60_n32_bit28_md1acca79_fillffffffff_F425_F343.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=3"
+      ],
+      "cnf": "/tmp/F425/aux_force_sr60_n32_bit28_md1acca79_fillffffffff_F425_F343.cnf",
+      "metrics": {
+        "backtracks": 57499,
+        "cb_decide_suggestions": 0,
+        "cb_propagate_fires": 1176,
+        "decisions": 321453,
+        "notify_assignment_events": 372010,
+        "result": 0
+      },
+      "priority_cap": null,
+      "priority_set": null,
+      "returncode": 2,
+      "seed": 3,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F425/bit28_md1acca79_fillffffffff_f343_seed3.stderr.log",
+      "stdout_log": "/tmp/F425/bit28_md1acca79_fillffffffff_f343_seed3.stdout.log",
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 3.6309502124786377
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"\n",
+        "stdout": "Appended run_20260501_131836_programmatic_sat_propagator_cadical-ipasir-up_seed3_9c576c8b"
+      },
+      "arm": "hotspot_cap64",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13203  clauses=54737",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit28_md1acca79_fillffffffff",
+      "candidate_id": "cand_n32_bit28_md1acca79_fillffffffff",
+      "cmd": [
+        "/tmp/F425_cascade_propagator",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=3",
+        "--priority-spec=/home/yale/sha256_probe/headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/F425_bit2_bit28_hotspot_transfer_specs.json",
+        "--priority-set=actual_p1_a57_hotspots",
+        "--priority-candidate=bit28_md1acca79_fillffffffff",
+        "--priority-max-suggestions=64"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+      "metrics": {
+        "backtracks": 58153,
+        "cb_decide_suggestions": 64,
+        "cb_propagate_fires": 1881,
+        "decisions": 413577,
+        "notify_assignment_events": 422511,
+        "result": 0
+      },
+      "priority_cap": 64,
+      "priority_set": "actual_p1_a57_hotspots",
+      "returncode": 2,
+      "seed": 3,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F425/bit28_md1acca79_fillffffffff_hotspot_cap64_seed3.stderr.log",
+      "stdout_log": "/tmp/F425/bit28_md1acca79_fillffffffff_hotspot_cap64_seed3.stdout.log",
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 3.8553082942962646
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"\n",
+        "stdout": "Appended run_20260501_131840_programmatic_sat_propagator_cadical-ipasir-up_seed3_281b7205"
+      },
+      "arm": "hotspot_cap96",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13203  clauses=54737",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit28_md1acca79_fillffffffff",
+      "candidate_id": "cand_n32_bit28_md1acca79_fillffffffff",
+      "cmd": [
+        "/tmp/F425_cascade_propagator",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=3",
+        "--priority-spec=/home/yale/sha256_probe/headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/F425_bit2_bit28_hotspot_transfer_specs.json",
+        "--priority-set=actual_p1_a57_hotspots",
+        "--priority-candidate=bit28_md1acca79_fillffffffff",
+        "--priority-max-suggestions=96"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+      "metrics": {
+        "backtracks": 59164,
+        "cb_decide_suggestions": 96,
+        "cb_propagate_fires": 1826,
+        "decisions": 425768,
+        "notify_assignment_events": 521627,
+        "result": 0
+      },
+      "priority_cap": 96,
+      "priority_set": "actual_p1_a57_hotspots",
+      "returncode": 2,
+      "seed": 3,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F425/bit28_md1acca79_fillffffffff_hotspot_cap96_seed3.stderr.log",
+      "stdout_log": "/tmp/F425/bit28_md1acca79_fillffffffff_hotspot_cap96_seed3.stdout.log",
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 4.026488780975342
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"\n",
+        "stdout": "Appended run_20260501_131844_programmatic_sat_propagator_cadical-ipasir-up_seed4_2b76157d"
+      },
+      "arm": "baseline",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13203  clauses=54737",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit28_md1acca79_fillffffffff",
+      "candidate_id": "cand_n32_bit28_md1acca79_fillffffffff",
+      "cmd": [
+        "/tmp/F425_cascade_propagator",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=4"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+      "metrics": {
+        "backtracks": 58007,
+        "cb_decide_suggestions": 0,
+        "cb_propagate_fires": 1160,
+        "decisions": 373728,
+        "notify_assignment_events": 420300,
+        "result": 0
+      },
+      "priority_cap": null,
+      "priority_set": null,
+      "returncode": 2,
+      "seed": 4,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F425/bit28_md1acca79_fillffffffff_baseline_seed4.stderr.log",
+      "stdout_log": "/tmp/F425/bit28_md1acca79_fillffffffff_baseline_seed4.stdout.log",
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 3.7712035179138184
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"\n",
+        "stdout": "Appended run_20260501_131849_programmatic_sat_propagator_cadical-ipasir-up_seed4_beb06a36"
+      },
+      "arm": "f343",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /tmp/F425/aux_force_sr60_n32_bit28_md1acca79_fillffffffff_F425_F343.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13203  clauses=54739",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit28_md1acca79_fillffffffff",
+      "candidate_id": "cand_n32_bit28_md1acca79_fillffffffff",
+      "cmd": [
+        "/tmp/F425_cascade_propagator",
+        "/tmp/F425/aux_force_sr60_n32_bit28_md1acca79_fillffffffff_F425_F343.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=4"
+      ],
+      "cnf": "/tmp/F425/aux_force_sr60_n32_bit28_md1acca79_fillffffffff_F425_F343.cnf",
+      "metrics": {
+        "backtracks": 57430,
+        "cb_decide_suggestions": 0,
+        "cb_propagate_fires": 1176,
+        "decisions": 317151,
+        "notify_assignment_events": 391075,
+        "result": 0
+      },
+      "priority_cap": null,
+      "priority_set": null,
+      "returncode": 2,
+      "seed": 4,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F425/bit28_md1acca79_fillffffffff_f343_seed4.stderr.log",
+      "stdout_log": "/tmp/F425/bit28_md1acca79_fillffffffff_f343_seed4.stdout.log",
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 3.8862664699554443
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"\n",
+        "stdout": "Appended run_20260501_131853_programmatic_sat_propagator_cadical-ipasir-up_seed4_a89c901b"
+      },
+      "arm": "hotspot_cap64",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13203  clauses=54737",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit28_md1acca79_fillffffffff",
+      "candidate_id": "cand_n32_bit28_md1acca79_fillffffffff",
+      "cmd": [
+        "/tmp/F425_cascade_propagator",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=4",
+        "--priority-spec=/home/yale/sha256_probe/headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/F425_bit2_bit28_hotspot_transfer_specs.json",
+        "--priority-set=actual_p1_a57_hotspots",
+        "--priority-candidate=bit28_md1acca79_fillffffffff",
+        "--priority-max-suggestions=64"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+      "metrics": {
+        "backtracks": 58740,
+        "cb_decide_suggestions": 64,
+        "cb_propagate_fires": 1881,
+        "decisions": 465228,
+        "notify_assignment_events": 358191,
+        "result": 0
+      },
+      "priority_cap": 64,
+      "priority_set": "actual_p1_a57_hotspots",
+      "returncode": 2,
+      "seed": 4,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F425/bit28_md1acca79_fillffffffff_hotspot_cap64_seed4.stderr.log",
+      "stdout_log": "/tmp/F425/bit28_md1acca79_fillffffffff_hotspot_cap64_seed4.stdout.log",
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 4.043895959854126
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"\n",
+        "stdout": "Appended run_20260501_131857_programmatic_sat_propagator_cadical-ipasir-up_seed4_f11bb21e"
+      },
+      "arm": "hotspot_cap96",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13203  clauses=54737",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit28_md1acca79_fillffffffff",
+      "candidate_id": "cand_n32_bit28_md1acca79_fillffffffff",
+      "cmd": [
+        "/tmp/F425_cascade_propagator",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=4",
+        "--priority-spec=/home/yale/sha256_probe/headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/F425_bit2_bit28_hotspot_transfer_specs.json",
+        "--priority-set=actual_p1_a57_hotspots",
+        "--priority-candidate=bit28_md1acca79_fillffffffff",
+        "--priority-max-suggestions=96"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+      "metrics": {
+        "backtracks": 58310,
+        "cb_decide_suggestions": 96,
+        "cb_propagate_fires": 1826,
+        "decisions": 388159,
+        "notify_assignment_events": 464334,
+        "result": 0
+      },
+      "priority_cap": 96,
+      "priority_set": "actual_p1_a57_hotspots",
+      "returncode": 2,
+      "seed": 4,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F425/bit28_md1acca79_fillffffffff_hotspot_cap96_seed4.stderr.log",
+      "stdout_log": "/tmp/F425/bit28_md1acca79_fillffffffff_hotspot_cap96_seed4.stdout.log",
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 3.928711414337158
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"\n",
+        "stdout": "Appended run_20260501_131901_programmatic_sat_propagator_cadical-ipasir-up_seed5_48f10548"
+      },
+      "arm": "baseline",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13203  clauses=54737",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit28_md1acca79_fillffffffff",
+      "candidate_id": "cand_n32_bit28_md1acca79_fillffffffff",
+      "cmd": [
+        "/tmp/F425_cascade_propagator",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=5"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+      "metrics": {
+        "backtracks": 57865,
+        "cb_decide_suggestions": 0,
+        "cb_propagate_fires": 1160,
+        "decisions": 374090,
+        "notify_assignment_events": 415587,
+        "result": 0
+      },
+      "priority_cap": null,
+      "priority_set": null,
+      "returncode": 2,
+      "seed": 5,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F425/bit28_md1acca79_fillffffffff_baseline_seed5.stderr.log",
+      "stdout_log": "/tmp/F425/bit28_md1acca79_fillffffffff_baseline_seed5.stdout.log",
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 3.8356144428253174
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"\n",
+        "stdout": "Appended run_20260501_131905_programmatic_sat_propagator_cadical-ipasir-up_seed5_149eef79"
+      },
+      "arm": "f343",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /tmp/F425/aux_force_sr60_n32_bit28_md1acca79_fillffffffff_F425_F343.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13203  clauses=54739",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit28_md1acca79_fillffffffff",
+      "candidate_id": "cand_n32_bit28_md1acca79_fillffffffff",
+      "cmd": [
+        "/tmp/F425_cascade_propagator",
+        "/tmp/F425/aux_force_sr60_n32_bit28_md1acca79_fillffffffff_F425_F343.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=5"
+      ],
+      "cnf": "/tmp/F425/aux_force_sr60_n32_bit28_md1acca79_fillffffffff_F425_F343.cnf",
+      "metrics": {
+        "backtracks": 57308,
+        "cb_decide_suggestions": 0,
+        "cb_propagate_fires": 1176,
+        "decisions": 315499,
+        "notify_assignment_events": 356379,
+        "result": 0
+      },
+      "priority_cap": null,
+      "priority_set": null,
+      "returncode": 2,
+      "seed": 5,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F425/bit28_md1acca79_fillffffffff_f343_seed5.stderr.log",
+      "stdout_log": "/tmp/F425/bit28_md1acca79_fillffffffff_f343_seed5.stdout.log",
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 3.6813156604766846
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"\n",
+        "stdout": "Appended run_20260501_131910_programmatic_sat_propagator_cadical-ipasir-up_seed5_8362d62c"
+      },
+      "arm": "hotspot_cap64",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13203  clauses=54737",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit28_md1acca79_fillffffffff",
+      "candidate_id": "cand_n32_bit28_md1acca79_fillffffffff",
+      "cmd": [
+        "/tmp/F425_cascade_propagator",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=5",
+        "--priority-spec=/home/yale/sha256_probe/headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/F425_bit2_bit28_hotspot_transfer_specs.json",
+        "--priority-set=actual_p1_a57_hotspots",
+        "--priority-candidate=bit28_md1acca79_fillffffffff",
+        "--priority-max-suggestions=64"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+      "metrics": {
+        "backtracks": 59668,
+        "cb_decide_suggestions": 64,
+        "cb_propagate_fires": 1881,
+        "decisions": 454846,
+        "notify_assignment_events": 498656,
+        "result": 0
+      },
+      "priority_cap": 64,
+      "priority_set": "actual_p1_a57_hotspots",
+      "returncode": 2,
+      "seed": 5,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F425/bit28_md1acca79_fillffffffff_hotspot_cap64_seed5.stderr.log",
+      "stdout_log": "/tmp/F425/bit28_md1acca79_fillffffffff_hotspot_cap64_seed5.stdout.log",
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 4.123470306396484
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"\n",
+        "stdout": "Appended run_20260501_131914_programmatic_sat_propagator_cadical-ipasir-up_seed5_d2f1cd7e"
+      },
+      "arm": "hotspot_cap96",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13203  clauses=54737",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit28_md1acca79_fillffffffff",
+      "candidate_id": "cand_n32_bit28_md1acca79_fillffffffff",
+      "cmd": [
+        "/tmp/F425_cascade_propagator",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=5",
+        "--priority-spec=/home/yale/sha256_probe/headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/F425_bit2_bit28_hotspot_transfer_specs.json",
+        "--priority-set=actual_p1_a57_hotspots",
+        "--priority-candidate=bit28_md1acca79_fillffffffff",
+        "--priority-max-suggestions=96"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+      "metrics": {
+        "backtracks": 59018,
+        "cb_decide_suggestions": 96,
+        "cb_propagate_fires": 1826,
+        "decisions": 415853,
+        "notify_assignment_events": 497994,
+        "result": 0
+      },
+      "priority_cap": 96,
+      "priority_set": "actual_p1_a57_hotspots",
+      "returncode": 2,
+      "seed": 5,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F425/bit28_md1acca79_fillffffffff_hotspot_cap96_seed5.stderr.log",
+      "stdout_log": "/tmp/F425/bit28_md1acca79_fillffffffff_hotspot_cap96_seed5.stdout.log",
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 3.9768471717834473
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"\n",
+        "stdout": "Appended run_20260501_131918_programmatic_sat_propagator_cadical-ipasir-up_seed6_3ee928cf"
+      },
+      "arm": "baseline",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13203  clauses=54737",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit28_md1acca79_fillffffffff",
+      "candidate_id": "cand_n32_bit28_md1acca79_fillffffffff",
+      "cmd": [
+        "/tmp/F425_cascade_propagator",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=6"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+      "metrics": {
+        "backtracks": 57956,
+        "cb_decide_suggestions": 0,
+        "cb_propagate_fires": 1160,
+        "decisions": 373273,
+        "notify_assignment_events": 414505,
+        "result": 0
+      },
+      "priority_cap": null,
+      "priority_set": null,
+      "returncode": 2,
+      "seed": 6,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F425/bit28_md1acca79_fillffffffff_baseline_seed6.stderr.log",
+      "stdout_log": "/tmp/F425/bit28_md1acca79_fillffffffff_baseline_seed6.stdout.log",
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 3.6081788539886475
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"\n",
+        "stdout": "Appended run_20260501_131922_programmatic_sat_propagator_cadical-ipasir-up_seed6_330bbbaa"
+      },
+      "arm": "f343",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /tmp/F425/aux_force_sr60_n32_bit28_md1acca79_fillffffffff_F425_F343.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13203  clauses=54739",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit28_md1acca79_fillffffffff",
+      "candidate_id": "cand_n32_bit28_md1acca79_fillffffffff",
+      "cmd": [
+        "/tmp/F425_cascade_propagator",
+        "/tmp/F425/aux_force_sr60_n32_bit28_md1acca79_fillffffffff_F425_F343.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=6"
+      ],
+      "cnf": "/tmp/F425/aux_force_sr60_n32_bit28_md1acca79_fillffffffff_F425_F343.cnf",
+      "metrics": {
+        "backtracks": 57289,
+        "cb_decide_suggestions": 0,
+        "cb_propagate_fires": 1176,
+        "decisions": 320008,
+        "notify_assignment_events": 364105,
+        "result": 0
+      },
+      "priority_cap": null,
+      "priority_set": null,
+      "returncode": 2,
+      "seed": 6,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F425/bit28_md1acca79_fillffffffff_f343_seed6.stderr.log",
+      "stdout_log": "/tmp/F425/bit28_md1acca79_fillffffffff_f343_seed6.stdout.log",
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 3.6577870845794678
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"\n",
+        "stdout": "Appended run_20260501_131927_programmatic_sat_propagator_cadical-ipasir-up_seed6_05999b70"
+      },
+      "arm": "hotspot_cap64",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13203  clauses=54737",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit28_md1acca79_fillffffffff",
+      "candidate_id": "cand_n32_bit28_md1acca79_fillffffffff",
+      "cmd": [
+        "/tmp/F425_cascade_propagator",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=6",
+        "--priority-spec=/home/yale/sha256_probe/headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/F425_bit2_bit28_hotspot_transfer_specs.json",
+        "--priority-set=actual_p1_a57_hotspots",
+        "--priority-candidate=bit28_md1acca79_fillffffffff",
+        "--priority-max-suggestions=64"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+      "metrics": {
+        "backtracks": 59607,
+        "cb_decide_suggestions": 64,
+        "cb_propagate_fires": 1881,
+        "decisions": 446434,
+        "notify_assignment_events": 503937,
+        "result": 0
+      },
+      "priority_cap": 64,
+      "priority_set": "actual_p1_a57_hotspots",
+      "returncode": 2,
+      "seed": 6,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F425/bit28_md1acca79_fillffffffff_hotspot_cap64_seed6.stderr.log",
+      "stdout_log": "/tmp/F425/bit28_md1acca79_fillffffffff_hotspot_cap64_seed6.stdout.log",
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 4.407121419906616
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"\n",
+        "stdout": "Appended run_20260501_131931_programmatic_sat_propagator_cadical-ipasir-up_seed6_2854260c"
+      },
+      "arm": "hotspot_cap96",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13203  clauses=54737",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit28_md1acca79_fillffffffff",
+      "candidate_id": "cand_n32_bit28_md1acca79_fillffffffff",
+      "cmd": [
+        "/tmp/F425_cascade_propagator",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=6",
+        "--priority-spec=/home/yale/sha256_probe/headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/F425_bit2_bit28_hotspot_transfer_specs.json",
+        "--priority-set=actual_p1_a57_hotspots",
+        "--priority-candidate=bit28_md1acca79_fillffffffff",
+        "--priority-max-suggestions=96"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+      "metrics": {
+        "backtracks": 58638,
+        "cb_decide_suggestions": 96,
+        "cb_propagate_fires": 1826,
+        "decisions": 386521,
+        "notify_assignment_events": 467618,
+        "result": 0
+      },
+      "priority_cap": 96,
+      "priority_set": "actual_p1_a57_hotspots",
+      "returncode": 2,
+      "seed": 6,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F425/bit28_md1acca79_fillffffffff_hotspot_cap96_seed6.stderr.log",
+      "stdout_log": "/tmp/F425/bit28_md1acca79_fillffffffff_hotspot_cap96_seed6.stdout.log",
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 3.9864978790283203
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"\n",
+        "stdout": "Appended run_20260501_131935_programmatic_sat_propagator_cadical-ipasir-up_seed7_a3f3116e"
+      },
+      "arm": "baseline",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13203  clauses=54737",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit28_md1acca79_fillffffffff",
+      "candidate_id": "cand_n32_bit28_md1acca79_fillffffffff",
+      "cmd": [
+        "/tmp/F425_cascade_propagator",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=7"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+      "metrics": {
+        "backtracks": 58003,
+        "cb_decide_suggestions": 0,
+        "cb_propagate_fires": 1160,
+        "decisions": 371956,
+        "notify_assignment_events": 429891,
+        "result": 0
+      },
+      "priority_cap": null,
+      "priority_set": null,
+      "returncode": 2,
+      "seed": 7,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F425/bit28_md1acca79_fillffffffff_baseline_seed7.stderr.log",
+      "stdout_log": "/tmp/F425/bit28_md1acca79_fillffffffff_baseline_seed7.stdout.log",
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 3.9150373935699463
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"\n",
+        "stdout": "Appended run_20260501_131939_programmatic_sat_propagator_cadical-ipasir-up_seed7_73cf7117"
+      },
+      "arm": "f343",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /tmp/F425/aux_force_sr60_n32_bit28_md1acca79_fillffffffff_F425_F343.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13203  clauses=54739",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit28_md1acca79_fillffffffff",
+      "candidate_id": "cand_n32_bit28_md1acca79_fillffffffff",
+      "cmd": [
+        "/tmp/F425_cascade_propagator",
+        "/tmp/F425/aux_force_sr60_n32_bit28_md1acca79_fillffffffff_F425_F343.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=7"
+      ],
+      "cnf": "/tmp/F425/aux_force_sr60_n32_bit28_md1acca79_fillffffffff_F425_F343.cnf",
+      "metrics": {
+        "backtracks": 56600,
+        "cb_decide_suggestions": 0,
+        "cb_propagate_fires": 1176,
+        "decisions": 272748,
+        "notify_assignment_events": 325652,
+        "result": 0
+      },
+      "priority_cap": null,
+      "priority_set": null,
+      "returncode": 2,
+      "seed": 7,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F425/bit28_md1acca79_fillffffffff_f343_seed7.stderr.log",
+      "stdout_log": "/tmp/F425/bit28_md1acca79_fillffffffff_f343_seed7.stdout.log",
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 3.5627830028533936
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"\n",
+        "stdout": "Appended run_20260501_131944_programmatic_sat_propagator_cadical-ipasir-up_seed7_e90b7a7c"
+      },
+      "arm": "hotspot_cap64",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13203  clauses=54737",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit28_md1acca79_fillffffffff",
+      "candidate_id": "cand_n32_bit28_md1acca79_fillffffffff",
+      "cmd": [
+        "/tmp/F425_cascade_propagator",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=7",
+        "--priority-spec=/home/yale/sha256_probe/headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/F425_bit2_bit28_hotspot_transfer_specs.json",
+        "--priority-set=actual_p1_a57_hotspots",
+        "--priority-candidate=bit28_md1acca79_fillffffffff",
+        "--priority-max-suggestions=64"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+      "metrics": {
+        "backtracks": 59471,
+        "cb_decide_suggestions": 64,
+        "cb_propagate_fires": 1881,
+        "decisions": 522060,
+        "notify_assignment_events": 334999,
+        "result": 0
+      },
+      "priority_cap": 64,
+      "priority_set": "actual_p1_a57_hotspots",
+      "returncode": 2,
+      "seed": 7,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F425/bit28_md1acca79_fillffffffff_hotspot_cap64_seed7.stderr.log",
+      "stdout_log": "/tmp/F425/bit28_md1acca79_fillffffffff_hotspot_cap64_seed7.stdout.log",
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 4.4083616733551025
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"\n",
+        "stdout": "Appended run_20260501_131948_programmatic_sat_propagator_cadical-ipasir-up_seed7_eb3af60d"
+      },
+      "arm": "hotspot_cap96",
+      "audit": {
+        "returncode": 0,
+        "stderr_tail": [],
+        "stdout_tail": [
+          "Audit:  /home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+          "  Claimed: sr=60  n=32  encoder=cascade_aux_force  bit=None  m0=None  fill=None",
+          "  DIMACS:  vars=13203  clauses=54737",
+          "  Matches: ['sr60_n32_cascade_aux_force']",
+          "  VERDICT: CONFIRMED"
+        ],
+        "verdict": "CONFIRMED"
+      },
+      "candidate": "bit28_md1acca79_fillffffffff",
+      "candidate_id": "cand_n32_bit28_md1acca79_fillffffffff",
+      "cmd": [
+        "/tmp/F425_cascade_propagator",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--seed=7",
+        "--priority-spec=/home/yale/sha256_probe/headline_hunt/bets/programmatic_sat_propagator/results/preflight_2026-04-29/F425_bit2_bit28_hotspot_transfer_specs.json",
+        "--priority-set=actual_p1_a57_hotspots",
+        "--priority-candidate=bit28_md1acca79_fillffffffff",
+        "--priority-max-suggestions=96"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+      "metrics": {
+        "backtracks": 59066,
+        "cb_decide_suggestions": 96,
+        "cb_propagate_fires": 1826,
+        "decisions": 416048,
+        "notify_assignment_events": 478557,
+        "result": 0
+      },
+      "priority_cap": 96,
+      "priority_set": "actual_p1_a57_hotspots",
+      "returncode": 2,
+      "seed": 7,
+      "status": "TIMEOUT",
+      "stderr_log": "/tmp/F425/bit28_md1acca79_fillffffffff_hotspot_cap96_seed7.stderr.log",
+      "stdout_log": "/tmp/F425/bit28_md1acca79_fillffffffff_hotspot_cap96_seed7.stdout.log",
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 3.9810941219329834
+    }
+  ],
+  "seeds": [
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "source": "headline_hunt/bets/programmatic_sat_propagator/propagators/cascade_propagator.cc",
+  "summary": {
+    "bit28_md1acca79_fillffffffff": {
+      "baseline": {
+        "delta_backtracks_pct_vs_baseline": 0.0,
+        "delta_backtracks_vs_baseline": 0.0,
+        "delta_decisions_pct_vs_baseline": 0.0,
+        "delta_decisions_vs_baseline": 0.0,
+        "mean_backtracks": 58001.8,
+        "mean_cb_decide_suggestions": 0.0,
+        "mean_cb_propagate_fires": 1160.0,
+        "mean_decisions": 372962.8,
+        "n": 5
+      },
+      "f343": {
+        "delta_backtracks_pct_vs_baseline": -1.3389239644287,
+        "delta_backtracks_vs_baseline": -776.6000000000058,
+        "delta_decisions_pct_vs_baseline": -17.05022592065482,
+        "delta_decisions_vs_baseline": -63591.0,
+        "mean_backtracks": 57225.2,
+        "mean_cb_decide_suggestions": 0.0,
+        "mean_cb_propagate_fires": 1176.0,
+        "mean_decisions": 309371.8,
+        "n": 5
+      },
+      "hotspot_cap64": {
+        "delta_backtracks_pct_vs_baseline": 1.941319062511853,
+        "delta_backtracks_vs_baseline": 1126.0,
+        "delta_decisions_pct_vs_baseline": 23.45172226291738,
+        "delta_decisions_vs_baseline": 87466.20000000001,
+        "mean_backtracks": 59127.8,
+        "mean_cb_decide_suggestions": 64.0,
+        "mean_cb_propagate_fires": 1881.0,
+        "mean_decisions": 460429.0,
+        "n": 5
+      },
+      "hotspot_cap96": {
+        "delta_backtracks_pct_vs_baseline": 1.4437482974666203,
+        "delta_backtracks_vs_baseline": 837.3999999999942,
+        "delta_decisions_pct_vs_baseline": 8.98400591158153,
+        "delta_decisions_vs_baseline": 33507.0,
+        "mean_backtracks": 58839.2,
+        "mean_cb_decide_suggestions": 96.0,
+        "mean_cb_propagate_fires": 1826.0,
+        "mean_decisions": 406469.8,
+        "n": 5
+      }
+    },
+    "bit2_ma896ee41_fillffffffff": {
+      "baseline": {
+        "delta_backtracks_pct_vs_baseline": 0.0,
+        "delta_backtracks_vs_baseline": 0.0,
+        "delta_decisions_pct_vs_baseline": 0.0,
+        "delta_decisions_vs_baseline": 0.0,
+        "mean_backtracks": 58015.8,
+        "mean_cb_decide_suggestions": 0.0,
+        "mean_cb_propagate_fires": 687.0,
+        "mean_decisions": 352802.4,
+        "n": 5
+      },
+      "f343": {
+        "delta_backtracks_pct_vs_baseline": -0.5532975499777647,
+        "delta_backtracks_vs_baseline": -321.0,
+        "delta_decisions_pct_vs_baseline": -3.376621020718693,
+        "delta_decisions_vs_baseline": -11912.800000000047,
+        "mean_backtracks": 57694.8,
+        "mean_cb_decide_suggestions": 0.0,
+        "mean_cb_propagate_fires": 687.0,
+        "mean_decisions": 340889.6,
+        "n": 5
+      },
+      "hotspot_cap64": {
+        "delta_backtracks_pct_vs_baseline": 3.2884145353507073,
+        "delta_backtracks_vs_baseline": 1907.7999999999956,
+        "delta_decisions_pct_vs_baseline": 35.074988152008025,
+        "delta_decisions_vs_baseline": 123745.39999999997,
+        "mean_backtracks": 59923.6,
+        "mean_cb_decide_suggestions": 64.0,
+        "mean_cb_propagate_fires": 2742.0,
+        "mean_decisions": 476547.8,
+        "n": 5
+      },
+      "hotspot_cap96": {
+        "delta_backtracks_pct_vs_baseline": 1.3910003826543802,
+        "delta_backtracks_vs_baseline": 807.0,
+        "delta_decisions_pct_vs_baseline": 14.82597624052443,
+        "delta_decisions_vs_baseline": 52306.399999999965,
+        "mean_backtracks": 58822.8,
+        "mean_cb_decide_suggestions": 96.0,
+        "mean_cb_propagate_fires": 2154.0,
+        "mean_decisions": 405108.8,
+        "n": 5
+      }
+    }
+  },
+  "verdict": "bit28_md1acca79_fillffffffff: best non-baseline arm is f343 at 309372 decisions (-17.05%). bit2_ma896ee41_fillffffffff: best non-baseline arm is f343 at 340890 decisions (-3.38%). Smaller caps do not rescue actual-register hotspot priority on the prior negative candidates. Treat bit24 as a high-contiguous-cluster result, not a general actual_p1_a_57 hotspot rule; stop direct priority on sparse low-bit clusters."
+}
