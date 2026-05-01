@@ -58,6 +58,10 @@ Two possible headlines:
   direct F343 injection, clause-placement checks, and `--phase-lit` polarity
   hints. Bit2 is not explained by late F343 assignment, clause placement, or
   wrong default phase; forbidden-pair phase hints make the trace worse.
+- [x] **Learned-neighborhood instrumentation.** F417 added a CaDiCaL learner
+  callback to count learned clauses touching watched vars. Across baseline and
+  F343-injected traces for bit2/bit24/bit28, zero exported learned clauses
+  touched the watched F343 triple.
 - [ ] **Next decision gate.** Reopen broad propagator work only if a
   candidate-gated priority/F343 interaction beats F343 on bit2 or another known
   outlier.

@@ -794,6 +794,44 @@ public:
 };
 
 
+class ClauseTouchLearner : public CaDiCaL::Learner {
+public:
+    int max_size = -1;  // -1 = all learned clauses
+    std::map<int, std::string> watch_labels;
+    long long n_exported = 0;
+    long long n_touching = 0;
+    std::map<std::string, long long> touch_counts;
+    std::vector<std::vector<int>> touch_samples;
+    size_t max_samples = 8;
+
+    std::vector<int> current_clause;
+
+    bool learning(int size) override {
+        return max_size < 0 || size <= max_size;
+    }
+
+    void learn(int lit) override {
+        if (lit != 0) {
+            current_clause.push_back(lit);
+            return;
+        }
+
+        n_exported++;
+        std::set<std::string> touched;
+        for (int clause_lit : current_clause) {
+            auto it = watch_labels.find(std::abs(clause_lit));
+            if (it != watch_labels.end()) touched.insert(it->second);
+        }
+        if (!touched.empty()) {
+            n_touching++;
+            for (const auto& label : touched) touch_counts[label]++;
+            if (touch_samples.size() < max_samples) touch_samples.push_back(current_clause);
+        }
+        current_clause.clear();
+    }
+};
+
+
 // -------- Varmap loading --------
 
 // Map (reg, round) -> 32 SAT-var literals
@@ -959,6 +997,7 @@ int main(int argc, char** argv) {
                   << "       [--priority-candidate=bit10_m3304caa0_fill80000000]\n"
                   << "       [--priority-max-suggestions=N] [--priority-stride=N]\n"
                   << "       [--phase-lit=label:lit]\n"
+                  << "       [--learn-watch-var=label:var] [--learn-max-size=N]\n"
                   << "       [--trace-var=label:var]\n";
         return 1;
     }
@@ -973,6 +1012,8 @@ int main(int argc, char** argv) {
     long long priority_max_suggestions = -1;
     long long priority_stride = 1;
     std::vector<std::pair<std::string, int>> phase_lits;
+    std::vector<std::pair<std::string, int>> learn_watch_vars;
+    int learn_max_size = -1;
     std::vector<std::pair<std::string, int>> trace_vars;
     for (int i = 3; i < argc; i++) {
         std::string arg = argv[i];
@@ -1010,6 +1051,21 @@ int main(int argc, char** argv) {
                 return 1;
             }
             phase_lits.push_back({spec.substr(0, pos), lit});
+        } else if (arg.rfind("--learn-watch-var=", 0) == 0) {
+            std::string spec = arg.substr(18);
+            size_t pos = spec.rfind(':');
+            if (pos == std::string::npos || pos == 0 || pos + 1 >= spec.size()) {
+                std::cerr << "ERROR: --learn-watch-var expects label:var\n";
+                return 1;
+            }
+            int var = std::stoi(spec.substr(pos + 1));
+            if (var <= 1) {
+                std::cerr << "ERROR: --learn-watch-var var must be > 1\n";
+                return 1;
+            }
+            learn_watch_vars.push_back({spec.substr(0, pos), var});
+        } else if (arg.rfind("--learn-max-size=", 0) == 0) {
+            learn_max_size = std::stoi(arg.substr(17));
         } else if (arg.rfind("--trace-var=", 0) == 0) {
             std::string spec = arg.substr(12);
             size_t pos = spec.rfind(':');
@@ -1061,6 +1117,20 @@ int main(int argc, char** argv) {
         for (const auto& item : phase_lits) {
             std::cerr << "  phase_hint: label=" << item.first
                       << " lit=" << item.second << "\n";
+        }
+    }
+    ClauseTouchLearner learner;
+    if (!learn_watch_vars.empty()) {
+        learner.max_size = learn_max_size;
+        for (const auto& item : learn_watch_vars) {
+            learner.watch_labels[item.second] = item.first;
+        }
+        solver.connect_learner(&learner);
+        std::cerr << "Learn-touch watcher: " << learner.watch_labels.size()
+                  << " vars, max_size=" << learner.max_size << "\n";
+        for (const auto& item : learner.watch_labels) {
+            std::cerr << "  learn_watch: label=" << item.second
+                      << " var=" << item.first << "\n";
         }
     }
 
@@ -1290,6 +1360,9 @@ int main(int argc, char** argv) {
     // Solve
     std::cerr << "Solving" << (use_propagator ? " with cascade propagator" : "") << "...\n";
     int result = solver.solve();
+    if (!learn_watch_vars.empty()) {
+        solver.disconnect_learner();
+    }
     if (use_propagator) {
         solver.disconnect_external_propagator();
     }
@@ -1317,6 +1390,20 @@ int main(int argc, char** argv) {
               << prop.n_partial_bits_decided_max << ")\n"
               << "  decisions:                " << prop.n_decisions << "\n"
               << "  backtracks:               " << prop.n_backtracks << "\n";
+    if (!learn_watch_vars.empty()) {
+        std::cerr << "Learner stats:\n"
+                  << "  learned exported:         " << learner.n_exported << "\n"
+                  << "  learned touching watched: " << learner.n_touching << "\n";
+        for (const auto& item : learner.touch_counts) {
+            std::cerr << "  learn_touch: label=" << item.first
+                      << " clauses=" << item.second << "\n";
+        }
+        for (const auto& clause : learner.touch_samples) {
+            std::cerr << "  learn_touch_sample:";
+            for (int lit : clause) std::cerr << " " << lit;
+            std::cerr << " 0\n";
+        }
+    }
     for (const auto& ev : prop.trace_events) {
         std::cerr << "  trace_event: label=" << ev.label
                   << " var=" << ev.var
