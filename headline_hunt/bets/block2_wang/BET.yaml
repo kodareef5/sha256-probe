@@ -29,7 +29,24 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-01T22:36:30Z'
+last_heartbeat: '2026-05-01T22:43:00Z'
+recent_progress_2026-05-01_F480_F481_objective_pair_pool: |
+  yale-codex added --pair-rank objective to pair_beam_search.py. It ranks
+  two-bit pair-pool entries by the same lane-penalized objective used by the
+  beam: hw_total + penalty_weight * lane_damage - 0.001 * score.
+
+  First tests:
+    F480 bit13 HW36 record seed with objective-ranked c/g pair pool:
+      no improvement; best selected non-seed HW=40; seed HW36 stayed best.
+      expanded=3,304,760, bridge_pass=3,304,260, wall=280.15s.
+    F481 manifest rank 8 HW40 seed with objective-ranked c/g pair pool:
+      re-found current HW36 but did not improve it.
+      expanded=3,301,786, bridge_pass=3,301,591, wall=276.14s.
+
+  Current panel remains bit13 HW=36, bit28 HW=42, bit24 HW=43. Objective
+  pair ranking is a valid pruning variant but did not expose a lower basin
+  on the first two tests.
+
 recent_progress_2026-05-01_F478_F479_manifest_rank40_negatives: |
   yale-codex continued the F473 manifest sweep:
     F478 rank 8 HW40 W1=0x5228ed8d 0x61a1a29c 0x6a3a8429 0x6b9e01d3

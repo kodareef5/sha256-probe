@@ -62,6 +62,11 @@ def state_objective(rec: dict, score: float, init_hw63: list[int], penalty_regs:
     return rec["hw_total"] + penalty_weight * penalty - 0.001 * score
 
 
+def pair_objective(entry: dict, penalty_regs: tuple[int, ...], penalty_weight: float) -> float:
+    penalty = sum(max(0, entry["delta_hw63"][i]) for i in penalty_regs)
+    return entry["hw_total"] + penalty_weight * penalty - 0.001 * entry["score"]
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--candidate", required=True)
@@ -69,7 +74,7 @@ def main() -> None:
     ap.add_argument("--init-hw", type=int, required=True)
     ap.add_argument("--slots", default="57,58,59,60")
     ap.add_argument("--pair-pool", type=int, default=192)
-    ap.add_argument("--pair-rank", choices=["hw", "repair"], default="hw")
+    ap.add_argument("--pair-rank", choices=["hw", "repair", "objective"], default="hw")
     ap.add_argument("--max-pairs", type=int, default=4)
     ap.add_argument("--beam-width", type=int, default=128)
     ap.add_argument("--max-radius", type=int, default=8)
@@ -126,6 +131,8 @@ def main() -> None:
 
     if args.pair_rank == "hw":
         pairs.sort(key=lambda e: (e["hw_total"], -e["score"], e["bit_indices"]))
+    elif args.pair_rank == "objective":
+        pairs.sort(key=lambda e: (pair_objective(e, penalty_regs, args.penalty_weight), e["hw_total"], -e["score"], e["bit_indices"]))
     else:
         pairs.sort(key=lambda e: (-e["total_repair"], e["net_delta"], -e["score"], e["bit_indices"]))
     pool = pairs[:args.pair_pool]
