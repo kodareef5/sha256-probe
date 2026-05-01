@@ -64,7 +64,7 @@ Two possible headlines:
   touched the watched F343 triple. F418 broadened the watch to full `dW57` and
   `dW58` aux rows and still found zero touch. F419 found bit2's learned
   neighborhood in actual-register variables instead, led by `actual_p1_a_57`
-  bits 3/7/8.
+  bits 3/7/8. F420 replicated the actual `a_57` hotspot on bit24 and bit28.
 - [ ] **Next decision gate.** Reopen broad propagator work only if a
   candidate-gated priority/F343 interaction beats F343 on bit2 or another known
   outlier.
