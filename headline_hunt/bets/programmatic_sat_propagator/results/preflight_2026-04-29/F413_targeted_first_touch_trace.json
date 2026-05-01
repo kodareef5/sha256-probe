@@ -1,0 +1,584 @@
+{
+  "binary": "/tmp/F413_cascade_propagator",
+  "conflicts": 50000,
+  "date": "2026-04-30",
+  "parents": [
+    "F393",
+    "F402",
+    "F411",
+    "F412"
+  ],
+  "report_id": "F413",
+  "runs": [
+    {
+      "candidate": "bit2_ma896ee41_fillffffffff",
+      "cmd": [
+        "/tmp/F413_cascade_propagator",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--trace-var=w1_57_b0:2",
+        "--trace-var=w2_57_b0:130",
+        "--trace-var=w2_57_b1:131",
+        "--trace-var=w1_57_b22:24",
+        "--trace-var=w2_57_b22:152",
+        "--trace-var=w1_57_b23:25",
+        "--trace-var=w2_57_b23:153",
+        "--trace-var=w2_58_b1:163",
+        "--trace-var=dW57_b0:12401",
+        "--trace-var=dW57_b22:12423",
+        "--trace-var=dW57_b23:12424"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+      "metrics": {
+        "actual_reg_bit_assigns": 674536,
+        "backtracks": 57973,
+        "cb_propagate_fires": 687,
+        "decisions": 342976,
+        "notify_assignment_events": 413246,
+        "result": 0,
+        "trace_first_seen": {
+          "seen": 11,
+          "total": 11
+        }
+      },
+      "returncode": 2,
+      "stderr_tail": [
+        "Loaded varmap v3: 56 (reg,round) entries, total_vars=13252",
+        "  actual_p1: 56 entries; actual_p2: 56 entries",
+        "  aux_modular_diff: 4 entries (Rule 4 firing targets)",
+        "Conflict limit: 50000",
+        "Cascade-zero targets: 448 SAT vars observed, 0 bits already const-false",
+        "Rule 5  (dc_63 = dg_63): 32 bit-pairs registered",
+        "Rule 4@r=61 (dA[61] = dE[61]): 32 bit-pairs registered",
+        "Rule 4 r=62/63 substrate: 768 actual-register SAT vars registered (a,b,c at r=59..62)",
+        "Rule 4 firing targets: 128 modular-diff aux SAT vars across 4 (reg,round) entries",
+        "Propagator connected: 448 cascade-zero vars + 128 Rule-5 vars + 384 actual-register vars + 0 decision-priority vars + 11 trace vars observed",
+        "Loaded 54947 clauses from /home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+        "Solving with cascade propagator...",
+        "",
+        "Result: 0 (10=SAT, 20=UNSAT, 0=UNKNOWN)",
+        "Propagator stats:",
+        "  notify_assignment events: 413246",
+        "  cb_propagate fires:       687",
+        "    of which Rule 5 fires:  32",
+        "    of which Rule 4@r=61:   32",
+        "    of which Rule 4@r=62 forcings: 175",
+        "  cb_decide suggestions:    0",
+        "  cb_decide priority:       a61_fallback (0 vars, max_suggestions=-1, stride=1)",
+        "  trace vars first-seen:    11 / 11",
+        "  actual-reg bit assigns:   674536",
+        "  dT2_62 computable (sample, full): 0 (out of ~164 samples)",
+        "  dT2_62 partial-bit firing samples: 20 (max bits forced in any sample: 8)",
+        "  decisions:                342976",
+        "  backtracks:               57973",
+        "  trace_event: label=dW57_b0 var=12401 value=1 assignment=481 decisions=0 backtracks=0",
+        "  trace_event: label=dW57_b23 var=12424 value=1 assignment=676 decisions=512 backtracks=0",
+        "  trace_event: label=dW57_b22 var=12423 value=1 assignment=677 decisions=513 backtracks=0",
+        "  trace_event: label=w1_57_b0 var=2 value=1 assignment=3358 decisions=8679 backtracks=346",
+        "  trace_event: label=w2_57_b0 var=130 value=0 assignment=3359 decisions=8679 backtracks=346",
+        "  trace_event: label=w2_57_b1 var=131 value=0 assignment=4980 decisions=10245 backtracks=420",
+        "  trace_event: label=w1_57_b22 var=24 value=1 assignment=14489 decisions=28566 backtracks=1288",
+        "  trace_event: label=w1_57_b23 var=25 value=1 assignment=14490 decisions=28567 backtracks=1288",
+        "  trace_event: label=w2_57_b22 var=152 value=1 assignment=14527 decisions=28686 backtracks=1288",
+        "  trace_event: label=w2_57_b23 var=153 value=0 assignment=14533 decisions=28687 backtracks=1289",
+        "  trace_event: label=w2_58_b1 var=163 value=1 assignment=14543 decisions=28698 backtracks=1291"
+      ],
+      "stdout_tail": [
+        "s UNKNOWN"
+      ],
+      "trace_events": [
+        {
+          "assignment": 481,
+          "backtracks": 0,
+          "decisions": 0,
+          "label": "dW57_b0",
+          "value": 1,
+          "var": 12401
+        },
+        {
+          "assignment": 676,
+          "backtracks": 0,
+          "decisions": 512,
+          "label": "dW57_b23",
+          "value": 1,
+          "var": 12424
+        },
+        {
+          "assignment": 677,
+          "backtracks": 0,
+          "decisions": 513,
+          "label": "dW57_b22",
+          "value": 1,
+          "var": 12423
+        },
+        {
+          "assignment": 3358,
+          "backtracks": 346,
+          "decisions": 8679,
+          "label": "w1_57_b0",
+          "value": 1,
+          "var": 2
+        },
+        {
+          "assignment": 3359,
+          "backtracks": 346,
+          "decisions": 8679,
+          "label": "w2_57_b0",
+          "value": 0,
+          "var": 130
+        },
+        {
+          "assignment": 4980,
+          "backtracks": 420,
+          "decisions": 10245,
+          "label": "w2_57_b1",
+          "value": 0,
+          "var": 131
+        },
+        {
+          "assignment": 14489,
+          "backtracks": 1288,
+          "decisions": 28566,
+          "label": "w1_57_b22",
+          "value": 1,
+          "var": 24
+        },
+        {
+          "assignment": 14490,
+          "backtracks": 1288,
+          "decisions": 28567,
+          "label": "w1_57_b23",
+          "value": 1,
+          "var": 25
+        },
+        {
+          "assignment": 14527,
+          "backtracks": 1288,
+          "decisions": 28686,
+          "label": "w2_57_b22",
+          "value": 1,
+          "var": 152
+        },
+        {
+          "assignment": 14533,
+          "backtracks": 1289,
+          "decisions": 28687,
+          "label": "w2_57_b23",
+          "value": 0,
+          "var": 153
+        },
+        {
+          "assignment": 14543,
+          "backtracks": 1291,
+          "decisions": 28698,
+          "label": "w2_58_b1",
+          "value": 1,
+          "var": 163
+        }
+      ],
+      "trace_vars": {
+        "dW57_b0": 12401,
+        "dW57_b22": 12423,
+        "dW57_b23": 12424,
+        "w1_57_b0": 2,
+        "w1_57_b22": 24,
+        "w1_57_b23": 25,
+        "w2_57_b0": 130,
+        "w2_57_b1": 131,
+        "w2_57_b22": 152,
+        "w2_57_b23": 153,
+        "w2_58_b1": 163
+      },
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 4.058
+    },
+    {
+      "candidate": "bit24_mdc27e18c_fillffffffff",
+      "cmd": [
+        "/tmp/F413_cascade_propagator",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--trace-var=w1_57_b0:2",
+        "--trace-var=w2_57_b0:130",
+        "--trace-var=w2_57_b1:131",
+        "--trace-var=w1_57_b22:24",
+        "--trace-var=w2_57_b22:152",
+        "--trace-var=w1_57_b23:25",
+        "--trace-var=w2_57_b23:153",
+        "--trace-var=w2_58_b1:163",
+        "--trace-var=dW57_b0:12364",
+        "--trace-var=dW57_b22:12386",
+        "--trace-var=dW57_b23:12387"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf",
+      "metrics": {
+        "actual_reg_bit_assigns": 761803,
+        "backtracks": 58550,
+        "cb_propagate_fires": 770,
+        "decisions": 377616,
+        "notify_assignment_events": 459376,
+        "result": 0,
+        "trace_first_seen": {
+          "seen": 11,
+          "total": 11
+        }
+      },
+      "returncode": 2,
+      "stderr_tail": [
+        "Loaded varmap v3: 56 (reg,round) entries, total_vars=13215",
+        "  actual_p1: 56 entries; actual_p2: 56 entries",
+        "  aux_modular_diff: 4 entries (Rule 4 firing targets)",
+        "Conflict limit: 50000",
+        "Cascade-zero targets: 448 SAT vars observed, 0 bits already const-false",
+        "Rule 5  (dc_63 = dg_63): 32 bit-pairs registered",
+        "Rule 4@r=61 (dA[61] = dE[61]): 32 bit-pairs registered",
+        "Rule 4 r=62/63 substrate: 768 actual-register SAT vars registered (a,b,c at r=59..62)",
+        "Rule 4 firing targets: 128 modular-diff aux SAT vars across 4 (reg,round) entries",
+        "Propagator connected: 448 cascade-zero vars + 128 Rule-5 vars + 384 actual-register vars + 0 decision-priority vars + 11 trace vars observed",
+        "Loaded 54786 clauses from /home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf",
+        "Solving with cascade propagator...",
+        "",
+        "Result: 0 (10=SAT, 20=UNSAT, 0=UNKNOWN)",
+        "Propagator stats:",
+        "  notify_assignment events: 459376",
+        "  cb_propagate fires:       770",
+        "    of which Rule 5 fires:  32",
+        "    of which Rule 4@r=61:   32",
+        "    of which Rule 4@r=62 forcings: 258",
+        "  cb_decide suggestions:    0",
+        "  cb_decide priority:       a61_fallback (0 vars, max_suggestions=-1, stride=1)",
+        "  trace vars first-seen:    11 / 11",
+        "  actual-reg bit assigns:   761803",
+        "  dT2_62 computable (sample, full): 0 (out of ~185 samples)",
+        "  dT2_62 partial-bit firing samples: 42 (max bits forced in any sample: 15)",
+        "  decisions:                377616",
+        "  backtracks:               58550",
+        "  trace_event: label=dW57_b0 var=12364 value=1 assignment=481 decisions=0 backtracks=0",
+        "  trace_event: label=dW57_b23 var=12387 value=1 assignment=676 decisions=510 backtracks=0",
+        "  trace_event: label=dW57_b22 var=12386 value=1 assignment=677 decisions=511 backtracks=0",
+        "  trace_event: label=w1_57_b0 var=2 value=0 assignment=11374 decisions=24567 backtracks=758",
+        "  trace_event: label=w2_57_b0 var=130 value=1 assignment=11375 decisions=24567 backtracks=758",
+        "  trace_event: label=w2_57_b1 var=131 value=1 assignment=12683 decisions=26282 backtracks=838",
+        "  trace_event: label=w1_57_b22 var=24 value=1 assignment=20910 decisions=33243 backtracks=1321",
+        "  trace_event: label=w1_57_b23 var=25 value=1 assignment=20911 decisions=33244 backtracks=1321",
+        "  trace_event: label=w2_57_b22 var=152 value=0 assignment=20944 decisions=33354 backtracks=1321",
+        "  trace_event: label=w2_57_b23 var=153 value=0 assignment=20946 decisions=33354 backtracks=1321",
+        "  trace_event: label=w2_58_b1 var=163 value=1 assignment=20948 decisions=33367 backtracks=1321"
+      ],
+      "stdout_tail": [
+        "s UNKNOWN"
+      ],
+      "trace_events": [
+        {
+          "assignment": 481,
+          "backtracks": 0,
+          "decisions": 0,
+          "label": "dW57_b0",
+          "value": 1,
+          "var": 12364
+        },
+        {
+          "assignment": 676,
+          "backtracks": 0,
+          "decisions": 510,
+          "label": "dW57_b23",
+          "value": 1,
+          "var": 12387
+        },
+        {
+          "assignment": 677,
+          "backtracks": 0,
+          "decisions": 511,
+          "label": "dW57_b22",
+          "value": 1,
+          "var": 12386
+        },
+        {
+          "assignment": 11374,
+          "backtracks": 758,
+          "decisions": 24567,
+          "label": "w1_57_b0",
+          "value": 0,
+          "var": 2
+        },
+        {
+          "assignment": 11375,
+          "backtracks": 758,
+          "decisions": 24567,
+          "label": "w2_57_b0",
+          "value": 1,
+          "var": 130
+        },
+        {
+          "assignment": 12683,
+          "backtracks": 838,
+          "decisions": 26282,
+          "label": "w2_57_b1",
+          "value": 1,
+          "var": 131
+        },
+        {
+          "assignment": 20910,
+          "backtracks": 1321,
+          "decisions": 33243,
+          "label": "w1_57_b22",
+          "value": 1,
+          "var": 24
+        },
+        {
+          "assignment": 20911,
+          "backtracks": 1321,
+          "decisions": 33244,
+          "label": "w1_57_b23",
+          "value": 1,
+          "var": 25
+        },
+        {
+          "assignment": 20944,
+          "backtracks": 1321,
+          "decisions": 33354,
+          "label": "w2_57_b22",
+          "value": 0,
+          "var": 152
+        },
+        {
+          "assignment": 20946,
+          "backtracks": 1321,
+          "decisions": 33354,
+          "label": "w2_57_b23",
+          "value": 0,
+          "var": 153
+        },
+        {
+          "assignment": 20948,
+          "backtracks": 1321,
+          "decisions": 33367,
+          "label": "w2_58_b1",
+          "value": 1,
+          "var": 163
+        }
+      ],
+      "trace_vars": {
+        "dW57_b0": 12364,
+        "dW57_b22": 12386,
+        "dW57_b23": 12387,
+        "w1_57_b0": 2,
+        "w1_57_b22": 24,
+        "w1_57_b23": 25,
+        "w2_57_b0": 130,
+        "w2_57_b1": 131,
+        "w2_57_b22": 152,
+        "w2_57_b23": 153,
+        "w2_58_b1": 163
+      },
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 3.653
+    },
+    {
+      "candidate": "bit28_md1acca79_fillffffffff",
+      "cmd": [
+        "/tmp/F413_cascade_propagator",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--trace-var=w1_57_b0:2",
+        "--trace-var=w2_57_b0:130",
+        "--trace-var=w2_57_b1:131",
+        "--trace-var=w1_57_b22:24",
+        "--trace-var=w2_57_b22:152",
+        "--trace-var=w1_57_b23:25",
+        "--trace-var=w2_57_b23:153",
+        "--trace-var=w2_58_b1:163",
+        "--trace-var=dW57_b0:12352",
+        "--trace-var=dW57_b22:12374",
+        "--trace-var=dW57_b23:12375"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+      "metrics": {
+        "actual_reg_bit_assigns": 609472,
+        "backtracks": 57758,
+        "cb_propagate_fires": 1140,
+        "decisions": 351017,
+        "notify_assignment_events": 373405,
+        "result": 0,
+        "trace_first_seen": {
+          "seen": 11,
+          "total": 11
+        }
+      },
+      "returncode": 2,
+      "stderr_tail": [
+        "Loaded varmap v3: 56 (reg,round) entries, total_vars=13203",
+        "  actual_p1: 56 entries; actual_p2: 56 entries",
+        "  aux_modular_diff: 4 entries (Rule 4 firing targets)",
+        "Conflict limit: 50000",
+        "Cascade-zero targets: 448 SAT vars observed, 0 bits already const-false",
+        "Rule 5  (dc_63 = dg_63): 32 bit-pairs registered",
+        "Rule 4@r=61 (dA[61] = dE[61]): 32 bit-pairs registered",
+        "Rule 4 r=62/63 substrate: 768 actual-register SAT vars registered (a,b,c at r=59..62)",
+        "Rule 4 firing targets: 128 modular-diff aux SAT vars across 4 (reg,round) entries",
+        "Propagator connected: 448 cascade-zero vars + 128 Rule-5 vars + 384 actual-register vars + 0 decision-priority vars + 11 trace vars observed",
+        "Loaded 54737 clauses from /home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+        "Solving with cascade propagator...",
+        "",
+        "Result: 0 (10=SAT, 20=UNSAT, 0=UNKNOWN)",
+        "Propagator stats:",
+        "  notify_assignment events: 373405",
+        "  cb_propagate fires:       1140",
+        "    of which Rule 5 fires:  32",
+        "    of which Rule 4@r=61:   32",
+        "    of which Rule 4@r=62 forcings: 628",
+        "  cb_decide suggestions:    0",
+        "  cb_decide priority:       a61_fallback (0 vars, max_suggestions=-1, stride=1)",
+        "  trace vars first-seen:    11 / 11",
+        "  actual-reg bit assigns:   609472",
+        "  dT2_62 computable (sample, full): 0 (out of ~148 samples)",
+        "  dT2_62 partial-bit firing samples: 52 (max bits forced in any sample: 9)",
+        "  decisions:                351017",
+        "  backtracks:               57758",
+        "  trace_event: label=dW57_b0 var=12352 value=0 assignment=481 decisions=0 backtracks=0",
+        "  trace_event: label=dW57_b23 var=12375 value=1 assignment=676 decisions=512 backtracks=0",
+        "  trace_event: label=dW57_b22 var=12374 value=1 assignment=677 decisions=513 backtracks=0",
+        "  trace_event: label=w1_57_b0 var=2 value=1 assignment=18000 decisions=35253 backtracks=1335",
+        "  trace_event: label=w2_57_b0 var=130 value=1 assignment=18001 decisions=35253 backtracks=1335",
+        "  trace_event: label=w2_57_b1 var=131 value=1 assignment=18003 decisions=35254 backtracks=1335",
+        "  trace_event: label=w1_57_b22 var=24 value=1 assignment=18010 decisions=35275 backtracks=1335",
+        "  trace_event: label=w1_57_b23 var=25 value=1 assignment=18011 decisions=35276 backtracks=1335",
+        "  trace_event: label=w2_57_b22 var=152 value=1 assignment=18036 decisions=35394 backtracks=1335",
+        "  trace_event: label=w2_57_b23 var=153 value=0 assignment=18037 decisions=35394 backtracks=1335",
+        "  trace_event: label=w2_58_b1 var=163 value=1 assignment=18040 decisions=35406 backtracks=1335"
+      ],
+      "stdout_tail": [
+        "s UNKNOWN"
+      ],
+      "trace_events": [
+        {
+          "assignment": 481,
+          "backtracks": 0,
+          "decisions": 0,
+          "label": "dW57_b0",
+          "value": 0,
+          "var": 12352
+        },
+        {
+          "assignment": 676,
+          "backtracks": 0,
+          "decisions": 512,
+          "label": "dW57_b23",
+          "value": 1,
+          "var": 12375
+        },
+        {
+          "assignment": 677,
+          "backtracks": 0,
+          "decisions": 513,
+          "label": "dW57_b22",
+          "value": 1,
+          "var": 12374
+        },
+        {
+          "assignment": 18000,
+          "backtracks": 1335,
+          "decisions": 35253,
+          "label": "w1_57_b0",
+          "value": 1,
+          "var": 2
+        },
+        {
+          "assignment": 18001,
+          "backtracks": 1335,
+          "decisions": 35253,
+          "label": "w2_57_b0",
+          "value": 1,
+          "var": 130
+        },
+        {
+          "assignment": 18003,
+          "backtracks": 1335,
+          "decisions": 35254,
+          "label": "w2_57_b1",
+          "value": 1,
+          "var": 131
+        },
+        {
+          "assignment": 18010,
+          "backtracks": 1335,
+          "decisions": 35275,
+          "label": "w1_57_b22",
+          "value": 1,
+          "var": 24
+        },
+        {
+          "assignment": 18011,
+          "backtracks": 1335,
+          "decisions": 35276,
+          "label": "w1_57_b23",
+          "value": 1,
+          "var": 25
+        },
+        {
+          "assignment": 18036,
+          "backtracks": 1335,
+          "decisions": 35394,
+          "label": "w2_57_b22",
+          "value": 1,
+          "var": 152
+        },
+        {
+          "assignment": 18037,
+          "backtracks": 1335,
+          "decisions": 35394,
+          "label": "w2_57_b23",
+          "value": 0,
+          "var": 153
+        },
+        {
+          "assignment": 18040,
+          "backtracks": 1335,
+          "decisions": 35406,
+          "label": "w2_58_b1",
+          "value": 1,
+          "var": 163
+        }
+      ],
+      "trace_vars": {
+        "dW57_b0": 12352,
+        "dW57_b22": 12374,
+        "dW57_b23": 12375,
+        "w1_57_b0": 2,
+        "w1_57_b22": 24,
+        "w1_57_b23": 25,
+        "w2_57_b0": 130,
+        "w2_57_b1": 131,
+        "w2_57_b22": 152,
+        "w2_57_b23": 153,
+        "w2_58_b1": 163
+      },
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 3.368
+    }
+  ],
+  "trace_labels": [
+    "w1_57_b0",
+    "w2_57_b0",
+    "w2_57_b1",
+    "w1_57_b22",
+    "w2_57_b22",
+    "w1_57_b23",
+    "w2_57_b23",
+    "w2_58_b1",
+    "dW57_b0",
+    "dW57_b22",
+    "dW57_b23"
+  ],
+  "verdict": {
+    "details": [
+      "dW57_b0, dW57_b22, and dW57_b23 are first assigned early for bit2, bit24, and bit28.",
+      "bit2 touches w2[57].b1 earlier than helper candidates, so delayed low-bit discovery is not the explanation.",
+      "Next test should trace the same vars with F343 clauses injected and measure whether they become conflict-producing."
+    ],
+    "short": "bit2 reaches F343 aux vars early; first-touch absence is not the mechanism"
+  }
+}

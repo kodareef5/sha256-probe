@@ -427,7 +427,25 @@ public:
     // -------- IPASIR-UP API: required virtual methods --------
 
     void notify_assignment(const std::vector<int>& lits) override {
+        long long first_assignment_index = n_assignments + 1;
         n_assignments += lits.size();
+
+        for (size_t i = 0; i < lits.size(); i++) {
+            int lit = lits[i];
+            int var = std::abs(lit);
+            auto trace_it = trace_labels.find(var);
+            if (trace_it == trace_labels.end()) continue;
+            if (trace_seen.find(var) != trace_seen.end()) continue;
+            trace_seen.insert(var);
+            trace_events.push_back({
+                trace_it->second,
+                var,
+                lit > 0 ? 1 : 0,
+                first_assignment_index + (long long)i,
+                n_decisions,
+                n_backtracks,
+            });
+        }
 
         // Decision-priority bookkeeping for F397 priority lists.  CaDiCaL only
         // reports observed vars, so main() registers every priority var.
@@ -644,6 +662,18 @@ public:
     long long n_cb_decide_calls = 0;
     struct DecisionPriorityUndo { int var; int prev; };
     std::vector<std::vector<DecisionPriorityUndo>> level_decision_priority_undo;
+
+    struct TraceEvent {
+        std::string label;
+        int var;
+        int value;
+        long long assignment_index;
+        long long decisions;
+        long long backtracks;
+    };
+    std::map<int, std::string> trace_labels;
+    std::unordered_set<int> trace_seen;
+    std::vector<TraceEvent> trace_events;
 
     int cb_decide() override {
         if (!decision_shaping_enabled) return 0;
@@ -927,7 +957,8 @@ int main(int argc, char** argv) {
                   << "       [--shape-decisions]\n"
                   << "       [--priority-spec=F397.json] [--priority-set=f286_132_conservative]\n"
                   << "       [--priority-candidate=bit10_m3304caa0_fill80000000]\n"
-                  << "       [--priority-max-suggestions=N] [--priority-stride=N]\n";
+                  << "       [--priority-max-suggestions=N] [--priority-stride=N]\n"
+                  << "       [--trace-var=label:var]\n";
         return 1;
     }
     std::string cnf_path = argv[1];
@@ -940,6 +971,7 @@ int main(int argc, char** argv) {
     std::string priority_candidate;
     long long priority_max_suggestions = -1;
     long long priority_stride = 1;
+    std::vector<std::pair<std::string, int>> trace_vars;
     for (int i = 3; i < argc; i++) {
         std::string arg = argv[i];
         if (arg.rfind("--conflicts=", 0) == 0) {
@@ -963,6 +995,19 @@ int main(int argc, char** argv) {
                 std::cerr << "ERROR: --priority-stride must be >= 1\n";
                 return 1;
             }
+        } else if (arg.rfind("--trace-var=", 0) == 0) {
+            std::string spec = arg.substr(12);
+            size_t pos = spec.rfind(':');
+            if (pos == std::string::npos || pos == 0 || pos + 1 >= spec.size()) {
+                std::cerr << "ERROR: --trace-var expects label:var\n";
+                return 1;
+            }
+            int var = std::stoi(spec.substr(pos + 1));
+            if (var <= 1) {
+                std::cerr << "ERROR: --trace-var var must be > 1\n";
+                return 1;
+            }
+            trace_vars.push_back({spec.substr(0, pos), var});
         }
     }
 
@@ -996,6 +1041,9 @@ int main(int argc, char** argv) {
 
     // Build cascade propagator
     CascadePropagator prop;
+    for (const auto& [label, var] : trace_vars) {
+        prop.trace_labels[var] = label;
+    }
     if (!priority_spec_path.empty()) {
         if (priority_candidate.empty()) priority_candidate = candidate_key_from_cnf(cnf_path);
         if (priority_candidate.empty()) {
@@ -1179,6 +1227,9 @@ int main(int argc, char** argv) {
         for (int var : prop.decision_priority_vars) {
             solver.add_observed_var(var);
         }
+        for (const auto& [var, _] : prop.trace_labels) {
+            solver.add_observed_var(var);
+        }
         for (auto& [var, _] : prop.forced_zero_vars) {
             solver.add_observed_var(var);
         }
@@ -1202,7 +1253,8 @@ int main(int argc, char** argv) {
                   << " cascade-zero vars + " << prop.r63_eq_lookup.size()
                   << " Rule-5 vars + " << prop.actual_var_lookup.size()
                   << " actual-register vars + " << prop.decision_priority_vars.size()
-                  << " decision-priority vars observed\n";
+                  << " decision-priority vars + " << prop.trace_labels.size()
+                  << " trace vars observed\n";
     } else {
         std::cerr << "Running WITHOUT propagator (baseline)\n";
     }
@@ -1229,6 +1281,8 @@ int main(int argc, char** argv) {
               << " (" << prop.decision_priority_lits.size() << " vars"
               << ", max_suggestions=" << prop.decision_priority_max_suggestions
               << ", stride=" << prop.decision_priority_stride << ")\n"
+              << "  trace vars first-seen:    " << prop.trace_events.size()
+              << " / " << prop.trace_labels.size() << "\n"
               << "  actual-reg bit assigns:   " << prop.n_actual_assignments << "\n"
               << "  dT2_62 computable (sample, full): " << prop.n_dT2_62_computable
               << " (out of ~" << (prop.n_actual_assignments / 4096) << " samples)\n"
@@ -1238,6 +1292,14 @@ int main(int argc, char** argv) {
               << prop.n_partial_bits_decided_max << ")\n"
               << "  decisions:                " << prop.n_decisions << "\n"
               << "  backtracks:               " << prop.n_backtracks << "\n";
+    for (const auto& ev : prop.trace_events) {
+        std::cerr << "  trace_event: label=" << ev.label
+                  << " var=" << ev.var
+                  << " value=" << ev.value
+                  << " assignment=" << ev.assignment_index
+                  << " decisions=" << ev.decisions
+                  << " backtracks=" << ev.backtracks << "\n";
+    }
 
     if (result == 10) std::cout << "s SATISFIABLE\n";
     else if (result == 20) std::cout << "s UNSATISFIABLE\n";
