@@ -3,8 +3,8 @@
 
 This is the general version of the F429/F430/F431/F433 one-off
 enumerators. It checks all bit flips up to a requested radius over the
-128-bit W vector, evaluates cascade-1, applies bridge_score as a filter,
-and records whether any neighbor ties or improves the input HW.
+selected W vector slots, evaluates cascade-1, applies bridge_score as a
+filter, and records whether any neighbor ties or improves the input HW.
 """
 
 import argparse
@@ -30,6 +30,28 @@ def parse_w(words: str) -> tuple[int, int, int, int]:
     return tuple(int(p, 16) & 0xFFFFFFFF for p in parts)
 
 
+def parse_slots(slots: str) -> tuple[int, ...]:
+    """Parse W slot selectors.
+
+    Accepts either local slot numbers 0..3 or SHA schedule words 57..60.
+    Output is always local slot numbers into W1[57..60].
+    """
+    parsed = []
+    for raw in slots.split(","):
+        raw = raw.strip()
+        if not raw:
+            continue
+        val = int(raw, 10)
+        if 57 <= val <= 60:
+            val -= 57
+        if not 0 <= val <= 3:
+            raise ValueError("--slots entries must be 0..3 or 57..60")
+        parsed.append(val)
+    if not parsed:
+        raise ValueError("--slots must select at least one W slot")
+    return tuple(dict.fromkeys(parsed))
+
+
 def flip_bits(base_w: tuple[int, int, int, int], bits: tuple[int, ...]) -> tuple[int, int, int, int]:
     out = list(base_w)
     for idx in bits:
@@ -52,12 +74,19 @@ def main() -> None:
     ap.add_argument("--init-W", required=True, help="Comma-separated hex W1[57..60]")
     ap.add_argument("--init-hw", type=int, required=True, help="HW of the input witness")
     ap.add_argument("--max-radius", type=int, default=3)
+    ap.add_argument(
+        "--slots",
+        default="57,58,59,60",
+        help="Comma-separated W slots to enumerate. Accepts 57..60 or local 0..3; default all.",
+    )
     ap.add_argument("--out", required=True)
     ap.add_argument("--label", default="")
     args = ap.parse_args()
 
     if args.max_radius < 1:
         raise SystemExit("--max-radius must be >= 1")
+    slots = parse_slots(args.slots)
+    bit_domain = tuple(slot * 32 + bit for slot in slots for bit in range(32))
 
     short, m0, fill, kbit = find_cand(args.candidate)
     setup = setup_cand(m0, fill, kbit)
@@ -91,12 +120,12 @@ def main() -> None:
 
     print(
         f"=== enumerate_hamming_ball.py: {short} radius<= {args.max_radius} "
-        f"around HW={args.init_hw} ==="
+        f"around HW={args.init_hw}; slots W{','.join(str(57 + s) for s in slots)} ==="
     )
     t0 = time.time()
     for radius in range(1, args.max_radius + 1):
         r_counts = {"total": 0, "cascade1": 0, "bridge": 0, "hw_le_init": 0, "hw_lt_init": 0}
-        for bits in combinations(range(128), radius):
+        for bits in combinations(bit_domain, radius):
             counts["total"] += 1
             r_counts["total"] += 1
             w = flip_bits(base_w, bits)
@@ -150,6 +179,8 @@ def main() -> None:
         "init_W": [f"0x{x:08x}" for x in base_w],
         "init_hw": args.init_hw,
         "max_radius": args.max_radius,
+        "slots": [57 + s for s in slots],
+        "bit_domain_size": len(bit_domain),
         "counts": counts,
         "by_radius": by_radius,
         "best_seen": best_seen,
