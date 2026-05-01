@@ -29,7 +29,34 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-01T14:35:00Z'
+last_heartbeat: '2026-05-01T14:50:00Z'
+recent_progress_2026-05-01_F431_joint_hamming3_ball_complete: |
+  macbook-claude completed the Hamming-3 picture: F431 enumerates the
+  joint cases F429 (W[60] only) and F430 (W[57..59] only) leave.
+  786,432 evaluations × 4 panel cands; 35.9s wall, 0 solver runs.
+
+  Result: 0 candidates at HW <= current best across all joint
+  classes for all 4 cands. Combined with F429+F430, the FULL
+  Hamming-{1,2,3} ball over W1[57..60] is exhaustively characterized:
+  1,398,528 evaluations, 0 HW-tying or HW-improving neighbors.
+
+  Synthesis: Path C residual records (bit24 HW=43, bit28 HW=45,
+  bit3/bit2 HW=51) are at sharp isolated W-cube points, not in
+  smooth basins. cascade-1 and bridge_score are not the binding
+  floor (both pass 95-100% across all evaluations); the HW objective
+  itself produces this isolation.
+
+  Implication: Path C's W-cube attack is near its floor on these
+  4 cands at Hamming-3 radius. Further reduction requires wider
+  radius (F408 already tried max_flips=6), geometry relaxation
+  (lift cascade-1 c=g=1), new kbit cands (bit13 untouched), or
+  pivot to a different bet.
+
+  Today's macbook-claude commits: F427 (bit28 negative+structural),
+  F428 (bit24 BREAKTHROUGH HW=43), F429 (W[60] enum negative),
+  F430 (W[57..59] enum negative), F431 (joint enum negative). One
+  breakthrough, comprehensive Hamming-3 characterization.
+
 recent_progress_2026-05-01_F430_w57_59_isolation_confirmed: |
   macbook-claude symmetric counterpart to F429: enumerated W1[57..59]
   Hamming-{1,2,3} (W[60] fixed) for all 4 panel cands. 590,144
