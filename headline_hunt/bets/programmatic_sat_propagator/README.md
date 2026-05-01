@@ -54,6 +54,10 @@ Two possible headlines:
   bit10.
 - [x] **Bit2 rescue check.** F408-F411 generated bit2's priority spec and found
   F286 cap-132 does not rescue the F343 singleton outlier.
+- [x] **F343 mechanism probes.** F413-F416 added targeted first-touch tracing,
+  direct F343 injection, clause-placement checks, and `--phase-lit` polarity
+  hints. Bit2 is not explained by late F343 assignment, clause placement, or
+  wrong default phase; forbidden-pair phase hints make the trace worse.
 - [ ] **Next decision gate.** Reopen broad propagator work only if a
   candidate-gated priority/F343 interaction beats F343 on bit2 or another known
   outlier.

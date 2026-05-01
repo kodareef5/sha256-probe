@@ -1,0 +1,727 @@
+{
+  "bet": "programmatic_sat_propagator",
+  "binary": "/tmp/F416_cascade_propagator",
+  "conflicts": 50000,
+  "date": "2026-04-30",
+  "parents": [
+    "F411",
+    "F414",
+    "F415"
+  ],
+  "report_id": "F416",
+  "runs": [
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"",
+        "stdout": "Appended run_20260501_012111_programmatic_sat_propagator_cadical-ipasir-up_seed0_ef1c92fe"
+      },
+      "audit": {
+        "claimed": {
+          "encoder_variant": "cascade_aux_force",
+          "n": 32,
+          "sr_level": 60
+        },
+        "cross_sr_matches": [],
+        "file": "/tmp/F416/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff_F416_F343_PHASE.cnf",
+        "filename": "aux_force_sr60_n32_bit2_ma896ee41_fillffffffff_F416_F343_PHASE.cnf",
+        "matched_fingerprints": [
+          "sr60_n32_cascade_aux_force"
+        ],
+        "n_clauses": 54949,
+        "n_vars": 13252,
+        "returncode": 0,
+        "verdict": "CONFIRMED",
+        "warnings": []
+      },
+      "candidate": "bit2_ma896ee41_fillffffffff",
+      "candidate_id": "cand_n32_bit2_ma896ee41_fillffffffff",
+      "cmd": [
+        "/tmp/F416_cascade_propagator",
+        "/tmp/F416/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff_F416_F343_PHASE.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--phase-lit=dW57_b0_forced_phase:12401",
+        "--phase-lit=dW57_b22_forbidden_phase:-12423",
+        "--phase-lit=dW57_b23_forbidden_phase:-12424",
+        "--trace-var=w1_57_b0:2",
+        "--trace-var=w2_57_b0:130",
+        "--trace-var=w2_57_b1:131",
+        "--trace-var=w1_57_b22:24",
+        "--trace-var=w2_57_b22:152",
+        "--trace-var=w1_57_b23:25",
+        "--trace-var=w2_57_b23:153",
+        "--trace-var=w2_58_b1:163",
+        "--trace-var=dW57_b0:12401",
+        "--trace-var=dW57_b22:12423",
+        "--trace-var=dW57_b23:12424"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+      "delta_vs_F413": {
+        "backtracks": 650,
+        "backtracks_pct": 1.1212115985027513,
+        "cb_propagate_fires": 0,
+        "cb_propagate_fires_pct": 0.0,
+        "decisions": 38806,
+        "decisions_pct": 11.314494308639672,
+        "notify_assignment_events": 16705,
+        "notify_assignment_events_pct": 4.042386375185725
+      },
+      "delta_vs_F414_append": {
+        "backtracks": 449,
+        "backtracks_pct": 0.7718224636435521,
+        "cb_propagate_fires": 0,
+        "cb_propagate_fires_pct": 0.0,
+        "decisions": 6178,
+        "decisions_pct": 1.6448174140850471,
+        "notify_assignment_events": -6904,
+        "notify_assignment_events_pct": -1.5803870849595403
+      },
+      "delta_vs_F415_front": {
+        "backtracks": 449,
+        "backtracks_pct": 0.7718224636435521,
+        "cb_propagate_fires": 0,
+        "cb_propagate_fires_pct": 0.0,
+        "decisions": 6178,
+        "decisions_pct": 1.6448174140850471,
+        "notify_assignment_events": -6904,
+        "notify_assignment_events_pct": -1.5803870849595403
+      },
+      "f343": {
+        "pair": {
+          "bits": [
+            22,
+            23
+          ],
+          "clause": [
+            12423,
+            12424
+          ],
+          "forbid": [
+            0,
+            0
+          ]
+        },
+        "unit": {
+          "bit": 0,
+          "clause": [
+            12401
+          ],
+          "value": 1
+        }
+      },
+      "injected_cnf": "/tmp/F416/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff_F416_F343_PHASE.cnf",
+      "metrics": {
+        "actual_reg_bit_assigns": 688656,
+        "backtracks": 58623,
+        "cb_decide_suggestions": 0,
+        "cb_propagate_fires": 687,
+        "decisions": 381782,
+        "notify_assignment_events": 429951,
+        "result": 0,
+        "trace_first_seen": {
+          "seen": 11,
+          "total": 11
+        }
+      },
+      "phase_hints": [
+        [
+          "dW57_b0_forced_phase",
+          12401
+        ],
+        [
+          "dW57_b22_forbidden_phase",
+          -12423
+        ],
+        [
+          "dW57_b23_forbidden_phase",
+          -12424
+        ]
+      ],
+      "returncode": 2,
+      "stderr_log": "/tmp/F416/bit2_ma896ee41_fillffffffff.stderr.log",
+      "stdout_log": "/tmp/F416/bit2_ma896ee41_fillffffffff.stdout.log",
+      "trace_events": [
+        {
+          "assignment": 481,
+          "backtracks": 0,
+          "decisions": 0,
+          "label": "dW57_b0",
+          "value": 1,
+          "var": 12401
+        },
+        {
+          "assignment": 676,
+          "backtracks": 0,
+          "decisions": 512,
+          "label": "dW57_b23",
+          "value": 0,
+          "var": 12424
+        },
+        {
+          "assignment": 677,
+          "backtracks": 0,
+          "decisions": 512,
+          "label": "dW57_b22",
+          "value": 1,
+          "var": 12423
+        },
+        {
+          "assignment": 3358,
+          "backtracks": 346,
+          "decisions": 8677,
+          "label": "w1_57_b0",
+          "value": 1,
+          "var": 2
+        },
+        {
+          "assignment": 3359,
+          "backtracks": 346,
+          "decisions": 8677,
+          "label": "w2_57_b0",
+          "value": 0,
+          "var": 130
+        },
+        {
+          "assignment": 4980,
+          "backtracks": 420,
+          "decisions": 10243,
+          "label": "w2_57_b1",
+          "value": 0,
+          "var": 131
+        },
+        {
+          "assignment": 14489,
+          "backtracks": 1288,
+          "decisions": 28557,
+          "label": "w1_57_b22",
+          "value": 1,
+          "var": 24
+        },
+        {
+          "assignment": 14490,
+          "backtracks": 1288,
+          "decisions": 28558,
+          "label": "w1_57_b23",
+          "value": 1,
+          "var": 25
+        },
+        {
+          "assignment": 14527,
+          "backtracks": 1288,
+          "decisions": 28677,
+          "label": "w2_57_b22",
+          "value": 1,
+          "var": 152
+        },
+        {
+          "assignment": 14531,
+          "backtracks": 1288,
+          "decisions": 28677,
+          "label": "w2_57_b23",
+          "value": 0,
+          "var": 153
+        },
+        {
+          "assignment": 14535,
+          "backtracks": 1288,
+          "decisions": 28687,
+          "label": "w2_58_b1",
+          "value": 1,
+          "var": 163
+        }
+      ],
+      "trace_vars": {
+        "dW57_b0": 12401,
+        "dW57_b22": 12423,
+        "dW57_b23": 12424,
+        "w1_57_b0": 2,
+        "w1_57_b22": 24,
+        "w1_57_b23": 25,
+        "w2_57_b0": 130,
+        "w2_57_b1": 131,
+        "w2_57_b22": 152,
+        "w2_57_b23": 153,
+        "w2_58_b1": 163
+      },
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 3.7733681462705135
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"",
+        "stdout": "Appended run_20260501_012116_programmatic_sat_propagator_cadical-ipasir-up_seed0_e97b4116"
+      },
+      "audit": {
+        "claimed": {
+          "encoder_variant": "cascade_aux_force",
+          "n": 32,
+          "sr_level": 60
+        },
+        "cross_sr_matches": [],
+        "file": "/tmp/F416/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff_F416_F343_PHASE.cnf",
+        "filename": "aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff_F416_F343_PHASE.cnf",
+        "matched_fingerprints": [
+          "sr60_n32_cascade_aux_force"
+        ],
+        "n_clauses": 54788,
+        "n_vars": 13215,
+        "returncode": 0,
+        "verdict": "CONFIRMED",
+        "warnings": []
+      },
+      "candidate": "bit24_mdc27e18c_fillffffffff",
+      "candidate_id": "cand_n32_bit24_mdc27e18c_fillffffffff",
+      "cmd": [
+        "/tmp/F416_cascade_propagator",
+        "/tmp/F416/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff_F416_F343_PHASE.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--phase-lit=dW57_b0_forced_phase:12364",
+        "--phase-lit=dW57_b22_forbidden_phase:-12386",
+        "--phase-lit=dW57_b23_forbidden_phase:12387",
+        "--trace-var=w1_57_b0:2",
+        "--trace-var=w2_57_b0:130",
+        "--trace-var=w2_57_b1:131",
+        "--trace-var=w1_57_b22:24",
+        "--trace-var=w2_57_b22:152",
+        "--trace-var=w1_57_b23:25",
+        "--trace-var=w2_57_b23:153",
+        "--trace-var=w2_58_b1:163",
+        "--trace-var=dW57_b0:12364",
+        "--trace-var=dW57_b22:12386",
+        "--trace-var=dW57_b23:12387"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf",
+      "delta_vs_F413": {
+        "backtracks": 278,
+        "backtracks_pct": 0.4748078565328779,
+        "cb_propagate_fires": 0,
+        "cb_propagate_fires_pct": 0.0,
+        "decisions": 11916,
+        "decisions_pct": 3.1555866276852678,
+        "notify_assignment_events": 9555,
+        "notify_assignment_events_pct": 2.0799954721187
+      },
+      "delta_vs_F414_append": {
+        "backtracks": 95,
+        "backtracks_pct": 0.16174893160574125,
+        "cb_propagate_fires": 0,
+        "cb_propagate_fires_pct": 0.0,
+        "decisions": 5020,
+        "decisions_pct": 1.3055509320905458,
+        "notify_assignment_events": -359,
+        "notify_assignment_events_pct": -0.07649854034818555
+      },
+      "delta_vs_F415_front": {
+        "backtracks": 95,
+        "backtracks_pct": 0.16174893160574125,
+        "cb_propagate_fires": 0,
+        "cb_propagate_fires_pct": 0.0,
+        "decisions": 5020,
+        "decisions_pct": 1.3055509320905458,
+        "notify_assignment_events": -359,
+        "notify_assignment_events_pct": -0.07649854034818555
+      },
+      "f343": {
+        "pair": {
+          "bits": [
+            22,
+            23
+          ],
+          "clause": [
+            12386,
+            -12387
+          ],
+          "forbid": [
+            0,
+            1
+          ]
+        },
+        "unit": {
+          "bit": 0,
+          "clause": [
+            12364
+          ],
+          "value": 1
+        }
+      },
+      "injected_cnf": "/tmp/F416/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff_F416_F343_PHASE.cnf",
+      "metrics": {
+        "actual_reg_bit_assigns": 774353,
+        "backtracks": 58828,
+        "cb_decide_suggestions": 0,
+        "cb_propagate_fires": 770,
+        "decisions": 389532,
+        "notify_assignment_events": 468931,
+        "result": 0,
+        "trace_first_seen": {
+          "seen": 11,
+          "total": 11
+        }
+      },
+      "phase_hints": [
+        [
+          "dW57_b0_forced_phase",
+          12364
+        ],
+        [
+          "dW57_b22_forbidden_phase",
+          -12386
+        ],
+        [
+          "dW57_b23_forbidden_phase",
+          12387
+        ]
+      ],
+      "returncode": 2,
+      "stderr_log": "/tmp/F416/bit24_mdc27e18c_fillffffffff.stderr.log",
+      "stdout_log": "/tmp/F416/bit24_mdc27e18c_fillffffffff.stdout.log",
+      "trace_events": [
+        {
+          "assignment": 481,
+          "backtracks": 0,
+          "decisions": 0,
+          "label": "dW57_b0",
+          "value": 1,
+          "var": 12364
+        },
+        {
+          "assignment": 676,
+          "backtracks": 0,
+          "decisions": 510,
+          "label": "dW57_b23",
+          "value": 1,
+          "var": 12387
+        },
+        {
+          "assignment": 677,
+          "backtracks": 0,
+          "decisions": 510,
+          "label": "dW57_b22",
+          "value": 1,
+          "var": 12386
+        },
+        {
+          "assignment": 11374,
+          "backtracks": 758,
+          "decisions": 24559,
+          "label": "w1_57_b0",
+          "value": 0,
+          "var": 2
+        },
+        {
+          "assignment": 11375,
+          "backtracks": 758,
+          "decisions": 24559,
+          "label": "w2_57_b0",
+          "value": 1,
+          "var": 130
+        },
+        {
+          "assignment": 12683,
+          "backtracks": 838,
+          "decisions": 26274,
+          "label": "w2_57_b1",
+          "value": 1,
+          "var": 131
+        },
+        {
+          "assignment": 20910,
+          "backtracks": 1321,
+          "decisions": 33235,
+          "label": "w1_57_b22",
+          "value": 1,
+          "var": 24
+        },
+        {
+          "assignment": 20911,
+          "backtracks": 1321,
+          "decisions": 33236,
+          "label": "w1_57_b23",
+          "value": 1,
+          "var": 25
+        },
+        {
+          "assignment": 20944,
+          "backtracks": 1321,
+          "decisions": 33346,
+          "label": "w2_57_b22",
+          "value": 0,
+          "var": 152
+        },
+        {
+          "assignment": 20946,
+          "backtracks": 1321,
+          "decisions": 33346,
+          "label": "w2_57_b23",
+          "value": 0,
+          "var": 153
+        },
+        {
+          "assignment": 20948,
+          "backtracks": 1321,
+          "decisions": 33359,
+          "label": "w2_58_b1",
+          "value": 1,
+          "var": 163
+        }
+      ],
+      "trace_vars": {
+        "dW57_b0": 12364,
+        "dW57_b22": 12386,
+        "dW57_b23": 12387,
+        "w1_57_b0": 2,
+        "w1_57_b22": 24,
+        "w1_57_b23": 25,
+        "w2_57_b0": 130,
+        "w2_57_b1": 131,
+        "w2_57_b22": 152,
+        "w2_57_b23": 153,
+        "w2_58_b1": 163
+      },
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 4.062673127744347
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"",
+        "stdout": "Appended run_20260501_012119_programmatic_sat_propagator_cadical-ipasir-up_seed0_56765a51"
+      },
+      "audit": {
+        "claimed": {
+          "encoder_variant": "cascade_aux_force",
+          "n": 32,
+          "sr_level": 60
+        },
+        "cross_sr_matches": [],
+        "file": "/tmp/F416/aux_force_sr60_n32_bit28_md1acca79_fillffffffff_F416_F343_PHASE.cnf",
+        "filename": "aux_force_sr60_n32_bit28_md1acca79_fillffffffff_F416_F343_PHASE.cnf",
+        "matched_fingerprints": [
+          "sr60_n32_cascade_aux_force"
+        ],
+        "n_clauses": 54739,
+        "n_vars": 13203,
+        "returncode": 0,
+        "verdict": "CONFIRMED",
+        "warnings": []
+      },
+      "candidate": "bit28_md1acca79_fillffffffff",
+      "candidate_id": "cand_n32_bit28_md1acca79_fillffffffff",
+      "cmd": [
+        "/tmp/F416_cascade_propagator",
+        "/tmp/F416/aux_force_sr60_n32_bit28_md1acca79_fillffffffff_F416_F343_PHASE.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--phase-lit=dW57_b0_forced_phase:-12352",
+        "--phase-lit=dW57_b22_forbidden_phase:-12374",
+        "--phase-lit=dW57_b23_forbidden_phase:-12375",
+        "--trace-var=w1_57_b0:2",
+        "--trace-var=w2_57_b0:130",
+        "--trace-var=w2_57_b1:131",
+        "--trace-var=w1_57_b22:24",
+        "--trace-var=w2_57_b22:152",
+        "--trace-var=w1_57_b23:25",
+        "--trace-var=w2_57_b23:153",
+        "--trace-var=w2_58_b1:163",
+        "--trace-var=dW57_b0:12352",
+        "--trace-var=dW57_b22:12374",
+        "--trace-var=dW57_b23:12375"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+      "delta_vs_F413": {
+        "backtracks": 441,
+        "backtracks_pct": 0.7635305931645833,
+        "cb_propagate_fires": 0,
+        "cb_propagate_fires_pct": 0.0,
+        "decisions": 13777,
+        "decisions_pct": 3.924881131113308,
+        "notify_assignment_events": 25208,
+        "notify_assignment_events_pct": 6.750846935632892
+      },
+      "delta_vs_F414_append": {
+        "backtracks": 149,
+        "backtracks_pct": 0.2566752799310939,
+        "cb_propagate_fires": 0,
+        "cb_propagate_fires_pct": 0.0,
+        "decisions": 11534,
+        "decisions_pct": 3.265017267734813,
+        "notify_assignment_events": -25173,
+        "notify_assignment_events_pct": -5.940026334045958
+      },
+      "delta_vs_F415_front": {
+        "backtracks": 149,
+        "backtracks_pct": 0.2566752799310939,
+        "cb_propagate_fires": 0,
+        "cb_propagate_fires_pct": 0.0,
+        "decisions": 11534,
+        "decisions_pct": 3.265017267734813,
+        "notify_assignment_events": -25173,
+        "notify_assignment_events_pct": -5.940026334045958
+      },
+      "f343": {
+        "pair": {
+          "bits": [
+            22,
+            23
+          ],
+          "clause": [
+            12374,
+            12375
+          ],
+          "forbid": [
+            0,
+            0
+          ]
+        },
+        "unit": {
+          "bit": 0,
+          "clause": [
+            -12352
+          ],
+          "value": 0
+        }
+      },
+      "injected_cnf": "/tmp/F416/aux_force_sr60_n32_bit28_md1acca79_fillffffffff_F416_F343_PHASE.cnf",
+      "metrics": {
+        "actual_reg_bit_assigns": 660518,
+        "backtracks": 58199,
+        "cb_decide_suggestions": 0,
+        "cb_propagate_fires": 1140,
+        "decisions": 364794,
+        "notify_assignment_events": 398613,
+        "result": 0,
+        "trace_first_seen": {
+          "seen": 11,
+          "total": 11
+        }
+      },
+      "phase_hints": [
+        [
+          "dW57_b0_forced_phase",
+          -12352
+        ],
+        [
+          "dW57_b22_forbidden_phase",
+          -12374
+        ],
+        [
+          "dW57_b23_forbidden_phase",
+          -12375
+        ]
+      ],
+      "returncode": 2,
+      "stderr_log": "/tmp/F416/bit28_md1acca79_fillffffffff.stderr.log",
+      "stdout_log": "/tmp/F416/bit28_md1acca79_fillffffffff.stdout.log",
+      "trace_events": [
+        {
+          "assignment": 481,
+          "backtracks": 0,
+          "decisions": 0,
+          "label": "dW57_b0",
+          "value": 0,
+          "var": 12352
+        },
+        {
+          "assignment": 676,
+          "backtracks": 0,
+          "decisions": 512,
+          "label": "dW57_b23",
+          "value": 0,
+          "var": 12375
+        },
+        {
+          "assignment": 677,
+          "backtracks": 0,
+          "decisions": 512,
+          "label": "dW57_b22",
+          "value": 1,
+          "var": 12374
+        },
+        {
+          "assignment": 18000,
+          "backtracks": 1335,
+          "decisions": 35240,
+          "label": "w1_57_b0",
+          "value": 1,
+          "var": 2
+        },
+        {
+          "assignment": 18001,
+          "backtracks": 1335,
+          "decisions": 35240,
+          "label": "w2_57_b0",
+          "value": 1,
+          "var": 130
+        },
+        {
+          "assignment": 18003,
+          "backtracks": 1335,
+          "decisions": 35241,
+          "label": "w2_57_b1",
+          "value": 1,
+          "var": 131
+        },
+        {
+          "assignment": 18010,
+          "backtracks": 1335,
+          "decisions": 35262,
+          "label": "w1_57_b22",
+          "value": 1,
+          "var": 24
+        },
+        {
+          "assignment": 18011,
+          "backtracks": 1335,
+          "decisions": 35263,
+          "label": "w1_57_b23",
+          "value": 1,
+          "var": 25
+        },
+        {
+          "assignment": 18036,
+          "backtracks": 1335,
+          "decisions": 35381,
+          "label": "w2_57_b22",
+          "value": 1,
+          "var": 152
+        },
+        {
+          "assignment": 18037,
+          "backtracks": 1335,
+          "decisions": 35381,
+          "label": "w2_57_b23",
+          "value": 0,
+          "var": 153
+        },
+        {
+          "assignment": 18040,
+          "backtracks": 1335,
+          "decisions": 35393,
+          "label": "w2_58_b1",
+          "value": 1,
+          "var": 163
+        }
+      ],
+      "trace_vars": {
+        "dW57_b0": 12352,
+        "dW57_b22": 12374,
+        "dW57_b23": 12375,
+        "w1_57_b0": 2,
+        "w1_57_b22": 24,
+        "w1_57_b23": 25,
+        "w2_57_b0": 130,
+        "w2_57_b1": 131,
+        "w2_57_b22": 152,
+        "w2_57_b23": 153,
+        "w2_58_b1": 163
+      },
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 3.305968345142901
+    }
+  ],
+  "source": "headline_hunt/bets/programmatic_sat_propagator/propagators/cascade_propagator.cc",
+  "verdict": "CaDiCaL phase hints toward the F343 forbidden pair make all three programmatic propagator traces worse and do not rescue bit2."
+}

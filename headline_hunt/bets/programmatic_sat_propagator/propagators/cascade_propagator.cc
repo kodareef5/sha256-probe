@@ -958,6 +958,7 @@ int main(int argc, char** argv) {
                   << "       [--priority-spec=F397.json] [--priority-set=f286_132_conservative]\n"
                   << "       [--priority-candidate=bit10_m3304caa0_fill80000000]\n"
                   << "       [--priority-max-suggestions=N] [--priority-stride=N]\n"
+                  << "       [--phase-lit=label:lit]\n"
                   << "       [--trace-var=label:var]\n";
         return 1;
     }
@@ -971,6 +972,7 @@ int main(int argc, char** argv) {
     std::string priority_candidate;
     long long priority_max_suggestions = -1;
     long long priority_stride = 1;
+    std::vector<std::pair<std::string, int>> phase_lits;
     std::vector<std::pair<std::string, int>> trace_vars;
     for (int i = 3; i < argc; i++) {
         std::string arg = argv[i];
@@ -995,6 +997,19 @@ int main(int argc, char** argv) {
                 std::cerr << "ERROR: --priority-stride must be >= 1\n";
                 return 1;
             }
+        } else if (arg.rfind("--phase-lit=", 0) == 0) {
+            std::string spec = arg.substr(12);
+            size_t pos = spec.rfind(':');
+            if (pos == std::string::npos || pos == 0 || pos + 1 >= spec.size()) {
+                std::cerr << "ERROR: --phase-lit expects label:lit\n";
+                return 1;
+            }
+            int lit = std::stoi(spec.substr(pos + 1));
+            if (lit == 0) {
+                std::cerr << "ERROR: --phase-lit literal must be non-zero\n";
+                return 1;
+            }
+            phase_lits.push_back({spec.substr(0, pos), lit});
         } else if (arg.rfind("--trace-var=", 0) == 0) {
             std::string spec = arg.substr(12);
             size_t pos = spec.rfind(':');
@@ -1037,6 +1052,16 @@ int main(int argc, char** argv) {
     if (conflict_limit > 0) {
         solver.limit("conflicts", conflict_limit);
         std::cerr << "Conflict limit: " << conflict_limit << "\n";
+    }
+    for (const auto& item : phase_lits) {
+        solver.phase(item.second);
+    }
+    if (!phase_lits.empty()) {
+        std::cerr << "Phase hints: " << phase_lits.size() << "\n";
+        for (const auto& item : phase_lits) {
+            std::cerr << "  phase_hint: label=" << item.first
+                      << " lit=" << item.second << "\n";
+        }
     }
 
     // Build cascade propagator
