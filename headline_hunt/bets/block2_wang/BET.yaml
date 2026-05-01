@@ -29,7 +29,30 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-01T15:00:00Z'
+last_heartbeat: '2026-05-01T15:15:00Z'
+recent_progress_2026-05-01_F433_bit13_isolation_confirmed: |
+  macbook-claude completed the F432 follow-up: bit13 HW=50 is also a
+  sharp Hamming-3 isolated peak, matching the F408 panel pattern.
+
+  F433-A (seeded refinement around HW=50, max_flips=3, 12x200k iter):
+  all 12/12 seeds stayed at HW=50.
+
+  F433-B (full Hamming-{1,2,3} ball enumeration over W1[57..60]):
+  349,632 evaluations, 0 candidates at HW <= 50. cascade-1 100% pass;
+  bridge_score 97.7% pass.
+
+  All 5 cands in the current Path C panel (bit2, bit3, bit13, bit24,
+  bit28) are now Hamming-3-isolated. The "small W-perturbation" attack
+  vector is fully closed. bit24 was the only breakthrough cand
+  (F428's 49->43); the other 4 stay at their wide-anneal minima.
+
+  Today's macbook-claude run total (7 commits): F427 + F428 BREAKTHROUGH
+  + F429/F430/F431 (W-cube negative) + F432 BREAKTHROUGH + F433
+  (bit13 isolation confirmed).
+
+  Path C residual record table: bit24 43, bit28 45, bit13 50, bit3 51,
+  bit2 51. Five cert-pin-verified sub-floor records.
+
 recent_progress_2026-05-01_F432_bit13_wide_anneal_HW50: |
   macbook-claude filled the F408 panel gap: bit13_m916a56aa was F378
   surprise top-1 but never had a Path C wide anneal. Ran F408-style
