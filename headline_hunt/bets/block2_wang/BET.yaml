@@ -29,7 +29,20 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-01T22:29:44Z'
+last_heartbeat: '2026-05-01T22:36:30Z'
+recent_progress_2026-05-01_F478_F479_manifest_rank40_negatives: |
+  yale-codex continued the F473 manifest sweep:
+    F478 rank 8 HW40 W1=0x5228ed8d 0x61a1a29c 0x6a3a8429 0x6b9e01d3
+      re-found current HW36 but did not improve it.
+      expanded=3,483,767, bridge_pass=3,483,588, wall=294.05s.
+    F479 rank 10 HW40 W1=0x5228ed8d 0x61a1a29c 0xea3a8c29 0x258bdd92
+      best selected non-seed HW=39; did not reach HW36.
+      expanded=3,493,418, bridge_pass=3,493,343, wall=296.69s.
+
+  Current panel remains bit13 HW=36, bit28 HW=42, bit24 HW=43. Remaining
+  manifest seeds are lower-priority unless paired with a new pair-pool
+  construction or a basin-preserving objective.
+
 recent_progress_2026-05-01_F476_F477_manifest_rank40_negatives: |
   yale-codex continued the F473 manifest sweep:
     F476 rank 6 HW40 W1=0x5228ed8d 0x61a1a29c 0x6a3a8409 0x149f957b
