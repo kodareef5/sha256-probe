@@ -30,6 +30,22 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
 last_heartbeat: '2026-05-01T15:30:00Z'
+recent_progress_2026-05-01_F442_bit28_full_radius4_closed: |
+  yale-codex ran exact Hamming-{1,2,3,4} enumeration over the full
+  W57..W60 128-bit coordinate system around the bit28 HW=45 record:
+    W1 = 0x307cf0e7 0x853d504a 0x78f16a5e 0x41fc6a74
+
+  Result: 11,017,632 exact forward evaluations in 592.05s.
+  Cascade-1 pass 11,017,632; bridge pass 11,017,613; 0 candidates
+  at HW <= 45. Best seen stayed the seed itself (HW=45, score=74.146).
+
+  Interpretation: the top-three Path C residual records are now all
+  exact radius-4 closed across W57..W60:
+    bit24 HW=43, bit13 HW=44, bit28 HW=45.
+  This is a clean stopping point for raw radius-4 enumeration. Next
+  progress should shift to nonlocal/carry-chart operators, geometry
+  relaxation, or selective radius-5 only with a strong prior.
+
 recent_progress_2026-05-01_F441_bit24_full_radius4_closed: |
   yale-codex ran exact Hamming-{1,2,3,4} enumeration over the full
   W57..W60 128-bit coordinate system around the F428 bit24 HW=43
