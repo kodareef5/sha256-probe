@@ -1,0 +1,42 @@
+{
+  "bet": "programmatic_sat_propagator",
+  "date": "2026-05-01",
+  "parents": [
+    "F421",
+    "F422",
+    "F423",
+    "F424",
+    "F425"
+  ],
+  "report_id": "F426",
+  "summary": {
+    "bit24_mdc27e18c_fillffffffff": {
+      "geometry": "contiguous high actual_p1_a_57 cluster, bits 21-25",
+      "best_priority_result": "F424 high_21_25_cap96: -13.20% decisions vs same-seed baseline on seeds 3-7",
+      "supporting_result": "F424 cap64-cap112 all improve by 12.30-13.20%; F422 cap64 improved by 11.37% on seeds 0-2",
+      "default_operator": "pure high-cluster priority, cap96 default but cap64-cap112 all viable",
+      "f343_composition": "negative in F423; do not compose by default"
+    },
+    "bit2_ma896ee41_fillffffffff": {
+      "geometry": "sparse low actual_p1_a_57 hits, bits 3,7,8",
+      "f343_result": "F425 f343: -3.38% decisions vs same-seed baseline on seeds 3-7",
+      "priority_results": {
+        "F421_cap132": "+14.79% decisions vs baseline on seeds 0-2",
+        "F425_cap64": "+35.07% decisions vs same-seed baseline on seeds 3-7",
+        "F425_cap96": "+14.83% decisions vs same-seed baseline on seeds 3-7"
+      },
+      "default_operator": "F343; stop direct hotspot priority"
+    },
+    "bit28_md1acca79_fillffffffff": {
+      "geometry": "sparse low actual_p1_a_57 hits, bits 2,5,6",
+      "f343_result": "F425 f343: -17.05% decisions vs same-seed baseline on seeds 3-7",
+      "priority_results": {
+        "F421_cap132": "+12.69% decisions vs baseline on seeds 0-2",
+        "F425_cap64": "+23.45% decisions vs same-seed baseline on seeds 3-7",
+        "F425_cap96": "+8.98% decisions vs same-seed baseline on seeds 3-7"
+      },
+      "default_operator": "F343; stop direct hotspot priority"
+    }
+  },
+  "verdict": "Actual-register learned-neighborhood priority is not a general rule. The deployable form is narrower: bit24's contiguous high actual_p1_a_57 cluster 21-25 supports pure bounded priority. Sparse low-bit clusters on bit2 and bit28 oversteer even at lower caps, while F343 remains the better operator."
+}

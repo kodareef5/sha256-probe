@@ -74,7 +74,8 @@ Two possible headlines:
   on seeds 3-7: every cap64-cap112 arm cuts mean decisions by 12-13%, with
   cap96 only a slight lead. F425 tested lower caps on the prior negative
   candidates bit2/bit28 and found no transfer: F343 wins, while direct hotspot
-  priority still oversteers.
+  priority still oversteers. F426 consolidates the geometry boundary: only
+  contiguous high actual-register clusters currently justify direct priority.
 - [ ] **Next decision gate.** Reopen broad propagator work only if a
   contiguous high actual-register cluster beyond bit24 appears.
 
