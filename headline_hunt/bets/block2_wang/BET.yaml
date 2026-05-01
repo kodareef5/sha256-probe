@@ -30,6 +30,23 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
 last_heartbeat: '2026-05-01T15:30:00Z'
+recent_progress_2026-05-01_F448_relaxed_bridge_radius4_closure: |
+  yale-codex fixed a closure loophole in enumerate_hamming_ball.py by
+  adding --relax-bridge, which counts HW ties/improvements even when
+  bridge_score rejects a cascade-valid neighbor.
+
+  Reran full W57..W60 Hamming-{1,2,3,4} with bridge relaxed for the two
+  top-three records that had bridge rejects:
+    bit13 HW=44: 11,017,632 total; 325,752 bridge rejects; 0 at HW <= 44
+    bit28 HW=45: 11,017,632 total; 19 bridge rejects; 0 at HW <= 45
+
+  bit24 needed no relaxed rerun because F441 had bridge pass
+  11,017,632 / 11,017,632.
+
+  Interpretation: top-three radius-4 closure is not an artifact of
+  bridge_score filtering. Further progress needs radius >= 5, nonlocal
+  operators, or geometry relaxation beyond the current cascade setup.
+
 recent_progress_2026-05-01_F447_repair_ranked_pair_combo_pilot: |
   yale-codex extended pair_combo_search.py with --pair-rank repair and
   composed the top 128 repair-ranked two-bit pairs into 3-pair radius-5/6

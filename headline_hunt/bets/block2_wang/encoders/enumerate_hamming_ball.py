@@ -79,6 +79,11 @@ def main() -> None:
         default="57,58,59,60",
         help="Comma-separated W slots to enumerate. Accepts 57..60 or local 0..3; default all.",
     )
+    ap.add_argument(
+        "--relax-bridge",
+        action="store_true",
+        help="Count cascade-valid records even when bridge_score rejects them.",
+    )
     ap.add_argument("--out", required=True)
     ap.add_argument("--label", default="")
     args = ap.parse_args()
@@ -105,6 +110,7 @@ def main() -> None:
         "total": 0,
         "cascade1": 0,
         "bridge": 0,
+        "bridge_reject": 0,
         "hw_le_init": 0,
         "hw_lt_init": 0,
     }
@@ -113,6 +119,8 @@ def main() -> None:
     best_seen = {
         "hw_total": init_rec["hw_total"],
         "score": bridge_score(init_rec, kbit)["score"],
+        "bridge_pass": True,
+        "reject_reason": None,
         "bits": [],
         "W": [f"0x{x:08x}" for x in base_w],
         "record": init_rec,
@@ -122,9 +130,18 @@ def main() -> None:
         f"=== enumerate_hamming_ball.py: {short} radius<= {args.max_radius} "
         f"around HW={args.init_hw}; slots W{','.join(str(57 + s) for s in slots)} ==="
     )
+    if args.relax_bridge:
+        print("    bridge relaxed: HW ties/improvements count even if bridge_score rejects")
     t0 = time.time()
     for radius in range(1, args.max_radius + 1):
-        r_counts = {"total": 0, "cascade1": 0, "bridge": 0, "hw_le_init": 0, "hw_lt_init": 0}
+        r_counts = {
+            "total": 0,
+            "cascade1": 0,
+            "bridge": 0,
+            "bridge_reject": 0,
+            "hw_le_init": 0,
+            "hw_lt_init": 0,
+        }
         for bits in combinations(bit_domain, radius):
             counts["total"] += 1
             r_counts["total"] += 1
@@ -136,16 +153,22 @@ def main() -> None:
             r_counts["cascade1"] += 1
             score = bridge_score(rec, kbit)
             if score["score"] is None:
-                continue
-            counts["bridge"] += 1
-            r_counts["bridge"] += 1
+                counts["bridge_reject"] += 1
+                r_counts["bridge_reject"] += 1
+                if not args.relax_bridge:
+                    continue
+            else:
+                counts["bridge"] += 1
+                r_counts["bridge"] += 1
             hw = rec["hw_total"]
-            if hw < best_seen["hw_total"] or (
-                hw == best_seen["hw_total"] and score["score"] > best_seen["score"]
-            ):
+            rank_score = score["score"] if score["score"] is not None else -1e9
+            best_rank_score = best_seen["score"] if best_seen["score"] is not None else -1e9
+            if hw < best_seen["hw_total"] or (hw == best_seen["hw_total"] and rank_score > best_rank_score):
                 best_seen = {
                     "hw_total": hw,
                     "score": score["score"],
+                    "bridge_pass": score["score"] is not None,
+                    "reject_reason": score["reject_reason"],
                     "bits": list(bits),
                     "W": [f"0x{x:08x}" for x in w],
                     "record": rec,
@@ -158,6 +181,8 @@ def main() -> None:
                     "bits": list(bits),
                     "hw_total": hw,
                     "score": score["score"],
+                    "bridge_pass": score["score"] is not None,
+                    "reject_reason": score["reject_reason"],
                     "W": [f"0x{x:08x}" for x in w],
                     "record": rec,
                 }
@@ -168,7 +193,8 @@ def main() -> None:
         by_radius[str(radius)] = r_counts
         print(
             f"  r{radius}: total={r_counts['total']} cascade1={r_counts['cascade1']} "
-            f"bridge={r_counts['bridge']} hw<=init={r_counts['hw_le_init']} "
+            f"bridge={r_counts['bridge']} bridge_reject={r_counts['bridge_reject']} "
+            f"hw<=init={r_counts['hw_le_init']} "
             f"hw<init={r_counts['hw_lt_init']}"
         )
 
@@ -181,6 +207,7 @@ def main() -> None:
         "max_radius": args.max_radius,
         "slots": [57 + s for s in slots],
         "bit_domain_size": len(bit_domain),
+        "relax_bridge": args.relax_bridge,
         "counts": counts,
         "by_radius": by_radius,
         "best_seen": best_seen,
