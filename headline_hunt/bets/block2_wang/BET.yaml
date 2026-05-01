@@ -30,6 +30,21 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
 last_heartbeat: '2026-05-01T15:30:00Z'
+recent_progress_2026-05-01_F447_repair_ranked_pair_combo_pilot: |
+  yale-codex extended pair_combo_search.py with --pair-rank repair and
+  composed the top 128 repair-ranked two-bit pairs into 3-pair radius-5/6
+  unions.
+
+  Results:
+    bit24 HW=43: 339,973 combos, 0 at HW <= 43, best selected non-seed HW=54
+    bit13 HW=44: 339,927 combos, 0 at HW <= 44, best selected non-seed HW=61
+    bit28 HW=45: 338,882 combos, 0 at HW <= 45, best selected non-seed HW=58
+
+  Interpretation: repair-ranked pairs are worse than HW-ranked pairs
+  (F445 got 48/49/48). Strong lane repair pairs stack compensation damage
+  instead of canceling it. Next search should explicitly penalize repeated
+  compensation lanes or change geometry.
+
 recent_progress_2026-05-01_F446_carry_chart_pair_atlas: |
   yale-codex added carry_chart_pair_atlas.py and enumerated exact
   two-bit W57..W60 pair deltas for the top-three Path C records,

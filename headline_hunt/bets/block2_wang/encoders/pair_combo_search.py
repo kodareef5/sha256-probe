@@ -36,6 +36,8 @@ def main() -> None:
     ap.add_argument("--init-hw", type=int, required=True)
     ap.add_argument("--slots", default="57,58,59,60")
     ap.add_argument("--top-pairs", type=int, default=128)
+    ap.add_argument("--pair-rank", choices=["hw", "repair"], default="hw",
+                    help="Rank pairs by resulting HW or by total lane repair")
     ap.add_argument("--pair-count", type=int, default=3)
     ap.add_argument("--min-radius", type=int, default=5)
     ap.add_argument("--max-radius", type=int, default=6)
@@ -89,16 +91,25 @@ def main() -> None:
         if score["score"] is None:
             continue
         pair_counts["bridge"] += 1
+        delta = [rec["hw63"][i] - init_rec["hw63"][i] for i in range(8)]
+        repairs = [max(0, -d) for d in delta]
+        damage = [max(0, d) for d in delta]
         accepted_pairs.append({
             "bits": pair_label(bits),
             "bit_indices": list(bits),
             "hw_total": rec["hw_total"],
             "score": score["score"],
             "hw63": rec["hw63"],
-            "delta_hw63": [rec["hw63"][i] - init_rec["hw63"][i] for i in range(8)],
+            "delta_hw63": delta,
+            "total_repair": sum(repairs),
+            "total_damage": sum(damage),
+            "net_delta": rec["hw_total"] - args.init_hw,
         })
 
-    accepted_pairs.sort(key=lambda e: (e["hw_total"], -e["score"], e["bit_indices"]))
+    if args.pair_rank == "hw":
+        accepted_pairs.sort(key=lambda e: (e["hw_total"], -e["score"], e["bit_indices"]))
+    else:
+        accepted_pairs.sort(key=lambda e: (-e["total_repair"], e["net_delta"], -e["score"], e["bit_indices"]))
     selected_pairs = accepted_pairs[:args.top_pairs]
     print(f"  pair bridge accepted: {pair_counts['bridge']} of {pair_counts['total']}")
     print(
@@ -170,6 +181,7 @@ def main() -> None:
         "slots": [57 + s for s in slots],
         "bit_domain_size": len(bit_domain),
         "top_pairs": args.top_pairs,
+        "pair_rank": args.pair_rank,
         "pair_count": args.pair_count,
         "min_radius": args.min_radius,
         "max_radius": args.max_radius,
