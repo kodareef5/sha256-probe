@@ -223,6 +223,26 @@ recent_progress_2026-04-30_F343_F369_chain: |
 
   Bet stays CLOSED. Phase 2D C++ build (~10-14h) gates on user direction.
   Empirical foundation now well-grounded.
+recent_progress_2026-05-01_F420_actual_register_learned_neighborhood: |
+  macbook-codex read Yale F416-F419 before taking Path B. F417/F418
+  supersede the old F343/dW learned-clause mining angle: learned clauses
+  touch neither the F343 triple nor full dW57/dW58 aux rows under the
+  50k-conflict cadical-ipasir-up traces.
+
+  F420 retargeted Path B to F419's actual-register discovery and replicated
+  across bit2/bit24/bit28, baseline and F343-injected. Result: 74-78% of
+  exported learned clauses touch actual-register / aux_modular_diff watch
+  vars across all three candidates. The common surface is actual_p1_a_57,
+  with candidate-specific hot bits.
+
+  F343's effect is not explained by raw learned-touch volume: bit28 improves
+  decisions by -12.26% while touch count is flat; bit24 worsens by +2.62%
+  while touch count rises slightly; bit2 improves mildly while touch count
+  falls.
+
+  Next mechanism-aligned intervention should be revised Path A: priority or
+  activity pressure on candidate-specific actual_p1_a_57 hotspot bits, not
+  further dW/F343 phase or clause-placement nudges.
 reopen_candidate_2026_04_29_F326_sharpened: |
   F326 cross-cand validation (cascade_aux_encoding) confirms the 132-bit
   universal hard core is a CDCL-search invariant of the cascade-1

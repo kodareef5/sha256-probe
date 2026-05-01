@@ -51,3 +51,25 @@ Path C in progress/completed first pass:
 
 Next: commit F408 memo/artifacts, then reassess whether to continue Path C
 around bit28 or switch to the bit2-specific Path A follow-up left by F407.
+
+## 2026-05-01 ~08:30 EDT
+
+Pulled origin first; origin/master was already at `695b283`.
+
+Read Yale F416-F419 in full before Path B. Decision: old Path B aimed at
+F343/dW-row learned clauses is superseded by Yale's zero-touch F417/F418 result,
+but Path B itself is still useful if retargeted to F419's fresh learned
+neighborhood. Proceeded with F420: cross-candidate F419 replication over
+bit2/bit24/bit28 using actual `a/e` registers rounds 57-63 plus
+`aux_modular_diff` watches.
+
+F420 result:
+
+- `dW57`/`dW58` remains the wrong surface.
+- Actual-register learned neighborhood generalizes: 74-78% of exported learned
+  clauses touch watched actual/modular vars across all three candidates.
+- `actual_p1_a_57` dominates, but hot bits are candidate-specific.
+- F343 decision deltas are not explained by raw learned-touch volume.
+
+Next recommendation from F420: revised Path A, not old Path B. Test priority or
+activity pressure on candidate-specific `actual_p1_a_57` hotspot bits.
