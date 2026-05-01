@@ -29,7 +29,30 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-01T14:05:00Z'
+last_heartbeat: '2026-05-01T14:25:00Z'
+recent_progress_2026-05-01_F429_w60_local_optima_confirmed: |
+  macbook-claude follow-up to F428: exhaustive W1[60] Hamming-{1,2,3}
+  enumeration (5488 W1[60] candidates per cand, 21952 total, 1.1s
+  wall, 0 solver runs) confirms current bests are W[60]-locally
+  optimal across all 4 panel cands.
+
+  bit3 / bit2 / bit24 / bit28: zero new records. The "small W1[60]
+  perturbation" attack vector that produced F427's bit28 score-better
+  neighbor and F428's bit24 HW=43 breakthrough is now exhausted.
+
+  bit24 detail: closest W1[60] neighbor of F428's HW=43 lands at HW=49
+  (matching F408's earlier value); the HW=43 basin is sharp at the
+  2-bit-flip distance. Suggests block-2 absorption residual surface
+  has discrete W[60] basins separated by Hamming-stable barriers.
+
+  Also added comms/inbox/20260501_macbook_claude_to_yale_F426_ack_F428
+  acknowledging Yale's F426 priority-geometry verdict and sharing the
+  F428 bit24 HW=43 record + cnf_sha256 for cross-mechanism testing.
+
+  Next: F430 symmetric enumeration of W1[57..59] (W[60] fixed) to test
+  whether deeper records require moving W57/W58/W59 too. Or F431 joint
+  Hamming-2 over full W1[57..60].
+
 recent_progress_2026-05-01_F428_multicand_seeded_refinement: |
   macbook-claude follow-up to F427: applied the seeded-refinement
   pattern to bit3 / bit2 / bit24 in parallel, each restarted from its
