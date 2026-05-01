@@ -29,7 +29,35 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-01T14:50:00Z'
+last_heartbeat: '2026-05-01T15:00:00Z'
+recent_progress_2026-05-01_F432_bit13_wide_anneal_HW50: |
+  macbook-claude filled the F408 panel gap: bit13_m916a56aa was F378
+  surprise top-1 but never had a Path C wide anneal. Ran F408-style
+  200k x 12 x max_flips=6 on bit13 only. 112.7s wall.
+
+  Result: 9-point HW reduction below corpus floor 59.
+    HW-best: 50, score 69.78 (seed 4, also seed 10)
+    Score-best: 51, score 71.55 (seed 11)
+
+  Both cert-pin verified: kissat + cadical UNSAT, audit CONFIRMED,
+  4 runs logged via append_run.py.
+
+  bit13 has the WIDEST HW distribution across F-paneled cands
+  (12 seeds span HW 50-63), unlike the F408 panel's narrower bands.
+  bit13's HW=50 records also have c=2 in hw63 (vs c=1 for the
+  F408 panel breakthroughs) -- different W-cube region, different
+  cascade-1 sub-fingerprint.
+
+  Path C residual records now: bit24 43, bit28 45, bit13 50,
+  bit3 51, bit2 51. Five cands with cert-pin-verified sub-floor
+  records spanning a 9-point HW range.
+
+  Today macbook-claude run total: F427 (negative+structural),
+  F428 (bit24 BREAKTHROUGH), F429/F430/F431 (full Hamming-3 ball
+  characterized as isolated-peaks), F432 (bit13 BREAKTHROUGH HW=50).
+  Two breakthroughs (bit24, bit13) plus comprehensive negative
+  characterization.
+
 recent_progress_2026-05-01_F431_joint_hamming3_ball_complete: |
   macbook-claude completed the Hamming-3 picture: F431 enumerates the
   joint cases F429 (W[60] only) and F430 (W[57..59] only) leave.

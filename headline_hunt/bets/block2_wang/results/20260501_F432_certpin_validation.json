@@ -1,0 +1,60 @@
+{
+  "description": "F432 cert-pin validation: bit13 sub-floor records (corpus floor was HW=59)",
+  "source": "/Users/mac/Desktop/sha256_review/headline_hunt/bets/block2_wang/results/search_artifacts/20260501_F432_bit13_wide_anneal.json",
+  "work_dir": "/tmp/F432",
+  "cand_id": "cand_n32_bit13_m916a56aa_fillffffffff",
+  "witnesses": {
+    "hw50_score69.78": {
+      "W": [
+        "0x3c2de1c6",
+        "0x05e5f5a9",
+        "0x1a6a8f8d",
+        "0x5ab11fc1"
+      ],
+      "hw": 50,
+      "best_score": 69.783,
+      "audit_verdict": "CONFIRMED",
+      "cnf_sha256": "4a8fc4c828050605fd52675db38bcb82d1354735c6f05a2836ca2463451399a6",
+      "solvers": {
+        "kissat": {
+          "version": "4.0.4",
+          "status": "UNSAT",
+          "wall_sec": 0.009,
+          "command": "kissat -q --seed=0 /tmp/F432/aux_expose_sr60_n32_bit13_m916a56aa_fillffffffff_F432_certpin_hw50_score69.78.cnf"
+        },
+        "cadical": {
+          "version": "3.0.0",
+          "status": "UNSAT",
+          "wall_sec": 0.0149,
+          "command": "cadical -q --seed=0 /tmp/F432/aux_expose_sr60_n32_bit13_m916a56aa_fillffffffff_F432_certpin_hw50_score69.78.cnf"
+        }
+      }
+    },
+    "hw51_score71.55": {
+      "W": [
+        "0x73ef3567",
+        "0xbda14907",
+        "0x8f4d3a2f",
+        "0xd74363fb"
+      ],
+      "hw": 51,
+      "best_score": 71.551,
+      "audit_verdict": "CONFIRMED",
+      "cnf_sha256": "dca079aafa872829e5a74462d8a65121778c1b0c6015b7dd109846171a49f5ee",
+      "solvers": {
+        "kissat": {
+          "version": "4.0.4",
+          "status": "UNSAT",
+          "wall_sec": 0.009,
+          "command": "kissat -q --seed=0 /tmp/F432/aux_expose_sr60_n32_bit13_m916a56aa_fillffffffff_F432_certpin_hw51_score71.55.cnf"
+        },
+        "cadical": {
+          "version": "3.0.0",
+          "status": "UNSAT",
+          "wall_sec": 0.016,
+          "command": "cadical -q --seed=0 /tmp/F432/aux_expose_sr60_n32_bit13_m916a56aa_fillffffffff_F432_certpin_hw51_score71.55.cnf"
+        }
+      }
+    }
+  }
+}
