@@ -36,6 +36,24 @@ Next options (waiting on user direction): wider second-anneal
 (max_flips 6-8), seeded refinement of bit3/bit2/bit24, or a
 bridge_score-mechanism deep-dive.
 
+## 2026-05-01 ~10:05 EDT — F428
+
+Did the seeded-refinement extension to the other 3 cands in parallel.
+
+bit3 / bit2: stayed at F408 HW=51 (12/12 seeds; robust local optima
+at 3-bit flip radius, matching F427's bit28 result).
+
+bit24 BREAKTHROUGH: HW 49 -> 43 (-6). All 12/12 seeds converged to a
+single HW=43 W vector. The improvement is a 2-bit W1[60] perturbation
+that F408's wider search missed; W57/W58/W59 unchanged. Score also
+improves (73.447 -> 79.073). Cert-pin: kissat + cadical both UNSAT,
+audited CONFIRMED, logged.
+
+Path C now has TWO sub-floor deep records (bit24 HW=43, bit28 HW=45),
+both >12 points below their pre-F408 corpus floors. The W1[60]
+dominance across all four cand breakthroughs is suggestive: block-2
+residual surface seems to live primarily in W[60].
+
 ## Coordination notes
 
 - macbook-codex tmux session `sha256_codex` is still alive and waiting

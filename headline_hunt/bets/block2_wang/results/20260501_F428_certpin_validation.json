@@ -1,0 +1,45 @@
+{
+  "description": "F428 cert-pin validation for bit24 HW=43 NEW RECORD (was HW=49 in F408)",
+  "source": "/Users/mac/Desktop/sha256_review/headline_hunt/bets/block2_wang/results/search_artifacts/20260501_F428_bit24_seeded_refinement.json",
+  "work_dir": "/tmp/F428",
+  "comparison": {
+    "F408_witness": {
+      "W": [
+        "0x4be5074f",
+        "0x429efff2",
+        "0xe09458af",
+        "0xd6560e70"
+      ],
+      "hw_total": 49,
+      "best_score": 73.447
+    },
+    "F428_witness": {
+      "W": [
+        "0x4be5074f",
+        "0x429efff2",
+        "0xe09458af",
+        "0xe6560e70"
+      ],
+      "hw_total": 43,
+      "best_score": 79.073,
+      "delta": "differs only in W1[60] (0xd6560e70 -> 0xe6560e70), Hamming distance 2 (bit positions 28, 29); W57/W58/W59 unchanged"
+    }
+  },
+  "audit_verdict": "CONFIRMED",
+  "cnf_sha256": "090c64434056fa2476d5a00d9337ef0bb020f9687fa38819e598fdd2a735fe26",
+  "cand_id": "cand_n32_bit24_mdc27e18c_fillffffffff",
+  "solvers": {
+    "kissat": {
+      "version": "4.0.4",
+      "status": "UNSAT",
+      "wall_sec": 0.0085,
+      "command": "kissat -q --seed=0 /tmp/F428/aux_expose_sr60_n32_bit24_mdc27e18c_fillffffffff_F428_certpin.cnf"
+    },
+    "cadical": {
+      "version": "3.0.0",
+      "status": "UNSAT",
+      "wall_sec": 0.0139,
+      "command": "cadical -q --seed=0 /tmp/F428/aux_expose_sr60_n32_bit24_mdc27e18c_fillffffffff_F428_certpin.cnf"
+    }
+  }
+}

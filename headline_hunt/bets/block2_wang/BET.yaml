@@ -29,7 +29,36 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-01T13:50:00Z'
+last_heartbeat: '2026-05-01T14:05:00Z'
+recent_progress_2026-05-01_F428_multicand_seeded_refinement: |
+  macbook-claude follow-up to F427: applied the seeded-refinement
+  pattern to bit3 / bit2 / bit24 in parallel, each restarted from its
+  F408 HW best with 12 seeds x 200k iter x max_flips=3 x temp 0.5 -> 0.01.
+
+  bit3 / bit2: all 12/12 seeds stayed at F408 HW=51 (matches F427's
+  bit28 HW=45 result -- robust local optima at 3-bit radius).
+
+  bit24 BREAKTHROUGH: all 12/12 seeds converged to a NEW HW=43 record
+  (was HW=49 in F408). The improvement is purely a 2-bit W1[60]
+  perturbation (0xd6560e70 -> 0xe6560e70, bits 28 and 29); W57/W58/W59
+  unchanged. Bridge_score also improves (73.447 -> 79.073), so bit24's
+  case is score-better AND HW-better, unlike F427's bit28 score-better
+  HW-worse split.
+
+  Cert-pin verified: kissat 0.0085s UNSAT, cadical 0.0139s UNSAT,
+  audit CONFIRMED, both logged.
+
+  Updated cumulative Path C residual records (vs pre-F408 corpus):
+    bit3   55 -> 51 (delta -4)
+    bit2   56 -> 51 (delta -5)
+    bit24  57 -> 43 (delta -14)  <- new
+    bit28  59 -> 45 (delta -14)
+
+  The breakthrough at distance 2 from F408 suggests F408 was sitting
+  on the edge of a deeper basin; tighter seeded second-pass localizes
+  what wider first-pass missed. Pattern: W1[60] dominates the residual
+  surface across all four breakthroughs.
+
 recent_progress_2026-05-01_F427_bit28_seeded_refinement: |
   macbook-claude Path C follow-up to F408 (codex paused on quota).
   Extended block2_bridge_beam.py with --init-W flag for seeded restarts,
