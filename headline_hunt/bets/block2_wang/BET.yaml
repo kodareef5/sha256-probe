@@ -29,7 +29,20 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-01T17:09:09Z'
+last_heartbeat: '2026-05-01T17:21:13Z'
+recent_progress_2026-05-01_F460_F461_bit13_hw38_radius4_closed: |
+  yale-codex ran exact relaxed-bridge Hamming-ball closure around the new
+  F458 bit13 HW=38 floor:
+    W1 = 0x5228ed8d 0x61a1a29c 0xea3a8429 0x2d9f1a3b
+
+  F460 Hamming-{1,2,3}: 349,632 total, 7,877 bridge rejects, 0 at HW <= 38.
+  F461 Hamming-{1,2,3,4}: 11,017,632 total, 325,752 bridge rejects,
+  0 at HW <= 38. Best seen stayed the seed (HW=38, score=83.667).
+
+  Interpretation: bit13 HW=38 is full radius-4 closed even with bridge
+  relaxed. Current panel remains bit13 HW=38, bit28 HW=42, bit24 HW=43.
+  Next: pair-beam restart from HW38 and bit28 HW42 closure/follow-up.
+
 recent_progress_2026-05-01_F456_F459_pair_beam_followups: |
   yale-codex ran four pair-beam follow-ups after closing bit13 HW=41:
     F456 bit13 HW41 repair-ranked c/g: no improvement; best non-seed HW=46.
