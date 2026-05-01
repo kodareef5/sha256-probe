@@ -62,7 +62,9 @@ Two possible headlines:
   callback to count learned clauses touching watched vars. Across baseline and
   F343-injected traces for bit2/bit24/bit28, zero exported learned clauses
   touched the watched F343 triple. F418 broadened the watch to full `dW57` and
-  `dW58` aux rows and still found zero touch.
+  `dW58` aux rows and still found zero touch. F419 found bit2's learned
+  neighborhood in actual-register variables instead, led by `actual_p1_a_57`
+  bits 3/7/8.
 - [ ] **Next decision gate.** Reopen broad propagator work only if a
   candidate-gated priority/F343 interaction beats F343 on bit2 or another known
   outlier.
