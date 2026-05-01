@@ -49,6 +49,34 @@ recent_progress_2026-05-01_F434_radius6_confirmation: |
   Hamming-3 + radius-6 characterization across 5 cands. All 5 records
   cert-pin verified UNSAT. Headline-class SAT remains uncrossed.
 
+  Superseded note: yale-codex independently found bit13 HW=49 after
+  this macbook sequence. F434 is still a clean radius-6 closure for
+  bit24/bit28, but the 5-cand stopping point now needs a separate
+  closure around the new bit13 HW=49 basin.
+
+recent_progress_2026-05-01_F432_yale_hw49_supersedes_hw50: |
+  yale-codex independently followed F431's bit13 suggestion with a
+  seeded-refinement pass from F378's exact top-1 W witness:
+    W1[57..60] = 0x5228ed8d 0x61a1a29c 0xea7a8c21 0xb6befe82
+
+  Result: NEW bit13 residual record HW=49, score=70.667, found by
+  seed 5. W57/W58/W59 stayed fixed; the whole improvement is W1[60]
+  changing 0xb6befe82 -> 0x25bfda52, a Hamming-10 jump.
+
+  Cert-pin verified with persisted CNF audit CONFIRMED:
+    cnf_sha256 b473db6b46a42de2913aff0b60340de7ba40a2ef66d062e658804d552c2a328e
+    kissat 4.0.4 UNSAT in 0.009846s
+    cadical 3.0.0 UNSAT in 0.017193s
+  Both runs appended to runs.jsonl.
+
+  This supersedes the macbook F432 HW=50 as the current bit13 record.
+  F433's Hamming-3 isolation remains useful as a closure around the
+  macbook HW=50 basin, but the new bit13 HW=49 basin still needs its
+  own Hamming-{1,2,3} closure.
+
+  Updated Path C record table: bit24 HW=43, bit28 HW=45, bit13 HW=49,
+  bit3/bit2 HW=51.
+
 recent_progress_2026-05-01_F433_bit13_isolation_confirmed: |
   macbook-claude completed the F432 follow-up: bit13 HW=50 is also a
   sharp Hamming-3 isolated peak, matching the F408 panel pattern.
@@ -69,8 +97,13 @@ recent_progress_2026-05-01_F433_bit13_isolation_confirmed: |
   + F429/F430/F431 (W-cube negative) + F432 BREAKTHROUGH + F433
   (bit13 isolation confirmed).
 
-  Path C residual record table: bit24 43, bit28 45, bit13 50, bit3 51,
-  bit2 51. Five cert-pin-verified sub-floor records.
+  Superseded note: yale-codex later found a HW=49 bit13 point in a
+  different seeded-refinement basin. This F433 closure is therefore a
+  valid local closure around the macbook HW=50 point, not the final
+  bit13 record closure.
+
+  Path C residual record table after F433 alone was: bit24 43, bit28 45,
+  bit13 50, bit3 51, bit2 51.
 
 recent_progress_2026-05-01_F432_bit13_wide_anneal_HW50: |
   macbook-claude filled the F408 panel gap: bit13_m916a56aa was F378

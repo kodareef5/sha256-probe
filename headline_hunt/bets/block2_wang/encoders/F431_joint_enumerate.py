@@ -29,9 +29,12 @@ import json
 import os
 import sys
 import time
+from pathlib import Path
 
-sys.path.insert(0, "/Users/mac/Desktop/sha256_review")
-sys.path.insert(0, "/Users/mac/Desktop/sha256_review/headline_hunt/bets/block2_wang/encoders")
+REPO = Path(__file__).resolve().parents[4]
+ENCODERS = Path(__file__).resolve().parent
+sys.path.insert(0, str(REPO))
+sys.path.insert(0, str(ENCODERS))
 from lib.sha256 import MASK
 from block2_bridge_beam import setup_cand, evaluate
 from bridge_score import bridge_score

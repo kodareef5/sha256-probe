@@ -1,10 +1,70 @@
 {
-  "description": "F432 cert-pin validation: bit13 sub-floor records (corpus floor was HW=59)",
-  "source": "/Users/mac/Desktop/sha256_review/headline_hunt/bets/block2_wang/results/search_artifacts/20260501_F432_bit13_wide_anneal.json",
+  "description": "F432 cert-pin validation: bit13 sub-floor records, including yale HW=49 superseding macbook HW=50",
+  "sources": {
+    "macbook_wide_anneal": "headline_hunt/bets/block2_wang/results/search_artifacts/20260501_F432_bit13_wide_anneal.json",
+    "yale_seeded_refinement": "headline_hunt/bets/block2_wang/results/search_artifacts/20260501_F432_bit13_seeded_refinement.json"
+  },
   "work_dir": "/tmp/F432",
   "cand_id": "cand_n32_bit13_m916a56aa_fillffffffff",
+  "baseline": {
+    "F378_witness": {
+      "W": [
+        "0x5228ed8d",
+        "0x61a1a29c",
+        "0xea7a8c21",
+        "0xb6befe82"
+      ],
+      "W2": [
+        "0x1cf531f1",
+        "0xb6007fec",
+        "0x0af899b2",
+        "0x97bc8ed9"
+      ],
+      "hw_total": 59,
+      "best_score": 57.92,
+      "hw63": [13, 13, 3, 0, 13, 13, 4, 0]
+    }
+  },
   "witnesses": {
-    "hw50_score69.78": {
+    "hw49_score70.667_yale_seeded": {
+      "W": [
+        "0x5228ed8d",
+        "0x61a1a29c",
+        "0xea7a8c21",
+        "0x25bfda52"
+      ],
+      "W2": [
+        "0x1cf531f1",
+        "0xb6007fec",
+        "0x0af899b2",
+        "0x06bd6aa9"
+      ],
+      "hw": 49,
+      "best_score": 70.667,
+      "hw63": [11, 6, 2, 0, 17, 11, 2, 0],
+      "delta": "W57/W58/W59 unchanged from F378; W1[60] 0xb6befe82 -> 0x25bfda52, XOR 0x930124d0, Hamming distance 10",
+      "audit_verdict": "CONFIRMED",
+      "cnf_sha256": "b473db6b46a42de2913aff0b60340de7ba40a2ef66d062e658804d552c2a328e",
+      "solvers": {
+        "kissat": {
+          "version": "4.0.4",
+          "status": "UNSAT",
+          "wall_sec": 0.009846,
+          "command": "kissat -q --seed=0 /tmp/F432/aux_expose_sr60_n32_bit13_m916a56aa_fillffffffff_F432_certpin.cnf"
+        },
+        "cadical": {
+          "version": "3.0.0",
+          "status": "UNSAT",
+          "wall_sec": 0.017193,
+          "command": "cadical -q --seed=0 /tmp/F432/aux_expose_sr60_n32_bit13_m916a56aa_fillffffffff_F432_certpin.cnf"
+        }
+      },
+      "runs_jsonl": [
+        "run_20260501_143250_block2_wang_kissat_seed0_46ed34fc",
+        "run_20260501_143257_block2_wang_cadical_seed0_6bd0ab23"
+      ]
+    },
+    "hw50_score69.78_macbook_wide": {
       "W": [
         "0x3c2de1c6",
         "0x05e5f5a9",
@@ -30,7 +90,7 @@
         }
       }
     },
-    "hw51_score71.55": {
+    "hw51_score71.55_macbook_score_best": {
       "W": [
         "0x73ef3567",
         "0xbda14907",

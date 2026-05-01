@@ -39,14 +39,17 @@ import os
 import random
 import sys
 import time
+from pathlib import Path
 
-sys.path.insert(0, "/Users/mac/Desktop/sha256_review")
+REPO = Path(__file__).resolve().parents[4]
+ENCODERS = Path(__file__).resolve().parent
+sys.path.insert(0, str(REPO))
 from lib.sha256 import (K, IV, MASK, sigma0, sigma1, Sigma0, Sigma1,
                         Ch, Maj, add, precompute_state)
-sys.path.insert(0, "/Users/mac/Desktop/sha256_review/headline_hunt/bets/mitm_residue/prototypes")
+sys.path.insert(0, str(REPO / "headline_hunt/bets/mitm_residue/prototypes"))
 from forward_table_builder import cascade_step_offset, cascade2_offset, apply_round
 
-sys.path.insert(0, "/Users/mac/Desktop/sha256_review/headline_hunt/bets/block2_wang/encoders")
+sys.path.insert(0, str(ENCODERS))
 from bridge_score import bridge_score
 
 
@@ -218,6 +221,11 @@ def hillclimb(short, m0, fill, kbit, iterations, seed=0, verbose=False,
     best_W = cur_W
     best_rec = cur_rec
     best_iter = 0
+    best_hw = cur_rec["hw_total"]
+    best_hw_score = cur_score
+    best_hw_W = cur_W
+    best_hw_rec = cur_rec
+    best_hw_iter = 0
 
     for i in range(iterations):
         new_W, n_flips = mutate_w(rng, cur_W, max_flips)
@@ -233,6 +241,13 @@ def hillclimb(short, m0, fill, kbit, iterations, seed=0, verbose=False,
         if sc["score"] is None:
             bridge_rejects += 1
             continue
+        rec_hw = rec["hw_total"]
+        if rec_hw < best_hw or (rec_hw == best_hw and sc["score"] > best_hw_score):
+            best_hw = rec_hw
+            best_hw_score = sc["score"]
+            best_hw_W = new_W
+            best_hw_rec = rec
+            best_hw_iter = i
         delta = sc["score"] - cur_score
         accept = delta > 0
         if method == "anneal" and not accept:
@@ -273,6 +288,11 @@ def hillclimb(short, m0, fill, kbit, iterations, seed=0, verbose=False,
         "best_iter": best_iter,
         "best_record": best_rec,
         "best_W": [f"0x{w:08x}" for w in best_W],
+        "best_hw": best_hw,
+        "best_hw_score": best_hw_score,
+        "best_hw_iter": best_hw_iter,
+        "best_hw_record": best_hw_rec,
+        "best_hw_W": [f"0x{w:08x}" for w in best_hw_W],
     }
 
 
@@ -341,15 +361,18 @@ def main():
 
     # Aggregate per cand
     by_cand = {}
+    by_cand_hw = {}
     for r in all_runs:
         if "error" in r: continue
         c = r["cand"]
         if c not in by_cand or r["best_score"] > by_cand[c]["best_score"]:
             by_cand[c] = r
+        if c not in by_cand_hw or r["best_hw"] < by_cand_hw[c]["best_hw"]:
+            by_cand_hw[c] = r
 
     print(f"\n=== Per-cand best across seeds (vs corpus best) ===")
     # Load corpus best per cand from F374 stratification (if we have it)
-    print(f"{'cand':22s} {'beam best score':>15s} {'beam hw':>8s} {'corpus best hw':>15s}")
+    print(f"{'cand':22s} {'beam best score':>15s} {'score hw':>8s} {'best hw':>8s} {'corpus best hw':>15s}")
     corpus_best_hw = {  # from F374/F378 known top entries
         "bit3_m33ec77ca": 55,
         "bit2_ma896ee41": 57,
@@ -359,8 +382,9 @@ def main():
     }
     for c, r in by_cand.items():
         rec = r["best_record"]
+        best_hw = by_cand_hw[c]["best_hw"]
         corpus_hw = corpus_best_hw.get(c, "?")
-        print(f"  {c:22s} {r['best_score']:>15.2f} {rec['hw_total']:>8d} {corpus_hw:>15}")
+        print(f"  {c:22s} {r['best_score']:>15.2f} {rec['hw_total']:>8d} {best_hw:>8d} {corpus_hw:>15}")
 
     # Save
     out_path = args.out or "headline_hunt/bets/block2_wang/results/search_artifacts/20260430_F408_bridge_beam_anneal.json"
@@ -377,6 +401,7 @@ def main():
             "wall_seconds": round(wall, 2),
             "all_runs": all_runs,
             "best_per_cand": {c: r for c, r in by_cand.items()},
+            "best_hw_per_cand": {c: r for c, r in by_cand_hw.items()},
         }, f, indent=2)
     print(f"\nwrote {out_path}")
 
