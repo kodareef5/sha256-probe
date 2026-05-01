@@ -30,6 +30,24 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
 last_heartbeat: '2026-05-01T15:30:00Z'
+recent_progress_2026-05-01_F443_ranked_combo_radius5_6_pilot: |
+  yale-codex added ranked_combo_search.py: rank all one-bit W57..W60
+  directions by residual HW / bridge score, keep the top 32 soft bits,
+  then exhaustively enumerate radius-5 and radius-6 combinations inside
+  that selected set.
+
+  Ran this pilot on the top-three exact radius-4-closed records:
+    bit24 HW=43: 1,107,568 combos, 0 at HW <= 43, best selected non-seed HW=48
+    bit13 HW=44: 1,107,568 combos, 0 at HW <= 44, best selected non-seed HW=48
+    bit28 HW=45: 1,107,568 combos, 0 at HW <= 45, best selected non-seed HW=52
+
+  Soft-bit pattern: the selected top-32 directions are W60-dominated
+  (bit24 26/32, bit13 23/32, bit28 25/32 in W60). This suggests
+  one-bit local gradients mostly rediscover the W60-heavy coordinate
+  already exhausted by smaller exact shells. Next operator should rank
+  pair/carry-chart deltas or force cross-word diversity, not just deepen
+  raw one-bit soft directions.
+
 recent_progress_2026-05-01_F442_bit28_full_radius4_closed: |
   yale-codex ran exact Hamming-{1,2,3,4} enumeration over the full
   W57..W60 128-bit coordinate system around the bit28 HW=45 record:
