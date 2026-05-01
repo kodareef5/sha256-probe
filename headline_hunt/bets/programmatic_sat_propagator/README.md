@@ -43,15 +43,20 @@ Two possible headlines:
   emits F397 cb_decide priority lists for the F286 132-bit core and F332
   139-bit stable-core comparison arm.
 - [x] **Decision-priority hook wiring.** `cascade_propagator.cc` accepts F397
-  priority specs and feeds them into `cb_decide` (F398). Local compile is
-  blocked on missing CaDiCaL C++ headers.
+  priority specs and feeds them into `cb_decide` (F398). Repo-local setup is in
+  `propagators/setup_local_deps.sh`; capped/strided priority controls landed in
+  F407.
 - [x] **Decision-priority matrix runner.** `run_decision_priority_matrix.py`
   emits the exact four-arm F399 command matrix and runs it when headers are
   available.
-- [ ] **Decision-priority run matrix.** Run baseline / existing propagator /
-  F286-priority / F332-priority under one cap on a header-equipped machine.
-- [ ] **Decision gate.** Reopen only if decision priority gives a material
-  speedup beyond the saturated F343 clause-injection envelope.
+- [x] **Decision-priority run matrix.** F403/F405 ran the 6-candidate matrix.
+  Uncapped priority is harmful; cap-132 is candidate-specific and useful on
+  bit10.
+- [x] **Bit2 rescue check.** F408-F411 generated bit2's priority spec and found
+  F286 cap-132 does not rescue the F343 singleton outlier.
+- [ ] **Next decision gate.** Reopen broad propagator work only if a
+  candidate-gated priority/F343 interaction beats F343 on bit2 or another known
+  outlier.
 
 ## Related
 
