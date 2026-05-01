@@ -133,27 +133,39 @@ def matrix_commands(
     cnf: Path,
     varmap: Path,
     conflicts: int,
+    priority_max_suggestions: int | None,
+    priority_stride: int | None,
 ) -> list[dict[str, Any]]:
     base = [str(binary), str(cnf), str(varmap), f"--conflicts={conflicts}"]
+    priority_extra = []
+    priority_suffix = ""
+    if priority_max_suggestions is not None:
+        priority_extra.append(f"--priority-max-suggestions={priority_max_suggestions}")
+        priority_suffix += f"_max{priority_max_suggestions}"
+    if priority_stride is not None:
+        priority_extra.append(f"--priority-stride={priority_stride}")
+        priority_suffix += f"_stride{priority_stride}"
     return [
         {"arm": "baseline_no_propagator", "cmd": [*base, "--no-propagator"]},
         {"arm": "existing_propagator", "cmd": base},
         {
-            "arm": "priority_f286_132",
+            "arm": f"priority_f286_132{priority_suffix}",
             "cmd": [
                 *base,
                 f"--priority-spec={spec_path}",
                 "--priority-set=f286_132_conservative",
                 f"--priority-candidate={candidate}",
+                *priority_extra,
             ],
         },
         {
-            "arm": "priority_f332_139",
+            "arm": f"priority_f332_139{priority_suffix}",
             "cmd": [
                 *base,
                 f"--priority-spec={spec_path}",
                 "--priority-set=f332_139_stable6",
                 f"--priority-candidate={candidate}",
+                *priority_extra,
             ],
         },
     ]
@@ -184,7 +196,16 @@ def build_plan(args: argparse.Namespace) -> dict[str, Any]:
                 "missing_varmap": varmap is None,
             })
             continue
-        row["commands"] = matrix_commands(binary, args.priority_spec, candidate, cnf, varmap, args.conflicts)
+        row["commands"] = matrix_commands(
+            binary,
+            args.priority_spec,
+            candidate,
+            cnf,
+            varmap,
+            args.conflicts,
+            args.priority_max_suggestions,
+            args.priority_stride,
+        )
         runnable.append(row)
     return {
         "report_id": args.report_id,
@@ -193,6 +214,8 @@ def build_plan(args: argparse.Namespace) -> dict[str, Any]:
         "source": rel(args.source),
         "binary": str(binary),
         "conflicts": args.conflicts,
+        "priority_max_suggestions": args.priority_max_suggestions,
+        "priority_stride": args.priority_stride,
         "compile_command": compile_cmd,
         "runnable_candidates": runnable,
         "missing_inputs": missing,
@@ -244,6 +267,8 @@ def write_md(path: Path, payload: dict[str, Any]) -> None:
         f"Verdict: `{payload.get('verdict', 'not_run')}`.",
         f"Priority spec: `{payload['priority_spec']}`.",
         f"Conflict cap: {payload['conflicts']}.",
+        f"Priority max suggestions: `{payload.get('priority_max_suggestions')}`.",
+        f"Priority stride: `{payload.get('priority_stride')}`.",
         f"Runnable candidates here: {len(payload['runnable_candidates'])}.",
         f"Missing-input candidates here: {len(payload['missing_inputs'])}.",
         "",
@@ -312,6 +337,8 @@ def main() -> int:
     ap.add_argument("--run", action="store_true",
                     help="compile and run instead of writing a dry-run plan")
     ap.add_argument("--timeout", type=int, default=300)
+    ap.add_argument("--priority-max-suggestions", type=int, default=None)
+    ap.add_argument("--priority-stride", type=int, default=None)
     ap.add_argument("--out-json", type=Path, default=DEFAULT_OUT_JSON)
     ap.add_argument("--out-md", type=Path, default=None)
     ap.add_argument("--report-id", default="F399")

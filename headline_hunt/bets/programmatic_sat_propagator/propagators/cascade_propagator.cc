@@ -639,11 +639,23 @@ public:
     std::vector<int> decision_priority_lits;
     std::unordered_set<int> decision_priority_vars;
     std::unordered_map<int, int> decision_priority_values;  // var -> sat value
+    long long decision_priority_max_suggestions = -1;  // -1 = unlimited
+    long long decision_priority_stride = 1;  // suggest on every Nth cb_decide call
+    long long n_cb_decide_calls = 0;
     struct DecisionPriorityUndo { int var; int prev; };
     std::vector<std::vector<DecisionPriorityUndo>> level_decision_priority_undo;
 
     int cb_decide() override {
         if (!decision_shaping_enabled) return 0;
+        n_cb_decide_calls++;
+        if (decision_priority_max_suggestions >= 0
+            && n_cb_decide_suggestions >= decision_priority_max_suggestions) {
+            return 0;
+        }
+        if (decision_priority_stride > 1
+            && (n_cb_decide_calls % decision_priority_stride) != 0) {
+            return 0;
+        }
         if (!decision_priority_lits.empty()) {
             for (int lit : decision_priority_lits) {
                 int var = std::abs(lit);
@@ -914,7 +926,8 @@ int main(int argc, char** argv) {
                   << " <cnf-path> <varmap-path> [--conflicts=N] [--no-propagator]\n"
                   << "       [--shape-decisions]\n"
                   << "       [--priority-spec=F397.json] [--priority-set=f286_132_conservative]\n"
-                  << "       [--priority-candidate=bit10_m3304caa0_fill80000000]\n";
+                  << "       [--priority-candidate=bit10_m3304caa0_fill80000000]\n"
+                  << "       [--priority-max-suggestions=N] [--priority-stride=N]\n";
         return 1;
     }
     std::string cnf_path = argv[1];
@@ -925,6 +938,8 @@ int main(int argc, char** argv) {
     std::string priority_spec_path;
     std::string priority_set_name = "f286_132_conservative";
     std::string priority_candidate;
+    long long priority_max_suggestions = -1;
+    long long priority_stride = 1;
     for (int i = 3; i < argc; i++) {
         std::string arg = argv[i];
         if (arg.rfind("--conflicts=", 0) == 0) {
@@ -940,6 +955,14 @@ int main(int argc, char** argv) {
             priority_set_name = arg.substr(15);
         } else if (arg.rfind("--priority-candidate=", 0) == 0) {
             priority_candidate = arg.substr(21);
+        } else if (arg.rfind("--priority-max-suggestions=", 0) == 0) {
+            priority_max_suggestions = std::stoll(arg.substr(27));
+        } else if (arg.rfind("--priority-stride=", 0) == 0) {
+            priority_stride = std::stoll(arg.substr(18));
+            if (priority_stride < 1) {
+                std::cerr << "ERROR: --priority-stride must be >= 1\n";
+                return 1;
+            }
         }
     }
 
@@ -988,8 +1011,17 @@ int main(int argc, char** argv) {
         for (int lit : prop.decision_priority_lits) {
             prop.decision_priority_vars.insert(std::abs(lit));
         }
+        prop.decision_priority_max_suggestions = priority_max_suggestions;
+        prop.decision_priority_stride = priority_stride;
         std::cerr << "Decision priority loaded: " << prop.decision_priority_label
-                  << " (" << prop.decision_priority_lits.size() << " vars)\n";
+                  << " (" << prop.decision_priority_lits.size() << " vars";
+        if (prop.decision_priority_max_suggestions >= 0) {
+            std::cerr << ", max_suggestions=" << prop.decision_priority_max_suggestions;
+        }
+        if (prop.decision_priority_stride > 1) {
+            std::cerr << ", stride=" << prop.decision_priority_stride;
+        }
+        std::cerr << ")\n";
     }
 
     // Rules 1+2: cascade-zero registers under force-mode interpretation:
@@ -1194,7 +1226,9 @@ int main(int argc, char** argv) {
               << "    of which Rule 4@r=62 forcings: " << prop.n_rule4_r62_fires << "\n"
               << "  cb_decide suggestions:    " << prop.n_cb_decide_suggestions << "\n"
               << "  cb_decide priority:       " << prop.decision_priority_label
-              << " (" << prop.decision_priority_lits.size() << " vars)\n"
+              << " (" << prop.decision_priority_lits.size() << " vars"
+              << ", max_suggestions=" << prop.decision_priority_max_suggestions
+              << ", stride=" << prop.decision_priority_stride << ")\n"
               << "  actual-reg bit assigns:   " << prop.n_actual_assignments << "\n"
               << "  dT2_62 computable (sample, full): " << prop.n_dT2_62_computable
               << " (out of ~" << (prop.n_actual_assignments / 4096) << " samples)\n"
