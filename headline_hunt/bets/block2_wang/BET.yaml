@@ -30,6 +30,23 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
 last_heartbeat: '2026-05-01T15:30:00Z'
+recent_progress_2026-05-01_F449_path_c_locality_synthesis: |
+  yale-codex added a synthesis note after F436-F448:
+    headline_hunt/bets/block2_wang/results/20260501_F449_path_c_locality_synthesis.md
+
+  Bottom line: the top-three Path C records are stable local minima under
+  full radius-4 exact enumeration, bridge-relaxed closure, ranked radius-5/6
+  one-bit probes, cross-word radius-5 probes, pair-HW composition, and
+  repair-ranked pair composition.
+
+  Current panel:
+    bit24 HW=43, bit13 HW=44, bit28 HW=45.
+
+  Critique: scalar local ranking over raw W bits is boxed in. The c/g lane
+  locks and compensation damage dominate. Recommended pivot is
+  compensation-aware pair composition, geometry relaxation, backward
+  carry-chart construction, or small-N algebraic calibration.
+
 recent_progress_2026-05-01_F448_relaxed_bridge_radius4_closure: |
   yale-codex fixed a closure loophole in enumerate_hamming_ball.py by
   adding --relax-bridge, which counts HW ties/improvements even when
