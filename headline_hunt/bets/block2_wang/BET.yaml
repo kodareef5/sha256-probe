@@ -30,6 +30,23 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
 last_heartbeat: '2026-05-01T15:30:00Z'
+recent_progress_2026-05-01_F440_bit13_full_radius4_closed: |
+  yale-codex ran exact Hamming-{1,2,3,4} enumeration over the full
+  W57..W60 128-bit coordinate system around the F436 bit13 HW=44
+  record:
+    W1 = 0x5228ed8d 0x61a1a29c 0xea6a8c21 0x3dbfd852
+
+  Result: 11,017,632 exact forward evaluations in 578.99s.
+  Cascade-1 pass 11,017,632; bridge pass 10,691,880; 0 candidates
+  at HW <= 44. Best seen stayed the seed itself (HW=44, score=71.526).
+
+  Interpretation: bit13 HW=44 is exactly radius-4 closed across
+  W57..W60, not merely W59/W60. This directly closes the escape
+  distance that produced the F436 HW49 -> HW44 breakthrough. Next
+  useful work is radius >= 5 only if cheap, or a new coordinate such as
+  carry-chart-preserving operators / geometry relaxation / bit24-floor
+  exact checks.
+
 recent_progress_2026-05-01_F439_bit13_w59_w60_radius4_closed: |
   yale-codex extended enumerate_hamming_ball.py with a --slots option
   and ran an exact W59/W60 Hamming-{1,2,3,4} enumeration around the
