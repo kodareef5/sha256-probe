@@ -68,10 +68,12 @@ Two possible headlines:
   F421 showed actual-register hotspot priority is candidate-specific: harmful
   on bit2/bit28 but strongly helpful on bit24. F422 decomposed bit24 and found
   the useful signal is high `actual_p1_a_57` bits `21-25`, with cap64 beating
-  cap132 across all three seeds.
+  cap132 across all three seeds. F423 found pure high-cluster cap96 is the new
+  bit24 lead, but its mean is seed-2-heavy; F343 composition appears to
+  interfere rather than compose.
 - [ ] **Next decision gate.** Reopen broad propagator work only if a
-  candidate-gated high-cluster priority/F343 interaction beats F343 on bit24 or
-  another known outlier.
+  replicated pure high-cluster cap sweep beats F343 on bit24 or another known
+  outlier.
 
 ## Related
 
