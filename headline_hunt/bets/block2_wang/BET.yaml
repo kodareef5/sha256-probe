@@ -30,6 +30,27 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
 last_heartbeat: '2026-05-01T15:30:00Z'
+recent_progress_2026-05-01_F450_pair_beam_breakthrough: |
+  yale-codex added pair_beam_search.py, a compensation-aware beam over
+  composed two-bit W moves. The wide c/g-penalized run broke the Path C
+  floor:
+    bit13_m916a56aa: HW44 -> HW42
+      W1 = 0x5228ed8d 0x61a1a29c 0xea6a8429 0x5dbfc83b
+      hw63 = [12,9,2,0,11,6,2,0], score 76.684
+    bit28_md1acca79: HW45 -> HW44
+      W1 = 0x307cf0e7 0x853d504a 0x78f16a5e 0x65f469f2
+      hw63 = [9,10,2,0,14,5,4,0], score 71.526
+
+  Both witnesses are cert-pin verified UNSAT with kissat 4.0.4 and
+  cadical 3.0.0, so they are confirmed near-residuals, not full
+  collisions. CNF hashes:
+    bit13 HW42: 623646b6ea0c9c3828cdcf9a63898f8c41096d148b4e922f7530c0788d1af508
+    bit28 HW44: cf67615197fc1790ca1f61540b1cc85920aae51baacc04f0716aa42487a0de2d
+
+  New panel: bit13 HW42, bit24 HW43, bit28 HW44. Next: exact local
+  closure around bit13 HW42 and continue pair-beam variants from the new
+  floor.
+
 recent_progress_2026-05-01_F449_path_c_locality_synthesis: |
   yale-codex added a synthesis note after F436-F448:
     headline_hunt/bets/block2_wang/results/20260501_F449_path_c_locality_synthesis.md

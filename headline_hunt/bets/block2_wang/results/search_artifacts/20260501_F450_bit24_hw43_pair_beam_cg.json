@@ -1,0 +1,10452 @@
+{
+  "description": "F450_bit24_hw43_pair_beam_cg: pair beam search",
+  "candidate": "bit24_mdc27e18c",
+  "init_W": [
+    "0x4be5074f",
+    "0x429efff2",
+    "0xe09458af",
+    "0xe6560e70"
+  ],
+  "init_hw": 43,
+  "init_score": 79.073,
+  "init_hw63": [
+    14,
+    5,
+    1,
+    0,
+    14,
+    8,
+    1,
+    0
+  ],
+  "slots": [
+    57,
+    58,
+    59,
+    60
+  ],
+  "pair_pool": 192,
+  "pair_rank": "hw",
+  "max_pairs": 4,
+  "beam_width": 128,
+  "max_radius": 8,
+  "penalty_regs": "c,g",
+  "penalty_weight": 2.0,
+  "pair_counts": {
+    "total": 8128,
+    "cascade1": 8128,
+    "bridge": 8128
+  },
+  "counts": {
+    "expanded": 50250,
+    "skipped_radius": 0,
+    "skipped_duplicate": 23670,
+    "cascade1": 50250,
+    "bridge": 50250,
+    "hw_le_init": 0,
+    "hw_lt_init": 0
+  },
+  "depth_summaries": [
+    {
+      "depth": 1,
+      "kept": 128,
+      "best_objective": 48.926553,
+      "best_hw": 49,
+      "best_score": 73.447
+    },
+    {
+      "depth": 2,
+      "kept": 128,
+      "best_objective": 48.926553,
+      "best_hw": 49,
+      "best_score": 73.447
+    },
+    {
+      "depth": 3,
+      "kept": 128,
+      "best_objective": 48.926553,
+      "best_hw": 49,
+      "best_score": 73.447
+    },
+    {
+      "depth": 4,
+      "kept": 128,
+      "best_objective": 48.926553,
+      "best_hw": 49,
+      "best_score": 73.447
+    }
+  ],
+  "selected_pairs": [
+    {
+      "bits": [
+        {
+          "bit_index": 124,
+          "slot": 60,
+          "bit": 28
+        },
+        {
+          "bit_index": 125,
+          "slot": 60,
+          "bit": 29
+        }
+      ],
+      "bit_indices": [
+        124,
+        125
+      ],
+      "hw_total": 49,
+      "score": 73.447,
+      "hw63": [
+        15,
+        12,
+        1,
+        0,
+        12,
+        8,
+        1,
+        0
+      ],
+      "delta_hw63": [
+        1,
+        7,
+        0,
+        0,
+        -2,
+        0,
+        0,
+        0
+      ],
+      "net_delta": 6,
+      "total_repair": 2,
+      "total_damage": 8
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 112,
+          "slot": 60,
+          "bit": 16
+        },
+        {
+          "bit_index": 113,
+          "slot": 60,
+          "bit": 17
+        }
+      ],
+      "bit_indices": [
+        112,
+        113
+      ],
+      "hw_total": 53,
+      "score": 65.75,
+      "hw63": [
+        15,
+        11,
+        3,
+        0,
+        13,
+        9,
+        2,
+        0
+      ],
+      "delta_hw63": [
+        1,
+        6,
+        2,
+        0,
+        -1,
+        1,
+        1,
+        0
+      ],
+      "net_delta": 10,
+      "total_repair": 1,
+      "total_damage": 11
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 125,
+          "slot": 60,
+          "bit": 29
+        },
+        {
+          "bit_index": 126,
+          "slot": 60,
+          "bit": 30
+        }
+      ],
+      "bit_indices": [
+        125,
+        126
+      ],
+      "hw_total": 53,
+      "score": 65.75,
+      "hw63": [
+        13,
+        10,
+        3,
+        0,
+        13,
+        12,
+        2,
+        0
+      ],
+      "delta_hw63": [
+        -1,
+        5,
+        2,
+        0,
+        -1,
+        4,
+        1,
+        0
+      ],
+      "net_delta": 10,
+      "total_repair": 2,
+      "total_damage": 12
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 96,
+          "slot": 60,
+          "bit": 0
+        },
+        {
+          "bit_index": 124,
+          "slot": 60,
+          "bit": 28
+        }
+      ],
+      "bit_indices": [
+        96,
+        124
+      ],
+      "hw_total": 54,
+      "score": 68.692,
+      "hw63": [
+        10,
+        11,
+        1,
+        0,
+        19,
+        12,
+        1,
+        0
+      ],
+      "delta_hw63": [
+        -4,
+        6,
+        0,
+        0,
+        5,
+        4,
+        0,
+        0
+      ],
+      "net_delta": 11,
+      "total_repair": 4,
+      "total_damage": 15
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 101,
+          "slot": 60,
+          "bit": 5
+        },
+        {
+          "bit_index": 112,
+          "slot": 60,
+          "bit": 16
+        }
+      ],
+      "bit_indices": [
+        101,
+        112
+      ],
+      "hw_total": 54,
+      "score": 66.2,
+      "hw63": [
+        14,
+        15,
+        2,
+        0,
+        10,
+        11,
+        2,
+        0
+      ],
+      "delta_hw63": [
+        0,
+        10,
+        1,
+        0,
+        -4,
+        3,
+        1,
+        0
+      ],
+      "net_delta": 11,
+      "total_repair": 4,
+      "total_damage": 15
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 102,
+          "slot": 60,
+          "bit": 6
+        },
+        {
+          "bit_index": 127,
+          "slot": 60,
+          "bit": 31
+        }
+      ],
+      "bit_indices": [
+        102,
+        127
+      ],
+      "hw_total": 55,
+      "score": 59.787,
+      "hw63": [
+        7,
+        8,
+        4,
+        0,
+        20,
+        12,
+        4,
+        0
+      ],
+      "delta_hw63": [
+        -7,
+        3,
+        3,
+        0,
+        6,
+        4,
+        3,
+        0
+      ],
+      "net_delta": 12,
+      "total_repair": 7,
+      "total_damage": 19
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 101,
+          "slot": 60,
+          "bit": 5
+        },
+        {
+          "bit_index": 117,
+          "slot": 60,
+          "bit": 21
+        }
+      ],
+      "bit_indices": [
+        101,
+        117
+      ],
+      "hw_total": 55,
+      "score": 56.667,
+      "hw63": [
+        13,
+        10,
+        4,
+        0,
+        14,
+        8,
+        6,
+        0
+      ],
+      "delta_hw63": [
+        -1,
+        5,
+        3,
+        0,
+        0,
+        0,
+        5,
+        0
+      ],
+      "net_delta": 12,
+      "total_repair": 1,
+      "total_damage": 13
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 98,
+          "slot": 60,
+          "bit": 2
+        },
+        {
+          "bit_index": 123,
+          "slot": 60,
+          "bit": 27
+        }
+      ],
+      "bit_indices": [
+        98,
+        123
+      ],
+      "hw_total": 56,
+      "score": 63.118,
+      "hw63": [
+        13,
+        13,
+        3,
+        0,
+        12,
+        13,
+        2,
+        0
+      ],
+      "delta_hw63": [
+        -1,
+        8,
+        2,
+        0,
+        -2,
+        5,
+        1,
+        0
+      ],
+      "net_delta": 13,
+      "total_repair": 3,
+      "total_damage": 16
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 96,
+          "slot": 60,
+          "bit": 0
+        },
+        {
+          "bit_index": 112,
+          "slot": 60,
+          "bit": 16
+        }
+      ],
+      "bit_indices": [
+        96,
+        112
+      ],
+      "hw_total": 57,
+      "score": 65.818,
+      "hw63": [
+        15,
+        13,
+        1,
+        0,
+        15,
+        12,
+        1,
+        0
+      ],
+      "delta_hw63": [
+        1,
+        8,
+        0,
+        0,
+        1,
+        4,
+        0,
+        0
+      ],
+      "net_delta": 14,
+      "total_repair": 0,
+      "total_damage": 14
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 106,
+          "slot": 60,
+          "bit": 10
+        },
+        {
+          "bit_index": 123,
+          "slot": 60,
+          "bit": 27
+        }
+      ],
+      "bit_indices": [
+        106,
+        123
+      ],
+      "hw_total": 57,
+      "score": 59.6,
+      "hw63": [
+        12,
+        11,
+        4,
+        0,
+        12,
+        15,
+        3,
+        0
+      ],
+      "delta_hw63": [
+        -2,
+        6,
+        3,
+        0,
+        -2,
+        7,
+        2,
+        0
+      ],
+      "net_delta": 14,
+      "total_repair": 4,
+      "total_damage": 18
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 96,
+          "slot": 60,
+          "bit": 0
+        },
+        {
+          "bit_index": 109,
+          "slot": 60,
+          "bit": 13
+        }
+      ],
+      "bit_indices": [
+        96,
+        109
+      ],
+      "hw_total": 58,
+      "score": 58.765,
+      "hw63": [
+        16,
+        9,
+        3,
+        0,
+        13,
+        13,
+        4,
+        0
+      ],
+      "delta_hw63": [
+        2,
+        4,
+        2,
+        0,
+        -1,
+        5,
+        3,
+        0
+      ],
+      "net_delta": 15,
+      "total_repair": 1,
+      "total_damage": 16
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 100,
+          "slot": 60,
+          "bit": 4
+        },
+        {
+          "bit_index": 122,
+          "slot": 60,
+          "bit": 26
+        }
+      ],
+      "bit_indices": [
+        100,
+        122
+      ],
+      "hw_total": 58,
+      "score": 57.4,
+      "hw63": [
+        14,
+        9,
+        2,
+        0,
+        15,
+        12,
+        6,
+        0
+      ],
+      "delta_hw63": [
+        0,
+        4,
+        1,
+        0,
+        1,
+        4,
+        5,
+        0
+      ],
+      "net_delta": 15,
+      "total_repair": 0,
+      "total_damage": 15
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 126,
+          "slot": 60,
+          "bit": 30
+        },
+        {
+          "bit_index": 127,
+          "slot": 60,
+          "bit": 31
+        }
+      ],
+      "bit_indices": [
+        126,
+        127
+      ],
+      "hw_total": 59,
+      "score": 63.895,
+      "hw63": [
+        14,
+        13,
+        1,
+        0,
+        16,
+        14,
+        1,
+        0
+      ],
+      "delta_hw63": [
+        0,
+        8,
+        0,
+        0,
+        2,
+        6,
+        0,
+        0
+      ],
+      "net_delta": 16,
+      "total_repair": 0,
+      "total_damage": 16
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 107,
+          "slot": 60,
+          "bit": 11
+        },
+        {
+          "bit_index": 123,
+          "slot": 60,
+          "bit": 27
+        }
+      ],
+      "bit_indices": [
+        107,
+        123
+      ],
+      "hw_total": 59,
+      "score": 61.636,
+      "hw63": [
+        12,
+        14,
+        2,
+        0,
+        18,
+        11,
+        2,
+        0
+      ],
+      "delta_hw63": [
+        -2,
+        9,
+        1,
+        0,
+        4,
+        3,
+        1,
+        0
+      ],
+      "net_delta": 16,
+      "total_repair": 2,
+      "total_damage": 18
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 96,
+          "slot": 60,
+          "bit": 0
+        },
+        {
+          "bit_index": 104,
+          "slot": 60,
+          "bit": 8
+        }
+      ],
+      "bit_indices": [
+        96,
+        104
+      ],
+      "hw_total": 59,
+      "score": 57.923,
+      "hw63": [
+        13,
+        12,
+        4,
+        0,
+        13,
+        14,
+        3,
+        0
+      ],
+      "delta_hw63": [
+        -1,
+        7,
+        3,
+        0,
+        -1,
+        6,
+        2,
+        0
+      ],
+      "net_delta": 16,
+      "total_repair": 2,
+      "total_damage": 18
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 122,
+          "slot": 60,
+          "bit": 26
+        },
+        {
+          "bit_index": 123,
+          "slot": 60,
+          "bit": 27
+        }
+      ],
+      "bit_indices": [
+        122,
+        123
+      ],
+      "hw_total": 60,
+      "score": 55.221,
+      "hw63": [
+        13,
+        12,
+        1,
+        0,
+        18,
+        15,
+        1,
+        0
+      ],
+      "delta_hw63": [
+        -1,
+        7,
+        0,
+        0,
+        4,
+        7,
+        0,
+        0
+      ],
+      "net_delta": 17,
+      "total_repair": 1,
+      "total_damage": 18
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 101,
+          "slot": 60,
+          "bit": 5
+        },
+        {
+          "bit_index": 124,
+          "slot": 60,
+          "bit": 28
+        }
+      ],
+      "bit_indices": [
+        101,
+        124
+      ],
+      "hw_total": 60,
+      "score": 53.004,
+      "hw63": [
+        15,
+        14,
+        2,
+        0,
+        13,
+        14,
+        2,
+        0
+      ],
+      "delta_hw63": [
+        1,
+        9,
+        1,
+        0,
+        -1,
+        6,
+        1,
+        0
+      ],
+      "net_delta": 17,
+      "total_repair": 1,
+      "total_damage": 18
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 113,
+          "slot": 60,
+          "bit": 17
+        },
+        {
+          "bit_index": 115,
+          "slot": 60,
+          "bit": 19
+        }
+      ],
+      "bit_indices": [
+        113,
+        115
+      ],
+      "hw_total": 60,
+      "score": 53.004,
+      "hw63": [
+        11,
+        15,
+        2,
+        0,
+        19,
+        11,
+        2,
+        0
+      ],
+      "delta_hw63": [
+        -3,
+        10,
+        1,
+        0,
+        5,
+        3,
+        1,
+        0
+      ],
+      "net_delta": 17,
+      "total_repair": 3,
+      "total_damage": 20
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 109,
+          "slot": 60,
+          "bit": 13
+        },
+        {
+          "bit_index": 112,
+          "slot": 60,
+          "bit": 16
+        }
+      ],
+      "bit_indices": [
+        109,
+        112
+      ],
+      "hw_total": 60,
+      "score": 50.623,
+      "hw63": [
+        13,
+        17,
+        3,
+        0,
+        13,
+        11,
+        3,
+        0
+      ],
+      "delta_hw63": [
+        -1,
+        12,
+        2,
+        0,
+        -1,
+        3,
+        2,
+        0
+      ],
+      "net_delta": 17,
+      "total_repair": 2,
+      "total_damage": 19
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 123,
+          "slot": 60,
+          "bit": 27
+        },
+        {
+          "bit_index": 126,
+          "slot": 60,
+          "bit": 30
+        }
+      ],
+      "bit_indices": [
+        123,
+        126
+      ],
+      "hw_total": 61,
+      "score": 52.079,
+      "hw63": [
+        18,
+        13,
+        2,
+        0,
+        14,
+        12,
+        2,
+        0
+      ],
+      "delta_hw63": [
+        4,
+        8,
+        1,
+        0,
+        0,
+        4,
+        1,
+        0
+      ],
+      "net_delta": 18,
+      "total_repair": 0,
+      "total_damage": 18
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 124,
+          "slot": 60,
+          "bit": 28
+        },
+        {
+          "bit_index": 127,
+          "slot": 60,
+          "bit": 31
+        }
+      ],
+      "bit_indices": [
+        124,
+        127
+      ],
+      "hw_total": 61,
+      "score": 50.933,
+      "hw63": [
+        13,
+        12,
+        3,
+        0,
+        15,
+        16,
+        2,
+        0
+      ],
+      "delta_hw63": [
+        -1,
+        7,
+        2,
+        0,
+        1,
+        8,
+        1,
+        0
+      ],
+      "net_delta": 18,
+      "total_repair": 1,
+      "total_damage": 19
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 107,
+          "slot": 60,
+          "bit": 11
+        },
+        {
+          "bit_index": 127,
+          "slot": 60,
+          "bit": 31
+        }
+      ],
+      "bit_indices": [
+        107,
+        127
+      ],
+      "hw_total": 61,
+      "score": 49.745,
+      "hw63": [
+        12,
+        15,
+        3,
+        0,
+        14,
+        14,
+        3,
+        0
+      ],
+      "delta_hw63": [
+        -2,
+        10,
+        2,
+        0,
+        0,
+        6,
+        2,
+        0
+      ],
+      "net_delta": 18,
+      "total_repair": 2,
+      "total_damage": 20
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 112,
+          "slot": 60,
+          "bit": 16
+        },
+        {
+          "bit_index": 114,
+          "slot": 60,
+          "bit": 18
+        }
+      ],
+      "bit_indices": [
+        112,
+        114
+      ],
+      "hw_total": 61,
+      "score": 48.512,
+      "hw63": [
+        15,
+        11,
+        4,
+        0,
+        14,
+        14,
+        3,
+        0
+      ],
+      "delta_hw63": [
+        1,
+        6,
+        3,
+        0,
+        0,
+        6,
+        2,
+        0
+      ],
+      "net_delta": 18,
+      "total_repair": 0,
+      "total_damage": 18
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 117,
+          "slot": 60,
+          "bit": 21
+        },
+        {
+          "bit_index": 126,
+          "slot": 60,
+          "bit": 30
+        }
+      ],
+      "bit_indices": [
+        117,
+        126
+      ],
+      "hw_total": 61,
+      "score": 44.525,
+      "hw63": [
+        10,
+        12,
+        3,
+        0,
+        14,
+        15,
+        7,
+        0
+      ],
+      "delta_hw63": [
+        -4,
+        7,
+        2,
+        0,
+        0,
+        7,
+        6,
+        0
+      ],
+      "net_delta": 18,
+      "total_repair": 4,
+      "total_damage": 22
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 123,
+          "slot": 60,
+          "bit": 27
+        },
+        {
+          "bit_index": 124,
+          "slot": 60,
+          "bit": 28
+        }
+      ],
+      "bit_indices": [
+        123,
+        124
+      ],
+      "hw_total": 62,
+      "score": 53.29,
+      "hw63": [
+        13,
+        16,
+        1,
+        0,
+        13,
+        18,
+        1,
+        0
+      ],
+      "delta_hw63": [
+        -1,
+        11,
+        0,
+        0,
+        -1,
+        10,
+        0,
+        0
+      ],
+      "net_delta": 19,
+      "total_repair": 2,
+      "total_damage": 21
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 96,
+          "slot": 60,
+          "bit": 0
+        },
+        {
+          "bit_index": 111,
+          "slot": 60,
+          "bit": 15
+        }
+      ],
+      "bit_indices": [
+        96,
+        111
+      ],
+      "hw_total": 62,
+      "score": 51.152,
+      "hw63": [
+        11,
+        19,
+        2,
+        0,
+        15,
+        13,
+        2,
+        0
+      ],
+      "delta_hw63": [
+        -3,
+        14,
+        1,
+        0,
+        1,
+        5,
+        1,
+        0
+      ],
+      "net_delta": 19,
+      "total_repair": 3,
+      "total_damage": 22
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 96,
+          "slot": 60,
+          "bit": 0
+        },
+        {
+          "bit_index": 127,
+          "slot": 60,
+          "bit": 31
+        }
+      ],
+      "bit_indices": [
+        96,
+        127
+      ],
+      "hw_total": 62,
+      "score": 51.152,
+      "hw63": [
+        15,
+        15,
+        2,
+        0,
+        15,
+        13,
+        2,
+        0
+      ],
+      "delta_hw63": [
+        1,
+        10,
+        1,
+        0,
+        1,
+        5,
+        1,
+        0
+      ],
+      "net_delta": 19,
+      "total_repair": 0,
+      "total_damage": 19
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 99,
+          "slot": 60,
+          "bit": 3
+        },
+        {
+          "bit_index": 122,
+          "slot": 60,
+          "bit": 26
+        }
+      ],
+      "bit_indices": [
+        99,
+        122
+      ],
+      "hw_total": 62,
+      "score": 51.152,
+      "hw63": [
+        17,
+        12,
+        3,
+        0,
+        16,
+        13,
+        1,
+        0
+      ],
+      "delta_hw63": [
+        3,
+        7,
+        2,
+        0,
+        2,
+        5,
+        0,
+        0
+      ],
+      "net_delta": 19,
+      "total_repair": 0,
+      "total_damage": 19
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 125,
+          "slot": 60,
+          "bit": 29
+        },
+        {
+          "bit_index": 127,
+          "slot": 60,
+          "bit": 31
+        }
+      ],
+      "bit_indices": [
+        125,
+        127
+      ],
+      "hw_total": 62,
+      "score": 51.152,
+      "hw63": [
+        12,
+        13,
+        3,
+        0,
+        17,
+        16,
+        1,
+        0
+      ],
+      "delta_hw63": [
+        -2,
+        8,
+        2,
+        0,
+        3,
+        8,
+        0,
+        0
+      ],
+      "net_delta": 19,
+      "total_repair": 2,
+      "total_damage": 21
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 96,
+          "slot": 60,
+          "bit": 0
+        },
+        {
+          "bit_index": 126,
+          "slot": 60,
+          "bit": 30
+        }
+      ],
+      "bit_indices": [
+        96,
+        126
+      ],
+      "hw_total": 62,
+      "score": 50.027,
+      "hw63": [
+        20,
+        17,
+        3,
+        0,
+        12,
+        8,
+        2,
+        0
+      ],
+      "delta_hw63": [
+        6,
+        12,
+        2,
+        0,
+        -2,
+        0,
+        1,
+        0
+      ],
+      "net_delta": 19,
+      "total_repair": 2,
+      "total_damage": 21
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 99,
+          "slot": 60,
+          "bit": 3
+        },
+        {
+          "bit_index": 127,
+          "slot": 60,
+          "bit": 31
+        }
+      ],
+      "bit_indices": [
+        99,
+        127
+      ],
+      "hw_total": 62,
+      "score": 50.027,
+      "hw63": [
+        12,
+        12,
+        2,
+        0,
+        17,
+        16,
+        3,
+        0
+      ],
+      "delta_hw63": [
+        -2,
+        7,
+        1,
+        0,
+        3,
+        8,
+        2,
+        0
+      ],
+      "net_delta": 19,
+      "total_repair": 2,
+      "total_damage": 21
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 102,
+          "slot": 60,
+          "bit": 6
+        },
+        {
+          "bit_index": 123,
+          "slot": 60,
+          "bit": 27
+        }
+      ],
+      "bit_indices": [
+        102,
+        123
+      ],
+      "hw_total": 62,
+      "score": 50.027,
+      "hw63": [
+        15,
+        15,
+        3,
+        0,
+        11,
+        16,
+        2,
+        0
+      ],
+      "delta_hw63": [
+        1,
+        10,
+        2,
+        0,
+        -3,
+        8,
+        1,
+        0
+      ],
+      "net_delta": 19,
+      "total_repair": 3,
+      "total_damage": 22
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 106,
+          "slot": 60,
+          "bit": 10
+        },
+        {
+          "bit_index": 112,
+          "slot": 60,
+          "bit": 16
+        }
+      ],
+      "bit_indices": [
+        106,
+        112
+      ],
+      "hw_total": 62,
+      "score": 50.027,
+      "hw63": [
+        12,
+        17,
+        3,
+        0,
+        15,
+        13,
+        2,
+        0
+      ],
+      "delta_hw63": [
+        -2,
+        12,
+        2,
+        0,
+        1,
+        5,
+        1,
+        0
+      ],
+      "net_delta": 19,
+      "total_repair": 2,
+      "total_damage": 21
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 106,
+          "slot": 60,
+          "bit": 10
+        },
+        {
+          "bit_index": 126,
+          "slot": 60,
+          "bit": 30
+        }
+      ],
+      "bit_indices": [
+        106,
+        126
+      ],
+      "hw_total": 62,
+      "score": 47.654,
+      "hw63": [
+        18,
+        12,
+        3,
+        0,
+        14,
+        11,
+        4,
+        0
+      ],
+      "delta_hw63": [
+        4,
+        7,
+        2,
+        0,
+        0,
+        3,
+        3,
+        0
+      ],
+      "net_delta": 19,
+      "total_repair": 0,
+      "total_damage": 19
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 112,
+          "slot": 60,
+          "bit": 16
+        },
+        {
+          "bit_index": 117,
+          "slot": 60,
+          "bit": 21
+        }
+      ],
+      "bit_indices": [
+        112,
+        117
+      ],
+      "hw_total": 62,
+      "score": 46.401,
+      "hw63": [
+        10,
+        16,
+        3,
+        0,
+        13,
+        15,
+        5,
+        0
+      ],
+      "delta_hw63": [
+        -4,
+        11,
+        2,
+        0,
+        -1,
+        7,
+        4,
+        0
+      ],
+      "net_delta": 19,
+      "total_repair": 5,
+      "total_damage": 24
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 101,
+          "slot": 60,
+          "bit": 5
+        },
+        {
+          "bit_index": 120,
+          "slot": 60,
+          "bit": 24
+        }
+      ],
+      "bit_indices": [
+        101,
+        120
+      ],
+      "hw_total": 62,
+      "score": 43.752,
+      "hw63": [
+        13,
+        10,
+        5,
+        0,
+        17,
+        12,
+        5,
+        0
+      ],
+      "delta_hw63": [
+        -1,
+        5,
+        4,
+        0,
+        3,
+        4,
+        4,
+        0
+      ],
+      "net_delta": 19,
+      "total_repair": 1,
+      "total_damage": 20
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 117,
+          "slot": 60,
+          "bit": 21
+        },
+        {
+          "bit_index": 123,
+          "slot": 60,
+          "bit": 27
+        }
+      ],
+      "bit_indices": [
+        117,
+        123
+      ],
+      "hw_total": 62,
+      "score": 43.752,
+      "hw63": [
+        13,
+        13,
+        2,
+        0,
+        15,
+        11,
+        8,
+        0
+      ],
+      "delta_hw63": [
+        -1,
+        8,
+        1,
+        0,
+        1,
+        3,
+        7,
+        0
+      ],
+      "net_delta": 19,
+      "total_repair": 1,
+      "total_damage": 20
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 99,
+          "slot": 60,
+          "bit": 3
+        },
+        {
+          "bit_index": 124,
+          "slot": 60,
+          "bit": 28
+        }
+      ],
+      "bit_indices": [
+        99,
+        124
+      ],
+      "hw_total": 63,
+      "score": 51.29,
+      "hw63": [
+        16,
+        12,
+        1,
+        0,
+        12,
+        20,
+        2,
+        0
+      ],
+      "delta_hw63": [
+        2,
+        7,
+        0,
+        0,
+        -2,
+        12,
+        1,
+        0
+      ],
+      "net_delta": 20,
+      "total_repair": 2,
+      "total_damage": 22
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 112,
+          "slot": 60,
+          "bit": 16
+        },
+        {
+          "bit_index": 122,
+          "slot": 60,
+          "bit": 26
+        }
+      ],
+      "bit_indices": [
+        112,
+        122
+      ],
+      "hw_total": 63,
+      "score": 51.29,
+      "hw63": [
+        14,
+        15,
+        1,
+        0,
+        17,
+        14,
+        2,
+        0
+      ],
+      "delta_hw63": [
+        0,
+        10,
+        0,
+        0,
+        3,
+        6,
+        1,
+        0
+      ],
+      "net_delta": 20,
+      "total_repair": 0,
+      "total_damage": 20
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 122,
+          "slot": 60,
+          "bit": 26
+        },
+        {
+          "bit_index": 126,
+          "slot": 60,
+          "bit": 30
+        }
+      ],
+      "bit_indices": [
+        122,
+        126
+      ],
+      "hw_total": 63,
+      "score": 50.222,
+      "hw63": [
+        13,
+        19,
+        2,
+        0,
+        12,
+        15,
+        2,
+        0
+      ],
+      "delta_hw63": [
+        -1,
+        14,
+        1,
+        0,
+        -2,
+        7,
+        1,
+        0
+      ],
+      "net_delta": 20,
+      "total_repair": 3,
+      "total_damage": 23
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 124,
+          "slot": 60,
+          "bit": 28
+        },
+        {
+          "bit_index": 126,
+          "slot": 60,
+          "bit": 30
+        }
+      ],
+      "bit_indices": [
+        124,
+        126
+      ],
+      "hw_total": 63,
+      "score": 50.222,
+      "hw63": [
+        13,
+        11,
+        2,
+        0,
+        17,
+        18,
+        2,
+        0
+      ],
+      "delta_hw63": [
+        -1,
+        6,
+        1,
+        0,
+        3,
+        10,
+        1,
+        0
+      ],
+      "net_delta": 20,
+      "total_repair": 1,
+      "total_damage": 21
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 99,
+          "slot": 60,
+          "bit": 3
+        },
+        {
+          "bit_index": 123,
+          "slot": 60,
+          "bit": 27
+        }
+      ],
+      "bit_indices": [
+        99,
+        123
+      ],
+      "hw_total": 63,
+      "score": 49.118,
+      "hw63": [
+        13,
+        12,
+        3,
+        0,
+        16,
+        17,
+        2,
+        0
+      ],
+      "delta_hw63": [
+        -1,
+        7,
+        2,
+        0,
+        2,
+        9,
+        1,
+        0
+      ],
+      "net_delta": 20,
+      "total_repair": 1,
+      "total_damage": 21
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 102,
+          "slot": 60,
+          "bit": 6
+        },
+        {
+          "bit_index": 122,
+          "slot": 60,
+          "bit": 26
+        }
+      ],
+      "bit_indices": [
+        102,
+        122
+      ],
+      "hw_total": 63,
+      "score": 49.118,
+      "hw63": [
+        16,
+        14,
+        3,
+        0,
+        13,
+        15,
+        2,
+        0
+      ],
+      "delta_hw63": [
+        2,
+        9,
+        2,
+        0,
+        -1,
+        7,
+        1,
+        0
+      ],
+      "net_delta": 20,
+      "total_repair": 1,
+      "total_damage": 21
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 115,
+          "slot": 60,
+          "bit": 19
+        },
+        {
+          "bit_index": 116,
+          "slot": 60,
+          "bit": 20
+        }
+      ],
+      "bit_indices": [
+        115,
+        116
+      ],
+      "hw_total": 63,
+      "score": 47.974,
+      "hw63": [
+        17,
+        13,
+        4,
+        0,
+        15,
+        12,
+        2,
+        0
+      ],
+      "delta_hw63": [
+        3,
+        8,
+        3,
+        0,
+        1,
+        4,
+        1,
+        0
+      ],
+      "net_delta": 20,
+      "total_repair": 0,
+      "total_damage": 20
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 118,
+          "slot": 60,
+          "bit": 22
+        },
+        {
+          "bit_index": 124,
+          "slot": 60,
+          "bit": 28
+        }
+      ],
+      "bit_indices": [
+        118,
+        124
+      ],
+      "hw_total": 63,
+      "score": 47.974,
+      "hw63": [
+        11,
+        14,
+        2,
+        0,
+        16,
+        16,
+        4,
+        0
+      ],
+      "delta_hw63": [
+        -3,
+        9,
+        1,
+        0,
+        2,
+        8,
+        3,
+        0
+      ],
+      "net_delta": 20,
+      "total_repair": 3,
+      "total_damage": 23
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 119,
+          "slot": 60,
+          "bit": 23
+        },
+        {
+          "bit_index": 124,
+          "slot": 60,
+          "bit": 28
+        }
+      ],
+      "bit_indices": [
+        119,
+        124
+      ],
+      "hw_total": 63,
+      "score": 47.974,
+      "hw63": [
+        13,
+        16,
+        4,
+        0,
+        12,
+        16,
+        2,
+        0
+      ],
+      "delta_hw63": [
+        -1,
+        11,
+        3,
+        0,
+        -2,
+        8,
+        1,
+        0
+      ],
+      "net_delta": 20,
+      "total_repair": 3,
+      "total_damage": 23
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 104,
+          "slot": 60,
+          "bit": 8
+        },
+        {
+          "bit_index": 122,
+          "slot": 60,
+          "bit": 26
+        }
+      ],
+      "bit_indices": [
+        104,
+        122
+      ],
+      "hw_total": 63,
+      "score": 46.79,
+      "hw63": [
+        17,
+        14,
+        5,
+        0,
+        10,
+        15,
+        2,
+        0
+      ],
+      "delta_hw63": [
+        3,
+        9,
+        4,
+        0,
+        -4,
+        7,
+        1,
+        0
+      ],
+      "net_delta": 20,
+      "total_repair": 4,
+      "total_damage": 24
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 106,
+          "slot": 60,
+          "bit": 10
+        },
+        {
+          "bit_index": 107,
+          "slot": 60,
+          "bit": 11
+        }
+      ],
+      "bit_indices": [
+        106,
+        107
+      ],
+      "hw_total": 63,
+      "score": 45.563,
+      "hw63": [
+        19,
+        12,
+        5,
+        0,
+        11,
+        13,
+        3,
+        0
+      ],
+      "delta_hw63": [
+        5,
+        7,
+        4,
+        0,
+        -3,
+        5,
+        2,
+        0
+      ],
+      "net_delta": 20,
+      "total_repair": 3,
+      "total_damage": 23
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 109,
+          "slot": 60,
+          "bit": 13
+        },
+        {
+          "bit_index": 120,
+          "slot": 60,
+          "bit": 24
+        }
+      ],
+      "bit_indices": [
+        109,
+        120
+      ],
+      "hw_total": 63,
+      "score": 44.29,
+      "hw63": [
+        12,
+        15,
+        4,
+        0,
+        16,
+        11,
+        5,
+        0
+      ],
+      "delta_hw63": [
+        -2,
+        10,
+        3,
+        0,
+        2,
+        3,
+        4,
+        0
+      ],
+      "net_delta": 20,
+      "total_repair": 2,
+      "total_damage": 22
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 102,
+          "slot": 60,
+          "bit": 6
+        },
+        {
+          "bit_index": 106,
+          "slot": 60,
+          "bit": 10
+        }
+      ],
+      "bit_indices": [
+        102,
+        106
+      ],
+      "hw_total": 63,
+      "score": 42.969,
+      "hw63": [
+        10,
+        16,
+        4,
+        0,
+        12,
+        15,
+        6,
+        0
+      ],
+      "delta_hw63": [
+        -4,
+        11,
+        3,
+        0,
+        -2,
+        7,
+        5,
+        0
+      ],
+      "net_delta": 20,
+      "total_repair": 6,
+      "total_damage": 26
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 91,
+          "slot": 59,
+          "bit": 27
+        },
+        {
+          "bit_index": 98,
+          "slot": 60,
+          "bit": 2
+        }
+      ],
+      "bit_indices": [
+        91,
+        98
+      ],
+      "hw_total": 63,
+      "score": 38.69,
+      "hw63": [
+        12,
+        16,
+        6,
+        0,
+        11,
+        11,
+        7,
+        0
+      ],
+      "delta_hw63": [
+        -2,
+        11,
+        5,
+        0,
+        -3,
+        3,
+        6,
+        0
+      ],
+      "net_delta": 20,
+      "total_repair": 5,
+      "total_damage": 25
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 123,
+          "slot": 60,
+          "bit": 27
+        },
+        {
+          "bit_index": 125,
+          "slot": 60,
+          "bit": 29
+        }
+      ],
+      "bit_indices": [
+        123,
+        125
+      ],
+      "hw_total": 64,
+      "score": 51.355,
+      "hw63": [
+        17,
+        13,
+        1,
+        0,
+        21,
+        11,
+        1,
+        0
+      ],
+      "delta_hw63": [
+        3,
+        8,
+        0,
+        0,
+        7,
+        3,
+        0,
+        0
+      ],
+      "net_delta": 21,
+      "total_repair": 0,
+      "total_damage": 21
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 96,
+          "slot": 60,
+          "bit": 0
+        },
+        {
+          "bit_index": 122,
+          "slot": 60,
+          "bit": 26
+        }
+      ],
+      "bit_indices": [
+        96,
+        122
+      ],
+      "hw_total": 64,
+      "score": 50.339,
+      "hw63": [
+        14,
+        17,
+        1,
+        0,
+        16,
+        14,
+        2,
+        0
+      ],
+      "delta_hw63": [
+        0,
+        12,
+        0,
+        0,
+        2,
+        6,
+        1,
+        0
+      ],
+      "net_delta": 21,
+      "total_repair": 0,
+      "total_damage": 21
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 96,
+          "slot": 60,
+          "bit": 0
+        },
+        {
+          "bit_index": 120,
+          "slot": 60,
+          "bit": 24
+        }
+      ],
+      "bit_indices": [
+        96,
+        120
+      ],
+      "hw_total": 64,
+      "score": 49.29,
+      "hw63": [
+        14,
+        14,
+        2,
+        0,
+        19,
+        13,
+        2,
+        0
+      ],
+      "delta_hw63": [
+        0,
+        9,
+        1,
+        0,
+        5,
+        5,
+        1,
+        0
+      ],
+      "net_delta": 21,
+      "total_repair": 0,
+      "total_damage": 21
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 99,
+          "slot": 60,
+          "bit": 3
+        },
+        {
+          "bit_index": 125,
+          "slot": 60,
+          "bit": 29
+        }
+      ],
+      "bit_indices": [
+        99,
+        125
+      ],
+      "hw_total": 64,
+      "score": 48.205,
+      "hw63": [
+        14,
+        18,
+        3,
+        0,
+        11,
+        16,
+        2,
+        0
+      ],
+      "delta_hw63": [
+        0,
+        13,
+        2,
+        0,
+        -3,
+        8,
+        1,
+        0
+      ],
+      "net_delta": 21,
+      "total_repair": 3,
+      "total_damage": 24
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 96,
+          "slot": 60,
+          "bit": 0
+        },
+        {
+          "bit_index": 100,
+          "slot": 60,
+          "bit": 4
+        }
+      ],
+      "bit_indices": [
+        96,
+        100
+      ],
+      "hw_total": 64,
+      "score": 47.083,
+      "hw63": [
+        20,
+        15,
+        2,
+        0,
+        12,
+        11,
+        4,
+        0
+      ],
+      "delta_hw63": [
+        6,
+        10,
+        1,
+        0,
+        -2,
+        3,
+        3,
+        0
+      ],
+      "net_delta": 21,
+      "total_repair": 2,
+      "total_damage": 23
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 101,
+          "slot": 60,
+          "bit": 5
+        },
+        {
+          "bit_index": 105,
+          "slot": 60,
+          "bit": 9
+        }
+      ],
+      "bit_indices": [
+        101,
+        105
+      ],
+      "hw_total": 64,
+      "score": 44.719,
+      "hw63": [
+        9,
+        18,
+        4,
+        0,
+        14,
+        15,
+        4,
+        0
+      ],
+      "delta_hw63": [
+        -5,
+        13,
+        3,
+        0,
+        0,
+        7,
+        3,
+        0
+      ],
+      "net_delta": 21,
+      "total_repair": 5,
+      "total_damage": 26
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 111,
+          "slot": 60,
+          "bit": 15
+        },
+        {
+          "bit_index": 121,
+          "slot": 60,
+          "bit": 25
+        }
+      ],
+      "bit_indices": [
+        111,
+        121
+      ],
+      "hw_total": 64,
+      "score": 40.837,
+      "hw63": [
+        15,
+        14,
+        7,
+        0,
+        13,
+        11,
+        4,
+        0
+      ],
+      "delta_hw63": [
+        1,
+        9,
+        6,
+        0,
+        -1,
+        3,
+        3,
+        0
+      ],
+      "net_delta": 21,
+      "total_repair": 1,
+      "total_damage": 22
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 96,
+          "slot": 60,
+          "bit": 0
+        },
+        {
+          "bit_index": 105,
+          "slot": 60,
+          "bit": 9
+        }
+      ],
+      "bit_indices": [
+        96,
+        105
+      ],
+      "hw_total": 65,
+      "score": 48.356,
+      "hw63": [
+        18,
+        14,
+        2,
+        0,
+        16,
+        13,
+        2,
+        0
+      ],
+      "delta_hw63": [
+        4,
+        9,
+        1,
+        0,
+        2,
+        5,
+        1,
+        0
+      ],
+      "net_delta": 22,
+      "total_repair": 0,
+      "total_damage": 22
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 101,
+          "slot": 60,
+          "bit": 5
+        },
+        {
+          "bit_index": 102,
+          "slot": 60,
+          "bit": 6
+        }
+      ],
+      "bit_indices": [
+        101,
+        102
+      ],
+      "hw_total": 65,
+      "score": 48.356,
+      "hw63": [
+        14,
+        16,
+        2,
+        0,
+        13,
+        18,
+        2,
+        0
+      ],
+      "delta_hw63": [
+        0,
+        11,
+        1,
+        0,
+        -1,
+        10,
+        1,
+        0
+      ],
+      "net_delta": 22,
+      "total_repair": 1,
+      "total_damage": 23
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 96,
+          "slot": 60,
+          "bit": 0
+        },
+        {
+          "bit_index": 102,
+          "slot": 60,
+          "bit": 6
+        }
+      ],
+      "bit_indices": [
+        96,
+        102
+      ],
+      "hw_total": 65,
+      "score": 46.188,
+      "hw63": [
+        14,
+        11,
+        4,
+        0,
+        19,
+        15,
+        2,
+        0
+      ],
+      "delta_hw63": [
+        0,
+        6,
+        3,
+        0,
+        5,
+        7,
+        1,
+        0
+      ],
+      "net_delta": 22,
+      "total_repair": 0,
+      "total_damage": 22
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 122,
+          "slot": 60,
+          "bit": 26
+        },
+        {
+          "bit_index": 127,
+          "slot": 60,
+          "bit": 31
+        }
+      ],
+      "bit_indices": [
+        122,
+        127
+      ],
+      "hw_total": 65,
+      "score": 46.188,
+      "hw63": [
+        17,
+        12,
+        3,
+        0,
+        17,
+        13,
+        3,
+        0
+      ],
+      "delta_hw63": [
+        3,
+        7,
+        2,
+        0,
+        3,
+        5,
+        2,
+        0
+      ],
+      "net_delta": 22,
+      "total_repair": 0,
+      "total_damage": 22
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 107,
+          "slot": 60,
+          "bit": 11
+        },
+        {
+          "bit_index": 121,
+          "slot": 60,
+          "bit": 25
+        }
+      ],
+      "bit_indices": [
+        107,
+        121
+      ],
+      "hw_total": 65,
+      "score": 45.049,
+      "hw63": [
+        17,
+        16,
+        3,
+        0,
+        13,
+        12,
+        4,
+        0
+      ],
+      "delta_hw63": [
+        3,
+        11,
+        2,
+        0,
+        -1,
+        4,
+        3,
+        0
+      ],
+      "net_delta": 22,
+      "total_repair": 1,
+      "total_damage": 23
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 112,
+          "slot": 60,
+          "bit": 16
+        },
+        {
+          "bit_index": 120,
+          "slot": 60,
+          "bit": 24
+        }
+      ],
+      "bit_indices": [
+        112,
+        120
+      ],
+      "hw_total": 65,
+      "score": 45.049,
+      "hw63": [
+        14,
+        17,
+        4,
+        0,
+        14,
+        13,
+        3,
+        0
+      ],
+      "delta_hw63": [
+        0,
+        12,
+        3,
+        0,
+        0,
+        5,
+        2,
+        0
+      ],
+      "net_delta": 22,
+      "total_repair": 0,
+      "total_damage": 22
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 102,
+          "slot": 60,
+          "bit": 6
+        },
+        {
+          "bit_index": 126,
+          "slot": 60,
+          "bit": 30
+        }
+      ],
+      "bit_indices": [
+        102,
+        126
+      ],
+      "hw_total": 65,
+      "score": 43.869,
+      "hw63": [
+        14,
+        15,
+        4,
+        0,
+        16,
+        12,
+        4,
+        0
+      ],
+      "delta_hw63": [
+        0,
+        10,
+        3,
+        0,
+        2,
+        4,
+        3,
+        0
+      ],
+      "net_delta": 22,
+      "total_repair": 0,
+      "total_damage": 22
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 104,
+          "slot": 60,
+          "bit": 8
+        },
+        {
+          "bit_index": 107,
+          "slot": 60,
+          "bit": 11
+        }
+      ],
+      "bit_indices": [
+        104,
+        107
+      ],
+      "hw_total": 65,
+      "score": 43.869,
+      "hw63": [
+        18,
+        16,
+        4,
+        0,
+        11,
+        12,
+        4,
+        0
+      ],
+      "delta_hw63": [
+        4,
+        11,
+        3,
+        0,
+        -3,
+        4,
+        3,
+        0
+      ],
+      "net_delta": 22,
+      "total_repair": 3,
+      "total_damage": 25
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 106,
+          "slot": 60,
+          "bit": 10
+        },
+        {
+          "bit_index": 122,
+          "slot": 60,
+          "bit": 26
+        }
+      ],
+      "bit_indices": [
+        106,
+        122
+      ],
+      "hw_total": 65,
+      "score": 43.869,
+      "hw63": [
+        13,
+        13,
+        4,
+        0,
+        17,
+        14,
+        4,
+        0
+      ],
+      "delta_hw63": [
+        -1,
+        8,
+        3,
+        0,
+        3,
+        6,
+        3,
+        0
+      ],
+      "net_delta": 22,
+      "total_repair": 1,
+      "total_damage": 23
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 116,
+          "slot": 60,
+          "bit": 20
+        },
+        {
+          "bit_index": 127,
+          "slot": 60,
+          "bit": 31
+        }
+      ],
+      "bit_indices": [
+        116,
+        127
+      ],
+      "hw_total": 65,
+      "score": 42.647,
+      "hw63": [
+        12,
+        10,
+        6,
+        0,
+        17,
+        17,
+        3,
+        0
+      ],
+      "delta_hw63": [
+        -2,
+        5,
+        5,
+        0,
+        3,
+        9,
+        2,
+        0
+      ],
+      "net_delta": 22,
+      "total_repair": 2,
+      "total_damage": 24
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 100,
+          "slot": 60,
+          "bit": 4
+        },
+        {
+          "bit_index": 121,
+          "slot": 60,
+          "bit": 25
+        }
+      ],
+      "bit_indices": [
+        100,
+        121
+      ],
+      "hw_total": 65,
+      "score": 40.068,
+      "hw63": [
+        19,
+        7,
+        6,
+        0,
+        15,
+        13,
+        5,
+        0
+      ],
+      "delta_hw63": [
+        5,
+        2,
+        5,
+        0,
+        1,
+        5,
+        4,
+        0
+      ],
+      "net_delta": 22,
+      "total_repair": 0,
+      "total_damage": 22
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 100,
+          "slot": 60,
+          "bit": 4
+        },
+        {
+          "bit_index": 117,
+          "slot": 60,
+          "bit": 21
+        }
+      ],
+      "bit_indices": [
+        100,
+        117
+      ],
+      "hw_total": 65,
+      "score": 38.705,
+      "hw63": [
+        20,
+        13,
+        6,
+        0,
+        11,
+        9,
+        6,
+        0
+      ],
+      "delta_hw63": [
+        6,
+        8,
+        5,
+        0,
+        -3,
+        1,
+        5,
+        0
+      ],
+      "net_delta": 22,
+      "total_repair": 3,
+      "total_damage": 25
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 97,
+          "slot": 60,
+          "bit": 1
+        },
+        {
+          "bit_index": 115,
+          "slot": 60,
+          "bit": 19
+        }
+      ],
+      "bit_indices": [
+        97,
+        115
+      ],
+      "hw_total": 65,
+      "score": 35.819,
+      "hw63": [
+        10,
+        14,
+        5,
+        0,
+        10,
+        17,
+        9,
+        0
+      ],
+      "delta_hw63": [
+        -4,
+        9,
+        4,
+        0,
+        -4,
+        9,
+        8,
+        0
+      ],
+      "net_delta": 22,
+      "total_repair": 8,
+      "total_damage": 30
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 83,
+          "slot": 59,
+          "bit": 19
+        },
+        {
+          "bit_index": 110,
+          "slot": 60,
+          "bit": 14
+        }
+      ],
+      "bit_indices": [
+        83,
+        110
+      ],
+      "hw_total": 65,
+      "score": 27.507,
+      "hw63": [
+        9,
+        15,
+        7,
+        0,
+        12,
+        10,
+        12,
+        0
+      ],
+      "delta_hw63": [
+        -5,
+        10,
+        6,
+        0,
+        -2,
+        2,
+        11,
+        0
+      ],
+      "net_delta": 22,
+      "total_repair": 7,
+      "total_damage": 29
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 96,
+          "slot": 60,
+          "bit": 0
+        },
+        {
+          "bit_index": 123,
+          "slot": 60,
+          "bit": 27
+        }
+      ],
+      "bit_indices": [
+        96,
+        123
+      ],
+      "hw_total": 66,
+      "score": 48.433,
+      "hw63": [
+        22,
+        9,
+        1,
+        0,
+        16,
+        16,
+        2,
+        0
+      ],
+      "delta_hw63": [
+        8,
+        4,
+        0,
+        0,
+        2,
+        8,
+        1,
+        0
+      ],
+      "net_delta": 23,
+      "total_repair": 0,
+      "total_damage": 23
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 105,
+          "slot": 60,
+          "bit": 9
+        },
+        {
+          "bit_index": 112,
+          "slot": 60,
+          "bit": 16
+        }
+      ],
+      "bit_indices": [
+        105,
+        112
+      ],
+      "hw_total": 66,
+      "score": 47.419,
+      "hw63": [
+        20,
+        12,
+        2,
+        0,
+        17,
+        13,
+        2,
+        0
+      ],
+      "delta_hw63": [
+        6,
+        7,
+        1,
+        0,
+        3,
+        5,
+        1,
+        0
+      ],
+      "net_delta": 23,
+      "total_repair": 0,
+      "total_damage": 23
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 105,
+          "slot": 60,
+          "bit": 9
+        },
+        {
+          "bit_index": 123,
+          "slot": 60,
+          "bit": 27
+        }
+      ],
+      "bit_indices": [
+        105,
+        123
+      ],
+      "hw_total": 66,
+      "score": 47.419,
+      "hw63": [
+        16,
+        17,
+        2,
+        0,
+        15,
+        14,
+        2,
+        0
+      ],
+      "delta_hw63": [
+        2,
+        12,
+        1,
+        0,
+        1,
+        6,
+        1,
+        0
+      ],
+      "net_delta": 23,
+      "total_repair": 0,
+      "total_damage": 23
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 120,
+          "slot": 60,
+          "bit": 24
+        },
+        {
+          "bit_index": 121,
+          "slot": 60,
+          "bit": 25
+        }
+      ],
+      "bit_indices": [
+        120,
+        121
+      ],
+      "hw_total": 66,
+      "score": 47.419,
+      "hw63": [
+        13,
+        18,
+        2,
+        0,
+        18,
+        13,
+        2,
+        0
+      ],
+      "delta_hw63": [
+        -1,
+        13,
+        1,
+        0,
+        4,
+        5,
+        1,
+        0
+      ],
+      "net_delta": 23,
+      "total_repair": 1,
+      "total_damage": 24
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 96,
+          "slot": 60,
+          "bit": 0
+        },
+        {
+          "bit_index": 107,
+          "slot": 60,
+          "bit": 11
+        }
+      ],
+      "bit_indices": [
+        96,
+        107
+      ],
+      "hw_total": 66,
+      "score": 46.372,
+      "hw63": [
+        19,
+        13,
+        3,
+        0,
+        18,
+        11,
+        2,
+        0
+      ],
+      "delta_hw63": [
+        5,
+        8,
+        2,
+        0,
+        4,
+        3,
+        1,
+        0
+      ],
+      "net_delta": 23,
+      "total_repair": 0,
+      "total_damage": 23
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 96,
+          "slot": 60,
+          "bit": 0
+        },
+        {
+          "bit_index": 119,
+          "slot": 60,
+          "bit": 23
+        }
+      ],
+      "bit_indices": [
+        96,
+        119
+      ],
+      "hw_total": 66,
+      "score": 46.372,
+      "hw63": [
+        15,
+        17,
+        2,
+        0,
+        16,
+        13,
+        3,
+        0
+      ],
+      "delta_hw63": [
+        1,
+        12,
+        1,
+        0,
+        2,
+        5,
+        2,
+        0
+      ],
+      "net_delta": 23,
+      "total_repair": 0,
+      "total_damage": 23
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 109,
+          "slot": 60,
+          "bit": 13
+        },
+        {
+          "bit_index": 122,
+          "slot": 60,
+          "bit": 26
+        }
+      ],
+      "bit_indices": [
+        109,
+        122
+      ],
+      "hw_total": 66,
+      "score": 46.372,
+      "hw63": [
+        16,
+        12,
+        2,
+        0,
+        15,
+        18,
+        3,
+        0
+      ],
+      "delta_hw63": [
+        2,
+        7,
+        1,
+        0,
+        1,
+        10,
+        2,
+        0
+      ],
+      "net_delta": 23,
+      "total_repair": 0,
+      "total_damage": 23
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 116,
+          "slot": 60,
+          "bit": 20
+        },
+        {
+          "bit_index": 123,
+          "slot": 60,
+          "bit": 27
+        }
+      ],
+      "bit_indices": [
+        116,
+        123
+      ],
+      "hw_total": 66,
+      "score": 46.372,
+      "hw63": [
+        14,
+        11,
+        2,
+        0,
+        20,
+        16,
+        3,
+        0
+      ],
+      "delta_hw63": [
+        0,
+        6,
+        1,
+        0,
+        6,
+        8,
+        2,
+        0
+      ],
+      "net_delta": 23,
+      "total_repair": 0,
+      "total_damage": 23
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 114,
+          "slot": 60,
+          "bit": 18
+        },
+        {
+          "bit_index": 116,
+          "slot": 60,
+          "bit": 20
+        }
+      ],
+      "bit_indices": [
+        114,
+        116
+      ],
+      "hw_total": 66,
+      "score": 45.29,
+      "hw63": [
+        18,
+        15,
+        4,
+        0,
+        16,
+        11,
+        2,
+        0
+      ],
+      "delta_hw63": [
+        4,
+        10,
+        3,
+        0,
+        2,
+        3,
+        1,
+        0
+      ],
+      "net_delta": 23,
+      "total_repair": 0,
+      "total_damage": 23
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 97,
+          "slot": 60,
+          "bit": 1
+        },
+        {
+          "bit_index": 123,
+          "slot": 60,
+          "bit": 27
+        }
+      ],
+      "bit_indices": [
+        97,
+        123
+      ],
+      "hw_total": 66,
+      "score": 44.171,
+      "hw63": [
+        14,
+        13,
+        4,
+        0,
+        16,
+        16,
+        3,
+        0
+      ],
+      "delta_hw63": [
+        0,
+        8,
+        3,
+        0,
+        2,
+        8,
+        2,
+        0
+      ],
+      "net_delta": 23,
+      "total_repair": 0,
+      "total_damage": 23
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 98,
+          "slot": 60,
+          "bit": 2
+        },
+        {
+          "bit_index": 122,
+          "slot": 60,
+          "bit": 26
+        }
+      ],
+      "bit_indices": [
+        98,
+        122
+      ],
+      "hw_total": 66,
+      "score": 44.171,
+      "hw63": [
+        10,
+        15,
+        4,
+        0,
+        14,
+        20,
+        3,
+        0
+      ],
+      "delta_hw63": [
+        -4,
+        10,
+        3,
+        0,
+        0,
+        12,
+        2,
+        0
+      ],
+      "net_delta": 23,
+      "total_repair": 4,
+      "total_damage": 27
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 107,
+          "slot": 60,
+          "bit": 11
+        },
+        {
+          "bit_index": 126,
+          "slot": 60,
+          "bit": 30
+        }
+      ],
+      "bit_indices": [
+        107,
+        126
+      ],
+      "hw_total": 66,
+      "score": 44.171,
+      "hw63": [
+        13,
+        16,
+        4,
+        0,
+        17,
+        13,
+        3,
+        0
+      ],
+      "delta_hw63": [
+        -1,
+        11,
+        3,
+        0,
+        3,
+        5,
+        2,
+        0
+      ],
+      "net_delta": 23,
+      "total_repair": 1,
+      "total_damage": 24
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 111,
+          "slot": 60,
+          "bit": 15
+        },
+        {
+          "bit_index": 127,
+          "slot": 60,
+          "bit": 31
+        }
+      ],
+      "bit_indices": [
+        111,
+        127
+      ],
+      "hw_total": 66,
+      "score": 44.171,
+      "hw63": [
+        18,
+        16,
+        4,
+        0,
+        13,
+        12,
+        3,
+        0
+      ],
+      "delta_hw63": [
+        4,
+        11,
+        3,
+        0,
+        -1,
+        4,
+        2,
+        0
+      ],
+      "net_delta": 23,
+      "total_repair": 1,
+      "total_damage": 24
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 103,
+          "slot": 60,
+          "bit": 7
+        },
+        {
+          "bit_index": 110,
+          "slot": 60,
+          "bit": 14
+        }
+      ],
+      "bit_indices": [
+        103,
+        110
+      ],
+      "hw_total": 66,
+      "score": 43.014,
+      "hw63": [
+        11,
+        18,
+        3,
+        0,
+        11,
+        18,
+        5,
+        0
+      ],
+      "delta_hw63": [
+        -3,
+        13,
+        2,
+        0,
+        -3,
+        10,
+        4,
+        0
+      ],
+      "net_delta": 23,
+      "total_repair": 6,
+      "total_damage": 29
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 104,
+          "slot": 60,
+          "bit": 8
+        },
+        {
+          "bit_index": 105,
+          "slot": 60,
+          "bit": 9
+        }
+      ],
+      "bit_indices": [
+        104,
+        105
+      ],
+      "hw_total": 66,
+      "score": 41.816,
+      "hw63": [
+        11,
+        19,
+        4,
+        0,
+        17,
+        10,
+        5,
+        0
+      ],
+      "delta_hw63": [
+        -3,
+        14,
+        3,
+        0,
+        3,
+        2,
+        4,
+        0
+      ],
+      "net_delta": 23,
+      "total_repair": 3,
+      "total_damage": 26
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 107,
+          "slot": 60,
+          "bit": 11
+        },
+        {
+          "bit_index": 109,
+          "slot": 60,
+          "bit": 13
+        }
+      ],
+      "bit_indices": [
+        107,
+        109
+      ],
+      "hw_total": 66,
+      "score": 41.816,
+      "hw63": [
+        20,
+        17,
+        4,
+        0,
+        11,
+        9,
+        5,
+        0
+      ],
+      "delta_hw63": [
+        6,
+        12,
+        3,
+        0,
+        -3,
+        1,
+        4,
+        0
+      ],
+      "net_delta": 23,
+      "total_repair": 3,
+      "total_damage": 26
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 107,
+          "slot": 60,
+          "bit": 11
+        },
+        {
+          "bit_index": 111,
+          "slot": 60,
+          "bit": 15
+        }
+      ],
+      "bit_indices": [
+        107,
+        111
+      ],
+      "hw_total": 66,
+      "score": 41.816,
+      "hw63": [
+        17,
+        10,
+        6,
+        0,
+        17,
+        13,
+        3,
+        0
+      ],
+      "delta_hw63": [
+        3,
+        5,
+        5,
+        0,
+        3,
+        5,
+        2,
+        0
+      ],
+      "net_delta": 23,
+      "total_repair": 0,
+      "total_damage": 23
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 120,
+          "slot": 60,
+          "bit": 24
+        },
+        {
+          "bit_index": 125,
+          "slot": 60,
+          "bit": 29
+        }
+      ],
+      "bit_indices": [
+        120,
+        125
+      ],
+      "hw_total": 66,
+      "score": 40.576,
+      "hw63": [
+        15,
+        15,
+        4,
+        0,
+        14,
+        12,
+        6,
+        0
+      ],
+      "delta_hw63": [
+        1,
+        10,
+        3,
+        0,
+        0,
+        4,
+        5,
+        0
+      ],
+      "net_delta": 23,
+      "total_repair": 0,
+      "total_damage": 23
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 114,
+          "slot": 60,
+          "bit": 18
+        },
+        {
+          "bit_index": 125,
+          "slot": 60,
+          "bit": 29
+        }
+      ],
+      "bit_indices": [
+        114,
+        125
+      ],
+      "hw_total": 66,
+      "score": 37.957,
+      "hw63": [
+        14,
+        14,
+        8,
+        0,
+        15,
+        11,
+        4,
+        0
+      ],
+      "delta_hw63": [
+        0,
+        9,
+        7,
+        0,
+        1,
+        3,
+        3,
+        0
+      ],
+      "net_delta": 23,
+      "total_repair": 0,
+      "total_damage": 23
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 115,
+          "slot": 60,
+          "bit": 19
+        },
+        {
+          "bit_index": 121,
+          "slot": 60,
+          "bit": 25
+        }
+      ],
+      "bit_indices": [
+        115,
+        121
+      ],
+      "hw_total": 66,
+      "score": 37.957,
+      "hw63": [
+        17,
+        15,
+        7,
+        0,
+        15,
+        7,
+        5,
+        0
+      ],
+      "delta_hw63": [
+        3,
+        10,
+        6,
+        0,
+        1,
+        -1,
+        4,
+        0
+      ],
+      "net_delta": 23,
+      "total_repair": 1,
+      "total_damage": 24
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 67,
+          "slot": 59,
+          "bit": 3
+        },
+        {
+          "bit_index": 74,
+          "slot": 59,
+          "bit": 10
+        }
+      ],
+      "bit_indices": [
+        67,
+        74
+      ],
+      "hw_total": 66,
+      "score": 36.573,
+      "hw63": [
+        16,
+        13,
+        8,
+        0,
+        10,
+        14,
+        5,
+        0
+      ],
+      "delta_hw63": [
+        2,
+        8,
+        7,
+        0,
+        -4,
+        6,
+        4,
+        0
+      ],
+      "net_delta": 23,
+      "total_repair": 4,
+      "total_damage": 27
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 71,
+          "slot": 59,
+          "bit": 7
+        },
+        {
+          "bit_index": 111,
+          "slot": 60,
+          "bit": 15
+        }
+      ],
+      "bit_indices": [
+        71,
+        111
+      ],
+      "hw_total": 66,
+      "score": 36.573,
+      "hw63": [
+        16,
+        9,
+        6,
+        0,
+        15,
+        13,
+        7,
+        0
+      ],
+      "delta_hw63": [
+        2,
+        4,
+        5,
+        0,
+        1,
+        5,
+        6,
+        0
+      ],
+      "net_delta": 23,
+      "total_repair": 0,
+      "total_damage": 23
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 23,
+          "slot": 57,
+          "bit": 23
+        },
+        {
+          "bit_index": 88,
+          "slot": 59,
+          "bit": 24
+        }
+      ],
+      "bit_indices": [
+        23,
+        88
+      ],
+      "hw_total": 66,
+      "score": 33.643,
+      "hw63": [
+        10,
+        17,
+        8,
+        0,
+        15,
+        9,
+        7,
+        0
+      ],
+      "delta_hw63": [
+        -4,
+        12,
+        7,
+        0,
+        1,
+        1,
+        6,
+        0
+      ],
+      "net_delta": 23,
+      "total_repair": 4,
+      "total_damage": 27
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 85,
+          "slot": 59,
+          "bit": 21
+        },
+        {
+          "bit_index": 106,
+          "slot": 60,
+          "bit": 10
+        }
+      ],
+      "bit_indices": [
+        85,
+        106
+      ],
+      "hw_total": 66,
+      "score": 33.643,
+      "hw63": [
+        8,
+        14,
+        8,
+        0,
+        14,
+        15,
+        7,
+        0
+      ],
+      "delta_hw63": [
+        -6,
+        9,
+        7,
+        0,
+        0,
+        7,
+        6,
+        0
+      ],
+      "net_delta": 23,
+      "total_repair": 6,
+      "total_damage": 29
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 112,
+          "slot": 60,
+          "bit": 16
+        },
+        {
+          "bit_index": 123,
+          "slot": 60,
+          "bit": 27
+        }
+      ],
+      "bit_indices": [
+        112,
+        123
+      ],
+      "hw_total": 67,
+      "score": 48.444,
+      "hw63": [
+        15,
+        15,
+        1,
+        0,
+        19,
+        16,
+        1,
+        0
+      ],
+      "delta_hw63": [
+        1,
+        10,
+        0,
+        0,
+        5,
+        8,
+        0,
+        0
+      ],
+      "net_delta": 24,
+      "total_repair": 0,
+      "total_damage": 24
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 99,
+          "slot": 60,
+          "bit": 3
+        },
+        {
+          "bit_index": 112,
+          "slot": 60,
+          "bit": 16
+        }
+      ],
+      "bit_indices": [
+        99,
+        112
+      ],
+      "hw_total": 67,
+      "score": 47.477,
+      "hw63": [
+        15,
+        18,
+        1,
+        0,
+        16,
+        15,
+        2,
+        0
+      ],
+      "delta_hw63": [
+        1,
+        13,
+        0,
+        0,
+        2,
+        7,
+        1,
+        0
+      ],
+      "net_delta": 24,
+      "total_repair": 0,
+      "total_damage": 24
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 122,
+          "slot": 60,
+          "bit": 26
+        },
+        {
+          "bit_index": 124,
+          "slot": 60,
+          "bit": 28
+        }
+      ],
+      "bit_indices": [
+        122,
+        124
+      ],
+      "hw_total": 67,
+      "score": 47.477,
+      "hw63": [
+        19,
+        18,
+        1,
+        0,
+        14,
+        13,
+        2,
+        0
+      ],
+      "delta_hw63": [
+        5,
+        13,
+        0,
+        0,
+        0,
+        5,
+        1,
+        0
+      ],
+      "net_delta": 24,
+      "total_repair": 0,
+      "total_damage": 24
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 96,
+          "slot": 60,
+          "bit": 0
+        },
+        {
+          "bit_index": 99,
+          "slot": 60,
+          "bit": 3
+        }
+      ],
+      "bit_indices": [
+        96,
+        99
+      ],
+      "hw_total": 67,
+      "score": 46.48,
+      "hw63": [
+        18,
+        10,
+        2,
+        0,
+        15,
+        20,
+        2,
+        0
+      ],
+      "delta_hw63": [
+        4,
+        5,
+        1,
+        0,
+        1,
+        12,
+        1,
+        0
+      ],
+      "net_delta": 24,
+      "total_repair": 0,
+      "total_damage": 24
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 105,
+          "slot": 60,
+          "bit": 9
+        },
+        {
+          "bit_index": 121,
+          "slot": 60,
+          "bit": 25
+        }
+      ],
+      "bit_indices": [
+        105,
+        121
+      ],
+      "hw_total": 67,
+      "score": 43.29,
+      "hw63": [
+        17,
+        13,
+        3,
+        0,
+        17,
+        13,
+        4,
+        0
+      ],
+      "delta_hw63": [
+        3,
+        8,
+        2,
+        0,
+        3,
+        5,
+        3,
+        0
+      ],
+      "net_delta": 24,
+      "total_repair": 0,
+      "total_damage": 24
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 99,
+          "slot": 60,
+          "bit": 3
+        },
+        {
+          "bit_index": 110,
+          "slot": 60,
+          "bit": 14
+        }
+      ],
+      "bit_indices": [
+        99,
+        110
+      ],
+      "hw_total": 67,
+      "score": 42.154,
+      "hw63": [
+        12,
+        16,
+        3,
+        0,
+        14,
+        17,
+        5,
+        0
+      ],
+      "delta_hw63": [
+        -2,
+        11,
+        2,
+        0,
+        0,
+        9,
+        4,
+        0
+      ],
+      "net_delta": 24,
+      "total_repair": 2,
+      "total_damage": 26
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 103,
+          "slot": 60,
+          "bit": 7
+        },
+        {
+          "bit_index": 105,
+          "slot": 60,
+          "bit": 9
+        }
+      ],
+      "bit_indices": [
+        103,
+        105
+      ],
+      "hw_total": 67,
+      "score": 42.154,
+      "hw63": [
+        17,
+        15,
+        3,
+        0,
+        14,
+        13,
+        5,
+        0
+      ],
+      "delta_hw63": [
+        3,
+        10,
+        2,
+        0,
+        0,
+        5,
+        4,
+        0
+      ],
+      "net_delta": 24,
+      "total_repair": 0,
+      "total_damage": 24
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 111,
+          "slot": 60,
+          "bit": 15
+        },
+        {
+          "bit_index": 120,
+          "slot": 60,
+          "bit": 24
+        }
+      ],
+      "bit_indices": [
+        111,
+        120
+      ],
+      "hw_total": 67,
+      "score": 42.154,
+      "hw63": [
+        16,
+        17,
+        3,
+        0,
+        13,
+        13,
+        5,
+        0
+      ],
+      "delta_hw63": [
+        2,
+        12,
+        2,
+        0,
+        -1,
+        5,
+        4,
+        0
+      ],
+      "net_delta": 24,
+      "total_repair": 1,
+      "total_damage": 25
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 98,
+          "slot": 60,
+          "bit": 2
+        },
+        {
+          "bit_index": 104,
+          "slot": 60,
+          "bit": 8
+        }
+      ],
+      "bit_indices": [
+        98,
+        104
+      ],
+      "hw_total": 67,
+      "score": 40.98,
+      "hw63": [
+        14,
+        14,
+        5,
+        0,
+        12,
+        18,
+        4,
+        0
+      ],
+      "delta_hw63": [
+        0,
+        9,
+        4,
+        0,
+        -2,
+        10,
+        3,
+        0
+      ],
+      "net_delta": 24,
+      "total_repair": 2,
+      "total_damage": 26
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 101,
+          "slot": 60,
+          "bit": 5
+        },
+        {
+          "bit_index": 125,
+          "slot": 60,
+          "bit": 29
+        }
+      ],
+      "bit_indices": [
+        101,
+        125
+      ],
+      "hw_total": 67,
+      "score": 40.98,
+      "hw63": [
+        19,
+        13,
+        3,
+        0,
+        15,
+        11,
+        6,
+        0
+      ],
+      "delta_hw63": [
+        5,
+        8,
+        2,
+        0,
+        1,
+        3,
+        5,
+        0
+      ],
+      "net_delta": 24,
+      "total_repair": 0,
+      "total_damage": 24
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 102,
+          "slot": 60,
+          "bit": 6
+        },
+        {
+          "bit_index": 119,
+          "slot": 60,
+          "bit": 23
+        }
+      ],
+      "bit_indices": [
+        102,
+        119
+      ],
+      "hw_total": 67,
+      "score": 40.98,
+      "hw63": [
+        22,
+        17,
+        4,
+        0,
+        12,
+        7,
+        5,
+        0
+      ],
+      "delta_hw63": [
+        8,
+        12,
+        3,
+        0,
+        -2,
+        -1,
+        4,
+        0
+      ],
+      "net_delta": 24,
+      "total_repair": 3,
+      "total_damage": 27
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 64,
+          "slot": 59,
+          "bit": 0
+        },
+        {
+          "bit_index": 118,
+          "slot": 60,
+          "bit": 22
+        }
+      ],
+      "bit_indices": [
+        64,
+        118
+      ],
+      "hw_total": 67,
+      "score": 38.504,
+      "hw63": [
+        15,
+        11,
+        6,
+        0,
+        15,
+        15,
+        5,
+        0
+      ],
+      "delta_hw63": [
+        1,
+        6,
+        5,
+        0,
+        1,
+        7,
+        4,
+        0
+      ],
+      "net_delta": 24,
+      "total_repair": 0,
+      "total_damage": 24
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 114,
+          "slot": 60,
+          "bit": 18
+        },
+        {
+          "bit_index": 126,
+          "slot": 60,
+          "bit": 30
+        }
+      ],
+      "bit_indices": [
+        114,
+        126
+      ],
+      "hw_total": 67,
+      "score": 37.199,
+      "hw63": [
+        10,
+        18,
+        7,
+        0,
+        17,
+        10,
+        5,
+        0
+      ],
+      "delta_hw63": [
+        -4,
+        13,
+        6,
+        0,
+        3,
+        2,
+        4,
+        0
+      ],
+      "net_delta": 24,
+      "total_repair": 4,
+      "total_damage": 28
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 106,
+          "slot": 60,
+          "bit": 10
+        },
+        {
+          "bit_index": 110,
+          "slot": 60,
+          "bit": 14
+        }
+      ],
+      "bit_indices": [
+        106,
+        110
+      ],
+      "hw_total": 67,
+      "score": 35.846,
+      "hw63": [
+        16,
+        15,
+        6,
+        0,
+        12,
+        11,
+        7,
+        0
+      ],
+      "delta_hw63": [
+        2,
+        10,
+        5,
+        0,
+        -2,
+        3,
+        6,
+        0
+      ],
+      "net_delta": 24,
+      "total_repair": 2,
+      "total_damage": 26
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 92,
+          "slot": 59,
+          "bit": 28
+        },
+        {
+          "bit_index": 107,
+          "slot": 60,
+          "bit": 11
+        }
+      ],
+      "bit_indices": [
+        92,
+        107
+      ],
+      "hw_total": 67,
+      "score": 34.441,
+      "hw63": [
+        12,
+        15,
+        9,
+        0,
+        12,
+        14,
+        5,
+        0
+      ],
+      "delta_hw63": [
+        -2,
+        10,
+        8,
+        0,
+        -2,
+        6,
+        4,
+        0
+      ],
+      "net_delta": 24,
+      "total_repair": 4,
+      "total_damage": 28
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 8,
+          "slot": 57,
+          "bit": 8
+        },
+        {
+          "bit_index": 119,
+          "slot": 60,
+          "bit": 23
+        }
+      ],
+      "bit_indices": [
+        8,
+        119
+      ],
+      "hw_total": 67,
+      "score": 32.982,
+      "hw63": [
+        13,
+        11,
+        8,
+        0,
+        15,
+        13,
+        7,
+        0
+      ],
+      "delta_hw63": [
+        -1,
+        6,
+        7,
+        0,
+        1,
+        5,
+        6,
+        0
+      ],
+      "net_delta": 24,
+      "total_repair": 1,
+      "total_damage": 25
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 97,
+          "slot": 60,
+          "bit": 1
+        },
+        {
+          "bit_index": 113,
+          "slot": 60,
+          "bit": 17
+        }
+      ],
+      "bit_indices": [
+        97,
+        113
+      ],
+      "hw_total": 67,
+      "score": 32.982,
+      "hw63": [
+        14,
+        13,
+        8,
+        0,
+        11,
+        14,
+        7,
+        0
+      ],
+      "delta_hw63": [
+        0,
+        8,
+        7,
+        0,
+        -3,
+        6,
+        6,
+        0
+      ],
+      "net_delta": 24,
+      "total_repair": 3,
+      "total_damage": 27
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 94,
+          "slot": 59,
+          "bit": 30
+        },
+        {
+          "bit_index": 100,
+          "slot": 60,
+          "bit": 4
+        }
+      ],
+      "bit_indices": [
+        94,
+        100
+      ],
+      "hw_total": 67,
+      "score": 22.899,
+      "hw63": [
+        16,
+        9,
+        10,
+        0,
+        10,
+        11,
+        11,
+        0
+      ],
+      "delta_hw63": [
+        2,
+        4,
+        9,
+        0,
+        -4,
+        3,
+        10,
+        0
+      ],
+      "net_delta": 24,
+      "total_repair": 4,
+      "total_damage": 28
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 99,
+          "slot": 60,
+          "bit": 3
+        },
+        {
+          "bit_index": 104,
+          "slot": 60,
+          "bit": 8
+        }
+      ],
+      "bit_indices": [
+        99,
+        104
+      ],
+      "hw_total": 68,
+      "score": 45.54,
+      "hw63": [
+        17,
+        19,
+        2,
+        0,
+        13,
+        15,
+        2,
+        0
+      ],
+      "delta_hw63": [
+        3,
+        14,
+        1,
+        0,
+        -1,
+        7,
+        1,
+        0
+      ],
+      "net_delta": 25,
+      "total_repair": 1,
+      "total_damage": 26
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 112,
+          "slot": 60,
+          "bit": 16
+        },
+        {
+          "bit_index": 126,
+          "slot": 60,
+          "bit": 30
+        }
+      ],
+      "bit_indices": [
+        112,
+        126
+      ],
+      "hw_total": 68,
+      "score": 45.54,
+      "hw63": [
+        17,
+        16,
+        2,
+        0,
+        11,
+        20,
+        2,
+        0
+      ],
+      "delta_hw63": [
+        3,
+        11,
+        1,
+        0,
+        -3,
+        12,
+        1,
+        0
+      ],
+      "net_delta": 25,
+      "total_repair": 3,
+      "total_damage": 28
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 107,
+          "slot": 60,
+          "bit": 11
+        },
+        {
+          "bit_index": 122,
+          "slot": 60,
+          "bit": 26
+        }
+      ],
+      "bit_indices": [
+        107,
+        122
+      ],
+      "hw_total": 68,
+      "score": 44.528,
+      "hw63": [
+        15,
+        18,
+        2,
+        0,
+        15,
+        15,
+        3,
+        0
+      ],
+      "delta_hw63": [
+        1,
+        13,
+        1,
+        0,
+        1,
+        7,
+        2,
+        0
+      ],
+      "net_delta": 25,
+      "total_repair": 0,
+      "total_damage": 25
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 99,
+          "slot": 60,
+          "bit": 3
+        },
+        {
+          "bit_index": 107,
+          "slot": 60,
+          "bit": 11
+        }
+      ],
+      "bit_indices": [
+        99,
+        107
+      ],
+      "hw_total": 68,
+      "score": 43.484,
+      "hw63": [
+        18,
+        17,
+        3,
+        0,
+        13,
+        14,
+        3,
+        0
+      ],
+      "delta_hw63": [
+        4,
+        12,
+        2,
+        0,
+        -1,
+        6,
+        2,
+        0
+      ],
+      "net_delta": 25,
+      "total_repair": 1,
+      "total_damage": 26
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 96,
+          "slot": 60,
+          "bit": 0
+        },
+        {
+          "bit_index": 106,
+          "slot": 60,
+          "bit": 10
+        }
+      ],
+      "bit_indices": [
+        96,
+        106
+      ],
+      "hw_total": 68,
+      "score": 42.405,
+      "hw63": [
+        20,
+        12,
+        4,
+        0,
+        15,
+        14,
+        3,
+        0
+      ],
+      "delta_hw63": [
+        6,
+        7,
+        3,
+        0,
+        1,
+        6,
+        2,
+        0
+      ],
+      "net_delta": 25,
+      "total_repair": 0,
+      "total_damage": 25
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 96,
+          "slot": 60,
+          "bit": 0
+        },
+        {
+          "bit_index": 110,
+          "slot": 60,
+          "bit": 14
+        }
+      ],
+      "bit_indices": [
+        96,
+        110
+      ],
+      "hw_total": 68,
+      "score": 42.405,
+      "hw63": [
+        17,
+        14,
+        3,
+        0,
+        15,
+        15,
+        4,
+        0
+      ],
+      "delta_hw63": [
+        3,
+        9,
+        2,
+        0,
+        1,
+        7,
+        3,
+        0
+      ],
+      "net_delta": 25,
+      "total_repair": 0,
+      "total_damage": 25
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 104,
+          "slot": 60,
+          "bit": 8
+        },
+        {
+          "bit_index": 126,
+          "slot": 60,
+          "bit": 30
+        }
+      ],
+      "bit_indices": [
+        104,
+        126
+      ],
+      "hw_total": 68,
+      "score": 42.405,
+      "hw63": [
+        14,
+        16,
+        4,
+        0,
+        18,
+        13,
+        3,
+        0
+      ],
+      "delta_hw63": [
+        0,
+        11,
+        3,
+        0,
+        4,
+        5,
+        2,
+        0
+      ],
+      "net_delta": 25,
+      "total_repair": 0,
+      "total_damage": 25
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 114,
+          "slot": 60,
+          "bit": 18
+        },
+        {
+          "bit_index": 123,
+          "slot": 60,
+          "bit": 27
+        }
+      ],
+      "bit_indices": [
+        114,
+        123
+      ],
+      "hw_total": 68,
+      "score": 42.405,
+      "hw63": [
+        15,
+        18,
+        4,
+        0,
+        15,
+        13,
+        3,
+        0
+      ],
+      "delta_hw63": [
+        1,
+        13,
+        3,
+        0,
+        1,
+        5,
+        2,
+        0
+      ],
+      "net_delta": 25,
+      "total_repair": 0,
+      "total_damage": 25
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 115,
+          "slot": 60,
+          "bit": 19
+        },
+        {
+          "bit_index": 127,
+          "slot": 60,
+          "bit": 31
+        }
+      ],
+      "bit_indices": [
+        115,
+        127
+      ],
+      "hw_total": 68,
+      "score": 42.405,
+      "hw63": [
+        18,
+        13,
+        3,
+        0,
+        14,
+        16,
+        4,
+        0
+      ],
+      "delta_hw63": [
+        4,
+        8,
+        2,
+        0,
+        0,
+        8,
+        3,
+        0
+      ],
+      "net_delta": 25,
+      "total_repair": 0,
+      "total_damage": 25
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 120,
+          "slot": 60,
+          "bit": 24
+        },
+        {
+          "bit_index": 126,
+          "slot": 60,
+          "bit": 30
+        }
+      ],
+      "bit_indices": [
+        120,
+        126
+      ],
+      "hw_total": 68,
+      "score": 42.405,
+      "hw63": [
+        18,
+        17,
+        4,
+        0,
+        14,
+        12,
+        3,
+        0
+      ],
+      "delta_hw63": [
+        4,
+        12,
+        3,
+        0,
+        0,
+        4,
+        2,
+        0
+      ],
+      "net_delta": 25,
+      "total_repair": 0,
+      "total_damage": 25
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 97,
+          "slot": 60,
+          "bit": 1
+        },
+        {
+          "bit_index": 122,
+          "slot": 60,
+          "bit": 26
+        }
+      ],
+      "bit_indices": [
+        97,
+        122
+      ],
+      "hw_total": 68,
+      "score": 41.29,
+      "hw63": [
+        14,
+        18,
+        5,
+        0,
+        12,
+        16,
+        3,
+        0
+      ],
+      "delta_hw63": [
+        0,
+        13,
+        4,
+        0,
+        -2,
+        8,
+        2,
+        0
+      ],
+      "net_delta": 25,
+      "total_repair": 2,
+      "total_damage": 27
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 100,
+          "slot": 60,
+          "bit": 4
+        },
+        {
+          "bit_index": 119,
+          "slot": 60,
+          "bit": 23
+        }
+      ],
+      "bit_indices": [
+        100,
+        119
+      ],
+      "hw_total": 68,
+      "score": 41.29,
+      "hw63": [
+        13,
+        18,
+        3,
+        0,
+        16,
+        13,
+        5,
+        0
+      ],
+      "delta_hw63": [
+        -1,
+        13,
+        2,
+        0,
+        2,
+        5,
+        4,
+        0
+      ],
+      "net_delta": 25,
+      "total_repair": 1,
+      "total_damage": 26
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 102,
+          "slot": 60,
+          "bit": 6
+        },
+        {
+          "bit_index": 125,
+          "slot": 60,
+          "bit": 29
+        }
+      ],
+      "bit_indices": [
+        102,
+        125
+      ],
+      "hw_total": 68,
+      "score": 41.29,
+      "hw63": [
+        16,
+        14,
+        3,
+        0,
+        18,
+        12,
+        5,
+        0
+      ],
+      "delta_hw63": [
+        2,
+        9,
+        2,
+        0,
+        4,
+        4,
+        4,
+        0
+      ],
+      "net_delta": 25,
+      "total_repair": 0,
+      "total_damage": 25
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 98,
+          "slot": 60,
+          "bit": 2
+        },
+        {
+          "bit_index": 112,
+          "slot": 60,
+          "bit": 16
+        }
+      ],
+      "bit_indices": [
+        98,
+        112
+      ],
+      "hw_total": 68,
+      "score": 38.945,
+      "hw63": [
+        13,
+        12,
+        6,
+        0,
+        15,
+        18,
+        4,
+        0
+      ],
+      "delta_hw63": [
+        -1,
+        7,
+        5,
+        0,
+        1,
+        10,
+        3,
+        0
+      ],
+      "net_delta": 25,
+      "total_repair": 1,
+      "total_damage": 26
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 99,
+          "slot": 60,
+          "bit": 3
+        },
+        {
+          "bit_index": 100,
+          "slot": 60,
+          "bit": 4
+        }
+      ],
+      "bit_indices": [
+        99,
+        100
+      ],
+      "hw_total": 68,
+      "score": 38.945,
+      "hw63": [
+        13,
+        15,
+        4,
+        0,
+        16,
+        14,
+        6,
+        0
+      ],
+      "delta_hw63": [
+        -1,
+        10,
+        3,
+        0,
+        2,
+        6,
+        5,
+        0
+      ],
+      "net_delta": 25,
+      "total_repair": 1,
+      "total_damage": 26
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 101,
+          "slot": 60,
+          "bit": 5
+        },
+        {
+          "bit_index": 119,
+          "slot": 60,
+          "bit": 23
+        }
+      ],
+      "bit_indices": [
+        101,
+        119
+      ],
+      "hw_total": 68,
+      "score": 38.945,
+      "hw63": [
+        16,
+        18,
+        6,
+        0,
+        13,
+        11,
+        4,
+        0
+      ],
+      "delta_hw63": [
+        2,
+        13,
+        5,
+        0,
+        -1,
+        3,
+        3,
+        0
+      ],
+      "net_delta": 25,
+      "total_repair": 1,
+      "total_damage": 26
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 106,
+          "slot": 60,
+          "bit": 10
+        },
+        {
+          "bit_index": 120,
+          "slot": 60,
+          "bit": 24
+        }
+      ],
+      "bit_indices": [
+        106,
+        120
+      ],
+      "hw_total": 68,
+      "score": 38.945,
+      "hw63": [
+        15,
+        17,
+        5,
+        0,
+        13,
+        13,
+        5,
+        0
+      ],
+      "delta_hw63": [
+        1,
+        12,
+        4,
+        0,
+        -1,
+        5,
+        4,
+        0
+      ],
+      "net_delta": 25,
+      "total_repair": 1,
+      "total_damage": 26
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 54,
+          "slot": 58,
+          "bit": 22
+        },
+        {
+          "bit_index": 103,
+          "slot": 60,
+          "bit": 7
+        }
+      ],
+      "bit_indices": [
+        54,
+        103
+      ],
+      "hw_total": 68,
+      "score": 22.481,
+      "hw63": [
+        13,
+        9,
+        11,
+        0,
+        13,
+        12,
+        10,
+        0
+      ],
+      "delta_hw63": [
+        -1,
+        4,
+        10,
+        0,
+        -1,
+        4,
+        9,
+        0
+      ],
+      "net_delta": 25,
+      "total_repair": 2,
+      "total_damage": 27
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 96,
+          "slot": 60,
+          "bit": 0
+        },
+        {
+          "bit_index": 121,
+          "slot": 60,
+          "bit": 25
+        }
+      ],
+      "bit_indices": [
+        96,
+        121
+      ],
+      "hw_total": 69,
+      "score": 44.598,
+      "hw63": [
+        15,
+        18,
+        2,
+        0,
+        13,
+        19,
+        2,
+        0
+      ],
+      "delta_hw63": [
+        1,
+        13,
+        1,
+        0,
+        -1,
+        11,
+        1,
+        0
+      ],
+      "net_delta": 26,
+      "total_repair": 1,
+      "total_damage": 27
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 96,
+          "slot": 60,
+          "bit": 0
+        },
+        {
+          "bit_index": 103,
+          "slot": 60,
+          "bit": 7
+        }
+      ],
+      "bit_indices": [
+        96,
+        103
+      ],
+      "hw_total": 69,
+      "score": 43.602,
+      "hw63": [
+        14,
+        14,
+        2,
+        0,
+        20,
+        16,
+        3,
+        0
+      ],
+      "delta_hw63": [
+        0,
+        9,
+        1,
+        0,
+        6,
+        8,
+        2,
+        0
+      ],
+      "net_delta": 26,
+      "total_repair": 0,
+      "total_damage": 26
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 97,
+          "slot": 60,
+          "bit": 1
+        },
+        {
+          "bit_index": 98,
+          "slot": 60,
+          "bit": 2
+        }
+      ],
+      "bit_indices": [
+        97,
+        98
+      ],
+      "hw_total": 69,
+      "score": 43.602,
+      "hw63": [
+        18,
+        15,
+        2,
+        0,
+        17,
+        14,
+        3,
+        0
+      ],
+      "delta_hw63": [
+        4,
+        10,
+        1,
+        0,
+        3,
+        6,
+        2,
+        0
+      ],
+      "net_delta": 26,
+      "total_repair": 0,
+      "total_damage": 26
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 123,
+          "slot": 60,
+          "bit": 27
+        },
+        {
+          "bit_index": 127,
+          "slot": 60,
+          "bit": 31
+        }
+      ],
+      "bit_indices": [
+        123,
+        127
+      ],
+      "hw_total": 69,
+      "score": 42.576,
+      "hw63": [
+        16,
+        16,
+        3,
+        0,
+        17,
+        14,
+        3,
+        0
+      ],
+      "delta_hw63": [
+        2,
+        11,
+        2,
+        0,
+        3,
+        6,
+        2,
+        0
+      ],
+      "net_delta": 26,
+      "total_repair": 0,
+      "total_damage": 26
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 105,
+          "slot": 60,
+          "bit": 9
+        },
+        {
+          "bit_index": 122,
+          "slot": 60,
+          "bit": 26
+        }
+      ],
+      "bit_indices": [
+        105,
+        122
+      ],
+      "hw_total": 69,
+      "score": 41.516,
+      "hw63": [
+        14,
+        20,
+        3,
+        0,
+        13,
+        15,
+        4,
+        0
+      ],
+      "delta_hw63": [
+        0,
+        15,
+        2,
+        0,
+        -1,
+        7,
+        3,
+        0
+      ],
+      "net_delta": 26,
+      "total_repair": 1,
+      "total_damage": 27
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 99,
+          "slot": 60,
+          "bit": 3
+        },
+        {
+          "bit_index": 111,
+          "slot": 60,
+          "bit": 15
+        }
+      ],
+      "bit_indices": [
+        99,
+        111
+      ],
+      "hw_total": 69,
+      "score": 40.421,
+      "hw63": [
+        17,
+        17,
+        5,
+        0,
+        15,
+        12,
+        3,
+        0
+      ],
+      "delta_hw63": [
+        3,
+        12,
+        4,
+        0,
+        1,
+        4,
+        2,
+        0
+      ],
+      "net_delta": 26,
+      "total_repair": 0,
+      "total_damage": 26
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 99,
+          "slot": 60,
+          "bit": 3
+        },
+        {
+          "bit_index": 113,
+          "slot": 60,
+          "bit": 17
+        }
+      ],
+      "bit_indices": [
+        99,
+        113
+      ],
+      "hw_total": 69,
+      "score": 40.421,
+      "hw63": [
+        14,
+        14,
+        4,
+        0,
+        16,
+        17,
+        4,
+        0
+      ],
+      "delta_hw63": [
+        0,
+        9,
+        3,
+        0,
+        2,
+        9,
+        3,
+        0
+      ],
+      "net_delta": 26,
+      "total_repair": 0,
+      "total_damage": 26
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 102,
+          "slot": 60,
+          "bit": 6
+        },
+        {
+          "bit_index": 103,
+          "slot": 60,
+          "bit": 7
+        }
+      ],
+      "bit_indices": [
+        102,
+        103
+      ],
+      "hw_total": 69,
+      "score": 40.421,
+      "hw63": [
+        16,
+        13,
+        6,
+        0,
+        18,
+        14,
+        2,
+        0
+      ],
+      "delta_hw63": [
+        2,
+        8,
+        5,
+        0,
+        4,
+        6,
+        1,
+        0
+      ],
+      "net_delta": 26,
+      "total_repair": 0,
+      "total_damage": 26
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 107,
+          "slot": 60,
+          "bit": 11
+        },
+        {
+          "bit_index": 116,
+          "slot": 60,
+          "bit": 20
+        }
+      ],
+      "bit_indices": [
+        107,
+        116
+      ],
+      "hw_total": 69,
+      "score": 40.421,
+      "hw63": [
+        15,
+        12,
+        5,
+        0,
+        20,
+        14,
+        3,
+        0
+      ],
+      "delta_hw63": [
+        1,
+        7,
+        4,
+        0,
+        6,
+        6,
+        2,
+        0
+      ],
+      "net_delta": 26,
+      "total_repair": 0,
+      "total_damage": 26
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 121,
+          "slot": 60,
+          "bit": 25
+        },
+        {
+          "bit_index": 127,
+          "slot": 60,
+          "bit": 31
+        }
+      ],
+      "bit_indices": [
+        121,
+        127
+      ],
+      "hw_total": 69,
+      "score": 40.421,
+      "hw63": [
+        15,
+        17,
+        5,
+        0,
+        22,
+        7,
+        3,
+        0
+      ],
+      "delta_hw63": [
+        1,
+        12,
+        4,
+        0,
+        8,
+        -1,
+        2,
+        0
+      ],
+      "net_delta": 26,
+      "total_repair": 1,
+      "total_damage": 27
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 20,
+          "slot": 57,
+          "bit": 20
+        },
+        {
+          "bit_index": 47,
+          "slot": 58,
+          "bit": 15
+        }
+      ],
+      "bit_indices": [
+        20,
+        47
+      ],
+      "hw_total": 69,
+      "score": 39.29,
+      "hw63": [
+        16,
+        14,
+        5,
+        0,
+        11,
+        19,
+        4,
+        0
+      ],
+      "delta_hw63": [
+        2,
+        9,
+        4,
+        0,
+        -3,
+        11,
+        3,
+        0
+      ],
+      "net_delta": 26,
+      "total_repair": 3,
+      "total_damage": 29
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 98,
+          "slot": 60,
+          "bit": 2
+        },
+        {
+          "bit_index": 127,
+          "slot": 60,
+          "bit": 31
+        }
+      ],
+      "bit_indices": [
+        98,
+        127
+      ],
+      "hw_total": 69,
+      "score": 39.29,
+      "hw63": [
+        12,
+        17,
+        4,
+        0,
+        18,
+        13,
+        5,
+        0
+      ],
+      "delta_hw63": [
+        -2,
+        12,
+        3,
+        0,
+        4,
+        5,
+        4,
+        0
+      ],
+      "net_delta": 26,
+      "total_repair": 2,
+      "total_damage": 28
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 101,
+          "slot": 60,
+          "bit": 5
+        },
+        {
+          "bit_index": 121,
+          "slot": 60,
+          "bit": 25
+        }
+      ],
+      "bit_indices": [
+        101,
+        121
+      ],
+      "hw_total": 69,
+      "score": 39.29,
+      "hw63": [
+        17,
+        14,
+        3,
+        0,
+        15,
+        14,
+        6,
+        0
+      ],
+      "delta_hw63": [
+        3,
+        9,
+        2,
+        0,
+        1,
+        6,
+        5,
+        0
+      ],
+      "net_delta": 26,
+      "total_repair": 0,
+      "total_damage": 26
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 108,
+          "slot": 60,
+          "bit": 12
+        },
+        {
+          "bit_index": 112,
+          "slot": 60,
+          "bit": 16
+        }
+      ],
+      "bit_indices": [
+        108,
+        112
+      ],
+      "hw_total": 69,
+      "score": 39.29,
+      "hw63": [
+        16,
+        14,
+        5,
+        0,
+        16,
+        14,
+        4,
+        0
+      ],
+      "delta_hw63": [
+        2,
+        9,
+        4,
+        0,
+        2,
+        6,
+        3,
+        0
+      ],
+      "net_delta": 26,
+      "total_repair": 0,
+      "total_damage": 26
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 119,
+          "slot": 60,
+          "bit": 23
+        },
+        {
+          "bit_index": 120,
+          "slot": 60,
+          "bit": 24
+        }
+      ],
+      "bit_indices": [
+        119,
+        120
+      ],
+      "hw_total": 69,
+      "score": 39.29,
+      "hw63": [
+        16,
+        14,
+        4,
+        0,
+        19,
+        11,
+        5,
+        0
+      ],
+      "delta_hw63": [
+        2,
+        9,
+        3,
+        0,
+        5,
+        3,
+        4,
+        0
+      ],
+      "net_delta": 26,
+      "total_repair": 0,
+      "total_damage": 26
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 104,
+          "slot": 60,
+          "bit": 8
+        },
+        {
+          "bit_index": 119,
+          "slot": 60,
+          "bit": 23
+        }
+      ],
+      "bit_indices": [
+        104,
+        119
+      ],
+      "hw_total": 69,
+      "score": 38.121,
+      "hw63": [
+        17,
+        17,
+        4,
+        0,
+        14,
+        11,
+        6,
+        0
+      ],
+      "delta_hw63": [
+        3,
+        12,
+        3,
+        0,
+        0,
+        3,
+        5,
+        0
+      ],
+      "net_delta": 26,
+      "total_repair": 0,
+      "total_damage": 26
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 119,
+          "slot": 60,
+          "bit": 23
+        },
+        {
+          "bit_index": 125,
+          "slot": 60,
+          "bit": 29
+        }
+      ],
+      "bit_indices": [
+        119,
+        125
+      ],
+      "hw_total": 69,
+      "score": 38.121,
+      "hw63": [
+        12,
+        15,
+        3,
+        0,
+        17,
+        15,
+        7,
+        0
+      ],
+      "delta_hw63": [
+        -2,
+        10,
+        2,
+        0,
+        3,
+        7,
+        6,
+        0
+      ],
+      "net_delta": 26,
+      "total_repair": 2,
+      "total_damage": 28
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 120,
+          "slot": 60,
+          "bit": 24
+        },
+        {
+          "bit_index": 127,
+          "slot": 60,
+          "bit": 31
+        }
+      ],
+      "bit_indices": [
+        120,
+        127
+      ],
+      "hw_total": 69,
+      "score": 38.121,
+      "hw63": [
+        13,
+        18,
+        4,
+        0,
+        14,
+        14,
+        6,
+        0
+      ],
+      "delta_hw63": [
+        -1,
+        13,
+        3,
+        0,
+        0,
+        6,
+        5,
+        0
+      ],
+      "net_delta": 26,
+      "total_repair": 1,
+      "total_damage": 27
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 105,
+          "slot": 60,
+          "bit": 9
+        },
+        {
+          "bit_index": 111,
+          "slot": 60,
+          "bit": 15
+        }
+      ],
+      "bit_indices": [
+        105,
+        111
+      ],
+      "hw_total": 69,
+      "score": 36.911,
+      "hw63": [
+        15,
+        13,
+        6,
+        0,
+        12,
+        18,
+        5,
+        0
+      ],
+      "delta_hw63": [
+        1,
+        8,
+        5,
+        0,
+        -2,
+        10,
+        4,
+        0
+      ],
+      "net_delta": 26,
+      "total_repair": 2,
+      "total_damage": 28
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 106,
+          "slot": 60,
+          "bit": 10
+        },
+        {
+          "bit_index": 117,
+          "slot": 60,
+          "bit": 21
+        }
+      ],
+      "bit_indices": [
+        106,
+        117
+      ],
+      "hw_total": 69,
+      "score": 36.911,
+      "hw63": [
+        15,
+        14,
+        6,
+        0,
+        16,
+        13,
+        5,
+        0
+      ],
+      "delta_hw63": [
+        1,
+        9,
+        5,
+        0,
+        2,
+        5,
+        4,
+        0
+      ],
+      "net_delta": 26,
+      "total_repair": 0,
+      "total_damage": 26
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 104,
+          "slot": 60,
+          "bit": 8
+        },
+        {
+          "bit_index": 114,
+          "slot": 60,
+          "bit": 18
+        }
+      ],
+      "bit_indices": [
+        104,
+        114
+      ],
+      "hw_total": 69,
+      "score": 35.658,
+      "hw63": [
+        14,
+        15,
+        5,
+        0,
+        13,
+        15,
+        7,
+        0
+      ],
+      "delta_hw63": [
+        0,
+        10,
+        4,
+        0,
+        -1,
+        7,
+        6,
+        0
+      ],
+      "net_delta": 26,
+      "total_repair": 1,
+      "total_damage": 27
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 94,
+          "slot": 59,
+          "bit": 30
+        },
+        {
+          "bit_index": 114,
+          "slot": 60,
+          "bit": 18
+        }
+      ],
+      "bit_indices": [
+        94,
+        114
+      ],
+      "hw_total": 69,
+      "score": 34.361,
+      "hw63": [
+        17,
+        11,
+        6,
+        0,
+        16,
+        12,
+        7,
+        0
+      ],
+      "delta_hw63": [
+        3,
+        6,
+        5,
+        0,
+        2,
+        4,
+        6,
+        0
+      ],
+      "net_delta": 26,
+      "total_repair": 0,
+      "total_damage": 26
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 98,
+          "slot": 60,
+          "bit": 2
+        },
+        {
+          "bit_index": 103,
+          "slot": 60,
+          "bit": 7
+        }
+      ],
+      "bit_indices": [
+        98,
+        103
+      ],
+      "hw_total": 69,
+      "score": 34.361,
+      "hw63": [
+        14,
+        14,
+        7,
+        0,
+        11,
+        17,
+        6,
+        0
+      ],
+      "delta_hw63": [
+        0,
+        9,
+        6,
+        0,
+        -3,
+        9,
+        5,
+        0
+      ],
+      "net_delta": 26,
+      "total_repair": 3,
+      "total_damage": 29
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 98,
+          "slot": 60,
+          "bit": 2
+        },
+        {
+          "bit_index": 113,
+          "slot": 60,
+          "bit": 17
+        }
+      ],
+      "bit_indices": [
+        98,
+        113
+      ],
+      "hw_total": 69,
+      "score": 34.361,
+      "hw63": [
+        15,
+        11,
+        7,
+        0,
+        16,
+        14,
+        6,
+        0
+      ],
+      "delta_hw63": [
+        1,
+        6,
+        6,
+        0,
+        2,
+        6,
+        5,
+        0
+      ],
+      "net_delta": 26,
+      "total_repair": 0,
+      "total_damage": 26
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 71,
+          "slot": 59,
+          "bit": 7
+        },
+        {
+          "bit_index": 108,
+          "slot": 60,
+          "bit": 12
+        }
+      ],
+      "bit_indices": [
+        71,
+        108
+      ],
+      "hw_total": 69,
+      "score": 33.017,
+      "hw63": [
+        12,
+        13,
+        8,
+        0,
+        16,
+        14,
+        6,
+        0
+      ],
+      "delta_hw63": [
+        -2,
+        8,
+        7,
+        0,
+        2,
+        6,
+        5,
+        0
+      ],
+      "net_delta": 26,
+      "total_repair": 2,
+      "total_damage": 28
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 85,
+          "slot": 59,
+          "bit": 21
+        },
+        {
+          "bit_index": 105,
+          "slot": 60,
+          "bit": 9
+        }
+      ],
+      "bit_indices": [
+        85,
+        105
+      ],
+      "hw_total": 69,
+      "score": 33.017,
+      "hw63": [
+        10,
+        14,
+        7,
+        0,
+        15,
+        16,
+        7,
+        0
+      ],
+      "delta_hw63": [
+        -4,
+        9,
+        6,
+        0,
+        1,
+        8,
+        6,
+        0
+      ],
+      "net_delta": 26,
+      "total_repair": 4,
+      "total_damage": 30
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 68,
+          "slot": 59,
+          "bit": 4
+        },
+        {
+          "bit_index": 107,
+          "slot": 60,
+          "bit": 11
+        }
+      ],
+      "bit_indices": [
+        68,
+        107
+      ],
+      "hw_total": 69,
+      "score": 31.623,
+      "hw63": [
+        12,
+        15,
+        8,
+        0,
+        15,
+        12,
+        7,
+        0
+      ],
+      "delta_hw63": [
+        -2,
+        10,
+        7,
+        0,
+        1,
+        4,
+        6,
+        0
+      ],
+      "net_delta": 26,
+      "total_repair": 2,
+      "total_damage": 28
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 66,
+          "slot": 59,
+          "bit": 2
+        },
+        {
+          "bit_index": 96,
+          "slot": 60,
+          "bit": 0
+        }
+      ],
+      "bit_indices": [
+        66,
+        96
+      ],
+      "hw_total": 69,
+      "score": 28.675,
+      "hw63": [
+        9,
+        16,
+        9,
+        0,
+        12,
+        15,
+        8,
+        0
+      ],
+      "delta_hw63": [
+        -5,
+        11,
+        8,
+        0,
+        -2,
+        7,
+        7,
+        0
+      ],
+      "net_delta": 26,
+      "total_repair": 7,
+      "total_damage": 33
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 99,
+          "slot": 60,
+          "bit": 3
+        },
+        {
+          "bit_index": 126,
+          "slot": 60,
+          "bit": 30
+        }
+      ],
+      "bit_indices": [
+        99,
+        126
+      ],
+      "hw_total": 70,
+      "score": 43.654,
+      "hw63": [
+        19,
+        12,
+        2,
+        0,
+        19,
+        16,
+        2,
+        0
+      ],
+      "delta_hw63": [
+        5,
+        7,
+        1,
+        0,
+        5,
+        8,
+        1,
+        0
+      ],
+      "net_delta": 27,
+      "total_repair": 0,
+      "total_damage": 27
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 112,
+          "slot": 60,
+          "bit": 16
+        },
+        {
+          "bit_index": 127,
+          "slot": 60,
+          "bit": 31
+        }
+      ],
+      "bit_indices": [
+        112,
+        127
+      ],
+      "hw_total": 70,
+      "score": 43.654,
+      "hw63": [
+        16,
+        17,
+        2,
+        0,
+        12,
+        21,
+        2,
+        0
+      ],
+      "delta_hw63": [
+        2,
+        12,
+        1,
+        0,
+        -2,
+        13,
+        1,
+        0
+      ],
+      "net_delta": 27,
+      "total_repair": 2,
+      "total_damage": 29
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 99,
+          "slot": 60,
+          "bit": 3
+        },
+        {
+          "bit_index": 102,
+          "slot": 60,
+          "bit": 6
+        }
+      ],
+      "bit_indices": [
+        99,
+        102
+      ],
+      "hw_total": 70,
+      "score": 42.675,
+      "hw63": [
+        17,
+        19,
+        3,
+        0,
+        13,
+        16,
+        2,
+        0
+      ],
+      "delta_hw63": [
+        3,
+        14,
+        2,
+        0,
+        -1,
+        8,
+        1,
+        0
+      ],
+      "net_delta": 27,
+      "total_repair": 1,
+      "total_damage": 28
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 121,
+          "slot": 60,
+          "bit": 25
+        },
+        {
+          "bit_index": 123,
+          "slot": 60,
+          "bit": 27
+        }
+      ],
+      "bit_indices": [
+        121,
+        123
+      ],
+      "hw_total": 70,
+      "score": 42.675,
+      "hw63": [
+        17,
+        18,
+        3,
+        0,
+        17,
+        13,
+        2,
+        0
+      ],
+      "delta_hw63": [
+        3,
+        13,
+        2,
+        0,
+        3,
+        5,
+        1,
+        0
+      ],
+      "net_delta": 27,
+      "total_repair": 0,
+      "total_damage": 27
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 101,
+          "slot": 60,
+          "bit": 5
+        },
+        {
+          "bit_index": 122,
+          "slot": 60,
+          "bit": 26
+        }
+      ],
+      "bit_indices": [
+        101,
+        122
+      ],
+      "hw_total": 70,
+      "score": 41.665,
+      "hw63": [
+        18,
+        14,
+        2,
+        0,
+        18,
+        14,
+        4,
+        0
+      ],
+      "delta_hw63": [
+        4,
+        9,
+        1,
+        0,
+        4,
+        6,
+        3,
+        0
+      ],
+      "net_delta": 27,
+      "total_repair": 0,
+      "total_damage": 27
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 110,
+          "slot": 60,
+          "bit": 14
+        },
+        {
+          "bit_index": 121,
+          "slot": 60,
+          "bit": 25
+        }
+      ],
+      "bit_indices": [
+        110,
+        121
+      ],
+      "hw_total": 70,
+      "score": 41.665,
+      "hw63": [
+        15,
+        17,
+        3,
+        0,
+        15,
+        17,
+        3,
+        0
+      ],
+      "delta_hw63": [
+        1,
+        12,
+        2,
+        0,
+        1,
+        9,
+        2,
+        0
+      ],
+      "net_delta": 27,
+      "total_repair": 0,
+      "total_damage": 27
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 99,
+          "slot": 60,
+          "bit": 3
+        },
+        {
+          "bit_index": 106,
+          "slot": 60,
+          "bit": 10
+        }
+      ],
+      "bit_indices": [
+        99,
+        106
+      ],
+      "hw_total": 70,
+      "score": 40.623,
+      "hw63": [
+        18,
+        14,
+        4,
+        0,
+        16,
+        15,
+        3,
+        0
+      ],
+      "delta_hw63": [
+        4,
+        9,
+        3,
+        0,
+        2,
+        7,
+        2,
+        0
+      ],
+      "net_delta": 27,
+      "total_repair": 0,
+      "total_damage": 27
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 100,
+          "slot": 60,
+          "bit": 4
+        },
+        {
+          "bit_index": 102,
+          "slot": 60,
+          "bit": 6
+        }
+      ],
+      "bit_indices": [
+        100,
+        102
+      ],
+      "hw_total": 70,
+      "score": 40.623,
+      "hw63": [
+        17,
+        14,
+        4,
+        0,
+        18,
+        14,
+        3,
+        0
+      ],
+      "delta_hw63": [
+        3,
+        9,
+        3,
+        0,
+        4,
+        6,
+        2,
+        0
+      ],
+      "net_delta": 27,
+      "total_repair": 0,
+      "total_damage": 27
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 104,
+          "slot": 60,
+          "bit": 8
+        },
+        {
+          "bit_index": 124,
+          "slot": 60,
+          "bit": 28
+        }
+      ],
+      "bit_indices": [
+        104,
+        124
+      ],
+      "hw_total": 70,
+      "score": 40.623,
+      "hw63": [
+        12,
+        13,
+        4,
+        0,
+        19,
+        19,
+        3,
+        0
+      ],
+      "delta_hw63": [
+        -2,
+        8,
+        3,
+        0,
+        5,
+        11,
+        2,
+        0
+      ],
+      "net_delta": 27,
+      "total_repair": 2,
+      "total_damage": 29
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 107,
+          "slot": 60,
+          "bit": 11
+        },
+        {
+          "bit_index": 119,
+          "slot": 60,
+          "bit": 23
+        }
+      ],
+      "bit_indices": [
+        107,
+        119
+      ],
+      "hw_total": 70,
+      "score": 40.623,
+      "hw63": [
+        18,
+        15,
+        4,
+        0,
+        14,
+        16,
+        3,
+        0
+      ],
+      "delta_hw63": [
+        4,
+        10,
+        3,
+        0,
+        0,
+        8,
+        2,
+        0
+      ],
+      "net_delta": 27,
+      "total_repair": 0,
+      "total_damage": 27
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 117,
+          "slot": 60,
+          "bit": 21
+        },
+        {
+          "bit_index": 121,
+          "slot": 60,
+          "bit": 25
+        }
+      ],
+      "bit_indices": [
+        117,
+        121
+      ],
+      "hw_total": 70,
+      "score": 40.623,
+      "hw63": [
+        13,
+        14,
+        2,
+        0,
+        22,
+        14,
+        5,
+        0
+      ],
+      "delta_hw63": [
+        -1,
+        9,
+        1,
+        0,
+        8,
+        6,
+        4,
+        0
+      ],
+      "net_delta": 27,
+      "total_repair": 1,
+      "total_damage": 28
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 121,
+          "slot": 60,
+          "bit": 25
+        },
+        {
+          "bit_index": 125,
+          "slot": 60,
+          "bit": 29
+        }
+      ],
+      "bit_indices": [
+        121,
+        125
+      ],
+      "hw_total": 70,
+      "score": 40.623,
+      "hw63": [
+        20,
+        12,
+        4,
+        0,
+        20,
+        11,
+        3,
+        0
+      ],
+      "delta_hw63": [
+        6,
+        7,
+        3,
+        0,
+        6,
+        3,
+        2,
+        0
+      ],
+      "net_delta": 27,
+      "total_repair": 0,
+      "total_damage": 27
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 100,
+          "slot": 60,
+          "bit": 4
+        },
+        {
+          "bit_index": 125,
+          "slot": 60,
+          "bit": 29
+        }
+      ],
+      "bit_indices": [
+        100,
+        125
+      ],
+      "hw_total": 70,
+      "score": 39.548,
+      "hw63": [
+        16,
+        16,
+        5,
+        0,
+        16,
+        14,
+        3,
+        0
+      ],
+      "delta_hw63": [
+        2,
+        11,
+        4,
+        0,
+        2,
+        6,
+        2,
+        0
+      ],
+      "net_delta": 27,
+      "total_repair": 0,
+      "total_damage": 27
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 103,
+          "slot": 60,
+          "bit": 7
+        },
+        {
+          "bit_index": 104,
+          "slot": 60,
+          "bit": 8
+        }
+      ],
+      "bit_indices": [
+        103,
+        104
+      ],
+      "hw_total": 70,
+      "score": 39.548,
+      "hw63": [
+        14,
+        16,
+        5,
+        0,
+        13,
+        19,
+        3,
+        0
+      ],
+      "delta_hw63": [
+        0,
+        11,
+        4,
+        0,
+        -1,
+        11,
+        2,
+        0
+      ],
+      "net_delta": 27,
+      "total_repair": 1,
+      "total_damage": 28
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 107,
+          "slot": 60,
+          "bit": 11
+        },
+        {
+          "bit_index": 112,
+          "slot": 60,
+          "bit": 16
+        }
+      ],
+      "bit_indices": [
+        107,
+        112
+      ],
+      "hw_total": 70,
+      "score": 39.548,
+      "hw63": [
+        19,
+        16,
+        5,
+        0,
+        14,
+        13,
+        3,
+        0
+      ],
+      "delta_hw63": [
+        5,
+        11,
+        4,
+        0,
+        0,
+        5,
+        2,
+        0
+      ],
+      "net_delta": 27,
+      "total_repair": 0,
+      "total_damage": 27
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 118,
+          "slot": 60,
+          "bit": 22
+        },
+        {
+          "bit_index": 125,
+          "slot": 60,
+          "bit": 29
+        }
+      ],
+      "bit_indices": [
+        118,
+        125
+      ],
+      "hw_total": 70,
+      "score": 39.548,
+      "hw63": [
+        19,
+        15,
+        5,
+        0,
+        20,
+        8,
+        3,
+        0
+      ],
+      "delta_hw63": [
+        5,
+        10,
+        4,
+        0,
+        6,
+        0,
+        2,
+        0
+      ],
+      "net_delta": 27,
+      "total_repair": 0,
+      "total_damage": 27
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 103,
+          "slot": 60,
+          "bit": 7
+        },
+        {
+          "bit_index": 122,
+          "slot": 60,
+          "bit": 26
+        }
+      ],
+      "bit_indices": [
+        103,
+        122
+      ],
+      "hw_total": 70,
+      "score": 38.438,
+      "hw63": [
+        18,
+        17,
+        4,
+        0,
+        12,
+        14,
+        5,
+        0
+      ],
+      "delta_hw63": [
+        4,
+        12,
+        3,
+        0,
+        -2,
+        6,
+        4,
+        0
+      ],
+      "net_delta": 27,
+      "total_repair": 2,
+      "total_damage": 29
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 104,
+          "slot": 60,
+          "bit": 8
+        },
+        {
+          "bit_index": 127,
+          "slot": 60,
+          "bit": 31
+        }
+      ],
+      "bit_indices": [
+        104,
+        127
+      ],
+      "hw_total": 70,
+      "score": 38.438,
+      "hw63": [
+        11,
+        16,
+        3,
+        0,
+        16,
+        18,
+        6,
+        0
+      ],
+      "delta_hw63": [
+        -3,
+        11,
+        2,
+        0,
+        2,
+        10,
+        5,
+        0
+      ],
+      "net_delta": 27,
+      "total_repair": 3,
+      "total_damage": 30
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 106,
+          "slot": 60,
+          "bit": 10
+        },
+        {
+          "bit_index": 114,
+          "slot": 60,
+          "bit": 18
+        }
+      ],
+      "bit_indices": [
+        106,
+        114
+      ],
+      "hw_total": 70,
+      "score": 38.438,
+      "hw63": [
+        16,
+        17,
+        4,
+        0,
+        11,
+        17,
+        5,
+        0
+      ],
+      "delta_hw63": [
+        2,
+        12,
+        3,
+        0,
+        -3,
+        9,
+        4,
+        0
+      ],
+      "net_delta": 27,
+      "total_repair": 3,
+      "total_damage": 30
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 118,
+          "slot": 60,
+          "bit": 22
+        },
+        {
+          "bit_index": 120,
+          "slot": 60,
+          "bit": 24
+        }
+      ],
+      "bit_indices": [
+        118,
+        120
+      ],
+      "hw_total": 70,
+      "score": 38.438,
+      "hw63": [
+        18,
+        20,
+        5,
+        0,
+        11,
+        12,
+        4,
+        0
+      ],
+      "delta_hw63": [
+        4,
+        15,
+        4,
+        0,
+        -3,
+        4,
+        3,
+        0
+      ],
+      "net_delta": 27,
+      "total_repair": 3,
+      "total_damage": 30
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 105,
+          "slot": 60,
+          "bit": 9
+        },
+        {
+          "bit_index": 117,
+          "slot": 60,
+          "bit": 21
+        }
+      ],
+      "bit_indices": [
+        105,
+        117
+      ],
+      "hw_total": 70,
+      "score": 37.29,
+      "hw63": [
+        15,
+        16,
+        6,
+        0,
+        14,
+        15,
+        4,
+        0
+      ],
+      "delta_hw63": [
+        1,
+        11,
+        5,
+        0,
+        0,
+        7,
+        3,
+        0
+      ],
+      "net_delta": 27,
+      "total_repair": 0,
+      "total_damage": 27
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 109,
+          "slot": 60,
+          "bit": 13
+        },
+        {
+          "bit_index": 127,
+          "slot": 60,
+          "bit": 31
+        }
+      ],
+      "bit_indices": [
+        109,
+        127
+      ],
+      "hw_total": 70,
+      "score": 37.29,
+      "hw63": [
+        16,
+        15,
+        5,
+        0,
+        15,
+        14,
+        5,
+        0
+      ],
+      "delta_hw63": [
+        2,
+        10,
+        4,
+        0,
+        1,
+        6,
+        4,
+        0
+      ],
+      "net_delta": 27,
+      "total_repair": 0,
+      "total_damage": 27
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 113,
+          "slot": 60,
+          "bit": 17
+        },
+        {
+          "bit_index": 116,
+          "slot": 60,
+          "bit": 20
+        }
+      ],
+      "bit_indices": [
+        113,
+        116
+      ],
+      "hw_total": 70,
+      "score": 37.29,
+      "hw63": [
+        15,
+        15,
+        5,
+        0,
+        16,
+        14,
+        5,
+        0
+      ],
+      "delta_hw63": [
+        1,
+        10,
+        4,
+        0,
+        2,
+        6,
+        4,
+        0
+      ],
+      "net_delta": 27,
+      "total_repair": 0,
+      "total_damage": 27
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 97,
+          "slot": 60,
+          "bit": 1
+        },
+        {
+          "bit_index": 102,
+          "slot": 60,
+          "bit": 6
+        }
+      ],
+      "bit_indices": [
+        97,
+        102
+      ],
+      "hw_total": 70,
+      "score": 36.104,
+      "hw63": [
+        16,
+        14,
+        5,
+        0,
+        16,
+        13,
+        6,
+        0
+      ],
+      "delta_hw63": [
+        2,
+        9,
+        4,
+        0,
+        2,
+        5,
+        5,
+        0
+      ],
+      "net_delta": 27,
+      "total_repair": 0,
+      "total_damage": 27
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 106,
+          "slot": 60,
+          "bit": 10
+        },
+        {
+          "bit_index": 119,
+          "slot": 60,
+          "bit": 23
+        }
+      ],
+      "bit_indices": [
+        106,
+        119
+      ],
+      "hw_total": 70,
+      "score": 36.104,
+      "hw63": [
+        13,
+        15,
+        7,
+        0,
+        14,
+        17,
+        4,
+        0
+      ],
+      "delta_hw63": [
+        -1,
+        10,
+        6,
+        0,
+        0,
+        9,
+        3,
+        0
+      ],
+      "net_delta": 27,
+      "total_repair": 1,
+      "total_damage": 28
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 101,
+          "slot": 60,
+          "bit": 5
+        },
+        {
+          "bit_index": 104,
+          "slot": 60,
+          "bit": 8
+        }
+      ],
+      "bit_indices": [
+        101,
+        104
+      ],
+      "hw_total": 70,
+      "score": 34.876,
+      "hw63": [
+        16,
+        16,
+        7,
+        0,
+        16,
+        10,
+        5,
+        0
+      ],
+      "delta_hw63": [
+        2,
+        11,
+        6,
+        0,
+        2,
+        2,
+        4,
+        0
+      ],
+      "net_delta": 27,
+      "total_repair": 0,
+      "total_damage": 27
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 103,
+          "slot": 60,
+          "bit": 7
+        },
+        {
+          "bit_index": 111,
+          "slot": 60,
+          "bit": 15
+        }
+      ],
+      "bit_indices": [
+        103,
+        111
+      ],
+      "hw_total": 70,
+      "score": 34.876,
+      "hw63": [
+        11,
+        15,
+        4,
+        0,
+        15,
+        17,
+        8,
+        0
+      ],
+      "delta_hw63": [
+        -3,
+        10,
+        3,
+        0,
+        1,
+        9,
+        7,
+        0
+      ],
+      "net_delta": 27,
+      "total_repair": 3,
+      "total_damage": 30
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 102,
+          "slot": 60,
+          "bit": 6
+        },
+        {
+          "bit_index": 110,
+          "slot": 60,
+          "bit": 14
+        }
+      ],
+      "bit_indices": [
+        102,
+        110
+      ],
+      "hw_total": 70,
+      "score": 32.29,
+      "hw63": [
+        17,
+        12,
+        7,
+        0,
+        14,
+        13,
+        7,
+        0
+      ],
+      "delta_hw63": [
+        3,
+        7,
+        6,
+        0,
+        0,
+        5,
+        6,
+        0
+      ],
+      "net_delta": 27,
+      "total_repair": 0,
+      "total_damage": 27
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 114,
+          "slot": 60,
+          "bit": 18
+        },
+        {
+          "bit_index": 122,
+          "slot": 60,
+          "bit": 26
+        }
+      ],
+      "bit_indices": [
+        114,
+        122
+      ],
+      "hw_total": 70,
+      "score": 32.29,
+      "hw63": [
+        13,
+        18,
+        4,
+        0,
+        15,
+        10,
+        10,
+        0
+      ],
+      "delta_hw63": [
+        -1,
+        13,
+        3,
+        0,
+        1,
+        2,
+        9,
+        0
+      ],
+      "net_delta": 27,
+      "total_repair": 1,
+      "total_damage": 28
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 85,
+          "slot": 59,
+          "bit": 21
+        },
+        {
+          "bit_index": 99,
+          "slot": 60,
+          "bit": 3
+        }
+      ],
+      "bit_indices": [
+        85,
+        99
+      ],
+      "hw_total": 70,
+      "score": 30.926,
+      "hw63": [
+        17,
+        14,
+        8,
+        0,
+        9,
+        15,
+        7,
+        0
+      ],
+      "delta_hw63": [
+        3,
+        9,
+        7,
+        0,
+        -5,
+        7,
+        6,
+        0
+      ],
+      "net_delta": 27,
+      "total_repair": 5,
+      "total_damage": 32
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 64,
+          "slot": 59,
+          "bit": 0
+        },
+        {
+          "bit_index": 97,
+          "slot": 60,
+          "bit": 1
+        }
+      ],
+      "bit_indices": [
+        64,
+        97
+      ],
+      "hw_total": 70,
+      "score": 28.045,
+      "hw63": [
+        13,
+        14,
+        9,
+        0,
+        14,
+        12,
+        8,
+        0
+      ],
+      "delta_hw63": [
+        -1,
+        9,
+        8,
+        0,
+        0,
+        4,
+        7,
+        0
+      ],
+      "net_delta": 27,
+      "total_repair": 1,
+      "total_damage": 28
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 68,
+          "slot": 59,
+          "bit": 4
+        },
+        {
+          "bit_index": 119,
+          "slot": 60,
+          "bit": 23
+        }
+      ],
+      "bit_indices": [
+        68,
+        119
+      ],
+      "hw_total": 70,
+      "score": 26.521,
+      "hw63": [
+        14,
+        14,
+        8,
+        0,
+        14,
+        10,
+        10,
+        0
+      ],
+      "delta_hw63": [
+        0,
+        9,
+        7,
+        0,
+        0,
+        2,
+        9,
+        0
+      ],
+      "net_delta": 27,
+      "total_repair": 0,
+      "total_damage": 27
+    }
+  ],
+  "best_seen": {
+    "hw_total": 43,
+    "score": 79.073,
+    "bits": [],
+    "W": [
+      "0x4be5074f",
+      "0x429efff2",
+      "0xe09458af",
+      "0xe6560e70"
+    ],
+    "record": {
+      "candidate": {
+        "m0": "0xdc27e18c",
+        "fill": "0xffffffff",
+        "kernel_bit": 24
+      },
+      "w1_57": "0x4be5074f",
+      "w1_58": "0x429efff2",
+      "w1_59": "0xe09458af",
+      "w1_60": "0xe6560e70",
+      "w2_57": "0x8b1bab38",
+      "w2_58": "0x9adf28be",
+      "w2_59": "0xa95e0159",
+      "w2_60": "0xde6759f9",
+      "iv1_63": [
+        "0x49356a9f",
+        "0x2a5853ec",
+        "0x3e60b240",
+        "0xa7c88a36",
+        "0x15d141f7",
+        "0xc4d1ef14",
+        "0x69fdead2",
+        "0x9af1b6a2"
+      ],
+      "iv2_63": [
+        "0x31f96b2a",
+        "0x207c53ed",
+        "0x1e60b240",
+        "0xa7c88a36",
+        "0xd4f4957a",
+        "0xc2f4ee95",
+        "0x49fdead2",
+        "0x9af1b6a2"
+      ],
+      "diff63": [
+        "0x78cc01b5",
+        "0x0a240001",
+        "0x20000000",
+        "0x00000000",
+        "0xc125d48d",
+        "0x06250181",
+        "0x20000000",
+        "0x00000000"
+      ],
+      "hw63": [
+        14,
+        5,
+        1,
+        0,
+        14,
+        8,
+        1,
+        0
+      ],
+      "hw_total": 43,
+      "active_regs": [
+        "a",
+        "b",
+        "c",
+        "e",
+        "f",
+        "g"
+      ],
+      "da_eq_de": false
+    }
+  },
+  "top_records": [
+    {
+      "bits": [
+        {
+          "bit_index": 99,
+          "slot": 60,
+          "bit": 3
+        },
+        {
+          "bit_index": 102,
+          "slot": 60,
+          "bit": 6
+        },
+        {
+          "bit_index": 104,
+          "slot": 60,
+          "bit": 8
+        },
+        {
+          "bit_index": 123,
+          "slot": 60,
+          "bit": 27
+        },
+        {
+          "bit_index": 124,
+          "slot": 60,
+          "bit": 28
+        },
+        {
+          "bit_index": 125,
+          "slot": 60,
+          "bit": 29
+        },
+        {
+          "bit_index": 126,
+          "slot": 60,
+          "bit": 30
+        },
+        {
+          "bit_index": 127,
+          "slot": 60,
+          "bit": 31
+        }
+      ],
+      "hw_total": 46,
+      "score": 70.0,
+      "W": [
+        "0x4be5074f",
+        "0x429efff2",
+        "0xe09458af",
+        "0x1e560f38"
+      ],
+      "record": {
+        "candidate": {
+          "m0": "0xdc27e18c",
+          "fill": "0xffffffff",
+          "kernel_bit": 24
+        },
+        "w1_57": "0x4be5074f",
+        "w1_58": "0x429efff2",
+        "w1_59": "0xe09458af",
+        "w1_60": "0x1e560f38",
+        "w2_57": "0x8b1bab38",
+        "w2_58": "0x9adf28be",
+        "w2_59": "0xa95e0159",
+        "w2_60": "0x16675ac1",
+        "iv1_63": [
+          "0x0600457a",
+          "0x83d1de30",
+          "0xf6067917",
+          "0xdfc88afe",
+          "0x87d42083",
+          "0xc0fe20fc",
+          "0x39e44ffb",
+          "0xd2f1b76a"
+        ],
+        "iv2_63": [
+          "0x29084d2a",
+          "0x69937e60",
+          "0xd6067857",
+          "0xdfc88afe",
+          "0x9485205b",
+          "0xc4bbc15c",
+          "0x19e44f3b",
+          "0xd2f1b76a"
+        ],
+        "diff63": [
+          "0x2f080850",
+          "0xea42a050",
+          "0x20000140",
+          "0x00000000",
+          "0x135100d8",
+          "0x0445e1a0",
+          "0x200000c0",
+          "0x00000000"
+        ],
+        "hw63": [
+          9,
+          11,
+          3,
+          0,
+          10,
+          10,
+          3,
+          0
+        ],
+        "hw_total": 46,
+        "active_regs": [
+          "a",
+          "b",
+          "c",
+          "e",
+          "f",
+          "g"
+        ],
+        "da_eq_de": false
+      },
+      "objective": 53.93
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 96,
+          "slot": 60,
+          "bit": 0
+        },
+        {
+          "bit_index": 103,
+          "slot": 60,
+          "bit": 7
+        },
+        {
+          "bit_index": 104,
+          "slot": 60,
+          "bit": 8
+        },
+        {
+          "bit_index": 105,
+          "slot": 60,
+          "bit": 9
+        },
+        {
+          "bit_index": 107,
+          "slot": 60,
+          "bit": 11
+        },
+        {
+          "bit_index": 123,
+          "slot": 60,
+          "bit": 27
+        },
+        {
+          "bit_index": 125,
+          "slot": 60,
+          "bit": 29
+        }
+      ],
+      "hw_total": 47,
+      "score": 70.857,
+      "W": [
+        "0x4be5074f",
+        "0x429efff2",
+        "0xe09458af",
+        "0xce5605f1"
+      ],
+      "record": {
+        "candidate": {
+          "m0": "0xdc27e18c",
+          "fill": "0xffffffff",
+          "kernel_bit": 24
+        },
+        "w1_57": "0x4be5074f",
+        "w1_58": "0x429efff2",
+        "w1_59": "0xe09458af",
+        "w1_60": "0xce5605f1",
+        "w2_57": "0x8b1bab38",
+        "w2_58": "0x9adf28be",
+        "w2_59": "0xa95e0159",
+        "w2_60": "0xc667517a",
+        "iv1_63": [
+          "0x91fd86c8",
+          "0x7f0e0c53",
+          "0x340234aa",
+          "0x8fc881b7",
+          "0xbd27abc9",
+          "0x18958292",
+          "0x6dc6bafc",
+          "0x82f1ae23"
+        ],
+        "iv2_63": [
+          "0x619f94c0",
+          "0x249f4d53",
+          "0x14022caa",
+          "0x8fc881b7",
+          "0x6e272c1d",
+          "0x15c7c612",
+          "0x4dc6b2fc",
+          "0x82f1ae23"
+        ],
+        "diff63": [
+          "0xf0621208",
+          "0x5b914100",
+          "0x20001800",
+          "0x00000000",
+          "0xd30087d4",
+          "0x0d524480",
+          "0x20000800",
+          "0x00000000"
+        ],
+        "hw63": [
+          10,
+          10,
+          3,
+          0,
+          13,
+          9,
+          2,
+          0
+        ],
+        "hw_total": 47,
+        "active_regs": [
+          "a",
+          "b",
+          "c",
+          "e",
+          "f",
+          "g"
+        ],
+        "da_eq_de": false
+      },
+      "objective": 52.929143
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 103,
+          "slot": 60,
+          "bit": 7
+        },
+        {
+          "bit_index": 104,
+          "slot": 60,
+          "bit": 8
+        },
+        {
+          "bit_index": 105,
+          "slot": 60,
+          "bit": 9
+        },
+        {
+          "bit_index": 107,
+          "slot": 60,
+          "bit": 11
+        },
+        {
+          "bit_index": 122,
+          "slot": 60,
+          "bit": 26
+        },
+        {
+          "bit_index": 126,
+          "slot": 60,
+          "bit": 30
+        }
+      ],
+      "hw_total": 48,
+      "score": 66.756,
+      "W": [
+        "0x4be5074f",
+        "0x429efff2",
+        "0xe09458af",
+        "0xa25605f0"
+      ],
+      "record": {
+        "candidate": {
+          "m0": "0xdc27e18c",
+          "fill": "0xffffffff",
+          "kernel_bit": 24
+        },
+        "w1_57": "0x4be5074f",
+        "w1_58": "0x429efff2",
+        "w1_59": "0xe09458af",
+        "w1_60": "0xa25605f0",
+        "w2_57": "0x8b1bab38",
+        "w2_58": "0x9adf28be",
+        "w2_59": "0xa95e0159",
+        "w2_60": "0x9a675179",
+        "iv1_63": [
+          "0x7371cad5",
+          "0x9405067d",
+          "0xda1b1c95",
+          "0x63c881b6",
+          "0x4e120e85",
+          "0x13a4e22c",
+          "0xace03b57",
+          "0x56f1ae22"
+        ],
+        "iv2_63": [
+          "0x57d84e94",
+          "0x9b640b7f",
+          "0x3a1b1495",
+          "0x63c881b6",
+          "0xdf258597",
+          "0x12e0e6ae",
+          "0x0ce03357",
+          "0x56f1ae22"
+        ],
+        "diff63": [
+          "0x24a98441",
+          "0x0f610d02",
+          "0xe0000800",
+          "0x00000000",
+          "0x91378b12",
+          "0x01440482",
+          "0xa0000800",
+          "0x00000000"
+        ],
+        "hw63": [
+          10,
+          11,
+          4,
+          0,
+          14,
+          6,
+          3,
+          0
+        ],
+        "hw_total": 48,
+        "active_regs": [
+          "a",
+          "b",
+          "c",
+          "e",
+          "f",
+          "g"
+        ],
+        "da_eq_de": false
+      },
+      "objective": 57.933244
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 103,
+          "slot": 60,
+          "bit": 7
+        },
+        {
+          "bit_index": 104,
+          "slot": 60,
+          "bit": 8
+        },
+        {
+          "bit_index": 105,
+          "slot": 60,
+          "bit": 9
+        },
+        {
+          "bit_index": 107,
+          "slot": 60,
+          "bit": 11
+        },
+        {
+          "bit_index": 122,
+          "slot": 60,
+          "bit": 26
+        },
+        {
+          "bit_index": 126,
+          "slot": 60,
+          "bit": 30
+        }
+      ],
+      "hw_total": 48,
+      "score": 66.756,
+      "W": [
+        "0x4be5074f",
+        "0x429efff2",
+        "0xe09458af",
+        "0xa25605f0"
+      ],
+      "record": {
+        "candidate": {
+          "m0": "0xdc27e18c",
+          "fill": "0xffffffff",
+          "kernel_bit": 24
+        },
+        "w1_57": "0x4be5074f",
+        "w1_58": "0x429efff2",
+        "w1_59": "0xe09458af",
+        "w1_60": "0xa25605f0",
+        "w2_57": "0x8b1bab38",
+        "w2_58": "0x9adf28be",
+        "w2_59": "0xa95e0159",
+        "w2_60": "0x9a675179",
+        "iv1_63": [
+          "0x7371cad5",
+          "0x9405067d",
+          "0xda1b1c95",
+          "0x63c881b6",
+          "0x4e120e85",
+          "0x13a4e22c",
+          "0xace03b57",
+          "0x56f1ae22"
+        ],
+        "iv2_63": [
+          "0x57d84e94",
+          "0x9b640b7f",
+          "0x3a1b1495",
+          "0x63c881b6",
+          "0xdf258597",
+          "0x12e0e6ae",
+          "0x0ce03357",
+          "0x56f1ae22"
+        ],
+        "diff63": [
+          "0x24a98441",
+          "0x0f610d02",
+          "0xe0000800",
+          "0x00000000",
+          "0x91378b12",
+          "0x01440482",
+          "0xa0000800",
+          "0x00000000"
+        ],
+        "hw63": [
+          10,
+          11,
+          4,
+          0,
+          14,
+          6,
+          3,
+          0
+        ],
+        "hw_total": 48,
+        "active_regs": [
+          "a",
+          "b",
+          "c",
+          "e",
+          "f",
+          "g"
+        ],
+        "da_eq_de": false
+      },
+      "objective": 57.933244
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 124,
+          "slot": 60,
+          "bit": 28
+        },
+        {
+          "bit_index": 125,
+          "slot": 60,
+          "bit": 29
+        }
+      ],
+      "hw_total": 49,
+      "score": 73.447,
+      "W": [
+        "0x4be5074f",
+        "0x429efff2",
+        "0xe09458af",
+        "0xd6560e70"
+      ],
+      "record": {
+        "candidate": {
+          "m0": "0xdc27e18c",
+          "fill": "0xffffffff",
+          "kernel_bit": 24
+        },
+        "w1_57": "0x4be5074f",
+        "w1_58": "0x429efff2",
+        "w1_59": "0xe09458af",
+        "w1_60": "0xd6560e70",
+        "w2_57": "0x8b1bab38",
+        "w2_58": "0x9adf28be",
+        "w2_59": "0xa95e0159",
+        "w2_60": "0xce6759f9",
+        "iv1_63": [
+          "0x1a591b39",
+          "0x0ad9afa3",
+          "0x3a1d3288",
+          "0x97c88a36",
+          "0x160c1fd5",
+          "0xc6c2edcc",
+          "0x69bbeada",
+          "0x8af1b6a2"
+        ],
+        "iv2_63": [
+          "0x159e9223",
+          "0xe0cbbea4",
+          "0x1a1d3288",
+          "0x97c88a36",
+          "0x8e82bd54",
+          "0xc4b3fd4d",
+          "0x49bbeada",
+          "0x8af1b6a2"
+        ],
+        "diff63": [
+          "0x0fc7891a",
+          "0xea121107",
+          "0x20000000",
+          "0x00000000",
+          "0x988ea281",
+          "0x02711081",
+          "0x20000000",
+          "0x00000000"
+        ],
+        "hw63": [
+          15,
+          12,
+          1,
+          0,
+          12,
+          8,
+          1,
+          0
+        ],
+        "hw_total": 49,
+        "active_regs": [
+          "a",
+          "b",
+          "c",
+          "e",
+          "f",
+          "g"
+        ],
+        "da_eq_de": false
+      },
+      "objective": 48.926553
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 124,
+          "slot": 60,
+          "bit": 28
+        },
+        {
+          "bit_index": 125,
+          "slot": 60,
+          "bit": 29
+        }
+      ],
+      "hw_total": 49,
+      "score": 73.447,
+      "W": [
+        "0x4be5074f",
+        "0x429efff2",
+        "0xe09458af",
+        "0xd6560e70"
+      ],
+      "record": {
+        "candidate": {
+          "m0": "0xdc27e18c",
+          "fill": "0xffffffff",
+          "kernel_bit": 24
+        },
+        "w1_57": "0x4be5074f",
+        "w1_58": "0x429efff2",
+        "w1_59": "0xe09458af",
+        "w1_60": "0xd6560e70",
+        "w2_57": "0x8b1bab38",
+        "w2_58": "0x9adf28be",
+        "w2_59": "0xa95e0159",
+        "w2_60": "0xce6759f9",
+        "iv1_63": [
+          "0x1a591b39",
+          "0x0ad9afa3",
+          "0x3a1d3288",
+          "0x97c88a36",
+          "0x160c1fd5",
+          "0xc6c2edcc",
+          "0x69bbeada",
+          "0x8af1b6a2"
+        ],
+        "iv2_63": [
+          "0x159e9223",
+          "0xe0cbbea4",
+          "0x1a1d3288",
+          "0x97c88a36",
+          "0x8e82bd54",
+          "0xc4b3fd4d",
+          "0x49bbeada",
+          "0x8af1b6a2"
+        ],
+        "diff63": [
+          "0x0fc7891a",
+          "0xea121107",
+          "0x20000000",
+          "0x00000000",
+          "0x988ea281",
+          "0x02711081",
+          "0x20000000",
+          "0x00000000"
+        ],
+        "hw63": [
+          15,
+          12,
+          1,
+          0,
+          12,
+          8,
+          1,
+          0
+        ],
+        "hw_total": 49,
+        "active_regs": [
+          "a",
+          "b",
+          "c",
+          "e",
+          "f",
+          "g"
+        ],
+        "da_eq_de": false
+      },
+      "objective": 48.926553
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 124,
+          "slot": 60,
+          "bit": 28
+        },
+        {
+          "bit_index": 125,
+          "slot": 60,
+          "bit": 29
+        }
+      ],
+      "hw_total": 49,
+      "score": 73.447,
+      "W": [
+        "0x4be5074f",
+        "0x429efff2",
+        "0xe09458af",
+        "0xd6560e70"
+      ],
+      "record": {
+        "candidate": {
+          "m0": "0xdc27e18c",
+          "fill": "0xffffffff",
+          "kernel_bit": 24
+        },
+        "w1_57": "0x4be5074f",
+        "w1_58": "0x429efff2",
+        "w1_59": "0xe09458af",
+        "w1_60": "0xd6560e70",
+        "w2_57": "0x8b1bab38",
+        "w2_58": "0x9adf28be",
+        "w2_59": "0xa95e0159",
+        "w2_60": "0xce6759f9",
+        "iv1_63": [
+          "0x1a591b39",
+          "0x0ad9afa3",
+          "0x3a1d3288",
+          "0x97c88a36",
+          "0x160c1fd5",
+          "0xc6c2edcc",
+          "0x69bbeada",
+          "0x8af1b6a2"
+        ],
+        "iv2_63": [
+          "0x159e9223",
+          "0xe0cbbea4",
+          "0x1a1d3288",
+          "0x97c88a36",
+          "0x8e82bd54",
+          "0xc4b3fd4d",
+          "0x49bbeada",
+          "0x8af1b6a2"
+        ],
+        "diff63": [
+          "0x0fc7891a",
+          "0xea121107",
+          "0x20000000",
+          "0x00000000",
+          "0x988ea281",
+          "0x02711081",
+          "0x20000000",
+          "0x00000000"
+        ],
+        "hw63": [
+          15,
+          12,
+          1,
+          0,
+          12,
+          8,
+          1,
+          0
+        ],
+        "hw_total": 49,
+        "active_regs": [
+          "a",
+          "b",
+          "c",
+          "e",
+          "f",
+          "g"
+        ],
+        "da_eq_de": false
+      },
+      "objective": 48.926553
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 124,
+          "slot": 60,
+          "bit": 28
+        },
+        {
+          "bit_index": 125,
+          "slot": 60,
+          "bit": 29
+        }
+      ],
+      "hw_total": 49,
+      "score": 73.447,
+      "W": [
+        "0x4be5074f",
+        "0x429efff2",
+        "0xe09458af",
+        "0xd6560e70"
+      ],
+      "record": {
+        "candidate": {
+          "m0": "0xdc27e18c",
+          "fill": "0xffffffff",
+          "kernel_bit": 24
+        },
+        "w1_57": "0x4be5074f",
+        "w1_58": "0x429efff2",
+        "w1_59": "0xe09458af",
+        "w1_60": "0xd6560e70",
+        "w2_57": "0x8b1bab38",
+        "w2_58": "0x9adf28be",
+        "w2_59": "0xa95e0159",
+        "w2_60": "0xce6759f9",
+        "iv1_63": [
+          "0x1a591b39",
+          "0x0ad9afa3",
+          "0x3a1d3288",
+          "0x97c88a36",
+          "0x160c1fd5",
+          "0xc6c2edcc",
+          "0x69bbeada",
+          "0x8af1b6a2"
+        ],
+        "iv2_63": [
+          "0x159e9223",
+          "0xe0cbbea4",
+          "0x1a1d3288",
+          "0x97c88a36",
+          "0x8e82bd54",
+          "0xc4b3fd4d",
+          "0x49bbeada",
+          "0x8af1b6a2"
+        ],
+        "diff63": [
+          "0x0fc7891a",
+          "0xea121107",
+          "0x20000000",
+          "0x00000000",
+          "0x988ea281",
+          "0x02711081",
+          "0x20000000",
+          "0x00000000"
+        ],
+        "hw63": [
+          15,
+          12,
+          1,
+          0,
+          12,
+          8,
+          1,
+          0
+        ],
+        "hw_total": 49,
+        "active_regs": [
+          "a",
+          "b",
+          "c",
+          "e",
+          "f",
+          "g"
+        ],
+        "da_eq_de": false
+      },
+      "objective": 48.926553
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 101,
+          "slot": 60,
+          "bit": 5
+        },
+        {
+          "bit_index": 120,
+          "slot": 60,
+          "bit": 24
+        },
+        {
+          "bit_index": 124,
+          "slot": 60,
+          "bit": 28
+        },
+        {
+          "bit_index": 125,
+          "slot": 60,
+          "bit": 29
+        },
+        {
+          "bit_index": 126,
+          "slot": 60,
+          "bit": 30
+        },
+        {
+          "bit_index": 127,
+          "slot": 60,
+          "bit": 31
+        }
+      ],
+      "hw_total": 51,
+      "score": 62.837,
+      "W": [
+        "0x4be5074f",
+        "0x429efff2",
+        "0xe09458af",
+        "0x17560e50"
+      ],
+      "record": {
+        "candidate": {
+          "m0": "0xdc27e18c",
+          "fill": "0xffffffff",
+          "kernel_bit": 24
+        },
+        "w1_57": "0x4be5074f",
+        "w1_58": "0x429efff2",
+        "w1_59": "0xe09458af",
+        "w1_60": "0x17560e50",
+        "w2_57": "0x8b1bab38",
+        "w2_58": "0x9adf28be",
+        "w2_59": "0xa95e0159",
+        "w2_60": "0x0f6759d9",
+        "iv1_63": [
+          "0x06149874",
+          "0x1d0668db",
+          "0xde67db74",
+          "0xd8c88a16",
+          "0x81310ff9",
+          "0x3478e4c5",
+          "0x25c81aba",
+          "0xcbf1b682"
+        ],
+        "iv2_63": [
+          "0x33b35a7d",
+          "0x34aef0f7",
+          "0xbf67db54",
+          "0xd8c88a16",
+          "0x75101adb",
+          "0x3462e465",
+          "0x06c81a9a",
+          "0xcbf1b682"
+        ],
+        "diff63": [
+          "0x35a7c209",
+          "0x29a8982c",
+          "0x61000020",
+          "0x00000000",
+          "0xf4211522",
+          "0x001a00a0",
+          "0x23000020",
+          "0x00000000"
+        ],
+        "hw63": [
+          14,
+          12,
+          4,
+          0,
+          12,
+          5,
+          4,
+          0
+        ],
+        "hw_total": 51,
+        "active_regs": [
+          "a",
+          "b",
+          "c",
+          "e",
+          "f",
+          "g"
+        ],
+        "da_eq_de": false
+      },
+      "objective": 62.937163
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 99,
+          "slot": 60,
+          "bit": 3
+        },
+        {
+          "bit_index": 102,
+          "slot": 60,
+          "bit": 6
+        },
+        {
+          "bit_index": 112,
+          "slot": 60,
+          "bit": 16
+        },
+        {
+          "bit_index": 122,
+          "slot": 60,
+          "bit": 26
+        },
+        {
+          "bit_index": 126,
+          "slot": 60,
+          "bit": 30
+        },
+        {
+          "bit_index": 127,
+          "slot": 60,
+          "bit": 31
+        }
+      ],
+      "hw_total": 51,
+      "score": 62.837,
+      "W": [
+        "0x4be5074f",
+        "0x429efff2",
+        "0xe09458af",
+        "0x22570e38"
+      ],
+      "record": {
+        "candidate": {
+          "m0": "0xdc27e18c",
+          "fill": "0xffffffff",
+          "kernel_bit": 24
+        },
+        "w1_57": "0x4be5074f",
+        "w1_58": "0x429efff2",
+        "w1_59": "0xe09458af",
+        "w1_60": "0x22570e38",
+        "w2_57": "0x8b1bab38",
+        "w2_58": "0x9adf28be",
+        "w2_59": "0xa95e0159",
+        "w2_60": "0x1a6859c1",
+        "iv1_63": [
+          "0x8d4177aa",
+          "0x6bec2d20",
+          "0xdd88ccb1",
+          "0xe3c989fe",
+          "0xcdc974c0",
+          "0xb41768e0",
+          "0x1673435d",
+          "0xd6f2b66a"
+        ],
+        "iv2_63": [
+          "0xe1db5fc4",
+          "0x48e92fb0",
+          "0xbd88ccf1",
+          "0xe3c989fe",
+          "0x1ca8649a",
+          "0x97166a00",
+          "0xf673439d",
+          "0xd6f2b66a"
+        ],
+        "diff63": [
+          "0x6c9a286e",
+          "0x23050290",
+          "0x60000040",
+          "0x00000000",
+          "0xd161105a",
+          "0x230102e0",
+          "0xe00000c0",
+          "0x00000000"
+        ],
+        "hw63": [
+          15,
+          8,
+          3,
+          0,
+          12,
+          8,
+          5,
+          0
+        ],
+        "hw_total": 51,
+        "active_regs": [
+          "a",
+          "b",
+          "c",
+          "e",
+          "f",
+          "g"
+        ],
+        "da_eq_de": false
+      },
+      "objective": 62.937163
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 101,
+          "slot": 60,
+          "bit": 5
+        },
+        {
+          "bit_index": 120,
+          "slot": 60,
+          "bit": 24
+        },
+        {
+          "bit_index": 124,
+          "slot": 60,
+          "bit": 28
+        },
+        {
+          "bit_index": 125,
+          "slot": 60,
+          "bit": 29
+        },
+        {
+          "bit_index": 126,
+          "slot": 60,
+          "bit": 30
+        },
+        {
+          "bit_index": 127,
+          "slot": 60,
+          "bit": 31
+        }
+      ],
+      "hw_total": 51,
+      "score": 62.837,
+      "W": [
+        "0x4be5074f",
+        "0x429efff2",
+        "0xe09458af",
+        "0x17560e50"
+      ],
+      "record": {
+        "candidate": {
+          "m0": "0xdc27e18c",
+          "fill": "0xffffffff",
+          "kernel_bit": 24
+        },
+        "w1_57": "0x4be5074f",
+        "w1_58": "0x429efff2",
+        "w1_59": "0xe09458af",
+        "w1_60": "0x17560e50",
+        "w2_57": "0x8b1bab38",
+        "w2_58": "0x9adf28be",
+        "w2_59": "0xa95e0159",
+        "w2_60": "0x0f6759d9",
+        "iv1_63": [
+          "0x06149874",
+          "0x1d0668db",
+          "0xde67db74",
+          "0xd8c88a16",
+          "0x81310ff9",
+          "0x3478e4c5",
+          "0x25c81aba",
+          "0xcbf1b682"
+        ],
+        "iv2_63": [
+          "0x33b35a7d",
+          "0x34aef0f7",
+          "0xbf67db54",
+          "0xd8c88a16",
+          "0x75101adb",
+          "0x3462e465",
+          "0x06c81a9a",
+          "0xcbf1b682"
+        ],
+        "diff63": [
+          "0x35a7c209",
+          "0x29a8982c",
+          "0x61000020",
+          "0x00000000",
+          "0xf4211522",
+          "0x001a00a0",
+          "0x23000020",
+          "0x00000000"
+        ],
+        "hw63": [
+          14,
+          12,
+          4,
+          0,
+          12,
+          5,
+          4,
+          0
+        ],
+        "hw_total": 51,
+        "active_regs": [
+          "a",
+          "b",
+          "c",
+          "e",
+          "f",
+          "g"
+        ],
+        "da_eq_de": false
+      },
+      "objective": 62.937163
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 96,
+          "slot": 60,
+          "bit": 0
+        },
+        {
+          "bit_index": 99,
+          "slot": 60,
+          "bit": 3
+        },
+        {
+          "bit_index": 102,
+          "slot": 60,
+          "bit": 6
+        },
+        {
+          "bit_index": 120,
+          "slot": 60,
+          "bit": 24
+        },
+        {
+          "bit_index": 123,
+          "slot": 60,
+          "bit": 27
+        },
+        {
+          "bit_index": 125,
+          "slot": 60,
+          "bit": 29
+        },
+        {
+          "bit_index": 126,
+          "slot": 60,
+          "bit": 30
+        },
+        {
+          "bit_index": 127,
+          "slot": 60,
+          "bit": 31
+        }
+      ],
+      "hw_total": 51,
+      "score": 62.837,
+      "W": [
+        "0x4be5074f",
+        "0x429efff2",
+        "0xe09458af",
+        "0x0f560e39"
+      ],
+      "record": {
+        "candidate": {
+          "m0": "0xdc27e18c",
+          "fill": "0xffffffff",
+          "kernel_bit": 24
+        },
+        "w1_57": "0x4be5074f",
+        "w1_58": "0x429efff2",
+        "w1_59": "0xe09458af",
+        "w1_60": "0x0f560e39",
+        "w2_57": "0x8b1bab38",
+        "w2_58": "0x9adf28be",
+        "w2_59": "0xa95e0159",
+        "w2_60": "0x076759c2",
+        "iv1_63": [
+          "0xaae3451f",
+          "0xba978844",
+          "0x22a50b96",
+          "0xd0c889ff",
+          "0xb559f74e",
+          "0x01678bf7",
+          "0x94c6ae86",
+          "0xc3f1b66b"
+        ],
+        "iv2_63": [
+          "0x73518f16",
+          "0xacd390bc",
+          "0x03a50bd6",
+          "0xd0c889ff",
+          "0x0199f564",
+          "0x08639be3",
+          "0x75c6aec6",
+          "0xc3f1b66b"
+        ],
+        "diff63": [
+          "0xd9b2ca09",
+          "0x164418f8",
+          "0x21000040",
+          "0x00000000",
+          "0xb4c0022a",
+          "0x09041014",
+          "0xe1000040",
+          "0x00000000"
+        ],
+        "hw63": [
+          15,
+          12,
+          3,
+          0,
+          10,
+          6,
+          5,
+          0
+        ],
+        "hw_total": 51,
+        "active_regs": [
+          "a",
+          "b",
+          "c",
+          "e",
+          "f",
+          "g"
+        ],
+        "da_eq_de": false
+      },
+      "objective": 62.937163
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 99,
+          "slot": 60,
+          "bit": 3
+        },
+        {
+          "bit_index": 102,
+          "slot": 60,
+          "bit": 6
+        },
+        {
+          "bit_index": 112,
+          "slot": 60,
+          "bit": 16
+        },
+        {
+          "bit_index": 122,
+          "slot": 60,
+          "bit": 26
+        },
+        {
+          "bit_index": 126,
+          "slot": 60,
+          "bit": 30
+        },
+        {
+          "bit_index": 127,
+          "slot": 60,
+          "bit": 31
+        }
+      ],
+      "hw_total": 51,
+      "score": 62.837,
+      "W": [
+        "0x4be5074f",
+        "0x429efff2",
+        "0xe09458af",
+        "0x22570e38"
+      ],
+      "record": {
+        "candidate": {
+          "m0": "0xdc27e18c",
+          "fill": "0xffffffff",
+          "kernel_bit": 24
+        },
+        "w1_57": "0x4be5074f",
+        "w1_58": "0x429efff2",
+        "w1_59": "0xe09458af",
+        "w1_60": "0x22570e38",
+        "w2_57": "0x8b1bab38",
+        "w2_58": "0x9adf28be",
+        "w2_59": "0xa95e0159",
+        "w2_60": "0x1a6859c1",
+        "iv1_63": [
+          "0x8d4177aa",
+          "0x6bec2d20",
+          "0xdd88ccb1",
+          "0xe3c989fe",
+          "0xcdc974c0",
+          "0xb41768e0",
+          "0x1673435d",
+          "0xd6f2b66a"
+        ],
+        "iv2_63": [
+          "0xe1db5fc4",
+          "0x48e92fb0",
+          "0xbd88ccf1",
+          "0xe3c989fe",
+          "0x1ca8649a",
+          "0x97166a00",
+          "0xf673439d",
+          "0xd6f2b66a"
+        ],
+        "diff63": [
+          "0x6c9a286e",
+          "0x23050290",
+          "0x60000040",
+          "0x00000000",
+          "0xd161105a",
+          "0x230102e0",
+          "0xe00000c0",
+          "0x00000000"
+        ],
+        "hw63": [
+          15,
+          8,
+          3,
+          0,
+          12,
+          8,
+          5,
+          0
+        ],
+        "hw_total": 51,
+        "active_regs": [
+          "a",
+          "b",
+          "c",
+          "e",
+          "f",
+          "g"
+        ],
+        "da_eq_de": false
+      },
+      "objective": 62.937163
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 99,
+          "slot": 60,
+          "bit": 3
+        },
+        {
+          "bit_index": 112,
+          "slot": 60,
+          "bit": 16
+        },
+        {
+          "bit_index": 114,
+          "slot": 60,
+          "bit": 18
+        },
+        {
+          "bit_index": 126,
+          "slot": 60,
+          "bit": 30
+        }
+      ],
+      "hw_total": 51,
+      "score": 57.5,
+      "W": [
+        "0x4be5074f",
+        "0x429efff2",
+        "0xe09458af",
+        "0xa6530e78"
+      ],
+      "record": {
+        "candidate": {
+          "m0": "0xdc27e18c",
+          "fill": "0xffffffff",
+          "kernel_bit": 24
+        },
+        "w1_57": "0x4be5074f",
+        "w1_58": "0x429efff2",
+        "w1_59": "0xe09458af",
+        "w1_60": "0xa6530e78",
+        "w2_57": "0x8b1bab38",
+        "w2_58": "0x9adf28be",
+        "w2_59": "0xa95e0159",
+        "w2_60": "0x9e645a01",
+        "iv1_63": [
+          "0xd1826e3d",
+          "0x73d98658",
+          "0xe6b679ae",
+          "0x67c58a3e",
+          "0x111da5b6",
+          "0x489b2ac0",
+          "0x8e9cd35a",
+          "0x5aeeb6aa"
+        ],
+        "iv2_63": [
+          "0xf083efa5",
+          "0xfb6c957b",
+          "0x46c279ae",
+          "0x67c58a3e",
+          "0x910ba4dc",
+          "0xa81638c2",
+          "0xeea8d35a",
+          "0x5aeeb6aa"
+        ],
+        "diff63": [
+          "0x21018198",
+          "0x88b51323",
+          "0xa0740000",
+          "0x00000000",
+          "0x8016016a",
+          "0xe08d1202",
+          "0x60340000",
+          "0x00000000"
+        ],
+        "hw63": [
+          8,
+          13,
+          6,
+          0,
+          9,
+          10,
+          5,
+          0
+        ],
+        "hw_total": 51,
+        "active_regs": [
+          "a",
+          "b",
+          "c",
+          "e",
+          "f",
+          "g"
+        ],
+        "da_eq_de": false
+      },
+      "objective": 68.9425
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 112,
+          "slot": 60,
+          "bit": 16
+        },
+        {
+          "bit_index": 124,
+          "slot": 60,
+          "bit": 28
+        },
+        {
+          "bit_index": 125,
+          "slot": 60,
+          "bit": 29
+        },
+        {
+          "bit_index": 127,
+          "slot": 60,
+          "bit": 31
+        }
+      ],
+      "hw_total": 52,
+      "score": 66.617,
+      "W": [
+        "0x4be5074f",
+        "0x429efff2",
+        "0xe09458af",
+        "0x56570e70"
+      ],
+      "record": {
+        "candidate": {
+          "m0": "0xdc27e18c",
+          "fill": "0xffffffff",
+          "kernel_bit": 24
+        },
+        "w1_57": "0x4be5074f",
+        "w1_58": "0x429efff2",
+        "w1_59": "0xe09458af",
+        "w1_60": "0x56570e70",
+        "w2_57": "0x8b1bab38",
+        "w2_58": "0x9adf28be",
+        "w2_59": "0xa95e0159",
+        "w2_60": "0x4e6859f9",
+        "iv1_63": [
+          "0x26230c8c",
+          "0x683afe89",
+          "0x54a7ec70",
+          "0x17c98a36",
+          "0x7b54a2d3",
+          "0x9125937c",
+          "0xe84ae6ba",
+          "0x0af2b6a2"
+        ],
+        "iv2_63": [
+          "0x3272942e",
+          "0xef3e05d0",
+          "0xb4a7ec70",
+          "0x17c98a36",
+          "0x7d00acd2",
+          "0xd0259d43",
+          "0x484ae6ba",
+          "0x0af2b6a2"
+        ],
+        "diff63": [
+          "0x145198a2",
+          "0x8704fb59",
+          "0xe0000000",
+          "0x00000000",
+          "0x06540e01",
+          "0x41000e3f",
+          "0xa0000000",
+          "0x00000000"
+        ],
+        "hw63": [
+          11,
+          16,
+          3,
+          0,
+          9,
+          11,
+          2,
+          0
+        ],
+        "hw_total": 52,
+        "active_regs": [
+          "a",
+          "b",
+          "c",
+          "e",
+          "f",
+          "g"
+        ],
+        "da_eq_de": false
+      },
+      "objective": 57.933383
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 96,
+          "slot": 60,
+          "bit": 0
+        },
+        {
+          "bit_index": 116,
+          "slot": 60,
+          "bit": 20
+        },
+        {
+          "bit_index": 122,
+          "slot": 60,
+          "bit": 26
+        },
+        {
+          "bit_index": 123,
+          "slot": 60,
+          "bit": 27
+        }
+      ],
+      "hw_total": 52,
+      "score": 66.617,
+      "W": [
+        "0x4be5074f",
+        "0x429efff2",
+        "0xe09458af",
+        "0xea460e71"
+      ],
+      "record": {
+        "candidate": {
+          "m0": "0xdc27e18c",
+          "fill": "0xffffffff",
+          "kernel_bit": 24
+        },
+        "w1_57": "0x4be5074f",
+        "w1_58": "0x429efff2",
+        "w1_59": "0xe09458af",
+        "w1_60": "0xea460e71",
+        "w2_57": "0x8b1bab38",
+        "w2_58": "0x9adf28be",
+        "w2_59": "0xa95e0159",
+        "w2_60": "0xe25759fa",
+        "iv1_63": [
+          "0x7eae7be5",
+          "0x07007306",
+          "0xb95bcf52",
+          "0xabb88a37",
+          "0xaaf6d43d",
+          "0x08fb5199",
+          "0x69ed2c53",
+          "0x9ee1b6a3"
+        ],
+        "iv2_63": [
+          "0x4d024b95",
+          "0xc5427b8f",
+          "0x996bcf52",
+          "0xabb88a37",
+          "0x8e7454e5",
+          "0x0f285b22",
+          "0x49fd2c53",
+          "0x9ee1b6a3"
+        ],
+        "diff63": [
+          "0x33ac3070",
+          "0xc2420889",
+          "0x20300000",
+          "0x00000000",
+          "0x248280d8",
+          "0x07d30abb",
+          "0x20100000",
+          "0x00000000"
+        ],
+        "hw63": [
+          13,
+          9,
+          3,
+          0,
+          9,
+          16,
+          2,
+          0
+        ],
+        "hw_total": 52,
+        "active_regs": [
+          "a",
+          "b",
+          "c",
+          "e",
+          "f",
+          "g"
+        ],
+        "da_eq_de": false
+      },
+      "objective": 57.933383
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 106,
+          "slot": 60,
+          "bit": 10
+        },
+        {
+          "bit_index": 107,
+          "slot": 60,
+          "bit": 11
+        },
+        {
+          "bit_index": 108,
+          "slot": 60,
+          "bit": 12
+        },
+        {
+          "bit_index": 112,
+          "slot": 60,
+          "bit": 16
+        }
+      ],
+      "hw_total": 52,
+      "score": 66.617,
+      "W": [
+        "0x4be5074f",
+        "0x429efff2",
+        "0xe09458af",
+        "0xe6571270"
+      ],
+      "record": {
+        "candidate": {
+          "m0": "0xdc27e18c",
+          "fill": "0xffffffff",
+          "kernel_bit": 24
+        },
+        "w1_57": "0x4be5074f",
+        "w1_58": "0x429efff2",
+        "w1_59": "0xe09458af",
+        "w1_60": "0xe6571270",
+        "w2_57": "0x8b1bab38",
+        "w2_58": "0x9adf28be",
+        "w2_59": "0xa95e0159",
+        "w2_60": "0xde685df9",
+        "iv1_63": [
+          "0x9a322214",
+          "0x7b2cd32d",
+          "0xe2f17397",
+          "0xa7c98e36",
+          "0x30f956e8",
+          "0x5b19790a",
+          "0xea7ee721",
+          "0x9af2baa2"
+        ],
+        "iv2_63": [
+          "0x8a1694eb",
+          "0x1761da2d",
+          "0xc2f17797",
+          "0xa7c98e36",
+          "0xddf99d28",
+          "0x0f3f7b8a",
+          "0xca7eeb21",
+          "0x9af2baa2"
+        ],
+        "diff63": [
+          "0x1024b6ff",
+          "0x6c4d0900",
+          "0x20000400",
+          "0x00000000",
+          "0xed00cbc0",
+          "0x54260280",
+          "0x20000c00",
+          "0x00000000"
+        ],
+        "hw63": [
+          16,
+          10,
+          2,
+          0,
+          13,
+          8,
+          3,
+          0
+        ],
+        "hw_total": 52,
+        "active_regs": [
+          "a",
+          "b",
+          "c",
+          "e",
+          "f",
+          "g"
+        ],
+        "da_eq_de": false
+      },
+      "objective": 57.933383
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 112,
+          "slot": 60,
+          "bit": 16
+        },
+        {
+          "bit_index": 124,
+          "slot": 60,
+          "bit": 28
+        },
+        {
+          "bit_index": 125,
+          "slot": 60,
+          "bit": 29
+        },
+        {
+          "bit_index": 127,
+          "slot": 60,
+          "bit": 31
+        }
+      ],
+      "hw_total": 52,
+      "score": 66.617,
+      "W": [
+        "0x4be5074f",
+        "0x429efff2",
+        "0xe09458af",
+        "0x56570e70"
+      ],
+      "record": {
+        "candidate": {
+          "m0": "0xdc27e18c",
+          "fill": "0xffffffff",
+          "kernel_bit": 24
+        },
+        "w1_57": "0x4be5074f",
+        "w1_58": "0x429efff2",
+        "w1_59": "0xe09458af",
+        "w1_60": "0x56570e70",
+        "w2_57": "0x8b1bab38",
+        "w2_58": "0x9adf28be",
+        "w2_59": "0xa95e0159",
+        "w2_60": "0x4e6859f9",
+        "iv1_63": [
+          "0x26230c8c",
+          "0x683afe89",
+          "0x54a7ec70",
+          "0x17c98a36",
+          "0x7b54a2d3",
+          "0x9125937c",
+          "0xe84ae6ba",
+          "0x0af2b6a2"
+        ],
+        "iv2_63": [
+          "0x3272942e",
+          "0xef3e05d0",
+          "0xb4a7ec70",
+          "0x17c98a36",
+          "0x7d00acd2",
+          "0xd0259d43",
+          "0x484ae6ba",
+          "0x0af2b6a2"
+        ],
+        "diff63": [
+          "0x145198a2",
+          "0x8704fb59",
+          "0xe0000000",
+          "0x00000000",
+          "0x06540e01",
+          "0x41000e3f",
+          "0xa0000000",
+          "0x00000000"
+        ],
+        "hw63": [
+          11,
+          16,
+          3,
+          0,
+          9,
+          11,
+          2,
+          0
+        ],
+        "hw_total": 52,
+        "active_regs": [
+          "a",
+          "b",
+          "c",
+          "e",
+          "f",
+          "g"
+        ],
+        "da_eq_de": false
+      },
+      "objective": 57.933383
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 96,
+          "slot": 60,
+          "bit": 0
+        },
+        {
+          "bit_index": 116,
+          "slot": 60,
+          "bit": 20
+        },
+        {
+          "bit_index": 122,
+          "slot": 60,
+          "bit": 26
+        },
+        {
+          "bit_index": 123,
+          "slot": 60,
+          "bit": 27
+        }
+      ],
+      "hw_total": 52,
+      "score": 66.617,
+      "W": [
+        "0x4be5074f",
+        "0x429efff2",
+        "0xe09458af",
+        "0xea460e71"
+      ],
+      "record": {
+        "candidate": {
+          "m0": "0xdc27e18c",
+          "fill": "0xffffffff",
+          "kernel_bit": 24
+        },
+        "w1_57": "0x4be5074f",
+        "w1_58": "0x429efff2",
+        "w1_59": "0xe09458af",
+        "w1_60": "0xea460e71",
+        "w2_57": "0x8b1bab38",
+        "w2_58": "0x9adf28be",
+        "w2_59": "0xa95e0159",
+        "w2_60": "0xe25759fa",
+        "iv1_63": [
+          "0x7eae7be5",
+          "0x07007306",
+          "0xb95bcf52",
+          "0xabb88a37",
+          "0xaaf6d43d",
+          "0x08fb5199",
+          "0x69ed2c53",
+          "0x9ee1b6a3"
+        ],
+        "iv2_63": [
+          "0x4d024b95",
+          "0xc5427b8f",
+          "0x996bcf52",
+          "0xabb88a37",
+          "0x8e7454e5",
+          "0x0f285b22",
+          "0x49fd2c53",
+          "0x9ee1b6a3"
+        ],
+        "diff63": [
+          "0x33ac3070",
+          "0xc2420889",
+          "0x20300000",
+          "0x00000000",
+          "0x248280d8",
+          "0x07d30abb",
+          "0x20100000",
+          "0x00000000"
+        ],
+        "hw63": [
+          13,
+          9,
+          3,
+          0,
+          9,
+          16,
+          2,
+          0
+        ],
+        "hw_total": 52,
+        "active_regs": [
+          "a",
+          "b",
+          "c",
+          "e",
+          "f",
+          "g"
+        ],
+        "da_eq_de": false
+      },
+      "objective": 57.933383
+    },
+    {
+      "bits": [
+        {
+          "bit_index": 106,
+          "slot": 60,
+          "bit": 10
+        },
+        {
+          "bit_index": 107,
+          "slot": 60,
+          "bit": 11
+        },
+        {
+          "bit_index": 108,
+          "slot": 60,
+          "bit": 12
+        },
+        {
+          "bit_index": 112,
+          "slot": 60,
+          "bit": 16
+        }
+      ],
+      "hw_total": 52,
+      "score": 66.617,
+      "W": [
+        "0x4be5074f",
+        "0x429efff2",
+        "0xe09458af",
+        "0xe6571270"
+      ],
+      "record": {
+        "candidate": {
+          "m0": "0xdc27e18c",
+          "fill": "0xffffffff",
+          "kernel_bit": 24
+        },
+        "w1_57": "0x4be5074f",
+        "w1_58": "0x429efff2",
+        "w1_59": "0xe09458af",
+        "w1_60": "0xe6571270",
+        "w2_57": "0x8b1bab38",
+        "w2_58": "0x9adf28be",
+        "w2_59": "0xa95e0159",
+        "w2_60": "0xde685df9",
+        "iv1_63": [
+          "0x9a322214",
+          "0x7b2cd32d",
+          "0xe2f17397",
+          "0xa7c98e36",
+          "0x30f956e8",
+          "0x5b19790a",
+          "0xea7ee721",
+          "0x9af2baa2"
+        ],
+        "iv2_63": [
+          "0x8a1694eb",
+          "0x1761da2d",
+          "0xc2f17797",
+          "0xa7c98e36",
+          "0xddf99d28",
+          "0x0f3f7b8a",
+          "0xca7eeb21",
+          "0x9af2baa2"
+        ],
+        "diff63": [
+          "0x1024b6ff",
+          "0x6c4d0900",
+          "0x20000400",
+          "0x00000000",
+          "0xed00cbc0",
+          "0x54260280",
+          "0x20000c00",
+          "0x00000000"
+        ],
+        "hw63": [
+          16,
+          10,
+          2,
+          0,
+          13,
+          8,
+          3,
+          0
+        ],
+        "hw_total": 52,
+        "active_regs": [
+          "a",
+          "b",
+          "c",
+          "e",
+          "f",
+          "g"
+        ],
+        "da_eq_de": false
+      },
+      "objective": 57.933383
+    }
+  ],
+  "new_records": [],
+  "wall_seconds": 4.19
+}

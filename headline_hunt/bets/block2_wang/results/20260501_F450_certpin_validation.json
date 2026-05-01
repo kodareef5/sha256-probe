@@ -1,0 +1,107 @@
+{
+  "description": "F450 cert-pin validation for pair-beam Path C records",
+  "source_artifacts": [
+    "headline_hunt/bets/block2_wang/results/search_artifacts/20260501_F450_bit13_hw44_pair_beam_cg_wide.json",
+    "headline_hunt/bets/block2_wang/results/search_artifacts/20260501_F450_bit28_hw45_pair_beam_cg_wide.json"
+  ],
+  "work_dir": "/tmp/F450",
+  "audit_verdict": "CONFIRMED_UNSAT_NEAR_RESIDUALS",
+  "witnesses": [
+    {
+      "cand": "bit13_m916a56aa",
+      "cand_id": "cand_n32_bit13_m916a56aa_fillffffffff",
+      "m0": "0x916a56aa",
+      "fill": "0xffffffff",
+      "kernel_bit": 13,
+      "W": [
+        "0x5228ed8d",
+        "0x61a1a29c",
+        "0xea6a8429",
+        "0x5dbfc83b"
+      ],
+      "W2": [
+        "0x1cf531f1",
+        "0xb6007fec",
+        "0x0ae891ba",
+        "0x7e6cf080"
+      ],
+      "hw_total": 42,
+      "score": 76.684,
+      "hw63": [12, 9, 2, 0, 11, 6, 2, 0],
+      "diff63": [
+        "0x124c2b52",
+        "0x08c21f00",
+        "0x40000800",
+        "0x00000000",
+        "0xe80608e1",
+        "0x39600000",
+        "0x40000800",
+        "0x00000000"
+      ],
+      "pinned_cnf": "/tmp/F450/aux_expose_sr60_n32_bit13_m916a56aa_fillffffffff_F450_certpin.cnf",
+      "cnf_sha256": "623646b6ea0c9c3828cdcf9a63898f8c41096d148b4e922f7530c0788d1af508",
+      "solvers": {
+        "kissat": {
+          "version": "4.0.4",
+          "status": "UNSAT",
+          "wall_sec": 0.02,
+          "command": "kissat -q --seed=0 /tmp/F450/aux_expose_sr60_n32_bit13_m916a56aa_fillffffffff_F450_certpin.cnf"
+        },
+        "cadical": {
+          "version": "3.0.0",
+          "status": "UNSAT",
+          "wall_sec": 0.04,
+          "command": "cadical -q --seed=0 /tmp/F450/aux_expose_sr60_n32_bit13_m916a56aa_fillffffffff_F450_certpin.cnf"
+        }
+      }
+    },
+    {
+      "cand": "bit28_md1acca79",
+      "cand_id": "cand_n32_bit28_md1acca79_fillffffffff",
+      "m0": "0xd1acca79",
+      "fill": "0xffffffff",
+      "kernel_bit": 28,
+      "W": [
+        "0x307cf0e7",
+        "0x853d504a",
+        "0x78f16a5e",
+        "0x65f469f2"
+      ],
+      "W2": [
+        "0x6fcdf313",
+        "0xaa562d8d",
+        "0x5713c149",
+        "0x0b5cc916"
+      ],
+      "hw_total": 44,
+      "score": 71.526,
+      "hw63": [9, 10, 2, 0, 14, 5, 4, 0],
+      "diff63": [
+        "0xa6003520",
+        "0xea241005",
+        "0x08000004",
+        "0x00000000",
+        "0xe50ec099",
+        "0x20044024",
+        "0x1800000c",
+        "0x00000000"
+      ],
+      "pinned_cnf": "/tmp/F450/aux_expose_sr60_n32_bit28_md1acca79_fillffffffff_F450_certpin.cnf",
+      "cnf_sha256": "cf67615197fc1790ca1f61540b1cc85920aae51baacc04f0716aa42487a0de2d",
+      "solvers": {
+        "kissat": {
+          "version": "4.0.4",
+          "status": "UNSAT",
+          "wall_sec": 0.02,
+          "command": "kissat -q --seed=0 /tmp/F450/aux_expose_sr60_n32_bit28_md1acca79_fillffffffff_F450_certpin.cnf"
+        },
+        "cadical": {
+          "version": "3.0.0",
+          "status": "UNSAT",
+          "wall_sec": 0.03,
+          "command": "cadical -q --seed=0 /tmp/F450/aux_expose_sr60_n32_bit28_md1acca79_fillffffffff_F450_certpin.cnf"
+        }
+      }
+    }
+  ]
+}
