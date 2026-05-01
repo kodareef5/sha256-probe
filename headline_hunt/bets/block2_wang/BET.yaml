@@ -30,6 +30,25 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
 last_heartbeat: '2026-05-01T15:30:00Z'
+recent_progress_2026-05-01_F446_carry_chart_pair_atlas: |
+  yale-codex added carry_chart_pair_atlas.py and enumerated exact
+  two-bit W57..W60 pair deltas for the top-three Path C records,
+  recording register-lane HW deltas [a,b,c,d,e,f,g,h].
+
+  Results:
+    bit24 HW=43: best pair HW=49; best repair pair repairs 10 bits but net +38.
+    bit13 HW=44: best pair HW=58; best repair pair repairs 7 bits but net +36.
+    bit28 HW=45: best pair HW=52; best repair pair repairs 7 bits but net +31.
+
+  Lane locks:
+    bit24: no accepted pair reduces b, c, or g.
+    bit13: no accepted pair reduces c or g.
+    bit28: c can reduce by 2 at net +8, but no accepted pair reduces g.
+
+  Interpretation: pair-level local moves can repair some heavy lanes but
+  compensation cost dominates. The next operator should coordinate
+  multi-lane repairs or relax geometry; scalar local HW ranking is boxed in.
+
 recent_progress_2026-05-01_F445_pair_combo_synergy_pilot: |
   yale-codex added pair_combo_search.py: enumerate all 8,128 two-bit
   W57..W60 deltas, rank pairs by residual HW / bridge score, keep top
