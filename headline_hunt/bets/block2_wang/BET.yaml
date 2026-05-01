@@ -29,7 +29,25 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-01T23:04:28Z'
+last_heartbeat: '2026-05-01T23:16:47Z'
+recent_progress_2026-05-01_F488_F491_hw35_closure_and_tools: |
+  yale-codex closed the new F487 bit13 HW35 witness under exact relaxed
+  W57..W60 radius-4 enumeration:
+    F488 radius 1..3: total=349,632, bridge_pass=341,755,
+      bridge_reject=7,877, HW<=35=0, HW<35=0, wall=19.96s.
+    F489 radius 1..4: total=11,017,632, bridge_pass=10,691,879,
+      bridge_reject=325,753, HW<=35=0, HW<35=0, wall=577.95s.
+
+  Added F490 pair-beam decomposition tooling. On the F487 HW35 record, the
+  selected pair pool contains 59 pairs internal to the final 12-bit move and
+  exact six-pair covers. The lowest rank-sum cover needs pair rank 348
+  (W59:b22 + W60:b29), which warns against over-pruning pair pools by
+  standalone two-bit quality.
+
+  Regenerated the reusable bit13 basin manifest as F491 with 43 seeds; HW35
+  is now rank 1 and the prior HW36 witness is rank 2. Current panel remains
+  bit13 HW=35, bit28 HW=42, bit24 HW=43.
+
 recent_progress_2026-05-01_F486_F487_manifest_rank41_breakthrough: |
   yale-codex returned to the F473 basin seed manifest after objective-ranked
   pair pools went negative. Two HW41 manifest seeds were tested with the
