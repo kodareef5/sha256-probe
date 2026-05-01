@@ -29,7 +29,26 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-01T15:15:00Z'
+last_heartbeat: '2026-05-01T15:30:00Z'
+recent_progress_2026-05-01_F434_radius6_confirmation: |
+  macbook-claude bridged the gap between F408 (max_flips=6 random)
+  and F428 (max_flips=3 seeded): F434 = max_flips=6 SEEDED on the two
+  deepest records. 12 seeds x 200k iter on bit24 (from HW=43 W) and
+  bit28 (from HW=45 W) in parallel.
+
+  bit24: 12/12 seeds stayed at HW=43, score 79.07. No improvement.
+  bit28: 11/12 seeds stayed at HW=45, score 74.15. 1 seed escaped to
+  HW=47 score 75.33 (F427 score-better/HW-worse neighbor reproduced).
+
+  Verdict: bit24 HW=43 and bit28 HW=45 are stable at Hamming radius 6
+  too (not just radius 3). Path C residual program reached a clean
+  stopping point on this 5-cand panel.
+
+  Today macbook-claude: 8 commits (F427+F428+F429+F430+F431+F432+F433
+  +F434). Two breakthroughs (bit24 49->43, bit13 59->50), comprehensive
+  Hamming-3 + radius-6 characterization across 5 cands. All 5 records
+  cert-pin verified UNSAT. Headline-class SAT remains uncrossed.
+
 recent_progress_2026-05-01_F433_bit13_isolation_confirmed: |
   macbook-claude completed the F432 follow-up: bit13 HW=50 is also a
   sharp Hamming-3 isolated peak, matching the F408 panel pattern.
