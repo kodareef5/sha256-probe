@@ -9,6 +9,7 @@ radius-5/6 probe, not a proof of closure.
 """
 
 import argparse
+from collections import Counter
 from itertools import combinations
 import json
 from pathlib import Path
@@ -60,6 +61,16 @@ def keep_top(top: list[dict], entry: dict, limit: int) -> None:
     del top[limit:]
 
 
+def passes_slot_filter(bits: tuple[int, ...], min_distinct_slots: int, max_per_slot: int) -> bool:
+    slots = [bit // 32 for bit in bits]
+    counts = Counter(slots)
+    if len(counts) < min_distinct_slots:
+        return False
+    if max_per_slot > 0 and max(counts.values()) > max_per_slot:
+        return False
+    return True
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--candidate", required=True)
@@ -68,6 +79,10 @@ def main() -> None:
     ap.add_argument("--slots", default="57,58,59,60")
     ap.add_argument("--top-bits", type=int, default=32)
     ap.add_argument("--radii", default="5,6", help="Comma-separated combo radii to test")
+    ap.add_argument("--min-distinct-slots", type=int, default=1,
+                    help="Require each combo to touch at least this many W slots")
+    ap.add_argument("--max-per-slot", type=int, default=0,
+                    help="Reject combos with more than this many bits in one W slot; 0 disables")
     ap.add_argument("--top-records", type=int, default=20)
     ap.add_argument("--out", required=True)
     ap.add_argument("--label", default="")
@@ -77,6 +92,10 @@ def main() -> None:
         raise SystemExit("--top-bits must be >= 1")
     if args.top_records < 1:
         raise SystemExit("--top-records must be >= 1")
+    if not 1 <= args.min_distinct_slots <= 4:
+        raise SystemExit("--min-distinct-slots must be in 1..4")
+    if args.max_per_slot < 0:
+        raise SystemExit("--max-per-slot must be >= 0")
 
     slots = parse_slots(args.slots)
     radii = parse_radii(args.radii)
@@ -102,6 +121,11 @@ def main() -> None:
         f"=== ranked_combo_search.py: {short} top_bits={args.top_bits} "
         f"radii={','.join(str(r) for r in radii)} slots W{','.join(str(57 + s) for s in slots)} ==="
     )
+    if args.min_distinct_slots > 1 or args.max_per_slot:
+        print(
+            f"  slot filter: min_distinct_slots={args.min_distinct_slots}, "
+            f"max_per_slot={args.max_per_slot or 'none'}"
+        )
     t0 = time.time()
 
     single_bit = []
@@ -131,7 +155,14 @@ def main() -> None:
     print("  one-bit accepted:", len(accepted_single), "of", len(bit_domain))
     print("  selected soft bits:", ", ".join(f"W{57 + b // 32}.{b % 32}" for b in selected[:16]))
 
-    counts = {"total": 0, "cascade1": 0, "bridge": 0, "hw_le_init": 0, "hw_lt_init": 0}
+    counts = {
+        "total": 0,
+        "skipped_slot_filter": 0,
+        "cascade1": 0,
+        "bridge": 0,
+        "hw_le_init": 0,
+        "hw_lt_init": 0,
+    }
     by_radius = {}
     best_seen = {
         "hw_total": init_rec["hw_total"],
@@ -146,8 +177,19 @@ def main() -> None:
     for radius in radii:
         if radius > len(selected):
             continue
-        r_counts = {"total": 0, "cascade1": 0, "bridge": 0, "hw_le_init": 0, "hw_lt_init": 0}
+        r_counts = {
+            "total": 0,
+            "skipped_slot_filter": 0,
+            "cascade1": 0,
+            "bridge": 0,
+            "hw_le_init": 0,
+            "hw_lt_init": 0,
+        }
         for bits in combinations(selected, radius):
+            if not passes_slot_filter(bits, args.min_distinct_slots, args.max_per_slot):
+                counts["skipped_slot_filter"] += 1
+                r_counts["skipped_slot_filter"] += 1
+                continue
             counts["total"] += 1
             r_counts["total"] += 1
             w = flip_bits(base_w, bits)
@@ -178,7 +220,7 @@ def main() -> None:
         print(
             f"  r{radius}: total={r_counts['total']} cascade1={r_counts['cascade1']} "
             f"bridge={r_counts['bridge']} hw<=init={r_counts['hw_le_init']} "
-            f"hw<init={r_counts['hw_lt_init']}"
+            f"hw<init={r_counts['hw_lt_init']} skipped={r_counts['skipped_slot_filter']}"
         )
 
     wall = time.time() - t0
@@ -192,6 +234,8 @@ def main() -> None:
         "bit_domain_size": len(bit_domain),
         "top_bits": args.top_bits,
         "radii": list(radii),
+        "min_distinct_slots": args.min_distinct_slots,
+        "max_per_slot": args.max_per_slot,
         "single_bit_rank": accepted_single,
         "selected_bits": [bit_label(b) for b in selected],
         "counts": counts,

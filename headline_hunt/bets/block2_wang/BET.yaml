@@ -30,6 +30,22 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
 last_heartbeat: '2026-05-01T15:30:00Z'
+recent_progress_2026-05-01_F444_crossword_ranked_radius5_pilot: |
+  yale-codex extended ranked_combo_search.py with slot-diversity filters
+  (--min-distinct-slots, --max-per-slot), then ran a cross-word radius-5
+  pilot on the top-three Path C records:
+    top_bits=64, min_distinct_slots=3, max_per_slot=3.
+
+  Results:
+    bit24 HW=43: 3,874,188 evaluated, 0 at HW <= 43, best selected non-seed HW=57
+    bit13 HW=44: 4,093,698 evaluated, 0 at HW <= 44, best selected non-seed HW=56
+    bit28 HW=45: 5,082,720 evaluated, 0 at HW <= 45, best selected non-seed HW=50
+
+  Interpretation: forcing W57/W58/W59 participation does not unlock the
+  floor. It actually makes bit24/bit13 much worse; bit28 has some
+  cross-word slack (HW50) but still no record. The next useful ranking
+  coordinate should be pair/carry-chart deltas, not one-bit residual HW.
+
 recent_progress_2026-05-01_F443_ranked_combo_radius5_6_pilot: |
   yale-codex added ranked_combo_search.py: rank all one-bit W57..W60
   directions by residual HW / bridge score, keep the top 32 soft bits,
