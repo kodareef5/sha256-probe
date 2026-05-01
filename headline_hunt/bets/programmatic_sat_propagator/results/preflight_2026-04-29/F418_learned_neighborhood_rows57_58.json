@@ -1,0 +1,892 @@
+{
+  "bet": "programmatic_sat_propagator",
+  "binary": "/tmp/F417_cascade_propagator",
+  "conflicts": 50000,
+  "date": "2026-04-30",
+  "parents": [
+    "F417"
+  ],
+  "report_id": "F418",
+  "runs": [
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"",
+        "stdout": "Appended run_20260501_012734_programmatic_sat_propagator_cadical-ipasir-up_seed0_865939f5"
+      },
+      "audit": {
+        "claimed": {
+          "encoder_variant": "cascade_aux_force",
+          "n": 32,
+          "sr_level": 60
+        },
+        "cross_sr_matches": [],
+        "file": "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+        "filename": "aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+        "matched_fingerprints": [
+          "sr60_n32_cascade_aux_force"
+        ],
+        "n_clauses": 54947,
+        "n_vars": 13252,
+        "returncode": 0,
+        "verdict": "CONFIRMED",
+        "warnings": []
+      },
+      "candidate": "bit2_ma896ee41_fillffffffff",
+      "candidate_id": "cand_n32_bit2_ma896ee41_fillffffffff",
+      "cmd": [
+        "/tmp/F417_cascade_propagator",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--learn-max-size=-1",
+        "--learn-watch-var=dW57_b0:12401",
+        "--learn-watch-var=dW57_b1:12402",
+        "--learn-watch-var=dW57_b2:12403",
+        "--learn-watch-var=dW57_b3:12404",
+        "--learn-watch-var=dW57_b4:12405",
+        "--learn-watch-var=dW57_b5:12406",
+        "--learn-watch-var=dW57_b6:12407",
+        "--learn-watch-var=dW57_b7:12408",
+        "--learn-watch-var=dW57_b8:12409",
+        "--learn-watch-var=dW57_b9:12410",
+        "--learn-watch-var=dW57_b10:12411",
+        "--learn-watch-var=dW57_b11:12412",
+        "--learn-watch-var=dW57_b12:12413",
+        "--learn-watch-var=dW57_b13:12414",
+        "--learn-watch-var=dW57_b14:12415",
+        "--learn-watch-var=dW57_b15:12416",
+        "--learn-watch-var=dW57_b16:12417",
+        "--learn-watch-var=dW57_b17:12418",
+        "--learn-watch-var=dW57_b18:12419",
+        "--learn-watch-var=dW57_b19:12420",
+        "--learn-watch-var=dW57_b20:12421",
+        "--learn-watch-var=dW57_b21:12422",
+        "--learn-watch-var=dW57_b22:12423",
+        "--learn-watch-var=dW57_b23:12424",
+        "--learn-watch-var=dW57_b24:12425",
+        "--learn-watch-var=dW57_b25:12426",
+        "--learn-watch-var=dW57_b26:12427",
+        "--learn-watch-var=dW57_b27:12428",
+        "--learn-watch-var=dW57_b28:12429",
+        "--learn-watch-var=dW57_b29:12430",
+        "--learn-watch-var=dW57_b30:12431",
+        "--learn-watch-var=dW57_b31:12432",
+        "--learn-watch-var=dW58_b0:12433",
+        "--learn-watch-var=dW58_b1:12434",
+        "--learn-watch-var=dW58_b2:12435",
+        "--learn-watch-var=dW58_b3:12436",
+        "--learn-watch-var=dW58_b4:12437",
+        "--learn-watch-var=dW58_b5:12438",
+        "--learn-watch-var=dW58_b6:12439",
+        "--learn-watch-var=dW58_b7:12440",
+        "--learn-watch-var=dW58_b8:12441",
+        "--learn-watch-var=dW58_b9:12442",
+        "--learn-watch-var=dW58_b10:12443",
+        "--learn-watch-var=dW58_b11:12444",
+        "--learn-watch-var=dW58_b12:12445",
+        "--learn-watch-var=dW58_b13:12446",
+        "--learn-watch-var=dW58_b14:12447",
+        "--learn-watch-var=dW58_b15:12448",
+        "--learn-watch-var=dW58_b16:12449",
+        "--learn-watch-var=dW58_b17:12450",
+        "--learn-watch-var=dW58_b18:12451",
+        "--learn-watch-var=dW58_b19:12452",
+        "--learn-watch-var=dW58_b20:12453",
+        "--learn-watch-var=dW58_b21:12454",
+        "--learn-watch-var=dW58_b22:12455",
+        "--learn-watch-var=dW58_b23:12456",
+        "--learn-watch-var=dW58_b24:12457",
+        "--learn-watch-var=dW58_b25:12458",
+        "--learn-watch-var=dW58_b26:12459",
+        "--learn-watch-var=dW58_b27:12460",
+        "--learn-watch-var=dW58_b28:12461",
+        "--learn-watch-var=dW58_b29:12462",
+        "--learn-watch-var=dW58_b30:12463",
+        "--learn-watch-var=dW58_b31:12464"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf",
+      "condition": "baseline",
+      "f343": {
+        "pair": {
+          "bits": [
+            22,
+            23
+          ],
+          "clause": [
+            12423,
+            12424
+          ],
+          "forbid": [
+            0,
+            0
+          ]
+        },
+        "unit": {
+          "bit": 0,
+          "clause": [
+            12401
+          ],
+          "value": 1
+        }
+      },
+      "metrics": {
+        "backtracks": 58131,
+        "decisions": 353889,
+        "learn_touch_counts": {},
+        "learned_exported": 47054,
+        "learned_touching_watched": 0,
+        "result": 0
+      },
+      "n_watch_vars": 64,
+      "returncode": 2,
+      "stderr_log": "/tmp/F418/bit2_ma896ee41_fillffffffff_baseline.stderr.log",
+      "stdout_log": "/tmp/F418/bit2_ma896ee41_fillffffffff_baseline.stdout.log",
+      "top_touch_counts": [],
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 4.552430703770369,
+      "watched_rows": [
+        "57",
+        "58"
+      ]
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"",
+        "stdout": "Appended run_20260501_012739_programmatic_sat_propagator_cadical-ipasir-up_seed0_445d37e5"
+      },
+      "audit": {
+        "claimed": {
+          "encoder_variant": "cascade_aux_force",
+          "n": 32,
+          "sr_level": 60
+        },
+        "cross_sr_matches": [],
+        "file": "/tmp/F418/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff_F418_F343.cnf",
+        "filename": "aux_force_sr60_n32_bit2_ma896ee41_fillffffffff_F418_F343.cnf",
+        "matched_fingerprints": [
+          "sr60_n32_cascade_aux_force"
+        ],
+        "n_clauses": 54949,
+        "n_vars": 13252,
+        "returncode": 0,
+        "verdict": "CONFIRMED",
+        "warnings": []
+      },
+      "candidate": "bit2_ma896ee41_fillffffffff",
+      "candidate_id": "cand_n32_bit2_ma896ee41_fillffffffff",
+      "cmd": [
+        "/tmp/F417_cascade_propagator",
+        "/tmp/F418/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff_F418_F343.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--learn-max-size=-1",
+        "--learn-watch-var=dW57_b0:12401",
+        "--learn-watch-var=dW57_b1:12402",
+        "--learn-watch-var=dW57_b2:12403",
+        "--learn-watch-var=dW57_b3:12404",
+        "--learn-watch-var=dW57_b4:12405",
+        "--learn-watch-var=dW57_b5:12406",
+        "--learn-watch-var=dW57_b6:12407",
+        "--learn-watch-var=dW57_b7:12408",
+        "--learn-watch-var=dW57_b8:12409",
+        "--learn-watch-var=dW57_b9:12410",
+        "--learn-watch-var=dW57_b10:12411",
+        "--learn-watch-var=dW57_b11:12412",
+        "--learn-watch-var=dW57_b12:12413",
+        "--learn-watch-var=dW57_b13:12414",
+        "--learn-watch-var=dW57_b14:12415",
+        "--learn-watch-var=dW57_b15:12416",
+        "--learn-watch-var=dW57_b16:12417",
+        "--learn-watch-var=dW57_b17:12418",
+        "--learn-watch-var=dW57_b18:12419",
+        "--learn-watch-var=dW57_b19:12420",
+        "--learn-watch-var=dW57_b20:12421",
+        "--learn-watch-var=dW57_b21:12422",
+        "--learn-watch-var=dW57_b22:12423",
+        "--learn-watch-var=dW57_b23:12424",
+        "--learn-watch-var=dW57_b24:12425",
+        "--learn-watch-var=dW57_b25:12426",
+        "--learn-watch-var=dW57_b26:12427",
+        "--learn-watch-var=dW57_b27:12428",
+        "--learn-watch-var=dW57_b28:12429",
+        "--learn-watch-var=dW57_b29:12430",
+        "--learn-watch-var=dW57_b30:12431",
+        "--learn-watch-var=dW57_b31:12432",
+        "--learn-watch-var=dW58_b0:12433",
+        "--learn-watch-var=dW58_b1:12434",
+        "--learn-watch-var=dW58_b2:12435",
+        "--learn-watch-var=dW58_b3:12436",
+        "--learn-watch-var=dW58_b4:12437",
+        "--learn-watch-var=dW58_b5:12438",
+        "--learn-watch-var=dW58_b6:12439",
+        "--learn-watch-var=dW58_b7:12440",
+        "--learn-watch-var=dW58_b8:12441",
+        "--learn-watch-var=dW58_b9:12442",
+        "--learn-watch-var=dW58_b10:12443",
+        "--learn-watch-var=dW58_b11:12444",
+        "--learn-watch-var=dW58_b12:12445",
+        "--learn-watch-var=dW58_b13:12446",
+        "--learn-watch-var=dW58_b14:12447",
+        "--learn-watch-var=dW58_b15:12448",
+        "--learn-watch-var=dW58_b16:12449",
+        "--learn-watch-var=dW58_b17:12450",
+        "--learn-watch-var=dW58_b18:12451",
+        "--learn-watch-var=dW58_b19:12452",
+        "--learn-watch-var=dW58_b20:12453",
+        "--learn-watch-var=dW58_b21:12454",
+        "--learn-watch-var=dW58_b22:12455",
+        "--learn-watch-var=dW58_b23:12456",
+        "--learn-watch-var=dW58_b24:12457",
+        "--learn-watch-var=dW58_b25:12458",
+        "--learn-watch-var=dW58_b26:12459",
+        "--learn-watch-var=dW58_b27:12460",
+        "--learn-watch-var=dW58_b28:12461",
+        "--learn-watch-var=dW58_b29:12462",
+        "--learn-watch-var=dW58_b30:12463",
+        "--learn-watch-var=dW58_b31:12464"
+      ],
+      "cnf": "/tmp/F418/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff_F418_F343.cnf",
+      "condition": "f343",
+      "delta_vs_baseline_same_watcher": {
+        "backtracks": -262,
+        "backtracks_pct": -0.450706163664826,
+        "decisions": -2900,
+        "decisions_pct": -0.8194659907485116,
+        "learned_exported": -285,
+        "learned_exported_pct": -0.6056870829259999,
+        "learned_touching_watched": 0
+      },
+      "f343": {
+        "pair": {
+          "bits": [
+            22,
+            23
+          ],
+          "clause": [
+            12423,
+            12424
+          ],
+          "forbid": [
+            0,
+            0
+          ]
+        },
+        "unit": {
+          "bit": 0,
+          "clause": [
+            12401
+          ],
+          "value": 1
+        }
+      },
+      "metrics": {
+        "backtracks": 57869,
+        "decisions": 350989,
+        "learn_touch_counts": {},
+        "learned_exported": 46769,
+        "learned_touching_watched": 0,
+        "result": 0
+      },
+      "n_watch_vars": 64,
+      "returncode": 2,
+      "stderr_log": "/tmp/F418/bit2_ma896ee41_fillffffffff_f343.stderr.log",
+      "stdout_log": "/tmp/F418/bit2_ma896ee41_fillffffffff_f343.stdout.log",
+      "top_touch_counts": [],
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit2_ma896ee41_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 5.096020498778671,
+      "watched_rows": [
+        "57",
+        "58"
+      ]
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"",
+        "stdout": "Appended run_20260501_012744_programmatic_sat_propagator_cadical-ipasir-up_seed0_298202dc"
+      },
+      "audit": {
+        "claimed": {
+          "encoder_variant": "cascade_aux_force",
+          "n": 32,
+          "sr_level": 60
+        },
+        "cross_sr_matches": [],
+        "file": "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf",
+        "filename": "aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf",
+        "matched_fingerprints": [
+          "sr60_n32_cascade_aux_force"
+        ],
+        "n_clauses": 54786,
+        "n_vars": 13215,
+        "returncode": 0,
+        "verdict": "CONFIRMED",
+        "warnings": []
+      },
+      "candidate": "bit24_mdc27e18c_fillffffffff",
+      "candidate_id": "cand_n32_bit24_mdc27e18c_fillffffffff",
+      "cmd": [
+        "/tmp/F417_cascade_propagator",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--learn-max-size=-1",
+        "--learn-watch-var=dW57_b0:12364",
+        "--learn-watch-var=dW57_b1:12365",
+        "--learn-watch-var=dW57_b2:12366",
+        "--learn-watch-var=dW57_b3:12367",
+        "--learn-watch-var=dW57_b4:12368",
+        "--learn-watch-var=dW57_b5:12369",
+        "--learn-watch-var=dW57_b6:12370",
+        "--learn-watch-var=dW57_b7:12371",
+        "--learn-watch-var=dW57_b8:12372",
+        "--learn-watch-var=dW57_b9:12373",
+        "--learn-watch-var=dW57_b10:12374",
+        "--learn-watch-var=dW57_b11:12375",
+        "--learn-watch-var=dW57_b12:12376",
+        "--learn-watch-var=dW57_b13:12377",
+        "--learn-watch-var=dW57_b14:12378",
+        "--learn-watch-var=dW57_b15:12379",
+        "--learn-watch-var=dW57_b16:12380",
+        "--learn-watch-var=dW57_b17:12381",
+        "--learn-watch-var=dW57_b18:12382",
+        "--learn-watch-var=dW57_b19:12383",
+        "--learn-watch-var=dW57_b20:12384",
+        "--learn-watch-var=dW57_b21:12385",
+        "--learn-watch-var=dW57_b22:12386",
+        "--learn-watch-var=dW57_b23:12387",
+        "--learn-watch-var=dW57_b24:12388",
+        "--learn-watch-var=dW57_b25:12389",
+        "--learn-watch-var=dW57_b26:12390",
+        "--learn-watch-var=dW57_b27:12391",
+        "--learn-watch-var=dW57_b28:12392",
+        "--learn-watch-var=dW57_b29:12393",
+        "--learn-watch-var=dW57_b30:12394",
+        "--learn-watch-var=dW57_b31:12395",
+        "--learn-watch-var=dW58_b0:12396",
+        "--learn-watch-var=dW58_b1:12397",
+        "--learn-watch-var=dW58_b2:12398",
+        "--learn-watch-var=dW58_b3:12399",
+        "--learn-watch-var=dW58_b4:12400",
+        "--learn-watch-var=dW58_b5:12401",
+        "--learn-watch-var=dW58_b6:12402",
+        "--learn-watch-var=dW58_b7:12403",
+        "--learn-watch-var=dW58_b8:12404",
+        "--learn-watch-var=dW58_b9:12405",
+        "--learn-watch-var=dW58_b10:12406",
+        "--learn-watch-var=dW58_b11:12407",
+        "--learn-watch-var=dW58_b12:12408",
+        "--learn-watch-var=dW58_b13:12409",
+        "--learn-watch-var=dW58_b14:12410",
+        "--learn-watch-var=dW58_b15:12411",
+        "--learn-watch-var=dW58_b16:12412",
+        "--learn-watch-var=dW58_b17:12413",
+        "--learn-watch-var=dW58_b18:12414",
+        "--learn-watch-var=dW58_b19:12415",
+        "--learn-watch-var=dW58_b20:12416",
+        "--learn-watch-var=dW58_b21:12417",
+        "--learn-watch-var=dW58_b22:12418",
+        "--learn-watch-var=dW58_b23:12419",
+        "--learn-watch-var=dW58_b24:12420",
+        "--learn-watch-var=dW58_b25:12421",
+        "--learn-watch-var=dW58_b26:12422",
+        "--learn-watch-var=dW58_b27:12423",
+        "--learn-watch-var=dW58_b28:12424",
+        "--learn-watch-var=dW58_b29:12425",
+        "--learn-watch-var=dW58_b30:12426",
+        "--learn-watch-var=dW58_b31:12427"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf",
+      "condition": "baseline",
+      "f343": {
+        "pair": {
+          "bits": [
+            22,
+            23
+          ],
+          "clause": [
+            12386,
+            -12387
+          ],
+          "forbid": [
+            0,
+            1
+          ]
+        },
+        "unit": {
+          "bit": 0,
+          "clause": [
+            12364
+          ],
+          "value": 1
+        }
+      },
+      "metrics": {
+        "backtracks": 58805,
+        "decisions": 396658,
+        "learn_touch_counts": {},
+        "learned_exported": 46775,
+        "learned_touching_watched": 0,
+        "result": 0
+      },
+      "n_watch_vars": 64,
+      "returncode": 2,
+      "stderr_log": "/tmp/F418/bit24_mdc27e18c_fillffffffff_baseline.stderr.log",
+      "stdout_log": "/tmp/F418/bit24_mdc27e18c_fillffffffff_baseline.stdout.log",
+      "top_touch_counts": [],
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 4.213755135890096,
+      "watched_rows": [
+        "57",
+        "58"
+      ]
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"",
+        "stdout": "Appended run_20260501_012749_programmatic_sat_propagator_cadical-ipasir-up_seed0_7251ba5c"
+      },
+      "audit": {
+        "claimed": {
+          "encoder_variant": "cascade_aux_force",
+          "n": 32,
+          "sr_level": 60
+        },
+        "cross_sr_matches": [],
+        "file": "/tmp/F418/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff_F418_F343.cnf",
+        "filename": "aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff_F418_F343.cnf",
+        "matched_fingerprints": [
+          "sr60_n32_cascade_aux_force"
+        ],
+        "n_clauses": 54788,
+        "n_vars": 13215,
+        "returncode": 0,
+        "verdict": "CONFIRMED",
+        "warnings": []
+      },
+      "candidate": "bit24_mdc27e18c_fillffffffff",
+      "candidate_id": "cand_n32_bit24_mdc27e18c_fillffffffff",
+      "cmd": [
+        "/tmp/F417_cascade_propagator",
+        "/tmp/F418/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff_F418_F343.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--learn-max-size=-1",
+        "--learn-watch-var=dW57_b0:12364",
+        "--learn-watch-var=dW57_b1:12365",
+        "--learn-watch-var=dW57_b2:12366",
+        "--learn-watch-var=dW57_b3:12367",
+        "--learn-watch-var=dW57_b4:12368",
+        "--learn-watch-var=dW57_b5:12369",
+        "--learn-watch-var=dW57_b6:12370",
+        "--learn-watch-var=dW57_b7:12371",
+        "--learn-watch-var=dW57_b8:12372",
+        "--learn-watch-var=dW57_b9:12373",
+        "--learn-watch-var=dW57_b10:12374",
+        "--learn-watch-var=dW57_b11:12375",
+        "--learn-watch-var=dW57_b12:12376",
+        "--learn-watch-var=dW57_b13:12377",
+        "--learn-watch-var=dW57_b14:12378",
+        "--learn-watch-var=dW57_b15:12379",
+        "--learn-watch-var=dW57_b16:12380",
+        "--learn-watch-var=dW57_b17:12381",
+        "--learn-watch-var=dW57_b18:12382",
+        "--learn-watch-var=dW57_b19:12383",
+        "--learn-watch-var=dW57_b20:12384",
+        "--learn-watch-var=dW57_b21:12385",
+        "--learn-watch-var=dW57_b22:12386",
+        "--learn-watch-var=dW57_b23:12387",
+        "--learn-watch-var=dW57_b24:12388",
+        "--learn-watch-var=dW57_b25:12389",
+        "--learn-watch-var=dW57_b26:12390",
+        "--learn-watch-var=dW57_b27:12391",
+        "--learn-watch-var=dW57_b28:12392",
+        "--learn-watch-var=dW57_b29:12393",
+        "--learn-watch-var=dW57_b30:12394",
+        "--learn-watch-var=dW57_b31:12395",
+        "--learn-watch-var=dW58_b0:12396",
+        "--learn-watch-var=dW58_b1:12397",
+        "--learn-watch-var=dW58_b2:12398",
+        "--learn-watch-var=dW58_b3:12399",
+        "--learn-watch-var=dW58_b4:12400",
+        "--learn-watch-var=dW58_b5:12401",
+        "--learn-watch-var=dW58_b6:12402",
+        "--learn-watch-var=dW58_b7:12403",
+        "--learn-watch-var=dW58_b8:12404",
+        "--learn-watch-var=dW58_b9:12405",
+        "--learn-watch-var=dW58_b10:12406",
+        "--learn-watch-var=dW58_b11:12407",
+        "--learn-watch-var=dW58_b12:12408",
+        "--learn-watch-var=dW58_b13:12409",
+        "--learn-watch-var=dW58_b14:12410",
+        "--learn-watch-var=dW58_b15:12411",
+        "--learn-watch-var=dW58_b16:12412",
+        "--learn-watch-var=dW58_b17:12413",
+        "--learn-watch-var=dW58_b18:12414",
+        "--learn-watch-var=dW58_b19:12415",
+        "--learn-watch-var=dW58_b20:12416",
+        "--learn-watch-var=dW58_b21:12417",
+        "--learn-watch-var=dW58_b22:12418",
+        "--learn-watch-var=dW58_b23:12419",
+        "--learn-watch-var=dW58_b24:12420",
+        "--learn-watch-var=dW58_b25:12421",
+        "--learn-watch-var=dW58_b26:12422",
+        "--learn-watch-var=dW58_b27:12423",
+        "--learn-watch-var=dW58_b28:12424",
+        "--learn-watch-var=dW58_b29:12425",
+        "--learn-watch-var=dW58_b30:12426",
+        "--learn-watch-var=dW58_b31:12427"
+      ],
+      "cnf": "/tmp/F418/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff_F418_F343.cnf",
+      "condition": "f343",
+      "delta_vs_baseline_same_watcher": {
+        "backtracks": 160,
+        "backtracks_pct": 0.2720857069977043,
+        "decisions": 10391,
+        "decisions_pct": 2.619637067700639,
+        "learned_exported": -79,
+        "learned_exported_pct": -0.16889363976483165,
+        "learned_touching_watched": 0
+      },
+      "f343": {
+        "pair": {
+          "bits": [
+            22,
+            23
+          ],
+          "clause": [
+            12386,
+            -12387
+          ],
+          "forbid": [
+            0,
+            1
+          ]
+        },
+        "unit": {
+          "bit": 0,
+          "clause": [
+            12364
+          ],
+          "value": 1
+        }
+      },
+      "metrics": {
+        "backtracks": 58965,
+        "decisions": 407049,
+        "learn_touch_counts": {},
+        "learned_exported": 46696,
+        "learned_touching_watched": 0,
+        "result": 0
+      },
+      "n_watch_vars": 64,
+      "returncode": 2,
+      "stderr_log": "/tmp/F418/bit24_mdc27e18c_fillffffffff_f343.stderr.log",
+      "stdout_log": "/tmp/F418/bit24_mdc27e18c_fillffffffff_f343.stdout.log",
+      "top_touch_counts": [],
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit24_mdc27e18c_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 3.998472835868597,
+      "watched_rows": [
+        "57",
+        "58"
+      ]
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"",
+        "stdout": "Appended run_20260501_012753_programmatic_sat_propagator_cadical-ipasir-up_seed0_f55967a0"
+      },
+      "audit": {
+        "claimed": {
+          "encoder_variant": "cascade_aux_force",
+          "n": 32,
+          "sr_level": 60
+        },
+        "cross_sr_matches": [],
+        "file": "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+        "filename": "aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+        "matched_fingerprints": [
+          "sr60_n32_cascade_aux_force"
+        ],
+        "n_clauses": 54737,
+        "n_vars": 13203,
+        "returncode": 0,
+        "verdict": "CONFIRMED",
+        "warnings": []
+      },
+      "candidate": "bit28_md1acca79_fillffffffff",
+      "candidate_id": "cand_n32_bit28_md1acca79_fillffffffff",
+      "cmd": [
+        "/tmp/F417_cascade_propagator",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--learn-max-size=-1",
+        "--learn-watch-var=dW57_b0:12352",
+        "--learn-watch-var=dW57_b1:12353",
+        "--learn-watch-var=dW57_b2:12354",
+        "--learn-watch-var=dW57_b3:12355",
+        "--learn-watch-var=dW57_b4:12356",
+        "--learn-watch-var=dW57_b5:12357",
+        "--learn-watch-var=dW57_b6:12358",
+        "--learn-watch-var=dW57_b7:12359",
+        "--learn-watch-var=dW57_b8:12360",
+        "--learn-watch-var=dW57_b9:12361",
+        "--learn-watch-var=dW57_b10:12362",
+        "--learn-watch-var=dW57_b11:12363",
+        "--learn-watch-var=dW57_b12:12364",
+        "--learn-watch-var=dW57_b13:12365",
+        "--learn-watch-var=dW57_b14:12366",
+        "--learn-watch-var=dW57_b15:12367",
+        "--learn-watch-var=dW57_b16:12368",
+        "--learn-watch-var=dW57_b17:12369",
+        "--learn-watch-var=dW57_b18:12370",
+        "--learn-watch-var=dW57_b19:12371",
+        "--learn-watch-var=dW57_b20:12372",
+        "--learn-watch-var=dW57_b21:12373",
+        "--learn-watch-var=dW57_b22:12374",
+        "--learn-watch-var=dW57_b23:12375",
+        "--learn-watch-var=dW57_b24:12376",
+        "--learn-watch-var=dW57_b25:12377",
+        "--learn-watch-var=dW57_b26:12378",
+        "--learn-watch-var=dW57_b27:12379",
+        "--learn-watch-var=dW57_b28:12380",
+        "--learn-watch-var=dW57_b29:12381",
+        "--learn-watch-var=dW57_b30:12382",
+        "--learn-watch-var=dW57_b31:12383",
+        "--learn-watch-var=dW58_b0:12384",
+        "--learn-watch-var=dW58_b1:12385",
+        "--learn-watch-var=dW58_b2:12386",
+        "--learn-watch-var=dW58_b3:12387",
+        "--learn-watch-var=dW58_b4:12388",
+        "--learn-watch-var=dW58_b5:12389",
+        "--learn-watch-var=dW58_b6:12390",
+        "--learn-watch-var=dW58_b7:12391",
+        "--learn-watch-var=dW58_b8:12392",
+        "--learn-watch-var=dW58_b9:12393",
+        "--learn-watch-var=dW58_b10:12394",
+        "--learn-watch-var=dW58_b11:12395",
+        "--learn-watch-var=dW58_b12:12396",
+        "--learn-watch-var=dW58_b13:12397",
+        "--learn-watch-var=dW58_b14:12398",
+        "--learn-watch-var=dW58_b15:12399",
+        "--learn-watch-var=dW58_b16:12400",
+        "--learn-watch-var=dW58_b17:12401",
+        "--learn-watch-var=dW58_b18:12402",
+        "--learn-watch-var=dW58_b19:12403",
+        "--learn-watch-var=dW58_b20:12404",
+        "--learn-watch-var=dW58_b21:12405",
+        "--learn-watch-var=dW58_b22:12406",
+        "--learn-watch-var=dW58_b23:12407",
+        "--learn-watch-var=dW58_b24:12408",
+        "--learn-watch-var=dW58_b25:12409",
+        "--learn-watch-var=dW58_b26:12410",
+        "--learn-watch-var=dW58_b27:12411",
+        "--learn-watch-var=dW58_b28:12412",
+        "--learn-watch-var=dW58_b29:12413",
+        "--learn-watch-var=dW58_b30:12414",
+        "--learn-watch-var=dW58_b31:12415"
+      ],
+      "cnf": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf",
+      "condition": "baseline",
+      "f343": {
+        "pair": {
+          "bits": [
+            22,
+            23
+          ],
+          "clause": [
+            12374,
+            12375
+          ],
+          "forbid": [
+            0,
+            0
+          ]
+        },
+        "unit": {
+          "bit": 0,
+          "clause": [
+            -12352
+          ],
+          "value": 0
+        }
+      },
+      "metrics": {
+        "backtracks": 58046,
+        "decisions": 367451,
+        "learn_touch_counts": {},
+        "learned_exported": 46674,
+        "learned_touching_watched": 0,
+        "result": 0
+      },
+      "n_watch_vars": 64,
+      "returncode": 2,
+      "stderr_log": "/tmp/F418/bit28_md1acca79_fillffffffff_baseline.stderr.log",
+      "stdout_log": "/tmp/F418/bit28_md1acca79_fillffffffff_baseline.stdout.log",
+      "top_touch_counts": [],
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 3.9889407218433917,
+      "watched_rows": [
+        "57",
+        "58"
+      ]
+    },
+    {
+      "append_run": {
+        "returncode": 0,
+        "stderr": "/home/yale/sha256_probe/headline_hunt/infra/append_run.py:138: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  ts = datetime.datetime.utcnow().strftime(\"%Y-%m-%dT%H:%M:%SZ\")\n/home/yale/sha256_probe/headline_hunt/infra/append_run.py:140: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).\n  run_id = f\"run_{datetime.datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{args.bet}_{args.solver}_seed{args.seed}_{rid_short}\"",
+        "stdout": "Appended run_20260501_012757_programmatic_sat_propagator_cadical-ipasir-up_seed0_de295c39"
+      },
+      "audit": {
+        "claimed": {
+          "encoder_variant": "cascade_aux_force",
+          "n": 32,
+          "sr_level": 60
+        },
+        "cross_sr_matches": [],
+        "file": "/tmp/F418/aux_force_sr60_n32_bit28_md1acca79_fillffffffff_F418_F343.cnf",
+        "filename": "aux_force_sr60_n32_bit28_md1acca79_fillffffffff_F418_F343.cnf",
+        "matched_fingerprints": [
+          "sr60_n32_cascade_aux_force"
+        ],
+        "n_clauses": 54739,
+        "n_vars": 13203,
+        "returncode": 0,
+        "verdict": "CONFIRMED",
+        "warnings": []
+      },
+      "candidate": "bit28_md1acca79_fillffffffff",
+      "candidate_id": "cand_n32_bit28_md1acca79_fillffffffff",
+      "cmd": [
+        "/tmp/F417_cascade_propagator",
+        "/tmp/F418/aux_force_sr60_n32_bit28_md1acca79_fillffffffff_F418_F343.cnf",
+        "/home/yale/sha256_probe/headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+        "--conflicts=50000",
+        "--learn-max-size=-1",
+        "--learn-watch-var=dW57_b0:12352",
+        "--learn-watch-var=dW57_b1:12353",
+        "--learn-watch-var=dW57_b2:12354",
+        "--learn-watch-var=dW57_b3:12355",
+        "--learn-watch-var=dW57_b4:12356",
+        "--learn-watch-var=dW57_b5:12357",
+        "--learn-watch-var=dW57_b6:12358",
+        "--learn-watch-var=dW57_b7:12359",
+        "--learn-watch-var=dW57_b8:12360",
+        "--learn-watch-var=dW57_b9:12361",
+        "--learn-watch-var=dW57_b10:12362",
+        "--learn-watch-var=dW57_b11:12363",
+        "--learn-watch-var=dW57_b12:12364",
+        "--learn-watch-var=dW57_b13:12365",
+        "--learn-watch-var=dW57_b14:12366",
+        "--learn-watch-var=dW57_b15:12367",
+        "--learn-watch-var=dW57_b16:12368",
+        "--learn-watch-var=dW57_b17:12369",
+        "--learn-watch-var=dW57_b18:12370",
+        "--learn-watch-var=dW57_b19:12371",
+        "--learn-watch-var=dW57_b20:12372",
+        "--learn-watch-var=dW57_b21:12373",
+        "--learn-watch-var=dW57_b22:12374",
+        "--learn-watch-var=dW57_b23:12375",
+        "--learn-watch-var=dW57_b24:12376",
+        "--learn-watch-var=dW57_b25:12377",
+        "--learn-watch-var=dW57_b26:12378",
+        "--learn-watch-var=dW57_b27:12379",
+        "--learn-watch-var=dW57_b28:12380",
+        "--learn-watch-var=dW57_b29:12381",
+        "--learn-watch-var=dW57_b30:12382",
+        "--learn-watch-var=dW57_b31:12383",
+        "--learn-watch-var=dW58_b0:12384",
+        "--learn-watch-var=dW58_b1:12385",
+        "--learn-watch-var=dW58_b2:12386",
+        "--learn-watch-var=dW58_b3:12387",
+        "--learn-watch-var=dW58_b4:12388",
+        "--learn-watch-var=dW58_b5:12389",
+        "--learn-watch-var=dW58_b6:12390",
+        "--learn-watch-var=dW58_b7:12391",
+        "--learn-watch-var=dW58_b8:12392",
+        "--learn-watch-var=dW58_b9:12393",
+        "--learn-watch-var=dW58_b10:12394",
+        "--learn-watch-var=dW58_b11:12395",
+        "--learn-watch-var=dW58_b12:12396",
+        "--learn-watch-var=dW58_b13:12397",
+        "--learn-watch-var=dW58_b14:12398",
+        "--learn-watch-var=dW58_b15:12399",
+        "--learn-watch-var=dW58_b16:12400",
+        "--learn-watch-var=dW58_b17:12401",
+        "--learn-watch-var=dW58_b18:12402",
+        "--learn-watch-var=dW58_b19:12403",
+        "--learn-watch-var=dW58_b20:12404",
+        "--learn-watch-var=dW58_b21:12405",
+        "--learn-watch-var=dW58_b22:12406",
+        "--learn-watch-var=dW58_b23:12407",
+        "--learn-watch-var=dW58_b24:12408",
+        "--learn-watch-var=dW58_b25:12409",
+        "--learn-watch-var=dW58_b26:12410",
+        "--learn-watch-var=dW58_b27:12411",
+        "--learn-watch-var=dW58_b28:12412",
+        "--learn-watch-var=dW58_b29:12413",
+        "--learn-watch-var=dW58_b30:12414",
+        "--learn-watch-var=dW58_b31:12415"
+      ],
+      "cnf": "/tmp/F418/aux_force_sr60_n32_bit28_md1acca79_fillffffffff_F418_F343.cnf",
+      "condition": "f343",
+      "delta_vs_baseline_same_watcher": {
+        "backtracks": -598,
+        "backtracks_pct": -1.0302174137752818,
+        "decisions": -45035,
+        "decisions_pct": -12.256055909495416,
+        "learned_exported": 169,
+        "learned_exported_pct": 0.36208595792089815,
+        "learned_touching_watched": 0
+      },
+      "f343": {
+        "pair": {
+          "bits": [
+            22,
+            23
+          ],
+          "clause": [
+            12374,
+            12375
+          ],
+          "forbid": [
+            0,
+            0
+          ]
+        },
+        "unit": {
+          "bit": 0,
+          "clause": [
+            -12352
+          ],
+          "value": 0
+        }
+      },
+      "metrics": {
+        "backtracks": 57448,
+        "decisions": 322416,
+        "learn_touch_counts": {},
+        "learned_exported": 46843,
+        "learned_touching_watched": 0,
+        "result": 0
+      },
+      "n_watch_vars": 64,
+      "returncode": 2,
+      "stderr_log": "/tmp/F418/bit28_md1acca79_fillffffffff_f343.stderr.log",
+      "stdout_log": "/tmp/F418/bit28_md1acca79_fillffffffff_f343.stdout.log",
+      "top_touch_counts": [],
+      "varmap": "headline_hunt/bets/cascade_aux_encoding/cnfs/aux_force_sr60_n32_bit28_md1acca79_fillffffffff.cnf.varmap.json",
+      "wall_seconds": 3.7205905742011964,
+      "watched_rows": [
+        "57",
+        "58"
+      ]
+    }
+  ],
+  "verdict": "Across six same-watcher traces, zero exported learned clauses touched any watched dW57 or dW58 aux variable."
+}
