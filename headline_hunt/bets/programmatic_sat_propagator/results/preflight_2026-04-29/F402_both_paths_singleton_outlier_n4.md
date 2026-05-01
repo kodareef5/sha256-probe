@@ -127,9 +127,10 @@ Updated Phase 2D F343 deployment recipe (n=9):
 The simpler version is "deploy F343 to everything except bit2",
 which gives a clean predictor at the cand level, not the class level.
 
-This is the empirically grounded outcome of F400-F402: F343 is
-nearly universally helpful, with bit2 as a single exception requiring
-investigation.
+This is the sample-limited outcome of F400-F402: in the current n=9
+working panel, F343 is helpful on 8/9 tested cands, with bit2 as the
+single observed exception requiring investigation. Treat this as a
+working policy, not a universal rule.
 
 ### Finding 5 — Cross-machine implication for F399 matrix
 
@@ -151,7 +152,8 @@ on 6 cands. Macbook's F402 finding suggests:
 - This memo with n=4 "both paths" panel
 - F402 confirms bit2 as singleton outlier (3/4 help; 1 doesn't)
 - F400-H1 fully falsified
-- Updated cand-level deployment recipe: F343 universal except bit2
+- Updated current n=9 cand-level working policy: F343 on tested cands
+  except bit2, sample-limited
 - 4 runs logged via append_run.py
 
 ## Compute discipline
@@ -182,7 +184,8 @@ on 6 cands. Macbook's F402 finding suggests:
   singleton
 - F400's headline (Class B reliable) holds; F400-H1 fully falsified;
   bit2 outlier status documented
-- Phase 2D recipe simplifies to "F343 universal, except bit2"
+- Phase 2D working policy simplifies to "F343 on the current tested
+  panel except bit2"; this remains sample-limited
 - bit2 mechanism remains structurally open
 
 ## F381 → F402 chain summary
