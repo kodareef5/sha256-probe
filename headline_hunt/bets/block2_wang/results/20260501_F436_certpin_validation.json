@@ -1,0 +1,56 @@
+{
+  "description": "F436 cert-pin validation for bit13_m916a56aa HW=44 radius-6 seeded record (was HW=49 in yale F432/F435)",
+  "source": "headline_hunt/bets/block2_wang/results/search_artifacts/20260501_F436_bit13_hw49_radius6_seeded.json",
+  "work_dir": "/tmp/F436",
+  "comparison": {
+    "F435_HW49_witness": {
+      "W": [
+        "0x5228ed8d",
+        "0x61a1a29c",
+        "0xea7a8c21",
+        "0x25bfda52"
+      ],
+      "hw_total": 49,
+      "best_score": 70.667
+    },
+    "F436_HW44_witness": {
+      "W": [
+        "0x5228ed8d",
+        "0x61a1a29c",
+        "0xea6a8c21",
+        "0x3dbfd852"
+      ],
+      "W2": [
+        "0x1cf531f1",
+        "0xb6007fec",
+        "0x0ae899b2",
+        "0xde7500a9"
+      ],
+      "hw_total": 44,
+      "best_score": 71.526,
+      "hw63": [13, 8, 3, 0, 10, 7, 3, 0],
+      "delta": "W57/W58 unchanged; W59 XOR 0x00100000 (bit 20), W60 XOR 0x18000200 (bits 9, 27, 28); Hamming distance 4 from HW49"
+    }
+  },
+  "audit_verdict": "CONFIRMED",
+  "cnf_sha256": "2ebafe056476d78d0b0406c318926b59f6ed8aed51dce7ad5b12fa22f485a3aa",
+  "cand_id": "cand_n32_bit13_m916a56aa_fillffffffff",
+  "solvers": {
+    "kissat": {
+      "version": "4.0.4",
+      "status": "UNSAT",
+      "wall_sec": 0.02206,
+      "command": "kissat -q --seed=0 /tmp/F436/aux_expose_sr60_n32_bit13_m916a56aa_fillffffffff_F436_certpin.cnf"
+    },
+    "cadical": {
+      "version": "3.0.0",
+      "status": "UNSAT",
+      "wall_sec": 0.046806,
+      "command": "cadical -q --seed=0 /tmp/F436/aux_expose_sr60_n32_bit13_m916a56aa_fillffffffff_F436_certpin.cnf"
+    }
+  },
+  "runs_jsonl": [
+    "run_20260501_144616_block2_wang_kissat_seed0_7a1cd3e6",
+    "run_20260501_144622_block2_wang_cadical_seed0_34a79c02"
+  ]
+}
