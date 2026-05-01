@@ -30,6 +30,23 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
 last_heartbeat: '2026-05-01T15:30:00Z'
+recent_progress_2026-05-01_F435_bit13_hw49_isolation_confirmed: |
+  yale-codex closed the gap created by the new bit13 HW=49 record.
+  Added a general Hamming-ball enumerator:
+    headline_hunt/bets/block2_wang/encoders/enumerate_hamming_ball.py
+
+  Ran full Hamming-{1,2,3} over W1[57..60] around the HW=49 witness:
+    W1 = 0x5228ed8d 0x61a1a29c 0xea7a8c21 0x25bfda52
+
+  Result: 349,632 evaluations, cascade-1 pass 349,632/349,632,
+  bridge pass 341,755/349,632, and 0 candidates at HW <= 49.
+  Best seen stayed the seed itself (HW=49, score=70.667).
+
+  This closes the F433 caveat: macbook's F433 Hamming-3 closure covered
+  the superseded HW=50 basin; F435 now covers the current HW=49 basin.
+  Current five-record Path C panel is Hamming-3 closed:
+    bit24 HW=43, bit28 HW=45, bit13 HW=49, bit3 HW=51, bit2 HW=51.
+
 recent_progress_2026-05-01_F434_radius6_confirmation: |
   macbook-claude bridged the gap between F408 (max_flips=6 random)
   and F428 (max_flips=3 seeded): F434 = max_flips=6 SEEDED on the two
@@ -51,8 +68,8 @@ recent_progress_2026-05-01_F434_radius6_confirmation: |
 
   Superseded note: yale-codex independently found bit13 HW=49 after
   this macbook sequence. F434 is still a clean radius-6 closure for
-  bit24/bit28, but the 5-cand stopping point now needs a separate
-  closure around the new bit13 HW=49 basin.
+  bit24/bit28; F435 separately closes the new bit13 HW=49 basin at
+  Hamming radius 3.
 
 recent_progress_2026-05-01_F432_yale_hw49_supersedes_hw50: |
   yale-codex independently followed F431's bit13 suggestion with a
@@ -71,8 +88,7 @@ recent_progress_2026-05-01_F432_yale_hw49_supersedes_hw50: |
 
   This supersedes the macbook F432 HW=50 as the current bit13 record.
   F433's Hamming-3 isolation remains useful as a closure around the
-  macbook HW=50 basin, but the new bit13 HW=49 basin still needs its
-  own Hamming-{1,2,3} closure.
+  macbook HW=50 basin; F435 later closes the new bit13 HW=49 basin.
 
   Updated Path C record table: bit24 HW=43, bit28 HW=45, bit13 HW=49,
   bit3/bit2 HW=51.
