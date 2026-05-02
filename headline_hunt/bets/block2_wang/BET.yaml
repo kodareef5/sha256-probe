@@ -29,7 +29,42 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-02T17:05:00Z'
+last_heartbeat: '2026-05-02T17:35:00Z'
+recent_progress_2026-05-02_F530_F542_post_floor_rank_sweep: |
+  yale-codex ran the controlled post-F521 manifest rank sweep after
+  committing/pushing the F522-F529 closure checkpoint.
+
+  Parameters matched F521 wide pair-beam:
+    pair_pool=1024, beam_width=1024, max_pairs=6, max_radius=12,
+    pair_rank=hw, penalty_regs=c,g, penalty_weight=2.
+    13 workers in parallel; sum wall 5,760.86s, max single run 525.92s.
+
+  bit3 post-HW36 ranks 6..12:
+    F530 rank6  init HW39 -> best HW38 score 83.667
+    F531 rank7  init HW40 -> best HW38 score 75.750
+    F532 rank8  init HW40 -> best HW38 score 83.667
+    F533 rank9  init HW40 -> best HW38 score 75.750
+    F534 rank10 init HW40 -> best HW36 score 85.471
+    F535 rank11 init HW40 -> best HW38 score 81.857
+    F536 rank12 init HW40 -> best HW39 score 77.176
+    No HW<36. Rank10 reconnects to the known F521 HW36 attractor;
+    ranks 6/8 expose alternate HW38 side basins.
+
+  bit24 post-HW40 ranks 6..10 and 12:
+    F537 rank6  init HW44 -> best HW41 score 71.647
+      W1=0x4be5074f 0x429efff2 0xf09458af 0x4870f278.
+    F538 rank7  init HW44 -> best HW43 score 79.073
+    F539 rank8  init HW44 -> best HW43 score 79.073
+    F540 rank9  init HW44 -> best HW43 score 79.073
+    F541 rank10 init HW44 -> best HW43 score 79.073
+    F542 rank12 init HW45 -> best HW43 score 74.105
+    No HW<40. F537 is the useful new bit24 side basin, improving the
+    post-floor side ladder from F529 HW42 to HW41 but not crossing HW40.
+
+  Verdict: the rank sweep did not create a new global floor. It did clarify
+  geometry: bit3 repeatedly collapses back into the known HW36/HW38 W60
+  family, while bit24 has a live side-basin ladder worth probing from F537.
+
 recent_progress_2026-05-02_F521_manifest_rank_breakthroughs: |
   macbook-claude follow-up to F520 applying F487's manifest-rank pattern.
   Generated bit2 and bit3 basin manifests from F520 outputs, used the

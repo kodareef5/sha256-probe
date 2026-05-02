@@ -1,13 +1,13 @@
 ---
 date: 2026-05-02
 bet: block2_wang
-status: PATH_C_BIT3_HW36_LOCAL_CLOSURE
+status: PATH_C_POST_F521_LOCAL_CLOSURE_AND_RANK_SWEEP
 parent: F521 bit3 HW36 breakthrough
 evidence_level: VERIFIED
 author: yale-codex
 ---
 
-# F522/F529: bit3 HW36 and bit24 HW40 local closure plus first post-floor restarts
+# F522/F542: bit3 HW36 and bit24 HW40 local closure plus post-floor rank sweep
 
 ## Setup
 
@@ -130,20 +130,68 @@ F529 best:
 - hw63=`[8,8,2,0,13,6,5,0]`
 - HW42, score=71.000
 
+## F530/F542: batched post-floor rank sweep
+
+Ran the controlled rank sweep suggested above with the same wide pair-beam
+settings used by F521:
+
+- pair pool 1024
+- beam 1024
+- max pairs 6
+- max radius 12
+- c+g penalty 2
+
+This consumed 13 workers in parallel; total worker wall was 5,760.86 seconds,
+with slowest single run 525.92 seconds.
+
+### bit3 ranks 6..12
+
+| Run | Rank | Init HW | Best HW | Score | Best W57..W60 |
+|---|---:|---:|---:|---:|---|
+| F530 | 6 | 39 | 38 | 83.667 | `0xba476635 0x8cf9982c 0x06b9e787 0x1a22af03` |
+| F531 | 7 | 40 | 38 | 75.750 | `0xba476635 0x8cf9982c 0x06b9e787 0xdae32d04` |
+| F532 | 8 | 40 | 38 | 83.667 | `0xba476635 0x8cf9982c 0x06b9e787 0x08a26aa5` |
+| F533 | 9 | 40 | 38 | 75.750 | `0xba476635 0x8cf9982c 0x06b9e787 0xdae32d04` |
+| F534 | 10 | 40 | 36 | 85.471 | `0xba476635 0x8cf9982c 0x06b9e787 0x2b032ff3` |
+| F535 | 11 | 40 | 38 | 81.857 | `0xba476635 0x8cf9982c 0x06b9e787 0x2b0326e8` |
+| F536 | 12 | 40 | 39 | 77.176 | `0xba476635 0x8cf9982c 0x0699e787 0x1b026703` |
+
+No run found HW<36. Rank 10 reconnected to the known HW36 floor; ranks 6
+and 8 produced alternate HW38 side basins with score 83.667.
+
+### bit24 ranks 6..10 and 12
+
+| Run | Rank | Init HW | Best HW | Score | Best W57..W60 |
+|---|---:|---:|---:|---:|---|
+| F537 | 6 | 44 | 41 | 71.647 | `0x4be5074f 0x429efff2 0xf09458af 0x4870f278` |
+| F538 | 7 | 44 | 43 | 79.073 | `0x4be5074f 0x429efff2 0xf1b458af 0xa814ef39` |
+| F539 | 8 | 44 | 43 | 79.073 | `0x4be5074f 0x429efff2 0xe09458af 0xe6560e70` |
+| F540 | 9 | 44 | 43 | 79.073 | `0x4be5074f 0x429efff2 0xf09458a7 0x51f6fdf8` |
+| F541 | 10 | 44 | 43 | 79.073 | `0x4be5074f 0x429efff2 0xecb458af 0x2e07ebfa` |
+| F542 | 12 | 45 | 43 | 74.105 | `0x4be5074f 0x429efff2 0xec9458af 0x360b8e79` |
+
+No run found HW<40. F537 is the useful new side basin: HW41 from manifest
+rank 6, not enough to beat the F521 HW40 floor but closer than F529's HW42.
+Ranks 7..10 and 12 all reconnect to HW43 basins.
+
 ## Updated Verdict
 
 The post-pull edge is now:
 
 - bit3 HW36 is strongly locally closed in W59/W60 through radius 5.
 - bit24 HW40 is locally closed in W59/W60 through radius 4.
-- First post-floor manifest continuations, bit3 rank 5 and bit24 rank 5,
-  did not improve the current floors.
+- Post-floor manifest continuations through bit3 ranks 5..12 and bit24
+  ranks 5..10/12 did not improve the current floors.
+- The bit3 basin is highly reconnective: many ranks flow back to the known
+  HW36/HW38 W60-only family.
+- bit24 still has a live side-basin ladder: F529 found HW42, F537 found
+  HW41, but neither crossed the HW40 floor.
 
-The most useful next compute is a batched rank sweep rather than isolated
-single starts:
+The most useful next compute is no longer small-radius closure around the
+floor records. Better options:
 
-- bit3 post-HW36 ranks 6..12
-- bit24 post-HW40 ranks 6..12
-
-Run them in a controlled batch and summarize basin reconnects versus new
-sub-floor records.
+1. expand bit24 around the F537 HW41 side basin with local W59/W60 closure
+   and pair-beam restarts;
+2. build a deduplicated bit3 HW38 side-basin manifest from F530/F532/F535;
+3. test a different rank objective for bit3 because HW-ranked pair-beam now
+   repeatedly returns to the same HW36 attractor.
