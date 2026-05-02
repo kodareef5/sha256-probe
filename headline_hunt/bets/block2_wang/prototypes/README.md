@@ -12,6 +12,10 @@ treats it as an XOR IV difference for a second compression block, keeps `M1`
 fixed at zero, mutates `M2[0..15]`, and hill-climbs the state-difference
 Hamming weight after a chosen number of SHA-256 rounds.
 
+Rows may also contain `block1_diff63` and `absorber_m2`. In that case the
+probe starts from the supplied `M2` mask and polishes it, which lets F518-style
+absorber profile seeds drive a longer follow-up run.
+
 Build:
 
 ```bash
@@ -35,6 +39,15 @@ Overnight shape:
   headline_hunt/bets/block2_wang/residuals/F28_deep_corpus.jsonl \
   16 5000000 0x20260428 200 \
   > headline_hunt/bets/block2_wang/prototypes/absorber_r16_5M_top200.csv
+```
+
+Seeded polish shape:
+
+```bash
+/tmp/block2_absorber_probe \
+  headline_hunt/bets/block2_wang/results/search_artifacts/20260502_absorber_matrix_overnight/F518_absorber_m2_late_round_seeds.jsonl \
+  24 5000000 0x20260542 22 \
+  > headline_hunt/bets/block2_wang/results/search_artifacts/20260502_F519_absorber_m2_polish_r24_5M.csv
 ```
 
 Interpretation:

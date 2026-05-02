@@ -61,6 +61,7 @@ def analyze_row(residual: dict[str, Any], raw: dict[str, str], csv_path: Path) -
         "best_hw": int(raw["best_hw"]),
         "improvement": int(raw["improvement"]),
         "W": [residual.get(f"w_{slot}") for slot in range(57, 61)],
+        "diff63": [f"0x{x:08x}" for x in diff],
         "best_m2": raw["best_m2"],
         "best_state_diff": [f"0x{x:08x}" for x in best],
         "input_lane_hw": residual["input_lane_hw"],

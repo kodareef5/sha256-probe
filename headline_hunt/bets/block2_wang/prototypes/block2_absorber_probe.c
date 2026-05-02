@@ -71,6 +71,8 @@ typedef struct {
     char candidate_id[MAX_ID];
     int hw_total;
     u32 diff[8];
+    int has_initial_m2;
+    u32 initial_m2[16];
 } residual_t;
 
 typedef struct {
@@ -187,15 +189,15 @@ static int extract_json_int(const char *line, const char *key, int *out) {
     return 1;
 }
 
-static int parse_diff63(const char *line, u32 diff[8]) {
-    const char *p = strstr(line, "\"diff63\"");
+static int parse_word_array(const char *line, const char *key, u32 *out, int n) {
+    const char *p = strstr(line, key);
     if (!p) return 0;
     p = strchr(p, '[');
     if (!p) return 0;
-    for (int i = 0; i < 8; i++) {
+    for (int i = 0; i < n; i++) {
         const char *h = strstr(p, "0x");
         if (!h) return 0;
-        diff[i] = (u32)strtoul(h, NULL, 16);
+        out[i] = (u32)strtoul(h, NULL, 16);
         p = h + 2;
     }
     return 1;
@@ -205,8 +207,13 @@ static int parse_residual_line(const char *line, residual_t *r) {
     memset(r, 0, sizeof(*r));
     strcpy(r->candidate_id, "unknown");
     extract_json_string(line, "\"candidate_id\"", r->candidate_id, sizeof(r->candidate_id));
+    extract_json_string(line, "\"candidate\"", r->candidate_id, sizeof(r->candidate_id));
     extract_json_int(line, "\"hw_total\"", &r->hw_total);
-    return parse_diff63(line, r->diff);
+    extract_json_int(line, "\"block1_hw\"", &r->hw_total);
+    int has_diff = parse_word_array(line, "\"diff63\"", r->diff, 8);
+    if (!has_diff) has_diff = parse_word_array(line, "\"block1_diff63\"", r->diff, 8);
+    r->has_initial_m2 = parse_word_array(line, "\"absorber_m2\"", r->initial_m2, 16);
+    return has_diff;
 }
 
 static void run_probe(const residual_t *res, int rounds, u64 iterations,
@@ -215,6 +222,9 @@ static void run_probe(const residual_t *res, int rounds, u64 iterations,
     for (int i = 0; i < 8; i++) {
         iv1[i] = IV[i];
         iv2[i] = IV[i] ^ res->diff[i];
+    }
+    if (res->has_initial_m2) {
+        memcpy(cur_m2, res->initial_m2, sizeof(cur_m2));
     }
 
     int cur_hw = eval_message(iv1, iv2, cur_m2, rounds, cur_diff);
@@ -252,7 +262,7 @@ static void run_probe(const residual_t *res, int rounds, u64 iterations,
         }
     }
 
-    out->start_hw = eval_message(iv1, iv2, (u32[16]){0}, rounds, NULL);
+    out->start_hw = eval_message(iv1, iv2, res->has_initial_m2 ? res->initial_m2 : (u32[16]){0}, rounds, NULL);
     out->best_hw = best_hw;
     memcpy(out->best_m2, best_m2, sizeof(best_m2));
     memcpy(out->best_state_diff, best_diff, sizeof(best_diff));

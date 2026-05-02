@@ -66,6 +66,7 @@ def seed_from_observation(obs: dict[str, Any]) -> dict[str, Any]:
         "block1_hw": obs["block1_hw"],
         "bridge_score": obs["bridge_score"],
         "block1_W": obs["W"],
+        "block1_diff63": obs["diff63"],
         "absorber_start_hw": obs["start_hw"],
         "absorber_best_hw": obs["best_hw"],
         "absorber_improvement": obs["improvement"],

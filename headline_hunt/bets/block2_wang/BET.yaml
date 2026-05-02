@@ -112,6 +112,23 @@ recent_progress_2026-05-02_F516_absorber_profile_table: |
   Each row carries block-1 W57..W60, absorber M2[0..15], final state diff,
   lane deltas, cleared/new/overlap counts, and c/g profile fields.
 
+recent_progress_2026-05-02_F519_absorber_m2_polish: |
+  yale-codex upgraded block2_absorber_probe.c so F518 rows containing
+  block1_diff63 + absorber_m2 start from the supplied M2 mask. This makes
+  M2/profile-aware follow-up executable instead of just descriptive.
+
+  F519 polished the 22 late-round F518 seeds at 24 rounds for 5M iterations:
+    - 24-round seeds were already local: rank 36 stayed HW91, rank 14 HW93,
+      rank 22 HW94, rank 32 HW95, ranks 20/39/33 HW96.
+    - Cross-round transfer worked but did not beat the 24-round floor:
+      rank 32 seed from r20 improved 128 -> 98 at r24;
+      rank 38 r20 improved 147 -> 99 at r24;
+      rank 14 r20 improved 123 -> 100 at r24.
+
+  Verdict: M2/profile-aware work is validated, but one-bit M2 hill-climb is
+  too local. Next operator should be M2 pair beam, lane-targeted M2 flips, or
+  cross-round continuation with retained beam state.
+
 recent_progress_2026-05-01_F504_F505_f491_rank29_rank30_prunes: |
   yale-codex tested adjacent F486-derived F491 tail seeds:
     F504 rank 29 HW42
