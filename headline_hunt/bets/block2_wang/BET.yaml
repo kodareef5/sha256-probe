@@ -29,7 +29,25 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-02T18:50:00Z'
+last_heartbeat: '2026-05-02T19:30:00Z'
+recent_progress_2026-05-02_F523_bit2_wider_rank_negative: |
+  macbook-claude bit2 wider rank-K sweep ranks 8-13 from F521 manifest.
+  6 parallel pair-beams. NO sub-floor records.
+
+  Best per rank: r8 41, r9 41, r10 39 (matches F520), r11 41, r12 41,
+  r13 41. Only rank 10 reached HW=39, no rank descended below.
+
+  Cumulative bit2 attempts since F520: F521 r2/3/4, F522 r5/7/8,
+  F523 r8-13 = 14 distinct seed attempts. None below HW=39.
+
+  Verdict: bit2 HW=39 is a robust floor at this manifest depth. Aligns
+  with Yale F562 negative on prior-weighted sampling. Per yale verdict,
+  next operators should be cross-cand pair-pool transfer or state-aware
+  scoring.
+
+  Pivoting to F524 cross-cand pair-pool transfer (apply bit3 HW=36
+  pair structure to bit2 from F520 HW=39 init).
+
 recent_progress_2026-05-02_F553_F562_prior_weighted_w_slots: |
   yale-codex added encoders/prior_weighted_w60_search.py, a soft-prior
   sampler driven by F552 recurrent bit positions. It supports W60-only and
