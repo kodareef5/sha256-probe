@@ -65,6 +65,33 @@ recent_progress_2026-05-02_F521_manifest_rank_breakthroughs: |
   across cands. Playbook: generate manifest, pair-beam from rank-K
   seeds at HW above current, iterate.
 
+recent_progress_2026-05-02_F522_F529_post_pull_closure_and_restarts: |
+  yale-codex pulled macbook's F520/F521 breakthroughs and tested the new
+  Path C edge.
+
+  Exact bridge-relaxed local closures:
+    F522/F523 bit3 HW36 W60-only radius 1..6:
+      1,149,016 candidates, 0 HW<=36, 0 HW<36.
+    F524/F525 bit3 HW36 W59+W60 radius 1..5:
+      8,303,632 candidates, 0 HW<=36, 0 HW<36.
+    F526 bit24 HW40 W59+W60 radius 1..4:
+      679,120 candidates, all bridge-pass, 0 HW<=40, 0 HW<40.
+
+  Generated refreshed post-F521 manifests:
+    F527 bit3 post-HW36 manifest: 118 seeds.
+    F527 bit24 post-HW40 manifest: 50 seeds.
+
+  First post-floor manifest continuations:
+    F528 bit3 rank 5 HW39 reconnected to known F520 HW39.
+    F529 bit24 rank 5 HW44 found HW42 side basin
+      W1=0x4be5074f 0x429efff2 0xe8b458af 0x2a118bfc,
+      not below current HW40.
+
+  Verdict: bit3 HW36 and bit24 HW40 are locally closed in their critical
+  W59/W60 coordinates. Next useful compute is a controlled rank sweep,
+  bit3 ranks 6..12 and bit24 ranks 6..12, not more small-radius local
+  enumeration.
+
 recent_progress_2026-05-02_F520_pair_beam_bit2_bit3_breakthrough: |
   macbook-claude found a major gap in the recent fleet pair-beam chain:
   bit2 and bit3 had ZERO pair-beam runs; they were still at F408 HW=51.
