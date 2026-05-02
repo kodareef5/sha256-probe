@@ -29,7 +29,25 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-02T23:30:00Z'
+last_heartbeat: '2026-05-02T23:55:00Z'
+recent_progress_2026-05-02_F533_bit2_wider_negative: |
+  macbook-claude wider-param pair-beam on bit2 (HW=39 since F520).
+  Params: max_pairs 8, max_radius 14, pool 2048 (vs std 6/12/1024).
+
+  Result: HW=39 unchanged. bit2 confirmed at HW=39 floor under all
+  4 search modalities tried:
+    F520: rank-1 broke 51->39
+    F521-F523: 14 manifest seeds (ranks 2-13) all stuck at 39
+    F524: cross-cand pair-pool transfer (4 sources) all 0
+    F562 (Yale): 5M prior-weighted samples, 0
+    F533: wider params (8/14/2048), 0
+
+  HW=39 is the verified bit2 W-cube floor under cascade-1 + bridge_score.
+  Further descent requires geometry relaxation or fundamentally
+  different search structure.
+
+  bit26 in same batch had init-W mismatch error (my bug); skipped.
+
 recent_progress_2026-05-02_F532_iter4: |
   macbook-claude iter-4 on F531 mid-tier: bit12 41->39 (joins bit2
   HW=39 tier!). bit14 stuck at 37. bit26 stuck at 41 even with
