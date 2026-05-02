@@ -1,0 +1,34 @@
+{
+  "description": "F640 bit12 HW40 and F642 bit26 HW39 cert-pin validation",
+  "date": "2026-05-02",
+  "author": "yale-codex",
+  "note": "The first manual cert-pin commands in this work block used stale W values. This file records the corrected artifact witnesses only.",
+  "validations": [
+    {
+      "run": "F640",
+      "candidate": "bit12_m8cbb392c",
+      "m0": "0x8cbb392c",
+      "fill": "0xffffffff",
+      "kernel_bit": 12,
+      "hw_total": 40,
+      "W": ["0x6e835350", "0x8322f4cf", "0x30dd0ed1", "0x927f3e65"],
+      "kissat_status": "UNSAT",
+      "kissat_wall": 0.011,
+      "cadical_status": "UNSAT",
+      "cadical_wall": 0.020
+    },
+    {
+      "run": "F642",
+      "candidate": "bit26_m11f9d4c7",
+      "m0": "0x11f9d4c7",
+      "fill": "0xffffffff",
+      "kernel_bit": 26,
+      "hw_total": 39,
+      "W": ["0xbfe07c65", "0x012df925", "0xae91ccb9", "0x715d9e89"],
+      "kissat_status": "UNSAT",
+      "kissat_wall": 0.012,
+      "cadical_status": "UNSAT",
+      "cadical_wall": 0.015
+    }
+  ]
+}

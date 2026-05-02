@@ -1,0 +1,140 @@
+{
+  "description": "F649_bit26_hw39_w59_w60_r4_relaxed: Hamming ball enumeration",
+  "candidate": "bit26_m11f9d4c7",
+  "init_W": [
+    "0xbfe07c65",
+    "0x012df925",
+    "0xae91ccb9",
+    "0x715d9e89"
+  ],
+  "init_hw": 39,
+  "max_radius": 4,
+  "slots": [
+    59,
+    60
+  ],
+  "bit_domain_size": 64,
+  "relax_bridge": true,
+  "counts": {
+    "total": 679120,
+    "cascade1": 679120,
+    "bridge": 679120,
+    "bridge_reject": 0,
+    "hw_le_init": 0,
+    "hw_lt_init": 0
+  },
+  "by_radius": {
+    "1": {
+      "total": 64,
+      "cascade1": 64,
+      "bridge": 64,
+      "bridge_reject": 0,
+      "hw_le_init": 0,
+      "hw_lt_init": 0
+    },
+    "2": {
+      "total": 2016,
+      "cascade1": 2016,
+      "bridge": 2016,
+      "bridge_reject": 0,
+      "hw_le_init": 0,
+      "hw_lt_init": 0
+    },
+    "3": {
+      "total": 41664,
+      "cascade1": 41664,
+      "bridge": 41664,
+      "bridge_reject": 0,
+      "hw_le_init": 0,
+      "hw_lt_init": 0
+    },
+    "4": {
+      "total": 635376,
+      "cascade1": 635376,
+      "bridge": 635376,
+      "bridge_reject": 0,
+      "hw_le_init": 0,
+      "hw_lt_init": 0
+    }
+  },
+  "best_seen": {
+    "hw_total": 39,
+    "score": 81.0,
+    "bridge_pass": true,
+    "reject_reason": null,
+    "bits": [],
+    "W": [
+      "0xbfe07c65",
+      "0x012df925",
+      "0xae91ccb9",
+      "0x715d9e89"
+    ],
+    "record": {
+      "candidate": {
+        "m0": "0x11f9d4c7",
+        "fill": "0xffffffff",
+        "kernel_bit": 26
+      },
+      "w1_57": "0xbfe07c65",
+      "w1_58": "0x012df925",
+      "w1_59": "0xae91ccb9",
+      "w1_60": "0x715d9e89",
+      "w2_57": "0x7958a5c7",
+      "w2_58": "0x483f10e8",
+      "w2_59": "0x220efcca",
+      "w2_60": "0xe16a1167",
+      "iv1_63": [
+        "0xad567be3",
+        "0x6f50cc73",
+        "0xeeb8e5ad",
+        "0x4d10f780",
+        "0xb3ea7dc2",
+        "0xa791df9f",
+        "0xd5f7e284",
+        "0x050b8b20"
+      ],
+      "iv2_63": [
+        "0xfb337e73",
+        "0x6e54ccb7",
+        "0xedb8e5ad",
+        "0x4d10f780",
+        "0x12296843",
+        "0xa655f7df",
+        "0xd4f7e284",
+        "0x050b8b20"
+      ],
+      "diff63": [
+        "0x56650590",
+        "0x010400c4",
+        "0x03000000",
+        "0x00000000",
+        "0xa1c31581",
+        "0x01c42840",
+        "0x01000000",
+        "0x00000000"
+      ],
+      "hw63": [
+        12,
+        5,
+        2,
+        0,
+        12,
+        7,
+        1,
+        0
+      ],
+      "hw_total": 39,
+      "active_regs": [
+        "a",
+        "b",
+        "c",
+        "e",
+        "f",
+        "g"
+      ],
+      "da_eq_de": false
+    }
+  },
+  "new_records": [],
+  "wall_seconds": 38.89
+}

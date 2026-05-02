@@ -474,6 +474,39 @@ recent_progress_2026-05-02_F636_F638_bit14_F531_hw37_closure: |
 
   F638 refreshed bit14 post-HW37 manifest: 139 seeds.
 
+recent_progress_2026-05-02_F639_F652_tail_cand_followup: |
+  yale-codex followed the remaining tail cands after F531:
+    bit12 HW41, bit26 HW41, bit6 HW42.
+
+  F639 extracted manifests:
+    bit12 post-HW41: 35 seeds.
+    bit26 post-HW41: 29 seeds.
+    bit6 post-HW42: 25 seeds.
+
+  F640/F645 tested ranks 2..3:
+    F640 bit12 rank2 HW41 -> HW40.
+    F641 bit12 rank3 HW41 -> HW40, same witness as F640.
+    F642 bit26 rank2 HW44 -> HW39.
+    F643 bit26 rank3 HW44 -> HW42.
+    F644 bit6 rank2 HW45 -> HW42, reconnecting to floor.
+    F645 bit6 rank3 stayed HW45.
+
+  Corrected cert-pin validation:
+    F640 bit12 HW40: kissat UNSAT 0.011s, cadical UNSAT 0.020s.
+    F642 bit26 HW39: kissat UNSAT 0.012s, cadical UNSAT 0.015s.
+
+  Exact bridge-relaxed local closure:
+    F646/F647 bit12 HW40: W60 r6 and W59/W60 r4, 0 HW<=40, 0 HW<40.
+    F648/F649 bit26 HW39: W60 r6 and W59/W60 r4, 0 HW<=39, 0 HW<39.
+    F651/F652 bit6 HW42: W60 r6 and W59/W60 r4, 0 HW<=42, 0 HW<42.
+
+  F650 refreshed manifests:
+    bit12 post-HW40: 74 seeds.
+    bit26 post-HW39: 67 seeds.
+    bit6 post-HW42: 49 seeds.
+
+  Current panel tail: bit24/bit12 HW40, bit28/bit6 HW42.
+
 recent_progress_2026-05-02_F525_panel_expansion_11_kbits: |
   macbook-claude expanded Path C panel from 5 cands to 16 via F432-style
   wide anneal on 11 untouched cascade-fmt kbits from candidates.yaml:
