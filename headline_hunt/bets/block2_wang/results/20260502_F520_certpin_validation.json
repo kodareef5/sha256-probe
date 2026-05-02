@@ -1,0 +1,64 @@
+{
+  "description": "F520: cert-pin for bit2 and bit3 NEW HW=39 records via pair-beam (both were stuck at HW=51 since F408)",
+  "source": [
+    "/Users/mac/Desktop/sha256_review/headline_hunt/bets/block2_wang/results/search_artifacts/20260502_F520_bit2_pair_beam_cg.json",
+    "/Users/mac/Desktop/sha256_review/headline_hunt/bets/block2_wang/results/search_artifacts/20260502_F520_bit3_pair_beam_cg.json"
+  ],
+  "work_dir": "/tmp/F520",
+  "results": {
+    "bit2_ma896ee41": {
+      "W": [
+        "0x504e056e",
+        "0x3e435e29",
+        "0xda592ea2",
+        "0xab54ae55"
+      ],
+      "hw_total": 39,
+      "best_score": 82.757,
+      "audit_verdict": "CONFIRMED",
+      "cnf_sha256": "fb2e5bdcfc3c6ba1390ba96151dc24af085c47d0bc05a433edbec77b0ca638b6",
+      "cand_id": "cand_n32_bit2_ma896ee41_fillffffffff",
+      "solvers": {
+        "kissat": {
+          "version": "4.0.4",
+          "status": "UNSAT",
+          "wall_sec": 0.0087,
+          "command": "kissat -q --seed=0 /tmp/F520/aux_expose_sr60_n32_bit2_ma896ee41_fillffffffff_F520_certpin.cnf"
+        },
+        "cadical": {
+          "version": "3.0.0",
+          "status": "UNSAT",
+          "wall_sec": 0.015,
+          "command": "cadical -q --seed=0 /tmp/F520/aux_expose_sr60_n32_bit2_ma896ee41_fillffffffff_F520_certpin.cnf"
+        }
+      }
+    },
+    "bit3_m33ec77ca": {
+      "W": [
+        "0xba476635",
+        "0x8cf9982c",
+        "0x06b9e787",
+        "0x5882674c"
+      ],
+      "hw_total": 39,
+      "best_score": 81.0,
+      "audit_verdict": "CONFIRMED",
+      "cnf_sha256": "acbf1c3b65f150a489b0ef690d0005f13c043e41ca432a38d50fdb3979e5b910",
+      "cand_id": "cand_n32_bit3_m33ec77ca_fillffffffff",
+      "solvers": {
+        "kissat": {
+          "version": "4.0.4",
+          "status": "UNSAT",
+          "wall_sec": 0.0062,
+          "command": "kissat -q --seed=0 /tmp/F520/aux_expose_sr60_n32_bit3_m33ec77ca_fillffffffff_F520_certpin.cnf"
+        },
+        "cadical": {
+          "version": "3.0.0",
+          "status": "UNSAT",
+          "wall_sec": 0.012,
+          "command": "cadical -q --seed=0 /tmp/F520/aux_expose_sr60_n32_bit3_m33ec77ca_fillffffffff_F520_certpin.cnf"
+        }
+      }
+    }
+  }
+}

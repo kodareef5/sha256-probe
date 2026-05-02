@@ -29,7 +29,45 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-02T00:41:39Z'
+last_heartbeat: '2026-05-02T15:50:00Z'
+recent_progress_2026-05-02_F520_pair_beam_bit2_bit3_breakthrough: |
+  macbook-claude found a major gap in the recent fleet pair-beam chain:
+  bit2 and bit3 had ZERO pair-beam runs; they were still at F408 HW=51.
+  Yale focused on bit13 (50->35) and bit28 (45->42) but never touched
+  bit2/bit3. F520 fixes that.
+
+  Ran pair_beam_search.py with the same params that drove bit13 closures
+  (pair pool 1024, beam 1024, max_pairs 6, max_radius 12, c+g penalty 2)
+  on bit2/bit3/bit24 in parallel from each cand current best. ~410s wall.
+
+  bit2: HW 51 -> 39 (-12). W1=0x504e056e,0x3e435e29,0xda592ea2,0xab54ae55
+  bit3: HW 51 -> 39 (-12). W1=0xba476635,0x8cf9982c,0x06b9e787,0x5882674c
+  bit24: HW 43 (no change; matches Yale F441-F485 negatives -- 9 variants
+         have now failed to break bit24 HW=43, strong floor evidence).
+
+  Both new HW=39 records cert-pin verified: kissat + cadical UNSAT,
+  audit CONFIRMED, 4 runs logged via append_run.py.
+
+  Pattern: both new witnesses keep W1[57] and W1[58] identical to F408
+  init; flip 1 bit in W1[59] and multi-bit in W1[60]. Consistent with
+  F487 bit13 HW=35 (also W1[57]/W1[58] inherited from upstream optimum).
+  Block-2 residual surface at HW<=39 lives in (W1[59], W1[60]) joint
+  perturbations.
+
+  Updated 5-cand panel residual records (all cert-pin UNSAT):
+    bit13 35  (Yale F487)
+    bit24 43  (Macbook F428; confirmed by 9 pair-beam variants)
+    bit28 42  (Yale pair-beam chain)
+    bit2  39  (Macbook F520)
+    bit3  39  (Macbook F520)
+
+  Total HW reduction across panel: 55+56+59+59+57=286 -> 35+39+42+43+39=198
+  (86 HW reduction).
+
+  Next: F521 manifest-rank pair-beam on bit24 (basin manifest already
+  generated, 25 seeds spanning HW=43..52); F522 (W1[59], W1[60])-focused
+  exhaustive search exploiting W[57]/W[58] fixity at HW<=39 layer.
+
 recent_progress_2026-05-02_F506_F511_absorber_reframe_scout: |
   yale-codex reframed the post-HW35 basin question from "which block-1
   residual has lowest HW?" to "which residual is easiest for a crude second
