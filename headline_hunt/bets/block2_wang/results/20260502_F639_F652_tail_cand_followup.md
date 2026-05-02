@@ -93,7 +93,7 @@ Exact bridge-relaxed closure around the current bit6 HW42 witness:
 
 ## Updated panel tail
 
-After this checkpoint, the tail is:
+At the time of this checkpoint, the tail was:
 
 | Cand | Floor HW |
 |---|---:|
@@ -103,3 +103,7 @@ After this checkpoint, the tail is:
 | bit6 | 42 |
 
 All other active Path C cands are HW39 or lower.
+
+Supersession note: after rebasing over Mac's F532 work, bit12 is HW39 rather
+than HW40. F664 later moved bit28 to HW39 as well. The current post-F672 tail
+is bit6 HW42, with bit24 at HW40 and bit12/bit26/bit28 at HW39.

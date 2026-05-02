@@ -1,0 +1,47 @@
+{
+  "description": "F658/F659/F664 bit28 HW41/HW39 cert-pin validation",
+  "date": "2026-05-02",
+  "author": "yale-codex",
+  "note": "--solver all is unavailable on this host because cryptominisat5 is not installed; kissat and cadical were run separately.",
+  "validations": [
+    {
+      "run": "F658",
+      "candidate": "bit28_md1acca79",
+      "m0": "0xd1acca79",
+      "fill": "0xffffffff",
+      "kernel_bit": 28,
+      "hw_total": 41,
+      "W": ["0x307cf0e7", "0x853d504a", "0x78f06a7e", "0xf67271e6"],
+      "kissat_status": "UNSAT",
+      "kissat_wall": 0.015,
+      "cadical_status": "UNSAT",
+      "cadical_wall": 0.023
+    },
+    {
+      "run": "F659/F660",
+      "candidate": "bit28_md1acca79",
+      "m0": "0xd1acca79",
+      "fill": "0xffffffff",
+      "kernel_bit": 28,
+      "hw_total": 41,
+      "W": ["0x307cf0e7", "0x853d504a", "0x78f16a5e", "0x62f489f2"],
+      "kissat_status": "UNSAT",
+      "kissat_wall": 0.009,
+      "cadical_status": "UNSAT",
+      "cadical_wall": 0.016
+    },
+    {
+      "run": "F664",
+      "candidate": "bit28_md1acca79",
+      "m0": "0xd1acca79",
+      "fill": "0xffffffff",
+      "kernel_bit": 28,
+      "hw_total": 39,
+      "W": ["0x307cf0e7", "0x853d504a", "0x38f06a6e", "0x7f7479d4"],
+      "kissat_status": "UNSAT",
+      "kissat_wall": 0.012,
+      "cadical_status": "UNSAT",
+      "cadical_wall": 0.016
+    }
+  ]
+}

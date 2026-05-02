@@ -30,6 +30,52 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
 last_heartbeat: '2026-05-02T23:55:00Z'
+recent_progress_2026-05-02_F653_F672_bit28_hw39_tail_followup: |
+  yale-codex followed the post-F650 tail manifests after rebasing over
+  Mac's F532/F533 work.
+
+  Supersession cleanup:
+    F532 already moved bit12 to HW39, so F653/F654 bit12 HW40 reconnects
+    are obsolete as frontier claims. F655/F656 likewise did not beat the
+    bit26 HW39 floor from F642.
+
+  F657/F660 consumed bit28 manifest ranks 2..5:
+    F657 rank2 HW42 -> HW42.
+    F658 rank3 HW44 -> HW41.
+    F659 rank4 HW44 -> HW41.
+    F660 rank5 HW44 -> HW41.
+
+  Cert-pin checked both HW41 bit28 basins:
+    F658: kissat UNSAT 0.015s, cadical UNSAT 0.023s.
+    F659/F660: kissat UNSAT 0.009s, cadical UNSAT 0.016s.
+
+  F661/F662 closed the best HW41 basin:
+    W60 r6 and W59/W60 r4, 0 HW<=41, 0 HW<41.
+
+  F664 direct continuation from F658 rank1 dropped bit28 HW41 -> HW39:
+    W57..W60 = 0x307cf0e7 0x853d504a 0x38f06a6e 0x7f7479d4
+    hw63 = [11, 9, 2, 0, 8, 7, 2, 0], score 79.143.
+    Cert-pin: kissat UNSAT 0.012s, cadical UNSAT 0.016s.
+
+  F667/F668 closed F664 locally:
+    W60 r6 and W59/W60 r4, 0 HW<=39, 0 HW<39.
+    F669 refreshed bit28 post-HW39 manifest: 99 seeds.
+
+  F670/F672 consumed bit6 F650 ranks 4..6:
+    F670 rank4 HW45 -> HW42.
+    F671 rank5 HW45 -> HW42.
+    F672 rank6 stayed HW45.
+    No bit6 improvement; bit6 remains the lone HW42 tail.
+
+  Current Path C panel tail:
+    35: bit13 bit1 bit4
+    36: bit3
+    37: bit15 bit18 bit25 bit29 bit14
+    38: bit20
+    39: bit2 bit12 bit26 bit28
+    40: bit24
+    42: bit6
+
 recent_progress_2026-05-02_F533_bit2_wider_negative: |
   macbook-claude wider-param pair-beam on bit2 (HW=39 since F520).
   Params: max_pairs 8, max_radius 14, pool 2048 (vs std 6/12/1024).
