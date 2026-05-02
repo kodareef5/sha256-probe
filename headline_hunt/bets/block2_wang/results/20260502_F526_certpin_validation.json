@@ -1,0 +1,59 @@
+{
+  "description": "F526 cert-pin: bit4 HW=36 + bit1 HW=40 breakthroughs (panel deepening on new cands)",
+  "results": [
+    {
+      "cand": "bit4_m39a03c2d",
+      "W": [
+        "0x726ca5c7",
+        "0x6db409f8",
+        "0x12f025f7",
+        "0x778d3357"
+      ],
+      "hw": 36,
+      "score": 85.471,
+      "note": "F526 bit4 NEW HW=36 (was F525 43, breakthrough -7)",
+      "verdict": "CONFIRMED",
+      "cnf_sha256": "f89b9c6d4b05c5eeb1bf556f233ff8a3cf54a3c2cdfec0094cd2f8425037d9a7",
+      "kissat_status": "UNSAT",
+      "kissat_wall": 0.0082,
+      "cadical_status": "UNSAT",
+      "cadical_wall": 0.0136
+    },
+    {
+      "cand": "bit4_m39a03c2d",
+      "W": [
+        "0x924770d3",
+        "0x08577eb5",
+        "0x69cb2c5a",
+        "0x8378ac6e"
+      ],
+      "hw": 36,
+      "score": 85.471,
+      "note": "F526 bit4 HW=36 r3 alt-basin (different W from r1, same score)",
+      "verdict": "CONFIRMED",
+      "cnf_sha256": "d6a022e81709daa99f57761ae3f781ab964a4197fdafb683afcacbe4ceaf2599",
+      "kissat_status": "UNSAT",
+      "kissat_wall": 0.0064,
+      "cadical_status": "UNSAT",
+      "cadical_wall": 0.0115
+    },
+    {
+      "cand": "bit1_m6fbc8d8e",
+      "W": [
+        "0x7f74bd45",
+        "0x65649ab9",
+        "0xb0e869c9",
+        "0xae49bf68"
+      ],
+      "hw": 40,
+      "score": 78.333,
+      "note": "F526 bit1 NEW HW=40 (was F525 45, breakthrough -5)",
+      "verdict": "CONFIRMED",
+      "cnf_sha256": "45da391ac5b2446ea39c38a4c7e21b3eca118c50f050ec6dabb8ed7d5c66bf87",
+      "kissat_status": "UNSAT",
+      "kissat_wall": 0.0061,
+      "cadical_status": "UNSAT",
+      "cadical_wall": 0.0118
+    }
+  ]
+}

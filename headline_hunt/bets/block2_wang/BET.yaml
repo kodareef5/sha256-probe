@@ -29,7 +29,30 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-02T20:30:00Z'
+last_heartbeat: '2026-05-02T21:15:00Z'
+recent_progress_2026-05-02_F526_bit4_bit1_breakthroughs: |
+  macbook-claude manifest-rank pair-beam on F525's two deepest new
+  cands. 6 parallel pair-beams (3 bit4 + 3 bit1) from F525 wide-anneal
+  per-seed best W's as manifest entries. ~7min wall.
+
+  Major breakthroughs:
+    bit4 HW 43 -> 36 (-7! TWO independent basins reached HW=36 with
+                      score=85.471 from different W1[57..60] vectors)
+    bit1 HW 45 -> 40 (-5! matches bit24 floor)
+
+  3 cert-pin records: kissat+cadical UNSAT, audit CONFIRMED, 6 logged.
+
+  Updated 16-cand panel deep tier (HW <= 42):
+    bit13 35  bit3 36  bit4 36  bit2 39  bit24 40  bit1 40  bit28 42
+
+  bit4's two distinct HW=36 basins (different W57+W58, same score=85.471)
+  is structurally unusual -- the only cand with multi-basin HW=36
+  convergence so far. Suggests bit4 may have wider deep-residual region.
+
+  F525->F526 trajectory replicates F408->F428: wide-anneal + 1 round of
+  manifest-rank routinely halves the gap to the panel floor.
+
+
 recent_progress_2026-05-02_F525_panel_expansion_11_kbits: |
   macbook-claude expanded Path C panel from 5 cands to 16 via F432-style
   wide anneal on 11 untouched cascade-fmt kbits from candidates.yaml:
