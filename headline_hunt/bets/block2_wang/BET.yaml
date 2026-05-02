@@ -29,7 +29,30 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-02T18:05:00Z'
+last_heartbeat: '2026-05-02T18:20:00Z'
+recent_progress_2026-05-02_F552_w_delta_lattice: |
+  yale-codex added encoders/analyze_w_delta_lattice.py and ran it over 10
+  Path C headline/side pair-beam artifacts:
+    bit13 F487 HW35, bit28 F459 HW42, bit2 F520 HW39,
+    bit3 F521/F530/F532/F534, bit24 F521/F529/F537.
+
+  Outputs:
+    results/20260502_F552_pathc_w_delta_lattice.md
+    results/search_artifacts/20260502_F552_pathc_w_delta_lattice.json
+
+  Main signal:
+    W57/W58 are untouched in all compared descents.
+    Every real descent changes W60; W59 changes are sparse.
+    No full W60 XOR mask repeats, so copy-pasting masks is overfit.
+    Recurrent W60 bit positions span 3-4 candidate families:
+      b30, b27, b29, b31, b16, b19, b21, b3.
+    W59:b21 is the only repeated W59 side bit in this slice
+      (bit3 + bit24 side basins).
+
+  Verdict: treat recurrent W60 positions as sampler priors, not hard masks.
+  A useful next operator is a prior-weighted W60 composer that samples these
+  recurring positions while allowing candidate-specific completion bits.
+
 recent_progress_2026-05-02_F547_F551_bit3_hw38_followup: |
   yale-codex built a focused bit3 HW38 side-basin manifest from F530/F532/F535:
     F547 manifest: 53 deduped seeds.
