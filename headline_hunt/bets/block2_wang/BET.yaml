@@ -30,6 +30,28 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
 last_heartbeat: '2026-05-02T23:55:00Z'
+recent_progress_2026-05-02_F701_F704_bit24_late_rank_negatives: |
+  yale-codex continued bit24 late-rank follow-up after F697 showed an
+  alternate HW40 basin.
+
+  F701/F704 consumed F527 bit24 post-HW40 manifest ranks 19..22:
+    F701 rank19 HW45 -> HW41
+      W57..W60 = 0x4be5074f 0x429efff2 0xe89458af 0x2979e27d
+    F702 rank20 HW45 -> HW43
+      W57..W60 = 0x4be5074f 0x429efff2 0xec9458af 0x3209edfa
+    F703 rank21 HW45 -> HW44
+      W57..W60 = 0x4be5074f 0x429efff2 0xe89458af 0x3a19ebf5
+    F704 rank22 HW46 -> HW42
+      W57..W60 = 0x4be5074f 0x429efff2 0xe8b458af 0x2a118bfc
+
+  No run found HW40 or HW<40. The bit24 floor remains HW40.
+
+  Added select_manifest_followups.py to cross-reference basin manifests
+  against existing pair-beam init_W values. It correctly selected ranks
+  19..22 as the next untested bit24 block; next F527 bit24 ranks are 23..26.
+
+  Active tail remains bit24 HW40, with bit2/bit12/bit26/bit28 at HW39.
+
 recent_progress_2026-05-02_F694_F700_bit24_alt_hw40_followup: |
   yale-codex consumed four later F527 bit24 post-HW40 manifest ranks and
   found a distinct HW40 side witness, but no HW39 improvement.
