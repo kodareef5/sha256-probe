@@ -132,6 +132,18 @@ CANDS = [
     ("bit24_mdc27e18c",  0xdc27e18c, 0xffffffff, 24),
     ("bit28_md1acca79",  0xd1acca79, 0xffffffff, 28),
     ("bit13_m916a56aa",  0x916a56aa, 0xffffffff, 13),  # F378 surprise top-1 control
+    # F525 panel expansion: untouched cascade-fmt kbits from candidates.yaml
+    ("bit1_m6fbc8d8e",   0x6fbc8d8e, 0xffffffff,  1),
+    ("bit4_m39a03c2d",   0x39a03c2d, 0xffffffff,  4),
+    ("bit6_m6e173e58",   0x6e173e58, 0xffffffff,  6),
+    ("bit12_m8cbb392c",  0x8cbb392c, 0xffffffff, 12),
+    ("bit14_m67043cdd",  0x67043cdd, 0xffffffff, 14),
+    ("bit15_m1a49a56a",  0x1a49a56a, 0xffffffff, 15),
+    ("bit18_m99bf552b",  0x99bf552b, 0xffffffff, 18),
+    ("bit20_m294e1ea8",  0x294e1ea8, 0xffffffff, 20),
+    ("bit25_ma2f498b1",  0xa2f498b1, 0xffffffff, 25),
+    ("bit26_m11f9d4c7",  0x11f9d4c7, 0xffffffff, 26),
+    ("bit29_m17454e4b",  0x17454e4b, 0xffffffff, 29),
 ]
 
 
