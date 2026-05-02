@@ -29,7 +29,29 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-02T22:30:00Z'
+last_heartbeat: '2026-05-02T23:00:00Z'
+recent_progress_2026-05-02_F531_iter3: |
+  macbook-claude iter-3 on F529 mid-tier breakthroughs.
+  4 parallel pair-beams from F529 best W. ~7min wall.
+
+  bit14 38 -> 37  (-1, joins deep tier)
+  bit6  45 -> 42  (-3, big jump)
+  bit12 42 -> 41
+  bit26 41 -> 41 (stuck)
+
+  3 cert-pin runs (kissat+cadical UNSAT, audit CONFIRMED, 6 logged).
+
+  Milestone: ALL 16 cands now at HW <= 42. Updated panel:
+    35: bit13 bit1
+    36: bit3 bit4
+    37: bit15 bit18 bit14
+    38: bit20 bit25
+    39: bit2  40: bit24
+    41: bit26 bit29 bit12
+    42: bit28 bit6
+
+  Sum HW: 575 (was 580; -5 in F531).
+
 recent_progress_2026-05-02_F529_F530_iteration_and_alt_m0: |
   macbook-claude two parallel tracks while waiting for each other:
 
