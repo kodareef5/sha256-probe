@@ -158,6 +158,33 @@ recent_progress_2026-05-02_F530_F542_post_floor_rank_sweep: |
   geometry: bit3 repeatedly collapses back into the known HW36/HW38 W60
   family, while bit24 has a live side-basin ladder worth probing from F537.
 
+recent_progress_2026-05-02_F522_wider_rank_sweep_negative: |
+  macbook-claude wider rank-K sweep at F521+1 manifest depth. Generated
+  post-F521 manifests (bit3: 34 seeds; bit24: 41) and ran 9 parallel
+  pair-beams from manifest ranks 2-7 on bit2/bit3/bit24.
+
+  Result: NO sub-floor records. F521 records (bit3 36, bit24 40)
+  reproduced from independent basin entries (bit24 r4 init from
+  HW=43/W[59]=0xf09458a7 also found HW=40), confirming the new floors.
+  bit2 stayed at HW=39 across 6 manifest seeds (F521 ranks 2-4 plus
+  F522 ranks 5-8); 8 distinct seed attempts now fail to crack bit2.
+
+  Best per cand from F522:
+    bit3: HW=37 (F522 rank4) -- worse than F521 HW=36
+    bit24: HW=40 (F522 rank4) -- matches F521 HW=40 (different basin)
+    bit2: HW=41 (F522 rank7/8) -- worse than F520 HW=39
+
+  Concurrent yale-codex F552/F553-F562 confirm via independent W-delta
+  lattice analysis + 5M sampled W60/W59-W60 masks: zero ties or
+  improvements at any of the 5 panel floors (bit3 36, bit24 40,
+  bit2 39, bit13 35, bit28 42).
+
+  Combined verdict: panel floors hold across two independent search
+  modalities (manifest-rank pair-beam + prior-weighted sampling).
+  F523 will try wider rank tiers (8-13) on bit2 specifically, since
+  F487's bit13 breakthrough was rank-12 -- current bit2 attempts
+  may be too shallow on the manifest.
+
 recent_progress_2026-05-02_F521_manifest_rank_breakthroughs: |
   macbook-claude follow-up to F520 applying F487's manifest-rank pattern.
   Generated bit2 and bit3 basin manifests from F520 outputs, used the
