@@ -190,6 +190,34 @@ Exact enumeration found no local ties or improvements around F537, even when
 bridge rejects were allowed to count. Alternate pair ranking did not escape
 the basin either.
 
+## F547/F551: bit3 HW38 side-basin follow-up
+
+Built a focused manifest from the fresh F530/F532/F535 HW38 outputs:
+
+- `search_artifacts/20260502_F547_bit3_hw38_side_basin_manifest.json`
+- 53 deduplicated seeds
+
+Top HW38 side seeds:
+
+| Rank | HW | Score | W57..W60 |
+|---:|---:|---:|---|
+| 1 | 38 | 83.667 | `0xba476635 0x8cf9982c 0x06b9e787 0x08a26aa5` |
+| 2 | 38 | 83.667 | `0xba476635 0x8cf9982c 0x06b9e787 0x1a22af03` |
+| 3 | 38 | 81.857 | `0xba476635 0x8cf9982c 0x06b9e787 0x2b0326e8` |
+| 4 | 38 | 75.750 | `0xba476635 0x8cf9982c 0x06b9e787 0xdae32d04` |
+
+Then tested the top two HW38 side seeds.
+
+| Run | Seed rank | Method | Init HW | Best HW | Score | HW<=init | HW<init |
+|---|---:|---|---:|---:|---:|---:|---:|
+| F548 | 1 | W60 radius 6, bridge-relaxed | 38 | 38 | 83.667 | 0 | 0 |
+| F549 | 2 | W60 radius 6, bridge-relaxed | 38 | 38 | 83.667 | 0 | 0 |
+| F550 | 1 | pair-beam objective rank | 38 | 38 | 83.667 | 0 | 0 |
+| F551 | 2 | pair-beam objective rank | 38 | 38 | 83.667 | 0 | 0 |
+
+The two new HW38 basins are W60-radius-6 closed and objective-ranked
+pair-beam does not improve them.
+
 ## Updated Verdict
 
 The post-pull edge is now:
@@ -203,12 +231,16 @@ The post-pull edge is now:
 - bit24's side-basin ladder improved from F529 HW42 to F537 HW41, but F543
   through F546 closed that HW41 basin locally and by two alternate pair-beam
   objectives.
+- Two fresh bit3 HW38 side basins are also W60-radius-6 closed and do not
+  improve under objective-ranked pair-beam.
 
 The most useful next compute is no longer small-radius closure around the
 floor records. Better options:
 
-1. build a deduplicated bit3 HW38 side-basin manifest from F530/F532/F535;
-2. test a different rank objective for bit3 because HW-ranked pair-beam now
-   repeatedly returns to the same HW36 attractor.
-3. resume bit24 only from fresh manifest ranks or a new coordinate, not from
+1. test bit3 repair-ranked pair-beam only if we want to complete the rank
+   objective matrix; objective rank was already negative.
+2. resume bit24 only from fresh manifest ranks or a new coordinate, not from
    the F537 HW41 local neighborhood.
+3. move back to a cross-candidate coordinate such as shared W59/W60 deltas,
+   because isolated basin polishing is now yielding closures rather than
+   new floors.

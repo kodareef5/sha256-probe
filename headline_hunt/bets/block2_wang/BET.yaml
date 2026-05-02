@@ -29,7 +29,31 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-02T17:50:00Z'
+last_heartbeat: '2026-05-02T18:05:00Z'
+recent_progress_2026-05-02_F547_F551_bit3_hw38_followup: |
+  yale-codex built a focused bit3 HW38 side-basin manifest from F530/F532/F535:
+    F547 manifest: 53 deduped seeds.
+    Top HW38 side seeds:
+      rank1 W1=0xba476635 0x8cf9982c 0x06b9e787 0x08a26aa5 score 83.667
+      rank2 W1=0xba476635 0x8cf9982c 0x06b9e787 0x1a22af03 score 83.667
+      rank3 W1=0xba476635 0x8cf9982c 0x06b9e787 0x2b0326e8 score 81.857
+      rank4 W1=0xba476635 0x8cf9982c 0x06b9e787 0xdae32d04 score 75.750
+
+  Follow-up on the top two fresh HW38 side basins:
+    F548 rank1 W60 exact radius 1..6, bridge-relaxed:
+      906,192 candidates at r6 cumulative, 0 HW<=38, 0 HW<38.
+    F549 rank2 W60 exact radius 1..6, bridge-relaxed:
+      906,192 candidates at r6 cumulative, 0 HW<=38, 0 HW<38.
+    F550 rank1 pair-beam with pair_rank=objective:
+      best stayed HW38 score 83.667.
+    F551 rank2 pair-beam with pair_rank=objective:
+      best stayed HW38 score 83.667.
+
+  Verdict: these HW38 side basins are real but locally closed. Objective
+  ranking does not escape. Isolated bit3 W60 polishing is now low-yield;
+  use repair-rank only to complete the matrix, or pivot to shared W59/W60
+  cross-candidate delta structure.
+
 recent_progress_2026-05-02_F543_F546_F537_hw41_followup: |
   yale-codex immediately followed the only useful new bit24 side basin from
   F530-F542: F537 rank6 HW41
