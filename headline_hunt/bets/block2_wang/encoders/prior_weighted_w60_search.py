@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Prior-weighted W60 sampler for Path C residual basins.
+"""Prior-weighted W-slot sampler for Path C residual basins.
 
 F552 showed recurring W60 bit positions across several candidate families,
 but no reusable full W60 masks. This tool treats those recurring bit positions
 as soft sampling weights and lets the remaining bits vary candidate by
-candidate.
+candidate. It defaults to W60-only for backward compatibility, but can sample
+joint W59/W60 domains via --slots 59,60.
 """
 
 import argparse
@@ -22,7 +23,7 @@ sys.path.insert(0, str(ENCODERS))
 
 from block2_bridge_beam import setup_cand, evaluate
 from bridge_score import bridge_score
-from enumerate_hamming_ball import parse_w, find_cand, flip_bits
+from enumerate_hamming_ball import parse_w, parse_slots, find_cand, flip_bits
 from ranked_combo_search import record_combo, keep_top
 
 
@@ -45,26 +46,46 @@ DEFAULT_PRIORS = {
 }
 
 
-def parse_weights(raw: str) -> dict[int, float]:
+def local_idx(slot: int, bit: int) -> int:
+    return (slot - 57) * 32 + bit
+
+
+def parse_weights(raw: str, slots: tuple[int, ...]) -> dict[int, float]:
     if not raw:
-        return dict(DEFAULT_PRIORS)
+        weights = {}
+        if 3 in slots:
+            weights.update({local_idx(60, bit): weight for bit, weight in DEFAULT_PRIORS.items()})
+        if 2 in slots:
+            weights[local_idx(59, 21)] = 3.0
+        return weights
     weights: dict[int, float] = {}
     for part in raw.split(","):
         part = part.strip()
         if not part:
             continue
-        if ":" in part:
-            bit_raw, weight_raw = part.split(":", 1)
+        fields = part.split(":")
+        if len(fields) == 3:
+            slot = int(fields[0], 10)
+            bit = int(fields[1], 10)
+            weight = float(fields[2])
+        elif len(fields) == 2:
+            slot = 60
+            bit_raw, weight_raw = fields
             bit = int(bit_raw, 10)
             weight = float(weight_raw)
-        else:
-            bit = int(part, 10)
+        elif len(fields) == 1:
+            slot = 60
+            bit = int(fields[0], 10)
             weight = 3.0
+        else:
+            raise ValueError(f"bad weight spec: {part}")
+        if not 57 <= slot <= 60:
+            raise ValueError(f"W slot out of range: {slot}")
         if not 0 <= bit < 32:
-            raise ValueError(f"W60 bit out of range: {bit}")
+            raise ValueError(f"W bit out of range: {bit}")
         if weight <= 0:
-            raise ValueError(f"weight must be positive for bit {bit}")
-        weights[bit] = weight
+            raise ValueError(f"weight must be positive for W{slot}:b{bit}")
+        weights[local_idx(slot, bit)] = weight
     return weights
 
 
@@ -87,10 +108,15 @@ def parse_flip_counts(raw: str) -> list[int]:
     return out
 
 
-def weighted_sample_without_replacement(rng: random.Random, weights: dict[int, float], k: int) -> tuple[int, ...]:
-    available = list(range(32))
+def weighted_sample_without_replacement(
+    rng: random.Random,
+    domain: list[int],
+    weights: dict[int, float],
+    k: int,
+) -> tuple[int, ...]:
+    available = list(domain)
     chosen = []
-    for _ in range(min(k, 32)):
+    for _ in range(min(k, len(domain))):
         total = sum(weights.get(bit, 1.0) for bit in available)
         pick = rng.random() * total
         acc = 0.0
@@ -103,8 +129,8 @@ def weighted_sample_without_replacement(rng: random.Random, weights: dict[int, f
     return tuple(sorted(chosen))
 
 
-def w60_bits_to_local(bits: tuple[int, ...]) -> tuple[int, ...]:
-    return tuple(3 * 32 + bit for bit in bits)
+def label_local(idx: int) -> str:
+    return f"W{57 + idx // 32}:b{idx % 32}"
 
 
 def main() -> None:
@@ -114,8 +140,13 @@ def main() -> None:
     ap.add_argument("--init-hw", type=int, required=True)
     ap.add_argument("--iterations", type=int, default=200_000)
     ap.add_argument("--seed", type=int, default=20260502)
+    ap.add_argument("--slots", default="60", help="W slots to sample: 60 or 59,60")
     ap.add_argument("--flip-counts", default="7-14")
-    ap.add_argument("--weights", default="")
+    ap.add_argument(
+        "--weights",
+        default="",
+        help="optional weights: bit:weight means W60:bit:weight; slot:bit:weight supports W59",
+    )
     ap.add_argument("--top-records", type=int, default=40)
     ap.add_argument("--out", required=True)
     ap.add_argument("--label", default="")
@@ -130,7 +161,9 @@ def main() -> None:
         raise SystemExit(f"{short} is not cascade-eligible")
     s1_init, s2_init, W1_pre, W2_pre = setup
     base_w = parse_w(args.init_W)
-    weights = parse_weights(args.weights)
+    slots = parse_slots(args.slots)
+    domain = [slot * 32 + bit for slot in slots for bit in range(32)]
+    weights = parse_weights(args.weights, slots)
     flip_counts = parse_flip_counts(args.flip_counts)
     rng = random.Random(args.seed)
 
@@ -145,7 +178,7 @@ def main() -> None:
 
     print(
         f"=== prior_weighted_w60_search.py: {short} iters={args.iterations} "
-        f"flip_counts={args.flip_counts} seed={args.seed} ==="
+        f"slots={args.slots} flip_counts={args.flip_counts} seed={args.seed} ==="
     )
     t0 = time.time()
     counts = {
@@ -169,8 +202,7 @@ def main() -> None:
 
     for _ in range(args.iterations):
         k = rng.choice(flip_counts)
-        w60_bits = weighted_sample_without_replacement(rng, weights, k)
-        local_bits = w60_bits_to_local(w60_bits)
+        local_bits = weighted_sample_without_replacement(rng, domain, weights, k)
         if local_bits in seen:
             counts["duplicate"] += 1
             continue
@@ -205,10 +237,11 @@ def main() -> None:
         "init_hw": args.init_hw,
         "init_score": init_score,
         "init_hw63": init_rec["hw63"],
+        "slots": [57 + slot for slot in slots],
         "iterations": args.iterations,
         "seed": args.seed,
         "flip_counts": flip_counts,
-        "weights": {str(bit): weight for bit, weight in sorted(weights.items())},
+        "weights": {label_local(bit): weight for bit, weight in sorted(weights.items())},
         "counts": counts,
         "best_seen": best_seen,
         "top_records": top_records,

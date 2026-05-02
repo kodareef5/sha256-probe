@@ -29,24 +29,32 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-02T18:35:00Z'
-recent_progress_2026-05-02_F553_F557_prior_weighted_w60: |
-  yale-codex added encoders/prior_weighted_w60_search.py, a soft-prior W60
-  sampler driven by F552 recurrent bit positions. It samples W60-only masks
-  with flip counts 7..14, so it is outside the exact radius-6 closures.
+last_heartbeat: '2026-05-02T18:50:00Z'
+recent_progress_2026-05-02_F553_F562_prior_weighted_w_slots: |
+  yale-codex added encoders/prior_weighted_w60_search.py, a soft-prior
+  sampler driven by F552 recurrent bit positions. It supports W60-only and
+  joint W59/W60 domains; flip counts 7..14, outside exact radius-6 closures.
 
-  Ran 500k samples against all five current Path C floors:
+  W60-only: ran 500k samples against all five current Path C floors:
     F553 bit3  HW36: 485,755 unique masks, 0 HW<=36, 0 HW<36.
     F554 bit24 HW40: 485,804 unique masks, 0 HW<=40, 0 HW<40.
     F555 bit2  HW39: 485,702 unique masks, 0 HW<=39, 0 HW<39.
     F556 bit13 HW35: 485,685 unique masks, 0 HW<=35, 0 HW<35.
     F557 bit28 HW42: 485,910 unique masks, 0 HW<=42, 0 HW<42.
+    subtotal: 2,428,856 sampled W60 masks, zero ties/improvements.
 
-  Total: 2,428,856 sampled W60 masks, zero ties or improvements.
+  Joint W59/W60: reran 500k samples per current floor, adding W59:b21 as a
+  soft prior while keeping all W59 bits available at background weight:
+    F558 bit3  HW36: 499,926 unique masks, 0 HW<=36, 0 HW<36.
+    F559 bit24 HW40: 499,906 unique masks, 0 HW<=40, 0 HW<40.
+    F560 bit2  HW39: 499,928 unique masks, 0 HW<=39, 0 HW<39.
+    F561 bit13 HW35: 499,921 unique masks, 0 HW<=35, 0 HW<35.
+    F562 bit28 HW42: 499,932 unique masks, 0 HW<=42, 0 HW<42.
+    subtotal: 2,499,613 sampled W59/W60 masks, zero ties/improvements.
 
-  Verdict: recurrent W60 bit positions are descriptive priors, but W60-only
-  prior-weighted sampling is not enough. Next operators need W59/W60 joint
-  composition or candidate-specific pair-pool transfer.
+  Verdict: recurrent bit positions are descriptive priors, but independent
+  prior-weighted sampling is not enough. Next operators need candidate-
+  specific pair-pool transfer or state-aware scoring.
 
 recent_progress_2026-05-02_F552_w_delta_lattice: |
   yale-codex added encoders/analyze_w_delta_lattice.py and ran it over 10
