@@ -30,6 +30,88 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
 last_heartbeat: '2026-05-02T00:41:39Z'
+recent_progress_2026-05-02_F506_F511_absorber_reframe_scout: |
+  yale-codex reframed the post-HW35 basin question from "which block-1
+  residual has lowest HW?" to "which residual is easiest for a crude second
+  block to absorb?"
+
+  Added export_manifest_residuals.py to convert F491 pair-beam seed
+  manifests into residual JSONL for block2_absorber_probe.c, and
+  run_absorber_matrix.py to orchestrate an overnight rounds x seeds matrix.
+
+  Short all-rank scouts over all 43 F491 bit13 seeds showed block-1 HW and
+  absorber proxy quality are not aligned:
+    - r12/100k: best absorber row was F491 rank 36, block-1 HW42,
+      best absorber HW76. HW35 rank 1 reached only HW87.
+    - r16/100k: best absorber row was rank 18, block-1 HW41,
+      best absorber HW76. HW35 rank 1 again reached HW87.
+
+  Deeper selected-rank probes over ranks {1,2,3,4,18,19,28,36}:
+    - r16/5M: rank 3, block-1 HW38, reached absorber HW73.
+      HW35 rank 1 reached HW88.
+    - r20/5M: rank 19, block-1 HW41, reached absorber HW99.
+      HW35 rank 1 reached HW104.
+
+  F512 full matrix over all 43 F491 seeds at rounds 12/16/20/24 with four
+  RNG seeds and 5M iterations per cell strengthened the signal:
+    - best minima: rank 34 HW42 and rank 15 HW41 both reached absorber HW69.
+    - best mean among top-min rows: rank 11 HW40, mean absorber HW89.938.
+    - HW35 rank 1 reached min absorber HW79, mean HW92.688, so it is
+      mid-pack rather than the best two-block launch point.
+
+  Interpretation: HW35 remains the Path C block-1 SOTA, but it is not the
+  best two-block launch point under this absorber proxy. Next compute should
+  rank a Pareto frontier over block1_hw, bridge_score, absorber_r16/r20, and
+  basin novelty rather than continuing F491 manifest ranks linearly.
+
+recent_progress_2026-05-02_F513_F515_absorber_ranked_pair_beams: |
+  yale-codex followed the F512 absorber-ranked residuals with standard
+  pair-beam runs using the same settings that found HW35:
+    F513 rank 34, seed HW42, absorber min HW69
+      found a fresh HW38 side basin:
+      W1=0x5228ed8d 0x61a1a29c 0xea3a8439 0xf39d5a0b
+      hw63=[13,6,3,0,10,4,2,0], score=77.909.
+    F514 rank 21, seed HW41, absorber min HW71
+      reconnected to the known HW38 basin:
+      W1=0x5228ed8d 0x61a1a29c 0xea3a8c29 0x258bfd92.
+    F515 rank 20, seed HW41, absorber min HW73
+      did not improve the seed; best stayed HW41.
+
+  Conclusion: absorber ranking is useful for finding side basins, but weak
+  as a direct block-1 record-improvement selector under the old pair-beam
+  operator. Next move is a two-block-native profile table that matches
+  block-1 residual signatures to block-2 correction signatures by lane/bit
+  profile rather than scalar HW.
+
+recent_progress_2026-05-02_F516_absorber_profile_table: |
+  yale-codex added analyze_absorber_profiles.py to convert the F512 absorber
+  matrix into a lane/bit profile table: original residual bits preserved,
+  cleared, and newly introduced, plus c/g final-HW proxies.
+
+  The profile ranking differs from scalar absorber-min ranking:
+    - late-round quality promotes ranks 36, 21, 14, 22, 8, 38.
+    - low c/g final profile promotes ranks 14, 20, 28, 33, 4.
+    - HW35 rank 1 is not a leader by profile either.
+
+  Round winners:
+    r12 rank 20 best HW73, r16 rank 34 best HW69,
+    r20 rank 21 best HW93, r24 rank 36 best HW91.
+
+  This supports a new operator boundary: use absorber final-state lane
+  profiles and second-block M2 masks directly. More scalar pair-beam over
+  F491 W57..W60 seeds is lower leverage until the operator consumes the
+  absorber profile.
+
+  F517 added select_absorber_followups.py, joining F516 profile ranking with
+  known pair-beam coverage. The next untested profile-ranked candidates are
+  ranks 22, 38, 32, 33, 39, 16, 25, 43, 23, 41. These should feed a new
+  M2/profile-aware operator, not another unchanged scalar pair-beam sweep.
+
+  F518 added extract_absorber_m2_seeds.py and emitted a 22-row late-round
+  M2 seed bundle for ranks 1,4,14,20,21,22,32,33,36,38,39 at rounds 20/24.
+  Each row carries block-1 W57..W60, absorber M2[0..15], final state diff,
+  lane deltas, cleared/new/overlap counts, and c/g profile fields.
+
 recent_progress_2026-05-01_F504_F505_f491_rank29_rank30_prunes: |
   yale-codex tested adjacent F486-derived F491 tail seeds:
     F504 rank 29 HW42
