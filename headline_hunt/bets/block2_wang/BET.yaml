@@ -29,7 +29,22 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-02T00:07:59Z'
+last_heartbeat: '2026-05-02T00:19:15Z'
+recent_progress_2026-05-01_F500_F501_f491_rank19_side_basin: |
+  yale-codex tested F491 rank 19, an HW41 seed from the F487 source:
+    F500 rank 19
+      W1=0x5228ed8d 0x61a1a29c 0x6a3a8c09 0x269a05d2
+      found a new HW37 side basin:
+      W1=0x5228ed8d 0x61a1a29c 0x6a3a8c09 0x1cabadda
+      hw63=[13,5,1,0,13,4,1,0], score=84.571
+      expanded=3,518,924, bridge_pass=3,518,522, wall=286.31s.
+    F501 restarted from that HW37 point and did not improve it:
+      seed HW37 stayed best, best selected non-seed HW38,
+      HW<=37=0, HW<37=0, wall=277.44s.
+
+  Rank 19 is a distinct HW37 side basin but pruned under direct pair-beam
+  follow-up. Current panel remains bit13 HW=35, bit28 HW=42, bit24 HW=43.
+
 recent_progress_2026-05-01_F497_F499_f491_rank17_rank18_prunes: |
   yale-codex continued the F491 manifest-tail sweep:
     F497 rank 17 HW41
