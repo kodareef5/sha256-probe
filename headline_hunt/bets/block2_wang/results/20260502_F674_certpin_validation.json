@@ -1,0 +1,21 @@
+{
+  "description": "F674 bit6 HW36 cert-pin validation",
+  "date": "2026-05-02",
+  "author": "yale-codex",
+  "note": "--solver all is unavailable on this host because cryptominisat5 is not installed; kissat and cadical were run separately.",
+  "validations": [
+    {
+      "run": "F674",
+      "candidate": "bit6_m6e173e58",
+      "m0": "0x6e173e58",
+      "fill": "0xffffffff",
+      "kernel_bit": 6,
+      "hw_total": 36,
+      "W": ["0x58e6e512", "0xf2a359c0", "0x2a4a0de5", "0x2f7e1a4d"],
+      "kissat_status": "UNSAT",
+      "kissat_wall": 0.014,
+      "cadical_status": "UNSAT",
+      "cadical_wall": 0.022
+    }
+  ]
+}

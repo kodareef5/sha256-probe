@@ -30,6 +30,42 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
 last_heartbeat: '2026-05-02T23:55:00Z'
+recent_progress_2026-05-02_F673_F681_bit6_hw36_breakthrough: |
+  yale-codex continued after F664 removed bit28 from the HW42 tail.
+  bit6 was the lone HW42 cand, and F670 had exposed an alternate HW42
+  seed.
+
+  F673/F676 bit6 follow-up:
+    F673 current HW42 rank1 -> HW42.
+    F674 alternate HW42 -> HW36.
+    F675 F650 rank7 HW46 -> HW42.
+    F676 F650 rank8 HW46 -> HW41.
+
+  F674 bit6 HW36 witness:
+    W57..W60 = 0x58e6e512 0xf2a359c0 0x2a4a0de5 0x2f7e1a4d
+    hw63 = [11, 5, 2, 0, 9, 8, 1, 0], score 83.545.
+    W60 move from the alternate HW42 seed flips bits
+    14,15,16,17,25,28,29,30.
+
+  Cert-pin:
+    F674 bit6 HW36: kissat UNSAT 0.014s, cadical UNSAT 0.022s.
+
+  Exact bridge-relaxed closure around F674:
+    F677 W60 r6: 906,192 candidates, 0 HW<=36, 0 HW<36.
+    F678 W59/W60 r4: 635,376 candidates, 0 HW<=36, 0 HW<36.
+
+  F679 refreshed bit6 post-HW36 manifest: 103 seeds.
+  F680 direct HW36 restart stayed HW36.
+  F681 rank2 HW39 side seed reconnected to HW36.
+
+  Current Path C panel tail:
+    35: bit13 bit1 bit4
+    36: bit3 bit6
+    37: bit15 bit18 bit25 bit29 bit14
+    38: bit20
+    39: bit2 bit12 bit26 bit28
+    40: bit24
+
 recent_progress_2026-05-02_F653_F672_bit28_hw39_tail_followup: |
   yale-codex followed the post-F650 tail manifests after rebasing over
   Mac's F532/F533 work.

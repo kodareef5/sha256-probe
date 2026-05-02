@@ -88,7 +88,8 @@ F663 and F669 refreshed bit28 manifests:
 | F671 | F650 rank 5 | 45 | 42 | 78.385 | `0x58e6e512 0xf2a359c0 0x22420dc5 0x9d542a79` |
 | F672 | F650 rank 6 | 45 | 45 | 77.209 | `0x58e6e512 0xf2a359c0 0x28460dd5 0x9d5aa2cc` |
 
-No bit6 improvement. It remains the lone HW42 tail.
+No bit6 improvement was found in this batch. At this point it remained the
+lone HW42 tail.
 
 ## Updated panel
 
@@ -104,5 +105,5 @@ After F532 and F664, the current Path C panel tail is:
 | 40 | bit24 |
 | 42 | bit6 |
 
-The practical next target is bit6. Bit28 should continue from F669 ranks 2+
-later, but F664/F667/F668 make HW39 the current verified bit28 floor.
+Supersession note: F674 later moved bit6 to HW36 and closed it locally. The
+post-F681 tail is bit24 HW40, with bit2/bit12/bit26/bit28 at HW39.
