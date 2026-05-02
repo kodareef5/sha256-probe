@@ -1,0 +1,93 @@
+{
+  "description": "F521: cert-pin for manifest-rank pair-beam breakthroughs (bit24 HW=40, bit3 HW=36 + HW=38)",
+  "work_dir": "/tmp/F521",
+  "results": [
+    {
+      "cand": "bit24_mdc27e18c",
+      "W": [
+        "0x4be5074f",
+        "0x429efff2",
+        "0xf09458a7",
+        "0xa4fe0078"
+      ],
+      "hw_total": 40,
+      "best_score": 74.412,
+      "note": "F521 bit24 NEW HW=40 (was 43, manifest rank3 from HW=44)",
+      "audit_verdict": "CONFIRMED",
+      "cnf_sha256": "05214996d393d699900159f649990a49d2e6955f99c50869fc6b7c76a4ec77c5",
+      "cand_id": "cand_n32_bit24_mdc27e18c_fillffffffff",
+      "solvers": {
+        "kissat": {
+          "version": "4.0.4",
+          "status": "UNSAT",
+          "wall_sec": 0.0081,
+          "command": "kissat -q --seed=0 /tmp/F521/aux_expose_sr60_n32_bit24_mdc27e18c_fillffffffff_F521_certpin_hw40_idx0.cnf"
+        },
+        "cadical": {
+          "version": "3.0.0",
+          "status": "UNSAT",
+          "wall_sec": 0.0147,
+          "command": "cadical -q --seed=0 /tmp/F521/aux_expose_sr60_n32_bit24_mdc27e18c_fillffffffff_F521_certpin_hw40_idx0.cnf"
+        }
+      }
+    },
+    {
+      "cand": "bit3_m33ec77ca",
+      "W": [
+        "0xba476635",
+        "0x8cf9982c",
+        "0x06b9e787",
+        "0x2b032ff3"
+      ],
+      "hw_total": 36,
+      "best_score": 85.471,
+      "note": "F521 bit3 NEW HW=36 (was 39, manifest rank4 from HW=42)",
+      "audit_verdict": "CONFIRMED",
+      "cnf_sha256": "4de86588a3f0fdea6ee036bb24d5ae79bd0fc1decc1533d0dbb36f97f0ed6fca",
+      "cand_id": "cand_n32_bit3_m33ec77ca_fillffffffff",
+      "solvers": {
+        "kissat": {
+          "version": "4.0.4",
+          "status": "UNSAT",
+          "wall_sec": 0.0063,
+          "command": "kissat -q --seed=0 /tmp/F521/aux_expose_sr60_n32_bit3_m33ec77ca_fillffffffff_F521_certpin_hw36_idx1.cnf"
+        },
+        "cadical": {
+          "version": "3.0.0",
+          "status": "UNSAT",
+          "wall_sec": 0.0114,
+          "command": "cadical -q --seed=0 /tmp/F521/aux_expose_sr60_n32_bit3_m33ec77ca_fillffffffff_F521_certpin_hw36_idx1.cnf"
+        }
+      }
+    },
+    {
+      "cand": "bit3_m33ec77ca",
+      "W": [
+        "0xba476635",
+        "0x8cf9982c",
+        "0x06b9e787",
+        "0x2b0326e8"
+      ],
+      "hw_total": 38,
+      "best_score": 81.857,
+      "note": "F521 bit3 HW=38 score-best (rank3 manifest seed)",
+      "audit_verdict": "CONFIRMED",
+      "cnf_sha256": "87368321699290d81be6ce30c786e823fc9dc5348fe69d8e9b787c569d8e1621",
+      "cand_id": "cand_n32_bit3_m33ec77ca_fillffffffff",
+      "solvers": {
+        "kissat": {
+          "version": "4.0.4",
+          "status": "UNSAT",
+          "wall_sec": 0.0062,
+          "command": "kissat -q --seed=0 /tmp/F521/aux_expose_sr60_n32_bit3_m33ec77ca_fillffffffff_F521_certpin_hw38_idx2.cnf"
+        },
+        "cadical": {
+          "version": "3.0.0",
+          "status": "UNSAT",
+          "wall_sec": 0.0117,
+          "command": "cadical -q --seed=0 /tmp/F521/aux_expose_sr60_n32_bit3_m33ec77ca_fillffffffff_F521_certpin_hw38_idx2.cnf"
+        }
+      }
+    }
+  ]
+}

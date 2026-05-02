@@ -29,7 +29,42 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-02T15:50:00Z'
+last_heartbeat: '2026-05-02T17:05:00Z'
+recent_progress_2026-05-02_F521_manifest_rank_breakthroughs: |
+  macbook-claude follow-up to F520 applying F487's manifest-rank pattern.
+  Generated bit2 and bit3 basin manifests from F520 outputs, used the
+  bit24 manifest already generated. Launched 9 parallel pair-beams from
+  rank-2/3/4 manifest seeds (3 cands x 3 ranks each).
+
+  Three NEW sub-floor records:
+    bit24 HW=40 (was 43) — manifest rank-3 (HW=44 init) cracked
+                         Yale's 9-attempt wall on this cand.
+    bit3  HW=36 (was 39) — manifest rank-4 (HW=42 init).
+    bit3  HW=38 score-best — manifest rank-3 (HW=40 init).
+
+  bit2 stayed at HW=39 (3 manifest seeds tried, none broke F520).
+
+  Cert-pin: 6 runs total, all kissat+cadical UNSAT, audit CONFIRMED.
+
+  Witness pattern at deeper HW: W1[57] and W1[58] are frozen since
+  F408; W1[59] frozen since F520 for bit3; only W1[60] evolves across
+  HW levels for bit3. bit24 at HW=40 also flips W1[59]. Block-2
+  residual surface at HW<=36 collapses to ~32-bit W1[60] search for
+  bit3.
+
+  Updated 5-cand Path C panel:
+    bit3  36  (Macbook F521 NEW)
+    bit13 35  (Yale F487)
+    bit2  39  (Macbook F520)
+    bit24 40  (Macbook F521 NEW)
+    bit28 42  (Yale)
+
+  Total HW reduction since pre-F408 corpus floors: 286 -> 192 = -94 HW.
+
+  Manifest-rank pattern (F467/F473/F487) confirmed as transferable
+  across cands. Playbook: generate manifest, pair-beam from rank-K
+  seeds at HW above current, iterate.
+
 recent_progress_2026-05-02_F520_pair_beam_bit2_bit3_breakthrough: |
   macbook-claude found a major gap in the recent fleet pair-beam chain:
   bit2 and bit3 had ZERO pair-beam runs; they were still at F408 HW=51.
