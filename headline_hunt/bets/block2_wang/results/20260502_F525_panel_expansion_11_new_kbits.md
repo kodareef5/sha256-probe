@@ -43,11 +43,16 @@ Artifacts (12 JSON):
 | bit14_m67043cdd | 0x67043cdd | 47 | 73.91 | F525 |
 | bit15_m1a49a56a | 0x1a49a56a | 47 | 73.91 | F525 |
 | bit12_m8cbb392c | 0x8cbb392c | 48 | 70.02 | F525 |
-| bit18_m99bf552b | 0x99bf552b | 49 | 73.45 | F525 |
+| bit18_m99bf552b | 0x99bf552b | 45 | 72.50 | F525 seed 1 best_hw |
 | bit25_ma2f498b1 | 0xa2f498b1 | 50 | 66.82 | F525 |
 | bit26_m11f9d4c7 | 0x11f9d4c7 | 51 | 68.89 | F525 |
 | bit6_m6e173e58 | 0x6e173e58 | 51 | 66.00 | F525 |
 | bit29_m17454e4b | 0x17454e4b | 52 | 68.00 | F525 |
+
+Correction from later audit: the bit18 artifact also contains a HW49
+best-score record at score 73.45, but its `best_hw_per_cand` is HW45 at
+`0xc67e23c3 0x61dac42f 0x48c35ae2 0x88eab1de`. Residual-HW floor tables use
+HW45 for the F525 seed.
 
 All 11 wide-anneal best W vectors cert-pin verified:
 - 11 audited CONFIRMED CNFs
@@ -74,14 +79,15 @@ in a single wide anneal. Could be a new Path C focus cand.
 | bit14 | 47 | F525 (NEW) | wide anneal only |
 | bit15 | 47 | F525 (NEW) | wide anneal only |
 | bit12 | 48 | F525 (NEW) | wide anneal only |
-| bit18 | 49 | F525 (NEW) | wide anneal only |
+| bit18 | 45 | F525 (NEW) | wide anneal only |
 | bit25 | 50 | F525 (NEW) | wide anneal only |
 | bit6  | 51 | F525 (NEW) | wide anneal only |
 | bit26 | 51 | F525 (NEW) | wide anneal only |
 | bit29 | 52 | F525 (NEW) | wide anneal only |
 
-Sum HW across 16 cands: **740**. Previously the 5-cand panel summed
-192. Eleven new cands add HW=559 to the corpus, average HW 50.8.
+Sum HW across 16 cands after the bit18 best-HW audit: **736**. Previously
+the 5-cand panel summed 192. Eleven new cands add HW=555 to the corpus,
+average HW 50.5.
 
 ## Findings
 

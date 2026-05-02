@@ -124,6 +124,31 @@ recent_progress_2026-05-02_F577_F584_bit4_hw35_followup: |
 
   Updated co-best Path C cands: bit13 HW35, bit1 HW35, bit4 HW35.
 
+recent_progress_2026-05-02_F585_F587_bit20_bit18_scout: |
+  yale-codex applied the F521/F563 pair-beam workflow to the next two
+  F525 panel cands after bit4/bit1.
+
+  Results:
+    F585 bit20_m294e1ea8 HW46 -> HW43.
+      W1=0x27336ee8 0x0117f64f 0x4ef5c884 0x320afc6c
+      hw63=[11,11,3,0,9,7,2,0], score=74.105.
+
+    F586 bit18_m99bf552b HW45 -> HW42.
+      W1=0xc67e23c3 0x61dac42f 0x48c35ae2 0xb8edf0de
+      hw63=[15,9,1,0,8,7,2,0], score=78.385.
+
+  Cert-pin validation:
+    F585 bit20 HW43: kissat UNSAT 0.010s, cadical UNSAT 0.018s.
+    F586 bit18 HW42: kissat UNSAT 0.009s, cadical UNSAT 0.019s.
+
+  F587 manifests:
+    bit20 post-HW43: 21 seeds.
+    bit18 post-HW42: 23 seeds.
+
+  Note: the F525 bit18 summary table reported HW49 because it used the
+  best-score record; the artifact's best_hw_per_cand is HW45 and was the
+  correct seed for residual-HW ranking.
+
 recent_progress_2026-05-02_F525_panel_expansion_11_kbits: |
   macbook-claude expanded Path C panel from 5 cands to 16 via F432-style
   wide anneal on 11 untouched cascade-fmt kbits from candidates.yaml:
@@ -136,8 +161,11 @@ recent_progress_2026-05-02_F525_panel_expansion_11_kbits: |
   New panel records:
     bit4_m39a03c2d  HW=43 (matches bit24's old F428 floor in single anneal!)
     bit1_m6fbc8d8e  HW=45 (matches bit28 F408 floor)
-    bit20 HW=46, bit14/15 HW=47, bit12 HW=48, bit18 HW=49,
+    bit20 HW=46, bit18 HW=45, bit14/15 HW=47, bit12 HW=48,
     bit25 HW=50, bit6/bit26 HW=51, bit29 HW=52.
+
+  Later audit note: bit18's artifact best_hw_per_cand is HW45; the HW49
+  value is the artifact's best-score record.
 
   bit4 and bit1 are the strongest F526 candidates for manifest-rank
   pair-beam follow-up (likely descend to ~35-40 range like bit24/bit13).

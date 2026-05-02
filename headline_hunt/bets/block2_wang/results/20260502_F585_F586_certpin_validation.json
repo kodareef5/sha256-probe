@@ -1,0 +1,34 @@
+{
+  "description": "F585/F586 bit20 and bit18 pair-beam record cert-pin validation",
+  "date": "2026-05-02",
+  "author": "yale-codex",
+  "note": "--solver all is unavailable on this host because cryptominisat5 is not installed; kissat and cadical were run separately.",
+  "validations": [
+    {
+      "run": "F585",
+      "candidate": "bit20_m294e1ea8",
+      "m0": "0x294e1ea8",
+      "fill": "0xffffffff",
+      "kernel_bit": 20,
+      "hw_total": 43,
+      "W": ["0x27336ee8", "0x0117f64f", "0x4ef5c884", "0x320afc6c"],
+      "kissat_status": "UNSAT",
+      "kissat_wall": 0.010,
+      "cadical_status": "UNSAT",
+      "cadical_wall": 0.018
+    },
+    {
+      "run": "F586",
+      "candidate": "bit18_m99bf552b",
+      "m0": "0x99bf552b",
+      "fill": "0xffffffff",
+      "kernel_bit": 18,
+      "hw_total": 42,
+      "W": ["0xc67e23c3", "0x61dac42f", "0x48c35ae2", "0xb8edf0de"],
+      "kissat_status": "UNSAT",
+      "kissat_wall": 0.009,
+      "cadical_status": "UNSAT",
+      "cadical_wall": 0.019
+    }
+  ]
+}
