@@ -144,6 +144,12 @@ CANDS = [
     ("bit25_ma2f498b1",  0xa2f498b1, 0xffffffff, 25),
     ("bit26_m11f9d4c7",  0x11f9d4c7, 0xffffffff, 26),
     ("bit29_m17454e4b",  0x17454e4b, 0xffffffff, 29),
+    # F530 alternate-m0 expansion: same kbits as already-paneled cands but different m0
+    ("bit2_m67dd2607",   0x67dd2607, 0xffffffff,  2),
+    ("bit2_mea9df976",   0xea9df976, 0xffffffff,  2),
+    ("bit3_m5fa301aa",   0x5fa301aa, 0xffffffff,  3),
+    ("bit4_md41b678d",   0xd41b678d, 0xffffffff,  4),
+    ("bit14_mb5541a6e",  0xb5541a6e, 0xffffffff, 14),
 ]
 
 

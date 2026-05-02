@@ -29,7 +29,42 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-02T22:00:00Z'
+last_heartbeat: '2026-05-02T22:30:00Z'
+recent_progress_2026-05-02_F529_F530_iteration_and_alt_m0: |
+  macbook-claude two parallel tracks while waiting for each other:
+
+  F529 iter-2 on F527 mid-tier (5 parallel, ~9 min):
+    bit14 41 -> 38  (-3, joins HW=38 tier)
+    bit26 44 -> 41  (-3)
+    bit12 44 -> 42  (-2)
+    bit6  47 -> 45  (-2)
+    bit25 38 -> 38  (stuck; matches F528)
+
+  F530 alt-m0 wide-anneal scout (5 parallel, ~3 min):
+    Tested 5 alt m0 values (registry has multiple m0 per kbit):
+    bit2_m67dd2607  HW=52   bit2_mea9df976  HW=52
+    bit3_m5fa301aa  HW=50   bit4_md41b678d  HW=51
+    bit14_mb5541a6e HW=49
+    All uniformly worse than original m0 cands (which reach HW=36..43
+    at corresponding kbits). The original m0 selections were
+    near-optimal within their kbits. Alt-m0 not cert-pinned; JSON
+    artifacts kept.
+
+  4 F529 cert-pin runs (kissat+cadical UNSAT, audit CONFIRMED).
+
+  Updated 16-cand Path C panel (post-Yale F576/F605 + my F529):
+    bit13 35  bit1  35
+    bit3  36  bit4  36
+    bit15 37  bit18 37
+    bit14 38  bit20 38  bit25 38
+    bit2  39
+    bit24 40
+    bit26 41  bit29 41
+    bit28 42  bit12 42
+    bit6  45
+
+  Sum HW: 580 (was 605 at F527; -25 across F528+F529).
+
 recent_progress_2026-05-02_F528_deep_tier_iteration: |
   macbook-claude second-iteration on F527 deep-tier cands. 6 parallel
   pair-beams: bit15 ranks 1-3 (manifest from F527), bit18/25/29 from
