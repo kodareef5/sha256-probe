@@ -1,0 +1,21 @@
+{
+  "description": "F697 bit24 alternate HW40 cert-pin validation",
+  "date": "2026-05-02",
+  "author": "yale-codex",
+  "note": "--solver all is unavailable on this host because cryptominisat5 is not installed; kissat and cadical were run separately.",
+  "validations": [
+    {
+      "run": "F697",
+      "candidate": "bit24_mdc27e18c",
+      "m0": "0xdc27e18c",
+      "fill": "0xffffffff",
+      "kernel_bit": 24,
+      "hw_total": 40,
+      "W": ["0x4be5074f", "0x429efff2", "0xe9b458af", "0xf51ded35"],
+      "kissat_status": "UNSAT",
+      "kissat_wall": 0.011,
+      "cadical_status": "UNSAT",
+      "cadical_wall": 0.023
+    }
+  ]
+}

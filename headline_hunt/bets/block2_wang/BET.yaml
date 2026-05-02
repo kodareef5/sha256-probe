@@ -30,6 +30,33 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
 last_heartbeat: '2026-05-02T23:55:00Z'
+recent_progress_2026-05-02_F694_F700_bit24_alt_hw40_followup: |
+  yale-codex consumed four later F527 bit24 post-HW40 manifest ranks and
+  found a distinct HW40 side witness, but no HW39 improvement.
+
+  F694/F696 ranks 15/16/17:
+    init HW45 -> best HW43 in all three runs. No threat to the HW40 floor.
+
+  F697 rank18 HW45 -> alternate HW40:
+    W57..W60 = 0x4be5074f 0x429efff2 0xe9b458af 0xf51ded35
+    hw63 = [9, 8, 2, 0, 9, 9, 3, 0], score 76.429.
+    This improves the bit24 HW40 score tier versus the prior 74.412 witness,
+    but does not lower HW.
+
+  Cert-pin:
+    F697 bit24 HW40: kissat UNSAT 0.011s, cadical UNSAT 0.023s.
+
+  Local closure around F697:
+    F698 W60 r6: 1,149,016 candidates, all bridge-pass,
+      0 HW<=40, 0 HW<40.
+    F699 W59/W60 r4: 679,120 candidates, all bridge-pass,
+      0 HW<=40, 0 HW<40.
+    F700 direct standard pair-beam restart:
+      expanded 3,700,178 states, all bridge-pass,
+      0 HW<=40, 0 HW<40. Seed stayed best.
+
+  Active tail remains bit24 HW40, with bit2/bit12/bit26/bit28 at HW39.
+
 recent_progress_2026-05-02_F690_F693_hw39_tier_followup: |
   yale-codex filled HW39-tier follow-up gaps.
 
