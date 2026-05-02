@@ -30,6 +30,23 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
 last_heartbeat: '2026-05-02T23:55:00Z'
+recent_progress_2026-05-02_F687_F689_bit12_hw39_closure: |
+  yale-codex closed Mac F532's bit12 HW39 witness:
+    W57..W60 = 0x6e835350 0x8322f4cf 0x30dd0ed1 0x820db564
+    hw63 = [11, 8, 2, 0, 7, 9, 2, 0], score 79.143.
+
+  Exact bridge-relaxed closure:
+    F687 W60 r6: 906,192 candidates, 904,981 bridge-pass,
+      1,211 reject, 0 HW<=39, 0 HW<39.
+    F688 W59/W60 r4: 635,376 candidates, 635,099 bridge-pass,
+      277 reject, 0 HW<=39, 0 HW<39.
+
+  F689 direct standard pair-beam restart from HW39:
+    expanded 3,678,691 states, bridge-pass 3,678,410,
+    0 HW<=39, 0 HW<39. Seed stayed best.
+
+  bit12 now has closure evidence comparable to bit26/bit28.
+
 recent_progress_2026-05-02_F682_F686_bit24_floor_followup: |
   yale-codex followed bit24 after F674 moved bit6 to HW36, making bit24
   the lone HW40 tail.
