@@ -30,6 +30,27 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
 last_heartbeat: '2026-05-02T23:55:00Z'
+recent_progress_2026-05-02_F705_F708_mixed_tail_followup: |
+  yale-codex ran a mixed tail tranche: two bit24 late ranks plus one bit26
+  side rank and one bit28 side rank.
+
+  F705 bit24 F527 rank23 HW46 -> HW43:
+    W57..W60 = 0x4be5074f 0x429efff2 0xe09458af 0xe6560e70.
+
+  F706 bit24 F527 rank24 HW46 -> HW41:
+    W57..W60 = 0x4be5074f 0x429efff2 0xe89458af 0x2979e27d.
+
+  F707 bit26 F650 rank4 HW41 -> HW39:
+    W57..W60 = 0xbfe07c65 0x012df925 0xae91ccb9 0x715d9e89.
+    This is a reconnection to the known F642/F693 HW39 witness, not a new
+    floor.
+
+  F708 bit28 F669 rank5 HW42 -> HW42:
+    W57..W60 = 0x307cf0e7 0x853d504a 0x78f06a76 0xbf7463dc.
+
+  No new floor. Active tail remains bit24 HW40, with bit2/bit12/bit26/bit28
+  at HW39.
+
 recent_progress_2026-05-02_F701_F704_bit24_late_rank_negatives: |
   yale-codex continued bit24 late-rank follow-up after F697 showed an
   alternate HW40 basin.
