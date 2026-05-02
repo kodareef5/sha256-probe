@@ -174,6 +174,22 @@ No run found HW<40. F537 is the useful new side basin: HW41 from manifest
 rank 6, not enough to beat the F521 HW40 floor but closer than F529's HW42.
 Ranks 7..10 and 12 all reconnect to HW43 basins.
 
+## F543/F546: F537 HW41 side-basin follow-up
+
+The F537 HW41 side basin was the only fresh bit24 descent from the rank
+sweep, so it got immediate follow-up.
+
+| Run | Method | Init HW | Best HW | Score | HW<=init | HW<init |
+|---|---|---:|---:|---:|---:|---:|
+| F543 | W60 radius 6, bridge-relaxed | 41 | 41 | 71.647 | 0 | 0 |
+| F544 | W59/W60 radius 4, bridge-relaxed | 41 | 41 | 71.647 | 0 | 0 |
+| F545 | pair-beam objective rank | 41 | 41 | 71.647 | 0 | 0 |
+| F546 | pair-beam repair rank | 41 | 41 | 71.647 | 0 | 0 |
+
+Exact enumeration found no local ties or improvements around F537, even when
+bridge rejects were allowed to count. Alternate pair ranking did not escape
+the basin either.
+
 ## Updated Verdict
 
 The post-pull edge is now:
@@ -184,14 +200,15 @@ The post-pull edge is now:
   ranks 5..10/12 did not improve the current floors.
 - The bit3 basin is highly reconnective: many ranks flow back to the known
   HW36/HW38 W60-only family.
-- bit24 still has a live side-basin ladder: F529 found HW42, F537 found
-  HW41, but neither crossed the HW40 floor.
+- bit24's side-basin ladder improved from F529 HW42 to F537 HW41, but F543
+  through F546 closed that HW41 basin locally and by two alternate pair-beam
+  objectives.
 
 The most useful next compute is no longer small-radius closure around the
 floor records. Better options:
 
-1. expand bit24 around the F537 HW41 side basin with local W59/W60 closure
-   and pair-beam restarts;
-2. build a deduplicated bit3 HW38 side-basin manifest from F530/F532/F535;
-3. test a different rank objective for bit3 because HW-ranked pair-beam now
+1. build a deduplicated bit3 HW38 side-basin manifest from F530/F532/F535;
+2. test a different rank objective for bit3 because HW-ranked pair-beam now
    repeatedly returns to the same HW36 attractor.
+3. resume bit24 only from fresh manifest ranks or a new coordinate, not from
+   the F537 HW41 local neighborhood.

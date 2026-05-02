@@ -29,7 +29,27 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-02T17:35:00Z'
+last_heartbeat: '2026-05-02T17:50:00Z'
+recent_progress_2026-05-02_F543_F546_F537_hw41_followup: |
+  yale-codex immediately followed the only useful new bit24 side basin from
+  F530-F542: F537 rank6 HW41
+    W1=0x4be5074f 0x429efff2 0xf09458af 0x4870f278.
+
+  Results:
+    F543 W60-only exact radius 1..6, bridge-relaxed:
+      906,192 candidates at r6 cumulative, 0 HW<=41, 0 HW<41.
+    F544 W59/W60 exact radius 1..4, bridge-relaxed:
+      679,120 candidates, 0 HW<=41, 0 HW<41.
+    F545 pair-beam from HW41 with pair_rank=objective:
+      best stayed HW41 score 71.647.
+    F546 pair-beam from HW41 with pair_rank=repair:
+      best stayed HW41 score 71.647.
+
+  Verdict: F537 is not the next descent path. It was a useful ladder rung
+  (HW42 -> HW41) but its local W60/W59 neighborhood is closed and alternate
+  pair ranking does not escape. Resume bit24 only from fresh manifest ranks
+  or a new coordinate; do not keep polishing F537.
+
 recent_progress_2026-05-02_F530_F542_post_floor_rank_sweep: |
   yale-codex ran the controlled post-F521 manifest rank sweep after
   committing/pushing the F522-F529 closure checkpoint.
