@@ -412,6 +412,26 @@ recent_progress_2026-05-02_F624_F635_bit29_bit14_followup: |
     bit13/bit1/bit4 HW35, bit3 HW36, bit15/bit18/bit25/bit29 HW37,
     bit20 HW38, bit2/bit14 HW39, bit24 HW40, bit28 HW42.
 
+  Superseded note: macbook F531 later moved bit14 to HW37; F624/F635 is
+  the intermediate bit14 HW39 path, not the current bit14 floor.
+
+recent_progress_2026-05-02_F636_F638_bit14_F531_hw37_closure: |
+  yale-codex followed macbook F531 bit14 HW37 with local closure.
+
+  F531 bit14 HW37 witness:
+    W1=0x36a7276e 0x8cfb2e2f 0x3c505ae1 0x064a2151
+    cert-pin covered by F531.
+
+  Exact bridge-relaxed local closure:
+    F636 W60 radius 1..6:
+      906,192 candidates at r6, 903,624 bridge-pass, 2,568 reject,
+      0 HW<=37, 0 HW<37.
+    F637 W59/W60 radius 1..4:
+      635,376 candidates at r4, 634,995 bridge-pass, 381 reject,
+      0 HW<=37, 0 HW<37.
+
+  F638 refreshed bit14 post-HW37 manifest: 139 seeds.
+
 recent_progress_2026-05-02_F525_panel_expansion_11_kbits: |
   macbook-claude expanded Path C panel from 5 cands to 16 via F432-style
   wide anneal on 11 untouched cascade-fmt kbits from candidates.yaml:
