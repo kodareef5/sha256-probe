@@ -29,7 +29,36 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-02T19:30:00Z'
+last_heartbeat: '2026-05-02T19:45:00Z'
+recent_progress_2026-05-02_F524_pair_pool_transfer_negative: |
+  macbook-claude tested yale-codex's recommended "candidate-specific
+  pair-pool transfer" operator: comprehensive 4x4 cross-cand transfer
+  matrix. Source pair pools from bit3 HW=36, bit24 HW=40, bit13 HW=35,
+  bit28 HW=42. Targets: bit2/bit3/bit24/bit28 at current best.
+
+  Method: take top 128 selected_pairs (best 2-bit flips for source),
+  apply to target's W as single-pair flips (128 each) and 2-pair
+  compositions (top-32 x top-32 ~480 each). 0.4s wall, ~9300 evals.
+
+  Result: ZERO breakthroughs across all 16 source x target pairings.
+  Not one transfer pair drops any target below its current best HW.
+
+  Combined with F523 (14 bit2 manifest seeds negative) and yale F562
+  (5M prior-weighted samples negative across all 5 cands), three
+  independent search modalities confirm panel floors are robust:
+    bit13 35 (Yale F487) - F562 prior 0, F524 transfer 0
+    bit3  36 (Macbook F521) - Yale F522/F525 closed, F524 0
+    bit2  39 (Macbook F520) - F521-F523 14 attempts 0, F524 0
+    bit24 40 (Macbook F521) - Yale F526 closed, F524 0
+    bit28 42 (Yale F484) - F463/F464 closed, F562 prior 0
+
+  Verdict: W-cube basin geometry is cand-specific; recurrent W60
+  positions are descriptive only (not transferable operators).
+
+  Next directions: state-aware scoring, drop cascade-1 c=g=1, expand
+  panel to new kbits, pivot to absorber/M2 program or sr61_n32.
+
+
 recent_progress_2026-05-02_F523_bit2_wider_rank_negative: |
   macbook-claude bit2 wider rank-K sweep ranks 8-13 from F521 manifest.
   6 parallel pair-beams. NO sub-floor records.

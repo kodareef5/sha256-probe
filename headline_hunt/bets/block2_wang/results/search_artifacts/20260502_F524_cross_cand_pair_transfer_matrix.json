@@ -1,0 +1,127 @@
+{
+  "description": "F524 4x4 cross-cand pair-pool transfer matrix (single + 2-pair composition)",
+  "sources": {
+    "bit3_HW36": {
+      "artifact": "headline_hunt/bets/block2_wang/results/search_artifacts/20260502_F521_bit3_rank4_pair_beam_cg.json",
+      "hw": 36
+    },
+    "bit24_HW40": {
+      "artifact": "headline_hunt/bets/block2_wang/results/search_artifacts/20260502_F521_bit24_rank3_pair_beam_cg.json",
+      "hw": 40
+    },
+    "bit13_HW35": {
+      "artifact": "headline_hunt/bets/block2_wang/results/search_artifacts/20260501_F487_bit13_manifest_rank12_hw41_pair_beam_cg.json",
+      "hw": 35
+    },
+    "bit28_HW42": {
+      "artifact": "headline_hunt/bets/block2_wang/results/search_artifacts/20260501_F465_bit28_hw42_pair_beam_cg_wider.json",
+      "hw": 42
+    }
+  },
+  "targets": {
+    "bit2": {
+      "init_W": [
+        "0x504e056e",
+        "0x3e435e29",
+        "0xda592ea2",
+        "0xab54ae55"
+      ],
+      "init_hw": 39
+    },
+    "bit3": {
+      "init_W": [
+        "0xba476635",
+        "0x8cf9982c",
+        "0x06b9e787",
+        "0x2b032ff3"
+      ],
+      "init_hw": 36
+    },
+    "bit24": {
+      "init_W": [
+        "0x4be5074f",
+        "0x429efff2",
+        "0xf09458a7",
+        "0xa4fe0078"
+      ],
+      "init_hw": 40
+    },
+    "bit28": {
+      "init_W": [
+        "0x307cf0e7",
+        "0x853d504a",
+        "0x78f16a5e",
+        "0x41fc6a74"
+      ],
+      "init_hw": 45
+    }
+  },
+  "matrix": {
+    "bit3_HW36_to_bit2": {
+      "single_breaks": [],
+      "two_breaks": []
+    },
+    "bit3_HW36_to_bit3": {
+      "single_breaks": [],
+      "two_breaks": []
+    },
+    "bit3_HW36_to_bit24": {
+      "single_breaks": [],
+      "two_breaks": []
+    },
+    "bit3_HW36_to_bit28": {
+      "single_breaks": [],
+      "two_breaks": []
+    },
+    "bit24_HW40_to_bit2": {
+      "single_breaks": [],
+      "two_breaks": []
+    },
+    "bit24_HW40_to_bit3": {
+      "single_breaks": [],
+      "two_breaks": []
+    },
+    "bit24_HW40_to_bit24": {
+      "single_breaks": [],
+      "two_breaks": []
+    },
+    "bit24_HW40_to_bit28": {
+      "single_breaks": [],
+      "two_breaks": []
+    },
+    "bit13_HW35_to_bit2": {
+      "single_breaks": [],
+      "two_breaks": []
+    },
+    "bit13_HW35_to_bit3": {
+      "single_breaks": [],
+      "two_breaks": []
+    },
+    "bit13_HW35_to_bit24": {
+      "single_breaks": [],
+      "two_breaks": []
+    },
+    "bit13_HW35_to_bit28": {
+      "single_breaks": [],
+      "two_breaks": []
+    },
+    "bit28_HW42_to_bit2": {
+      "single_breaks": [],
+      "two_breaks": []
+    },
+    "bit28_HW42_to_bit3": {
+      "single_breaks": [],
+      "two_breaks": []
+    },
+    "bit28_HW42_to_bit24": {
+      "single_breaks": [],
+      "two_breaks": []
+    },
+    "bit28_HW42_to_bit28": {
+      "single_breaks": [],
+      "two_breaks": []
+    }
+  },
+  "breakthrough_count": 0,
+  "wall_seconds": 0.39
+}
