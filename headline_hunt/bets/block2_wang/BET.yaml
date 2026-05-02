@@ -52,6 +52,48 @@ recent_progress_2026-05-02_F526_bit4_bit1_breakthroughs: |
   F525->F526 trajectory replicates F408->F428: wide-anneal + 1 round of
   manifest-rank routinely halves the gap to the panel floor.
 
+recent_progress_2026-05-02_F563_F576_bit4_bit1_breakthroughs: |
+  yale-codex pulled macbook F525 panel expansion and immediately followed
+  the two strongest new cands with F521-style wide pair-beam.
+
+  F563 bit4_m39a03c2d: F525 HW43 -> HW36 in one pair-beam.
+    W1=0x726ca5c7 0x6db409f8 0x12f025f7 0x778d3357
+    hw63=[8,7,1,0,10,9,1,0], score=85.471.
+
+  F564 bit1_m6fbc8d8e: F525 HW45 -> HW40 in one pair-beam.
+    W1=0x7f74bd45 0x65649ab9 0xb0e869c9 0xae49bf68
+    hw63=[12,7,2,0,9,8,2,0], score=78.333.
+
+  Extracted F565 manifests and ran ranks 2..4 for both cands:
+    bit4: F566 rank2 stayed HW37; F567 rank3 found alternate HW36;
+          F568 rank4 stayed HW39.
+    bit1: F569/F570 ranks2/3 returned HW40; F571 rank4 found HW35.
+
+  F571 bit1 HW35 ties bit13's best Path C floor:
+    W1=0x7f74bd45 0x65649ab9 0xb0e869c5 0x9ea93f2b
+    hw63=[11,5,1,0,11,6,1,0], score=86.364.
+
+  Cert-pin validation:
+    F563 bit4 HW36: kissat UNSAT 0.008s, cadical UNSAT 0.019s.
+    F564 bit1 HW40: kissat UNSAT 0.008s, cadical UNSAT 0.015s.
+    F571 bit1 HW35: kissat UNSAT 0.022s, cadical UNSAT 0.043s.
+    F567 bit4 alternate HW36: kissat UNSAT 0.022s, cadical UNSAT 0.041s.
+    cryptominisat5 is missing on this host, so --solver all is unavailable.
+
+  Exact bridge-relaxed local closures:
+    F572 bit1 HW35 W60 radius 1..6: 906,192 candidates, 0 HW<=35, 0 HW<35.
+    F573 bit1 HW35 W59/W60 radius 1..4: 635,376 candidates, 0 HW<=35, 0 HW<35.
+    F574 bit4 HW36 W60 radius 1..6: 906,192 candidates, 0 HW<=36, 0 HW<36.
+    F575 bit4 HW36 W59/W60 radius 1..4: 635,376 candidates, 0 HW<=36, 0 HW<36.
+
+  F576 refreshed post-breakthrough manifests:
+    bit1 post-HW35: 94 seeds.
+    bit4 post-HW36: 146 seeds.
+
+  Updated Path C best cands:
+    bit13 35, bit1 35, bit3 36, bit4 36, bit2 39, bit24 40, bit28 42.
+  F525 panel expansion paid off: bit1 and bit4 are deep cands, not merely
+  extra corpus rows.
 
 recent_progress_2026-05-02_F525_panel_expansion_11_kbits: |
   macbook-claude expanded Path C panel from 5 cands to 16 via F432-style

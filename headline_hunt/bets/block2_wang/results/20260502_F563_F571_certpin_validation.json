@@ -1,0 +1,60 @@
+{
+  "description": "F563/F571 bit4 and bit1 pair-beam record cert-pin validation",
+  "date": "2026-05-02",
+  "author": "yale-codex",
+  "note": "--solver all failed on this host because cryptominisat5 is not installed; kissat and cadical were run separately.",
+  "validations": [
+    {
+      "run": "F563",
+      "candidate": "bit4_m39a03c2d",
+      "m0": "0x39a03c2d",
+      "fill": "0xffffffff",
+      "kernel_bit": 4,
+      "hw_total": 36,
+      "W": ["0x726ca5c7", "0x6db409f8", "0x12f025f7", "0x778d3357"],
+      "kissat_status": "UNSAT",
+      "kissat_wall": 0.008,
+      "cadical_status": "UNSAT",
+      "cadical_wall": 0.019
+    },
+    {
+      "run": "F564",
+      "candidate": "bit1_m6fbc8d8e",
+      "m0": "0x6fbc8d8e",
+      "fill": "0xffffffff",
+      "kernel_bit": 1,
+      "hw_total": 40,
+      "W": ["0x7f74bd45", "0x65649ab9", "0xb0e869c9", "0xae49bf68"],
+      "kissat_status": "UNSAT",
+      "kissat_wall": 0.008,
+      "cadical_status": "UNSAT",
+      "cadical_wall": 0.015
+    },
+    {
+      "run": "F571",
+      "candidate": "bit1_m6fbc8d8e",
+      "m0": "0x6fbc8d8e",
+      "fill": "0xffffffff",
+      "kernel_bit": 1,
+      "hw_total": 35,
+      "W": ["0x7f74bd45", "0x65649ab9", "0xb0e869c5", "0x9ea93f2b"],
+      "kissat_status": "UNSAT",
+      "kissat_wall": 0.022,
+      "cadical_status": "UNSAT",
+      "cadical_wall": 0.043
+    },
+    {
+      "run": "F567",
+      "candidate": "bit4_m39a03c2d",
+      "m0": "0x39a03c2d",
+      "fill": "0xffffffff",
+      "kernel_bit": 4,
+      "hw_total": 36,
+      "W": ["0x726ca5c7", "0x6db409f8", "0x12f135f1", "0x05493417"],
+      "kissat_status": "UNSAT",
+      "kissat_wall": 0.022,
+      "cadical_status": "UNSAT",
+      "cadical_wall": 0.041
+    }
+  ]
+}
