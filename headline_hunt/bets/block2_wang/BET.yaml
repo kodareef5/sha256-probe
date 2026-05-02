@@ -95,6 +95,35 @@ recent_progress_2026-05-02_F563_F576_bit4_bit1_breakthroughs: |
   F525 panel expansion paid off: bit1 and bit4 are deep cands, not merely
   extra corpus rows.
 
+recent_progress_2026-05-02_F577_F584_bit4_hw35_followup: |
+  yale-codex continued from the refreshed F576 manifests:
+    bit1 ranks 6..8 and bit4 ranks 4..5.
+
+  Results:
+    F577 bit1 rank6 HW42 -> HW36, not below bit1 HW35.
+    F578 bit1 rank7 HW42 -> HW40.
+    F579 bit1 rank8 HW43 -> HW41.
+    F580 bit4 rank4 HW38 -> HW35, tying bit13 and bit1.
+    F581 bit4 rank5 stayed HW38.
+
+  F580 bit4 HW35 witness:
+    W1=0x726ca5c7 0x6db409f8 0x12f335f5 0xdfec32d3
+    hw63=[11,7,1,0,12,3,1,0], score=86.364.
+    Cert-pin: kissat UNSAT 0.012s, cadical UNSAT 0.018s.
+
+  Exact bridge-relaxed local closure:
+    F582 bit4 HW35 W60 radius 1..6:
+      906,192 candidates, all bridge-pass, 0 HW<=35, 0 HW<35.
+    F583 bit4 HW35 W59/W60 radius 1..4:
+      635,376 candidates, 635,359 bridge-pass, 17 reject,
+      0 HW<=35, 0 HW<35.
+
+  F584 refreshed manifests:
+    bit1 post-HW35: 171 seeds.
+    bit4 post-HW35: 179 seeds.
+
+  Updated co-best Path C cands: bit13 HW35, bit1 HW35, bit4 HW35.
+
 recent_progress_2026-05-02_F525_panel_expansion_11_kbits: |
   macbook-claude expanded Path C panel from 5 cands to 16 via F432-style
   wide anneal on 11 untouched cascade-fmt kbits from candidates.yaml:

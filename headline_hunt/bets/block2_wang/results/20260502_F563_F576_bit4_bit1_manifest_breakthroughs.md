@@ -66,6 +66,7 @@ missing. Each headline record was rerun with kissat and cadical separately.
 | F564 bit1 HW40 | UNSAT, 0.008s | UNSAT, 0.015s |
 | F571 bit1 HW35 | UNSAT, 0.022s | UNSAT, 0.043s |
 | F567 bit4 alternate HW36 | UNSAT, 0.022s | UNSAT, 0.041s |
+| F580 bit4 HW35 | UNSAT, 0.012s | UNSAT, 0.018s |
 
 All are confirmed near-residuals, not full collisions.
 
@@ -79,18 +80,46 @@ Exact bridge-relaxed closures around the headline floors:
 | F573 | bit1 | 35 | W59,W60 | 4 | 635,376 | 635,328 | 48 | 0 | 0 |
 | F574 | bit4 | 36 | W60 | 6 | 906,192 | 891,714 | 14,478 | 0 | 0 |
 | F575 | bit4 | 36 | W59,W60 | 4 | 635,376 | 633,405 | 1,971 | 0 | 0 |
+| F582 | bit4 | 35 | W60 | 6 | 906,192 | 906,192 | 0 | 0 | 0 |
+| F583 | bit4 | 35 | W59,W60 | 4 | 635,376 | 635,359 | 17 | 0 | 0 |
 
 Both new floors are locally closed in the same small neighborhoods that closed
-the older panel floors.
+the older panel floors. F582/F583 additionally close the later F580 bit4 HW35
+record.
+
+## F577/F583 continuation
+
+After the first checkpoint, ran a focused continuation from the F576 manifests:
+
+- bit1 ranks 6..8
+- bit4 ranks 4..5
+
+| Run | Cand | Manifest rank | Init HW | Best HW | Score | Best W57..W60 |
+|---|---|---:|---:|---:|---:|---|
+| F577 | bit1 | 6 | 42 | 36 | 85.471 | `0x7f74bd45 0x65649ab9 0xb0e869e9 0x41e72f68` |
+| F578 | bit1 | 7 | 42 | 40 | 78.333 | `0x7f74bd45 0x65649ab9 0xb0e869c9 0xae49bf68` |
+| F579 | bit1 | 8 | 43 | 41 | 80.923 | `0x7f74bd45 0x65649ab9 0x30e869f1 0xe735a7b8` |
+| F580 | bit4 | 4 | 38 | 35 | 86.364 | `0x726ca5c7 0x6db409f8 0x12f335f5 0xdfec32d3` |
+| F581 | bit4 | 5 | 38 | 38 | 81.857 | `0x726ca5c7 0x6db409f8 0x12f135f5 0x5ccb3615` |
+
+F580 upgrades bit4 from HW36 to HW35, tying bit13 and bit1 as co-best Path C
+cands. It is cert-pin verified and locally closed by F582/F583.
 
 ## Refreshed manifests
 
-F576 regenerated post-breakthrough manifests from the full F563/F571 chain:
+F576 regenerated post-breakthrough manifests from the F563/F571 chain:
 
 - `search_artifacts/20260502_F576_bit1_post_hw35_basin_manifest.json`
   with 94 seeds.
 - `search_artifacts/20260502_F576_bit4_post_hw36_basin_manifest.json`
   with 146 seeds.
+
+F584 refreshed those manifests again after F577/F583:
+
+- `search_artifacts/20260502_F584_bit1_post_hw35_basin_manifest.json`
+  with 171 seeds.
+- `search_artifacts/20260502_F584_bit4_post_hw35_basin_manifest.json`
+  with 179 seeds.
 
 Top bit1 seeds:
 
@@ -106,11 +135,11 @@ Top bit4 seeds:
 
 | Rank | HW | Score | W57..W60 |
 |---:|---:|---:|---|
-| 1 | 36 | 85.471 | `0x726ca5c7 0x6db409f8 0x12f025f7 0x778d3357` |
-| 2 | 36 | 85.471 | `0x726ca5c7 0x6db409f8 0x12f135f1 0x05493417` |
-| 3 | 37 | 84.571 | `0x726ca5c7 0x6db409f8 0x12f025f7 0xf6ed309b` |
-| 4 | 38 | 81.857 | `0x726ca5c7 0x6db409f8 0x12f135f5 0x4cc63217` |
-| 5 | 38 | 81.857 | `0x726ca5c7 0x6db409f8 0x12f135f5 0x5ccb3615` |
+| 1 | 35 | 86.364 | `0x726ca5c7 0x6db409f8 0x12f335f5 0xdfec32d3` |
+| 2 | 36 | 85.471 | `0x726ca5c7 0x6db409f8 0x12f025f7 0x778d3357` |
+| 3 | 36 | 85.471 | `0x726ca5c7 0x6db409f8 0x12f135f1 0x05493417` |
+| 4 | 37 | 84.571 | `0x726ca5c7 0x6db409f8 0x12f025f7 0xf6ed309b` |
+| 5 | 37 | 84.571 | `0x726ca5c7 0x6db409f8 0x12f135f5 0x4f27b01b` |
 
 ## Updated panel
 
@@ -119,7 +148,7 @@ Top bit4 seeds:
 | bit13 | 35 | 35 | unchanged best |
 | bit1 | 45 | 35 | new co-best |
 | bit3 | 36 | 36 | unchanged |
-| bit4 | 43 | 36 | new near-best |
+| bit4 | 43 | 35 | new co-best |
 | bit2 | 39 | 39 | unchanged |
 | bit24 | 40 | 40 | unchanged |
 | bit28 | 42 | 42 | unchanged |
@@ -129,9 +158,6 @@ extra corpus rows; they are deep Path C cands.
 
 ## Next
 
-1. Run bit1 F576 ranks 5..12. F571 came from rank 4, so nearby ranks may
-   still contain sub-HW35 paths.
-2. Run bit4 F576 ranks 5..12 and close the alternate F567 HW36 basin if it
-   becomes a focus point.
-3. Apply the same F563/F571 workflow to F525 bit20 and bit18 next, since
+1. Continue bit1 F584 ranks 9..16 and bit4 F584 ranks 6..12.
+2. Apply the same F563/F571 workflow to F525 bit20 and bit18 next, since
    they are the next strongest new cands after bit4/bit1.
