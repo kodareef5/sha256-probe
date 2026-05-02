@@ -1,0 +1,34 @@
+{
+  "description": "F625 bit29 HW37 and F629 bit14 HW39 cert-pin validation",
+  "date": "2026-05-02",
+  "author": "yale-codex",
+  "note": "The first manual cert-pin commands in this work block used stale W values. This file records the corrected artifact witnesses only.",
+  "validations": [
+    {
+      "run": "F625",
+      "candidate": "bit29_m17454e4b",
+      "m0": "0x17454e4b",
+      "fill": "0xffffffff",
+      "kernel_bit": 29,
+      "hw_total": 37,
+      "W": ["0x834556dc", "0x1d75567c", "0xe4d637f1", "0x2c5992ee"],
+      "kissat_status": "UNSAT",
+      "kissat_wall": 0.017,
+      "cadical_status": "UNSAT",
+      "cadical_wall": 0.019
+    },
+    {
+      "run": "F629",
+      "candidate": "bit14_m67043cdd",
+      "m0": "0x67043cdd",
+      "fill": "0xffffffff",
+      "kernel_bit": 14,
+      "hw_total": 39,
+      "W": ["0x36a7276e", "0x8cfb2e2f", "0x3c515efd", "0xb033eb3f"],
+      "kissat_status": "UNSAT",
+      "kissat_wall": 0.008,
+      "cadical_status": "UNSAT",
+      "cadical_wall": 0.019
+    }
+  ]
+}

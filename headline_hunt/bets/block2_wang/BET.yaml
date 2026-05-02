@@ -385,6 +385,33 @@ recent_progress_2026-05-02_F614_F623_bit25_hw37: |
     bit13/bit1/bit4 HW35, bit3 HW36, bit15/bit18/bit25 HW37,
     bit20 HW38, bit2 HW39, bit24 HW40, bit28 HW42.
 
+recent_progress_2026-05-02_F624_F635_bit29_bit14_followup: |
+  yale-codex extracted manifests for F527/F528 bit29 and bit14, then ran
+  ranks 2..4 for both cands.
+
+  Results:
+    F625 bit29 rank2 HW41 -> HW37, new bit29 floor.
+    F626/F627 bit29 ranks3/4 stayed HW41.
+    F628 bit14 rank2 HW41 -> HW40.
+    F629 bit14 rank3 HW41 -> HW39, new bit14 floor.
+    F630 bit14 rank4 stayed HW41.
+
+  Corrected cert-pin validation:
+    F625 bit29 HW37: kissat UNSAT 0.017s, cadical UNSAT 0.019s.
+    F629 bit14 HW39: kissat UNSAT 0.008s, cadical UNSAT 0.019s.
+
+  Exact bridge-relaxed local closure:
+    F631/F632 bit29 HW37: W60 r6 and W59/W60 r4, 0 HW<=37, 0 HW<37.
+    F633/F634 bit14 HW39: W60 r6 and W59/W60 r4, 0 HW<=39, 0 HW<39.
+
+  F635 manifests:
+    bit29 post-HW37: 155 seeds.
+    bit14 post-HW39: 120 seeds.
+
+  Updated deep Path C band:
+    bit13/bit1/bit4 HW35, bit3 HW36, bit15/bit18/bit25/bit29 HW37,
+    bit20 HW38, bit2/bit14 HW39, bit24 HW40, bit28 HW42.
+
 recent_progress_2026-05-02_F525_panel_expansion_11_kbits: |
   macbook-claude expanded Path C panel from 5 cands to 16 via F432-style
   wide anneal on 11 untouched cascade-fmt kbits from candidates.yaml:
