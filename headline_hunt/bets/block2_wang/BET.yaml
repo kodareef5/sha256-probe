@@ -30,6 +30,24 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
 last_heartbeat: '2026-05-02T23:55:00Z'
+recent_progress_2026-05-02_F690_F693_hw39_tier_followup: |
+  yale-codex filled HW39-tier follow-up gaps.
+
+  F690 direct bit28 HW39 restart:
+    W57..W60 = 0x307cf0e7 0x853d504a 0x38f06a6e 0x7f7479d4
+    expanded 3,704,100 states, bridge-pass 3,703,671,
+    0 HW<=39, 0 HW<39. Seed stayed best.
+
+  F691/F692 consumed bit28 F669 ranks 2/3:
+    both init HW41, both stayed HW41; no threat to HW39 floor.
+
+  F693 direct bit26 HW39 restart:
+    W57..W60 = 0xbfe07c65 0x012df925 0xae91ccb9 0x715d9e89
+    expanded 3,569,599 states, all bridge-pass,
+    0 HW<=39, 0 HW<39. Seed stayed best.
+
+  Active tail remains bit24 HW40, with bit2/bit12/bit26/bit28 at HW39.
+
 recent_progress_2026-05-02_F687_F689_bit12_hw39_closure: |
   yale-codex closed Mac F532's bit12 HW39 witness:
     W57..W60 = 0x6e835350 0x8322f4cf 0x30dd0ed1 0x820db564
