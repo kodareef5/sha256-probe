@@ -29,7 +29,27 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-02T21:35:00Z'
+last_heartbeat: '2026-05-02T22:00:00Z'
+recent_progress_2026-05-02_F528_deep_tier_iteration: |
+  macbook-claude second-iteration on F527 deep-tier cands. 6 parallel
+  pair-beams: bit15 ranks 1-3 (manifest from F527), bit18/25/29 from
+  F527 best W. ~7min wall.
+
+  Two new sub-floor records:
+    bit25  40 -> 38  (-2)  cert-pin UNSAT
+    bit18  40 -> 39  (-1)  cert-pin UNSAT
+  Stayed:
+    bit15  37 -> 37 (locally closed at radius 12; bit15 is 4th-deepest)
+    bit29  41 -> 41
+
+  4 cert-pin runs logged (kissat+cadical UNSAT, audit CONFIRMED).
+
+  Updated panel sum HW: 602 (was 605 in F527, -3 in F528).
+  bit25 HW=38 is now between the deep tier and mid-deep tier.
+
+  Pattern: each iteration of the pipeline produces some new records.
+  Diminishing returns at deeper tiers (bit15 stuck at 37; bit29 at 41).
+
 recent_progress_2026-05-02_F527_nine_cand_breakthrough_batch: |
   macbook-claude single pair-beam from F525 wide-anneal best W applied
   to all 9 remaining F525 cands. 9 parallel runs, 7min wall.
