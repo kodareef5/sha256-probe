@@ -221,6 +221,39 @@ recent_progress_2026-05-02_F588_F598_bit18_bit20_hw38: |
     bit13/bit1/bit4 HW35, bit3 HW36, bit18/bit20 HW38,
     bit2 HW39, bit24 HW40, bit28 HW42.
 
+recent_progress_2026-05-02_F599_F605_bit18_hw37: |
+  yale-codex continued from F594 manifests:
+    bit20 ranks 2..3 and bit18 ranks 2..3.
+
+  Results:
+    F599 bit20 rank2 HW40 -> HW39, no bit20 floor improvement.
+    F600 bit20 rank3 HW41 -> HW38, reconnecting to the F592/F593 floor.
+    F601 bit18 rank2 HW41 -> HW37, new bit18 floor.
+    F602 bit18 rank3 HW42 -> HW38, alternate HW38 basin.
+
+  F601 bit18 HW37 witness:
+    W1=0xc67e23c3 0x61dac42f 0x48c39ae2 0xb4cc91c2
+    hw63=[10,6,2,0,14,4,1,0], score=82.706.
+
+  Cert-pin validation:
+    F601 bit18 HW37: kissat UNSAT 0.024s, cadical UNSAT 0.050s.
+
+  F603 refreshed manifests:
+    bit18 post-HW37: 116 seeds.
+    bit20 post-HW38: 109 seeds.
+
+  Exact bridge-relaxed local closure around bit18 HW37:
+    F604 W60 radius 1..6:
+      906,192 candidates at r6, 906,042 bridge-pass, 150 reject,
+      0 HW<=37, 0 HW<37.
+    F605 W59/W60 radius 1..4:
+      635,376 candidates at r4, 635,349 bridge-pass, 27 reject,
+      0 HW<=37, 0 HW<37.
+
+  Updated deep Path C band:
+    bit13/bit1/bit4 HW35, bit3 HW36, bit18 HW37, bit20 HW38,
+    bit2 HW39, bit24 HW40, bit28 HW42.
+
 recent_progress_2026-05-02_F525_panel_expansion_11_kbits: |
   macbook-claude expanded Path C panel from 5 cands to 16 via F432-style
   wide anneal on 11 untouched cascade-fmt kbits from candidates.yaml:

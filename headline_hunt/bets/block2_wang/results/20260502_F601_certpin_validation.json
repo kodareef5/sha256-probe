@@ -1,0 +1,21 @@
+{
+  "description": "F601 bit18 HW37 record cert-pin validation",
+  "date": "2026-05-02",
+  "author": "yale-codex",
+  "note": "--solver all is unavailable on this host because cryptominisat5 is not installed; kissat and cadical were run separately.",
+  "validations": [
+    {
+      "run": "F601",
+      "candidate": "bit18_m99bf552b",
+      "m0": "0x99bf552b",
+      "fill": "0xffffffff",
+      "kernel_bit": 18,
+      "hw_total": 37,
+      "W": ["0xc67e23c3", "0x61dac42f", "0x48c39ae2", "0xb4cc91c2"],
+      "kissat_status": "UNSAT",
+      "kissat_wall": 0.024,
+      "cadical_status": "UNSAT",
+      "cadical_wall": 0.050
+    }
+  ]
+}
