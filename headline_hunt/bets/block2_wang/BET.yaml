@@ -29,7 +29,38 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-02T21:15:00Z'
+last_heartbeat: '2026-05-02T21:35:00Z'
+recent_progress_2026-05-02_F527_nine_cand_breakthrough_batch: |
+  macbook-claude single pair-beam from F525 wide-anneal best W applied
+  to all 9 remaining F525 cands. 9 parallel runs, 7min wall.
+
+  ALL 9 cands broke through, average 7.1 HW reduction per cand.
+
+  bit15 47->37 (-10!  joins deep tier with bit13/bit3/bit4)
+  bit29 52->41 (-11!)
+  bit25 50->40 (-10!)
+  bit18 49->40 (-9)
+  bit26 51->44 (-7)
+  bit14 47->41 (-6)
+  bit6  51->47 (-4)
+  bit12 48->44 (-4)
+  bit20 46->43 (-3)
+
+  18 cert-pin runs (kissat+cadical UNSAT, audit CONFIRMED, all logged).
+
+  Updated 16-cand panel:
+    Deep (HW<=37): bit13 35, bit3 36, bit4 36, bit15 37 (4 cands)
+    Mid-deep (38-42): bit2, bit24, bit1, bit18, bit25, bit14, bit29,
+                      bit28 (8 cands)
+    Mid (43-47): bit20 43, bit12/bit26 44, bit6 47 (4 cands)
+
+  Sum HW: 605 (was 740 in F525 raw, -135 reduction in F526+F527).
+
+  Pipeline (wide anneal + manifest-rank pair-beam) is now demonstrated
+  to scale linearly: ~5min compute per new cand, -5..-10 HW per cand.
+  Could feasibly add 30-50 more cands in a single session.
+
+
 recent_progress_2026-05-02_F526_bit4_bit1_breakthroughs: |
   macbook-claude manifest-rank pair-beam on F525's two deepest new
   cands. 6 parallel pair-beams (3 bit4 + 3 bit1) from F525 wide-anneal
