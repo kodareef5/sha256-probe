@@ -1,0 +1,21 @@
+{
+  "description": "F619 bit25 HW37 record cert-pin validation",
+  "date": "2026-05-02",
+  "author": "yale-codex",
+  "note": "--solver all is unavailable on this host because cryptominisat5 is not installed; kissat and cadical were run separately.",
+  "validations": [
+    {
+      "run": "F619",
+      "candidate": "bit25_ma2f498b1",
+      "m0": "0xa2f498b1",
+      "fill": "0xffffffff",
+      "kernel_bit": 25,
+      "hw_total": 37,
+      "W": ["0xd0a3012c", "0xaa4910c0", "0x3d58970b", "0x690cefa9"],
+      "kissat_status": "UNSAT",
+      "kissat_wall": 0.013,
+      "cadical_status": "UNSAT",
+      "cadical_wall": 0.014
+    }
+  ]
+}

@@ -297,6 +297,37 @@ recent_progress_2026-05-02_F606_F613_bit15_hw37_followup: |
     bit13/bit1/bit4 HW35, bit3 HW36, bit15/bit18 HW37,
     bit20 HW38, bit2 HW39, bit24 HW40, bit28 HW42.
 
+recent_progress_2026-05-02_F614_F623_bit25_hw37: |
+  yale-codex followed macbook F528 bit25 HW38.
+
+  F614 extracted an 85-seed bit25 post-HW38 manifest from F527/F528.
+  F615/F616 locally closed the F528 HW38 witness:
+    W60 radius 1..6 and W59/W60 radius 1..4 both had 0 HW<=38 and
+    0 HW<38, all bridge-pass.
+
+  F617/F620 tested bit25 manifest ranks 2..5:
+    F617 rank2 HW39 stayed HW39.
+    F618 rank3 HW40 -> HW38.
+    F619 rank4 HW40 -> HW37, new bit25 floor.
+    F620 rank5 HW41 -> HW38.
+
+  F619 bit25 HW37 witness:
+    W1=0xd0a3012c 0xaa4910c0 0x3d58970b 0x690cefa9
+    hw63=[14,7,1,0,9,5,1,0], score=84.571.
+    Cert-pin: kissat UNSAT 0.013s, cadical UNSAT 0.014s.
+
+  F621 refreshed bit25 post-HW37 manifest: 142 seeds.
+
+  Exact bridge-relaxed local closure around bit25 HW37:
+    F622 W60 radius 1..6:
+      906,192 candidates at r6, all bridge-pass, 0 HW<=37, 0 HW<37.
+    F623 W59/W60 radius 1..4:
+      635,376 candidates at r4, all bridge-pass, 0 HW<=37, 0 HW<37.
+
+  Updated deep Path C band:
+    bit13/bit1/bit4 HW35, bit3 HW36, bit15/bit18/bit25 HW37,
+    bit20 HW38, bit2 HW39, bit24 HW40, bit28 HW42.
+
 recent_progress_2026-05-02_F525_panel_expansion_11_kbits: |
   macbook-claude expanded Path C panel from 5 cands to 16 via F432-style
   wide anneal on 11 untouched cascade-fmt kbits from candidates.yaml:
