@@ -29,7 +29,34 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-02T23:55:00Z'
+last_heartbeat: '2026-05-02T23:57:56Z'
+recent_progress_2026-05-02_F717_F724_novel_operator_pivot: |
+  yale-codex pivoted away from selector-rank consumption and tested two
+  different Path C coordinates.
+
+  New tools:
+    - encoders/multi_objective_pair_beam.py
+    - encoders/additive_w_move_probe.py
+
+  F717/F720 multi-objective pair beam:
+    - Four current floor witnesses tested: bit24 HW40, bit24 alternate HW40,
+      bit26 HW39, bit28 HW39.
+    - 8,435,441 beam expansions, preserving parallel objectives for HW,
+      c/g pressure, lane balance, target-shape distance, score, and repair.
+    - No HW<=init records. Best non-seed bands: bit24 HW43/HW44,
+      bit26 HW41, bit28 HW41.
+
+  F721/F724 additive late-W radius-2:
+    - Tested modular W57..W60 +=/-= 2^bit moves, not XOR flips.
+    - 131,584 additive candidates across the same four witnesses.
+    - No HW<=init records. Best non-seed bands: bit24 HW54/HW51,
+      bit26 HW44, bit28 HW50.
+
+  Interpretation: multi-objective retention can find different lane shapes
+  but does not reopen the floor basins; additive common-mode structure from
+  absorber space does not transfer directly to late W residual polishing.
+  Active Path C tail remains bit24 HW40, with bit2/bit12/bit26/bit28 at HW39.
+
 recent_progress_2026-05-02_F713_F716_selector_tail_followup: |
   yale-codex continued the selector-ranked tail pass:
     bit24 F527 ranks 27/28, bit26 F650 rank7, bit28 F669 rank8.
