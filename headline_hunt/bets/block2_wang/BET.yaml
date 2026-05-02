@@ -29,7 +29,23 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-02T00:30:07Z'
+last_heartbeat: '2026-05-02T00:41:39Z'
+recent_progress_2026-05-01_F504_F505_f491_rank29_rank30_prunes: |
+  yale-codex tested adjacent F486-derived F491 tail seeds:
+    F504 rank 29 HW42
+      W1=0x5228ed8d 0x61a1a29c 0x6a3a8409 0x2c9e91fb
+      reconnected to known HW40:
+      W1=0x5228ed8d 0x61a1a29c 0x6a3a8409 0x149f957b
+      expanded=3,466,218, bridge_pass=3,465,999, wall=281.24s.
+    F505 rank 30 HW42
+      W1=0x5228ed8d 0x61a1a29c 0x6a3a8409 0x2d9e917b
+      reconnected to known HW37 side basin:
+      W1=0x5228ed8d 0x61a1a29c 0x6a3a8409 0x2dae4df3
+      expanded=3,449,007, bridge_pass=3,448,783, wall=275.33s.
+
+  Ranks 29 and 30 are connectivity checks back to already-seen basins, not
+  current paths past HW35.
+
 recent_progress_2026-05-01_F502_F503_f491_tail_reconnects_hw36: |
   yale-codex tested two lower-priority refreshed-manifest tail seeds:
     F502 rank 26 HW41, F487 source
