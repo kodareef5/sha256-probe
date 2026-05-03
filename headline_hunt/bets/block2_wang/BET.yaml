@@ -29,7 +29,7 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-03T21:22:32Z'
+last_heartbeat: '2026-05-03T21:25:55Z'
 recent_progress_2026-05-03_F549_bit24_HW85_closed: |
   macbook-claude iter from bit24 HW=85 with cg-rank radius 12.
   Stayed at HW=85 (locally closed).
@@ -204,6 +204,30 @@ recent_progress_2026-05-03_F760_bit24_target_repair_HW82: |
     lane reshaping. Standard pair-beam variants closed bit24 at HW85; the
     non-greedy final-state planner found the missing 5-pair composition to
     HW82. Current global floor is tied by bit13 and bit24 at HW82.
+
+recent_progress_2026-05-03_F761_bit24_HW82_pair_potential_closed: |
+  yale-codex ran the full two-bit M2 pair-potential atlas around the new F760
+  bit24 HW82 witness.
+
+  Setup:
+    init lane [9,10,11,10,10,13,13,6]
+    target lane bit13 HW82 [10,11,9,12,9,7,10,14]
+    init target L1 24
+    total pairs 130,816
+
+  Result:
+    HW<82 pairs: 0
+    HW<=82 pairs: 0
+    c/g-improving pairs: 0
+    target-L1-improving pairs: 54
+    best raw-HW pair: HW93
+    best target-L1 pair: HW97, target L1 17
+
+  Interpretation:
+    F760's bit24 HW82 endpoint is one-pair closed for HW and c/g, matching the
+    bit13 HW82 closure pattern. It still has expensive lane-signature moves, so
+    the only plausible continuation is another constrained multi-pair
+    target/repair composition, not a greedy local restart.
 
 recent_progress_2026-05-03_F747_pathC_bit4_cg_negative: |
   yale-codex restarted Mac's F547 bit4 path-C HW89 absorber witness with c/g
