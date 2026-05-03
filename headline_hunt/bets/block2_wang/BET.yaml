@@ -29,7 +29,7 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-03T23:20:00Z'
+last_heartbeat: '2026-05-03T23:21:17Z'
 recent_progress_2026-05-03_F549_bit24_HW85_closed: |
   macbook-claude iter from bit24 HW=85 with cg-rank radius 12.
   Stayed at HW=85 (locally closed).
@@ -348,6 +348,22 @@ recent_progress_2026-05-03_F766_bit24_F765_target_HW88_pair_beam_hw_negative: |
     The target detour is not repaired by ordinary pure-HW pair-beam. That
     weakens the simple two-stage plan of first moving toward the target lane
     and then letting standard HW repair recover the floor.
+
+recent_progress_2026-05-03_F767_bit24_F760_HW82_pair_potential_top80: |
+  yale-codex refreshed the original F760 HW82 pair-potential atlas at top=80
+  to feed the same broad sampled repair/cg machinery used by F765.
+
+  Result over all 130,816 two-bit M2 flips:
+    HW<82 pairs: 0
+    HW<=82 pairs: 0
+    c/g-improving pairs: 0
+    target-L1-improving pairs: 54
+
+  Interpretation:
+    The F760 HW82 point is locally closed for HW/cg but looser than the F763
+    HW82 tie in target geometry. F767 has 54 target-improving one-pair moves,
+    versus 5 around F763/F764, so F760 is the better parent for one more broad
+    repair/cg sampled combo.
 
 recent_progress_2026-05-03_F747_pathC_bit4_cg_negative: |
   yale-codex restarted Mac's F547 bit4 path-C HW89 absorber witness with c/g
