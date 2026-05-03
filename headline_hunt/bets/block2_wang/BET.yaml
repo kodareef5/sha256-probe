@@ -29,7 +29,7 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-03T23:07:19Z'
+last_heartbeat: '2026-05-03T23:20:00Z'
 recent_progress_2026-05-03_F549_bit24_HW85_closed: |
   macbook-claude iter from bit24 HW=85 with cg-rank radius 12.
   Stayed at HW=85 (locally closed).
@@ -327,6 +327,27 @@ recent_progress_2026-05-03_F765_bit24_F763_HW82_repair_cg_sample20m_negative: |
     selected pairs. Next work should use the best target detour as a repair
     seed or return to the original F760 HW82 point, not simply widen the same
     F763 sampler again.
+
+recent_progress_2026-05-03_F766_bit24_F765_target_HW88_pair_beam_hw_negative: |
+  yale-codex restarted pure-HW M2 pair-beam from F765's best target detour.
+
+  Setup:
+    init HW 88
+    init lane [12,11,11,12,9,10,11,12]
+    target L1 10
+    objective=hw, pair_rank=hw
+    pair_pool=1024, beam=1024, max_pairs=6, max_radius=12
+
+  Result:
+    best seen HW 88
+    best source init
+    new records 0
+    wall 670.66s
+
+  Interpretation:
+    The target detour is not repaired by ordinary pure-HW pair-beam. That
+    weakens the simple two-stage plan of first moving toward the target lane
+    and then letting standard HW repair recover the floor.
 
 recent_progress_2026-05-03_F747_pathC_bit4_cg_negative: |
   yale-codex restarted Mac's F547 bit4 path-C HW89 absorber witness with c/g
