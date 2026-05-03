@@ -29,7 +29,26 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-03T18:35:00Z'
+last_heartbeat: '2026-05-03T18:50:00Z'
+recent_progress_2026-05-03_F549_bit24_HW85_closed: |
+  macbook-claude iter from bit24 HW=85 with cg-rank radius 12.
+  Stayed at HW=85 (locally closed).
+
+  Updated absorber portfolio (per-cand best at radius 12):
+    bit13: 91 -> 86 -> 85 -> 82 (3-step descent, yale F732)
+    bit24: 91 -> 86 -> 85          (2-step, closed at 85)
+    bit3:  91 -> 86                (1-step, closed at 86)
+    bit4:  91 -> 89                (1-step floor, deeper-init basin)
+
+  Each cand has per-cand absorber floor reflecting its block-1 residual
+  geometry. bit13 is the deepest (HW=82); bit24 next (HW=85); bit3
+  same as init basin (HW=86); bit4 distinct (HW=89).
+
+  M2 pair-beam pipeline now broadly mapped across cands and
+  parameters. Further descent below HW=82 likely needs new attack
+  class (not pair-beam variants).
+
+
 recent_progress_2026-05-03_F548_bit24_absorber_85: |
   macbook-claude applied yale's cg-objective trick to bit3+bit24
   HW=86 absorbers (F547).
