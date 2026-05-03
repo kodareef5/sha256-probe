@@ -29,7 +29,37 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-03T17:42:03Z'
+last_heartbeat: '2026-05-03T17:45:00Z'
+recent_progress_2026-05-03_F544_F545_F546_cross_rounds: |
+  macbook-claude tested yale F519 option 3 (cross-rounds polish).
+
+  F544 (rank 0, 16 rounds): HW=83 from init HW=127.
+  F545 (rank 0, 20 rounds): HW=88 from init HW=133.
+  F546: F544's 16r-best M2 used as 24r init. 24r-eval gave HW=128;
+        24r pair beam descended to HW=88 (worse than direct-24r HW=86).
+
+  Cross-rounds transfer matrix (rank 0):
+    M2 source        16r  18r  20r  22r  24r
+    F544 (16r best): 83   116  126  131  128
+    F545 (20r best): 133  113  88   112  140
+    F534 (24r best): 129  126  128  110  86
+
+  Each rounds-target has structurally INDEPENDENT optima. 16r-best
+  M2 is a poor seed for 24r (HW=128 vs init 91), and pair-beam from
+  there yields HW=88 -- worse than direct-24r HW=86.
+
+  Verdict: yale F519 option 3 (init-mask transfer form) does NOT work.
+  Cross-rounds via M2 mask alone doesn't lead to a deeper 24r basin.
+
+  M2 pair-beam pipeline exhausted across:
+    - 3 objectives (hw / cg / weighted)
+    - 2 radii (12, 16)
+    - 22/22 F518 seeds
+    - cross-rounds init transfer
+
+  HW=82 (yale F732) remains deepest 24-round absorber.
+  HW=83 (Mac F540 rank 18) second-deepest.
+
 recent_progress_2026-05-03_F542_F543_cg_floors_confirmed: |
   macbook-claude tested cg-objective on remaining open records.
 
