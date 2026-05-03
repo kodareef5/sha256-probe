@@ -29,7 +29,7 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-03T19:21:04Z'
+last_heartbeat: '2026-05-03T19:23:30Z'
 recent_progress_2026-05-03_F549_bit24_HW85_closed: |
   macbook-claude iter from bit24 HW=85 with cg-rank radius 12.
   Stayed at HW=85 (locally closed).
@@ -68,6 +68,24 @@ recent_progress_2026-05-03_F748_bit24_HW85_wider_cg_closed: |
     Bit24's c/g descent stops at HW85 under both radius 12 and radius 16.
     This makes bit24 the second-deepest mapped candidate after bit13, but not
     a current route toward the global HW82 floor.
+
+recent_progress_2026-05-03_F749_absorber_portfolio_atlas: |
+  yale-codex consolidated the current 24-round M2 absorber portfolio with
+  m2_pair_beam_atlas.py over the key F732-F748 artifacts.
+
+  Current mapped per-candidate/basin endpoints:
+    bit13 rank2:  HW82, closed under HW/cg/weighted at radius 12 and 16
+    bit13 rank18: HW83, closed under cg radius 12
+    bit24 path-C: HW85, closed under cg radius 12 and 16
+    bit3 path-C:  HW86, closed under cg radius 12
+    bit4 path-C:  HW89, closed under cg radius 12
+
+  Interpretation:
+    M2 pair-beam is broadly reusable, pulling cold path-C absorbers from
+    HW126-HW132 into HW86-HW89, and cg ranking deepens bit13/bit24. But the
+    endpoint is candidate-dependent, so further progress should pivot from
+    pair-beam objective variants to a selection/atlas operator that chooses
+    non-local compositions based on lane-delta geometry.
 
 recent_progress_2026-05-03_F747_pathC_bit4_cg_negative: |
   yale-codex restarted Mac's F547 bit4 path-C HW89 absorber witness with c/g
