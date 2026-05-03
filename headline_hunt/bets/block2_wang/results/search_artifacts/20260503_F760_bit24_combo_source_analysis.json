@@ -1,0 +1,2320 @@
+{
+  "description": "M2 combo source analysis",
+  "combo_json": "headline_hunt/bets/block2_wang/results/search_artifacts/20260503_F760_bit24_hw85_target_repair_pair_combo5.json",
+  "pair_atlas": "headline_hunt/bets/block2_wang/results/search_artifacts/20260503_F750_bit24_hw85_pair_potential_to_hw82_lane.json",
+  "label": "F760_bit24_hw85_target_repair_pair_combo5",
+  "selection": {
+    "target_pairs": 32,
+    "repair_pairs": 32,
+    "hw_pairs": 16,
+    "cg_pairs": 16,
+    "per_reg_pairs": 4,
+    "selected_pairs": 83,
+    "pair_count": 5,
+    "min_radius": 8,
+    "max_radius": 10
+  },
+  "selected_pairs_reconstructed": 83,
+  "selection_source_counts": {
+    "cg": 16,
+    "hw": 16,
+    "repair": 20,
+    "repair_a": 4,
+    "repair_b": 4,
+    "repair_c": 4,
+    "repair_d": 4,
+    "repair_e": 4,
+    "repair_f": 4,
+    "repair_g": 4,
+    "target": 20
+  },
+  "groups": {
+    "top_records_hw_le_init": [
+      {
+        "record": {
+          "hw_total": 82,
+          "net_delta": -3,
+          "lane_hw": [
+            9,
+            10,
+            11,
+            10,
+            10,
+            13,
+            13,
+            6
+          ],
+          "cg_objective": 130.0,
+          "target_l1": 24,
+          "bits": [
+            110,
+            116,
+            126,
+            188,
+            207,
+            283,
+            449,
+            464,
+            476,
+            486
+          ],
+          "pair_ids": [
+            34,
+            51,
+            56,
+            57,
+            80
+          ],
+          "pair_sources": [
+            [
+              "repair",
+              "cg"
+            ],
+            [
+              "repair_c"
+            ],
+            [
+              "repair"
+            ],
+            [
+              "repair"
+            ],
+            [
+              "repair_a"
+            ]
+          ]
+        },
+        "source_counts": {
+          "cg": 1,
+          "repair": 3,
+          "repair_a": 1,
+          "repair_c": 1
+        },
+        "pair_details": [
+          {
+            "pair_id": 34,
+            "bit_indices": [
+              126,
+              188
+            ],
+            "selection_sources": [
+              "repair",
+              "cg"
+            ],
+            "standalone_hw": 101,
+            "standalone_cg": 139.0,
+            "standalone_target_l1": 29,
+            "total_repair": 11,
+            "total_damage": 27,
+            "delta_lane_hw": [
+              -1,
+              7,
+              2,
+              4,
+              -4,
+              2,
+              -6,
+              12
+            ]
+          },
+          {
+            "pair_id": 51,
+            "bit_indices": [
+              464,
+              486
+            ],
+            "selection_sources": [
+              "repair_c"
+            ],
+            "standalone_hw": 109,
+            "standalone_cg": 149.0,
+            "standalone_target_l1": 35,
+            "total_repair": 5,
+            "total_damage": 29,
+            "delta_lane_hw": [
+              9,
+              6,
+              -5,
+              0,
+              1,
+              1,
+              2,
+              10
+            ]
+          },
+          {
+            "pair_id": 56,
+            "bit_indices": [
+              207,
+              283
+            ],
+            "selection_sources": [
+              "repair"
+            ],
+            "standalone_hw": 109,
+            "standalone_cg": 163.0,
+            "standalone_target_l1": 37,
+            "total_repair": 11,
+            "total_damage": 35,
+            "delta_lane_hw": [
+              9,
+              8,
+              8,
+              -2,
+              -5,
+              3,
+              -4,
+              7
+            ]
+          },
+          {
+            "pair_id": 57,
+            "bit_indices": [
+              110,
+              449
+            ],
+            "selection_sources": [
+              "repair"
+            ],
+            "standalone_hw": 104,
+            "standalone_cg": 166.0,
+            "standalone_target_l1": 38,
+            "total_repair": 11,
+            "total_damage": 30,
+            "delta_lane_hw": [
+              6,
+              3,
+              4,
+              -5,
+              -6,
+              6,
+              4,
+              7
+            ]
+          },
+          {
+            "pair_id": 80,
+            "bit_indices": [
+              116,
+              476
+            ],
+            "selection_sources": [
+              "repair_a"
+            ],
+            "standalone_hw": 126,
+            "standalone_cg": 206.0,
+            "standalone_target_l1": 56,
+            "total_repair": 5,
+            "total_damage": 46,
+            "delta_lane_hw": [
+              -5,
+              5,
+              11,
+              2,
+              2,
+              8,
+              6,
+              12
+            ]
+          }
+        ]
+      },
+      {
+        "record": {
+          "hw_total": 84,
+          "net_delta": -1,
+          "lane_hw": [
+            8,
+            11,
+            11,
+            10,
+            11,
+            9,
+            15,
+            9
+          ],
+          "cg_objective": 136.0,
+          "target_l1": 20,
+          "bits": [
+            0,
+            127,
+            187,
+            225,
+            326,
+            331,
+            356,
+            426,
+            440,
+            471
+          ],
+          "pair_ids": [
+            2,
+            18,
+            52,
+            68,
+            76
+          ],
+          "pair_sources": [
+            [
+              "target",
+              "cg"
+            ],
+            [
+              "target"
+            ],
+            [
+              "repair_e"
+            ],
+            [
+              "repair_c"
+            ],
+            [
+              "repair_b"
+            ]
+          ]
+        },
+        "source_counts": {
+          "cg": 1,
+          "repair_b": 1,
+          "repair_c": 1,
+          "repair_e": 1,
+          "target": 2
+        },
+        "pair_details": [
+          {
+            "pair_id": 2,
+            "bit_indices": [
+              187,
+              331
+            ],
+            "selection_sources": [
+              "target",
+              "cg"
+            ],
+            "standalone_hw": 101,
+            "standalone_cg": 141.0,
+            "standalone_target_l1": 19,
+            "total_repair": 5,
+            "total_damage": 21,
+            "delta_lane_hw": [
+              5,
+              3,
+              0,
+              1,
+              -2,
+              2,
+              -3,
+              10
+            ]
+          },
+          {
+            "pair_id": 18,
+            "bit_indices": [
+              127,
+              225
+            ],
+            "selection_sources": [
+              "target"
+            ],
+            "standalone_hw": 102,
+            "standalone_cg": 144.0,
+            "standalone_target_l1": 22,
+            "total_repair": 6,
+            "total_damage": 23,
+            "delta_lane_hw": [
+              7,
+              3,
+              1,
+              -2,
+              -1,
+              0,
+              -3,
+              12
+            ]
+          },
+          {
+            "pair_id": 52,
+            "bit_indices": [
+              440,
+              471
+            ],
+            "selection_sources": [
+              "repair_e"
+            ],
+            "standalone_hw": 109,
+            "standalone_cg": 171.0,
+            "standalone_target_l1": 35,
+            "total_repair": 8,
+            "total_damage": 32,
+            "delta_lane_hw": [
+              8,
+              1,
+              6,
+              3,
+              -8,
+              3,
+              2,
+              9
+            ]
+          },
+          {
+            "pair_id": 68,
+            "bit_indices": [
+              356,
+              426
+            ],
+            "selection_sources": [
+              "repair_c"
+            ],
+            "standalone_hw": 103,
+            "standalone_cg": 145.0,
+            "standalone_target_l1": 43,
+            "total_repair": 5,
+            "total_damage": 23,
+            "delta_lane_hw": [
+              9,
+              4,
+              -5,
+              2,
+              2,
+              1,
+              3,
+              2
+            ]
+          },
+          {
+            "pair_id": 76,
+            "bit_indices": [
+              0,
+              326
+            ],
+            "selection_sources": [
+              "repair_b"
+            ],
+            "standalone_hw": 117,
+            "standalone_cg": 185.0,
+            "standalone_target_l1": 53,
+            "total_repair": 5,
+            "total_damage": 37,
+            "delta_lane_hw": [
+              6,
+              -5,
+              7,
+              3,
+              5,
+              6,
+              4,
+              6
+            ]
+          }
+        ]
+      },
+      {
+        "record": {
+          "hw_total": 85,
+          "net_delta": 0,
+          "lane_hw": [
+            5,
+            14,
+            10,
+            10,
+            10,
+            8,
+            12,
+            16
+          ],
+          "cg_objective": 129.0,
+          "target_l1": 17,
+          "bits": [
+            31,
+            50,
+            110,
+            130,
+            157,
+            207,
+            283,
+            367,
+            404,
+            435
+          ],
+          "pair_ids": [
+            5,
+            14,
+            24,
+            49,
+            56
+          ],
+          "pair_sources": [
+            [
+              "target",
+              "hw"
+            ],
+            [
+              "target"
+            ],
+            [
+              "hw",
+              "cg"
+            ],
+            [
+              "cg"
+            ],
+            [
+              "repair"
+            ]
+          ]
+        },
+        "source_counts": {
+          "cg": 2,
+          "hw": 2,
+          "repair": 1,
+          "target": 2
+        },
+        "pair_details": [
+          {
+            "pair_id": 5,
+            "bit_indices": [
+              110,
+              404
+            ],
+            "selection_sources": [
+              "target",
+              "hw"
+            ],
+            "standalone_hw": 96,
+            "standalone_cg": 146.0,
+            "standalone_target_l1": 20,
+            "total_repair": 10,
+            "total_damage": 21,
+            "delta_lane_hw": [
+              6,
+              3,
+              4,
+              -3,
+              -3,
+              -2,
+              -2,
+              8
+            ]
+          },
+          {
+            "pair_id": 14,
+            "bit_indices": [
+              130,
+              157
+            ],
+            "selection_sources": [
+              "target"
+            ],
+            "standalone_hw": 103,
+            "standalone_cg": 155.0,
+            "standalone_target_l1": 21,
+            "total_repair": 5,
+            "total_damage": 23,
+            "delta_lane_hw": [
+              1,
+              5,
+              1,
+              4,
+              -2,
+              -3,
+              2,
+              10
+            ]
+          },
+          {
+            "pair_id": 24,
+            "bit_indices": [
+              50,
+              367
+            ],
+            "selection_sources": [
+              "hw",
+              "cg"
+            ],
+            "standalone_hw": 98,
+            "standalone_cg": 132.0,
+            "standalone_target_l1": 24,
+            "total_repair": 7,
+            "total_damage": 20,
+            "delta_lane_hw": [
+              0,
+              5,
+              0,
+              1,
+              -1,
+              3,
+              -6,
+              11
+            ]
+          },
+          {
+            "pair_id": 49,
+            "bit_indices": [
+              31,
+              435
+            ],
+            "selection_sources": [
+              "cg"
+            ],
+            "standalone_hw": 105,
+            "standalone_cg": 135.0,
+            "standalone_target_l1": 33,
+            "total_repair": 9,
+            "total_damage": 29,
+            "delta_lane_hw": [
+              14,
+              2,
+              -4,
+              -1,
+              4,
+              1,
+              -4,
+              8
+            ]
+          },
+          {
+            "pair_id": 56,
+            "bit_indices": [
+              207,
+              283
+            ],
+            "selection_sources": [
+              "repair"
+            ],
+            "standalone_hw": 109,
+            "standalone_cg": 163.0,
+            "standalone_target_l1": 37,
+            "total_repair": 11,
+            "total_damage": 35,
+            "delta_lane_hw": [
+              9,
+              8,
+              8,
+              -2,
+              -5,
+              3,
+              -4,
+              7
+            ]
+          }
+        ]
+      }
+    ],
+    "top_by_hw": [
+      {
+        "record": {
+          "hw_total": 82,
+          "net_delta": -3,
+          "lane_hw": [
+            9,
+            10,
+            11,
+            10,
+            10,
+            13,
+            13,
+            6
+          ],
+          "cg_objective": 130.0,
+          "target_l1": 24,
+          "bits": [
+            110,
+            116,
+            126,
+            188,
+            207,
+            283,
+            449,
+            464,
+            476,
+            486
+          ],
+          "pair_ids": [
+            34,
+            51,
+            56,
+            57,
+            80
+          ],
+          "pair_sources": [
+            [
+              "repair",
+              "cg"
+            ],
+            [
+              "repair_c"
+            ],
+            [
+              "repair"
+            ],
+            [
+              "repair"
+            ],
+            [
+              "repair_a"
+            ]
+          ]
+        },
+        "source_counts": {
+          "cg": 1,
+          "repair": 3,
+          "repair_a": 1,
+          "repair_c": 1
+        },
+        "pair_details": [
+          {
+            "pair_id": 34,
+            "bit_indices": [
+              126,
+              188
+            ],
+            "selection_sources": [
+              "repair",
+              "cg"
+            ],
+            "standalone_hw": 101,
+            "standalone_cg": 139.0,
+            "standalone_target_l1": 29,
+            "total_repair": 11,
+            "total_damage": 27,
+            "delta_lane_hw": [
+              -1,
+              7,
+              2,
+              4,
+              -4,
+              2,
+              -6,
+              12
+            ]
+          },
+          {
+            "pair_id": 51,
+            "bit_indices": [
+              464,
+              486
+            ],
+            "selection_sources": [
+              "repair_c"
+            ],
+            "standalone_hw": 109,
+            "standalone_cg": 149.0,
+            "standalone_target_l1": 35,
+            "total_repair": 5,
+            "total_damage": 29,
+            "delta_lane_hw": [
+              9,
+              6,
+              -5,
+              0,
+              1,
+              1,
+              2,
+              10
+            ]
+          },
+          {
+            "pair_id": 56,
+            "bit_indices": [
+              207,
+              283
+            ],
+            "selection_sources": [
+              "repair"
+            ],
+            "standalone_hw": 109,
+            "standalone_cg": 163.0,
+            "standalone_target_l1": 37,
+            "total_repair": 11,
+            "total_damage": 35,
+            "delta_lane_hw": [
+              9,
+              8,
+              8,
+              -2,
+              -5,
+              3,
+              -4,
+              7
+            ]
+          },
+          {
+            "pair_id": 57,
+            "bit_indices": [
+              110,
+              449
+            ],
+            "selection_sources": [
+              "repair"
+            ],
+            "standalone_hw": 104,
+            "standalone_cg": 166.0,
+            "standalone_target_l1": 38,
+            "total_repair": 11,
+            "total_damage": 30,
+            "delta_lane_hw": [
+              6,
+              3,
+              4,
+              -5,
+              -6,
+              6,
+              4,
+              7
+            ]
+          },
+          {
+            "pair_id": 80,
+            "bit_indices": [
+              116,
+              476
+            ],
+            "selection_sources": [
+              "repair_a"
+            ],
+            "standalone_hw": 126,
+            "standalone_cg": 206.0,
+            "standalone_target_l1": 56,
+            "total_repair": 5,
+            "total_damage": 46,
+            "delta_lane_hw": [
+              -5,
+              5,
+              11,
+              2,
+              2,
+              8,
+              6,
+              12
+            ]
+          }
+        ]
+      },
+      {
+        "record": {
+          "hw_total": 84,
+          "net_delta": -1,
+          "lane_hw": [
+            8,
+            11,
+            11,
+            10,
+            11,
+            9,
+            15,
+            9
+          ],
+          "cg_objective": 136.0,
+          "target_l1": 20,
+          "bits": [
+            0,
+            127,
+            187,
+            225,
+            326,
+            331,
+            356,
+            426,
+            440,
+            471
+          ],
+          "pair_ids": [
+            2,
+            18,
+            52,
+            68,
+            76
+          ],
+          "pair_sources": [
+            [
+              "target",
+              "cg"
+            ],
+            [
+              "target"
+            ],
+            [
+              "repair_e"
+            ],
+            [
+              "repair_c"
+            ],
+            [
+              "repair_b"
+            ]
+          ]
+        },
+        "source_counts": {
+          "cg": 1,
+          "repair_b": 1,
+          "repair_c": 1,
+          "repair_e": 1,
+          "target": 2
+        },
+        "pair_details": [
+          {
+            "pair_id": 2,
+            "bit_indices": [
+              187,
+              331
+            ],
+            "selection_sources": [
+              "target",
+              "cg"
+            ],
+            "standalone_hw": 101,
+            "standalone_cg": 141.0,
+            "standalone_target_l1": 19,
+            "total_repair": 5,
+            "total_damage": 21,
+            "delta_lane_hw": [
+              5,
+              3,
+              0,
+              1,
+              -2,
+              2,
+              -3,
+              10
+            ]
+          },
+          {
+            "pair_id": 18,
+            "bit_indices": [
+              127,
+              225
+            ],
+            "selection_sources": [
+              "target"
+            ],
+            "standalone_hw": 102,
+            "standalone_cg": 144.0,
+            "standalone_target_l1": 22,
+            "total_repair": 6,
+            "total_damage": 23,
+            "delta_lane_hw": [
+              7,
+              3,
+              1,
+              -2,
+              -1,
+              0,
+              -3,
+              12
+            ]
+          },
+          {
+            "pair_id": 52,
+            "bit_indices": [
+              440,
+              471
+            ],
+            "selection_sources": [
+              "repair_e"
+            ],
+            "standalone_hw": 109,
+            "standalone_cg": 171.0,
+            "standalone_target_l1": 35,
+            "total_repair": 8,
+            "total_damage": 32,
+            "delta_lane_hw": [
+              8,
+              1,
+              6,
+              3,
+              -8,
+              3,
+              2,
+              9
+            ]
+          },
+          {
+            "pair_id": 68,
+            "bit_indices": [
+              356,
+              426
+            ],
+            "selection_sources": [
+              "repair_c"
+            ],
+            "standalone_hw": 103,
+            "standalone_cg": 145.0,
+            "standalone_target_l1": 43,
+            "total_repair": 5,
+            "total_damage": 23,
+            "delta_lane_hw": [
+              9,
+              4,
+              -5,
+              2,
+              2,
+              1,
+              3,
+              2
+            ]
+          },
+          {
+            "pair_id": 76,
+            "bit_indices": [
+              0,
+              326
+            ],
+            "selection_sources": [
+              "repair_b"
+            ],
+            "standalone_hw": 117,
+            "standalone_cg": 185.0,
+            "standalone_target_l1": 53,
+            "total_repair": 5,
+            "total_damage": 37,
+            "delta_lane_hw": [
+              6,
+              -5,
+              7,
+              3,
+              5,
+              6,
+              4,
+              6
+            ]
+          }
+        ]
+      },
+      {
+        "record": {
+          "hw_total": 85,
+          "net_delta": 0,
+          "lane_hw": [
+            5,
+            14,
+            10,
+            10,
+            10,
+            8,
+            12,
+            16
+          ],
+          "cg_objective": 129.0,
+          "target_l1": 17,
+          "bits": [
+            31,
+            50,
+            110,
+            130,
+            157,
+            207,
+            283,
+            367,
+            404,
+            435
+          ],
+          "pair_ids": [
+            5,
+            14,
+            24,
+            49,
+            56
+          ],
+          "pair_sources": [
+            [
+              "target",
+              "hw"
+            ],
+            [
+              "target"
+            ],
+            [
+              "hw",
+              "cg"
+            ],
+            [
+              "cg"
+            ],
+            [
+              "repair"
+            ]
+          ]
+        },
+        "source_counts": {
+          "cg": 2,
+          "hw": 2,
+          "repair": 1,
+          "target": 2
+        },
+        "pair_details": [
+          {
+            "pair_id": 5,
+            "bit_indices": [
+              110,
+              404
+            ],
+            "selection_sources": [
+              "target",
+              "hw"
+            ],
+            "standalone_hw": 96,
+            "standalone_cg": 146.0,
+            "standalone_target_l1": 20,
+            "total_repair": 10,
+            "total_damage": 21,
+            "delta_lane_hw": [
+              6,
+              3,
+              4,
+              -3,
+              -3,
+              -2,
+              -2,
+              8
+            ]
+          },
+          {
+            "pair_id": 14,
+            "bit_indices": [
+              130,
+              157
+            ],
+            "selection_sources": [
+              "target"
+            ],
+            "standalone_hw": 103,
+            "standalone_cg": 155.0,
+            "standalone_target_l1": 21,
+            "total_repair": 5,
+            "total_damage": 23,
+            "delta_lane_hw": [
+              1,
+              5,
+              1,
+              4,
+              -2,
+              -3,
+              2,
+              10
+            ]
+          },
+          {
+            "pair_id": 24,
+            "bit_indices": [
+              50,
+              367
+            ],
+            "selection_sources": [
+              "hw",
+              "cg"
+            ],
+            "standalone_hw": 98,
+            "standalone_cg": 132.0,
+            "standalone_target_l1": 24,
+            "total_repair": 7,
+            "total_damage": 20,
+            "delta_lane_hw": [
+              0,
+              5,
+              0,
+              1,
+              -1,
+              3,
+              -6,
+              11
+            ]
+          },
+          {
+            "pair_id": 49,
+            "bit_indices": [
+              31,
+              435
+            ],
+            "selection_sources": [
+              "cg"
+            ],
+            "standalone_hw": 105,
+            "standalone_cg": 135.0,
+            "standalone_target_l1": 33,
+            "total_repair": 9,
+            "total_damage": 29,
+            "delta_lane_hw": [
+              14,
+              2,
+              -4,
+              -1,
+              4,
+              1,
+              -4,
+              8
+            ]
+          },
+          {
+            "pair_id": 56,
+            "bit_indices": [
+              207,
+              283
+            ],
+            "selection_sources": [
+              "repair"
+            ],
+            "standalone_hw": 109,
+            "standalone_cg": 163.0,
+            "standalone_target_l1": 37,
+            "total_repair": 11,
+            "total_damage": 35,
+            "delta_lane_hw": [
+              9,
+              8,
+              8,
+              -2,
+              -5,
+              3,
+              -4,
+              7
+            ]
+          }
+        ]
+      }
+    ],
+    "top_by_target_l1": [
+      {
+        "record": {
+          "hw_total": 87,
+          "net_delta": 2,
+          "lane_hw": [
+            12,
+            13,
+            7,
+            13,
+            10,
+            8,
+            11,
+            13
+          ],
+          "cg_objective": 123.0,
+          "target_l1": 11,
+          "bits": [
+            1,
+            13,
+            110,
+            117,
+            230,
+            243,
+            281,
+            449,
+            468,
+            475
+          ],
+          "pair_ids": [
+            6,
+            22,
+            57,
+            58,
+            59
+          ],
+          "pair_sources": [
+            [
+              "target",
+              "cg"
+            ],
+            [
+              "hw"
+            ],
+            [
+              "repair"
+            ],
+            [
+              "repair_e"
+            ],
+            [
+              "repair_a"
+            ]
+          ]
+        },
+        "source_counts": {
+          "cg": 1,
+          "hw": 1,
+          "repair": 1,
+          "repair_a": 1,
+          "repair_e": 1,
+          "target": 1
+        },
+        "pair_details": [
+          {
+            "pair_id": 6,
+            "bit_indices": [
+              281,
+              468
+            ],
+            "selection_sources": [
+              "target",
+              "cg"
+            ],
+            "standalone_hw": 98,
+            "standalone_cg": 140.0,
+            "standalone_target_l1": 20,
+            "total_repair": 5,
+            "total_damage": 18,
+            "delta_lane_hw": [
+              4,
+              4,
+              2,
+              0,
+              -1,
+              0,
+              -4,
+              8
+            ]
+          },
+          {
+            "pair_id": 22,
+            "bit_indices": [
+              1,
+              230
+            ],
+            "selection_sources": [
+              "hw"
+            ],
+            "standalone_hw": 96,
+            "standalone_cg": 148.0,
+            "standalone_target_l1": 24,
+            "total_repair": 7,
+            "total_damage": 18,
+            "delta_lane_hw": [
+              5,
+              -1,
+              1,
+              3,
+              -5,
+              -1,
+              2,
+              7
+            ]
+          },
+          {
+            "pair_id": 57,
+            "bit_indices": [
+              110,
+              449
+            ],
+            "selection_sources": [
+              "repair"
+            ],
+            "standalone_hw": 104,
+            "standalone_cg": 166.0,
+            "standalone_target_l1": 38,
+            "total_repair": 11,
+            "total_damage": 30,
+            "delta_lane_hw": [
+              6,
+              3,
+              4,
+              -5,
+              -6,
+              6,
+              4,
+              7
+            ]
+          },
+          {
+            "pair_id": 58,
+            "bit_indices": [
+              117,
+              243
+            ],
+            "selection_sources": [
+              "repair_e"
+            ],
+            "standalone_hw": 106,
+            "standalone_cg": 168.0,
+            "standalone_target_l1": 38,
+            "total_repair": 10,
+            "total_damage": 31,
+            "delta_lane_hw": [
+              5,
+              1,
+              6,
+              5,
+              -10,
+              4,
+              2,
+              8
+            ]
+          },
+          {
+            "pair_id": 59,
+            "bit_indices": [
+              13,
+              475
+            ],
+            "selection_sources": [
+              "repair_a"
+            ],
+            "standalone_hw": 103,
+            "standalone_cg": 165.0,
+            "standalone_target_l1": 39,
+            "total_repair": 5,
+            "total_damage": 23,
+            "delta_lane_hw": [
+              -4,
+              6,
+              8,
+              -1,
+              3,
+              1,
+              0,
+              5
+            ]
+          }
+        ]
+      },
+      {
+        "record": {
+          "hw_total": 93,
+          "net_delta": 8,
+          "lane_hw": [
+            11,
+            11,
+            11,
+            13,
+            11,
+            11,
+            10,
+            15
+          ],
+          "cg_objective": 135.0,
+          "target_l1": 11,
+          "bits": [
+            219,
+            310,
+            312,
+            375,
+            390,
+            464,
+            486,
+            497,
+            500,
+            510
+          ],
+          "pair_ids": [
+            0,
+            20,
+            46,
+            51,
+            71
+          ],
+          "pair_sources": [
+            [
+              "target",
+              "hw"
+            ],
+            [
+              "hw"
+            ],
+            [
+              "cg"
+            ],
+            [
+              "repair_c"
+            ],
+            [
+              "repair_b"
+            ]
+          ]
+        },
+        "source_counts": {
+          "cg": 1,
+          "hw": 2,
+          "repair_b": 1,
+          "repair_c": 1,
+          "target": 1
+        },
+        "pair_details": [
+          {
+            "pair_id": 0,
+            "bit_indices": [
+              310,
+              500
+            ],
+            "selection_sources": [
+              "target",
+              "hw"
+            ],
+            "standalone_hw": 96,
+            "standalone_cg": 142.0,
+            "standalone_target_l1": 16,
+            "total_repair": 7,
+            "total_damage": 18,
+            "delta_lane_hw": [
+              7,
+              1,
+              -1,
+              -1,
+              -5,
+              0,
+              1,
+              9
+            ]
+          },
+          {
+            "pair_id": 20,
+            "bit_indices": [
+              375,
+              510
+            ],
+            "selection_sources": [
+              "hw"
+            ],
+            "standalone_hw": 97,
+            "standalone_cg": 143.0,
+            "standalone_target_l1": 23,
+            "total_repair": 9,
+            "total_damage": 21,
+            "delta_lane_hw": [
+              1,
+              5,
+              4,
+              -4,
+              -1,
+              0,
+              -4,
+              11
+            ]
+          },
+          {
+            "pair_id": 46,
+            "bit_indices": [
+              312,
+              497
+            ],
+            "selection_sources": [
+              "cg"
+            ],
+            "standalone_hw": 106,
+            "standalone_cg": 140.0,
+            "standalone_target_l1": 32,
+            "total_repair": 8,
+            "total_damage": 29,
+            "delta_lane_hw": [
+              6,
+              4,
+              -3,
+              7,
+              5,
+              -2,
+              -3,
+              7
+            ]
+          },
+          {
+            "pair_id": 51,
+            "bit_indices": [
+              464,
+              486
+            ],
+            "selection_sources": [
+              "repair_c"
+            ],
+            "standalone_hw": 109,
+            "standalone_cg": 149.0,
+            "standalone_target_l1": 35,
+            "total_repair": 5,
+            "total_damage": 29,
+            "delta_lane_hw": [
+              9,
+              6,
+              -5,
+              0,
+              1,
+              1,
+              2,
+              10
+            ]
+          },
+          {
+            "pair_id": 71,
+            "bit_indices": [
+              219,
+              390
+            ],
+            "selection_sources": [
+              "repair_b"
+            ],
+            "standalone_hw": 114,
+            "standalone_cg": 182.0,
+            "standalone_target_l1": 44,
+            "total_repair": 5,
+            "total_damage": 34,
+            "delta_lane_hw": [
+              5,
+              -5,
+              8,
+              0,
+              2,
+              6,
+              3,
+              10
+            ]
+          }
+        ]
+      },
+      {
+        "record": {
+          "hw_total": 93,
+          "net_delta": 8,
+          "lane_hw": [
+            11,
+            12,
+            11,
+            12,
+            9,
+            9,
+            13,
+            16
+          ],
+          "cg_objective": 141.0,
+          "target_l1": 11,
+          "bits": [
+            31,
+            216,
+            258,
+            260,
+            298,
+            317,
+            405,
+            435,
+            471,
+            507
+          ],
+          "pair_ids": [
+            19,
+            42,
+            49,
+            60,
+            79
+          ],
+          "pair_sources": [
+            [
+              "target"
+            ],
+            [
+              "hw"
+            ],
+            [
+              "cg"
+            ],
+            [
+              "repair_b"
+            ],
+            [
+              "repair_a"
+            ]
+          ]
+        },
+        "source_counts": {
+          "cg": 1,
+          "hw": 1,
+          "repair_a": 1,
+          "repair_b": 1,
+          "target": 1
+        },
+        "pair_details": [
+          {
+            "pair_id": 19,
+            "bit_indices": [
+              298,
+              317
+            ],
+            "selection_sources": [
+              "target"
+            ],
+            "standalone_hw": 102,
+            "standalone_cg": 144.0,
+            "standalone_target_l1": 22,
+            "total_repair": 6,
+            "total_damage": 23,
+            "delta_lane_hw": [
+              4,
+              5,
+              2,
+              -1,
+              -1,
+              0,
+              -4,
+              12
+            ]
+          },
+          {
+            "pair_id": 42,
+            "bit_indices": [
+              405,
+              471
+            ],
+            "selection_sources": [
+              "hw"
+            ],
+            "standalone_hw": 97,
+            "standalone_cg": 151.0,
+            "standalone_target_l1": 31,
+            "total_repair": 7,
+            "total_damage": 19,
+            "delta_lane_hw": [
+              7,
+              -2,
+              2,
+              -3,
+              2,
+              -2,
+              2,
+              6
+            ]
+          },
+          {
+            "pair_id": 49,
+            "bit_indices": [
+              31,
+              435
+            ],
+            "selection_sources": [
+              "cg"
+            ],
+            "standalone_hw": 105,
+            "standalone_cg": 135.0,
+            "standalone_target_l1": 33,
+            "total_repair": 9,
+            "total_damage": 29,
+            "delta_lane_hw": [
+              14,
+              2,
+              -4,
+              -1,
+              4,
+              1,
+              -4,
+              8
+            ]
+          },
+          {
+            "pair_id": 60,
+            "bit_indices": [
+              258,
+              260
+            ],
+            "selection_sources": [
+              "repair_b"
+            ],
+            "standalone_hw": 107,
+            "standalone_cg": 169.0,
+            "standalone_target_l1": 39,
+            "total_repair": 6,
+            "total_damage": 28,
+            "delta_lane_hw": [
+              1,
+              -6,
+              3,
+              6,
+              2,
+              1,
+              5,
+              10
+            ]
+          },
+          {
+            "pair_id": 79,
+            "bit_indices": [
+              216,
+              507
+            ],
+            "selection_sources": [
+              "repair_a"
+            ],
+            "standalone_hw": 125,
+            "standalone_cg": 211.0,
+            "standalone_target_l1": 55,
+            "total_repair": 5,
+            "total_damage": 45,
+            "delta_lane_hw": [
+              -5,
+              9,
+              13,
+              0,
+              1,
+              3,
+              7,
+              12
+            ]
+          }
+        ]
+      }
+    ],
+    "top_by_cg": [
+      {
+        "record": {
+          "hw_total": 87,
+          "net_delta": 2,
+          "lane_hw": [
+            11,
+            11,
+            8,
+            15,
+            12,
+            13,
+            5,
+            12
+          ],
+          "cg_objective": 113.0,
+          "target_l1": 21,
+          "bits": [
+            38,
+            116,
+            126,
+            187,
+            188,
+            262,
+            298,
+            317,
+            331,
+            411
+          ],
+          "pair_ids": [
+            2,
+            19,
+            34,
+            35,
+            65
+          ],
+          "pair_sources": [
+            [
+              "target",
+              "cg"
+            ],
+            [
+              "target"
+            ],
+            [
+              "repair",
+              "cg"
+            ],
+            [
+              "repair_f"
+            ],
+            [
+              "repair",
+              "repair_e"
+            ]
+          ]
+        },
+        "source_counts": {
+          "cg": 2,
+          "repair": 2,
+          "repair_e": 1,
+          "repair_f": 1,
+          "target": 2
+        },
+        "pair_details": [
+          {
+            "pair_id": 2,
+            "bit_indices": [
+              187,
+              331
+            ],
+            "selection_sources": [
+              "target",
+              "cg"
+            ],
+            "standalone_hw": 101,
+            "standalone_cg": 141.0,
+            "standalone_target_l1": 19,
+            "total_repair": 5,
+            "total_damage": 21,
+            "delta_lane_hw": [
+              5,
+              3,
+              0,
+              1,
+              -2,
+              2,
+              -3,
+              10
+            ]
+          },
+          {
+            "pair_id": 19,
+            "bit_indices": [
+              298,
+              317
+            ],
+            "selection_sources": [
+              "target"
+            ],
+            "standalone_hw": 102,
+            "standalone_cg": 144.0,
+            "standalone_target_l1": 22,
+            "total_repair": 6,
+            "total_damage": 23,
+            "delta_lane_hw": [
+              4,
+              5,
+              2,
+              -1,
+              -1,
+              0,
+              -4,
+              12
+            ]
+          },
+          {
+            "pair_id": 34,
+            "bit_indices": [
+              126,
+              188
+            ],
+            "selection_sources": [
+              "repair",
+              "cg"
+            ],
+            "standalone_hw": 101,
+            "standalone_cg": 139.0,
+            "standalone_target_l1": 29,
+            "total_repair": 11,
+            "total_damage": 27,
+            "delta_lane_hw": [
+              -1,
+              7,
+              2,
+              4,
+              -4,
+              2,
+              -6,
+              12
+            ]
+          },
+          {
+            "pair_id": 35,
+            "bit_indices": [
+              262,
+              411
+            ],
+            "selection_sources": [
+              "repair_f"
+            ],
+            "standalone_hw": 103,
+            "standalone_cg": 151.0,
+            "standalone_target_l1": 29,
+            "total_repair": 9,
+            "total_damage": 27,
+            "delta_lane_hw": [
+              0,
+              6,
+              2,
+              5,
+              4,
+              -8,
+              -1,
+              10
+            ]
+          },
+          {
+            "pair_id": 65,
+            "bit_indices": [
+              38,
+              116
+            ],
+            "selection_sources": [
+              "repair",
+              "repair_e"
+            ],
+            "standalone_hw": 109,
+            "standalone_cg": 177.0,
+            "standalone_target_l1": 41,
+            "total_repair": 12,
+            "total_damage": 36,
+            "delta_lane_hw": [
+              5,
+              6,
+              10,
+              -4,
+              -8,
+              2,
+              1,
+              12
+            ]
+          }
+        ]
+      },
+      {
+        "record": {
+          "hw_total": 88,
+          "net_delta": 3,
+          "lane_hw": [
+            15,
+            15,
+            10,
+            9,
+            14,
+            13,
+            4,
+            8
+          ],
+          "cg_objective": 116.0,
+          "target_l1": 36,
+          "bits": [
+            61,
+            165,
+            187,
+            258,
+            260,
+            321,
+            331,
+            350,
+            398,
+            490
+          ],
+          "pair_ids": [
+            2,
+            4,
+            48,
+            55,
+            60
+          ],
+          "pair_sources": [
+            [
+              "target",
+              "cg"
+            ],
+            [
+              "target"
+            ],
+            [
+              "repair"
+            ],
+            [
+              "repair"
+            ],
+            [
+              "repair_b"
+            ]
+          ]
+        },
+        "source_counts": {
+          "cg": 1,
+          "repair": 2,
+          "repair_b": 1,
+          "target": 2
+        },
+        "pair_details": [
+          {
+            "pair_id": 2,
+            "bit_indices": [
+              187,
+              331
+            ],
+            "selection_sources": [
+              "target",
+              "cg"
+            ],
+            "standalone_hw": 101,
+            "standalone_cg": 141.0,
+            "standalone_target_l1": 19,
+            "total_repair": 5,
+            "total_damage": 21,
+            "delta_lane_hw": [
+              5,
+              3,
+              0,
+              1,
+              -2,
+              2,
+              -3,
+              10
+            ]
+          },
+          {
+            "pair_id": 4,
+            "bit_indices": [
+              350,
+              398
+            ],
+            "selection_sources": [
+              "target"
+            ],
+            "standalone_hw": 101,
+            "standalone_cg": 149.0,
+            "standalone_target_l1": 19,
+            "total_repair": 4,
+            "total_damage": 20,
+            "delta_lane_hw": [
+              3,
+              6,
+              2,
+              0,
+              -3,
+              0,
+              -1,
+              9
+            ]
+          },
+          {
+            "pair_id": 48,
+            "bit_indices": [
+              61,
+              165
+            ],
+            "selection_sources": [
+              "repair"
+            ],
+            "standalone_hw": 103,
+            "standalone_cg": 145.0,
+            "standalone_target_l1": 33,
+            "total_repair": 12,
+            "total_damage": 30,
+            "delta_lane_hw": [
+              8,
+              1,
+              2,
+              -6,
+              -2,
+              10,
+              -4,
+              9
+            ]
+          },
+          {
+            "pair_id": 55,
+            "bit_indices": [
+              321,
+              490
+            ],
+            "selection_sources": [
+              "repair"
+            ],
+            "standalone_hw": 109,
+            "standalone_cg": 149.0,
+            "standalone_target_l1": 37,
+            "total_repair": 11,
+            "total_damage": 35,
+            "delta_lane_hw": [
+              9,
+              8,
+              3,
+              -3,
+              5,
+              -2,
+              -6,
+              10
+            ]
+          },
+          {
+            "pair_id": 60,
+            "bit_indices": [
+              258,
+              260
+            ],
+            "selection_sources": [
+              "repair_b"
+            ],
+            "standalone_hw": 107,
+            "standalone_cg": 169.0,
+            "standalone_target_l1": 39,
+            "total_repair": 6,
+            "total_damage": 28,
+            "delta_lane_hw": [
+              1,
+              -6,
+              3,
+              6,
+              2,
+              1,
+              5,
+              10
+            ]
+          }
+        ]
+      },
+      {
+        "record": {
+          "hw_total": 97,
+          "net_delta": 12,
+          "lane_hw": [
+            13,
+            17,
+            4,
+            16,
+            14,
+            9,
+            6,
+            18
+          ],
+          "cg_objective": 117.0,
+          "target_l1": 33,
+          "bits": [
+            76,
+            127,
+            162,
+            164,
+            216,
+            225,
+            294,
+            371,
+            445,
+            507
+          ],
+          "pair_ids": [
+            18,
+            28,
+            39,
+            63,
+            79
+          ],
+          "pair_sources": [
+            [
+              "target"
+            ],
+            [
+              "repair"
+            ],
+            [
+              "cg"
+            ],
+            [
+              "repair_a"
+            ],
+            [
+              "repair_a"
+            ]
+          ]
+        },
+        "source_counts": {
+          "cg": 1,
+          "repair": 1,
+          "repair_a": 2,
+          "target": 1
+        },
+        "pair_details": [
+          {
+            "pair_id": 18,
+            "bit_indices": [
+              127,
+              225
+            ],
+            "selection_sources": [
+              "target"
+            ],
+            "standalone_hw": 102,
+            "standalone_cg": 144.0,
+            "standalone_target_l1": 22,
+            "total_repair": 6,
+            "total_damage": 23,
+            "delta_lane_hw": [
+              7,
+              3,
+              1,
+              -2,
+              -1,
+              0,
+              -3,
+              12
+            ]
+          },
+          {
+            "pair_id": 28,
+            "bit_indices": [
+              76,
+              445
+            ],
+            "selection_sources": [
+              "repair"
+            ],
+            "standalone_hw": 101,
+            "standalone_cg": 159.0,
+            "standalone_target_l1": 25,
+            "total_repair": 11,
+            "total_damage": 27,
+            "delta_lane_hw": [
+              8,
+              4,
+              1,
+              -4,
+              -3,
+              -4,
+              5,
+              9
+            ]
+          },
+          {
+            "pair_id": 39,
+            "bit_indices": [
+              162,
+              371
+            ],
+            "selection_sources": [
+              "cg"
+            ],
+            "standalone_hw": 102,
+            "standalone_cg": 132.0,
+            "standalone_target_l1": 30,
+            "total_repair": 10,
+            "total_damage": 27,
+            "delta_lane_hw": [
+              5,
+              6,
+              -2,
+              -2,
+              2,
+              4,
+              -6,
+              10
+            ]
+          },
+          {
+            "pair_id": 63,
+            "bit_indices": [
+              164,
+              294
+            ],
+            "selection_sources": [
+              "repair_a"
+            ],
+            "standalone_hw": 112,
+            "standalone_cg": 164.0,
+            "standalone_target_l1": 40,
+            "total_repair": 4,
+            "total_damage": 31,
+            "delta_lane_hw": [
+              -4,
+              4,
+              1,
+              5,
+              3,
+              2,
+              2,
+              14
+            ]
+          },
+          {
+            "pair_id": 79,
+            "bit_indices": [
+              216,
+              507
+            ],
+            "selection_sources": [
+              "repair_a"
+            ],
+            "standalone_hw": 125,
+            "standalone_cg": 211.0,
+            "standalone_target_l1": 55,
+            "total_repair": 5,
+            "total_damage": 45,
+            "delta_lane_hw": [
+              -5,
+              9,
+              13,
+              0,
+              1,
+              3,
+              7,
+              12
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
