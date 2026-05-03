@@ -90,6 +90,28 @@ recent_progress_2026-05-03_F547_pathC_absorber_expansion: |
     bit24 HW=86 (Mac F547)
     bit4  HW=89 (Mac F547)
 
+recent_progress_2026-05-03_F746_pathC_bit24_cg_hw85: |
+  yale-codex restarted Mac's F547 bit24 path-C HW86 absorber witness with the
+  same c/g objective that produced the bit13 F732 HW82 descent.
+
+  Setup:
+    candidate: bit24_mdc27e18c
+    parent: F547_pathC_rank1, pure-HW result 127 -> 86
+    objective: total_hw + 2*(c+g)
+    pair_rank=cg, pair_pool=1024, beam=1024, max_pairs=6, max_radius=12
+
+  Result:
+    HW86 -> HW85, 1 new record, depth 5, 677.49s wall.
+    Best-HW lane [9,10,10,13,13,12,13,5]
+    bits [12,66,78,97,108,305,328,343,434,463]
+
+  Interpretation:
+    c/g pressure is not bit13-specific. It opens a descent in a fresh path-C
+    bit24 basin, moving that candidate's absorber best to HW85. This does not
+    beat the global bit13 HW82 floor, but it strengthens the cross-candidate
+    absorber-family picture and makes bit3's F547 HW86 witness the next small
+    c/g restart target.
+
 
 recent_progress_2026-05-03_F544_F545_F546_cross_rounds: |
   macbook-claude tested yale F519 option 3 (cross-rounds polish).
