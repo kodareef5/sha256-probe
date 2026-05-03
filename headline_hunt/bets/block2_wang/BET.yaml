@@ -29,7 +29,30 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-03T17:45:00Z'
+last_heartbeat: '2026-05-03T18:10:00Z'
+recent_progress_2026-05-03_F547_pathC_absorber_expansion: |
+  macbook-claude expanded absorber framework beyond bit13 (yale's F518
+  was all bit13). Built absorber JSONL from Path C cert-pinned
+  residuals on bit3 (HW=36), bit24 (HW=40), bit4 (HW=36). M2=0 cold
+  start. Pair beam at 24 rounds, hw-rank.
+
+  Results (3 parallel runs, ~10 min wall):
+    bit3 HW=36 residual: init absorber HW=126 -> 86 (-40)
+    bit24 HW=40 residual: init absorber HW=127 -> 86 (-41)
+    bit4 HW=36 residual: init absorber HW=132 -> 89 (-43)
+
+  Two non-bit13 cands reach the same HW=86 absorber family floor as
+  bit13. Suggests HW=82-86 absorber floor is at least partially
+  cross-cand universal, not bit13-specific.
+
+  Absorber portfolio now spans: bit13 (yale F518 22 ranks),
+  bit3, bit24, bit4 (new). Best per cand:
+    bit13 HW=82 (yale F732)
+    bit3  HW=86 (Mac F547)
+    bit24 HW=86 (Mac F547)
+    bit4  HW=89 (Mac F547)
+
+
 recent_progress_2026-05-03_F544_F545_F546_cross_rounds: |
   macbook-claude tested yale F519 option 3 (cross-rounds polish).
 
