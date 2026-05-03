@@ -71,6 +71,28 @@ recent_progress_2026-05-03_F732_cg_objective_hw82: |
     standard objective. F732 shows that closure is objective-dependent: c/g
     ranking opens a short HW82 branch. New active floor: HW82.
 
+recent_progress_2026-05-03_F733_F735_hw82_closure_pass: |
+  yale-codex ran the first restart pass from the F732 HW82 witness, one heavy
+  job at a time.
+
+  Parent lane HW:
+    [10,11,9,12,9,7,10,14] = 82
+
+  Results:
+    F733 standard HW objective:       82 -> 82, 0 new records.
+    F734 c/g objective, weight 2:     82 -> 82, 0 new records.
+    F735 weighted c/g/h objective:    82 -> 82, 0 new records.
+
+  F735 did find a lower weighted-objective shape at HW86:
+    lane HW [11,9,8,11,13,11,13,10], depth 3,
+    bits [203,243,298,404,434,441].
+  This lowers the h lane but is not a floor improvement.
+
+  Interpretation:
+    HW82 survives the immediate radius-12 pair-beam restart pass under three
+    simple objectives. Not proof of closure, but the F732 descent does not
+    trivially continue from the same witness.
+
 recent_progress_2026-05-03_F538_F539_extended_sweep: |
   macbook-claude continued absorber sweep + HW=85 floor test.
 
