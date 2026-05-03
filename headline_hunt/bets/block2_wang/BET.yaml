@@ -29,7 +29,26 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-03T18:17:30Z'
+last_heartbeat: '2026-05-03T18:35:00Z'
+recent_progress_2026-05-03_F548_bit24_absorber_85: |
+  macbook-claude applied yale's cg-objective trick to bit3+bit24
+  HW=86 absorbers (F547).
+
+  bit3  HW=86 + cg-rank: stayed at 86 (no improvement)
+  bit24 HW=86 + cg-rank: HW=85 (-1, new record!)
+
+  Same descent pattern yale found on bit13 (HW=85 -> 85... no wait,
+  yale's was HW=85 -> 82). bit24 takes the first step.
+
+  Updated absorber portfolio:
+    bit13 HW=82 (yale F732)
+    bit24 HW=85 (Mac F548 NEW)
+    bit3  HW=86 (Mac F547, locally closed at radius 12 cg-rank)
+    bit4  HW=89 (Mac F547)
+
+  bit24 may be deepenable like bit13 (toward HW=82-84). F549
+  iterates from HW=85 with cg-rank.
+
 recent_progress_2026-05-03_F547_pathC_absorber_expansion: |
   macbook-claude expanded absorber framework beyond bit13 (yale's F518
   was all bit13). Built absorber JSONL from Path C cert-pinned
