@@ -29,7 +29,7 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-03T22:17:45Z'
+last_heartbeat: '2026-05-03T23:07:19Z'
 recent_progress_2026-05-03_F549_bit24_HW85_closed: |
   macbook-claude iter from bit24 HW=85 with cg-rank radius 12.
   Stayed at HW=85 (locally closed).
@@ -299,6 +299,34 @@ recent_progress_2026-05-03_F764_bit24_F763_HW82_pair_potential_top80: |
     54 target-improving pairs around F760; F764 has only 5 around F763. This
     top-80 atlas is now the right parent for a repair/cg-heavy sampled combo
     pass that keeps more ugly repair pairs and fewer target-only pairs.
+
+recent_progress_2026-05-03_F765_bit24_F763_HW82_repair_cg_sample20m_negative: |
+  yale-codex ran the widened repair/cg-heavy sampled combo around the F763
+  HW82 tie using the F764 top-80 atlas.
+
+  Setup:
+    selected pairs: 182
+    target pairs disabled
+    pair_count=5, radius=8..10
+    sampled combos: 20,000,000
+    evaluated final states: 19,872,172
+    wall 2890.51s
+
+  Result:
+    HW<82: 0
+    HW<=82: 0
+    c/g-improving combos: 0
+    target-L1-improving combos: 250
+    best raw HW: 86, target L1 18
+    best target: HW88, target L1 10
+
+  Interpretation:
+    This is a strong negative for blind widening around the F763 HW82 tie.
+    F763 found one HW82 tie in 18.47M exact combos from 76 selected pairs;
+    F765 found zero HW82 ties in 19.87M valid samples from 182 repair/cg-heavy
+    selected pairs. Next work should use the best target detour as a repair
+    seed or return to the original F760 HW82 point, not simply widen the same
+    F763 sampler again.
 
 recent_progress_2026-05-03_F747_pathC_bit4_cg_negative: |
   yale-codex restarted Mac's F547 bit4 path-C HW89 absorber witness with c/g
