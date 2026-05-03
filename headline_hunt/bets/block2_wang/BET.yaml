@@ -29,7 +29,7 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-03T19:56:23Z'
+last_heartbeat: '2026-05-03T20:10:04Z'
 recent_progress_2026-05-03_F549_bit24_HW85_closed: |
   macbook-claude iter from bit24 HW=85 with cg-rank radius 12.
   Stayed at HW=85 (locally closed).
@@ -147,6 +147,25 @@ recent_progress_2026-05-03_F757_bit24_reshaped_hw85_cg_negative: |
     pair-beam still cannot exploit it below HW85. Bit24's mapped floor remains
     HW85; the next variant should either continue target/repair composition or
     test a pure-HW restart from the reshaped seed.
+
+recent_progress_2026-05-03_F758_bit24_reshaped_hw85_hw_negative: |
+  yale-codex ran the pure-HW counterpart to F757 from the F756 reshaped bit24
+  HW85 witness.
+
+  Setup:
+    init lane [10,9,11,11,9,10,12,13], target L1 11
+    objective total HW
+    pair_pool=1024, beam=1024, max_pairs=6, max_radius=12
+
+  Result:
+    HW85 -> HW85, 0 new records, 709.27s wall.
+    Best-HW and best-objective state stayed the seed.
+    Beam got near at depth 3 and 5 (best_hw=86), but not below 85.
+
+  Interpretation:
+    The reshaped bit24 seed is closed under both c/g and pure-HW restarts.
+    Target/repair composition can move horizontally across the HW85 surface,
+    but standard pair-beam restart still cannot turn that into HW84.
 
 recent_progress_2026-05-03_F747_pathC_bit4_cg_negative: |
   yale-codex restarted Mac's F547 bit4 path-C HW89 absorber witness with c/g
