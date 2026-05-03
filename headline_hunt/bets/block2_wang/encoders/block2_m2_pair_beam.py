@@ -227,6 +227,7 @@ def main():
         "M2": tuple(base_M2),
     }
     beam = [initial]
+    best_objective_state = initial
     n_new_records = 0
     top_records = []
     seen_states = {frozenset(): True}
@@ -255,14 +256,17 @@ def main():
                 if key in seen_states:
                     continue
                 seen_states[key] = True
-                next_beam.append({
+                next_state = {
                     "bits": key,
                     "hw": hw,
                     "lane_hw": lane_hw,
                     "objective": state_objective,
                     "depth": depth,
                     "M2": tuple(new_M2),
-                })
+                }
+                next_beam.append(next_state)
+                if (state_objective, hw) < (best_objective_state["objective"], best_objective_state["hw"]):
+                    best_objective_state = next_state
                 if hw < init_hw:
                     n_new_records += 1
                     record = {
@@ -345,6 +349,12 @@ def main():
         "best_seen_lane_hw": best_seen_lane_hw,
         "best_seen_depth": best_seen_depth,
         "best_seen_source": best_seen_source,
+        "best_objective": round(best_objective_state["objective"], 6),
+        "best_objective_hw": best_objective_state["hw"],
+        "best_objective_lane_hw": best_objective_state["lane_hw"],
+        "best_objective_depth": best_objective_state["depth"],
+        "best_objective_bits": sorted(best_objective_state["bits"]),
+        "best_objective_M2": [f"0x{w:08x}" for w in best_objective_state["M2"]],
         "n_new_records": n_new_records,
         "top_records": top_records,
         "wall_seconds": round(wall, 2),

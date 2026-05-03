@@ -50,6 +50,27 @@ recent_progress_2026-05-03_F728_F731_parallel_verify_tooling: |
     - Added m2_pair_beam_atlas.py for artifact summaries/stale-summary flags.
     - Added m2_cross_round_pipe.py for staged 16 -> 20 -> 24 continuation.
 
+recent_progress_2026-05-03_F732_cg_objective_hw82: |
+  yale-codex ran a lane-targeted M2 pair beam from the rank2 HW85 witness.
+  This directly tested the F446/F519 recommendation that c/g pressure should
+  be a ranking signal, not just total HW.
+
+  Setup:
+    start: F536/F731 rank2 HW85 M2
+    objective: total_hw + 2 * (lane_c_hw + lane_g_hw)
+    pair_rank: cg
+    pair_pool=1024, beam=1024, max_pairs=6, max_radius=12, rounds=24
+
+  Result:
+    HW85 -> HW82 at depth 2 (4 M2 bits flipped)
+    lane HW: [10,11,9,12,9,7,10,14]
+    bits: 22, 99, 190, 430
+
+  Interpretation:
+    Mac's F539 pure-HW check showed the HW85 witness locally closed under the
+    standard objective. F732 shows that closure is objective-dependent: c/g
+    ranking opens a short HW82 branch. New active floor: HW82.
+
 recent_progress_2026-05-03_F538_F539_extended_sweep: |
   macbook-claude continued absorber sweep + HW=85 floor test.
 
