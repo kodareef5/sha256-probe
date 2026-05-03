@@ -29,7 +29,7 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-03T20:12:01Z'
+last_heartbeat: '2026-05-03T21:22:32Z'
 recent_progress_2026-05-03_F549_bit24_HW85_closed: |
   macbook-claude iter from bit24 HW=85 with cg-rank radius 12.
   Stayed at HW=85 (locally closed).
@@ -182,6 +182,28 @@ recent_progress_2026-05-03_F759_bit24_reshaped_pair_potential: |
     more locally rigid point. The original HW85 witness had 107 target-lane
     improving pairs; the reshaped HW85 witness has none. This explains why
     F757/F758 could not exploit it with standard pair-beam restarts.
+
+recent_progress_2026-05-03_F760_bit24_target_repair_HW82: |
+  yale-codex ran a deeper target/repair combo from the original bit24 HW85
+  witness using F750's pair-potential atlas.
+
+  Setup:
+    selected pairs: 83
+    pair_count=5, radius=8..10
+    evaluated 29,034,276 final states
+    wall 4102.83s
+
+  Result:
+    bit24 HW85 -> HW82, tying the global bit13 F732 floor.
+    Best lane [9,10,11,10,10,13,13,6]
+    bits [110,116,126,188,207,283,449,464,476,486]
+    pair sources repair/cg + repair_c + repair + repair + repair_a
+
+  Interpretation:
+    Target/repair composition is now validated as a real operator, not just
+    lane reshaping. Standard pair-beam variants closed bit24 at HW85; the
+    non-greedy final-state planner found the missing 5-pair composition to
+    HW82. Current global floor is tied by bit13 and bit24 at HW82.
 
 recent_progress_2026-05-03_F747_pathC_bit4_cg_negative: |
   yale-codex restarted Mac's F547 bit4 path-C HW89 absorber witness with c/g
