@@ -10,6 +10,7 @@ import argparse
 from itertools import combinations
 import json
 from pathlib import Path
+import random
 import sys
 import time
 
@@ -83,6 +84,13 @@ def main():
     ap.add_argument("--max-radius", type=int, default=8)
     ap.add_argument("--top-records", type=int, default=30)
     ap.add_argument("--cg-weight", type=float, default=2.0)
+    ap.add_argument(
+        "--sample-combos",
+        type=int,
+        default=0,
+        help="If nonzero, sample this many pair-index combinations instead of exact enumeration.",
+    )
+    ap.add_argument("--rng-seed", type=int, default=0)
     ap.add_argument("--out", required=True)
     ap.add_argument("--label", default="")
     args = ap.parse_args()
@@ -145,7 +153,19 @@ def main():
     top_by_cg = []
     top_records = []
 
-    for combo_ids in combinations(range(len(selected_pairs)), args.pair_count):
+    if args.sample_combos:
+        rng = random.Random(args.rng_seed)
+
+        def combo_iter():
+            for _ in range(args.sample_combos):
+                yield tuple(sorted(rng.sample(range(len(selected_pairs)), args.pair_count)))
+
+    else:
+
+        def combo_iter():
+            yield from combinations(range(len(selected_pairs)), args.pair_count)
+
+    for combo_ids in combo_iter():
         counts["candidate_combos"] += 1
         bits = tuple(sorted({b for idx in combo_ids for b in selected_pairs[idx]["bit_indices"]}))
         radius = len(bits)
@@ -214,6 +234,8 @@ def main():
             "pair_count": args.pair_count,
             "min_radius": args.min_radius,
             "max_radius": args.max_radius,
+            "sample_combos": args.sample_combos,
+            "rng_seed": args.rng_seed if args.sample_combos else None,
         },
         "counts": counts,
         "top_by_hw": top_by_hw,
