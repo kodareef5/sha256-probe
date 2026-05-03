@@ -30,6 +30,26 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
 last_heartbeat: '2026-05-03T00:30:00Z'
+recent_progress_2026-05-02_F725_F726_allword_atlas_control: |
+  yale-codex revisited the F312 atlas-loss "all active words" suggestion,
+  but kept the F322 retraction discipline explicit.
+
+  F725 drift-allowed all-word control:
+    - search_schedule_space.py, 8x50k, active_words=all.
+    - Best score 27.60 with a57=3, D61=10, chart=(dh,dCh).
+    - This is NOT cascade-1 valid because M2 can drift outside the fixed
+      kernel. Recorded only as a loss-landscape control.
+
+  F726 kernel-preserving all-word validation:
+    - search_kernel_preserving.py, same 8x50k budget, active_m1_words=all.
+    - M2 always derived as M1 ^ kernel; kernel words are M0/M9 bit31.
+    - Best score 40.40. Best a57=4 occurred outside the chamber chart
+      at D61=14; best chamber D61 stayed 8; 0 chamber hits.
+
+  Interpretation: all-word freedom can lower a57 in a true kernel-preserving
+  run, but not while staying in the chamber chart. No true cascade-1 atlas
+  improvement over F322's random kernel-preserving baseline.
+
 recent_progress_2026-05-02_F717_F724_novel_operator_pivot: |
   yale-codex pivoted away from selector-rank consumption and tested two
   different Path C coordinates.

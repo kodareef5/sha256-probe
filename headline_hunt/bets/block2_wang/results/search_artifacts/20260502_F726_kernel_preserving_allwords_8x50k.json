@@ -1,0 +1,478 @@
+{
+  "args": {
+    "init_json": "headline_hunt/bets/math_principles/results/20260429_F358_chamber_seed_freevar_opt_long.json",
+    "restarts": 8,
+    "iterations": 50000,
+    "active_m1_words": "all",
+    "seed": 2726,
+    "alpha": 4.0,
+    "beta": 1.0,
+    "gamma": 8.0,
+    "delta": 0.05,
+    "anneal_ceiling": 0.8,
+    "anneal_floor": 0.05,
+    "out": "headline_hunt/bets/block2_wang/results/search_artifacts/20260502_F726_kernel_preserving_allwords_8x50k.json"
+  },
+  "kernel_diff_words": [
+    0,
+    9
+  ],
+  "init_rec": {
+    "a57_xor_hw": 14,
+    "D61_hw": 15,
+    "chart_top2": [
+      "dSig1",
+      "dh"
+    ],
+    "tail63_state_diff_hw": 131
+  },
+  "active_m1_words": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+  ],
+  "wall_seconds": 141.50688338279724,
+  "restarts": [
+    {
+      "best_score": 42.9,
+      "best_rec": {
+        "a57_xor_hw": 6,
+        "D61_hw": 13,
+        "chart_top2": [
+          "dh",
+          "dCh"
+        ],
+        "tail63_state_diff_hw": 118
+      },
+      "best_M1": [
+        "0x076415b0",
+        "0xb5c5c503",
+        "0x77ab6af6",
+        "0xbd20402a",
+        "0xd455ca84",
+        "0x17601cc3",
+        "0x342bc379",
+        "0x5be66c71",
+        "0x97671495",
+        "0xb68535c9",
+        "0x93e3464f",
+        "0x6af31c7e",
+        "0x1538f037",
+        "0xbdac1f99",
+        "0xbaacaa93",
+        "0xc09f2033"
+      ],
+      "best_M2": [
+        "0x876415b0",
+        "0xb5c5c503",
+        "0x77ab6af6",
+        "0xbd20402a",
+        "0xd455ca84",
+        "0x17601cc3",
+        "0x342bc379",
+        "0x5be66c71",
+        "0x97671495",
+        "0x368535c9",
+        "0x93e3464f",
+        "0x6af31c7e",
+        "0x1538f037",
+        "0xbdac1f99",
+        "0xbaacaa93",
+        "0xc09f2033"
+      ],
+      "iterations": 50000,
+      "accepts": 1271,
+      "chart_matches": 532,
+      "chamber_hits": 0,
+      "restart": 0
+    },
+    {
+      "best_score": 44.75,
+      "best_rec": {
+        "a57_xor_hw": 4,
+        "D61_hw": 14,
+        "chart_top2": [
+          "dh",
+          "dSig1"
+        ],
+        "tail63_state_diff_hw": 135
+      },
+      "best_M1": [
+        "0xcda54c4e",
+        "0xf3bff31a",
+        "0x9d49c6ec",
+        "0x12816621",
+        "0x7e5f89b3",
+        "0x541db540",
+        "0x9b9fb723",
+        "0x3acd9dd4",
+        "0xa96fe276",
+        "0x3db704a6",
+        "0x64b02129",
+        "0x3aad355f",
+        "0x96eba2e9",
+        "0x0a7bd9c3",
+        "0x32c709da",
+        "0x35e1c8d5"
+      ],
+      "best_M2": [
+        "0x4da54c4e",
+        "0xf3bff31a",
+        "0x9d49c6ec",
+        "0x12816621",
+        "0x7e5f89b3",
+        "0x541db540",
+        "0x9b9fb723",
+        "0x3acd9dd4",
+        "0xa96fe276",
+        "0xbdb704a6",
+        "0x64b02129",
+        "0x3aad355f",
+        "0x96eba2e9",
+        "0x0a7bd9c3",
+        "0x32c709da",
+        "0x35e1c8d5"
+      ],
+      "iterations": 50000,
+      "accepts": 975,
+      "chart_matches": 447,
+      "chamber_hits": 0,
+      "restart": 1
+    },
+    {
+      "best_score": 43.05,
+      "best_rec": {
+        "a57_xor_hw": 7,
+        "D61_hw": 9,
+        "chart_top2": [
+          "dh",
+          "dCh"
+        ],
+        "tail63_state_diff_hw": 121
+      },
+      "best_M1": [
+        "0x5209648e",
+        "0x05b01edc",
+        "0x78869579",
+        "0xd726c980",
+        "0x9f68aaa4",
+        "0x9d59d00a",
+        "0x68cda28b",
+        "0xe5cb013e",
+        "0x2e9512af",
+        "0x2f480fcd",
+        "0x74cbe707",
+        "0x004391d3",
+        "0xc395b7b4",
+        "0x7bb359be",
+        "0xe40e7acd",
+        "0xd9b77cbb"
+      ],
+      "best_M2": [
+        "0xd209648e",
+        "0x05b01edc",
+        "0x78869579",
+        "0xd726c980",
+        "0x9f68aaa4",
+        "0x9d59d00a",
+        "0x68cda28b",
+        "0xe5cb013e",
+        "0x2e9512af",
+        "0xaf480fcd",
+        "0x74cbe707",
+        "0x004391d3",
+        "0xc395b7b4",
+        "0x7bb359be",
+        "0xe40e7acd",
+        "0xd9b77cbb"
+      ],
+      "iterations": 50000,
+      "accepts": 1254,
+      "chart_matches": 579,
+      "chamber_hits": 0,
+      "restart": 2
+    },
+    {
+      "best_score": 40.4,
+      "best_rec": {
+        "a57_xor_hw": 5,
+        "D61_hw": 14,
+        "chart_top2": [
+          "dCh",
+          "dh"
+        ],
+        "tail63_state_diff_hw": 128
+      },
+      "best_M1": [
+        "0xfa4df074",
+        "0x293c42ac",
+        "0x1d56c7f4",
+        "0x10a889ec",
+        "0xcb95d006",
+        "0x1e0fdad9",
+        "0x0bdb1a8f",
+        "0x04948052",
+        "0xe5a373fe",
+        "0xc28610b9",
+        "0xa4af34b2",
+        "0xe0c6beae",
+        "0xc2265bd3",
+        "0x7a7252bc",
+        "0x644acd67",
+        "0x645d7b88"
+      ],
+      "best_M2": [
+        "0x7a4df074",
+        "0x293c42ac",
+        "0x1d56c7f4",
+        "0x10a889ec",
+        "0xcb95d006",
+        "0x1e0fdad9",
+        "0x0bdb1a8f",
+        "0x04948052",
+        "0xe5a373fe",
+        "0x428610b9",
+        "0xa4af34b2",
+        "0xe0c6beae",
+        "0xc2265bd3",
+        "0x7a7252bc",
+        "0x644acd67",
+        "0x645d7b88"
+      ],
+      "iterations": 50000,
+      "accepts": 1241,
+      "chart_matches": 593,
+      "chamber_hits": 0,
+      "restart": 3
+    },
+    {
+      "best_score": 41.8,
+      "best_rec": {
+        "a57_xor_hw": 7,
+        "D61_hw": 8,
+        "chart_top2": [
+          "dCh",
+          "dh"
+        ],
+        "tail63_state_diff_hw": 116
+      },
+      "best_M1": [
+        "0x5e5d8aca",
+        "0x35e94d79",
+        "0xc34fe239",
+        "0xd343b728",
+        "0x35128567",
+        "0xf0f23358",
+        "0xdb8f52d6",
+        "0xa1a8e744",
+        "0x01fe0242",
+        "0x74e6eaf1",
+        "0x49a29ee0",
+        "0x5b017244",
+        "0xb1adac4d",
+        "0x1d8f2fcb",
+        "0x10c13393",
+        "0xad86f514"
+      ],
+      "best_M2": [
+        "0xde5d8aca",
+        "0x35e94d79",
+        "0xc34fe239",
+        "0xd343b728",
+        "0x35128567",
+        "0xf0f23358",
+        "0xdb8f52d6",
+        "0xa1a8e744",
+        "0x01fe0242",
+        "0xf4e6eaf1",
+        "0x49a29ee0",
+        "0x5b017244",
+        "0xb1adac4d",
+        "0x1d8f2fcb",
+        "0x10c13393",
+        "0xad86f514"
+      ],
+      "iterations": 50000,
+      "accepts": 1063,
+      "chart_matches": 418,
+      "chamber_hits": 0,
+      "restart": 4
+    },
+    {
+      "best_score": 45.0,
+      "best_rec": {
+        "a57_xor_hw": 7,
+        "D61_hw": 11,
+        "chart_top2": [
+          "dCh",
+          "dh"
+        ],
+        "tail63_state_diff_hw": 120
+      },
+      "best_M1": [
+        "0xbd904022",
+        "0xc59b5076",
+        "0xeacc414e",
+        "0x3f9d87df",
+        "0x4b1d6c07",
+        "0x4fbfb9e7",
+        "0x63941acf",
+        "0xa068fbe7",
+        "0x774ec74c",
+        "0x6bb3e31f",
+        "0x596d368d",
+        "0xbf955585",
+        "0xe6a26133",
+        "0xde90e973",
+        "0x9caa3e4b",
+        "0x4e5f6c57"
+      ],
+      "best_M2": [
+        "0x3d904022",
+        "0xc59b5076",
+        "0xeacc414e",
+        "0x3f9d87df",
+        "0x4b1d6c07",
+        "0x4fbfb9e7",
+        "0x63941acf",
+        "0xa068fbe7",
+        "0x774ec74c",
+        "0xebb3e31f",
+        "0x596d368d",
+        "0xbf955585",
+        "0xe6a26133",
+        "0xde90e973",
+        "0x9caa3e4b",
+        "0x4e5f6c57"
+      ],
+      "iterations": 50000,
+      "accepts": 1416,
+      "chart_matches": 590,
+      "chamber_hits": 0,
+      "restart": 5
+    },
+    {
+      "best_score": 41.95,
+      "best_rec": {
+        "a57_xor_hw": 6,
+        "D61_hw": 12,
+        "chart_top2": [
+          "dh",
+          "dCh"
+        ],
+        "tail63_state_diff_hw": 119
+      },
+      "best_M1": [
+        "0xc1410ba8",
+        "0xc5bb88ce",
+        "0xc1d003de",
+        "0x53c759b9",
+        "0x5b9eb052",
+        "0x2844a2ba",
+        "0xbbffe514",
+        "0xc73338cc",
+        "0xeb35e0f2",
+        "0x2820a525",
+        "0x585f7701",
+        "0x29d8db4b",
+        "0xf68bccb0",
+        "0x7dc3a61f",
+        "0x151319c2",
+        "0xddccb358"
+      ],
+      "best_M2": [
+        "0x41410ba8",
+        "0xc5bb88ce",
+        "0xc1d003de",
+        "0x53c759b9",
+        "0x5b9eb052",
+        "0x2844a2ba",
+        "0xbbffe514",
+        "0xc73338cc",
+        "0xeb35e0f2",
+        "0xa820a525",
+        "0x585f7701",
+        "0x29d8db4b",
+        "0xf68bccb0",
+        "0x7dc3a61f",
+        "0x151319c2",
+        "0xddccb358"
+      ],
+      "iterations": 50000,
+      "accepts": 1235,
+      "chart_matches": 559,
+      "chamber_hits": 0,
+      "restart": 6
+    },
+    {
+      "best_score": 47.0,
+      "best_rec": {
+        "a57_xor_hw": 7,
+        "D61_hw": 13,
+        "chart_top2": [
+          "dh",
+          "dCh"
+        ],
+        "tail63_state_diff_hw": 120
+      },
+      "best_M1": [
+        "0x80f31a10",
+        "0x97b8f946",
+        "0x0b714ef7",
+        "0x14cf2c7e",
+        "0x5b5a39d8",
+        "0x064e7b3e",
+        "0x0b1cf7bd",
+        "0x667f1435",
+        "0x07e91423",
+        "0x94752d52",
+        "0x313f9279",
+        "0x90645878",
+        "0x7d314cf5",
+        "0x966a4cdb",
+        "0x0d7950d6",
+        "0x2967a08e"
+      ],
+      "best_M2": [
+        "0x00f31a10",
+        "0x97b8f946",
+        "0x0b714ef7",
+        "0x14cf2c7e",
+        "0x5b5a39d8",
+        "0x064e7b3e",
+        "0x0b1cf7bd",
+        "0x667f1435",
+        "0x07e91423",
+        "0x14752d52",
+        "0x313f9279",
+        "0x90645878",
+        "0x7d314cf5",
+        "0x966a4cdb",
+        "0x0d7950d6",
+        "0x2967a08e"
+      ],
+      "iterations": 50000,
+      "accepts": 1320,
+      "chart_matches": 602,
+      "chamber_hits": 0,
+      "restart": 7
+    }
+  ],
+  "best_overall_score": 40.4,
+  "best_overall_a57": 4,
+  "best_overall_D61": 8,
+  "any_chamber_hit": false
+}
