@@ -29,7 +29,7 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-03T18:50:00Z'
+last_heartbeat: '2026-05-03T19:21:04Z'
 recent_progress_2026-05-03_F549_bit24_HW85_closed: |
   macbook-claude iter from bit24 HW=85 with cg-rank radius 12.
   Stayed at HW=85 (locally closed).
@@ -47,6 +47,27 @@ recent_progress_2026-05-03_F549_bit24_HW85_closed: |
   M2 pair-beam pipeline now broadly mapped across cands and
   parameters. Further descent below HW=82 likely needs new attack
   class (not pair-beam variants).
+
+recent_progress_2026-05-03_F748_bit24_HW85_wider_cg_closed: |
+  yale-codex reran bit24's HW85 c/g restart at wider F541/F744 scale.
+
+  Setup:
+    candidate: bit24_mdc27e18c
+    init: F746/F548 HW85 witness
+    objective: total_hw + 2*(c+g)
+    pair_rank=cg, pair_pool=2048, beam=1024, max_pairs=8, max_radius=16
+
+  Result:
+    HW85 -> HW85, 0 new records, 1904.56s wall.
+    Best-HW state stayed the seed: lane [9,10,10,13,13,12,13,5]
+    Best c/g-objective state moved to HW93:
+      objective 121, lane [15,12,7,12,10,15,7,15]
+      bits [69,70,171,321,365,387,418,434]
+
+  Interpretation:
+    Bit24's c/g descent stops at HW85 under both radius 12 and radius 16.
+    This makes bit24 the second-deepest mapped candidate after bit13, but not
+    a current route toward the global HW82 floor.
 
 recent_progress_2026-05-03_F747_pathC_bit4_cg_negative: |
   yale-codex restarted Mac's F547 bit4 path-C HW89 absorber witness with c/g
