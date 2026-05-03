@@ -29,7 +29,7 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-03T22:16:06Z'
+last_heartbeat: '2026-05-03T22:17:45Z'
 recent_progress_2026-05-03_F549_bit24_HW85_closed: |
   macbook-claude iter from bit24 HW=85 with cg-rank radius 12.
   Stayed at HW=85 (locally closed).
@@ -277,6 +277,28 @@ recent_progress_2026-05-03_F763_bit24_HW82_combo5_horizontal: |
     lesson: the HW82 combo used only repair/per-register repair pairs, with
     standalone pair HWs as bad as 126. Next work should prioritize wide
     repair/cg sampled composition over target-only lane copying.
+
+recent_progress_2026-05-03_F764_bit24_F763_HW82_pair_potential_top80: |
+  yale-codex mapped the F763 HW82 tie with a wider top-80 pair-potential atlas.
+
+  Setup:
+    init lane [7,10,12,16,11,7,8,11]
+    target lane bit13 HW82 [10,11,9,12,9,7,10,14]
+    init target L1 18
+    init c/g objective 122
+
+  Result over all 130,816 two-bit M2 flips:
+    HW<82 pairs: 0
+    HW<=82 pairs: 0
+    c/g-improving pairs: 0
+    target-L1-improving pairs: 5
+    best raw-HW/cg pair: HW89, c/g 131, target L1 17
+
+  Interpretation:
+    The F763 tie is locally tighter than the first F760 HW82 point. F761 had
+    54 target-improving pairs around F760; F764 has only 5 around F763. This
+    top-80 atlas is now the right parent for a repair/cg-heavy sampled combo
+    pass that keeps more ugly repair pairs and fewer target-only pairs.
 
 recent_progress_2026-05-03_F747_pathC_bit4_cg_negative: |
   yale-codex restarted Mac's F547 bit4 path-C HW89 absorber witness with c/g
