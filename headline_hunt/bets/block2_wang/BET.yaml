@@ -29,7 +29,31 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-03T01:05:00Z'
+last_heartbeat: '2026-05-03T01:35:00Z'
+recent_progress_2026-05-03_F536_F537_m2_extended: |
+  macbook-claude extended absorber program: F536 tested HW=86 floor +
+  F537 swept ranks 5-10. 8 parallel pair-beams in ~20 min wall.
+
+  F536: HW=86 NOT the floor.
+    rank 2 HW=86 W has sub-86 neighbor: HW=85 at depth 4 (8 M2 bits).
+    rank 0 HW=86 W is locally closed (0 new records).
+    Different basin geometry across the two HW=86 records.
+
+  F537: 6/6 ranks 5-10 broke through:
+    rank 5  96->88   rank 6  96->89   rank 7  98->86
+    rank 8 100->88   rank 9 101->87   rank 10 101->89
+
+  Cumulative absorber sweep (11/22 F518 ranks tested, 11/11 break):
+    rank   0  1  2  3  4  5  6  7  8  9 10
+    init  91 93 94 95 96 96 96 98 100 101 101
+    best  86 88 85 89 87 88 89 86  88  87  89
+    delta -5 -5 -9 -6 -9 -8 -7 -12 -12 -14 -12
+  Avg drop -9.7 HW per seed. Best absolute: HW=85 (rank 2 iter2).
+
+  Yale F519 single-bit floor of HW=91 broken on every tested seed.
+  Pair beam diagnosis validated.
+
+
 recent_progress_2026-05-03_F535_m2_pair_beam_multirank: |
   macbook-claude extended F534 to F518 ranks 1-4 in parallel.
   4 parallel pair-beams (~12 min wall, 2 retries needed for output bug).
