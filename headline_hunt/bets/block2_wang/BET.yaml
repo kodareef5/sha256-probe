@@ -29,7 +29,7 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-03T19:29:27Z'
+last_heartbeat: '2026-05-03T19:42:10Z'
 recent_progress_2026-05-03_F549_bit24_HW85_closed: |
   macbook-claude iter from bit24 HW=85 with cg-rank radius 12.
   Stayed at HW=85 (locally closed).
@@ -106,6 +106,26 @@ recent_progress_2026-05-03_F750_F754_m2_pair_potential_atlas: |
     should be a constrained multi-pair planner that accepts target-lane damage
     first and composes compensating repairs, rather than another greedy
     pair-beam objective variant.
+
+recent_progress_2026-05-03_F755_F756_bit24_target_repair_combo: |
+  yale-codex added m2_target_pair_combo.py, a non-greedy combo pilot that
+  selects target-lane and repair pairs from F750's bit24 pair-potential atlas
+  and evaluates fixed-size combinations by final state.
+
+  Results:
+    F755, 3 pairs: 192,917 combos, no HW<=85, best HW88 / target L1 16.
+    F756, 4 pairs: 3,464,651 combos, one HW85 state, target L1 11.
+
+  F756 reshaped bit24 while preserving total HW:
+    old bit24 HW85 lane: [9,10,10,13,13,12,13,5], target L1 25
+    new bit24 HW85 lane: [10,9,11,11,9,10,12,13], target L1 11
+    bits [12,23,216,356,426,440,471,507]
+
+  Interpretation:
+    The target/repair planner did not beat HW85, but it validated the
+    pair-potential idea: accept lane-signature moves with temporary HW damage,
+    then compose repairs. The next test is a standard M2 pair-beam restart
+    from this reshaped HW85 witness.
 
 recent_progress_2026-05-03_F747_pathC_bit4_cg_negative: |
   yale-codex restarted Mac's F547 bit4 path-C HW89 absorber witness with c/g
