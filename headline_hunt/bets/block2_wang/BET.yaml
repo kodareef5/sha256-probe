@@ -29,7 +29,29 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-03T02:30:00Z'
+last_heartbeat: '2026-05-03T03:15:00Z'
+recent_progress_2026-05-03_F542_F543_cg_floors_confirmed: |
+  macbook-claude tested cg-objective on remaining open records.
+
+  F542: rank 18 HW=83 + cg-rank radius 12. HW=83 unchanged.
+  F543: HW=82 + cg-rank + WIDER radius (max_pairs=8, max_radius=16,
+        pool=2048). HW=82 unchanged.
+
+  Combined HW=82 closure (4 attempts):
+    yale F733: total HW rank, radius 12 -> 0
+    yale F734: HW + 2*(c+g) rank, radius 12 -> 0
+    yale F735: weighted lanes, radius 12 -> 0
+    mac F543:  HW + 2*(c+g) rank, radius 16 -> 0
+  HW=82 robustly closed.
+
+  Final corpus state (22/22 ranks):
+    HW=82: rank 2 (deepest, yale F732)
+    HW=83: rank 18 (Mac F540)
+    HW=86: 4 ranks   HW=87: 4   HW=88: 7   HW=89: 5   HW=90: 1
+
+  Further descent needs cross-rounds operator (F519 option 3) or
+  different attack class.
+
 recent_progress_2026-05-03_F540_F541_full_sweep: |
   macbook-claude completed F518 corpus sweep + tested HW=82 wider radius.
 

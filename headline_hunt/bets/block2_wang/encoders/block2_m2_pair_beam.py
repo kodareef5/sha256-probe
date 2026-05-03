@@ -63,6 +63,14 @@ def apply_round(state, w, r):
     return (a, state[0], state[1], state[2], e, state[4], state[5], state[6])
 
 
+def cg_objective(diff, penalty_weight=2.0):
+    """HW + penalty_weight * (lane_c_hw + lane_g_hw). Lower is better."""
+    hw_total = sum(bin(d).count("1") for d in diff)
+    lane_c = bin(diff[2]).count("1")
+    lane_g = bin(diff[6]).count("1")
+    return hw_total + penalty_weight * (lane_c + lane_g)
+
+
 def eval_m2(iv1, iv2, m1_W, m2, rounds):
     """Evaluate HW(state1, state2) after `rounds` rounds.
     m1_W is precomputed schedule for M1 (zero); m2 is the M2 vector (16 words)."""
