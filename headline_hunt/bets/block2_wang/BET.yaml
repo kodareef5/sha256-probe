@@ -29,7 +29,35 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-03T01:35:00Z'
+last_heartbeat: '2026-05-03T02:00:00Z'
+recent_progress_2026-05-03_F538_F539_extended_sweep: |
+  macbook-claude continued absorber sweep + HW=85 floor test.
+
+  F538 ranks 11-15 (high-HW init from cross-round seeds):
+    rank 11: 128 -> 89 (-39)
+    rank 12: 147 -> 87 (-60)  *** biggest single-seed drop ***
+    rank 13: 115 -> 88 (-27)
+    rank 14: 124 -> 86 (-38, joins HW=86 cluster)
+    rank 15: 128 -> 88 (-40)
+  All 5 broke through, average -40 HW (massive -- these were
+  20-round seeds being lifted to 24 rounds, much higher init).
+
+  F539: rank 2 HW=85 W iterated -- HW=85 locally closed at radius 12.
+
+  Cumulative absorber sweep (16/22 F518 ranks tested, ALL break HW=91):
+    HW=85: rank 2 (deepest)
+    HW=86: ranks 0, 2 (init), 7, 14 (4 ranks tied)
+    HW=87: ranks 4, 9, 12
+    HW=88: ranks 1, 5, 8, 13, 15
+    HW=89: ranks 3, 6, 10, 11
+
+  Average drop across 16 seeds: -16 HW per seed (boosted by F538's
+  high-HW init seeds). Multi-bit M2 pair beam handles all init regimes.
+
+  Yale F519 single-bit floor of HW=91 broken on EVERY tested seed.
+  Pair beam diagnosis fully validated.
+
+
 recent_progress_2026-05-03_F536_F537_m2_extended: |
   macbook-claude extended absorber program: F536 tested HW=86 floor +
   F537 swept ranks 5-10. 8 parallel pair-beams in ~20 min wall.
