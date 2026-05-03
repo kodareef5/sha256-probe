@@ -91,6 +91,7 @@ def main():
         help="If nonzero, sample this many pair-index combinations instead of exact enumeration.",
     )
     ap.add_argument("--rng-seed", type=int, default=0)
+    ap.add_argument("--progress-every", type=int, default=0)
     ap.add_argument("--out", required=True)
     ap.add_argument("--label", default="")
     args = ap.parse_args()
@@ -167,6 +168,15 @@ def main():
 
     for combo_ids in combo_iter():
         counts["candidate_combos"] += 1
+        if args.progress_every and counts["candidate_combos"] % args.progress_every == 0:
+            elapsed = time.time() - t0
+            print(
+                f"  progress combos={counts['candidate_combos']} "
+                f"evaluated={counts['evaluated']} hw<init={counts['hw_lt_init']} "
+                f"hw<=init={counts['hw_le_init']} target<init={counts['target_l1_lt_init']} "
+                f"elapsed={elapsed:.1f}s",
+                flush=True,
+            )
         bits = tuple(sorted({b for idx in combo_ids for b in selected_pairs[idx]["bit_indices"]}))
         radius = len(bits)
         if radius < args.min_radius or radius > args.max_radius:
