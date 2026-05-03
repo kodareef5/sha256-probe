@@ -29,7 +29,7 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-03T21:25:55Z'
+last_heartbeat: '2026-05-03T21:30:24Z'
 recent_progress_2026-05-03_F549_bit24_HW85_closed: |
   macbook-claude iter from bit24 HW=85 with cg-rank radius 12.
   Stayed at HW=85 (locally closed).
@@ -228,6 +228,29 @@ recent_progress_2026-05-03_F761_bit24_HW82_pair_potential_closed: |
     bit13 HW82 closure pattern. It still has expensive lane-signature moves, so
     the only plausible continuation is another constrained multi-pair
     target/repair composition, not a greedy local restart.
+
+recent_progress_2026-05-03_F762_bit24_HW82_target_repair_combo4_negative: |
+  yale-codex ran a constrained 4-pair target/repair combo from F760's bit24
+  HW82 witness using the F761 pair-potential atlas.
+
+  Setup:
+    selected pairs: 76
+    pair_count=4, radius=6..8
+    evaluated 1,282,974 final states
+
+  Result:
+    HW<82: 0
+    HW<=82: 0
+    c/g-improving combos: 6
+    target-L1-improving combos: 658
+    best raw HW: 88, target L1 22
+    best target: HW91, target L1 13
+    best c/g: HW94, c/g objective 122 (delta -8)
+
+  Interpretation:
+    The 4-pair neighborhood is closed below/equal to HW82, but the target and
+    c/g signals remain. The next bounded test is the corresponding 5-pair
+    final-state composition with radius 8..10.
 
 recent_progress_2026-05-03_F747_pathC_bit4_cg_negative: |
   yale-codex restarted Mac's F547 bit4 path-C HW89 absorber witness with c/g
