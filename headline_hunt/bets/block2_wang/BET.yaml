@@ -29,7 +29,36 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-03T02:00:00Z'
+last_heartbeat: '2026-05-03T02:30:00Z'
+recent_progress_2026-05-03_F540_F541_full_sweep: |
+  macbook-claude completed F518 corpus sweep + tested HW=82 wider radius.
+
+  F540 ranks 16-21 (cross-round seeds, high init):
+    rank 16: 142 -> 87 (-55)
+    rank 17: 125 -> 90 (-35)
+    rank 18: 128 -> 83 (-45)  *** new second-deepest ***
+    rank 19: 123 -> 88 (-35)
+    rank 20: 116 -> 89 (-27)
+    rank 21: 133 -> 88 (-45)
+  All 6 broke through, average -40 HW.
+
+  F541 HW=82 wider radius (max_pairs=8, max_radius=16, pool=2048):
+    HW=82 unchanged. Yale's HW=82 confirmed locally closed even at
+    substantially wider search radius. 2447s wall.
+
+  Full F518 corpus sweep (22/22 ranks, ALL break HW=91):
+    HW=82: yale F732 (rank 2 cg-objective)
+    HW=83: rank 18 (Mac F540)
+    HW=86: ranks 0, 2, 7, 14
+    HW=87: ranks 4, 9, 12, 16
+    HW=88: ranks 1, 5, 8, 13, 15, 19, 21
+    HW=89: ranks 3, 6, 10, 11, 20
+    HW=90: rank 17
+
+  Yale HW=82 deepest; Mac HW=83 second.
+  HW=82 robust under hw-rank at wider radius; further descent likely
+  needs cg-objective at wider radius, or new operator class.
+
 recent_progress_2026-05-03_F728_F731_parallel_verify_tooling: |
   yale-codex pulled Mac's F535/F536-F539 M2 pair-beam notes, then ran
   parallel verification on seed indices 5, 10, 14 and the rank2 HW86 restart.
