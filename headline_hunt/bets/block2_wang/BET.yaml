@@ -30,6 +30,26 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
 last_heartbeat: '2026-05-03T02:00:00Z'
+recent_progress_2026-05-03_F728_F731_parallel_verify_tooling: |
+  yale-codex pulled Mac's F535/F536-F539 M2 pair-beam notes, then ran
+  parallel verification on seed indices 5, 10, 14 and the rank2 HW86 restart.
+
+  Local artifacts reproduce the shared results with patched metadata:
+    rank 5:   96 -> 88
+    rank 10: 101 -> 89
+    rank 14: 124 -> 86
+    rank2 HW86 restart: 86 -> 85, same F536 witness
+
+  Tooling hardened for future runs:
+    - block2_m2_pair_beam.py now supports --init-M2/--init-hw restarts.
+    - Added objective modes: hw, cg, weighted lane HW.
+    - Fixed stale best_seen_hw summaries when earlier-depth top records fall
+      out of the final beam.
+    - Retains only top records while counting all improvements, avoiding
+      million-record memory growth on high-HW transfer seeds.
+    - Added m2_pair_beam_atlas.py for artifact summaries/stale-summary flags.
+    - Added m2_cross_round_pipe.py for staged 16 -> 20 -> 24 continuation.
+
 recent_progress_2026-05-03_F538_F539_extended_sweep: |
   macbook-claude continued absorber sweep + HW=85 floor test.
 
