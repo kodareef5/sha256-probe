@@ -29,7 +29,7 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-03T18:10:00Z'
+last_heartbeat: '2026-05-03T18:17:30Z'
 recent_progress_2026-05-03_F547_pathC_absorber_expansion: |
   macbook-claude expanded absorber framework beyond bit13 (yale's F518
   was all bit13). Built absorber JSONL from Path C cert-pinned
@@ -273,6 +273,29 @@ recent_progress_2026-05-03_F744_hw82_wider_cg_negative: |
     within the basin, but the best objective trade returns to HW85. The next
     local closure test is wider weighted-lane search, because F735 found a
     lower weighted-lane shape at HW86.
+
+recent_progress_2026-05-03_F745_hw82_wider_weighted_negative: |
+  yale-codex ran the wider weighted-lane counterpart to F735.
+
+  Setup:
+    init: F732 HW82 M2
+    objective: weighted lanes [1,1,2,1,1,1,2,3]
+    pair_rank=weighted, pair_pool=2048, beam=1024, max_pairs=8, max_radius=16
+
+  Result:
+    HW82 -> HW82, 0 new records, 1922.38s wall.
+    Best-HW state stayed the seed.
+    Best weighted-objective state:
+      objective 124, HW94, depth 7
+      lane [14,14,13,14,12,14,9,4]
+      bits [34,41,94,98,110,114,188,275,325,356,362,392,446,471]
+
+  Interpretation:
+    The wider weighted objective improves on F735's objective 127, but only by
+    pushing total HW up to 94 and collapsing the h lane. HW82 is now closed
+    under the simple local pair-beam objective family at radius 12 and 16:
+    pure HW, c/g, and weighted c/g/h. Further descent likely needs a different
+    operator class or a restart away from the HW82 local basin.
 
 recent_progress_2026-05-03_F538_F539_extended_sweep: |
   macbook-claude continued absorber sweep + HW=85 floor test.
