@@ -48,6 +48,29 @@ recent_progress_2026-05-03_F549_bit24_HW85_closed: |
   parameters. Further descent below HW=82 likely needs new attack
   class (not pair-beam variants).
 
+recent_progress_2026-05-03_F747_pathC_bit4_cg_negative: |
+  yale-codex restarted Mac's F547 bit4 path-C HW89 absorber witness with c/g
+  ranking.
+
+  Setup:
+    candidate: bit4_m39a03c2d
+    parent: F547_pathC_rank2, pure-HW result 132 -> 89
+    objective: total_hw + 2*(c+g)
+    pair_rank=cg, pair_pool=1024, beam=1024, max_pairs=6, max_radius=12
+
+  Result:
+    HW89 -> HW89, 0 new records, 689.02s wall.
+    Best-HW state stayed the seed: lane [14,11,9,10,13,9,9,14]
+    Best c/g-objective state moved to HW91:
+      objective 123, lane [14,10,4,16,13,10,12,12]
+      bits [1,10,32,42,79,87,91,95,173,306]
+
+  Interpretation:
+    First-pass path-C c/g map is complete: bit24 descends 86 -> 85, bit3
+    closes at 86, bit4 closes at 89. The absorber floor is cross-candidate
+    reusable but not universal; per-candidate block-1 geometry still controls
+    how deep the M2 pair-beam/cg operator can go.
+
 
 recent_progress_2026-05-03_F548_bit24_absorber_85: |
   macbook-claude applied yale's cg-objective trick to bit3+bit24
