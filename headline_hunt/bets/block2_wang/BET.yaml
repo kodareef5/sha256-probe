@@ -29,6 +29,7 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
+<<<<<<< HEAD
 last_heartbeat: '2026-05-02T23:57:56Z'
 recent_progress_2026-05-02_F717_F724_novel_operator_pivot: |
   yale-codex pivoted away from selector-rank consumption and tested two
@@ -304,6 +305,31 @@ recent_progress_2026-05-02_F653_F672_bit28_hw39_tail_followup: |
     39: bit2 bit12 bit26 bit28
     40: bit24
     42: bit6
+
+recent_progress_2026-05-03_F534_m2_pair_beam_breakthrough: |
+  macbook-claude PIVOTED from Path C to Yale's absorber/M2 program
+  (Path C plateaued; F519 had explicit recommendation).
+  Implemented yale F519's recommended next operator: multi-bit M2
+  pair beam (analogous to W57..W60 pair beam, on M2's 16x32=512-bit
+  space).
+
+  Tool: encoders/block2_m2_pair_beam.py. Init eval bit-equivalent with
+  Yale's C absorber_probe (rank 0 init HW=91 matches lane-by-lane).
+
+  Run on rank 0 (Yale's best, bit13 absorber_best_hw=91):
+    - pair pool 1024, beam 1024, max_pairs 6, max_radius 12, rounds 24
+    - 634s wall
+
+  RESULT: descended HW 91 -> 86 at depth 6 (12 M2 bit flips).
+  5 new records below the single-bit-stuck HW=91 ceiling.
+
+  Yale F519 said multi-bit pair beam was the right operator. Confirmed
+  empirically. First sub-91 24-round absorber on the F518 corpus.
+
+  HW=86 M2 witness saved in F534 search artifact JSON.
+
+  Next: F535 parallel multi-rank to map breadth (other absorber seeds
+  may also descend below 91 via pair-beam).
 
 recent_progress_2026-05-02_F533_bit2_wider_negative: |
   macbook-claude wider-param pair-beam on bit2 (HW=39 since F520).
