@@ -29,7 +29,25 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-03T00:30:00Z'
+last_heartbeat: '2026-05-03T01:05:00Z'
+recent_progress_2026-05-03_F535_m2_pair_beam_multirank: |
+  macbook-claude extended F534 to F518 ranks 1-4 in parallel.
+  4 parallel pair-beams (~12 min wall, 2 retries needed for output bug).
+
+  5/5 absorber seeds broke through M2 pair beam:
+    rank 0 (F534): 91 -> 86 (-5)
+    rank 1:        93 -> 88 (-5)
+    rank 2:        94 -> 86 (-8)
+    rank 3:        95 -> 89 (-6)
+    rank 4:        96 -> 87 (-9)
+  Average reduction: -6.6 HW per seed.
+
+  HW=86 reached from TWO independent M2 init masks (rank 0 + rank 2).
+  Suggests HW=86 is a real absorber floor at 24 rounds for bit13's
+  block-1 residual family.
+
+  Yale F519 single-bit floor of HW=91 cleanly broken on every tested seed.
+
 recent_progress_2026-05-02_F725_F726_allword_atlas_control: |
   yale-codex revisited the F312 atlas-loss "all active words" suggestion,
   but kept the F322 retraction discipline explicit.

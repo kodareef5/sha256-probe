@@ -221,9 +221,9 @@ def main():
     wall = time.time() - t0
     print(f"\nTotal wall: {wall:.1f}s")
 
-    # Best seen
-    best_seen = min([initial] + beam + [{"bits": frozenset(r["bits"]), "hw": r["hw"], "M2": r.get("M2", base_M2)} for r in new_records],
-                     key=lambda s: s["hw"])
+    # Best seen — restrict to beam states (which have tuple M2)
+    candidates = [initial] + beam
+    best_seen = min(candidates, key=lambda s: s["hw"])
     print(f"best seen HW={best_seen['hw']}")
     new_records.sort(key=lambda r: r["hw"])
     top_records = new_records[:args.top_records]
