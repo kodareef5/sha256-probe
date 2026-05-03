@@ -29,7 +29,7 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-03T20:10:04Z'
+last_heartbeat: '2026-05-03T20:12:01Z'
 recent_progress_2026-05-03_F549_bit24_HW85_closed: |
   macbook-claude iter from bit24 HW=85 with cg-rank radius 12.
   Stayed at HW=85 (locally closed).
@@ -166,6 +166,22 @@ recent_progress_2026-05-03_F758_bit24_reshaped_hw85_hw_negative: |
     The reshaped bit24 seed is closed under both c/g and pure-HW restarts.
     Target/repair composition can move horizontally across the HW85 surface,
     but standard pair-beam restart still cannot turn that into HW84.
+
+recent_progress_2026-05-03_F759_bit24_reshaped_pair_potential: |
+  yale-codex reran m2_pair_potential_atlas.py around F756's reshaped bit24
+  HW85 witness.
+
+  Result over all 130,816 two-bit M2 flips:
+    HW<85 pairs: 0
+    HW<=85 pairs: 0
+    cg-improving pairs: 1
+    target-L1-improving pairs: 0
+
+  Interpretation:
+    F756 moved bit24 from target L1 25 to L1 11 at equal HW, but landed at a
+    more locally rigid point. The original HW85 witness had 107 target-lane
+    improving pairs; the reshaped HW85 witness has none. This explains why
+    F757/F758 could not exploit it with standard pair-beam restarts.
 
 recent_progress_2026-05-03_F747_pathC_bit4_cg_negative: |
   yale-codex restarted Mac's F547 bit4 path-C HW89 absorber witness with c/g
