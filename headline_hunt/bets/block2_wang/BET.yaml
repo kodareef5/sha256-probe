@@ -159,6 +159,23 @@ recent_progress_2026-05-03_F742_cross_round_rank18_negative: |
   this seed. Lower-round optimization appears to overfit intermediate rounds
   and transfer into a worse 24-round basin.
 
+recent_progress_2026-05-03_F743_rank18_hw83_cg_negative: |
+  yale-codex restarted from rank18's HW83 witness with the same c/g objective
+  that found F732's HW82 from rank2 HW85.
+
+  Setup:
+    init HW83, lane [10,11,8,11,13,8,12,10]
+    objective: total_hw + 2*(c+g)
+    pair_pool=1024, beam=1024, max_pairs=6, max_radius=12
+
+  Result:
+    HW83 -> HW83, 0 new records.
+    Best c/g objective state remained the seed.
+
+  Interpretation:
+    Rank18's near-floor HW83 basin does not have the same immediate c/g escape
+    that rank2's HW85 basin had. Current floor remains F732 HW82.
+
 recent_progress_2026-05-03_F538_F539_extended_sweep: |
   macbook-claude continued absorber sweep + HW=85 floor test.
 
