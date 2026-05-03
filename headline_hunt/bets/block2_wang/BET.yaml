@@ -29,7 +29,7 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-03T19:23:30Z'
+last_heartbeat: '2026-05-03T19:29:27Z'
 recent_progress_2026-05-03_F549_bit24_HW85_closed: |
   macbook-claude iter from bit24 HW=85 with cg-rank radius 12.
   Stayed at HW=85 (locally closed).
@@ -86,6 +86,26 @@ recent_progress_2026-05-03_F749_absorber_portfolio_atlas: |
     endpoint is candidate-dependent, so further progress should pivot from
     pair-beam objective variants to a selection/atlas operator that chooses
     non-local compositions based on lane-delta geometry.
+
+recent_progress_2026-05-03_F750_F754_m2_pair_potential_atlas: |
+  yale-codex added m2_pair_potential_atlas.py and ran it on the mapped best
+  absorber witnesses: bit13 HW82, rank18 HW83, bit24 HW85, bit3 HW86, bit4
+  HW89. Each run enumerated all 130,816 two-bit M2 flips.
+
+  Results:
+    bit13 HW82: 0 HW-improving, 0 cg-improving, 0 target-lane-improving pairs
+    rank18 HW83: 0 HW-improving, 0 cg-improving, 0 target-lane-improving pairs
+    bit24 HW85: 0 HW-improving, 1 cg-improving, 107 target-lane-improving pairs
+    bit3 HW86: 0 HW-improving, 0 cg-improving, 73 target-lane-improving pairs
+    bit4 HW89: 0 HW-improving, 0 cg-improving, 0 target-lane-improving pairs
+
+  Interpretation:
+    Every mapped endpoint is two-bit HW-rigid. bit24/bit3 do have moves toward
+    the bit13 HW82 lane signature, but only with large total-HW damage
+    (bit24 best target move HW85 -> HW96; bit3 HW86 -> HW97). The next operator
+    should be a constrained multi-pair planner that accepts target-lane damage
+    first and composes compensating repairs, rather than another greedy
+    pair-beam objective variant.
 
 recent_progress_2026-05-03_F747_pathC_bit4_cg_negative: |
   yale-codex restarted Mac's F547 bit4 path-C HW89 absorber witness with c/g
