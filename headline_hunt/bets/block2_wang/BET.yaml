@@ -112,6 +112,24 @@ recent_progress_2026-05-03_F736_F741_remaining_seed_sweep: |
   No new global floor below F732 HW82. Rank18's HW83 is the nearest new
   basin from the remaining transfer-style seeds.
 
+recent_progress_2026-05-03_F742_cross_round_rank18_negative: |
+  yale-codex ran a staged cross-round pipe on rank18, the best remaining-panel
+  seed from F738.
+
+  Pipe:
+    rounds 16 -> 20 -> 24
+    each stage restarts from previous stage's true best M2
+    pair_pool=1024, beam=1024, max_pairs=6, max_radius=12
+
+  Results:
+    r16: 127 -> 88
+    r20: 130 -> 88
+    r24: 132 -> 90
+
+  Direct rank18 F738 was 128 -> 83, so the cross-round pipe is negative on
+  this seed. Lower-round optimization appears to overfit intermediate rounds
+  and transfer into a worse 24-round basin.
+
 recent_progress_2026-05-03_F538_F539_extended_sweep: |
   macbook-claude continued absorber sweep + HW=85 floor test.
 
