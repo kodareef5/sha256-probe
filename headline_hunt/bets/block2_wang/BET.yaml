@@ -29,7 +29,7 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-03T21:30:24Z'
+last_heartbeat: '2026-05-03T22:16:06Z'
 recent_progress_2026-05-03_F549_bit24_HW85_closed: |
   macbook-claude iter from bit24 HW=85 with cg-rank radius 12.
   Stayed at HW=85 (locally closed).
@@ -251,6 +251,32 @@ recent_progress_2026-05-03_F762_bit24_HW82_target_repair_combo4_negative: |
     The 4-pair neighborhood is closed below/equal to HW82, but the target and
     c/g signals remain. The next bounded test is the corresponding 5-pair
     final-state composition with radius 8..10.
+
+recent_progress_2026-05-03_F763_bit24_HW82_combo5_horizontal: |
+  yale-codex ran the 5-pair counterpart to F762 from the F760 bit24 HW82
+  witness.
+
+  Setup:
+    selected pairs: 76
+    pair_count=5, radius=8..10
+    evaluated 18,474,546 final states
+    wall 2658.19s
+
+  Result:
+    HW<82: 0
+    HW<=82: 1
+    c/g-improving combos: 38
+    target-L1-improving combos: 9,767
+    best HW tie: HW82, target L1 18, c/g objective 122
+    best HW tie lane: [7,10,12,16,11,7,8,11]
+
+  Interpretation:
+    The bit24 HW82 floor is not a single isolated point under target/repair
+    composition. F763 moved horizontally on the HW82 surface while improving
+    both target distance and c/g objective. Source analysis repeats the F760
+    lesson: the HW82 combo used only repair/per-register repair pairs, with
+    standalone pair HWs as bad as 126. Next work should prioritize wide
+    repair/cg sampled composition over target-only lane copying.
 
 recent_progress_2026-05-03_F747_pathC_bit4_cg_negative: |
   yale-codex restarted Mac's F547 bit4 path-C HW89 absorber witness with c/g
