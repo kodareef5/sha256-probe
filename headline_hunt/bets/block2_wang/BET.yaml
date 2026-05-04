@@ -29,7 +29,7 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-04T01:48:42Z'
+last_heartbeat: '2026-05-04T01:55:09Z'
 recent_progress_2026-05-03_F549_bit24_HW85_closed: |
   macbook-claude iter from bit24 HW=85 with cg-rank radius 12.
   Stayed at HW=85 (locally closed).
@@ -527,6 +527,31 @@ recent_progress_2026-05-04_F776_bit24_F760_HW82_target_repair_sample20m_negative
     found zero in 19.97M sampled final states from 236 selected pairs. Stop
     direct broad five-pair sampling around F760/F763 unless a new selection
     rule is added.
+
+recent_progress_2026-05-04_F777_F778_bit24_F768_HW85_atlas_beam_negative: |
+  yale-codex added m2_atlas_pair_beam.py and tested it on the F768 HW85 detour.
+
+  F777 pair-potential atlas around F768 HW85:
+    HW<85 pairs: 0
+    HW<=85 pairs: 0
+    c/g-improving pairs: 0
+    target-L1-improving pairs: 0
+
+  F778 atlas-selected beam:
+    selected pairs: 241
+    objective=HW
+    expanded states: 996,601
+    HW<85: 0
+    HW<=85: 0
+    target-L1 improvements: 0
+    best HW: 89
+
+  Interpretation:
+    The F768 HW85 detour is locally target-rigid. The generic HW beam F769
+    found HW84, but the atlas-selected target/repair pool could not reproduce
+    that repair, so the useful F769 primitive sits outside these local atlas
+    buckets. Use the atlas beam next on the original F760/F767 HW82 basin,
+    where target slack exists.
 
 recent_progress_2026-05-03_F747_pathC_bit4_cg_negative: |
   yale-codex restarted Mac's F547 bit4 path-C HW89 absorber witness with c/g
