@@ -109,13 +109,38 @@ def parse_lane_weights(raw):
     return parts
 
 
-def objective_value(hw_total, lane_hw, objective, lane_weights, cg_weight):
+def parse_target_lane(raw):
+    if not raw:
+        return None
+    parts = [int(p.strip()) for p in raw.split(",") if p.strip()]
+    if len(parts) != 8:
+        raise SystemExit(f"--target-lane needs 8 comma-separated integers, got {len(parts)}")
+    return parts
+
+
+def target_l1(lane_hw, target_lane):
+    return sum(abs(a - b) for a, b in zip(lane_hw, target_lane))
+
+
+def objective_value(hw_total, lane_hw, objective, lane_weights, cg_weight, target_lane=None, target_weight=1.0):
     if objective == "hw":
         return float(hw_total)
     if objective == "cg":
         return float(hw_total) + cg_weight * float(lane_hw[2] + lane_hw[6])
     if objective == "weighted":
         return sum(w * h for w, h in zip(lane_weights, lane_hw))
+    if objective == "target":
+        if target_lane is None:
+            raise ValueError("target objective requires target_lane")
+        return float(hw_total) + target_weight * float(target_l1(lane_hw, target_lane))
+    if objective == "cg_target":
+        if target_lane is None:
+            raise ValueError("cg_target objective requires target_lane")
+        return (
+            float(hw_total)
+            + cg_weight * float(lane_hw[2] + lane_hw[6])
+            + target_weight * float(target_l1(lane_hw, target_lane))
+        )
     raise ValueError(objective)
 
 
@@ -142,14 +167,18 @@ def main():
     ap.add_argument("--rank", type=int, default=0)
     ap.add_argument("--rounds", type=int, default=24)
     ap.add_argument("--pair-pool", type=int, default=1024)
-    ap.add_argument("--objective", choices=["hw", "cg", "weighted"], default="hw",
+    ap.add_argument("--objective", choices=["hw", "cg", "weighted", "target", "cg_target"], default="hw",
                     help="Beam objective: total HW, total HW plus c/g penalty, or weighted lane HW.")
-    ap.add_argument("--pair-rank", choices=["hw", "cg", "weighted"], default=None,
+    ap.add_argument("--pair-rank", choices=["hw", "cg", "weighted", "target", "cg_target"], default=None,
                     help="Pair-pool ranking objective; default matches --objective.")
     ap.add_argument("--lane-weights", default="",
                     help="Eight comma-separated weights for --objective weighted.")
     ap.add_argument("--cg-weight", type=float, default=1.0,
                     help="Penalty multiplier on c+g lane HW for --objective cg.")
+    ap.add_argument("--target-lane", default="",
+                    help="Eight comma-separated lane HW target for target/cg_target objectives.")
+    ap.add_argument("--target-weight", type=float, default=1.0,
+                    help="Penalty multiplier on L1 distance to --target-lane.")
     ap.add_argument("--beam-width", type=int, default=1024)
     ap.add_argument("--max-pairs", type=int, default=6)
     ap.add_argument("--max-radius", type=int, default=12)
@@ -165,6 +194,9 @@ def main():
     if args.pair_rank is None:
         args.pair_rank = args.objective
     lane_weights = parse_lane_weights(args.lane_weights)
+    target_lane = parse_target_lane(args.target_lane)
+    if (args.objective in ("target", "cg_target") or args.pair_rank in ("target", "cg_target")) and target_lane is None:
+        raise SystemExit("--target-lane is required for target/cg_target objective or pair-rank")
 
     seed, total = load_seed(args.seed_jsonl, args.rank)
     print(f"Loaded seed rank={args.rank} of {total} from {args.seed_jsonl}")
@@ -187,7 +219,9 @@ def main():
     if args.init_hw is not None and init_hw != args.init_hw:
         raise SystemExit(f"--init-hw mismatch: expected {args.init_hw}, evaluated {init_hw}")
     init_lane_hw = hw_per_lane(init_diff)
-    init_objective = objective_value(init_hw, init_lane_hw, args.objective, lane_weights, args.cg_weight)
+    init_objective = objective_value(
+        init_hw, init_lane_hw, args.objective, lane_weights, args.cg_weight, target_lane, args.target_weight
+    )
     print(f"Init lane HW: {init_lane_hw} (sum={init_hw})")
     print(f"Init objective ({args.objective})={init_objective:.3f}")
     if args.init_M2:
@@ -210,7 +244,9 @@ def main():
             m2[slot] ^= (1 << bit)
         hw, diff = eval_m2(iv1, iv2, m1_W, m2, args.rounds)
         lane_hw = hw_per_lane(diff)
-        pair_objective = objective_value(hw, lane_hw, args.pair_rank, lane_weights, args.cg_weight)
+        pair_objective = objective_value(
+            hw, lane_hw, args.pair_rank, lane_weights, args.cg_weight, target_lane, args.target_weight
+        )
         all_pairs.append({
             "bit_indices": [i, j],
             "hw_total": hw,
@@ -259,7 +295,9 @@ def main():
                     new_M2[slot] ^= (1 << bit)
                 hw, diff = eval_m2(iv1, iv2, m1_W, tuple(new_M2), args.rounds)
                 lane_hw = hw_per_lane(diff)
-                state_objective = objective_value(hw, lane_hw, args.objective, lane_weights, args.cg_weight)
+                state_objective = objective_value(
+                    hw, lane_hw, args.objective, lane_weights, args.cg_weight, target_lane, args.target_weight
+                )
                 key = new_bits
                 if key in seen_states:
                     continue
@@ -344,6 +382,8 @@ def main():
         "pair_rank": args.pair_rank,
         "lane_weights": lane_weights,
         "cg_weight": args.cg_weight,
+        "target_lane": target_lane,
+        "target_weight": args.target_weight,
         "beam_width": args.beam_width,
         "max_pairs": args.max_pairs,
         "max_radius": args.max_radius,
