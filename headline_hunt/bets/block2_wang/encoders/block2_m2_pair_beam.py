@@ -122,17 +122,41 @@ def target_l1(lane_hw, target_lane):
     return sum(abs(a - b) for a, b in zip(lane_hw, target_lane))
 
 
-def objective_value(hw_total, lane_hw, objective, lane_weights, cg_weight, target_lane=None, target_weight=1.0):
+def m2_weight(m2):
+    return sum(word.bit_count() for word in m2)
+
+
+def objective_value(
+    hw_total,
+    lane_hw,
+    objective,
+    lane_weights,
+    cg_weight,
+    target_lane=None,
+    target_weight=1.0,
+    m2_popcount=0,
+    m2_weight_penalty=0.0,
+):
     if objective == "hw":
         return float(hw_total)
     if objective == "cg":
         return float(hw_total) + cg_weight * float(lane_hw[2] + lane_hw[6])
+    if objective == "sparse":
+        return float(hw_total) + m2_weight_penalty * float(m2_popcount)
     if objective == "weighted":
         return sum(w * h for w, h in zip(lane_weights, lane_hw))
     if objective == "target":
         if target_lane is None:
             raise ValueError("target objective requires target_lane")
         return float(hw_total) + target_weight * float(target_l1(lane_hw, target_lane))
+    if objective == "target_sparse":
+        if target_lane is None:
+            raise ValueError("target_sparse objective requires target_lane")
+        return (
+            float(hw_total)
+            + target_weight * float(target_l1(lane_hw, target_lane))
+            + m2_weight_penalty * float(m2_popcount)
+        )
     if objective == "cg_target":
         if target_lane is None:
             raise ValueError("cg_target objective requires target_lane")
@@ -167,9 +191,10 @@ def main():
     ap.add_argument("--rank", type=int, default=0)
     ap.add_argument("--rounds", type=int, default=24)
     ap.add_argument("--pair-pool", type=int, default=1024)
-    ap.add_argument("--objective", choices=["hw", "cg", "weighted", "target", "cg_target"], default="hw",
+    objective_choices = ["hw", "cg", "sparse", "weighted", "target", "target_sparse", "cg_target"]
+    ap.add_argument("--objective", choices=objective_choices, default="hw",
                     help="Beam objective: total HW, total HW plus c/g penalty, or weighted lane HW.")
-    ap.add_argument("--pair-rank", choices=["hw", "cg", "weighted", "target", "cg_target"], default=None,
+    ap.add_argument("--pair-rank", choices=objective_choices, default=None,
                     help="Pair-pool ranking objective; default matches --objective.")
     ap.add_argument("--lane-weights", default="",
                     help="Eight comma-separated weights for --objective weighted.")
@@ -179,6 +204,8 @@ def main():
                     help="Eight comma-separated lane HW target for target/cg_target objectives.")
     ap.add_argument("--target-weight", type=float, default=1.0,
                     help="Penalty multiplier on L1 distance to --target-lane.")
+    ap.add_argument("--m2-weight-penalty", type=float, default=0.0,
+                    help="Penalty multiplier on M2 popcount for sparse/target_sparse objectives.")
     ap.add_argument("--max-target-l1", type=int, default=None,
                     help="Reject beam states with L1(lane, target-lane) above this cap.")
     ap.add_argument("--beam-width", type=int, default=1024)
@@ -197,8 +224,9 @@ def main():
         args.pair_rank = args.objective
     lane_weights = parse_lane_weights(args.lane_weights)
     target_lane = parse_target_lane(args.target_lane)
-    if (args.objective in ("target", "cg_target") or args.pair_rank in ("target", "cg_target")) and target_lane is None:
-        raise SystemExit("--target-lane is required for target/cg_target objective or pair-rank")
+    target_objectives = ("target", "target_sparse", "cg_target")
+    if (args.objective in target_objectives or args.pair_rank in target_objectives) and target_lane is None:
+        raise SystemExit("--target-lane is required for target/target_sparse/cg_target objective or pair-rank")
     if args.max_target_l1 is not None and target_lane is None:
         raise SystemExit("--target-lane is required for --max-target-l1")
 
@@ -223,10 +251,20 @@ def main():
     if args.init_hw is not None and init_hw != args.init_hw:
         raise SystemExit(f"--init-hw mismatch: expected {args.init_hw}, evaluated {init_hw}")
     init_lane_hw = hw_per_lane(init_diff)
+    init_m2_weight = m2_weight(m2_init)
     init_objective = objective_value(
-        init_hw, init_lane_hw, args.objective, lane_weights, args.cg_weight, target_lane, args.target_weight
+        init_hw,
+        init_lane_hw,
+        args.objective,
+        lane_weights,
+        args.cg_weight,
+        target_lane,
+        args.target_weight,
+        init_m2_weight,
+        args.m2_weight_penalty,
     )
     print(f"Init lane HW: {init_lane_hw} (sum={init_hw})")
+    print(f"Init M2 weight: {init_m2_weight}")
     print(f"Init objective ({args.objective})={init_objective:.3f}")
     if args.init_M2:
         print("Init M2 source: explicit --init-M2 override")
@@ -248,13 +286,23 @@ def main():
             m2[slot] ^= (1 << bit)
         hw, diff = eval_m2(iv1, iv2, m1_W, m2, args.rounds)
         lane_hw = hw_per_lane(diff)
+        pair_m2_weight = m2_weight(m2)
         pair_objective = objective_value(
-            hw, lane_hw, args.pair_rank, lane_weights, args.cg_weight, target_lane, args.target_weight
+            hw,
+            lane_hw,
+            args.pair_rank,
+            lane_weights,
+            args.cg_weight,
+            target_lane,
+            args.target_weight,
+            pair_m2_weight,
+            args.m2_weight_penalty,
         )
         all_pairs.append({
             "bit_indices": [i, j],
             "hw_total": hw,
             "lane_hw": lane_hw,
+            "m2_weight": pair_m2_weight,
             "objective": round(pair_objective, 6),
         })
     all_pairs.sort(key=lambda p: (p["objective"], p["hw_total"]))
@@ -270,6 +318,7 @@ def main():
         "bits": frozenset(),
         "hw": init_hw,
         "lane_hw": init_lane_hw,
+        "m2_weight": init_m2_weight,
         "objective": init_objective,
         "depth": 0,
         "M2": tuple(base_M2),
@@ -299,10 +348,19 @@ def main():
                     new_M2[slot] ^= (1 << bit)
                 hw, diff = eval_m2(iv1, iv2, m1_W, tuple(new_M2), args.rounds)
                 lane_hw = hw_per_lane(diff)
+                new_m2_weight = m2_weight(new_M2)
                 if args.max_target_l1 is not None and target_l1(lane_hw, target_lane) > args.max_target_l1:
                     continue
                 state_objective = objective_value(
-                    hw, lane_hw, args.objective, lane_weights, args.cg_weight, target_lane, args.target_weight
+                    hw,
+                    lane_hw,
+                    args.objective,
+                    lane_weights,
+                    args.cg_weight,
+                    target_lane,
+                    args.target_weight,
+                    new_m2_weight,
+                    args.m2_weight_penalty,
                 )
                 key = new_bits
                 if key in seen_states:
@@ -312,6 +370,7 @@ def main():
                     "bits": key,
                     "hw": hw,
                     "lane_hw": lane_hw,
+                    "m2_weight": new_m2_weight,
                     "objective": state_objective,
                     "depth": depth,
                     "M2": tuple(new_M2),
@@ -324,6 +383,7 @@ def main():
                     record = {
                         "hw": hw,
                         "lane_hw": lane_hw,
+                        "m2_weight": new_m2_weight,
                         "objective": round(state_objective, 6),
                         "M2": [f"0x{w:08x}" for w in new_M2],
                         "bits": sorted(new_bits),
@@ -357,6 +417,7 @@ def main():
     best_seen_hw = initial["hw"]
     best_seen_m2 = [f"0x{w:08x}" for w in initial["M2"]]
     best_seen_lane_hw = initial["lane_hw"]
+    best_seen_m2_weight = initial["m2_weight"]
     best_seen_depth = initial["depth"]
     best_seen_source = "init"
     if beam:
@@ -365,12 +426,14 @@ def main():
             best_seen_hw = beam_best["hw"]
             best_seen_m2 = [f"0x{w:08x}" for w in beam_best["M2"]]
             best_seen_lane_hw = beam_best["lane_hw"]
+            best_seen_m2_weight = beam_best["m2_weight"]
             best_seen_depth = beam_best["depth"]
             best_seen_source = "final_beam"
     if top_records and top_records[0]["hw"] < best_seen_hw:
         best_seen_hw = top_records[0]["hw"]
         best_seen_m2 = top_records[0]["M2"]
         best_seen_lane_hw = top_records[0]["lane_hw"]
+        best_seen_m2_weight = top_records[0]["m2_weight"]
         best_seen_depth = top_records[0]["depth"]
         best_seen_source = "new_records"
     print(f"best seen HW={best_seen_hw} source={best_seen_source}")
@@ -390,6 +453,7 @@ def main():
         "cg_weight": args.cg_weight,
         "target_lane": target_lane,
         "target_weight": args.target_weight,
+        "m2_weight_penalty": args.m2_weight_penalty,
         "max_target_l1": args.max_target_l1,
         "beam_width": args.beam_width,
         "max_pairs": args.max_pairs,
@@ -398,15 +462,18 @@ def main():
         "seed_M2": [f"0x{w:08x}" for w in seed_m2],
         "init_M2_overridden": bool(args.init_M2),
         "init_hw": init_hw,
+        "init_m2_weight": init_m2_weight,
         "absorber_best_hw_claimed": absorber_best_hw,
         "best_seen_hw": best_seen_hw,
         "best_seen_M2": best_seen_m2,
         "best_seen_lane_hw": best_seen_lane_hw,
+        "best_seen_m2_weight": best_seen_m2_weight,
         "best_seen_depth": best_seen_depth,
         "best_seen_source": best_seen_source,
         "best_objective": round(best_objective_state["objective"], 6),
         "best_objective_hw": best_objective_state["hw"],
         "best_objective_lane_hw": best_objective_state["lane_hw"],
+        "best_objective_m2_weight": best_objective_state["m2_weight"],
         "best_objective_depth": best_objective_state["depth"],
         "best_objective_bits": sorted(best_objective_state["bits"]),
         "best_objective_M2": [f"0x{w:08x}" for w in best_objective_state["M2"]],

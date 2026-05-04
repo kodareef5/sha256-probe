@@ -29,7 +29,51 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-04T08:06:02Z'
+last_heartbeat: '2026-05-04T08:22:27Z'
+recent_progress_2026-05-04_F809_target_sparse_from_F802_closed: |
+  yale-codex added sparse and target_sparse objective modes to
+  block2_m2_pair_beam.py, then tested target_sparse from the F802 HW85 witness.
+
+  Setup:
+    init HW: 85
+    init lane: [11, 12, 7, 12, 12, 12, 9, 10]
+    init M2 weight: 56
+    target lane: [13, 11, 8, 9, 7, 9, 8, 13]
+    objective: HW + L1(lane, target) + 0.5*M2_popcount
+
+  Result:
+    pair-pool HW range: 94..109
+    initial objective: 132
+    depth best objective/HW sequence:
+      d1 HW94 obj139
+      d2 HW94 obj143
+      d3 HW88 obj135
+      d4 HW87 obj136
+      d5 HW89 obj136
+      d6 HW88 obj146
+    new records below HW85: 0
+    best seen HW: 85, source init
+    best objective: 132, source init
+    wall: 703.16s
+
+  Interpretation:
+    Sparse-M2 pressure did not rescue the already over-filled F802 HW85 point.
+    The sparse coordinate should be tested earlier in the branch, before M2
+    popcount reaches 56.
+recent_progress_2026-05-04_F808_witness_lane_m2_comparison: |
+  yale-codex added summarize_m2_witness_lanes.py and compared key witnesses.
+
+  Main table:
+    F788 HW86 repairable: HW86 lane [14,13,10,8,8,8,12,13], M2 weight 40
+    F789 HW78 floor:      HW78 lane [13,11,8,9,7,9,8,13],  M2 weight 44
+    F796 HW87 closed:     HW87 lane [10,11,9,14,11,11,12,9], M2 weight 50
+    F800 HW86 bridgeable: HW86 lane [10,7,9,9,17,14,11,9], M2 weight 50
+    F802 HW85 closed:     HW85 lane [11,12,7,12,12,12,9,10], M2 weight 56
+
+  Interpretation:
+    Simple lane L1 does not predict bridgeability. M2 popcount separates the
+    successful F788/F789 path from the weaker branches and motivated sparse
+    M2 objectives.
 recent_progress_2026-05-04_F807_F796_lane_bridge_negative: |
   yale-codex ran a lane-shape bridge from the closed F796/F797 HW87 branch
   toward the repairable F788 HW86 lane.
