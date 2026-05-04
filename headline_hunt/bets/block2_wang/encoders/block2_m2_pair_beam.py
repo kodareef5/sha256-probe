@@ -133,7 +133,7 @@ def parse_word_caps(raw_caps):
 
 
 def added_bits_in_word(base_m2, m2, word_idx):
-    return ((~base_m2[word_idx]) & m2[word_idx] & MASK).bit_count()
+    return bin((~base_m2[word_idx]) & m2[word_idx] & MASK).count("1")
 
 
 def passes_added_word_caps(base_m2, m2, caps):
@@ -148,7 +148,7 @@ def target_l1(lane_hw, target_lane):
 
 
 def m2_weight(m2):
-    return sum(word.bit_count() for word in m2)
+    return sum(bin(word).count("1") for word in m2)
 
 
 def m2_transition_counts(base_m2, m2):

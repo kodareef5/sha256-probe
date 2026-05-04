@@ -29,7 +29,23 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-04T09:30:18Z'
+last_heartbeat: '2026-05-04T09:40:00Z'
+recent_progress_2026-05-04_F550_bit24_HW84_my_residual: |
+  macbook-claude wider pair beam on bit24 absorber. Used yale's bit24
+  HW=78 M2 mask as init with MY F428 bit24 diff63 (different residual
+  basis). yale's HW=78 doesn't transfer cleanly: 24r init=HW=131.
+
+  Wider params (max_pairs=8, max_radius=16, pool=2048), pair beam
+  descended:
+    hw-rank: 131 -> 86
+    cg-rank: 131 -> 84  (new on F428-diff63 basis, -1 vs F548)
+
+  Updated bit24 absorber on F428-diff63 basis:
+    F547: HW=86 (M2=0)  F548: HW=85 (cg)  F550: HW=84 (cg-wider)
+
+  Yale's bit24 HW=78 mask is residual-specific to F760 lineage.
+  Tool fix: .bit_count() -> bin().count("1") for Python 3.9 compat.
+
 recent_progress_2026-05-04_F815_F799_repair_m2cap48_closed: |
   yale-codex reran the F800-producing pure-HW repair from F799 HW87 with
   max M2 weight 48.
