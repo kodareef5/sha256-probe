@@ -29,7 +29,34 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-04T02:32:02Z'
+last_heartbeat: '2026-05-04T02:45:43Z'
+recent_progress_2026-05-04_F782_bit24_graph_motif_negative: |
+  yale-codex formalized the F760/F763 word-pair graph motif and tested it
+  from the original F760 bit24 HW82 witness.
+
+  Added analyze_m2_combo_graph_motifs.py to compare five-pair compositions by
+  M2 word graph. The two known HW82 compositions both satisfy:
+    late-late pairs >= 1
+    early-late bridge pairs >= 2
+
+  F782 reran the broad F776 target+repair pool with that graph motif:
+    selected pairs: 236
+    sampled combos: 20,000,000
+    skipped by graph motif: 17,104,701
+    evaluated: 2,890,238
+    HW < 82: 0
+    HW <= 82: 0
+    c/g-improving: 8
+    target-L1-improving: 1,523
+    best HW: 87, target L1 13
+
+  Interpretation:
+    The word graph motif is real but insufficient. It removes the obvious
+    F776/F781 near-miss shapes, but the best F782 state still sits at HW87 and
+    uses a target-labeled pair. The known HW82 records are repair-only products
+    of ugly standalone pairs, so the next clean test is the same graph motif
+    with target-pair selection disabled.
+
 recent_progress_2026-05-03_F549_bit24_HW85_closed: |
   macbook-claude iter from bit24 HW=85 with cg-rank radius 12.
   Stayed at HW=85 (locally closed).
