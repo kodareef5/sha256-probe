@@ -29,7 +29,7 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-04T00:53:52Z'
+last_heartbeat: '2026-05-04T00:58:39Z'
 recent_progress_2026-05-03_F549_bit24_HW85_closed: |
   macbook-claude iter from bit24 HW=85 with cg-rank radius 12.
   Stayed at HW=85 (locally closed).
@@ -477,6 +477,27 @@ recent_progress_2026-05-04_F772_bit24_target_objective_beam_HW84: |
     did not preserve target-lane closeness. The best target-objective state
     remained the seed. Soft target weight 2 is not enough; future constrained
     repair should use a higher target weight or a hard target-L1 cap.
+
+recent_progress_2026-05-04_F773_F775_bit24_target_cap_sweep_negative: |
+  yale-codex added a hard target-L1 cap to block2_m2_pair_beam.py and swept
+  caps from the F768 HW85 detour.
+
+  Setup:
+    init HW 85
+    init target L1 13
+    objective=hw, pair_rank=hw
+    target lane bit13 HW82 [10,11,9,12,9,7,10,14]
+
+  Results:
+    F773 cap16: beam died at depth 2, best HW85
+    F774 cap20: beam died at depth 3, best HW85
+    F775 cap24: survived depth 6, best HW85
+
+  Interpretation:
+    Hard caps work mechanically but do not expose a constrained HW repair.
+    Caps 16/20 are too tight; cap24 is viable but still finds no HW<85 record.
+    Do not keep sweeping caps blindly. A better constrained operator should
+    change the pair pool toward target-improving plus repair atlas moves.
 
 recent_progress_2026-05-03_F747_pathC_bit4_cg_negative: |
   yale-codex restarted Mac's F547 bit4 path-C HW89 absorber witness with c/g
