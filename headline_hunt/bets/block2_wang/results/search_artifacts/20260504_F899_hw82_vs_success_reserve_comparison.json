@@ -1,0 +1,2165 @@
+{
+  "description": "M2 pair-beam frontier comparison",
+  "summaries": [
+    {
+      "path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260504_F889_bit24_f788_hw86_shape_reserve_beam.json",
+      "artifact": "20260504_F889_bit24_f788_hw86_shape_reserve_beam.json",
+      "label": "F889_bit24_f788_hw86_shape_reserve_beam",
+      "init_hw": 86,
+      "init_lane_hw": null,
+      "init_m2_weight": 40,
+      "best_seen_hw": 78,
+      "best_seen_depth": 6,
+      "best_seen_source": "final_beam",
+      "best_seen_lane_hw": [
+        13,
+        11,
+        8,
+        9,
+        7,
+        9,
+        8,
+        13
+      ],
+      "best_seen_m2_weight": 44,
+      "best_seen_m2_added_bits": 8,
+      "best_seen_m2_removed_bits": 4,
+      "best_seen_m2_net_added_bits": 4,
+      "n_new_records": 1,
+      "wall_seconds": 699.66,
+      "frontier_count": 6,
+      "reserve_low_net_width": 384,
+      "reserve_low_net_max": 4,
+      "reserve_low_net_min_removed": 1,
+      "reserve_removed_width": 128,
+      "reserve_removed_min": 2
+    },
+    {
+      "path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260504_F897_bit13_hw82_shape_reserve_beam.json",
+      "artifact": "20260504_F897_bit13_hw82_shape_reserve_beam.json",
+      "label": "F897_bit13_hw82_shape_reserve_beam",
+      "init_hw": 82,
+      "init_lane_hw": null,
+      "init_m2_weight": 29,
+      "best_seen_hw": 82,
+      "best_seen_depth": 0,
+      "best_seen_source": "init",
+      "best_seen_lane_hw": [
+        10,
+        11,
+        9,
+        12,
+        9,
+        7,
+        10,
+        14
+      ],
+      "best_seen_m2_weight": 29,
+      "best_seen_m2_added_bits": 0,
+      "best_seen_m2_removed_bits": 0,
+      "best_seen_m2_net_added_bits": 0,
+      "n_new_records": 0,
+      "wall_seconds": 721.65,
+      "frontier_count": 6,
+      "reserve_low_net_width": 384,
+      "reserve_low_net_max": 4,
+      "reserve_low_net_min_removed": 1,
+      "reserve_removed_width": 128,
+      "reserve_removed_min": 2
+    }
+  ],
+  "rows": [
+    {
+      "label": "F889_bit24_f788_hw86_shape_reserve_beam",
+      "artifact": "20260504_F889_bit24_f788_hw86_shape_reserve_beam.json",
+      "depth": 1,
+      "candidate_count": 1024,
+      "kept_count": 1024,
+      "selection_passes": [
+        {
+          "pass": "global_primary",
+          "limit": 512,
+          "added": 512
+        },
+        {
+          "pass": "low_net_reserve",
+          "limit": 384,
+          "added": 71,
+          "max_net_added": 4,
+          "min_removed_bits": 1
+        },
+        {
+          "pass": "removed_reserve",
+          "limit": 128,
+          "added": 0,
+          "min_removed_bits": 2
+        },
+        {
+          "pass": "global_fill",
+          "limit": 441,
+          "added": 441
+        }
+      ],
+      "best_hw": 92,
+      "best_objective": 92.0,
+      "best_state": {
+        "hw": 92,
+        "objective": 92.0,
+        "lane_hw": [
+          9,
+          6,
+          8,
+          13,
+          17,
+          14,
+          14,
+          11
+        ],
+        "m2_weight": 42,
+        "m2_added_bits": 2,
+        "m2_removed_bits": 0,
+        "m2_net_added_bits": 2,
+        "m2_shape": "add2_remove0_net+2",
+        "depth": 1,
+        "bits": [
+          81,
+          412
+        ]
+      },
+      "best_objective_state": {
+        "hw": 92,
+        "objective": 92.0,
+        "lane_hw": [
+          9,
+          6,
+          8,
+          13,
+          17,
+          14,
+          14,
+          11
+        ],
+        "m2_weight": 42,
+        "m2_added_bits": 2,
+        "m2_removed_bits": 0,
+        "m2_net_added_bits": 2,
+        "m2_shape": "add2_remove0_net+2",
+        "depth": 1,
+        "bits": [
+          81,
+          412
+        ]
+      },
+      "shape_hist_top": [
+        {
+          "bucket": "add2_remove0_net+2",
+          "count": 866
+        },
+        {
+          "bucket": "add1_remove1_net+0",
+          "count": 148
+        },
+        {
+          "bucket": "add0_remove2_net-2",
+          "count": 10
+        }
+      ],
+      "net_added_hist_top": [
+        {
+          "bucket": "2",
+          "count": 866
+        },
+        {
+          "bucket": "0",
+          "count": 148
+        },
+        {
+          "bucket": "-2",
+          "count": 10
+        }
+      ],
+      "removed_bits_hist_top": [
+        {
+          "bucket": "0",
+          "count": 866
+        },
+        {
+          "bucket": "1",
+          "count": 148
+        },
+        {
+          "bucket": "2",
+          "count": 10
+        }
+      ],
+      "best_positive_removed": "2: HW95 add0_remove2_net-2 wt38 lane[10,13,14,10,9,15,13,11]",
+      "best_low_net": "2: HW92 add2_remove0_net+2 wt42 lane[9,6,8,13,17,14,14,11]"
+    },
+    {
+      "label": "F889_bit24_f788_hw86_shape_reserve_beam",
+      "artifact": "20260504_F889_bit24_f788_hw86_shape_reserve_beam.json",
+      "depth": 2,
+      "candidate_count": 523669,
+      "kept_count": 1024,
+      "selection_passes": [
+        {
+          "pass": "global_primary",
+          "limit": 512,
+          "added": 512
+        },
+        {
+          "pass": "low_net_reserve",
+          "limit": 384,
+          "added": 384,
+          "max_net_added": 4,
+          "min_removed_bits": 1
+        },
+        {
+          "pass": "removed_reserve",
+          "limit": 128,
+          "added": 128,
+          "min_removed_bits": 2
+        },
+        {
+          "pass": "global_fill",
+          "limit": 0,
+          "added": 0
+        }
+      ],
+      "best_hw": 90,
+      "best_objective": 90.0,
+      "best_state": {
+        "hw": 90,
+        "objective": 90.0,
+        "lane_hw": [
+          17,
+          15,
+          9,
+          12,
+          8,
+          11,
+          8,
+          10
+        ],
+        "m2_weight": 44,
+        "m2_added_bits": 4,
+        "m2_removed_bits": 0,
+        "m2_net_added_bits": 4,
+        "m2_shape": "add4_remove0_net+4",
+        "depth": 2,
+        "bits": [
+          223,
+          242,
+          252,
+          498
+        ]
+      },
+      "best_objective_state": {
+        "hw": 90,
+        "objective": 90.0,
+        "lane_hw": [
+          17,
+          15,
+          9,
+          12,
+          8,
+          11,
+          8,
+          10
+        ],
+        "m2_weight": 44,
+        "m2_added_bits": 4,
+        "m2_removed_bits": 0,
+        "m2_net_added_bits": 4,
+        "m2_shape": "add4_remove0_net+4",
+        "depth": 2,
+        "bits": [
+          223,
+          242,
+          252,
+          498
+        ]
+      },
+      "shape_hist_top": [
+        {
+          "bucket": "add3_remove1_net+2",
+          "count": 469
+        },
+        {
+          "bucket": "add4_remove0_net+4",
+          "count": 354
+        },
+        {
+          "bucket": "add2_remove2_net+0",
+          "count": 185
+        },
+        {
+          "bucket": "add1_remove3_net-2",
+          "count": 16
+        }
+      ],
+      "net_added_hist_top": [
+        {
+          "bucket": "2",
+          "count": 469
+        },
+        {
+          "bucket": "4",
+          "count": 354
+        },
+        {
+          "bucket": "0",
+          "count": 185
+        },
+        {
+          "bucket": "-2",
+          "count": 16
+        }
+      ],
+      "removed_bits_hist_top": [
+        {
+          "bucket": "1",
+          "count": 469
+        },
+        {
+          "bucket": "0",
+          "count": 354
+        },
+        {
+          "bucket": "2",
+          "count": 185
+        },
+        {
+          "bucket": "3",
+          "count": 16
+        }
+      ],
+      "best_positive_removed": "1: HW93 add3_remove1_net+2 wt42 lane[9,10,12,11,15,12,12,12]",
+      "best_low_net": "4: HW90 add4_remove0_net+4 wt44 lane[17,15,9,12,8,11,8,10]"
+    },
+    {
+      "label": "F889_bit24_f788_hw86_shape_reserve_beam",
+      "artifact": "20260504_F889_bit24_f788_hw86_shape_reserve_beam.json",
+      "depth": 3,
+      "candidate_count": 1043296,
+      "kept_count": 1024,
+      "selection_passes": [
+        {
+          "pass": "global_primary",
+          "limit": 512,
+          "added": 512
+        },
+        {
+          "pass": "low_net_reserve",
+          "limit": 384,
+          "added": 384,
+          "max_net_added": 4,
+          "min_removed_bits": 1
+        },
+        {
+          "pass": "removed_reserve",
+          "limit": 128,
+          "added": 128,
+          "min_removed_bits": 2
+        },
+        {
+          "pass": "global_fill",
+          "limit": 0,
+          "added": 0
+        }
+      ],
+      "best_hw": 86,
+      "best_objective": 86.0,
+      "best_state": {
+        "hw": 86,
+        "objective": 86.0,
+        "lane_hw": [
+          8,
+          9,
+          13,
+          13,
+          9,
+          14,
+          12,
+          8
+        ],
+        "m2_weight": 44,
+        "m2_added_bits": 5,
+        "m2_removed_bits": 1,
+        "m2_net_added_bits": 4,
+        "m2_shape": "add5_remove1_net+4",
+        "depth": 3,
+        "bits": [
+          23,
+          41,
+          73,
+          145,
+          217,
+          381
+        ]
+      },
+      "best_objective_state": {
+        "hw": 86,
+        "objective": 86.0,
+        "lane_hw": [
+          8,
+          9,
+          13,
+          13,
+          9,
+          14,
+          12,
+          8
+        ],
+        "m2_weight": 44,
+        "m2_added_bits": 5,
+        "m2_removed_bits": 1,
+        "m2_net_added_bits": 4,
+        "m2_shape": "add5_remove1_net+4",
+        "depth": 3,
+        "bits": [
+          23,
+          41,
+          73,
+          145,
+          217,
+          381
+        ]
+      },
+      "shape_hist_top": [
+        {
+          "bucket": "add5_remove1_net+4",
+          "count": 472
+        },
+        {
+          "bucket": "add4_remove2_net+2",
+          "count": 299
+        },
+        {
+          "bucket": "add6_remove0_net+6",
+          "count": 187
+        },
+        {
+          "bucket": "add3_remove3_net+0",
+          "count": 49
+        },
+        {
+          "bucket": "add3_remove1_net+2",
+          "count": 7
+        },
+        {
+          "bucket": "add2_remove4_net-2",
+          "count": 6
+        },
+        {
+          "bucket": "add4_remove0_net+4",
+          "count": 3
+        },
+        {
+          "bucket": "add2_remove2_net+0",
+          "count": 1
+        }
+      ],
+      "net_added_hist_top": [
+        {
+          "bucket": "4",
+          "count": 475
+        },
+        {
+          "bucket": "2",
+          "count": 306
+        },
+        {
+          "bucket": "6",
+          "count": 187
+        },
+        {
+          "bucket": "0",
+          "count": 50
+        },
+        {
+          "bucket": "-2",
+          "count": 6
+        }
+      ],
+      "removed_bits_hist_top": [
+        {
+          "bucket": "1",
+          "count": 479
+        },
+        {
+          "bucket": "2",
+          "count": 300
+        },
+        {
+          "bucket": "0",
+          "count": 190
+        },
+        {
+          "bucket": "3",
+          "count": 49
+        },
+        {
+          "bucket": "4",
+          "count": 6
+        }
+      ],
+      "best_positive_removed": "1: HW86 add5_remove1_net+4 wt44 lane[8,9,13,13,9,14,12,8]",
+      "best_low_net": "4: HW86 add5_remove1_net+4 wt44 lane[8,9,13,13,9,14,12,8]"
+    },
+    {
+      "label": "F889_bit24_f788_hw86_shape_reserve_beam",
+      "artifact": "20260504_F889_bit24_f788_hw86_shape_reserve_beam.json",
+      "depth": 4,
+      "candidate_count": 1044859,
+      "kept_count": 1024,
+      "selection_passes": [
+        {
+          "pass": "global_primary",
+          "limit": 512,
+          "added": 512
+        },
+        {
+          "pass": "low_net_reserve",
+          "limit": 384,
+          "added": 384,
+          "max_net_added": 4,
+          "min_removed_bits": 1
+        },
+        {
+          "pass": "removed_reserve",
+          "limit": 128,
+          "added": 128,
+          "min_removed_bits": 2
+        },
+        {
+          "pass": "global_fill",
+          "limit": 0,
+          "added": 0
+        }
+      ],
+      "best_hw": 90,
+      "best_objective": 90.0,
+      "best_state": {
+        "hw": 90,
+        "objective": 90.0,
+        "lane_hw": [
+          14,
+          11,
+          10,
+          16,
+          6,
+          11,
+          8,
+          14
+        ],
+        "m2_weight": 44,
+        "m2_added_bits": 6,
+        "m2_removed_bits": 2,
+        "m2_net_added_bits": 4,
+        "m2_shape": "add6_remove2_net+4",
+        "depth": 4,
+        "bits": [
+          18,
+          84,
+          85,
+          97,
+          205,
+          294,
+          396,
+          475
+        ]
+      },
+      "best_objective_state": {
+        "hw": 90,
+        "objective": 90.0,
+        "lane_hw": [
+          14,
+          11,
+          10,
+          16,
+          6,
+          11,
+          8,
+          14
+        ],
+        "m2_weight": 44,
+        "m2_added_bits": 6,
+        "m2_removed_bits": 2,
+        "m2_net_added_bits": 4,
+        "m2_shape": "add6_remove2_net+4",
+        "depth": 4,
+        "bits": [
+          18,
+          84,
+          85,
+          97,
+          205,
+          294,
+          396,
+          475
+        ]
+      },
+      "shape_hist_top": [
+        {
+          "bucket": "add6_remove2_net+4",
+          "count": 546
+        },
+        {
+          "bucket": "add7_remove1_net+6",
+          "count": 212
+        },
+        {
+          "bucket": "add5_remove3_net+2",
+          "count": 127
+        },
+        {
+          "bucket": "add8_remove0_net+8",
+          "count": 79
+        },
+        {
+          "bucket": "add5_remove1_net+4",
+          "count": 21
+        },
+        {
+          "bucket": "add4_remove2_net+2",
+          "count": 14
+        },
+        {
+          "bucket": "add4_remove4_net+0",
+          "count": 14
+        },
+        {
+          "bucket": "add3_remove3_net+0",
+          "count": 6
+        },
+        {
+          "bucket": "add6_remove0_net+6",
+          "count": 3
+        },
+        {
+          "bucket": "add2_remove2_net+0",
+          "count": 1
+        },
+        {
+          "bucket": "add3_remove5_net-2",
+          "count": 1
+        }
+      ],
+      "net_added_hist_top": [
+        {
+          "bucket": "4",
+          "count": 567
+        },
+        {
+          "bucket": "6",
+          "count": 215
+        },
+        {
+          "bucket": "2",
+          "count": 141
+        },
+        {
+          "bucket": "8",
+          "count": 79
+        },
+        {
+          "bucket": "0",
+          "count": 21
+        },
+        {
+          "bucket": "-2",
+          "count": 1
+        }
+      ],
+      "removed_bits_hist_top": [
+        {
+          "bucket": "2",
+          "count": 561
+        },
+        {
+          "bucket": "1",
+          "count": 233
+        },
+        {
+          "bucket": "3",
+          "count": 133
+        },
+        {
+          "bucket": "0",
+          "count": 82
+        },
+        {
+          "bucket": "4",
+          "count": 14
+        },
+        {
+          "bucket": "5",
+          "count": 1
+        }
+      ],
+      "best_positive_removed": "2: HW90 add6_remove2_net+4 wt44 lane[14,11,10,16,6,11,8,14]",
+      "best_low_net": "4: HW90 add6_remove2_net+4 wt44 lane[14,11,10,16,6,11,8,14]"
+    },
+    {
+      "label": "F889_bit24_f788_hw86_shape_reserve_beam",
+      "artifact": "20260504_F889_bit24_f788_hw86_shape_reserve_beam.json",
+      "depth": 5,
+      "candidate_count": 1045786,
+      "kept_count": 1024,
+      "selection_passes": [
+        {
+          "pass": "global_primary",
+          "limit": 512,
+          "added": 512
+        },
+        {
+          "pass": "low_net_reserve",
+          "limit": 384,
+          "added": 384,
+          "max_net_added": 4,
+          "min_removed_bits": 1
+        },
+        {
+          "pass": "removed_reserve",
+          "limit": 128,
+          "added": 128,
+          "min_removed_bits": 2
+        },
+        {
+          "pass": "global_fill",
+          "limit": 0,
+          "added": 0
+        }
+      ],
+      "best_hw": 90,
+      "best_objective": 90.0,
+      "best_state": {
+        "hw": 90,
+        "objective": 90.0,
+        "lane_hw": [
+          8,
+          11,
+          7,
+          13,
+          15,
+          10,
+          12,
+          14
+        ],
+        "m2_weight": 46,
+        "m2_added_bits": 8,
+        "m2_removed_bits": 2,
+        "m2_net_added_bits": 6,
+        "m2_shape": "add8_remove2_net+6",
+        "depth": 5,
+        "bits": [
+          7,
+          12,
+          97,
+          120,
+          144,
+          226,
+          326,
+          327,
+          331,
+          392
+        ]
+      },
+      "best_objective_state": {
+        "hw": 90,
+        "objective": 90.0,
+        "lane_hw": [
+          8,
+          11,
+          7,
+          13,
+          15,
+          10,
+          12,
+          14
+        ],
+        "m2_weight": 46,
+        "m2_added_bits": 8,
+        "m2_removed_bits": 2,
+        "m2_net_added_bits": 6,
+        "m2_shape": "add8_remove2_net+6",
+        "depth": 5,
+        "bits": [
+          7,
+          12,
+          97,
+          120,
+          144,
+          226,
+          326,
+          327,
+          331,
+          392
+        ]
+      },
+      "shape_hist_top": [
+        {
+          "bucket": "add8_remove2_net+6",
+          "count": 361
+        },
+        {
+          "bucket": "add7_remove3_net+4",
+          "count": 350
+        },
+        {
+          "bucket": "add9_remove1_net+8",
+          "count": 108
+        },
+        {
+          "bucket": "add6_remove4_net+2",
+          "count": 68
+        },
+        {
+          "bucket": "add6_remove2_net+4",
+          "count": 59
+        },
+        {
+          "bucket": "add10_remove0_net+10",
+          "count": 29
+        },
+        {
+          "bucket": "add5_remove3_net+2",
+          "count": 15
+        },
+        {
+          "bucket": "add7_remove1_net+6",
+          "count": 15
+        },
+        {
+          "bucket": "add5_remove5_net+0",
+          "count": 10
+        },
+        {
+          "bucket": "add8_remove0_net+8",
+          "count": 5
+        },
+        {
+          "bucket": "add5_remove1_net+4",
+          "count": 2
+        },
+        {
+          "bucket": "add4_remove4_net+0",
+          "count": 1
+        }
+      ],
+      "net_added_hist_top": [
+        {
+          "bucket": "4",
+          "count": 411
+        },
+        {
+          "bucket": "6",
+          "count": 376
+        },
+        {
+          "bucket": "8",
+          "count": 113
+        },
+        {
+          "bucket": "2",
+          "count": 83
+        },
+        {
+          "bucket": "10",
+          "count": 29
+        },
+        {
+          "bucket": "0",
+          "count": 11
+        },
+        {
+          "bucket": "-2",
+          "count": 1
+        }
+      ],
+      "removed_bits_hist_top": [
+        {
+          "bucket": "2",
+          "count": 420
+        },
+        {
+          "bucket": "3",
+          "count": 365
+        },
+        {
+          "bucket": "1",
+          "count": 125
+        },
+        {
+          "bucket": "4",
+          "count": 69
+        },
+        {
+          "bucket": "0",
+          "count": 34
+        },
+        {
+          "bucket": "5",
+          "count": 10
+        },
+        {
+          "bucket": "6",
+          "count": 1
+        }
+      ],
+      "best_positive_removed": "2: HW90 add8_remove2_net+6 wt46 lane[8,11,7,13,15,10,12,14]",
+      "best_low_net": "4: HW91 add7_remove3_net+4 wt44 lane[8,10,12,13,12,12,11,13]"
+    },
+    {
+      "label": "F889_bit24_f788_hw86_shape_reserve_beam",
+      "artifact": "20260504_F889_bit24_f788_hw86_shape_reserve_beam.json",
+      "depth": 6,
+      "candidate_count": 1045761,
+      "kept_count": 1024,
+      "selection_passes": [
+        {
+          "pass": "global_primary",
+          "limit": 512,
+          "added": 512
+        },
+        {
+          "pass": "low_net_reserve",
+          "limit": 384,
+          "added": 384,
+          "max_net_added": 4,
+          "min_removed_bits": 1
+        },
+        {
+          "pass": "removed_reserve",
+          "limit": 128,
+          "added": 128,
+          "min_removed_bits": 2
+        },
+        {
+          "pass": "global_fill",
+          "limit": 0,
+          "added": 0
+        }
+      ],
+      "best_hw": 78,
+      "best_objective": 78.0,
+      "best_state": {
+        "hw": 78,
+        "objective": 78.0,
+        "lane_hw": [
+          13,
+          11,
+          8,
+          9,
+          7,
+          9,
+          8,
+          13
+        ],
+        "m2_weight": 44,
+        "m2_added_bits": 8,
+        "m2_removed_bits": 4,
+        "m2_net_added_bits": 4,
+        "m2_shape": "add8_remove4_net+4",
+        "depth": 6,
+        "bits": [
+          39,
+          52,
+          97,
+          108,
+          114,
+          130,
+          136,
+          231,
+          266,
+          344,
+          421,
+          437
+        ]
+      },
+      "best_objective_state": {
+        "hw": 78,
+        "objective": 78.0,
+        "lane_hw": [
+          13,
+          11,
+          8,
+          9,
+          7,
+          9,
+          8,
+          13
+        ],
+        "m2_weight": 44,
+        "m2_added_bits": 8,
+        "m2_removed_bits": 4,
+        "m2_net_added_bits": 4,
+        "m2_shape": "add8_remove4_net+4",
+        "depth": 6,
+        "bits": [
+          39,
+          52,
+          97,
+          108,
+          114,
+          130,
+          136,
+          231,
+          266,
+          344,
+          421,
+          437
+        ]
+      },
+      "shape_hist_top": [
+        {
+          "bucket": "add8_remove4_net+4",
+          "count": 301
+        },
+        {
+          "bucket": "add9_remove3_net+6",
+          "count": 249
+        },
+        {
+          "bucket": "add10_remove2_net+8",
+          "count": 180
+        },
+        {
+          "bucket": "add7_remove3_net+4",
+          "count": 81
+        },
+        {
+          "bucket": "add7_remove5_net+2",
+          "count": 67
+        },
+        {
+          "bucket": "add11_remove1_net+10",
+          "count": 59
+        },
+        {
+          "bucket": "add8_remove2_net+6",
+          "count": 39
+        },
+        {
+          "bucket": "add6_remove4_net+2",
+          "count": 15
+        },
+        {
+          "bucket": "add12_remove0_net+12",
+          "count": 7
+        },
+        {
+          "bucket": "add9_remove1_net+8",
+          "count": 6
+        },
+        {
+          "bucket": "add6_remove2_net+4",
+          "count": 5
+        },
+        {
+          "bucket": "add6_remove6_net+0",
+          "count": 5
+        }
+      ],
+      "net_added_hist_top": [
+        {
+          "bucket": "4",
+          "count": 388
+        },
+        {
+          "bucket": "6",
+          "count": 290
+        },
+        {
+          "bucket": "8",
+          "count": 186
+        },
+        {
+          "bucket": "2",
+          "count": 84
+        },
+        {
+          "bucket": "10",
+          "count": 63
+        },
+        {
+          "bucket": "12",
+          "count": 7
+        },
+        {
+          "bucket": "0",
+          "count": 6
+        }
+      ],
+      "removed_bits_hist_top": [
+        {
+          "bucket": "3",
+          "count": 332
+        },
+        {
+          "bucket": "4",
+          "count": 317
+        },
+        {
+          "bucket": "2",
+          "count": 224
+        },
+        {
+          "bucket": "1",
+          "count": 68
+        },
+        {
+          "bucket": "5",
+          "count": 67
+        },
+        {
+          "bucket": "0",
+          "count": 11
+        },
+        {
+          "bucket": "6",
+          "count": 5
+        }
+      ],
+      "best_positive_removed": "4: HW78 add8_remove4_net+4 wt44 lane[13,11,8,9,7,9,8,13]",
+      "best_low_net": "4: HW78 add8_remove4_net+4 wt44 lane[13,11,8,9,7,9,8,13]"
+    },
+    {
+      "label": "F897_bit13_hw82_shape_reserve_beam",
+      "artifact": "20260504_F897_bit13_hw82_shape_reserve_beam.json",
+      "depth": 1,
+      "candidate_count": 1024,
+      "kept_count": 1024,
+      "selection_passes": [
+        {
+          "pass": "global_primary",
+          "limit": 512,
+          "added": 512
+        },
+        {
+          "pass": "low_net_reserve",
+          "limit": 384,
+          "added": 67,
+          "max_net_added": 4,
+          "min_removed_bits": 1
+        },
+        {
+          "pass": "removed_reserve",
+          "limit": 128,
+          "added": 0,
+          "min_removed_bits": 2
+        },
+        {
+          "pass": "global_fill",
+          "limit": 445,
+          "added": 445
+        }
+      ],
+      "best_hw": 93,
+      "best_objective": 93.0,
+      "best_state": {
+        "hw": 93,
+        "objective": 93.0,
+        "lane_hw": [
+          10,
+          11,
+          14,
+          11,
+          11,
+          12,
+          13,
+          11
+        ],
+        "m2_weight": 31,
+        "m2_added_bits": 2,
+        "m2_removed_bits": 0,
+        "m2_net_added_bits": 2,
+        "m2_shape": "add2_remove0_net+2",
+        "depth": 1,
+        "bits": [
+          398,
+          437
+        ]
+      },
+      "best_objective_state": {
+        "hw": 93,
+        "objective": 93.0,
+        "lane_hw": [
+          10,
+          11,
+          14,
+          11,
+          11,
+          12,
+          13,
+          11
+        ],
+        "m2_weight": 31,
+        "m2_added_bits": 2,
+        "m2_removed_bits": 0,
+        "m2_net_added_bits": 2,
+        "m2_shape": "add2_remove0_net+2",
+        "depth": 1,
+        "bits": [
+          398,
+          437
+        ]
+      },
+      "shape_hist_top": [
+        {
+          "bucket": "add2_remove0_net+2",
+          "count": 888
+        },
+        {
+          "bucket": "add1_remove1_net+0",
+          "count": 131
+        },
+        {
+          "bucket": "add0_remove2_net-2",
+          "count": 5
+        }
+      ],
+      "net_added_hist_top": [
+        {
+          "bucket": "2",
+          "count": 888
+        },
+        {
+          "bucket": "0",
+          "count": 131
+        },
+        {
+          "bucket": "-2",
+          "count": 5
+        }
+      ],
+      "removed_bits_hist_top": [
+        {
+          "bucket": "0",
+          "count": 888
+        },
+        {
+          "bucket": "1",
+          "count": 131
+        },
+        {
+          "bucket": "2",
+          "count": 5
+        }
+      ],
+      "best_positive_removed": "1: HW97 add1_remove1_net+0 wt29 lane[12,14,14,11,12,11,13,10]",
+      "best_low_net": "2: HW93 add2_remove0_net+2 wt31 lane[10,11,14,11,11,12,13,11]"
+    },
+    {
+      "label": "F897_bit13_hw82_shape_reserve_beam",
+      "artifact": "20260504_F897_bit13_hw82_shape_reserve_beam.json",
+      "depth": 2,
+      "candidate_count": 523643,
+      "kept_count": 1024,
+      "selection_passes": [
+        {
+          "pass": "global_primary",
+          "limit": 512,
+          "added": 512
+        },
+        {
+          "pass": "low_net_reserve",
+          "limit": 384,
+          "added": 384,
+          "max_net_added": 4,
+          "min_removed_bits": 1
+        },
+        {
+          "pass": "removed_reserve",
+          "limit": 128,
+          "added": 128,
+          "min_removed_bits": 2
+        },
+        {
+          "pass": "global_fill",
+          "limit": 0,
+          "added": 0
+        }
+      ],
+      "best_hw": 88,
+      "best_objective": 88.0,
+      "best_state": {
+        "hw": 88,
+        "objective": 88.0,
+        "lane_hw": [
+          12,
+          14,
+          14,
+          6,
+          13,
+          10,
+          11,
+          8
+        ],
+        "m2_weight": 31,
+        "m2_added_bits": 3,
+        "m2_removed_bits": 1,
+        "m2_net_added_bits": 2,
+        "m2_shape": "add3_remove1_net+2",
+        "depth": 2,
+        "bits": [
+          190,
+          253,
+          411,
+          433
+        ]
+      },
+      "best_objective_state": {
+        "hw": 88,
+        "objective": 88.0,
+        "lane_hw": [
+          12,
+          14,
+          14,
+          6,
+          13,
+          10,
+          11,
+          8
+        ],
+        "m2_weight": 31,
+        "m2_added_bits": 3,
+        "m2_removed_bits": 1,
+        "m2_net_added_bits": 2,
+        "m2_shape": "add3_remove1_net+2",
+        "depth": 2,
+        "bits": [
+          190,
+          253,
+          411,
+          433
+        ]
+      },
+      "shape_hist_top": [
+        {
+          "bucket": "add3_remove1_net+2",
+          "count": 466
+        },
+        {
+          "bucket": "add4_remove0_net+4",
+          "count": 384
+        },
+        {
+          "bucket": "add2_remove2_net+0",
+          "count": 169
+        },
+        {
+          "bucket": "add1_remove3_net-2",
+          "count": 5
+        }
+      ],
+      "net_added_hist_top": [
+        {
+          "bucket": "2",
+          "count": 466
+        },
+        {
+          "bucket": "4",
+          "count": 384
+        },
+        {
+          "bucket": "0",
+          "count": 169
+        },
+        {
+          "bucket": "-2",
+          "count": 5
+        }
+      ],
+      "removed_bits_hist_top": [
+        {
+          "bucket": "1",
+          "count": 466
+        },
+        {
+          "bucket": "0",
+          "count": 384
+        },
+        {
+          "bucket": "2",
+          "count": 169
+        },
+        {
+          "bucket": "3",
+          "count": 5
+        }
+      ],
+      "best_positive_removed": "1: HW88 add3_remove1_net+2 wt31 lane[12,14,14,6,13,10,11,8]",
+      "best_low_net": "2: HW88 add3_remove1_net+2 wt31 lane[12,14,14,6,13,10,11,8]"
+    },
+    {
+      "label": "F897_bit13_hw82_shape_reserve_beam",
+      "artifact": "20260504_F897_bit13_hw82_shape_reserve_beam.json",
+      "depth": 3,
+      "candidate_count": 1043189,
+      "kept_count": 1024,
+      "selection_passes": [
+        {
+          "pass": "global_primary",
+          "limit": 512,
+          "added": 512
+        },
+        {
+          "pass": "low_net_reserve",
+          "limit": 384,
+          "added": 384,
+          "max_net_added": 4,
+          "min_removed_bits": 1
+        },
+        {
+          "pass": "removed_reserve",
+          "limit": 128,
+          "added": 128,
+          "min_removed_bits": 2
+        },
+        {
+          "pass": "global_fill",
+          "limit": 0,
+          "added": 0
+        }
+      ],
+      "best_hw": 86,
+      "best_objective": 86.0,
+      "best_state": {
+        "hw": 86,
+        "objective": 86.0,
+        "lane_hw": [
+          14,
+          11,
+          12,
+          6,
+          14,
+          9,
+          12,
+          8
+        ],
+        "m2_weight": 33,
+        "m2_added_bits": 5,
+        "m2_removed_bits": 1,
+        "m2_net_added_bits": 4,
+        "m2_shape": "add5_remove1_net+4",
+        "depth": 3,
+        "bits": [
+          34,
+          157,
+          390,
+          392,
+          449,
+          452
+        ]
+      },
+      "best_objective_state": {
+        "hw": 86,
+        "objective": 86.0,
+        "lane_hw": [
+          14,
+          11,
+          12,
+          6,
+          14,
+          9,
+          12,
+          8
+        ],
+        "m2_weight": 33,
+        "m2_added_bits": 5,
+        "m2_removed_bits": 1,
+        "m2_net_added_bits": 4,
+        "m2_shape": "add5_remove1_net+4",
+        "depth": 3,
+        "bits": [
+          34,
+          157,
+          390,
+          392,
+          449,
+          452
+        ]
+      },
+      "shape_hist_top": [
+        {
+          "bucket": "add5_remove1_net+4",
+          "count": 470
+        },
+        {
+          "bucket": "add4_remove2_net+2",
+          "count": 313
+        },
+        {
+          "bucket": "add6_remove0_net+6",
+          "count": 185
+        },
+        {
+          "bucket": "add3_remove3_net+0",
+          "count": 41
+        },
+        {
+          "bucket": "add3_remove1_net+2",
+          "count": 9
+        },
+        {
+          "bucket": "add4_remove0_net+4",
+          "count": 4
+        },
+        {
+          "bucket": "add2_remove2_net+0",
+          "count": 1
+        },
+        {
+          "bucket": "add2_remove4_net-2",
+          "count": 1
+        }
+      ],
+      "net_added_hist_top": [
+        {
+          "bucket": "4",
+          "count": 474
+        },
+        {
+          "bucket": "2",
+          "count": 322
+        },
+        {
+          "bucket": "6",
+          "count": 185
+        },
+        {
+          "bucket": "0",
+          "count": 42
+        },
+        {
+          "bucket": "-2",
+          "count": 1
+        }
+      ],
+      "removed_bits_hist_top": [
+        {
+          "bucket": "1",
+          "count": 479
+        },
+        {
+          "bucket": "2",
+          "count": 314
+        },
+        {
+          "bucket": "0",
+          "count": 189
+        },
+        {
+          "bucket": "3",
+          "count": 41
+        },
+        {
+          "bucket": "4",
+          "count": 1
+        }
+      ],
+      "best_positive_removed": "1: HW86 add5_remove1_net+4 wt33 lane[14,11,12,6,14,9,12,8]",
+      "best_low_net": "4: HW86 add5_remove1_net+4 wt33 lane[14,11,12,6,14,9,12,8]"
+    },
+    {
+      "label": "F897_bit13_hw82_shape_reserve_beam",
+      "artifact": "20260504_F897_bit13_hw82_shape_reserve_beam.json",
+      "depth": 4,
+      "candidate_count": 1044818,
+      "kept_count": 1024,
+      "selection_passes": [
+        {
+          "pass": "global_primary",
+          "limit": 512,
+          "added": 512
+        },
+        {
+          "pass": "low_net_reserve",
+          "limit": 384,
+          "added": 384,
+          "max_net_added": 4,
+          "min_removed_bits": 1
+        },
+        {
+          "pass": "removed_reserve",
+          "limit": 128,
+          "added": 128,
+          "min_removed_bits": 2
+        },
+        {
+          "pass": "global_fill",
+          "limit": 0,
+          "added": 0
+        }
+      ],
+      "best_hw": 89,
+      "best_objective": 89.0,
+      "best_state": {
+        "hw": 89,
+        "objective": 89.0,
+        "lane_hw": [
+          8,
+          12,
+          6,
+          13,
+          9,
+          13,
+          16,
+          12
+        ],
+        "m2_weight": 35,
+        "m2_added_bits": 7,
+        "m2_removed_bits": 1,
+        "m2_net_added_bits": 6,
+        "m2_shape": "add7_remove1_net+6",
+        "depth": 4,
+        "bits": [
+          58,
+          283,
+          284,
+          356,
+          411,
+          416,
+          418,
+          480
+        ]
+      },
+      "best_objective_state": {
+        "hw": 89,
+        "objective": 89.0,
+        "lane_hw": [
+          8,
+          12,
+          6,
+          13,
+          9,
+          13,
+          16,
+          12
+        ],
+        "m2_weight": 35,
+        "m2_added_bits": 7,
+        "m2_removed_bits": 1,
+        "m2_net_added_bits": 6,
+        "m2_shape": "add7_remove1_net+6",
+        "depth": 4,
+        "bits": [
+          58,
+          283,
+          284,
+          356,
+          411,
+          416,
+          418,
+          480
+        ]
+      },
+      "shape_hist_top": [
+        {
+          "bucket": "add6_remove2_net+4",
+          "count": 520
+        },
+        {
+          "bucket": "add7_remove1_net+6",
+          "count": 240
+        },
+        {
+          "bucket": "add5_remove3_net+2",
+          "count": 115
+        },
+        {
+          "bucket": "add8_remove0_net+8",
+          "count": 92
+        },
+        {
+          "bucket": "add5_remove1_net+4",
+          "count": 27
+        },
+        {
+          "bucket": "add4_remove2_net+2",
+          "count": 14
+        },
+        {
+          "bucket": "add4_remove4_net+0",
+          "count": 9
+        },
+        {
+          "bucket": "add6_remove0_net+6",
+          "count": 6
+        },
+        {
+          "bucket": "add3_remove3_net+0",
+          "count": 1
+        }
+      ],
+      "net_added_hist_top": [
+        {
+          "bucket": "4",
+          "count": 547
+        },
+        {
+          "bucket": "6",
+          "count": 246
+        },
+        {
+          "bucket": "2",
+          "count": 129
+        },
+        {
+          "bucket": "8",
+          "count": 92
+        },
+        {
+          "bucket": "0",
+          "count": 10
+        }
+      ],
+      "removed_bits_hist_top": [
+        {
+          "bucket": "2",
+          "count": 534
+        },
+        {
+          "bucket": "1",
+          "count": 267
+        },
+        {
+          "bucket": "3",
+          "count": 116
+        },
+        {
+          "bucket": "0",
+          "count": 98
+        },
+        {
+          "bucket": "4",
+          "count": 9
+        }
+      ],
+      "best_positive_removed": "1: HW89 add7_remove1_net+6 wt35 lane[8,12,6,13,9,13,16,12]",
+      "best_low_net": "4: HW91 add6_remove2_net+4 wt33 lane[13,9,14,12,10,8,12,13]"
+    },
+    {
+      "label": "F897_bit13_hw82_shape_reserve_beam",
+      "artifact": "20260504_F897_bit13_hw82_shape_reserve_beam.json",
+      "depth": 5,
+      "candidate_count": 1045795,
+      "kept_count": 1024,
+      "selection_passes": [
+        {
+          "pass": "global_primary",
+          "limit": 512,
+          "added": 512
+        },
+        {
+          "pass": "low_net_reserve",
+          "limit": 384,
+          "added": 384,
+          "max_net_added": 4,
+          "min_removed_bits": 1
+        },
+        {
+          "pass": "removed_reserve",
+          "limit": 128,
+          "added": 128,
+          "min_removed_bits": 2
+        },
+        {
+          "pass": "global_fill",
+          "limit": 0,
+          "added": 0
+        }
+      ],
+      "best_hw": 88,
+      "best_objective": 88.0,
+      "best_state": {
+        "hw": 88,
+        "objective": 88.0,
+        "lane_hw": [
+          15,
+          13,
+          13,
+          10,
+          7,
+          14,
+          9,
+          7
+        ],
+        "m2_weight": 37,
+        "m2_added_bits": 9,
+        "m2_removed_bits": 1,
+        "m2_net_added_bits": 8,
+        "m2_shape": "add9_remove1_net+8",
+        "depth": 5,
+        "bits": [
+          7,
+          87,
+          107,
+          389,
+          404,
+          414,
+          429,
+          430,
+          459,
+          501
+        ]
+      },
+      "best_objective_state": {
+        "hw": 88,
+        "objective": 88.0,
+        "lane_hw": [
+          15,
+          13,
+          13,
+          10,
+          7,
+          14,
+          9,
+          7
+        ],
+        "m2_weight": 37,
+        "m2_added_bits": 9,
+        "m2_removed_bits": 1,
+        "m2_net_added_bits": 8,
+        "m2_shape": "add9_remove1_net+8",
+        "depth": 5,
+        "bits": [
+          7,
+          87,
+          107,
+          389,
+          404,
+          414,
+          429,
+          430,
+          459,
+          501
+        ]
+      },
+      "shape_hist_top": [
+        {
+          "bucket": "add7_remove3_net+4",
+          "count": 360
+        },
+        {
+          "bucket": "add8_remove2_net+6",
+          "count": 346
+        },
+        {
+          "bucket": "add9_remove1_net+8",
+          "count": 114
+        },
+        {
+          "bucket": "add6_remove2_net+4",
+          "count": 57
+        },
+        {
+          "bucket": "add6_remove4_net+2",
+          "count": 55
+        },
+        {
+          "bucket": "add10_remove0_net+10",
+          "count": 49
+        },
+        {
+          "bucket": "add7_remove1_net+6",
+          "count": 19
+        },
+        {
+          "bucket": "add5_remove3_net+2",
+          "count": 8
+        },
+        {
+          "bucket": "add5_remove5_net+0",
+          "count": 6
+        },
+        {
+          "bucket": "add8_remove0_net+8",
+          "count": 4
+        },
+        {
+          "bucket": "add4_remove2_net+2",
+          "count": 3
+        },
+        {
+          "bucket": "add4_remove4_net+0",
+          "count": 2
+        }
+      ],
+      "net_added_hist_top": [
+        {
+          "bucket": "4",
+          "count": 418
+        },
+        {
+          "bucket": "6",
+          "count": 365
+        },
+        {
+          "bucket": "8",
+          "count": 118
+        },
+        {
+          "bucket": "2",
+          "count": 66
+        },
+        {
+          "bucket": "10",
+          "count": 49
+        },
+        {
+          "bucket": "0",
+          "count": 8
+        }
+      ],
+      "removed_bits_hist_top": [
+        {
+          "bucket": "2",
+          "count": 406
+        },
+        {
+          "bucket": "3",
+          "count": 368
+        },
+        {
+          "bucket": "1",
+          "count": 134
+        },
+        {
+          "bucket": "4",
+          "count": 57
+        },
+        {
+          "bucket": "0",
+          "count": 53
+        },
+        {
+          "bucket": "5",
+          "count": 6
+        }
+      ],
+      "best_positive_removed": "1: HW88 add9_remove1_net+8 wt37 lane[15,13,13,10,7,14,9,7]",
+      "best_low_net": "4: HW92 add7_remove3_net+4 wt33 lane[5,16,10,13,10,14,13,11]"
+    },
+    {
+      "label": "F897_bit13_hw82_shape_reserve_beam",
+      "artifact": "20260504_F897_bit13_hw82_shape_reserve_beam.json",
+      "depth": 6,
+      "candidate_count": 1045757,
+      "kept_count": 1024,
+      "selection_passes": [
+        {
+          "pass": "global_primary",
+          "limit": 512,
+          "added": 512
+        },
+        {
+          "pass": "low_net_reserve",
+          "limit": 384,
+          "added": 384,
+          "max_net_added": 4,
+          "min_removed_bits": 1
+        },
+        {
+          "pass": "removed_reserve",
+          "limit": 128,
+          "added": 128,
+          "min_removed_bits": 2
+        },
+        {
+          "pass": "global_fill",
+          "limit": 0,
+          "added": 0
+        }
+      ],
+      "best_hw": 90,
+      "best_objective": 90.0,
+      "best_state": {
+        "hw": 90,
+        "objective": 90.0,
+        "lane_hw": [
+          8,
+          12,
+          13,
+          12,
+          12,
+          12,
+          10,
+          11
+        ],
+        "m2_weight": 33,
+        "m2_added_bits": 7,
+        "m2_removed_bits": 3,
+        "m2_net_added_bits": 4,
+        "m2_shape": "add7_remove3_net+4",
+        "depth": 6,
+        "bits": [
+          158,
+          179,
+          239,
+          241,
+          260,
+          400,
+          422,
+          440,
+          446,
+          483
+        ]
+      },
+      "best_objective_state": {
+        "hw": 90,
+        "objective": 90.0,
+        "lane_hw": [
+          8,
+          12,
+          13,
+          12,
+          12,
+          12,
+          10,
+          11
+        ],
+        "m2_weight": 33,
+        "m2_added_bits": 7,
+        "m2_removed_bits": 3,
+        "m2_net_added_bits": 4,
+        "m2_shape": "add7_remove3_net+4",
+        "depth": 6,
+        "bits": [
+          158,
+          179,
+          239,
+          241,
+          260,
+          400,
+          422,
+          440,
+          446,
+          483
+        ]
+      },
+      "shape_hist_top": [
+        {
+          "bucket": "add8_remove4_net+4",
+          "count": 280
+        },
+        {
+          "bucket": "add9_remove3_net+6",
+          "count": 240
+        },
+        {
+          "bucket": "add10_remove2_net+8",
+          "count": 215
+        },
+        {
+          "bucket": "add7_remove3_net+4",
+          "count": 75
+        },
+        {
+          "bucket": "add11_remove1_net+10",
+          "count": 55
+        },
+        {
+          "bucket": "add7_remove5_net+2",
+          "count": 43
+        },
+        {
+          "bucket": "add8_remove2_net+6",
+          "count": 39
+        },
+        {
+          "bucket": "add12_remove0_net+12",
+          "count": 24
+        },
+        {
+          "bucket": "add6_remove2_net+4",
+          "count": 16
+        },
+        {
+          "bucket": "add6_remove4_net+2",
+          "count": 15
+        },
+        {
+          "bucket": "add9_remove1_net+8",
+          "count": 7
+        },
+        {
+          "bucket": "add6_remove6_net+0",
+          "count": 6
+        }
+      ],
+      "net_added_hist_top": [
+        {
+          "bucket": "4",
+          "count": 372
+        },
+        {
+          "bucket": "6",
+          "count": 279
+        },
+        {
+          "bucket": "8",
+          "count": 222
+        },
+        {
+          "bucket": "2",
+          "count": 61
+        },
+        {
+          "bucket": "10",
+          "count": 58
+        },
+        {
+          "bucket": "12",
+          "count": 24
+        },
+        {
+          "bucket": "0",
+          "count": 7
+        },
+        {
+          "bucket": "-2",
+          "count": 1
+        }
+      ],
+      "removed_bits_hist_top": [
+        {
+          "bucket": "3",
+          "count": 318
+        },
+        {
+          "bucket": "4",
+          "count": 295
+        },
+        {
+          "bucket": "2",
+          "count": 270
+        },
+        {
+          "bucket": "1",
+          "count": 63
+        },
+        {
+          "bucket": "5",
+          "count": 44
+        },
+        {
+          "bucket": "0",
+          "count": 27
+        },
+        {
+          "bucket": "6",
+          "count": 6
+        },
+        {
+          "bucket": "7",
+          "count": 1
+        }
+      ],
+      "best_positive_removed": "3: HW90 add7_remove3_net+4 wt33 lane[8,12,13,12,12,12,10,11]",
+      "best_low_net": "4: HW90 add7_remove3_net+4 wt33 lane[8,12,13,12,12,12,10,11]"
+    }
+  ]
+}
