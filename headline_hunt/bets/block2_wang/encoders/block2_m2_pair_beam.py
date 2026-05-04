@@ -382,9 +382,14 @@ def main():
     if not all_pairs:
         raise SystemExit("pair pool is empty after M2-weight filtering")
     top_pairs = all_pairs[:args.pair_pool]
-    pool_hw_min = top_pairs[0]["hw_total"]
-    pool_hw_max = top_pairs[-1]["hw_total"]
-    print(f"  pair pool: {len(all_pairs)} -> top {len(top_pairs)} (HW range {pool_hw_min}..{pool_hw_max})")
+    pool_hw_min = min(pair["hw_total"] for pair in top_pairs)
+    pool_hw_max = max(pair["hw_total"] for pair in top_pairs)
+    pool_obj_min = min(pair["objective"] for pair in top_pairs)
+    pool_obj_max = max(pair["objective"] for pair in top_pairs)
+    print(
+        f"  pair pool: {len(all_pairs)} -> top {len(top_pairs)} "
+        f"(HW range {pool_hw_min}..{pool_hw_max}, objective range {pool_obj_min}..{pool_obj_max})"
+    )
 
     # Step 2: beam search composing top pairs
     # State = (frozenset of bit indices flipped, hw)
@@ -553,6 +558,10 @@ def main():
         "seed_rank": args.rank,
         "rounds": args.rounds,
         "pair_pool": args.pair_pool,
+        "pair_pool_hw_min": pool_hw_min,
+        "pair_pool_hw_max": pool_hw_max,
+        "pair_pool_objective_min": pool_obj_min,
+        "pair_pool_objective_max": pool_obj_max,
         "objective": args.objective,
         "pair_rank": args.pair_rank,
         "lane_weights": lane_weights,
