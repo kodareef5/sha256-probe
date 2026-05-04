@@ -29,7 +29,74 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-04T07:16:10Z'
+last_heartbeat: '2026-05-04T07:52:52Z'
+recent_progress_2026-05-04_F806_target_w1_bridge_closed: |
+  yale-codex ran a target-weight-1 lane bridge from the F802 HW85 witness
+  toward the F789 HW78 lane.
+
+  Setup:
+    init HW: 85
+    init lane: [11, 12, 7, 12, 12, 12, 9, 10]
+    target lane: [13, 11, 8, 9, 7, 9, 8, 13]
+    objective: HW + L1(lane, target)
+
+  Result:
+    pair-pool HW range: 94..110
+    depth best objective/HW sequence:
+      d1 HW94 obj110
+      d2 HW94 obj114
+      d3 HW88 obj104
+      d4 HW93 obj110
+      d5 HW92 obj110
+      d6 HW85 obj104
+    new records below HW85: 0
+    best seen HW: 85, source init
+    wall: 696.78s
+
+  Interpretation:
+    Lowering target pressure did not improve the F802 HW85 branch. Simple
+    target-lane bridges from this point to the F789 HW78 lane are closed.
+recent_progress_2026-05-04_F805_F799_target_detour_repaired_to_HW88: |
+  yale-codex ran pure-HW pair-beam from the F799 best-target HW89 detour.
+
+  Setup:
+    init HW: 89
+    lane: [12, 12, 9, 15, 10, 8, 12, 11]
+    pair_pool: 1024
+    beam_width: 1024
+    max_pairs: 6
+    max_radius: 12
+
+  Result:
+    pair-pool HW range: 94..109
+    depth bests: 94, 91, 90, 91, 90, 88
+    new records below HW89: 1
+    best seen HW: 88
+    best lane: [10, 6, 12, 17, 13, 12, 10, 8]
+    wall: 685.41s
+
+  Interpretation:
+    Shallow repair only. This branch is weaker than the F799 best-HW path that
+    reached HW85 via F800/F802.
+recent_progress_2026-05-04_F804_target_w2_to_HW78_lane_closed: |
+  yale-codex ran a target-weight-2 lane bridge from the F802 HW85 witness
+  toward the F789 HW78 lane.
+
+  Setup:
+    init HW: 85
+    init lane: [11, 12, 7, 12, 12, 12, 9, 10]
+    target lane: [13, 11, 8, 9, 7, 9, 8, 13]
+    objective: HW + 2*L1(lane, target)
+
+  Result:
+    new records below HW85: 0
+    best seen HW: 85, source init
+    best objective state: HW91 / objective 117 / target-L1 13
+    wall: 683.59s
+
+  Interpretation:
+    The bridge moved toward the HW78 lane but did not enter a lower-HW basin.
+    The HW91 objective winner is weaker than the F799 HW89 target detour.
 recent_progress_2026-05-04_F803_F802_HW85_pure_HW_closed: |
   yale-codex ran standard pure-HW pair-beam continuation from the F802 HW85
   lane-bridge witness.
