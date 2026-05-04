@@ -29,7 +29,7 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-03T23:21:17Z'
+last_heartbeat: '2026-05-04T00:12:16Z'
 recent_progress_2026-05-03_F549_bit24_HW85_closed: |
   macbook-claude iter from bit24 HW=85 with cg-rank radius 12.
   Stayed at HW=85 (locally closed).
@@ -364,6 +364,33 @@ recent_progress_2026-05-03_F767_bit24_F760_HW82_pair_potential_top80: |
     HW82 tie in target geometry. F767 has 54 target-improving one-pair moves,
     versus 5 around F763/F764, so F760 is the better parent for one more broad
     repair/cg sampled combo.
+
+recent_progress_2026-05-03_F768_bit24_F760_HW82_repair_cg_sample20m_negative: |
+  yale-codex ran the broad repair/cg-heavy sampled combo from the original
+  F760 HW82 point using the F767 top-80 atlas.
+
+  Setup:
+    selected pairs: 173
+    target pairs disabled
+    pair_count=5, radius=8..10
+    sampled combos: 20,000,000
+    evaluated final states: 19,836,163
+    wall 2977.48s
+
+  Result:
+    HW<82: 0
+    HW<=82: 0
+    c/g-improving combos: 48
+    target-L1-improving combos: 10,634
+    best raw HW: 85, target L1 13, c/g 129
+    best target: HW91, target L1 9
+    best c/g: HW87, c/g objective 117
+
+  Interpretation:
+    F768 is negative on the HW82 floor but shows F760 has much more geometric
+    slack than F763. F765 from F763 had only 250 target improvements; F768
+    from F760 has 10,634. The best HW85 sample is worth one standard pair-beam
+    repair check, but direct five-pair repair/cg sampling has not broken HW82.
 
 recent_progress_2026-05-03_F747_pathC_bit4_cg_negative: |
   yale-codex restarted Mac's F547 bit4 path-C HW89 absorber witness with c/g
