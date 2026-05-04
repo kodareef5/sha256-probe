@@ -10,6 +10,23 @@ from pathlib import Path
 GROUPS = ("top_by_hw", "top_by_target_l1", "top_by_cg")
 
 
+def parse_words(raw_words):
+    return [int(word, 16) if isinstance(word, str) else int(word) for word in raw_words]
+
+
+def m2_transition_counts(base_m2, m2):
+    added = 0
+    removed = 0
+    for base_word, word in zip(base_m2, m2):
+        added += bin((~base_word) & word & 0xFFFFFFFF).count("1")
+        removed += bin(base_word & (~word) & 0xFFFFFFFF).count("1")
+    return added, removed, added - removed
+
+
+def m2_weight(words):
+    return sum(bin(word).count("1") for word in words)
+
+
 def pair_key(entry):
     return tuple(sorted(entry["bit_indices"]))
 
@@ -85,17 +102,24 @@ def source_bucket(source_counts):
     return {"target": target, "repair": repair, "hw": hw, "cg": cg}
 
 
-def annotate_record(record, selected_pairs, selection):
+def annotate_record(record, selected_pairs, selection, init_m2, init_hw):
     if record is None:
         return None
+    record_m2 = parse_words(record["M2"])
+    m2_added, m2_removed, m2_net_added = m2_transition_counts(init_m2, record_m2)
     source_counter = Counter()
     word_pairs = []
     standalone_hw = []
+    standalone_net_delta_sum = 0
+    delta_lane_sum = [0] * 8
     for pair_id in record["pair_ids"]:
         pair = selected_pairs[pair_id]
         source_counter.update(pair["selection_sources"])
         word_pairs.append(word_pair(pair["bit_indices"]))
         standalone_hw.append(pair["hw_total"])
+        standalone_net_delta_sum += pair.get("net_delta", pair["hw_total"] - init_hw)
+        for lane_idx, value in enumerate(pair["delta_lane_hw"]):
+            delta_lane_sum[lane_idx] += value
     return {
         "hw_total": record["hw_total"],
         "target_l1": record["target_l1"],
@@ -103,6 +127,10 @@ def annotate_record(record, selected_pairs, selection):
         "net_delta": record["net_delta"],
         "lane_hw": record["lane_hw"],
         "bits": record["bits"],
+        "m2_weight": m2_weight(record_m2),
+        "m2_added_bits": m2_added,
+        "m2_removed_bits": m2_removed,
+        "m2_net_added_bits": m2_net_added,
         "pair_ids": record["pair_ids"],
         "word_pairs": [list(pair) for pair in word_pairs],
         "motifs": motif_counts(
@@ -113,8 +141,8 @@ def annotate_record(record, selected_pairs, selection):
         ),
         "source_counts": dict(sorted(source_counter.items())),
         "source_bucket": source_bucket(source_counter),
-        "standalone_net_delta_sum": record.get("standalone_net_delta_sum"),
-        "delta_lane_sum": record.get("delta_lane_sum"),
+        "standalone_net_delta_sum": standalone_net_delta_sum,
+        "delta_lane_sum": delta_lane_sum,
         "bit_overlap_signature": record.get("bit_overlap_signature"),
         "standalone_hw": standalone_hw,
     }
@@ -124,13 +152,20 @@ def summarize_combo(path):
     combo = json.loads(path.read_text())
     atlas = json.loads(Path(combo["pair_atlas"]).read_text())
     selected_pairs = reconstruct_selected_pairs(atlas, combo["selection"])
+    init_m2 = parse_words(combo["init_M2"])
     counts = combo["counts"]
     evaluated = counts["evaluated"]
 
     best = {}
     for group in GROUPS:
         records = combo.get(group, [])
-        best[group] = annotate_record(records[0] if records else None, selected_pairs, combo["selection"])
+        best[group] = annotate_record(
+            records[0] if records else None,
+            selected_pairs,
+            combo["selection"],
+            init_m2,
+            combo["init_hw"],
+        )
 
     best_hw = best["top_by_hw"]
     best_target = best["top_by_target_l1"]
@@ -141,6 +176,7 @@ def summarize_combo(path):
         "label": combo.get("label"),
         "init_hw": combo["init_hw"],
         "init_lane_hw": combo["init_lane_hw"],
+        "init_m2_weight": m2_weight(init_m2),
         "init_target_l1": combo.get("init_target_l1"),
         "init_cg_objective": combo.get("init_cg_objective"),
         "selection": combo["selection"],
@@ -178,6 +214,8 @@ def md_table(rows):
         "best HW target",
         "best target",
         "best target HW",
+        "best HW shape",
+        "best target shape",
         "selected",
     ]
     lines = [
@@ -189,6 +227,10 @@ def md_table(rows):
         rates = row["rates_per_million"]
         best_hw = row["best"]["top_by_hw"]
         best_target = row["best"]["top_by_target_l1"]
+        best_hw_shape = "n/a" if best_hw is None else f"{best_hw['m2_added_bits']}/{best_hw['m2_removed_bits']}"
+        best_target_shape = (
+            "n/a" if best_target is None else f"{best_target['m2_added_bits']}/{best_target['m2_removed_bits']}"
+        )
         values = [
             row["label"],
             f"{counts['evaluated']:,}",
@@ -199,6 +241,8 @@ def md_table(rows):
             "n/a" if best_hw is None else str(best_hw["target_l1"]),
             "n/a" if best_target is None else str(best_target["target_l1"]),
             "n/a" if best_target is None else str(best_target["hw_total"]),
+            best_hw_shape,
+            best_target_shape,
             str(row["selected_pairs_reconstructed"]),
         ]
         lines.append("| " + " | ".join(values) + " |")
