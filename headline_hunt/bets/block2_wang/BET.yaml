@@ -29,7 +29,24 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-04T04:30:44Z'
+last_heartbeat: '2026-05-04T04:32:16Z'
+recent_progress_2026-05-04_F790_HW78_pair_potential_closed: |
+  yale-codex mapped all two-bit M2 flips around the F789 HW78 witness.
+
+  Result over 130,816 pairs:
+    HW < 78 pairs: 0
+    HW <= 78 pairs: 0
+    c/g-improving pairs: 0
+    target-L1-improving pairs: 0
+    best raw-HW pair: HW95 / target L1 25
+    best c/g pair: HW96 / c/g objective 128
+    best target pair: HW100 / target L1 18
+
+  Interpretation:
+    The HW78 witness is one-pair closed. Because F789 was a multi-pair repair,
+    one pure-HW beam restart from HW78 is still warranted; if that closes, treat
+    HW78 as the mapped endpoint of the overlap-detour branch.
+
 recent_progress_2026-05-04_F789_bit24_HW78_breakthrough: |
   yale-codex restarted standard pure-HW M2 pair-beam from the F788 HW86
   overlap-detour basin and reached HW78.
