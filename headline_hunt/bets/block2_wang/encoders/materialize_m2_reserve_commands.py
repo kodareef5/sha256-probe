@@ -17,6 +17,10 @@ def m2_key(words):
     return tuple(str(word).lower() for word in words or [])
 
 
+def parse_m2_arg(value):
+    return tuple(part.strip().lower() for part in value.split(",") if part.strip())
+
+
 def source_token(label):
     match = re.match(r"F(?P<num>\d+)_", label or "")
     if match:
@@ -60,8 +64,10 @@ def materialize(candidate, run_id, date, out_dir):
     }
 
 
-def load_skip_keys(paths):
+def load_skip_keys(paths, m2_args):
     keys = set()
+    for value in m2_args:
+        keys.add(parse_m2_arg(value))
     for raw_path in paths:
         data = json.loads(Path(raw_path).read_text())
         for key in ("init_M2", "best_seen_M2"):
@@ -111,6 +117,7 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("plan", help="M2 reserve triage plan JSON.")
     ap.add_argument("--skip-artifact", action="append", default=[], help="Artifact whose init/best M2 should be skipped.")
+    ap.add_argument("--skip-m2", action="append", default=[], help="Comma-separated M2 words to skip.")
     ap.add_argument("--date", default=datetime.now().strftime("%Y%m%d"))
     ap.add_argument("--start-id", type=int, required=True)
     ap.add_argument("--limit", type=int, default=5)
@@ -120,7 +127,7 @@ def main():
     args = ap.parse_args()
 
     plan = json.loads(Path(args.plan).read_text())
-    skip_keys = load_skip_keys(args.skip_artifact)
+    skip_keys = load_skip_keys(args.skip_artifact, args.skip_m2)
     rows = collect(plan, skip_keys, args.limit)
     commands = [
         materialize(candidate, args.start_id + index, args.date, args.out_dir)
@@ -134,6 +141,7 @@ def main():
         "start_id": args.start_id,
         "limit": args.limit,
         "skip_artifacts": args.skip_artifact,
+        "skip_m2": args.skip_m2,
         "commands": commands,
     }
     out = Path(args.out)
