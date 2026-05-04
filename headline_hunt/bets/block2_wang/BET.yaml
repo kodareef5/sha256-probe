@@ -29,7 +29,23 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-04T10:15:00Z'
+last_heartbeat: '2026-05-04T10:35:00Z'
+recent_progress_2026-05-04_F552_F553_bit15_bit18_absorbers: |
+  macbook-claude expanded absorber program further.
+
+  F552: bit15 HW=88 (F551) + cg-rank -> HW=83 (-5, big!)
+  F553: bit18 cold start (HW=37 residual) -> HW=86 (joins cluster)
+
+  Updated portfolio:
+    bit13 HW=82 (yale)
+    bit15 HW=83 (Mac F552 NEW, second-deepest)
+    bit24 HW=84 (Mac F550)
+    bit3  HW=86 (F547)  bit18 HW=86 (F553 NEW)
+    bit4  HW=89 (F547)
+
+  6 cands in portfolio. F554/F555 iterate cg from new HW=83/86 records.
+
+
 recent_progress_2026-05-04_F551_bit15_absorber: |
   macbook-claude extended absorber framework to bit15 (Path C HW=37
   residual from F527/F528). M2=0 cold start, 24-round pair beam.
