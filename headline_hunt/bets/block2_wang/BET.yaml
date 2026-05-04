@@ -29,7 +29,44 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-04T02:45:43Z'
+last_heartbeat: '2026-05-04T02:56:53Z'
+recent_progress_2026-05-04_F783_repair_graph_motif_negative: |
+  yale-codex ran the repair-only counterpart to F782.
+
+  F783 setup:
+    parent: original F760 bit24 HW82 witness
+    pair atlas: F767 top-80
+    target pairs: 0
+    repair pairs: 80
+    HW pairs: 20
+    c/g pairs: 40
+    per-register repair pairs: 10
+    selected pairs: 173
+    graph motif: late-late pairs >= 1 and early-late bridge pairs >= 2
+    sampled combos: 20,000,000
+
+  Result:
+    skipped by graph motif: 17,035,587
+    evaluated: 2,939,926
+    HW < 82: 0
+    HW <= 82: 0
+    c/g-improving: 10
+    target-L1-improving: 1,546
+    best HW: 90, target L1 14
+
+  Added analyze_m2_combo_cancellation.py. Cancellation comparison:
+    F760 HW82: nonlinear HW gain 127
+    F763 HW82: nonlinear HW gain 163
+    F782 best HW87: nonlinear HW gain 112
+    F783 best HW90: nonlinear HW gain 98
+
+  Interpretation:
+    The simple word-graph filter branch is closed. The graph motif is
+    compatible with the HW82 records but not sufficient in broad target+repair
+    or repair-only samples. The next useful operator is a standard M2 pair-beam
+    restart from F782's HW87 / target-L1 13 detour, because that state is much
+    closer to the bit13 lane signature than the F760 HW82 parent.
+
 recent_progress_2026-05-04_F782_bit24_graph_motif_negative: |
   yale-codex formalized the F760/F763 word-pair graph motif and tested it
   from the original F760 bit24 HW82 witness.
