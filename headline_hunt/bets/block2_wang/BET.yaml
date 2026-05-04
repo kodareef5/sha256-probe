@@ -29,7 +29,7 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-04T02:01:51Z'
+last_heartbeat: '2026-05-04T02:32:02Z'
 recent_progress_2026-05-03_F549_bit24_HW85_closed: |
   macbook-claude iter from bit24 HW=85 with cg-rank radius 12.
   Stayed at HW=85 (locally closed).
@@ -580,6 +580,31 @@ recent_progress_2026-05-04_F779_F780_bit24_F760_HW82_atlas_beam_negative: |
     HW82 state from the broad top-80 pool. Together with F776, this says the
     next operator needs a compatibility rule for lane-delta cancellation, not
     broader independent target/repair buckets.
+
+recent_progress_2026-05-04_F781_bit24_late3_motif_sample20m_negative: |
+  yale-codex added a late-word motif filter to m2_target_pair_combo.py and ran
+  a motif-biased sample from the F760 HW82 point.
+
+  Motif:
+    require at least 3 of 5 selected pairs to touch M2 words 12..15
+    rationale: F760 HW82 used 3 late-touching pairs; F763 HW82 used 4
+
+  Result:
+    sampled combos: 20,000,000
+    skipped by motif: 9,357,050
+    evaluated final states: 10,624,228
+    HW<82: 0
+    HW<=82: 0
+    c/g-improving combos: 13
+    target-L1-improving combos: 5,611
+    best HW: 86, target L1 24
+    best target: HW93, target L1 11
+
+  Interpretation:
+    The late-word motif is real but insufficient. It focuses the broad sample
+    by about half, but still finds no HW82 tie. The compatibility rule must be
+    more specific than "many late word pairs"; inspect exact word-pair graphs
+    and nonlinear carry-cancellation signatures before adding more filters.
 
 recent_progress_2026-05-03_F747_pathC_bit4_cg_negative: |
   yale-codex restarted Mac's F547 bit4 path-C HW89 absorber witness with c/g
