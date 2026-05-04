@@ -26,6 +26,29 @@ def m2_distance(left, right):
     return sum((a ^ b).bit_count() for a, b in zip(left, right))
 
 
+def bit_positions(words):
+    if words is None:
+        return None
+    out = set()
+    for word_idx, word in enumerate(words):
+        for bit_idx in range(32):
+            if word & (1 << bit_idx):
+                out.add(word_idx * 32 + bit_idx)
+    return out
+
+
+def transition_shape(source_bits, target_bits):
+    if source_bits is None or target_bits is None:
+        return None
+    added = target_bits - source_bits
+    removed = source_bits - target_bits
+    return {
+        "added": len(added),
+        "removed": len(removed),
+        "net_added": len(added) - len(removed),
+    }
+
+
 def transfer_score(source, target, lane_distance, m2_dist):
     """Small heuristic for triage only; reports raw components next to score."""
     hw_direction_penalty = max(0, target["hw"] - source["hw"])
@@ -33,7 +56,7 @@ def transfer_score(source, target, lane_distance, m2_dist):
     return float(lane_distance) + m2_term + 3.0 * float(hw_direction_penalty)
 
 
-def classify(source, target, lane_distance, m2_dist):
+def classify(source, target, lane_distance, m2_dist, shape):
     labels = []
     if target["hw"] < source["hw"]:
         labels.append("downhill")
@@ -47,6 +70,13 @@ def classify(source, target, lane_distance, m2_dist):
         labels.append("near-m2")
     if abs(target["cg_sum"] - source["cg_sum"]) <= 2:
         labels.append("cg-close")
+    if shape is not None:
+        if abs(shape["net_added"]) <= 2:
+            labels.append("balanced-m2")
+        elif shape["net_added"] >= 8:
+            labels.append("add-heavy")
+        elif shape["net_added"] <= -8:
+            labels.append("remove-heavy")
     return labels
 
 
@@ -55,6 +85,7 @@ def load_witnesses(path):
     witnesses = data["witnesses"]
     for witness in witnesses:
         witness["_m2_words"] = m2_words(witness.get("M2"))
+        witness["_m2_bits"] = bit_positions(witness["_m2_words"])
     return witnesses
 
 
@@ -67,6 +98,7 @@ def build_candidates(witnesses):
             lane_distance = lane_l1(source["lane_hw"], target["lane_hw"])
             linf = lane_linf(source["lane_hw"], target["lane_hw"])
             m2_dist = m2_distance(source["_m2_words"], target["_m2_words"])
+            shape = transition_shape(source["_m2_bits"], target["_m2_bits"])
             score = transfer_score(source, target, lane_distance, m2_dist)
             rows.append({
                 "source": source["label"],
@@ -81,10 +113,13 @@ def build_candidates(witnesses):
                 "source_m2_weight": source["m2_weight"],
                 "target_m2_weight": target["m2_weight"],
                 "m2_xor_distance": m2_dist,
+                "transition_added_bits": None if shape is None else shape["added"],
+                "transition_removed_bits": None if shape is None else shape["removed"],
+                "transition_net_added_bits": None if shape is None else shape["net_added"],
                 "source_cg_sum": source["cg_sum"],
                 "target_cg_sum": target["cg_sum"],
                 "score": round(score, 3),
-                "tags": classify(source, target, lane_distance, m2_dist),
+                "tags": classify(source, target, lane_distance, m2_dist, shape),
                 "source_path": source["source_path"],
                 "target_path": target["source_path"],
             })
@@ -100,6 +135,7 @@ def markdown(rows, limit):
         "HW",
         "lane L1",
         "M2 xor",
+        "add/rem",
         "score",
         "tags",
     ]
@@ -116,6 +152,7 @@ def markdown(rows, limit):
             hw,
             str(row["lane_l1"]),
             str(row["m2_xor_distance"]),
+            f"{row['transition_added_bits']}/{row['transition_removed_bits']}",
             f"{row['score']:.1f}",
             ", ".join(row["tags"]),
         ]
