@@ -29,7 +29,37 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-04T05:25:47Z'
+last_heartbeat: '2026-05-04T05:42:04Z'
+recent_progress_2026-05-04_F795_bit13_overlap_transfer_negative: |
+  yale-codex applied the F788 overlap-detour selector to the bit13/F732 HW82
+  parent using the F751 bit13 pair atlas.
+
+  Setup:
+    init HW: 82
+    init lane: [10, 11, 9, 12, 9, 7, 10, 14]
+    selected pairs: 137
+    pair_count: 6
+    radius: 10..12
+    sampled combos: 5,000,000
+    overlap filter:
+      pair removed-bit union >= 80
+      pair added-bit union <= 170
+      pair added-bit repeat excess >= 250
+
+  Result:
+    evaluated: 4,094,143
+    HW < 82: 0
+    HW <= 82: 0
+    c/g-improving: 0
+    target-L1-improving: 0
+    best HW: 90 / target L1 14
+    best target: HW92 / target L1 12
+    wall: 780.3s
+
+  Interpretation:
+    Negative transfer. The overlap signature that created the repairable F788
+    bit24 HW86 side basin did not produce a useful bit13 basin. Next overlap
+    budget should go to another bit24 HW82 tie before widening bit13.
 recent_progress_2026-05-04_F794_F793_HW84_beam_closed: |
   yale-codex ran pure-HW M2 pair-beam from the F793 HW84 detour.
 

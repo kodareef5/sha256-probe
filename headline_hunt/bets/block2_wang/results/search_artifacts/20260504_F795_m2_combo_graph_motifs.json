@@ -1,0 +1,3884 @@
+{
+  "description": "M2 combo word-pair graph motif summary",
+  "records_per_group": 5,
+  "combos": [
+    {
+      "combo_json": "headline_hunt/bets/block2_wang/results/search_artifacts/20260504_F795_bit13_hw82_overlap_pair6_sample5m_combo6.json",
+      "label": "F795_bit13_hw82_overlap_pair6_sample5m_combo6",
+      "pair_atlas": "headline_hunt/bets/block2_wang/results/search_artifacts/20260503_F751_bit13_hw82_pair_potential_self_lane.json",
+      "init_hw": 82,
+      "init_lane_hw": [
+        10,
+        11,
+        9,
+        12,
+        9,
+        7,
+        10,
+        14
+      ],
+      "init_target_l1": 0,
+      "selection": {
+        "target_pairs": 80,
+        "repair_pairs": 80,
+        "hw_pairs": 20,
+        "cg_pairs": 40,
+        "per_reg_pairs": 10,
+        "selected_pairs": 137,
+        "pair_count": 6,
+        "min_radius": 10,
+        "max_radius": 12,
+        "sample_combos": 5000000,
+        "rng_seed": 795,
+        "late_word_start": 12,
+        "late_word_end": 15,
+        "early_word_end": 8,
+        "min_late_pairs": 0,
+        "min_late_late_pairs": 0,
+        "min_early_late_pairs": 0,
+        "min_delta_lane_sum": null,
+        "max_delta_lane_sum": null,
+        "min_standalone_net_delta_sum": null,
+        "max_standalone_net_delta_sum": null,
+        "min_pair_removed_union": 80,
+        "max_pair_added_union": 170,
+        "min_pair_added_repeat_excess": 250,
+        "min_pair_removed_repeat_excess": null
+      },
+      "counts": {
+        "candidate_combos": 5000000,
+        "skipped_radius": 539,
+        "skipped_duplicate": 1292,
+        "evaluated": 4094143,
+        "hw_lt_init": 0,
+        "hw_le_init": 0,
+        "cg_lt_init": 0,
+        "target_l1_lt_init": 0,
+        "skipped_late_pair_motif": 0,
+        "skipped_pair_graph_motif": 0,
+        "skipped_delta_signature": 0,
+        "skipped_bit_overlap_signature": 904026
+      },
+      "selected_pairs_reconstructed": 137,
+      "groups": {
+        "top_records_hw_le_init": [],
+        "top_by_hw": [
+          {
+            "record": {
+              "hw_total": 90,
+              "net_delta": 8,
+              "lane_hw": [
+                9,
+                14,
+                15,
+                12,
+                9,
+                9,
+                10,
+                12
+              ],
+              "target_l1": 14,
+              "cg_objective": 140.0,
+              "bits": [
+                54,
+                57,
+                64,
+                140,
+                169,
+                246,
+                275,
+                307,
+                346,
+                369,
+                391,
+                479
+              ],
+              "pair_ids": [
+                31,
+                73,
+                84,
+                93,
+                134,
+                136
+              ]
+            },
+            "word_pairs": [
+              [
+                2,
+                4
+              ],
+              [
+                5,
+                10
+              ],
+              [
+                12,
+                14
+              ],
+              [
+                1,
+                8
+              ],
+              [
+                1,
+                7
+              ],
+              [
+                9,
+                11
+              ]
+            ],
+            "motifs": {
+              "late_touch_pairs": 1,
+              "late_late_pairs": 1,
+              "early_late_pairs": 0,
+              "word_degree": {
+                "1": 2,
+                "2": 1,
+                "4": 1,
+                "5": 1,
+                "7": 1,
+                "8": 1,
+                "9": 1,
+                "10": 1,
+                "11": 1,
+                "12": 1,
+                "14": 1
+              }
+            },
+            "source_counts": {
+              "cg": 1,
+              "repair_c": 2,
+              "repair_d": 1,
+              "repair_f": 1,
+              "repair_h": 1
+            },
+            "pairs": [
+              {
+                "pair_id": 31,
+                "bit_indices": [
+                  64,
+                  140
+                ],
+                "word_pair": [
+                  2,
+                  4
+                ],
+                "selection_sources": [
+                  "cg"
+                ],
+                "standalone_hw": 100,
+                "standalone_target_l1": 26,
+                "standalone_cg": 136.0,
+                "delta_lane_hw": [
+                  6,
+                  8,
+                  -1,
+                  4,
+                  2,
+                  2,
+                  0,
+                  -3
+                ]
+              },
+              {
+                "pair_id": 73,
+                "bit_indices": [
+                  169,
+                  346
+                ],
+                "word_pair": [
+                  5,
+                  10
+                ],
+                "selection_sources": [
+                  "repair_c"
+                ],
+                "standalone_hw": 113,
+                "standalone_target_l1": 39,
+                "standalone_cg": 169.0,
+                "delta_lane_hw": [
+                  3,
+                  4,
+                  -4,
+                  3,
+                  8,
+                  3,
+                  13,
+                  1
+                ]
+              },
+              {
+                "pair_id": 84,
+                "bit_indices": [
+                  391,
+                  479
+                ],
+                "word_pair": [
+                  12,
+                  14
+                ],
+                "selection_sources": [
+                  "repair_d"
+                ],
+                "standalone_hw": 111,
+                "standalone_target_l1": 41,
+                "standalone_cg": 165.0,
+                "delta_lane_hw": [
+                  1,
+                  5,
+                  3,
+                  -6,
+                  7,
+                  14,
+                  5,
+                  0
+                ]
+              },
+              {
+                "pair_id": 93,
+                "bit_indices": [
+                  57,
+                  275
+                ],
+                "word_pair": [
+                  1,
+                  8
+                ],
+                "selection_sources": [
+                  "repair_f"
+                ],
+                "standalone_hw": 117,
+                "standalone_target_l1": 43,
+                "standalone_cg": 177.0,
+                "delta_lane_hw": [
+                  8,
+                  2,
+                  11,
+                  9,
+                  9,
+                  -2,
+                  0,
+                  -2
+                ]
+              },
+              {
+                "pair_id": 134,
+                "bit_indices": [
+                  54,
+                  246
+                ],
+                "word_pair": [
+                  1,
+                  7
+                ],
+                "selection_sources": [
+                  "repair_h"
+                ],
+                "standalone_hw": 121,
+                "standalone_target_l1": 57,
+                "standalone_cg": 187.0,
+                "delta_lane_hw": [
+                  7,
+                  7,
+                  10,
+                  7,
+                  5,
+                  8,
+                  4,
+                  -9
+                ]
+              },
+              {
+                "pair_id": 136,
+                "bit_indices": [
+                  307,
+                  369
+                ],
+                "word_pair": [
+                  9,
+                  11
+                ],
+                "selection_sources": [
+                  "repair_c"
+                ],
+                "standalone_hw": 131,
+                "standalone_target_l1": 59,
+                "standalone_cg": 183.0,
+                "delta_lane_hw": [
+                  5,
+                  8,
+                  -5,
+                  1,
+                  9,
+                  16,
+                  12,
+                  3
+                ]
+              }
+            ]
+          },
+          {
+            "record": {
+              "hw_total": 90,
+              "net_delta": 8,
+              "lane_hw": [
+                12,
+                13,
+                9,
+                10,
+                9,
+                14,
+                14,
+                9
+              ],
+              "target_l1": 22,
+              "cg_objective": 136.0,
+              "bits": [
+                42,
+                73,
+                88,
+                90,
+                94,
+                158,
+                159,
+                163,
+                218,
+                241,
+                325,
+                497
+              ],
+              "pair_ids": [
+                8,
+                48,
+                56,
+                71,
+                82,
+                130
+              ]
+            },
+            "word_pairs": [
+              [
+                5,
+                15
+              ],
+              [
+                1,
+                2
+              ],
+              [
+                4,
+                6
+              ],
+              [
+                2,
+                2
+              ],
+              [
+                4,
+                7
+              ],
+              [
+                2,
+                10
+              ]
+            ],
+            "motifs": {
+              "late_touch_pairs": 1,
+              "late_late_pairs": 0,
+              "early_late_pairs": 1,
+              "word_degree": {
+                "1": 1,
+                "2": 4,
+                "4": 2,
+                "5": 1,
+                "6": 1,
+                "7": 1,
+                "10": 1,
+                "15": 1
+              }
+            },
+            "source_counts": {
+              "cg": 1,
+              "repair": 1,
+              "repair_d": 1,
+              "repair_e": 1,
+              "repair_h": 1,
+              "target": 1
+            },
+            "pairs": [
+              {
+                "pair_id": 8,
+                "bit_indices": [
+                  163,
+                  497
+                ],
+                "word_pair": [
+                  5,
+                  15
+                ],
+                "selection_sources": [
+                  "target"
+                ],
+                "standalone_hw": 101,
+                "standalone_target_l1": 21,
+                "standalone_cg": 149.0,
+                "delta_lane_hw": [
+                  4,
+                  1,
+                  5,
+                  -1,
+                  5,
+                  3,
+                  0,
+                  2
+                ]
+              },
+              {
+                "pair_id": 48,
+                "bit_indices": [
+                  42,
+                  88
+                ],
+                "word_pair": [
+                  1,
+                  2
+                ],
+                "selection_sources": [
+                  "cg"
+                ],
+                "standalone_hw": 105,
+                "standalone_target_l1": 33,
+                "standalone_cg": 141.0,
+                "delta_lane_hw": [
+                  3,
+                  6,
+                  2,
+                  4,
+                  4,
+                  9,
+                  -3,
+                  -2
+                ]
+              },
+              {
+                "pair_id": 56,
+                "bit_indices": [
+                  159,
+                  218
+                ],
+                "word_pair": [
+                  4,
+                  6
+                ],
+                "selection_sources": [
+                  "repair_e"
+                ],
+                "standalone_hw": 108,
+                "standalone_target_l1": 36,
+                "standalone_cg": 164.0,
+                "delta_lane_hw": [
+                  1,
+                  9,
+                  7,
+                  2,
+                  -3,
+                  10,
+                  2,
+                  -2
+                ]
+              },
+              {
+                "pair_id": 71,
+                "bit_indices": [
+                  90,
+                  94
+                ],
+                "word_pair": [
+                  2,
+                  2
+                ],
+                "selection_sources": [
+                  "repair_d"
+                ],
+                "standalone_hw": 107,
+                "standalone_target_l1": 39,
+                "standalone_cg": 163.0,
+                "delta_lane_hw": [
+                  8,
+                  2,
+                  7,
+                  -6,
+                  1,
+                  12,
+                  2,
+                  -1
+                ]
+              },
+              {
+                "pair_id": 82,
+                "bit_indices": [
+                  158,
+                  241
+                ],
+                "word_pair": [
+                  4,
+                  7
+                ],
+                "selection_sources": [
+                  "repair_h"
+                ],
+                "standalone_hw": 107,
+                "standalone_target_l1": 41,
+                "standalone_cg": 165.0,
+                "delta_lane_hw": [
+                  3,
+                  6,
+                  4,
+                  2,
+                  7,
+                  5,
+                  6,
+                  -8
+                ]
+              },
+              {
+                "pair_id": 130,
+                "bit_indices": [
+                  73,
+                  325
+                ],
+                "word_pair": [
+                  2,
+                  10
+                ],
+                "selection_sources": [
+                  "repair"
+                ],
+                "standalone_hw": 115,
+                "standalone_target_l1": 53,
+                "standalone_cg": 197.0,
+                "delta_lane_hw": [
+                  0,
+                  -2,
+                  14,
+                  -3,
+                  9,
+                  12,
+                  8,
+                  -5
+                ]
+              }
+            ]
+          },
+          {
+            "record": {
+              "hw_total": 90,
+              "net_delta": 8,
+              "lane_hw": [
+                9,
+                12,
+                13,
+                10,
+                10,
+                15,
+                13,
+                8
+              ],
+              "target_l1": 26,
+              "cg_objective": 142.0,
+              "bits": [
+                15,
+                42,
+                88,
+                102,
+                205,
+                234,
+                354,
+                381,
+                389,
+                396,
+                408,
+                409
+              ],
+              "pair_ids": [
+                20,
+                44,
+                48,
+                69,
+                83,
+                110
+              ]
+            },
+            "word_pairs": [
+              [
+                7,
+                12
+              ],
+              [
+                3,
+                12
+              ],
+              [
+                1,
+                2
+              ],
+              [
+                11,
+                12
+              ],
+              [
+                6,
+                11
+              ],
+              [
+                0,
+                12
+              ]
+            ],
+            "motifs": {
+              "late_touch_pairs": 4,
+              "late_late_pairs": 0,
+              "early_late_pairs": 3,
+              "word_degree": {
+                "0": 1,
+                "1": 1,
+                "2": 1,
+                "3": 1,
+                "6": 1,
+                "7": 1,
+                "11": 2,
+                "12": 4
+              }
+            },
+            "source_counts": {
+              "cg": 1,
+              "hw": 1,
+              "repair_a": 1,
+              "repair_d": 1,
+              "repair_f": 1,
+              "repair_g": 1
+            },
+            "pairs": [
+              {
+                "pair_id": 20,
+                "bit_indices": [
+                  234,
+                  408
+                ],
+                "word_pair": [
+                  7,
+                  12
+                ],
+                "selection_sources": [
+                  "hw"
+                ],
+                "standalone_hw": 97,
+                "standalone_target_l1": 23,
+                "standalone_cg": 143.0,
+                "delta_lane_hw": [
+                  4,
+                  -3,
+                  2,
+                  4,
+                  1,
+                  6,
+                  2,
+                  -1
+                ]
+              },
+              {
+                "pair_id": 44,
+                "bit_indices": [
+                  102,
+                  389
+                ],
+                "word_pair": [
+                  3,
+                  12
+                ],
+                "selection_sources": [
+                  "repair_f"
+                ],
+                "standalone_hw": 109,
+                "standalone_target_l1": 31,
+                "standalone_cg": 171.0,
+                "delta_lane_hw": [
+                  6,
+                  3,
+                  8,
+                  0,
+                  3,
+                  -2,
+                  4,
+                  5
+                ]
+              },
+              {
+                "pair_id": 48,
+                "bit_indices": [
+                  42,
+                  88
+                ],
+                "word_pair": [
+                  1,
+                  2
+                ],
+                "selection_sources": [
+                  "cg"
+                ],
+                "standalone_hw": 105,
+                "standalone_target_l1": 33,
+                "standalone_cg": 141.0,
+                "delta_lane_hw": [
+                  3,
+                  6,
+                  2,
+                  4,
+                  4,
+                  9,
+                  -3,
+                  -2
+                ]
+              },
+              {
+                "pair_id": 69,
+                "bit_indices": [
+                  381,
+                  409
+                ],
+                "word_pair": [
+                  11,
+                  12
+                ],
+                "selection_sources": [
+                  "repair_g"
+                ],
+                "standalone_hw": 110,
+                "standalone_target_l1": 38,
+                "standalone_cg": 148.0,
+                "delta_lane_hw": [
+                  4,
+                  7,
+                  5,
+                  5,
+                  7,
+                  5,
+                  -5,
+                  0
+                ]
+              },
+              {
+                "pair_id": 83,
+                "bit_indices": [
+                  205,
+                  354
+                ],
+                "word_pair": [
+                  6,
+                  11
+                ],
+                "selection_sources": [
+                  "repair_d"
+                ],
+                "standalone_hw": 109,
+                "standalone_target_l1": 41,
+                "standalone_cg": 171.0,
+                "delta_lane_hw": [
+                  7,
+                  3,
+                  6,
+                  -6,
+                  2,
+                  10,
+                  6,
+                  -1
+                ]
+              },
+              {
+                "pair_id": 110,
+                "bit_indices": [
+                  15,
+                  396
+                ],
+                "word_pair": [
+                  0,
+                  12
+                ],
+                "selection_sources": [
+                  "repair_a"
+                ],
+                "standalone_hw": 120,
+                "standalone_target_l1": 48,
+                "standalone_cg": 198.0,
+                "delta_lane_hw": [
+                  -5,
+                  4,
+                  10,
+                  6,
+                  5,
+                  4,
+                  10,
+                  4
+                ]
+              }
+            ]
+          },
+          {
+            "record": {
+              "hw_total": 91,
+              "net_delta": 9,
+              "lane_hw": [
+                10,
+                10,
+                11,
+                12,
+                16,
+                7,
+                14,
+                11
+              ],
+              "target_l1": 17,
+              "cg_objective": 141.0,
+              "bits": [
+                20,
+                51,
+                158,
+                221,
+                241,
+                294,
+                312,
+                314,
+                382,
+                437,
+                451,
+                459
+              ],
+              "pair_ids": [
+                34,
+                36,
+                37,
+                58,
+                82,
+                120
+              ]
+            },
+            "word_pairs": [
+              [
+                9,
+                11
+              ],
+              [
+                0,
+                9
+              ],
+              [
+                6,
+                9
+              ],
+              [
+                13,
+                14
+              ],
+              [
+                4,
+                7
+              ],
+              [
+                1,
+                14
+              ]
+            ],
+            "motifs": {
+              "late_touch_pairs": 2,
+              "late_late_pairs": 1,
+              "early_late_pairs": 1,
+              "word_degree": {
+                "0": 1,
+                "1": 1,
+                "4": 1,
+                "6": 1,
+                "7": 1,
+                "9": 3,
+                "11": 1,
+                "13": 1,
+                "14": 2
+              }
+            },
+            "source_counts": {
+              "cg": 1,
+              "hw": 3,
+              "repair": 2,
+              "repair_h": 1
+            },
+            "pairs": [
+              {
+                "pair_id": 34,
+                "bit_indices": [
+                  314,
+                  382
+                ],
+                "word_pair": [
+                  9,
+                  11
+                ],
+                "selection_sources": [
+                  "hw"
+                ],
+                "standalone_hw": 99,
+                "standalone_target_l1": 27,
+                "standalone_cg": 149.0,
+                "delta_lane_hw": [
+                  4,
+                  1,
+                  4,
+                  -2,
+                  8,
+                  3,
+                  2,
+                  -3
+                ]
+              },
+              {
+                "pair_id": 36,
+                "bit_indices": [
+                  20,
+                  312
+                ],
+                "word_pair": [
+                  0,
+                  9
+                ],
+                "selection_sources": [
+                  "cg"
+                ],
+                "standalone_hw": 105,
+                "standalone_target_l1": 27,
+                "standalone_cg": 141.0,
+                "delta_lane_hw": [
+                  -1,
+                  5,
+                  -1,
+                  0,
+                  8,
+                  9,
+                  0,
+                  3
+                ]
+              },
+              {
+                "pair_id": 37,
+                "bit_indices": [
+                  221,
+                  294
+                ],
+                "word_pair": [
+                  6,
+                  9
+                ],
+                "selection_sources": [
+                  "hw"
+                ],
+                "standalone_hw": 98,
+                "standalone_target_l1": 28,
+                "standalone_cg": 148.0,
+                "delta_lane_hw": [
+                  -1,
+                  1,
+                  6,
+                  2,
+                  7,
+                  6,
+                  0,
+                  -5
+                ]
+              },
+              {
+                "pair_id": 58,
+                "bit_indices": [
+                  437,
+                  451
+                ],
+                "word_pair": [
+                  13,
+                  14
+                ],
+                "selection_sources": [
+                  "repair",
+                  "hw"
+                ],
+                "standalone_hw": 99,
+                "standalone_target_l1": 37,
+                "standalone_cg": 155.0,
+                "delta_lane_hw": [
+                  6,
+                  2,
+                  6,
+                  -4,
+                  0,
+                  10,
+                  3,
+                  -6
+                ]
+              },
+              {
+                "pair_id": 82,
+                "bit_indices": [
+                  158,
+                  241
+                ],
+                "word_pair": [
+                  4,
+                  7
+                ],
+                "selection_sources": [
+                  "repair_h"
+                ],
+                "standalone_hw": 107,
+                "standalone_target_l1": 41,
+                "standalone_cg": 165.0,
+                "delta_lane_hw": [
+                  3,
+                  6,
+                  4,
+                  2,
+                  7,
+                  5,
+                  6,
+                  -8
+                ]
+              },
+              {
+                "pair_id": 120,
+                "bit_indices": [
+                  51,
+                  459
+                ],
+                "word_pair": [
+                  1,
+                  14
+                ],
+                "selection_sources": [
+                  "repair"
+                ],
+                "standalone_hw": 114,
+                "standalone_target_l1": 50,
+                "standalone_cg": 176.0,
+                "delta_lane_hw": [
+                  7,
+                  9,
+                  7,
+                  -4,
+                  5,
+                  8,
+                  5,
+                  -5
+                ]
+              }
+            ]
+          },
+          {
+            "record": {
+              "hw_total": 91,
+              "net_delta": 9,
+              "lane_hw": [
+                17,
+                10,
+                10,
+                10,
+                11,
+                8,
+                8,
+                17
+              ],
+              "target_l1": 19,
+              "cg_objective": 127.0,
+              "bits": [
+                85,
+                87,
+                96,
+                151,
+                221,
+                245,
+                267,
+                333,
+                381,
+                409,
+                436,
+                441
+              ],
+              "pair_ids": [
+                23,
+                40,
+                42,
+                65,
+                69,
+                117
+              ]
+            },
+            "word_pairs": [
+              [
+                2,
+                7
+              ],
+              [
+                8,
+                13
+              ],
+              [
+                2,
+                4
+              ],
+              [
+                10,
+                13
+              ],
+              [
+                11,
+                12
+              ],
+              [
+                3,
+                6
+              ]
+            ],
+            "motifs": {
+              "late_touch_pairs": 3,
+              "late_late_pairs": 0,
+              "early_late_pairs": 1,
+              "word_degree": {
+                "2": 2,
+                "3": 1,
+                "4": 1,
+                "6": 1,
+                "7": 1,
+                "8": 1,
+                "10": 1,
+                "11": 1,
+                "12": 1,
+                "13": 2
+              }
+            },
+            "source_counts": {
+              "cg": 1,
+              "hw": 2,
+              "repair_a": 1,
+              "repair_e": 2,
+              "repair_g": 1
+            },
+            "pairs": [
+              {
+                "pair_id": 23,
+                "bit_indices": [
+                  85,
+                  245
+                ],
+                "word_pair": [
+                  2,
+                  7
+                ],
+                "selection_sources": [
+                  "hw"
+                ],
+                "standalone_hw": 99,
+                "standalone_target_l1": 23,
+                "standalone_cg": 147.0,
+                "delta_lane_hw": [
+                  1,
+                  3,
+                  4,
+                  6,
+                  -2,
+                  5,
+                  1,
+                  -1
+                ]
+              },
+              {
+                "pair_id": 40,
+                "bit_indices": [
+                  267,
+                  436
+                ],
+                "word_pair": [
+                  8,
+                  13
+                ],
+                "selection_sources": [
+                  "repair_a"
+                ],
+                "standalone_hw": 104,
+                "standalone_target_l1": 30,
+                "standalone_cg": 156.0,
+                "delta_lane_hw": [
+                  -4,
+                  2,
+                  1,
+                  3,
+                  6,
+                  8,
+                  6,
+                  0
+                ]
+              },
+              {
+                "pair_id": 42,
+                "bit_indices": [
+                  87,
+                  151
+                ],
+                "word_pair": [
+                  2,
+                  4
+                ],
+                "selection_sources": [
+                  "hw",
+                  "cg"
+                ],
+                "standalone_hw": 99,
+                "standalone_target_l1": 31,
+                "standalone_cg": 139.0,
+                "delta_lane_hw": [
+                  1,
+                  5,
+                  4,
+                  -1,
+                  6,
+                  8,
+                  -3,
+                  -3
+                ]
+              },
+              {
+                "pair_id": 65,
+                "bit_indices": [
+                  333,
+                  441
+                ],
+                "word_pair": [
+                  10,
+                  13
+                ],
+                "selection_sources": [
+                  "repair_e"
+                ],
+                "standalone_hw": 104,
+                "standalone_target_l1": 38,
+                "standalone_cg": 160.0,
+                "delta_lane_hw": [
+                  5,
+                  11,
+                  4,
+                  -1,
+                  -3,
+                  5,
+                  5,
+                  -4
+                ]
+              },
+              {
+                "pair_id": 69,
+                "bit_indices": [
+                  381,
+                  409
+                ],
+                "word_pair": [
+                  11,
+                  12
+                ],
+                "selection_sources": [
+                  "repair_g"
+                ],
+                "standalone_hw": 110,
+                "standalone_target_l1": 38,
+                "standalone_cg": 148.0,
+                "delta_lane_hw": [
+                  4,
+                  7,
+                  5,
+                  5,
+                  7,
+                  5,
+                  -5,
+                  0
+                ]
+              },
+              {
+                "pair_id": 117,
+                "bit_indices": [
+                  96,
+                  221
+                ],
+                "word_pair": [
+                  3,
+                  6
+                ],
+                "selection_sources": [
+                  "repair_e"
+                ],
+                "standalone_hw": 119,
+                "standalone_target_l1": 49,
+                "standalone_cg": 195.0,
+                "delta_lane_hw": [
+                  6,
+                  5,
+                  13,
+                  1,
+                  -4,
+                  12,
+                  6,
+                  -2
+                ]
+              }
+            ]
+          }
+        ],
+        "top_by_target_l1": [
+          {
+            "record": {
+              "hw_total": 92,
+              "net_delta": 10,
+              "lane_hw": [
+                12,
+                10,
+                10,
+                12,
+                12,
+                11,
+                11,
+                14
+              ],
+              "target_l1": 12,
+              "cg_objective": 134.0,
+              "bits": [
+                54,
+                83,
+                100,
+                102,
+                207,
+                306,
+                307,
+                363,
+                389,
+                398,
+                437,
+                481
+              ],
+              "pair_ids": [
+                0,
+                44,
+                81,
+                86,
+                100,
+                131
+              ]
+            },
+            "word_pairs": [
+              [
+                12,
+                13
+              ],
+              [
+                3,
+                12
+              ],
+              [
+                1,
+                6
+              ],
+              [
+                3,
+                11
+              ],
+              [
+                9,
+                15
+              ],
+              [
+                2,
+                9
+              ]
+            ],
+            "motifs": {
+              "late_touch_pairs": 3,
+              "late_late_pairs": 1,
+              "early_late_pairs": 1,
+              "word_degree": {
+                "1": 1,
+                "2": 1,
+                "3": 2,
+                "6": 1,
+                "9": 2,
+                "11": 1,
+                "12": 2,
+                "13": 1,
+                "15": 1
+              }
+            },
+            "source_counts": {
+              "hw": 1,
+              "repair": 1,
+              "repair_b": 1,
+              "repair_f": 1,
+              "repair_g": 2,
+              "target": 1
+            },
+            "pairs": [
+              {
+                "pair_id": 0,
+                "bit_indices": [
+                  398,
+                  437
+                ],
+                "word_pair": [
+                  12,
+                  13
+                ],
+                "selection_sources": [
+                  "target",
+                  "hw"
+                ],
+                "standalone_hw": 93,
+                "standalone_target_l1": 19,
+                "standalone_cg": 147.0,
+                "delta_lane_hw": [
+                  0,
+                  0,
+                  5,
+                  -1,
+                  2,
+                  5,
+                  3,
+                  -3
+                ]
+              },
+              {
+                "pair_id": 44,
+                "bit_indices": [
+                  102,
+                  389
+                ],
+                "word_pair": [
+                  3,
+                  12
+                ],
+                "selection_sources": [
+                  "repair_f"
+                ],
+                "standalone_hw": 109,
+                "standalone_target_l1": 31,
+                "standalone_cg": 171.0,
+                "delta_lane_hw": [
+                  6,
+                  3,
+                  8,
+                  0,
+                  3,
+                  -2,
+                  4,
+                  5
+                ]
+              },
+              {
+                "pair_id": 81,
+                "bit_indices": [
+                  54,
+                  207
+                ],
+                "word_pair": [
+                  1,
+                  6
+                ],
+                "selection_sources": [
+                  "repair_g"
+                ],
+                "standalone_hw": 107,
+                "standalone_target_l1": 41,
+                "standalone_cg": 149.0,
+                "delta_lane_hw": [
+                  4,
+                  5,
+                  7,
+                  -3,
+                  7,
+                  4,
+                  -5,
+                  6
+                ]
+              },
+              {
+                "pair_id": 86,
+                "bit_indices": [
+                  100,
+                  363
+                ],
+                "word_pair": [
+                  3,
+                  11
+                ],
+                "selection_sources": [
+                  "repair_b"
+                ],
+                "standalone_hw": 112,
+                "standalone_target_l1": 42,
+                "standalone_cg": 170.0,
+                "delta_lane_hw": [
+                  5,
+                  -6,
+                  6,
+                  4,
+                  7,
+                  9,
+                  4,
+                  1
+                ]
+              },
+              {
+                "pair_id": 100,
+                "bit_indices": [
+                  307,
+                  481
+                ],
+                "word_pair": [
+                  9,
+                  15
+                ],
+                "selection_sources": [
+                  "repair_g"
+                ],
+                "standalone_hw": 117,
+                "standalone_target_l1": 45,
+                "standalone_cg": 151.0,
+                "delta_lane_hw": [
+                  1,
+                  7,
+                  3,
+                  8,
+                  9,
+                  10,
+                  -5,
+                  2
+                ]
+              },
+              {
+                "pair_id": 131,
+                "bit_indices": [
+                  83,
+                  306
+                ],
+                "word_pair": [
+                  2,
+                  9
+                ],
+                "selection_sources": [
+                  "repair"
+                ],
+                "standalone_hw": 117,
+                "standalone_target_l1": 55,
+                "standalone_cg": 189.0,
+                "delta_lane_hw": [
+                  8,
+                  3,
+                  8,
+                  -4,
+                  9,
+                  8,
+                  9,
+                  -6
+                ]
+              }
+            ]
+          },
+          {
+            "record": {
+              "hw_total": 94,
+              "net_delta": 12,
+              "lane_hw": [
+                10,
+                14,
+                9,
+                13,
+                13,
+                7,
+                14,
+                14
+              ],
+              "target_l1": 12,
+              "cg_objective": 140.0,
+              "bits": [
+                20,
+                87,
+                146,
+                151,
+                154,
+                188,
+                190,
+                218,
+                224,
+                256,
+                411,
+                417
+              ],
+              "pair_ids": [
+                10,
+                42,
+                47,
+                78,
+                113,
+                133
+              ]
+            },
+            "word_pairs": [
+              [
+                5,
+                12
+              ],
+              [
+                2,
+                4
+              ],
+              [
+                4,
+                5
+              ],
+              [
+                6,
+                7
+              ],
+              [
+                0,
+                8
+              ],
+              [
+                4,
+                13
+              ]
+            ],
+            "motifs": {
+              "late_touch_pairs": 2,
+              "late_late_pairs": 0,
+              "early_late_pairs": 2,
+              "word_degree": {
+                "0": 1,
+                "2": 1,
+                "4": 3,
+                "5": 2,
+                "6": 1,
+                "7": 1,
+                "8": 1,
+                "12": 1,
+                "13": 1
+              }
+            },
+            "source_counts": {
+              "cg": 1,
+              "hw": 1,
+              "repair_b": 1,
+              "repair_f": 1,
+              "repair_g": 1,
+              "repair_h": 1,
+              "target": 1
+            },
+            "pairs": [
+              {
+                "pair_id": 10,
+                "bit_indices": [
+                  190,
+                  411
+                ],
+                "word_pair": [
+                  5,
+                  12
+                ],
+                "selection_sources": [
+                  "target"
+                ],
+                "standalone_hw": 103,
+                "standalone_target_l1": 21,
+                "standalone_cg": 145.0,
+                "delta_lane_hw": [
+                  3,
+                  4,
+                  2,
+                  1,
+                  4,
+                  4,
+                  0,
+                  3
+                ]
+              },
+              {
+                "pair_id": 42,
+                "bit_indices": [
+                  87,
+                  151
+                ],
+                "word_pair": [
+                  2,
+                  4
+                ],
+                "selection_sources": [
+                  "hw",
+                  "cg"
+                ],
+                "standalone_hw": 99,
+                "standalone_target_l1": 31,
+                "standalone_cg": 139.0,
+                "delta_lane_hw": [
+                  1,
+                  5,
+                  4,
+                  -1,
+                  6,
+                  8,
+                  -3,
+                  -3
+                ]
+              },
+              {
+                "pair_id": 47,
+                "bit_indices": [
+                  146,
+                  188
+                ],
+                "word_pair": [
+                  4,
+                  5
+                ],
+                "selection_sources": [
+                  "repair_b"
+                ],
+                "standalone_hw": 103,
+                "standalone_target_l1": 33,
+                "standalone_cg": 161.0,
+                "delta_lane_hw": [
+                  2,
+                  -6,
+                  6,
+                  5,
+                  0,
+                  8,
+                  4,
+                  2
+                ]
+              },
+              {
+                "pair_id": 78,
+                "bit_indices": [
+                  218,
+                  224
+                ],
+                "word_pair": [
+                  6,
+                  7
+                ],
+                "selection_sources": [
+                  "repair_h"
+                ],
+                "standalone_hw": 106,
+                "standalone_target_l1": 40,
+                "standalone_cg": 160.0,
+                "delta_lane_hw": [
+                  6,
+                  6,
+                  3,
+                  1,
+                  5,
+                  6,
+                  5,
+                  -8
+                ]
+              },
+              {
+                "pair_id": 113,
+                "bit_indices": [
+                  20,
+                  256
+                ],
+                "word_pair": [
+                  0,
+                  8
+                ],
+                "selection_sources": [
+                  "repair_f"
+                ],
+                "standalone_hw": 126,
+                "standalone_target_l1": 48,
+                "standalone_cg": 196.0,
+                "delta_lane_hw": [
+                  9,
+                  10,
+                  6,
+                  3,
+                  7,
+                  -2,
+                  10,
+                  1
+                ]
+              },
+              {
+                "pair_id": 133,
+                "bit_indices": [
+                  154,
+                  417
+                ],
+                "word_pair": [
+                  4,
+                  13
+                ],
+                "selection_sources": [
+                  "repair_g"
+                ],
+                "standalone_hw": 128,
+                "standalone_target_l1": 56,
+                "standalone_cg": 176.0,
+                "delta_lane_hw": [
+                  6,
+                  5,
+                  10,
+                  4,
+                  13,
+                  7,
+                  -5,
+                  6
+                ]
+              }
+            ]
+          },
+          {
+            "record": {
+              "hw_total": 90,
+              "net_delta": 8,
+              "lane_hw": [
+                9,
+                14,
+                15,
+                12,
+                9,
+                9,
+                10,
+                12
+              ],
+              "target_l1": 14,
+              "cg_objective": 140.0,
+              "bits": [
+                54,
+                57,
+                64,
+                140,
+                169,
+                246,
+                275,
+                307,
+                346,
+                369,
+                391,
+                479
+              ],
+              "pair_ids": [
+                31,
+                73,
+                84,
+                93,
+                134,
+                136
+              ]
+            },
+            "word_pairs": [
+              [
+                2,
+                4
+              ],
+              [
+                5,
+                10
+              ],
+              [
+                12,
+                14
+              ],
+              [
+                1,
+                8
+              ],
+              [
+                1,
+                7
+              ],
+              [
+                9,
+                11
+              ]
+            ],
+            "motifs": {
+              "late_touch_pairs": 1,
+              "late_late_pairs": 1,
+              "early_late_pairs": 0,
+              "word_degree": {
+                "1": 2,
+                "2": 1,
+                "4": 1,
+                "5": 1,
+                "7": 1,
+                "8": 1,
+                "9": 1,
+                "10": 1,
+                "11": 1,
+                "12": 1,
+                "14": 1
+              }
+            },
+            "source_counts": {
+              "cg": 1,
+              "repair_c": 2,
+              "repair_d": 1,
+              "repair_f": 1,
+              "repair_h": 1
+            },
+            "pairs": [
+              {
+                "pair_id": 31,
+                "bit_indices": [
+                  64,
+                  140
+                ],
+                "word_pair": [
+                  2,
+                  4
+                ],
+                "selection_sources": [
+                  "cg"
+                ],
+                "standalone_hw": 100,
+                "standalone_target_l1": 26,
+                "standalone_cg": 136.0,
+                "delta_lane_hw": [
+                  6,
+                  8,
+                  -1,
+                  4,
+                  2,
+                  2,
+                  0,
+                  -3
+                ]
+              },
+              {
+                "pair_id": 73,
+                "bit_indices": [
+                  169,
+                  346
+                ],
+                "word_pair": [
+                  5,
+                  10
+                ],
+                "selection_sources": [
+                  "repair_c"
+                ],
+                "standalone_hw": 113,
+                "standalone_target_l1": 39,
+                "standalone_cg": 169.0,
+                "delta_lane_hw": [
+                  3,
+                  4,
+                  -4,
+                  3,
+                  8,
+                  3,
+                  13,
+                  1
+                ]
+              },
+              {
+                "pair_id": 84,
+                "bit_indices": [
+                  391,
+                  479
+                ],
+                "word_pair": [
+                  12,
+                  14
+                ],
+                "selection_sources": [
+                  "repair_d"
+                ],
+                "standalone_hw": 111,
+                "standalone_target_l1": 41,
+                "standalone_cg": 165.0,
+                "delta_lane_hw": [
+                  1,
+                  5,
+                  3,
+                  -6,
+                  7,
+                  14,
+                  5,
+                  0
+                ]
+              },
+              {
+                "pair_id": 93,
+                "bit_indices": [
+                  57,
+                  275
+                ],
+                "word_pair": [
+                  1,
+                  8
+                ],
+                "selection_sources": [
+                  "repair_f"
+                ],
+                "standalone_hw": 117,
+                "standalone_target_l1": 43,
+                "standalone_cg": 177.0,
+                "delta_lane_hw": [
+                  8,
+                  2,
+                  11,
+                  9,
+                  9,
+                  -2,
+                  0,
+                  -2
+                ]
+              },
+              {
+                "pair_id": 134,
+                "bit_indices": [
+                  54,
+                  246
+                ],
+                "word_pair": [
+                  1,
+                  7
+                ],
+                "selection_sources": [
+                  "repair_h"
+                ],
+                "standalone_hw": 121,
+                "standalone_target_l1": 57,
+                "standalone_cg": 187.0,
+                "delta_lane_hw": [
+                  7,
+                  7,
+                  10,
+                  7,
+                  5,
+                  8,
+                  4,
+                  -9
+                ]
+              },
+              {
+                "pair_id": 136,
+                "bit_indices": [
+                  307,
+                  369
+                ],
+                "word_pair": [
+                  9,
+                  11
+                ],
+                "selection_sources": [
+                  "repair_c"
+                ],
+                "standalone_hw": 131,
+                "standalone_target_l1": 59,
+                "standalone_cg": 183.0,
+                "delta_lane_hw": [
+                  5,
+                  8,
+                  -5,
+                  1,
+                  9,
+                  16,
+                  12,
+                  3
+                ]
+              }
+            ]
+          },
+          {
+            "record": {
+              "hw_total": 94,
+              "net_delta": 12,
+              "lane_hw": [
+                10,
+                11,
+                10,
+                11,
+                13,
+                9,
+                15,
+                15
+              ],
+              "target_l1": 14,
+              "cg_objective": 144.0,
+              "bits": [
+                20,
+                42,
+                45,
+                88,
+                237,
+                256,
+                259,
+                335,
+                351,
+                423,
+                441,
+                481
+              ],
+              "pair_ids": [
+                3,
+                48,
+                61,
+                103,
+                107,
+                113
+              ]
+            },
+            "word_pairs": [
+              [
+                13,
+                13
+              ],
+              [
+                1,
+                2
+              ],
+              [
+                1,
+                10
+              ],
+              [
+                8,
+                10
+              ],
+              [
+                7,
+                15
+              ],
+              [
+                0,
+                8
+              ]
+            ],
+            "motifs": {
+              "late_touch_pairs": 2,
+              "late_late_pairs": 1,
+              "early_late_pairs": 1,
+              "word_degree": {
+                "0": 1,
+                "1": 2,
+                "2": 1,
+                "7": 1,
+                "8": 2,
+                "10": 2,
+                "13": 2,
+                "15": 1
+              }
+            },
+            "source_counts": {
+              "cg": 2,
+              "repair_b": 1,
+              "repair_f": 1,
+              "repair_g": 1,
+              "target": 1
+            },
+            "pairs": [
+              {
+                "pair_id": 3,
+                "bit_indices": [
+                  423,
+                  441
+                ],
+                "word_pair": [
+                  13,
+                  13
+                ],
+                "selection_sources": [
+                  "target"
+                ],
+                "standalone_hw": 102,
+                "standalone_target_l1": 20,
+                "standalone_cg": 152.0,
+                "delta_lane_hw": [
+                  2,
+                  1,
+                  4,
+                  1,
+                  3,
+                  5,
+                  2,
+                  2
+                ]
+              },
+              {
+                "pair_id": 48,
+                "bit_indices": [
+                  42,
+                  88
+                ],
+                "word_pair": [
+                  1,
+                  2
+                ],
+                "selection_sources": [
+                  "cg"
+                ],
+                "standalone_hw": 105,
+                "standalone_target_l1": 33,
+                "standalone_cg": 141.0,
+                "delta_lane_hw": [
+                  3,
+                  6,
+                  2,
+                  4,
+                  4,
+                  9,
+                  -3,
+                  -2
+                ]
+              },
+              {
+                "pair_id": 61,
+                "bit_indices": [
+                  45,
+                  351
+                ],
+                "word_pair": [
+                  1,
+                  10
+                ],
+                "selection_sources": [
+                  "cg"
+                ],
+                "standalone_hw": 105,
+                "standalone_target_l1": 37,
+                "standalone_cg": 141.0,
+                "delta_lane_hw": [
+                  7,
+                  7,
+                  2,
+                  5,
+                  5,
+                  4,
+                  -3,
+                  -4
+                ]
+              },
+              {
+                "pair_id": 103,
+                "bit_indices": [
+                  259,
+                  335
+                ],
+                "word_pair": [
+                  8,
+                  10
+                ],
+                "selection_sources": [
+                  "repair_g"
+                ],
+                "standalone_hw": 114,
+                "standalone_target_l1": 46,
+                "standalone_cg": 150.0,
+                "delta_lane_hw": [
+                  6,
+                  5,
+                  4,
+                  3,
+                  10,
+                  11,
+                  -5,
+                  -2
+                ]
+              },
+              {
+                "pair_id": 107,
+                "bit_indices": [
+                  237,
+                  481
+                ],
+                "word_pair": [
+                  7,
+                  15
+                ],
+                "selection_sources": [
+                  "repair_b"
+                ],
+                "standalone_hw": 113,
+                "standalone_target_l1": 47,
+                "standalone_cg": 167.0,
+                "delta_lane_hw": [
+                  7,
+                  -6,
+                  5,
+                  6,
+                  7,
+                  11,
+                  3,
+                  -2
+                ]
+              },
+              {
+                "pair_id": 113,
+                "bit_indices": [
+                  20,
+                  256
+                ],
+                "word_pair": [
+                  0,
+                  8
+                ],
+                "selection_sources": [
+                  "repair_f"
+                ],
+                "standalone_hw": 126,
+                "standalone_target_l1": 48,
+                "standalone_cg": 196.0,
+                "delta_lane_hw": [
+                  9,
+                  10,
+                  6,
+                  3,
+                  7,
+                  -2,
+                  10,
+                  1
+                ]
+              }
+            ]
+          },
+          {
+            "record": {
+              "hw_total": 96,
+              "net_delta": 14,
+              "lane_hw": [
+                11,
+                13,
+                12,
+                12,
+                13,
+                10,
+                11,
+                14
+              ],
+              "target_l1": 14,
+              "cg_objective": 142.0,
+              "bits": [
+                56,
+                72,
+                221,
+                245,
+                286,
+                307,
+                391,
+                406,
+                435,
+                441,
+                481,
+                496
+              ],
+              "pair_ids": [
+                27,
+                52,
+                63,
+                91,
+                100,
+                129
+              ]
+            },
+            "word_pairs": [
+              [
+                2,
+                8
+              ],
+              [
+                13,
+                15
+              ],
+              [
+                6,
+                7
+              ],
+              [
+                12,
+                12
+              ],
+              [
+                9,
+                15
+              ],
+              [
+                1,
+                13
+              ]
+            ],
+            "motifs": {
+              "late_touch_pairs": 4,
+              "late_late_pairs": 2,
+              "early_late_pairs": 1,
+              "word_degree": {
+                "1": 1,
+                "2": 1,
+                "6": 1,
+                "7": 1,
+                "8": 1,
+                "9": 1,
+                "12": 2,
+                "13": 2,
+                "15": 2
+              }
+            },
+            "source_counts": {
+              "hw": 1,
+              "repair_a": 1,
+              "repair_b": 1,
+              "repair_e": 2,
+              "repair_g": 1
+            },
+            "pairs": [
+              {
+                "pair_id": 27,
+                "bit_indices": [
+                  72,
+                  286
+                ],
+                "word_pair": [
+                  2,
+                  8
+                ],
+                "selection_sources": [
+                  "hw"
+                ],
+                "standalone_hw": 97,
+                "standalone_target_l1": 25,
+                "standalone_cg": 151.0,
+                "delta_lane_hw": [
+                  2,
+                  3,
+                  5,
+                  -1,
+                  3,
+                  4,
+                  3,
+                  -4
+                ]
+              },
+              {
+                "pair_id": 52,
+                "bit_indices": [
+                  441,
+                  496
+                ],
+                "word_pair": [
+                  13,
+                  15
+                ],
+                "selection_sources": [
+                  "repair_e"
+                ],
+                "standalone_hw": 106,
+                "standalone_target_l1": 36,
+                "standalone_cg": 156.0,
+                "delta_lane_hw": [
+                  7,
+                  5,
+                  4,
+                  4,
+                  -3,
+                  8,
+                  2,
+                  -3
+                ]
+              },
+              {
+                "pair_id": 63,
+                "bit_indices": [
+                  221,
+                  245
+                ],
+                "word_pair": [
+                  6,
+                  7
+                ],
+                "selection_sources": [
+                  "repair_a"
+                ],
+                "standalone_hw": 109,
+                "standalone_target_l1": 37,
+                "standalone_cg": 155.0,
+                "delta_lane_hw": [
+                  -5,
+                  7,
+                  3,
+                  4,
+                  11,
+                  6,
+                  1,
+                  0
+                ]
+              },
+              {
+                "pair_id": 91,
+                "bit_indices": [
+                  391,
+                  406
+                ],
+                "word_pair": [
+                  12,
+                  12
+                ],
+                "selection_sources": [
+                  "repair_b"
+                ],
+                "standalone_hw": 111,
+                "standalone_target_l1": 43,
+                "standalone_cg": 163.0,
+                "delta_lane_hw": [
+                  10,
+                  -6,
+                  4,
+                  0,
+                  9,
+                  10,
+                  3,
+                  -1
+                ]
+              },
+              {
+                "pair_id": 100,
+                "bit_indices": [
+                  307,
+                  481
+                ],
+                "word_pair": [
+                  9,
+                  15
+                ],
+                "selection_sources": [
+                  "repair_g"
+                ],
+                "standalone_hw": 117,
+                "standalone_target_l1": 45,
+                "standalone_cg": 151.0,
+                "delta_lane_hw": [
+                  1,
+                  7,
+                  3,
+                  8,
+                  9,
+                  10,
+                  -5,
+                  2
+                ]
+              },
+              {
+                "pair_id": 129,
+                "bit_indices": [
+                  56,
+                  435
+                ],
+                "word_pair": [
+                  1,
+                  13
+                ],
+                "selection_sources": [
+                  "repair_e"
+                ],
+                "standalone_hw": 126,
+                "standalone_target_l1": 52,
+                "standalone_cg": 204.0,
+                "delta_lane_hw": [
+                  3,
+                  5,
+                  7,
+                  6,
+                  -4,
+                  8,
+                  13,
+                  6
+                ]
+              }
+            ]
+          }
+        ],
+        "top_by_cg": [
+          {
+            "record": {
+              "hw_total": 96,
+              "net_delta": 14,
+              "lane_hw": [
+                14,
+                13,
+                8,
+                19,
+                15,
+                12,
+                5,
+                10
+              ],
+              "target_l1": 34,
+              "cg_objective": 122.0,
+              "bits": [
+                7,
+                8,
+                122,
+                148,
+                223,
+                242,
+                259,
+                303,
+                335,
+                340,
+                360,
+                367
+              ],
+              "pair_ids": [
+                25,
+                29,
+                33,
+                49,
+                103,
+                123
+              ]
+            },
+            "word_pairs": [
+              [
+                3,
+                10
+              ],
+              [
+                4,
+                6
+              ],
+              [
+                7,
+                11
+              ],
+              [
+                0,
+                0
+              ],
+              [
+                8,
+                10
+              ],
+              [
+                9,
+                11
+              ]
+            ],
+            "motifs": {
+              "late_touch_pairs": 0,
+              "late_late_pairs": 0,
+              "early_late_pairs": 0,
+              "word_degree": {
+                "0": 2,
+                "3": 1,
+                "4": 1,
+                "6": 1,
+                "7": 1,
+                "8": 1,
+                "9": 1,
+                "10": 2,
+                "11": 2
+              }
+            },
+            "source_counts": {
+              "cg": 2,
+              "hw": 2,
+              "repair": 1,
+              "repair_g": 1,
+              "repair_h": 1
+            },
+            "pairs": [
+              {
+                "pair_id": 25,
+                "bit_indices": [
+                  122,
+                  340
+                ],
+                "word_pair": [
+                  3,
+                  10
+                ],
+                "selection_sources": [
+                  "cg"
+                ],
+                "standalone_hw": 101,
+                "standalone_target_l1": 23,
+                "standalone_cg": 141.0,
+                "delta_lane_hw": [
+                  3,
+                  0,
+                  2,
+                  -1,
+                  8,
+                  5,
+                  -1,
+                  3
+                ]
+              },
+              {
+                "pair_id": 29,
+                "bit_indices": [
+                  148,
+                  223
+                ],
+                "word_pair": [
+                  4,
+                  6
+                ],
+                "selection_sources": [
+                  "cg"
+                ],
+                "standalone_hw": 101,
+                "standalone_target_l1": 25,
+                "standalone_cg": 141.0,
+                "delta_lane_hw": [
+                  2,
+                  6,
+                  -1,
+                  -1,
+                  8,
+                  4,
+                  2,
+                  -1
+                ]
+              },
+              {
+                "pair_id": 33,
+                "bit_indices": [
+                  242,
+                  360
+                ],
+                "word_pair": [
+                  7,
+                  11
+                ],
+                "selection_sources": [
+                  "hw"
+                ],
+                "standalone_hw": 97,
+                "standalone_target_l1": 27,
+                "standalone_cg": 155.0,
+                "delta_lane_hw": [
+                  3,
+                  -2,
+                  6,
+                  2,
+                  0,
+                  6,
+                  4,
+                  -4
+                ]
+              },
+              {
+                "pair_id": 49,
+                "bit_indices": [
+                  7,
+                  8
+                ],
+                "word_pair": [
+                  0,
+                  0
+                ],
+                "selection_sources": [
+                  "repair",
+                  "hw"
+                ],
+                "standalone_hw": 99,
+                "standalone_target_l1": 35,
+                "standalone_cg": 143.0,
+                "delta_lane_hw": [
+                  4,
+                  -2,
+                  6,
+                  2,
+                  9,
+                  5,
+                  -3,
+                  -4
+                ]
+              },
+              {
+                "pair_id": 103,
+                "bit_indices": [
+                  259,
+                  335
+                ],
+                "word_pair": [
+                  8,
+                  10
+                ],
+                "selection_sources": [
+                  "repair_g"
+                ],
+                "standalone_hw": 114,
+                "standalone_target_l1": 46,
+                "standalone_cg": 150.0,
+                "delta_lane_hw": [
+                  6,
+                  5,
+                  4,
+                  3,
+                  10,
+                  11,
+                  -5,
+                  -2
+                ]
+              },
+              {
+                "pair_id": 123,
+                "bit_indices": [
+                  303,
+                  367
+                ],
+                "word_pair": [
+                  9,
+                  11
+                ],
+                "selection_sources": [
+                  "repair_h"
+                ],
+                "standalone_hw": 115,
+                "standalone_target_l1": 51,
+                "standalone_cg": 175.0,
+                "delta_lane_hw": [
+                  6,
+                  6,
+                  6,
+                  2,
+                  9,
+                  8,
+                  5,
+                  -9
+                ]
+              }
+            ]
+          },
+          {
+            "record": {
+              "hw_total": 91,
+              "net_delta": 9,
+              "lane_hw": [
+                17,
+                10,
+                10,
+                10,
+                11,
+                8,
+                8,
+                17
+              ],
+              "target_l1": 19,
+              "cg_objective": 127.0,
+              "bits": [
+                85,
+                87,
+                96,
+                151,
+                221,
+                245,
+                267,
+                333,
+                381,
+                409,
+                436,
+                441
+              ],
+              "pair_ids": [
+                23,
+                40,
+                42,
+                65,
+                69,
+                117
+              ]
+            },
+            "word_pairs": [
+              [
+                2,
+                7
+              ],
+              [
+                8,
+                13
+              ],
+              [
+                2,
+                4
+              ],
+              [
+                10,
+                13
+              ],
+              [
+                11,
+                12
+              ],
+              [
+                3,
+                6
+              ]
+            ],
+            "motifs": {
+              "late_touch_pairs": 3,
+              "late_late_pairs": 0,
+              "early_late_pairs": 1,
+              "word_degree": {
+                "2": 2,
+                "3": 1,
+                "4": 1,
+                "6": 1,
+                "7": 1,
+                "8": 1,
+                "10": 1,
+                "11": 1,
+                "12": 1,
+                "13": 2
+              }
+            },
+            "source_counts": {
+              "cg": 1,
+              "hw": 2,
+              "repair_a": 1,
+              "repair_e": 2,
+              "repair_g": 1
+            },
+            "pairs": [
+              {
+                "pair_id": 23,
+                "bit_indices": [
+                  85,
+                  245
+                ],
+                "word_pair": [
+                  2,
+                  7
+                ],
+                "selection_sources": [
+                  "hw"
+                ],
+                "standalone_hw": 99,
+                "standalone_target_l1": 23,
+                "standalone_cg": 147.0,
+                "delta_lane_hw": [
+                  1,
+                  3,
+                  4,
+                  6,
+                  -2,
+                  5,
+                  1,
+                  -1
+                ]
+              },
+              {
+                "pair_id": 40,
+                "bit_indices": [
+                  267,
+                  436
+                ],
+                "word_pair": [
+                  8,
+                  13
+                ],
+                "selection_sources": [
+                  "repair_a"
+                ],
+                "standalone_hw": 104,
+                "standalone_target_l1": 30,
+                "standalone_cg": 156.0,
+                "delta_lane_hw": [
+                  -4,
+                  2,
+                  1,
+                  3,
+                  6,
+                  8,
+                  6,
+                  0
+                ]
+              },
+              {
+                "pair_id": 42,
+                "bit_indices": [
+                  87,
+                  151
+                ],
+                "word_pair": [
+                  2,
+                  4
+                ],
+                "selection_sources": [
+                  "hw",
+                  "cg"
+                ],
+                "standalone_hw": 99,
+                "standalone_target_l1": 31,
+                "standalone_cg": 139.0,
+                "delta_lane_hw": [
+                  1,
+                  5,
+                  4,
+                  -1,
+                  6,
+                  8,
+                  -3,
+                  -3
+                ]
+              },
+              {
+                "pair_id": 65,
+                "bit_indices": [
+                  333,
+                  441
+                ],
+                "word_pair": [
+                  10,
+                  13
+                ],
+                "selection_sources": [
+                  "repair_e"
+                ],
+                "standalone_hw": 104,
+                "standalone_target_l1": 38,
+                "standalone_cg": 160.0,
+                "delta_lane_hw": [
+                  5,
+                  11,
+                  4,
+                  -1,
+                  -3,
+                  5,
+                  5,
+                  -4
+                ]
+              },
+              {
+                "pair_id": 69,
+                "bit_indices": [
+                  381,
+                  409
+                ],
+                "word_pair": [
+                  11,
+                  12
+                ],
+                "selection_sources": [
+                  "repair_g"
+                ],
+                "standalone_hw": 110,
+                "standalone_target_l1": 38,
+                "standalone_cg": 148.0,
+                "delta_lane_hw": [
+                  4,
+                  7,
+                  5,
+                  5,
+                  7,
+                  5,
+                  -5,
+                  0
+                ]
+              },
+              {
+                "pair_id": 117,
+                "bit_indices": [
+                  96,
+                  221
+                ],
+                "word_pair": [
+                  3,
+                  6
+                ],
+                "selection_sources": [
+                  "repair_e"
+                ],
+                "standalone_hw": 119,
+                "standalone_target_l1": 49,
+                "standalone_cg": 195.0,
+                "delta_lane_hw": [
+                  6,
+                  5,
+                  13,
+                  1,
+                  -4,
+                  12,
+                  6,
+                  -2
+                ]
+              }
+            ]
+          },
+          {
+            "record": {
+              "hw_total": 93,
+              "net_delta": 11,
+              "lane_hw": [
+                7,
+                17,
+                11,
+                12,
+                10,
+                13,
+                7,
+                16
+              ],
+              "target_l1": 23,
+              "cg_objective": 129.0,
+              "bits": [
+                85,
+                100,
+                119,
+                151,
+                172,
+                205,
+                245,
+                251,
+                276,
+                339,
+                354,
+                462
+              ],
+              "pair_ids": [
+                23,
+                68,
+                70,
+                83,
+                125,
+                126
+              ]
+            },
+            "word_pairs": [
+              [
+                2,
+                7
+              ],
+              [
+                4,
+                7
+              ],
+              [
+                3,
+                8
+              ],
+              [
+                6,
+                11
+              ],
+              [
+                3,
+                5
+              ],
+              [
+                10,
+                14
+              ]
+            ],
+            "motifs": {
+              "late_touch_pairs": 1,
+              "late_late_pairs": 0,
+              "early_late_pairs": 0,
+              "word_degree": {
+                "2": 1,
+                "3": 2,
+                "4": 1,
+                "5": 1,
+                "6": 1,
+                "7": 2,
+                "8": 1,
+                "10": 1,
+                "11": 1,
+                "14": 1
+              }
+            },
+            "source_counts": {
+              "hw": 1,
+              "repair": 1,
+              "repair_a": 1,
+              "repair_d": 2,
+              "repair_f": 1
+            },
+            "pairs": [
+              {
+                "pair_id": 23,
+                "bit_indices": [
+                  85,
+                  245
+                ],
+                "word_pair": [
+                  2,
+                  7
+                ],
+                "selection_sources": [
+                  "hw"
+                ],
+                "standalone_hw": 99,
+                "standalone_target_l1": 23,
+                "standalone_cg": 147.0,
+                "delta_lane_hw": [
+                  1,
+                  3,
+                  4,
+                  6,
+                  -2,
+                  5,
+                  1,
+                  -1
+                ]
+              },
+              {
+                "pair_id": 68,
+                "bit_indices": [
+                  151,
+                  251
+                ],
+                "word_pair": [
+                  4,
+                  7
+                ],
+                "selection_sources": [
+                  "repair_d"
+                ],
+                "standalone_hw": 108,
+                "standalone_target_l1": 38,
+                "standalone_cg": 170.0,
+                "delta_lane_hw": [
+                  5,
+                  1,
+                  6,
+                  -6,
+                  5,
+                  5,
+                  6,
+                  4
+                ]
+              },
+              {
+                "pair_id": 70,
+                "bit_indices": [
+                  119,
+                  276
+                ],
+                "word_pair": [
+                  3,
+                  8
+                ],
+                "selection_sources": [
+                  "repair_a"
+                ],
+                "standalone_hw": 110,
+                "standalone_target_l1": 38,
+                "standalone_cg": 168.0,
+                "delta_lane_hw": [
+                  -5,
+                  5,
+                  7,
+                  6,
+                  4,
+                  6,
+                  3,
+                  2
+                ]
+              },
+              {
+                "pair_id": 83,
+                "bit_indices": [
+                  205,
+                  354
+                ],
+                "word_pair": [
+                  6,
+                  11
+                ],
+                "selection_sources": [
+                  "repair_d"
+                ],
+                "standalone_hw": 109,
+                "standalone_target_l1": 41,
+                "standalone_cg": 171.0,
+                "delta_lane_hw": [
+                  7,
+                  3,
+                  6,
+                  -6,
+                  2,
+                  10,
+                  6,
+                  -1
+                ]
+              },
+              {
+                "pair_id": 125,
+                "bit_indices": [
+                  100,
+                  172
+                ],
+                "word_pair": [
+                  3,
+                  5
+                ],
+                "selection_sources": [
+                  "repair_f"
+                ],
+                "standalone_hw": 129,
+                "standalone_target_l1": 51,
+                "standalone_cg": 197.0,
+                "delta_lane_hw": [
+                  12,
+                  7,
+                  9,
+                  3,
+                  10,
+                  -2,
+                  6,
+                  2
+                ]
+              },
+              {
+                "pair_id": 126,
+                "bit_indices": [
+                  339,
+                  462
+                ],
+                "word_pair": [
+                  10,
+                  14
+                ],
+                "selection_sources": [
+                  "repair"
+                ],
+                "standalone_hw": 112,
+                "standalone_target_l1": 52,
+                "standalone_cg": 174.0,
+                "delta_lane_hw": [
+                  9,
+                  -3,
+                  6,
+                  -4,
+                  9,
+                  11,
+                  6,
+                  -4
+                ]
+              }
+            ]
+          },
+          {
+            "record": {
+              "hw_total": 95,
+              "net_delta": 13,
+              "lane_hw": [
+                12,
+                18,
+                6,
+                10,
+                12,
+                13,
+                11,
+                13
+              ],
+              "target_l1": 25,
+              "cg_objective": 129.0,
+              "bits": [
+                25,
+                42,
+                54,
+                88,
+                132,
+                246,
+                274,
+                305,
+                339,
+                388,
+                401,
+                462
+              ],
+              "pair_ids": [
+                41,
+                48,
+                79,
+                126,
+                128,
+                134
+              ]
+            },
+            "word_pairs": [
+              [
+                4,
+                9
+              ],
+              [
+                1,
+                2
+              ],
+              [
+                0,
+                12
+              ],
+              [
+                10,
+                14
+              ],
+              [
+                8,
+                12
+              ],
+              [
+                1,
+                7
+              ]
+            ],
+            "motifs": {
+              "late_touch_pairs": 3,
+              "late_late_pairs": 0,
+              "early_late_pairs": 2,
+              "word_degree": {
+                "0": 1,
+                "1": 2,
+                "2": 1,
+                "4": 1,
+                "7": 1,
+                "8": 1,
+                "9": 1,
+                "10": 1,
+                "12": 2,
+                "14": 1
+              }
+            },
+            "source_counts": {
+              "cg": 2,
+              "repair": 1,
+              "repair_c": 1,
+              "repair_g": 1,
+              "repair_h": 1
+            },
+            "pairs": [
+              {
+                "pair_id": 41,
+                "bit_indices": [
+                  132,
+                  305
+                ],
+                "word_pair": [
+                  4,
+                  9
+                ],
+                "selection_sources": [
+                  "cg"
+                ],
+                "standalone_hw": 106,
+                "standalone_target_l1": 30,
+                "standalone_cg": 138.0,
+                "delta_lane_hw": [
+                  3,
+                  3,
+                  0,
+                  6,
+                  7,
+                  5,
+                  -3,
+                  3
+                ]
+              },
+              {
+                "pair_id": 48,
+                "bit_indices": [
+                  42,
+                  88
+                ],
+                "word_pair": [
+                  1,
+                  2
+                ],
+                "selection_sources": [
+                  "cg"
+                ],
+                "standalone_hw": 105,
+                "standalone_target_l1": 33,
+                "standalone_cg": 141.0,
+                "delta_lane_hw": [
+                  3,
+                  6,
+                  2,
+                  4,
+                  4,
+                  9,
+                  -3,
+                  -2
+                ]
+              },
+              {
+                "pair_id": 79,
+                "bit_indices": [
+                  25,
+                  388
+                ],
+                "word_pair": [
+                  0,
+                  12
+                ],
+                "selection_sources": [
+                  "repair_c"
+                ],
+                "standalone_hw": 114,
+                "standalone_target_l1": 40,
+                "standalone_cg": 154.0,
+                "delta_lane_hw": [
+                  8,
+                  4,
+                  -4,
+                  0,
+                  6,
+                  10,
+                  5,
+                  3
+                ]
+              },
+              {
+                "pair_id": 126,
+                "bit_indices": [
+                  339,
+                  462
+                ],
+                "word_pair": [
+                  10,
+                  14
+                ],
+                "selection_sources": [
+                  "repair"
+                ],
+                "standalone_hw": 112,
+                "standalone_target_l1": 52,
+                "standalone_cg": 174.0,
+                "delta_lane_hw": [
+                  9,
+                  -3,
+                  6,
+                  -4,
+                  9,
+                  11,
+                  6,
+                  -4
+                ]
+              },
+              {
+                "pair_id": 128,
+                "bit_indices": [
+                  274,
+                  401
+                ],
+                "word_pair": [
+                  8,
+                  12
+                ],
+                "selection_sources": [
+                  "repair_g"
+                ],
+                "standalone_hw": 124,
+                "standalone_target_l1": 52,
+                "standalone_cg": 164.0,
+                "delta_lane_hw": [
+                  9,
+                  6,
+                  6,
+                  6,
+                  6,
+                  10,
+                  -5,
+                  4
+                ]
+              },
+              {
+                "pair_id": 134,
+                "bit_indices": [
+                  54,
+                  246
+                ],
+                "word_pair": [
+                  1,
+                  7
+                ],
+                "selection_sources": [
+                  "repair_h"
+                ],
+                "standalone_hw": 121,
+                "standalone_target_l1": 57,
+                "standalone_cg": 187.0,
+                "delta_lane_hw": [
+                  7,
+                  7,
+                  10,
+                  7,
+                  5,
+                  8,
+                  4,
+                  -9
+                ]
+              }
+            ]
+          },
+          {
+            "record": {
+              "hw_total": 97,
+              "net_delta": 15,
+              "lane_hw": [
+                14,
+                14,
+                6,
+                14,
+                12,
+                16,
+                10,
+                11
+              ],
+              "target_l1": 27,
+              "cg_objective": 129.0,
+              "bits": [
+                148,
+                151,
+                153,
+                223,
+                251,
+                259,
+                335,
+                349,
+                391,
+                406,
+                474,
+                510
+              ],
+              "pair_ids": [
+                29,
+                68,
+                75,
+                91,
+                103,
+                121
+              ]
+            },
+            "word_pairs": [
+              [
+                4,
+                6
+              ],
+              [
+                4,
+                7
+              ],
+              [
+                10,
+                14
+              ],
+              [
+                12,
+                12
+              ],
+              [
+                8,
+                10
+              ],
+              [
+                4,
+                15
+              ]
+            ],
+            "motifs": {
+              "late_touch_pairs": 3,
+              "late_late_pairs": 1,
+              "early_late_pairs": 1,
+              "word_degree": {
+                "4": 3,
+                "6": 1,
+                "7": 1,
+                "8": 1,
+                "10": 2,
+                "12": 2,
+                "14": 1,
+                "15": 1
+              }
+            },
+            "source_counts": {
+              "cg": 1,
+              "repair": 1,
+              "repair_b": 1,
+              "repair_d": 1,
+              "repair_f": 1,
+              "repair_g": 1
+            },
+            "pairs": [
+              {
+                "pair_id": 29,
+                "bit_indices": [
+                  148,
+                  223
+                ],
+                "word_pair": [
+                  4,
+                  6
+                ],
+                "selection_sources": [
+                  "cg"
+                ],
+                "standalone_hw": 101,
+                "standalone_target_l1": 25,
+                "standalone_cg": 141.0,
+                "delta_lane_hw": [
+                  2,
+                  6,
+                  -1,
+                  -1,
+                  8,
+                  4,
+                  2,
+                  -1
+                ]
+              },
+              {
+                "pair_id": 68,
+                "bit_indices": [
+                  151,
+                  251
+                ],
+                "word_pair": [
+                  4,
+                  7
+                ],
+                "selection_sources": [
+                  "repair_d"
+                ],
+                "standalone_hw": 108,
+                "standalone_target_l1": 38,
+                "standalone_cg": 170.0,
+                "delta_lane_hw": [
+                  5,
+                  1,
+                  6,
+                  -6,
+                  5,
+                  5,
+                  6,
+                  4
+                ]
+              },
+              {
+                "pair_id": 75,
+                "bit_indices": [
+                  349,
+                  474
+                ],
+                "word_pair": [
+                  10,
+                  14
+                ],
+                "selection_sources": [
+                  "repair_f"
+                ],
+                "standalone_hw": 117,
+                "standalone_target_l1": 39,
+                "standalone_cg": 175.0,
+                "delta_lane_hw": [
+                  5,
+                  9,
+                  7,
+                  6,
+                  6,
+                  -2,
+                  3,
+                  1
+                ]
+              },
+              {
+                "pair_id": 91,
+                "bit_indices": [
+                  391,
+                  406
+                ],
+                "word_pair": [
+                  12,
+                  12
+                ],
+                "selection_sources": [
+                  "repair_b"
+                ],
+                "standalone_hw": 111,
+                "standalone_target_l1": 43,
+                "standalone_cg": 163.0,
+                "delta_lane_hw": [
+                  10,
+                  -6,
+                  4,
+                  0,
+                  9,
+                  10,
+                  3,
+                  -1
+                ]
+              },
+              {
+                "pair_id": 103,
+                "bit_indices": [
+                  259,
+                  335
+                ],
+                "word_pair": [
+                  8,
+                  10
+                ],
+                "selection_sources": [
+                  "repair_g"
+                ],
+                "standalone_hw": 114,
+                "standalone_target_l1": 46,
+                "standalone_cg": 150.0,
+                "delta_lane_hw": [
+                  6,
+                  5,
+                  4,
+                  3,
+                  10,
+                  11,
+                  -5,
+                  -2
+                ]
+              },
+              {
+                "pair_id": 121,
+                "bit_indices": [
+                  153,
+                  510
+                ],
+                "word_pair": [
+                  4,
+                  15
+                ],
+                "selection_sources": [
+                  "repair"
+                ],
+                "standalone_hw": 114,
+                "standalone_target_l1": 50,
+                "standalone_cg": 190.0,
+                "delta_lane_hw": [
+                  10,
+                  3,
+                  9,
+                  -3,
+                  4,
+                  5,
+                  10,
+                  -6
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
