@@ -29,7 +29,36 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-04T04:57:52Z'
+last_heartbeat: '2026-05-04T05:12:29Z'
+recent_progress_2026-05-04_F793_HW78_pair6_negative_detour: |
+  yale-codex ran a six-pair basin-transfer sample from the F789 HW78 witness
+  using the F790 top-80 atlas.
+
+  Setup:
+    selected pairs: 251
+    pair_count: 6
+    radius: 10..12
+    sampled combos: 5,000,000
+
+  Result:
+    evaluated: 4,999,571
+    HW < 78: 0
+    HW <= 78: 0
+    c/g-improving: 0
+    target-L1-improving: 3
+    best HW: 84 / target L1 22
+    best target: HW94 / target L1 12
+
+  Best-HW detour:
+    lane [8, 8, 10, 9, 14, 11, 12, 12]
+    standalone net-delta sum 169
+    nonlinear HW gain 163
+
+  Interpretation:
+    HW78 is much tighter than the F760/F788 parent. F793 did not preserve or
+    improve the floor, but the HW84 detour is worth one pure-HW pair-beam
+    repair test.
+
 recent_progress_2026-05-04_F792_HW78_cg_beam_closed: |
   yale-codex ran the c/g-biased M2 pair-beam restart from the F789 HW78
   witness.
