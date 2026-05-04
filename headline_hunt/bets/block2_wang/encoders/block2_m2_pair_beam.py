@@ -206,6 +206,10 @@ def main():
                     help="Penalty multiplier on L1 distance to --target-lane.")
     ap.add_argument("--m2-weight-penalty", type=float, default=0.0,
                     help="Penalty multiplier on M2 popcount for sparse/target_sparse objectives.")
+    ap.add_argument("--min-m2-weight", type=int, default=None,
+                    help="Reject pair/beam states with M2 popcount below this value.")
+    ap.add_argument("--max-m2-weight", type=int, default=None,
+                    help="Reject pair/beam states with M2 popcount above this value.")
     ap.add_argument("--max-target-l1", type=int, default=None,
                     help="Reject beam states with L1(lane, target-lane) above this cap.")
     ap.add_argument("--beam-width", type=int, default=1024)
@@ -287,6 +291,10 @@ def main():
         hw, diff = eval_m2(iv1, iv2, m1_W, m2, args.rounds)
         lane_hw = hw_per_lane(diff)
         pair_m2_weight = m2_weight(m2)
+        if args.min_m2_weight is not None and pair_m2_weight < args.min_m2_weight:
+            continue
+        if args.max_m2_weight is not None and pair_m2_weight > args.max_m2_weight:
+            continue
         pair_objective = objective_value(
             hw,
             lane_hw,
@@ -306,6 +314,8 @@ def main():
             "objective": round(pair_objective, 6),
         })
     all_pairs.sort(key=lambda p: (p["objective"], p["hw_total"]))
+    if not all_pairs:
+        raise SystemExit("pair pool is empty after M2-weight filtering")
     top_pairs = all_pairs[:args.pair_pool]
     pool_hw_min = top_pairs[0]["hw_total"]
     pool_hw_max = top_pairs[-1]["hw_total"]
@@ -349,6 +359,10 @@ def main():
                 hw, diff = eval_m2(iv1, iv2, m1_W, tuple(new_M2), args.rounds)
                 lane_hw = hw_per_lane(diff)
                 new_m2_weight = m2_weight(new_M2)
+                if args.min_m2_weight is not None and new_m2_weight < args.min_m2_weight:
+                    continue
+                if args.max_m2_weight is not None and new_m2_weight > args.max_m2_weight:
+                    continue
                 if args.max_target_l1 is not None and target_l1(lane_hw, target_lane) > args.max_target_l1:
                     continue
                 state_objective = objective_value(
@@ -454,6 +468,8 @@ def main():
         "target_lane": target_lane,
         "target_weight": args.target_weight,
         "m2_weight_penalty": args.m2_weight_penalty,
+        "min_m2_weight": args.min_m2_weight,
+        "max_m2_weight": args.max_m2_weight,
         "max_target_l1": args.max_target_l1,
         "beam_width": args.beam_width,
         "max_pairs": args.max_pairs,

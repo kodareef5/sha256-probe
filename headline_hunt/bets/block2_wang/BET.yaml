@@ -29,7 +29,58 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-04T08:36:03Z'
+last_heartbeat: '2026-05-04T08:50:06Z'
+recent_progress_2026-05-04_F812_m2cap54_bridge_closed: |
+  yale-codex added M2 popcount min/max filters to block2_m2_pair_beam.py and
+  ran the F800 -> F788-lane bridge with max M2 weight 54.
+
+  Setup:
+    init HW: 86
+    init lane: [10, 7, 9, 9, 17, 14, 11, 9]
+    init M2 weight: 50
+    target lane: [14, 13, 10, 8, 8, 8, 12, 13]
+    objective: HW + 2*L1(lane, target)
+    max M2 weight: 54
+
+  Result:
+    pair-pool HW range: 96..112
+    depth best objective/HW sequence:
+      d1 HW94 obj124
+      d2 HW90 obj119
+      d3 HW86 obj119
+      d4 HW91 obj117
+      d5 HW91 obj127
+      d6 HW91 obj124
+    new records below HW86: 0
+    best seen HW: 86, source init
+    best capped objective state: HW95 / objective 117 / M2 weight 52
+    wall: 682.14s
+
+  Interpretation:
+    Hard M2-weight capping blocked the over-filled F802 HW85 endpoint, but did
+    not uncover an alternate lower-HW bridge. The next constraint should be
+    word-local, not just total M2 popcount.
+recent_progress_2026-05-04_F811_transition_comparison: |
+  yale-codex added summarize_m2_transitions.py and compared M2 transition bits.
+
+  Successful transition:
+    F788 HW86 -> F789 HW78
+    HW 86->78
+    M2 weight 40->44
+    Hamming distance 12
+    added 8, removed 4
+
+  Weak transition:
+    F800 HW86 -> F802 HW85
+    HW 86->85
+    M2 weight 50->56
+    Hamming distance 8
+    added 7, removed 1
+    added word histogram includes word15:3
+
+  Interpretation:
+    The weak bridge over-fills, especially late word 15. This motivated the
+    F812 hard M2-weight cap and points next toward word-local addition caps.
 recent_progress_2026-05-04_F810_target_sparse_from_F800_reduplicated_F802: |
   yale-codex ran target_sparse from the earlier F800 HW86 branch point toward
   the F788 repairable lane.
