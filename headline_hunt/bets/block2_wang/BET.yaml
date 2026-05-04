@@ -29,7 +29,62 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-04T06:51:00Z'
+last_heartbeat: '2026-05-04T07:16:10Z'
+recent_progress_2026-05-04_F803_F802_HW85_pure_HW_closed: |
+  yale-codex ran standard pure-HW pair-beam continuation from the F802 HW85
+  lane-bridge witness.
+
+  Setup:
+    init HW: 85
+    lane: [11, 12, 7, 12, 12, 12, 9, 10]
+    pair_pool: 1024
+    beam_width: 1024
+    max_pairs: 6
+    max_radius: 12
+
+  Result:
+    pair-pool HW range: 94..109
+    depth bests: 94, 91, 88, 92, 91, 85
+    new records below HW85: 0
+    best seen HW: 85, source init
+    wall: 685.76s
+
+  Interpretation:
+    The F802 bridge found a real lower-HW side basin, but that HW85 point is
+    closed under the standard pure-HW continuation.
+recent_progress_2026-05-04_F802_lane_bridge_reached_HW85: |
+  yale-codex ran a lane-shape bridge from the closed F800/F801 HW86 witness
+  toward the known repairable F788 HW86 lane.
+
+  Setup:
+    init HW: 86
+    init lane: [10, 7, 9, 9, 17, 14, 11, 9]
+    target lane: [14, 13, 10, 8, 8, 8, 12, 13]
+    objective: HW + 2*L1(lane, target)
+    pair_rank: target
+    pair_pool: 1024
+    beam_width: 1024
+    max_pairs: 6
+    max_radius: 12
+
+  Result:
+    initial objective: 150
+    depth best objective/HW sequence:
+      d1 HW94 obj124
+      d2 HW90 obj119
+      d3 HW86 obj119
+      d4 HW85 obj117
+      d5 HW87 obj123
+      d6 HW91 obj123
+    new records below HW86: 1
+    best seen HW: 85
+    best lane: [11, 12, 7, 12, 12, 12, 9, 10]
+    wall: 690.8s
+
+  Interpretation:
+    Lane-shape bridging moved a closed HW86 branch into a new HW85 basin. This
+    is a distinct operator from pure-HW repair and is the most useful new angle
+    after the F789 HW78 breakthrough.
 recent_progress_2026-05-04_F801_F800_HW86_continuation_closed: |
   yale-codex ran a pure-HW M2 pair-beam continuation from the new F800 HW86
   witness.
