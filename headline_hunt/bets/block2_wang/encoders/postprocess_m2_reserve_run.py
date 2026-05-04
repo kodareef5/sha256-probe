@@ -190,6 +190,25 @@ def read_artifact(path):
     return data
 
 
+def m2_key(words):
+    return tuple(str(word).lower() for word in words or [])
+
+
+def parse_m2_arg(value):
+    return tuple(part.strip().lower() for part in value.split(",") if part.strip())
+
+
+def load_skip_keys(paths, m2_args):
+    keys = set(parse_m2_arg(value) for value in m2_args)
+    for raw_path in paths:
+        data = json.loads(Path(raw_path).read_text())
+        for key in ("init_M2", "best_seen_M2"):
+            words = data.get(key)
+            if words:
+                keys.add(m2_key(words))
+    return keys
+
+
 def write_extract(artifact_path, outputs, args):
     ns = argparse.Namespace(
         max_hw=args.max_hw,
@@ -226,16 +245,18 @@ def write_summary(paths, outputs):
     return summaries
 
 
-def next_plan_candidate(plan_path, current_data):
+def next_plan_candidate(plan_path, current_data, skip_keys):
     if not plan_path:
         return None
     plan = json.loads(Path(plan_path).read_text())
-    current_key = tuple(str(word).lower() for word in current_data.get("init_M2") or [])
+    current_key = m2_key(current_data.get("init_M2"))
     for candidate in plan.get("candidates") or []:
-        candidate_key = tuple(str(word).lower() for word in candidate.get("M2") or [])
+        candidate_key = m2_key(candidate.get("M2"))
         if candidate.get("already_tried"):
             continue
         if candidate_key == current_key:
+            continue
+        if candidate_key in skip_keys:
             continue
         return candidate
     return None
@@ -306,6 +327,8 @@ def main():
     ap.add_argument("artifact", help="Primary shape-reserve beam JSON artifact.")
     ap.add_argument("--compare", action="append", default=[], help="Control/comparison artifact.")
     ap.add_argument("--plan", help="Reserve triage plan JSON for next-candidate suggestion.")
+    ap.add_argument("--skip-artifact", action="append", default=[], help="Artifact whose init/best M2 should be skipped in plan suggestions.")
+    ap.add_argument("--skip-m2", action="append", default=[], help="Comma-separated M2 words to skip in plan suggestions.")
     ap.add_argument("--out-dir", help="Output directory; default uses artifact directory.")
     ap.add_argument("--tag", help="Short output tag; default uses fNNN from artifact name.")
     ap.add_argument("--max-hw", type=int, default=91)
@@ -331,7 +354,8 @@ def main():
         classify(data, args.max_net_added, args.min_removed)
         for data in control_data
     ]
-    next_candidate = next_plan_candidate(args.plan, run_data)
+    skip_keys = load_skip_keys(args.skip_artifact, args.skip_m2)
+    next_candidate = next_plan_candidate(args.plan, run_data, skip_keys)
     write_verdict(run_result, control_results, candidates, next_candidate, outputs, args)
 
     print(f"wrote {outputs['extract_jsonl']} and {outputs['extract_md']}")
