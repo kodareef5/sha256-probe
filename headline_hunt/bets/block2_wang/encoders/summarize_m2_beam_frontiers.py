@@ -36,6 +36,15 @@ def fmt_hist(items, limit=4):
     )
 
 
+def fmt_selection(passes):
+    if not passes:
+        return ""
+    return ", ".join(
+        f"{item['pass']}:{item.get('added', 0)}/{item.get('limit', 0)}"
+        for item in passes
+    )
+
+
 def state_cell(state):
     if not state:
         return ""
@@ -61,6 +70,10 @@ def load_artifact(path):
     data = json.loads(path.read_text())
     label = data.get("label") or path.stem
     frontiers = data.get("frontier_summaries") or []
+    selection_by_depth = {
+        item.get("depth"): item.get("passes") or []
+        for item in data.get("beam_selection_summaries") or []
+    }
     summary = {
         "path": str(path),
         "artifact": path.name,
@@ -79,6 +92,11 @@ def load_artifact(path):
         "n_new_records": data.get("n_new_records"),
         "wall_seconds": data.get("wall_seconds"),
         "frontier_count": len(frontiers),
+        "reserve_low_net_width": data.get("reserve_low_net_width", 0),
+        "reserve_low_net_max": data.get("reserve_low_net_max"),
+        "reserve_low_net_min_removed": data.get("reserve_low_net_min_removed"),
+        "reserve_removed_width": data.get("reserve_removed_width", 0),
+        "reserve_removed_min": data.get("reserve_removed_min"),
     }
     rows = []
     for frontier in frontiers:
@@ -90,6 +108,7 @@ def load_artifact(path):
             "depth": frontier.get("depth"),
             "candidate_count": frontier.get("candidate_count"),
             "kept_count": frontier.get("kept_count"),
+            "selection_passes": selection_by_depth.get(frontier.get("depth"), []),
             "best_hw": frontier.get("best_hw"),
             "best_objective": frontier.get("best_objective"),
             "best_state": top_state,
@@ -113,8 +132,8 @@ def markdown(summaries, rows):
     lines = [
         "# M2 Beam Frontier Comparison",
         "",
-        "| artifact | init | best | depth | records | best shape | wall(s) |",
-        "| --- | ---: | ---: | ---: | ---: | --- | ---: |",
+        "| artifact | init | best | depth | records | best shape | reserves | wall(s) |",
+        "| --- | ---: | ---: | ---: | ---: | --- | --- | ---: |",
     ]
     for summary in summaries:
         shape = (
@@ -126,21 +145,30 @@ def markdown(summaries, rows):
         )
         wall = summary["wall_seconds"]
         wall_cell = "" if wall is None else f"{wall:.1f}"
+        reserves = ""
+        if summary["reserve_low_net_width"] or summary["reserve_removed_width"]:
+            reserves = (
+                f"low-net {summary['reserve_low_net_width']} "
+                f"(net<={summary['reserve_low_net_max']}, rem>={summary['reserve_low_net_min_removed']}), "
+                f"removed {summary['reserve_removed_width']} "
+                f"(rem>={summary['reserve_removed_min']})"
+            )
         lines.append(
             f"| `{summary['artifact']}` | {summary['init_hw']} | "
             f"{summary['best_seen_hw']} | {summary['best_seen_depth']} | "
-            f"{summary['n_new_records']} | {shape} | {wall_cell} |"
+            f"{summary['n_new_records']} | {shape} | {reserves} | {wall_cell} |"
         )
 
     lines.extend([
         "",
-        "| artifact | d | candidates | kept | best | shape hist | removed hist | net hist | best removed | best low-net |",
-        "| --- | ---: | ---: | ---: | --- | --- | --- | --- | --- | --- |",
+        "| artifact | d | candidates | kept | selection | best | shape hist | removed hist | net hist | best removed | best low-net |",
+        "| --- | ---: | ---: | ---: | --- | --- | --- | --- | --- | --- | --- |",
     ])
     for row in rows:
         lines.append(
             f"| `{row['artifact']}` | {row['depth']} | {row['candidate_count']} | "
-            f"{row['kept_count']} | {state_cell(row['best_state'])} | "
+            f"{row['kept_count']} | {fmt_selection(row['selection_passes'])} | "
+            f"{state_cell(row['best_state'])} | "
             f"{fmt_hist(row['shape_hist_top'])} | {fmt_hist(row['removed_bits_hist_top'])} | "
             f"{fmt_hist(row['net_added_hist_top'])} | {row['best_positive_removed']} | "
             f"{row['best_low_net']} |"
