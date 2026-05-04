@@ -1,0 +1,2975 @@
+{
+  "description": "M2 transition pair-cover analysis",
+  "results": [
+    {
+      "label": "F550_bit24_F428_cg84",
+      "source_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260504_F550_bit24_HW78_cg_wider_m2_pair_beam.json",
+      "rounds": 24,
+      "pair_rank": "cg",
+      "pair_pool": 2048,
+      "source_hw": 131,
+      "source_lane_hw": [
+        15,
+        15,
+        14,
+        15,
+        21,
+        17,
+        17,
+        17
+      ],
+      "source_m2_weight": 44,
+      "target_hw": 84,
+      "target_lane_hw": [
+        9,
+        7,
+        16,
+        11,
+        13,
+        8,
+        11,
+        9
+      ],
+      "target_m2_weight": 54,
+      "target_depth": 5,
+      "transition_bits": [
+        20,
+        82,
+        146,
+        164,
+        218,
+        289,
+        331,
+        348,
+        431,
+        438
+      ],
+      "transition_bit_count": 10,
+      "transition_added_bits": [
+        20,
+        82,
+        146,
+        164,
+        218,
+        289,
+        331,
+        348,
+        431,
+        438
+      ],
+      "transition_removed_bits": [],
+      "transition_added_word_hist": {
+        "0": 1,
+        "2": 1,
+        "4": 1,
+        "5": 1,
+        "6": 1,
+        "9": 1,
+        "10": 2,
+        "13": 2
+      },
+      "transition_removed_word_hist": {},
+      "source_M2": [
+        "0x00805000",
+        "0x21000080",
+        "0x00004004",
+        "0x40146000",
+        "0x00000104",
+        "0x10001000",
+        "0x00000001",
+        "0x00200080",
+        "0x08006410",
+        "0x20020040",
+        "0x00808108",
+        "0x00010000",
+        "0x06000000",
+        "0x00240020",
+        "0x12018002",
+        "0x00000040"
+      ],
+      "target_M2": [
+        "0x00905000",
+        "0x21000080",
+        "0x00044004",
+        "0x40146000",
+        "0x00040104",
+        "0x10001010",
+        "0x04000001",
+        "0x00200080",
+        "0x08006410",
+        "0x20020042",
+        "0x10808908",
+        "0x00010000",
+        "0x06000000",
+        "0x00648020",
+        "0x12018002",
+        "0x00000040"
+      ],
+      "transition_pair_count": 45,
+      "transition_pairs": [
+        {
+          "bits": [
+            164,
+            438
+          ],
+          "pair_rank": 315,
+          "rank_objective": 153.0,
+          "hw": 109,
+          "lane_hw": [
+            10,
+            14,
+            10,
+            13,
+            18,
+            17,
+            12,
+            15
+          ],
+          "m2_weight": 46,
+          "weight_delta": 2,
+          "added_bits": [
+            164,
+            438
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            20,
+            348
+          ],
+          "pair_rank": 413,
+          "rank_objective": 154.0,
+          "hw": 112,
+          "lane_hw": [
+            15,
+            21,
+            10,
+            16,
+            15,
+            10,
+            11,
+            14
+          ],
+          "m2_weight": 46,
+          "weight_delta": 2,
+          "added_bits": [
+            20,
+            348
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            218,
+            431
+          ],
+          "pair_rank": 666,
+          "rank_objective": 156.0,
+          "hw": 116,
+          "lane_hw": [
+            18,
+            11,
+            12,
+            20,
+            17,
+            14,
+            8,
+            16
+          ],
+          "m2_weight": 46,
+          "weight_delta": 2,
+          "added_bits": [
+            218,
+            431
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            82,
+            146
+          ],
+          "pair_rank": 1017,
+          "rank_objective": 159.0,
+          "hw": 107,
+          "lane_hw": [
+            13,
+            13,
+            12,
+            13,
+            15,
+            13,
+            14,
+            14
+          ],
+          "m2_weight": 46,
+          "weight_delta": 2,
+          "added_bits": [
+            82,
+            146
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            289,
+            331
+          ],
+          "pair_rank": 1705,
+          "rank_objective": 161.0,
+          "hw": 113,
+          "lane_hw": [
+            11,
+            16,
+            13,
+            17,
+            18,
+            14,
+            11,
+            13
+          ],
+          "m2_weight": 46,
+          "weight_delta": 2,
+          "added_bits": [
+            289,
+            331
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            82,
+            348
+          ],
+          "pair_rank": 2761,
+          "rank_objective": 164.0,
+          "hw": 112,
+          "lane_hw": [
+            12,
+            10,
+            12,
+            18,
+            18,
+            12,
+            14,
+            16
+          ],
+          "m2_weight": 46,
+          "weight_delta": 2,
+          "added_bits": [
+            82,
+            348
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            20,
+            331
+          ],
+          "pair_rank": 8318,
+          "rank_objective": 171.0,
+          "hw": 115,
+          "lane_hw": [
+            15,
+            9,
+            16,
+            11,
+            17,
+            20,
+            12,
+            15
+          ],
+          "m2_weight": 46,
+          "weight_delta": 2,
+          "added_bits": [
+            20,
+            331
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            20,
+            431
+          ],
+          "pair_rank": 16623,
+          "rank_objective": 176.0,
+          "hw": 122,
+          "lane_hw": [
+            18,
+            16,
+            11,
+            16,
+            16,
+            13,
+            16,
+            16
+          ],
+          "m2_weight": 46,
+          "weight_delta": 2,
+          "added_bits": [
+            20,
+            431
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            218,
+            348
+          ],
+          "pair_rank": 20112,
+          "rank_objective": 178.0,
+          "hw": 118,
+          "lane_hw": [
+            16,
+            13,
+            17,
+            13,
+            13,
+            20,
+            13,
+            13
+          ],
+          "m2_weight": 46,
+          "weight_delta": 2,
+          "added_bits": [
+            218,
+            348
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            20,
+            164
+          ],
+          "pair_rank": 21169,
+          "rank_objective": 178.0,
+          "hw": 124,
+          "lane_hw": [
+            14,
+            15,
+            16,
+            21,
+            18,
+            13,
+            11,
+            16
+          ],
+          "m2_weight": 46,
+          "weight_delta": 2,
+          "added_bits": [
+            20,
+            164
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            20,
+            146
+          ],
+          "pair_rank": 22051,
+          "rank_objective": 179.0,
+          "hw": 117,
+          "lane_hw": [
+            12,
+            17,
+            15,
+            13,
+            15,
+            14,
+            16,
+            15
+          ],
+          "m2_weight": 46,
+          "weight_delta": 2,
+          "added_bits": [
+            20,
+            146
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            146,
+            218
+          ],
+          "pair_rank": 26020,
+          "rank_objective": 180.0,
+          "hw": 124,
+          "lane_hw": [
+            11,
+            16,
+            13,
+            18,
+            16,
+            17,
+            15,
+            18
+          ],
+          "m2_weight": 46,
+          "weight_delta": 2,
+          "added_bits": [
+            146,
+            218
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            164,
+            218
+          ],
+          "pair_rank": 32991,
+          "rank_objective": 183.0,
+          "hw": 119,
+          "lane_hw": [
+            17,
+            12,
+            13,
+            14,
+            16,
+            10,
+            19,
+            18
+          ],
+          "m2_weight": 46,
+          "weight_delta": 2,
+          "added_bits": [
+            164,
+            218
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            348,
+            438
+          ],
+          "pair_rank": 33622,
+          "rank_objective": 183.0,
+          "hw": 121,
+          "lane_hw": [
+            15,
+            15,
+            16,
+            15,
+            18,
+            15,
+            15,
+            12
+          ],
+          "m2_weight": 46,
+          "weight_delta": 2,
+          "added_bits": [
+            348,
+            438
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            146,
+            289
+          ],
+          "pair_rank": 39160,
+          "rank_objective": 185.0,
+          "hw": 119,
+          "lane_hw": [
+            16,
+            14,
+            11,
+            16,
+            10,
+            13,
+            22,
+            17
+          ],
+          "m2_weight": 46,
+          "weight_delta": 2,
+          "added_bits": [
+            146,
+            289
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            82,
+            218
+          ],
+          "pair_rank": 39437,
+          "rank_objective": 185.0,
+          "hw": 121,
+          "lane_hw": [
+            12,
+            17,
+            17,
+            18,
+            15,
+            20,
+            15,
+            7
+          ],
+          "m2_weight": 46,
+          "weight_delta": 2,
+          "added_bits": [
+            82,
+            218
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            431,
+            438
+          ],
+          "pair_rank": 44370,
+          "rank_objective": 186.0,
+          "hw": 126,
+          "lane_hw": [
+            14,
+            17,
+            16,
+            11,
+            16,
+            20,
+            14,
+            18
+          ],
+          "m2_weight": 46,
+          "weight_delta": 2,
+          "added_bits": [
+            431,
+            438
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            146,
+            164
+          ],
+          "pair_rank": 46358,
+          "rank_objective": 187.0,
+          "hw": 123,
+          "lane_hw": [
+            12,
+            16,
+            17,
+            15,
+            20,
+            12,
+            15,
+            16
+          ],
+          "m2_weight": 46,
+          "weight_delta": 2,
+          "added_bits": [
+            146,
+            164
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            164,
+            289
+          ],
+          "pair_rank": 49512,
+          "rank_objective": 188.0,
+          "hw": 122,
+          "lane_hw": [
+            18,
+            10,
+            19,
+            21,
+            13,
+            12,
+            14,
+            15
+          ],
+          "m2_weight": 46,
+          "weight_delta": 2,
+          "added_bits": [
+            164,
+            289
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            289,
+            438
+          ],
+          "pair_rank": 50931,
+          "rank_objective": 188.0,
+          "hw": 126,
+          "lane_hw": [
+            18,
+            17,
+            19,
+            17,
+            17,
+            13,
+            12,
+            13
+          ],
+          "m2_weight": 46,
+          "weight_delta": 2,
+          "added_bits": [
+            289,
+            438
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            331,
+            431
+          ],
+          "pair_rank": 52312,
+          "rank_objective": 188.0,
+          "hw": 132,
+          "lane_hw": [
+            12,
+            21,
+            11,
+            17,
+            19,
+            18,
+            17,
+            17
+          ],
+          "m2_weight": 46,
+          "weight_delta": 2,
+          "added_bits": [
+            331,
+            431
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            289,
+            348
+          ],
+          "pair_rank": 58599,
+          "rank_objective": 190.0,
+          "hw": 128,
+          "lane_hw": [
+            14,
+            15,
+            17,
+            13,
+            20,
+            17,
+            14,
+            18
+          ],
+          "m2_weight": 46,
+          "weight_delta": 2,
+          "added_bits": [
+            289,
+            348
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            146,
+            438
+          ],
+          "pair_rank": 66827,
+          "rank_objective": 192.0,
+          "hw": 132,
+          "lane_hw": [
+            15,
+            19,
+            13,
+            15,
+            15,
+            21,
+            17,
+            17
+          ],
+          "m2_weight": 46,
+          "weight_delta": 2,
+          "added_bits": [
+            146,
+            438
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            146,
+            348
+          ],
+          "pair_rank": 72610,
+          "rank_objective": 194.0,
+          "hw": 128,
+          "lane_hw": [
+            16,
+            16,
+            17,
+            16,
+            17,
+            13,
+            16,
+            17
+          ],
+          "m2_weight": 46,
+          "weight_delta": 2,
+          "added_bits": [
+            146,
+            348
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            146,
+            331
+          ],
+          "pair_rank": 77718,
+          "rank_objective": 195.0,
+          "hw": 133,
+          "lane_hw": [
+            16,
+            15,
+            14,
+            21,
+            14,
+            18,
+            17,
+            18
+          ],
+          "m2_weight": 46,
+          "weight_delta": 2,
+          "added_bits": [
+            146,
+            331
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            289,
+            431
+          ],
+          "pair_rank": 82569,
+          "rank_objective": 197.0,
+          "hw": 125,
+          "lane_hw": [
+            12,
+            10,
+            17,
+            19,
+            16,
+            19,
+            19,
+            13
+          ],
+          "m2_weight": 46,
+          "weight_delta": 2,
+          "added_bits": [
+            289,
+            431
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            82,
+            289
+          ],
+          "pair_rank": 85778,
+          "rank_objective": 198.0,
+          "hw": 124,
+          "lane_hw": [
+            15,
+            14,
+            16,
+            17,
+            16,
+            14,
+            21,
+            11
+          ],
+          "m2_weight": 46,
+          "weight_delta": 2,
+          "added_bits": [
+            82,
+            289
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            331,
+            348
+          ],
+          "pair_rank": 86692,
+          "rank_objective": 198.0,
+          "hw": 128,
+          "lane_hw": [
+            13,
+            10,
+            20,
+            17,
+            19,
+            17,
+            15,
+            17
+          ],
+          "m2_weight": 46,
+          "weight_delta": 2,
+          "added_bits": [
+            331,
+            348
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            348,
+            431
+          ],
+          "pair_rank": 86703,
+          "rank_objective": 198.0,
+          "hw": 128,
+          "lane_hw": [
+            15,
+            15,
+            19,
+            14,
+            13,
+            16,
+            16,
+            20
+          ],
+          "m2_weight": 46,
+          "weight_delta": 2,
+          "added_bits": [
+            348,
+            431
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            331,
+            438
+          ],
+          "pair_rank": 89356,
+          "rank_objective": 199.0,
+          "hw": 125,
+          "lane_hw": [
+            15,
+            12,
+            18,
+            11,
+            14,
+            19,
+            19,
+            17
+          ],
+          "m2_weight": 46,
+          "weight_delta": 2,
+          "added_bits": [
+            331,
+            438
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            218,
+            438
+          ],
+          "pair_rank": 92943,
+          "rank_objective": 200.0,
+          "hw": 128,
+          "lane_hw": [
+            15,
+            17,
+            16,
+            17,
+            19,
+            14,
+            20,
+            10
+          ],
+          "m2_weight": 46,
+          "weight_delta": 2,
+          "added_bits": [
+            218,
+            438
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            20,
+            289
+          ],
+          "pair_rank": 97569,
+          "rank_objective": 201.0,
+          "hw": 135,
+          "lane_hw": [
+            14,
+            18,
+            17,
+            21,
+            17,
+            14,
+            16,
+            18
+          ],
+          "m2_weight": 46,
+          "weight_delta": 2,
+          "added_bits": [
+            20,
+            289
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            218,
+            289
+          ],
+          "pair_rank": 98975,
+          "rank_objective": 202.0,
+          "hw": 128,
+          "lane_hw": [
+            13,
+            17,
+            17,
+            12,
+            16,
+            18,
+            20,
+            15
+          ],
+          "m2_weight": 46,
+          "weight_delta": 2,
+          "added_bits": [
+            218,
+            289
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            82,
+            331
+          ],
+          "pair_rank": 101428,
+          "rank_objective": 202.0,
+          "hw": 142,
+          "lane_hw": [
+            14,
+            19,
+            16,
+            17,
+            19,
+            23,
+            14,
+            20
+          ],
+          "m2_weight": 46,
+          "weight_delta": 2,
+          "added_bits": [
+            82,
+            331
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            82,
+            431
+          ],
+          "pair_rank": 104594,
+          "rank_objective": 204.0,
+          "hw": 130,
+          "lane_hw": [
+            22,
+            18,
+            20,
+            17,
+            14,
+            13,
+            17,
+            9
+          ],
+          "m2_weight": 46,
+          "weight_delta": 2,
+          "added_bits": [
+            82,
+            431
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            218,
+            331
+          ],
+          "pair_rank": 108671,
+          "rank_objective": 205.0,
+          "hw": 137,
+          "lane_hw": [
+            18,
+            22,
+            15,
+            13,
+            16,
+            20,
+            19,
+            14
+          ],
+          "m2_weight": 46,
+          "weight_delta": 2,
+          "added_bits": [
+            218,
+            331
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            164,
+            348
+          ],
+          "pair_rank": 109517,
+          "rank_objective": 206.0,
+          "hw": 130,
+          "lane_hw": [
+            19,
+            18,
+            23,
+            11,
+            15,
+            16,
+            15,
+            13
+          ],
+          "m2_weight": 46,
+          "weight_delta": 2,
+          "added_bits": [
+            164,
+            348
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            20,
+            438
+          ],
+          "pair_rank": 111222,
+          "rank_objective": 206.0,
+          "hw": 140,
+          "lane_hw": [
+            13,
+            17,
+            14,
+            19,
+            20,
+            20,
+            19,
+            18
+          ],
+          "m2_weight": 46,
+          "weight_delta": 2,
+          "added_bits": [
+            20,
+            438
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            20,
+            218
+          ],
+          "pair_rank": 111961,
+          "rank_objective": 207.0,
+          "hw": 133,
+          "lane_hw": [
+            15,
+            15,
+            19,
+            20,
+            17,
+            13,
+            18,
+            16
+          ],
+          "m2_weight": 46,
+          "weight_delta": 2,
+          "added_bits": [
+            20,
+            218
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            82,
+            164
+          ],
+          "pair_rank": 115841,
+          "rank_objective": 209.0,
+          "hw": 131,
+          "lane_hw": [
+            14,
+            18,
+            21,
+            16,
+            13,
+            12,
+            18,
+            19
+          ],
+          "m2_weight": 46,
+          "weight_delta": 2,
+          "added_bits": [
+            82,
+            164
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            164,
+            331
+          ],
+          "pair_rank": 116959,
+          "rank_objective": 209.0,
+          "hw": 139,
+          "lane_hw": [
+            17,
+            19,
+            18,
+            17,
+            15,
+            21,
+            17,
+            15
+          ],
+          "m2_weight": 46,
+          "weight_delta": 2,
+          "added_bits": [
+            164,
+            331
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            82,
+            438
+          ],
+          "pair_rank": 124656,
+          "rank_objective": 215.0,
+          "hw": 141,
+          "lane_hw": [
+            16,
+            17,
+            16,
+            17,
+            22,
+            14,
+            21,
+            18
+          ],
+          "m2_weight": 46,
+          "weight_delta": 2,
+          "added_bits": [
+            82,
+            438
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            20,
+            82
+          ],
+          "pair_rank": 124910,
+          "rank_objective": 215.0,
+          "hw": 145,
+          "lane_hw": [
+            17,
+            15,
+            17,
+            24,
+            19,
+            18,
+            18,
+            17
+          ],
+          "m2_weight": 46,
+          "weight_delta": 2,
+          "added_bits": [
+            20,
+            82
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            164,
+            431
+          ],
+          "pair_rank": 125791,
+          "rank_objective": 216.0,
+          "hw": 150,
+          "lane_hw": [
+            20,
+            21,
+            15,
+            19,
+            19,
+            17,
+            18,
+            21
+          ],
+          "m2_weight": 46,
+          "weight_delta": 2,
+          "added_bits": [
+            164,
+            431
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            146,
+            431
+          ],
+          "pair_rank": 127516,
+          "rank_objective": 219.0,
+          "hw": 143,
+          "lane_hw": [
+            16,
+            18,
+            18,
+            21,
+            13,
+            18,
+            20,
+            19
+          ],
+          "m2_weight": 46,
+          "weight_delta": 2,
+          "added_bits": [
+            146,
+            431
+          ],
+          "removed_bits": []
+        }
+      ],
+      "cover_count": 945,
+      "covers_all_pairs_in_pool": 1,
+      "best_covers": {
+        "max_rank": {
+          "pair_count": 5,
+          "all_pairs_in_pool": true,
+          "max_rank": 1705,
+          "sum_rank": 4116,
+          "max_hw": 116,
+          "sum_hw": 557,
+          "max_rank_objective": 161.0,
+          "sum_rank_objective": 783.0,
+          "transition_shape_hist": {
+            "add2_remove0": 5
+          },
+          "added_word_hist": {
+            "0": 1,
+            "2": 1,
+            "4": 1,
+            "5": 1,
+            "6": 1,
+            "9": 1,
+            "10": 2,
+            "13": 2
+          },
+          "removed_word_hist": {},
+          "pairs": [
+            {
+              "bits": [
+                20,
+                348
+              ],
+              "pair_rank": 413,
+              "rank_objective": 154.0,
+              "hw": 112,
+              "lane_hw": [
+                15,
+                21,
+                10,
+                16,
+                15,
+                10,
+                11,
+                14
+              ],
+              "m2_weight": 46,
+              "weight_delta": 2,
+              "added_bits": [
+                20,
+                348
+              ],
+              "removed_bits": []
+            },
+            {
+              "bits": [
+                82,
+                146
+              ],
+              "pair_rank": 1017,
+              "rank_objective": 159.0,
+              "hw": 107,
+              "lane_hw": [
+                13,
+                13,
+                12,
+                13,
+                15,
+                13,
+                14,
+                14
+              ],
+              "m2_weight": 46,
+              "weight_delta": 2,
+              "added_bits": [
+                82,
+                146
+              ],
+              "removed_bits": []
+            },
+            {
+              "bits": [
+                164,
+                438
+              ],
+              "pair_rank": 315,
+              "rank_objective": 153.0,
+              "hw": 109,
+              "lane_hw": [
+                10,
+                14,
+                10,
+                13,
+                18,
+                17,
+                12,
+                15
+              ],
+              "m2_weight": 46,
+              "weight_delta": 2,
+              "added_bits": [
+                164,
+                438
+              ],
+              "removed_bits": []
+            },
+            {
+              "bits": [
+                218,
+                431
+              ],
+              "pair_rank": 666,
+              "rank_objective": 156.0,
+              "hw": 116,
+              "lane_hw": [
+                18,
+                11,
+                12,
+                20,
+                17,
+                14,
+                8,
+                16
+              ],
+              "m2_weight": 46,
+              "weight_delta": 2,
+              "added_bits": [
+                218,
+                431
+              ],
+              "removed_bits": []
+            },
+            {
+              "bits": [
+                289,
+                331
+              ],
+              "pair_rank": 1705,
+              "rank_objective": 161.0,
+              "hw": 113,
+              "lane_hw": [
+                11,
+                16,
+                13,
+                17,
+                18,
+                14,
+                11,
+                13
+              ],
+              "m2_weight": 46,
+              "weight_delta": 2,
+              "added_bits": [
+                289,
+                331
+              ],
+              "removed_bits": []
+            }
+          ]
+        },
+        "sum_rank": {
+          "pair_count": 5,
+          "all_pairs_in_pool": true,
+          "max_rank": 1705,
+          "sum_rank": 4116,
+          "max_hw": 116,
+          "sum_hw": 557,
+          "max_rank_objective": 161.0,
+          "sum_rank_objective": 783.0,
+          "transition_shape_hist": {
+            "add2_remove0": 5
+          },
+          "added_word_hist": {
+            "0": 1,
+            "2": 1,
+            "4": 1,
+            "5": 1,
+            "6": 1,
+            "9": 1,
+            "10": 2,
+            "13": 2
+          },
+          "removed_word_hist": {},
+          "pairs": [
+            {
+              "bits": [
+                20,
+                348
+              ],
+              "pair_rank": 413,
+              "rank_objective": 154.0,
+              "hw": 112,
+              "lane_hw": [
+                15,
+                21,
+                10,
+                16,
+                15,
+                10,
+                11,
+                14
+              ],
+              "m2_weight": 46,
+              "weight_delta": 2,
+              "added_bits": [
+                20,
+                348
+              ],
+              "removed_bits": []
+            },
+            {
+              "bits": [
+                82,
+                146
+              ],
+              "pair_rank": 1017,
+              "rank_objective": 159.0,
+              "hw": 107,
+              "lane_hw": [
+                13,
+                13,
+                12,
+                13,
+                15,
+                13,
+                14,
+                14
+              ],
+              "m2_weight": 46,
+              "weight_delta": 2,
+              "added_bits": [
+                82,
+                146
+              ],
+              "removed_bits": []
+            },
+            {
+              "bits": [
+                164,
+                438
+              ],
+              "pair_rank": 315,
+              "rank_objective": 153.0,
+              "hw": 109,
+              "lane_hw": [
+                10,
+                14,
+                10,
+                13,
+                18,
+                17,
+                12,
+                15
+              ],
+              "m2_weight": 46,
+              "weight_delta": 2,
+              "added_bits": [
+                164,
+                438
+              ],
+              "removed_bits": []
+            },
+            {
+              "bits": [
+                218,
+                431
+              ],
+              "pair_rank": 666,
+              "rank_objective": 156.0,
+              "hw": 116,
+              "lane_hw": [
+                18,
+                11,
+                12,
+                20,
+                17,
+                14,
+                8,
+                16
+              ],
+              "m2_weight": 46,
+              "weight_delta": 2,
+              "added_bits": [
+                218,
+                431
+              ],
+              "removed_bits": []
+            },
+            {
+              "bits": [
+                289,
+                331
+              ],
+              "pair_rank": 1705,
+              "rank_objective": 161.0,
+              "hw": 113,
+              "lane_hw": [
+                11,
+                16,
+                13,
+                17,
+                18,
+                14,
+                11,
+                13
+              ],
+              "m2_weight": 46,
+              "weight_delta": 2,
+              "added_bits": [
+                289,
+                331
+              ],
+              "removed_bits": []
+            }
+          ]
+        },
+        "max_hw": {
+          "pair_count": 5,
+          "all_pairs_in_pool": true,
+          "max_rank": 1705,
+          "sum_rank": 4116,
+          "max_hw": 116,
+          "sum_hw": 557,
+          "max_rank_objective": 161.0,
+          "sum_rank_objective": 783.0,
+          "transition_shape_hist": {
+            "add2_remove0": 5
+          },
+          "added_word_hist": {
+            "0": 1,
+            "2": 1,
+            "4": 1,
+            "5": 1,
+            "6": 1,
+            "9": 1,
+            "10": 2,
+            "13": 2
+          },
+          "removed_word_hist": {},
+          "pairs": [
+            {
+              "bits": [
+                20,
+                348
+              ],
+              "pair_rank": 413,
+              "rank_objective": 154.0,
+              "hw": 112,
+              "lane_hw": [
+                15,
+                21,
+                10,
+                16,
+                15,
+                10,
+                11,
+                14
+              ],
+              "m2_weight": 46,
+              "weight_delta": 2,
+              "added_bits": [
+                20,
+                348
+              ],
+              "removed_bits": []
+            },
+            {
+              "bits": [
+                82,
+                146
+              ],
+              "pair_rank": 1017,
+              "rank_objective": 159.0,
+              "hw": 107,
+              "lane_hw": [
+                13,
+                13,
+                12,
+                13,
+                15,
+                13,
+                14,
+                14
+              ],
+              "m2_weight": 46,
+              "weight_delta": 2,
+              "added_bits": [
+                82,
+                146
+              ],
+              "removed_bits": []
+            },
+            {
+              "bits": [
+                164,
+                438
+              ],
+              "pair_rank": 315,
+              "rank_objective": 153.0,
+              "hw": 109,
+              "lane_hw": [
+                10,
+                14,
+                10,
+                13,
+                18,
+                17,
+                12,
+                15
+              ],
+              "m2_weight": 46,
+              "weight_delta": 2,
+              "added_bits": [
+                164,
+                438
+              ],
+              "removed_bits": []
+            },
+            {
+              "bits": [
+                218,
+                431
+              ],
+              "pair_rank": 666,
+              "rank_objective": 156.0,
+              "hw": 116,
+              "lane_hw": [
+                18,
+                11,
+                12,
+                20,
+                17,
+                14,
+                8,
+                16
+              ],
+              "m2_weight": 46,
+              "weight_delta": 2,
+              "added_bits": [
+                218,
+                431
+              ],
+              "removed_bits": []
+            },
+            {
+              "bits": [
+                289,
+                331
+              ],
+              "pair_rank": 1705,
+              "rank_objective": 161.0,
+              "hw": 113,
+              "lane_hw": [
+                11,
+                16,
+                13,
+                17,
+                18,
+                14,
+                11,
+                13
+              ],
+              "m2_weight": 46,
+              "weight_delta": 2,
+              "added_bits": [
+                289,
+                331
+              ],
+              "removed_bits": []
+            }
+          ]
+        }
+      },
+      "wall_seconds": 17.42
+    },
+    {
+      "label": "F551_bit15_hw88",
+      "source_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260504_F551_bit15_absorber_m2_pair_beam.json",
+      "rounds": 24,
+      "pair_rank": "hw",
+      "pair_pool": 1024,
+      "source_hw": 139,
+      "source_lane_hw": [
+        15,
+        20,
+        16,
+        18,
+        19,
+        16,
+        17,
+        18
+      ],
+      "source_m2_weight": 0,
+      "target_hw": 88,
+      "target_lane_hw": [
+        11,
+        12,
+        10,
+        14,
+        12,
+        10,
+        7,
+        12
+      ],
+      "target_m2_weight": 8,
+      "target_depth": 4,
+      "transition_bits": [
+        145,
+        189,
+        325,
+        332,
+        358,
+        376,
+        387,
+        422
+      ],
+      "transition_bit_count": 8,
+      "transition_added_bits": [
+        145,
+        189,
+        325,
+        332,
+        358,
+        376,
+        387,
+        422
+      ],
+      "transition_removed_bits": [],
+      "transition_added_word_hist": {
+        "4": 1,
+        "5": 1,
+        "10": 2,
+        "11": 2,
+        "12": 1,
+        "13": 1
+      },
+      "transition_removed_word_hist": {},
+      "source_M2": [
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000"
+      ],
+      "target_M2": [
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00020000",
+        "0x20000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00001020",
+        "0x01000040",
+        "0x00000008",
+        "0x00000040",
+        "0x00000000",
+        "0x00000000"
+      ],
+      "transition_pair_count": 28,
+      "transition_pairs": [
+        {
+          "bits": [
+            145,
+            376
+          ],
+          "pair_rank": 273,
+          "rank_objective": 105.0,
+          "hw": 105,
+          "lane_hw": [
+            16,
+            11,
+            14,
+            12,
+            17,
+            5,
+            14,
+            16
+          ],
+          "m2_weight": 2,
+          "weight_delta": 2,
+          "added_bits": [
+            145,
+            376
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            332,
+            422
+          ],
+          "pair_rank": 310,
+          "rank_objective": 105.0,
+          "hw": 105,
+          "lane_hw": [
+            15,
+            11,
+            14,
+            11,
+            13,
+            12,
+            15,
+            14
+          ],
+          "m2_weight": 2,
+          "weight_delta": 2,
+          "added_bits": [
+            332,
+            422
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            189,
+            387
+          ],
+          "pair_rank": 572,
+          "rank_objective": 107.0,
+          "hw": 107,
+          "lane_hw": [
+            15,
+            12,
+            14,
+            17,
+            15,
+            13,
+            10,
+            11
+          ],
+          "m2_weight": 2,
+          "weight_delta": 2,
+          "added_bits": [
+            189,
+            387
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            325,
+            358
+          ],
+          "pair_rank": 625,
+          "rank_objective": 107.0,
+          "hw": 107,
+          "lane_hw": [
+            8,
+            11,
+            13,
+            14,
+            16,
+            13,
+            16,
+            16
+          ],
+          "m2_weight": 2,
+          "weight_delta": 2,
+          "added_bits": [
+            325,
+            358
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            325,
+            387
+          ],
+          "pair_rank": 4462,
+          "rank_objective": 113.0,
+          "hw": 113,
+          "lane_hw": [
+            15,
+            13,
+            14,
+            16,
+            16,
+            11,
+            15,
+            13
+          ],
+          "m2_weight": 2,
+          "weight_delta": 2,
+          "added_bits": [
+            325,
+            387
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            358,
+            422
+          ],
+          "pair_rank": 4506,
+          "rank_objective": 113.0,
+          "hw": 113,
+          "lane_hw": [
+            14,
+            15,
+            10,
+            15,
+            15,
+            11,
+            17,
+            16
+          ],
+          "m2_weight": 2,
+          "weight_delta": 2,
+          "added_bits": [
+            358,
+            422
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            358,
+            376
+          ],
+          "pair_rank": 12202,
+          "rank_objective": 117.0,
+          "hw": 117,
+          "lane_hw": [
+            16,
+            14,
+            14,
+            15,
+            17,
+            14,
+            17,
+            10
+          ],
+          "m2_weight": 2,
+          "weight_delta": 2,
+          "added_bits": [
+            358,
+            376
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            387,
+            422
+          ],
+          "pair_rank": 15213,
+          "rank_objective": 118.0,
+          "hw": 118,
+          "lane_hw": [
+            15,
+            7,
+            16,
+            13,
+            21,
+            14,
+            17,
+            15
+          ],
+          "m2_weight": 2,
+          "weight_delta": 2,
+          "added_bits": [
+            387,
+            422
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            189,
+            422
+          ],
+          "pair_rank": 17506,
+          "rank_objective": 119.0,
+          "hw": 119,
+          "lane_hw": [
+            12,
+            13,
+            13,
+            12,
+            19,
+            16,
+            13,
+            21
+          ],
+          "m2_weight": 2,
+          "weight_delta": 2,
+          "added_bits": [
+            189,
+            422
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            145,
+            189
+          ],
+          "pair_rank": 34905,
+          "rank_objective": 123.0,
+          "hw": 123,
+          "lane_hw": [
+            16,
+            12,
+            20,
+            15,
+            18,
+            12,
+            15,
+            15
+          ],
+          "m2_weight": 2,
+          "weight_delta": 2,
+          "added_bits": [
+            145,
+            189
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            325,
+            332
+          ],
+          "pair_rank": 61362,
+          "rank_objective": 127.0,
+          "hw": 127,
+          "lane_hw": [
+            15,
+            15,
+            15,
+            13,
+            15,
+            21,
+            15,
+            18
+          ],
+          "m2_weight": 2,
+          "weight_delta": 2,
+          "added_bits": [
+            325,
+            332
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            332,
+            376
+          ],
+          "pair_rank": 61420,
+          "rank_objective": 127.0,
+          "hw": 127,
+          "lane_hw": [
+            12,
+            15,
+            14,
+            18,
+            11,
+            20,
+            21,
+            16
+          ],
+          "m2_weight": 2,
+          "weight_delta": 2,
+          "added_bits": [
+            332,
+            376
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            145,
+            325
+          ],
+          "pair_rank": 65318,
+          "rank_objective": 128.0,
+          "hw": 128,
+          "lane_hw": [
+            19,
+            16,
+            19,
+            13,
+            14,
+            13,
+            20,
+            14
+          ],
+          "m2_weight": 2,
+          "weight_delta": 2,
+          "added_bits": [
+            145,
+            325
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            145,
+            332
+          ],
+          "pair_rank": 71754,
+          "rank_objective": 129.0,
+          "hw": 129,
+          "lane_hw": [
+            16,
+            19,
+            11,
+            21,
+            16,
+            18,
+            13,
+            15
+          ],
+          "m2_weight": 2,
+          "weight_delta": 2,
+          "added_bits": [
+            145,
+            332
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            189,
+            332
+          ],
+          "pair_rank": 72439,
+          "rank_objective": 129.0,
+          "hw": 129,
+          "lane_hw": [
+            14,
+            19,
+            17,
+            19,
+            15,
+            10,
+            19,
+            16
+          ],
+          "m2_weight": 2,
+          "weight_delta": 2,
+          "added_bits": [
+            189,
+            332
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            376,
+            422
+          ],
+          "pair_rank": 74530,
+          "rank_objective": 129.0,
+          "hw": 129,
+          "lane_hw": [
+            18,
+            13,
+            19,
+            15,
+            14,
+            18,
+            14,
+            18
+          ],
+          "m2_weight": 2,
+          "weight_delta": 2,
+          "added_bits": [
+            376,
+            422
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            325,
+            422
+          ],
+          "pair_rank": 80510,
+          "rank_objective": 130.0,
+          "hw": 130,
+          "lane_hw": [
+            18,
+            19,
+            15,
+            18,
+            16,
+            17,
+            12,
+            15
+          ],
+          "m2_weight": 2,
+          "weight_delta": 2,
+          "added_bits": [
+            325,
+            422
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            189,
+            325
+          ],
+          "pair_rank": 90737,
+          "rank_objective": 132.0,
+          "hw": 132,
+          "lane_hw": [
+            15,
+            20,
+            16,
+            17,
+            12,
+            15,
+            22,
+            15
+          ],
+          "m2_weight": 2,
+          "weight_delta": 2,
+          "added_bits": [
+            189,
+            325
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            332,
+            358
+          ],
+          "pair_rank": 92366,
+          "rank_objective": 132.0,
+          "hw": 132,
+          "lane_hw": [
+            15,
+            16,
+            17,
+            17,
+            21,
+            17,
+            16,
+            13
+          ],
+          "m2_weight": 2,
+          "weight_delta": 2,
+          "added_bits": [
+            332,
+            358
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            189,
+            358
+          ],
+          "pair_rank": 96360,
+          "rank_objective": 133.0,
+          "hw": 133,
+          "lane_hw": [
+            15,
+            16,
+            16,
+            18,
+            20,
+            15,
+            15,
+            18
+          ],
+          "m2_weight": 2,
+          "weight_delta": 2,
+          "added_bits": [
+            189,
+            358
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            358,
+            387
+          ],
+          "pair_rank": 102998,
+          "rank_objective": 134.0,
+          "hw": 134,
+          "lane_hw": [
+            18,
+            17,
+            17,
+            19,
+            19,
+            17,
+            11,
+            16
+          ],
+          "m2_weight": 2,
+          "weight_delta": 2,
+          "added_bits": [
+            358,
+            387
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            145,
+            358
+          ],
+          "pair_rank": 105629,
+          "rank_objective": 135.0,
+          "hw": 135,
+          "lane_hw": [
+            17,
+            18,
+            12,
+            16,
+            20,
+            18,
+            18,
+            16
+          ],
+          "m2_weight": 2,
+          "weight_delta": 2,
+          "added_bits": [
+            145,
+            358
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            376,
+            387
+          ],
+          "pair_rank": 111669,
+          "rank_objective": 136.0,
+          "hw": 136,
+          "lane_hw": [
+            17,
+            18,
+            18,
+            14,
+            13,
+            25,
+            14,
+            17
+          ],
+          "m2_weight": 2,
+          "weight_delta": 2,
+          "added_bits": [
+            376,
+            387
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            332,
+            387
+          ],
+          "pair_rank": 118089,
+          "rank_objective": 138.0,
+          "hw": 138,
+          "lane_hw": [
+            15,
+            16,
+            16,
+            15,
+            14,
+            18,
+            22,
+            22
+          ],
+          "m2_weight": 2,
+          "weight_delta": 2,
+          "added_bits": [
+            332,
+            387
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            189,
+            376
+          ],
+          "pair_rank": 119975,
+          "rank_objective": 139.0,
+          "hw": 139,
+          "lane_hw": [
+            19,
+            13,
+            18,
+            18,
+            20,
+            17,
+            16,
+            18
+          ],
+          "m2_weight": 2,
+          "weight_delta": 2,
+          "added_bits": [
+            189,
+            376
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            145,
+            387
+          ],
+          "pair_rank": 123944,
+          "rank_objective": 141.0,
+          "hw": 141,
+          "lane_hw": [
+            20,
+            19,
+            16,
+            18,
+            15,
+            14,
+            18,
+            21
+          ],
+          "m2_weight": 2,
+          "weight_delta": 2,
+          "added_bits": [
+            145,
+            387
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            145,
+            422
+          ],
+          "pair_rank": 126816,
+          "rank_objective": 143.0,
+          "hw": 143,
+          "lane_hw": [
+            18,
+            20,
+            20,
+            14,
+            16,
+            19,
+            15,
+            21
+          ],
+          "m2_weight": 2,
+          "weight_delta": 2,
+          "added_bits": [
+            145,
+            422
+          ],
+          "removed_bits": []
+        },
+        {
+          "bits": [
+            325,
+            376
+          ],
+          "pair_rank": 127284,
+          "rank_objective": 143.0,
+          "hw": 143,
+          "lane_hw": [
+            19,
+            23,
+            17,
+            19,
+            16,
+            12,
+            24,
+            13
+          ],
+          "m2_weight": 2,
+          "weight_delta": 2,
+          "added_bits": [
+            325,
+            376
+          ],
+          "removed_bits": []
+        }
+      ],
+      "cover_count": 105,
+      "covers_all_pairs_in_pool": 1,
+      "best_covers": {
+        "max_rank": {
+          "pair_count": 4,
+          "all_pairs_in_pool": true,
+          "max_rank": 625,
+          "sum_rank": 1780,
+          "max_hw": 107,
+          "sum_hw": 424,
+          "max_rank_objective": 107.0,
+          "sum_rank_objective": 424.0,
+          "transition_shape_hist": {
+            "add2_remove0": 4
+          },
+          "added_word_hist": {
+            "4": 1,
+            "5": 1,
+            "10": 2,
+            "11": 2,
+            "12": 1,
+            "13": 1
+          },
+          "removed_word_hist": {},
+          "pairs": [
+            {
+              "bits": [
+                145,
+                376
+              ],
+              "pair_rank": 273,
+              "rank_objective": 105.0,
+              "hw": 105,
+              "lane_hw": [
+                16,
+                11,
+                14,
+                12,
+                17,
+                5,
+                14,
+                16
+              ],
+              "m2_weight": 2,
+              "weight_delta": 2,
+              "added_bits": [
+                145,
+                376
+              ],
+              "removed_bits": []
+            },
+            {
+              "bits": [
+                189,
+                387
+              ],
+              "pair_rank": 572,
+              "rank_objective": 107.0,
+              "hw": 107,
+              "lane_hw": [
+                15,
+                12,
+                14,
+                17,
+                15,
+                13,
+                10,
+                11
+              ],
+              "m2_weight": 2,
+              "weight_delta": 2,
+              "added_bits": [
+                189,
+                387
+              ],
+              "removed_bits": []
+            },
+            {
+              "bits": [
+                325,
+                358
+              ],
+              "pair_rank": 625,
+              "rank_objective": 107.0,
+              "hw": 107,
+              "lane_hw": [
+                8,
+                11,
+                13,
+                14,
+                16,
+                13,
+                16,
+                16
+              ],
+              "m2_weight": 2,
+              "weight_delta": 2,
+              "added_bits": [
+                325,
+                358
+              ],
+              "removed_bits": []
+            },
+            {
+              "bits": [
+                332,
+                422
+              ],
+              "pair_rank": 310,
+              "rank_objective": 105.0,
+              "hw": 105,
+              "lane_hw": [
+                15,
+                11,
+                14,
+                11,
+                13,
+                12,
+                15,
+                14
+              ],
+              "m2_weight": 2,
+              "weight_delta": 2,
+              "added_bits": [
+                332,
+                422
+              ],
+              "removed_bits": []
+            }
+          ]
+        },
+        "sum_rank": {
+          "pair_count": 4,
+          "all_pairs_in_pool": true,
+          "max_rank": 625,
+          "sum_rank": 1780,
+          "max_hw": 107,
+          "sum_hw": 424,
+          "max_rank_objective": 107.0,
+          "sum_rank_objective": 424.0,
+          "transition_shape_hist": {
+            "add2_remove0": 4
+          },
+          "added_word_hist": {
+            "4": 1,
+            "5": 1,
+            "10": 2,
+            "11": 2,
+            "12": 1,
+            "13": 1
+          },
+          "removed_word_hist": {},
+          "pairs": [
+            {
+              "bits": [
+                145,
+                376
+              ],
+              "pair_rank": 273,
+              "rank_objective": 105.0,
+              "hw": 105,
+              "lane_hw": [
+                16,
+                11,
+                14,
+                12,
+                17,
+                5,
+                14,
+                16
+              ],
+              "m2_weight": 2,
+              "weight_delta": 2,
+              "added_bits": [
+                145,
+                376
+              ],
+              "removed_bits": []
+            },
+            {
+              "bits": [
+                189,
+                387
+              ],
+              "pair_rank": 572,
+              "rank_objective": 107.0,
+              "hw": 107,
+              "lane_hw": [
+                15,
+                12,
+                14,
+                17,
+                15,
+                13,
+                10,
+                11
+              ],
+              "m2_weight": 2,
+              "weight_delta": 2,
+              "added_bits": [
+                189,
+                387
+              ],
+              "removed_bits": []
+            },
+            {
+              "bits": [
+                325,
+                358
+              ],
+              "pair_rank": 625,
+              "rank_objective": 107.0,
+              "hw": 107,
+              "lane_hw": [
+                8,
+                11,
+                13,
+                14,
+                16,
+                13,
+                16,
+                16
+              ],
+              "m2_weight": 2,
+              "weight_delta": 2,
+              "added_bits": [
+                325,
+                358
+              ],
+              "removed_bits": []
+            },
+            {
+              "bits": [
+                332,
+                422
+              ],
+              "pair_rank": 310,
+              "rank_objective": 105.0,
+              "hw": 105,
+              "lane_hw": [
+                15,
+                11,
+                14,
+                11,
+                13,
+                12,
+                15,
+                14
+              ],
+              "m2_weight": 2,
+              "weight_delta": 2,
+              "added_bits": [
+                332,
+                422
+              ],
+              "removed_bits": []
+            }
+          ]
+        },
+        "max_hw": {
+          "pair_count": 4,
+          "all_pairs_in_pool": true,
+          "max_rank": 625,
+          "sum_rank": 1780,
+          "max_hw": 107,
+          "sum_hw": 424,
+          "max_rank_objective": 107.0,
+          "sum_rank_objective": 424.0,
+          "transition_shape_hist": {
+            "add2_remove0": 4
+          },
+          "added_word_hist": {
+            "4": 1,
+            "5": 1,
+            "10": 2,
+            "11": 2,
+            "12": 1,
+            "13": 1
+          },
+          "removed_word_hist": {},
+          "pairs": [
+            {
+              "bits": [
+                145,
+                376
+              ],
+              "pair_rank": 273,
+              "rank_objective": 105.0,
+              "hw": 105,
+              "lane_hw": [
+                16,
+                11,
+                14,
+                12,
+                17,
+                5,
+                14,
+                16
+              ],
+              "m2_weight": 2,
+              "weight_delta": 2,
+              "added_bits": [
+                145,
+                376
+              ],
+              "removed_bits": []
+            },
+            {
+              "bits": [
+                189,
+                387
+              ],
+              "pair_rank": 572,
+              "rank_objective": 107.0,
+              "hw": 107,
+              "lane_hw": [
+                15,
+                12,
+                14,
+                17,
+                15,
+                13,
+                10,
+                11
+              ],
+              "m2_weight": 2,
+              "weight_delta": 2,
+              "added_bits": [
+                189,
+                387
+              ],
+              "removed_bits": []
+            },
+            {
+              "bits": [
+                325,
+                358
+              ],
+              "pair_rank": 625,
+              "rank_objective": 107.0,
+              "hw": 107,
+              "lane_hw": [
+                8,
+                11,
+                13,
+                14,
+                16,
+                13,
+                16,
+                16
+              ],
+              "m2_weight": 2,
+              "weight_delta": 2,
+              "added_bits": [
+                325,
+                358
+              ],
+              "removed_bits": []
+            },
+            {
+              "bits": [
+                332,
+                422
+              ],
+              "pair_rank": 310,
+              "rank_objective": 105.0,
+              "hw": 105,
+              "lane_hw": [
+                15,
+                11,
+                14,
+                11,
+                13,
+                12,
+                15,
+                14
+              ],
+              "m2_weight": 2,
+              "weight_delta": 2,
+              "added_bits": [
+                332,
+                422
+              ],
+              "removed_bits": []
+            }
+          ]
+        }
+      },
+      "wall_seconds": 18.73
+    }
+  ]
+}

@@ -24,6 +24,7 @@ from block2_m2_pair_beam import (  # noqa: E402
     expand_schedule,
     hw_per_lane,
     load_seed,
+    m2_weight,
     parse_w_arr,
 )
 
@@ -217,7 +218,7 @@ def evaluate_witness(witness, targets, top_n, pool_n):
     base_m2 = witness["M2"]
     base_hw, base_diff = eval_m2(iv1, iv2, m1_w, base_m2, witness["rounds"])
     base_lane = hw_per_lane(base_diff)
-    base_weight = sum(word.bit_count() for word in base_m2)
+    base_weight = m2_weight(base_m2)
 
     if witness["claimed_hw"] is not None and witness["claimed_hw"] != base_hw:
         raise SystemExit(
@@ -252,7 +253,7 @@ def evaluate_witness(witness, targets, top_n, pool_n):
                 m2[word_idx] ^= mask
             hw, diff = eval_m2(iv1, iv2, m1_w, m2, witness["rounds"])
             lane = hw_per_lane(diff)
-            m2_weight_value = sum(word.bit_count() for word in m2)
+            m2_weight_value = m2_weight(m2)
             record = {
                 "hw": hw,
                 "lane_hw": lane,

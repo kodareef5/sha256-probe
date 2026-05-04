@@ -155,8 +155,8 @@ def m2_transition_counts(base_m2, m2):
     added = 0
     removed = 0
     for base_word, word in zip(base_m2, m2):
-        added += ((~base_word) & word & MASK).bit_count()
-        removed += (base_word & (~word) & MASK).bit_count()
+        added += bin((~base_word) & word & MASK).count("1")
+        removed += bin(base_word & (~word) & MASK).count("1")
     return added, removed, added - removed
 
 
