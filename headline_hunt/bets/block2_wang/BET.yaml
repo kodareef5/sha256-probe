@@ -29,7 +29,40 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-04T04:17:52Z'
+last_heartbeat: '2026-05-04T04:30:44Z'
+recent_progress_2026-05-04_F789_bit24_HW78_breakthrough: |
+  yale-codex restarted standard pure-HW M2 pair-beam from the F788 HW86
+  overlap-detour basin and reached HW78.
+
+  Lineage:
+    F760: bit24 target/repair combo reached HW82
+    F788: six-pair overlap selector produced HW86 / target L1 16 detour
+    F789: pure-HW pair beam from F788 detour reached HW78
+
+  F789 setup:
+    init HW: 86
+    init lane: [14, 13, 10, 8, 8, 8, 12, 13]
+    objective: HW
+    pair_pool: 1024
+    beam_width: 1024
+    max_pairs: 6
+    max_radius: 12
+
+  Result:
+    pair-pool HW range: 92..109
+    depth bests: 92, 90, 86, 90, 85, 78
+    new records below HW86: 2
+    best HW: 78
+    best lane: [13, 11, 8, 9, 7, 9, 8, 13]
+    best bits: [39, 52, 97, 108, 114, 130, 136, 231, 266, 344, 421, 437]
+    wall: 680.53s
+
+  Interpretation:
+    Current mapped bit24/global floor is now HW78. The overlap selector is not
+    floor-preserving by itself; it is a basin-transfer operator that can create
+    a side basin repairable by standard pure-HW pair beam. Next step is a
+    pair-potential atlas around the HW78 witness.
+
 recent_progress_2026-05-04_F788_overlap_pair6_negative_detour: |
   yale-codex ran the first six-pair M2 combo sample from the original F760
   bit24 HW82 parent, using the F787 bit-overlap selector.
