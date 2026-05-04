@@ -29,7 +29,33 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-04T04:45:06Z'
+last_heartbeat: '2026-05-04T04:57:52Z'
+recent_progress_2026-05-04_F792_HW78_cg_beam_closed: |
+  yale-codex ran the c/g-biased M2 pair-beam restart from the F789 HW78
+  witness.
+
+  Setup:
+    init HW: 78
+    lane: [13, 11, 8, 9, 7, 9, 8, 13]
+    objective: HW + 2*(c + g)
+    pair_pool: 1024
+    beam_width: 1024
+    max_pairs: 6
+    max_radius: 12
+
+  Result:
+    initial objective: 110
+    pair-pool HW range: 96..107
+    depth best HWs: 95, 91, 89, 92, 91, 89
+    new records below HW78: 0
+    best seen HW: 78, source init
+    wall: 696.36s
+
+  Interpretation:
+    HW78 is closed under one-pair atlas, pure-HW beam, and c/g beam. Further
+    progress should return to basin-transfer operators using the F790 atlas or
+    generalize the F788 overlap-detour pattern across the portfolio.
+
 recent_progress_2026-05-04_F791_HW78_pair_beam_closed: |
   yale-codex ran standard pure-HW M2 pair-beam from the F789 HW78 witness.
 
