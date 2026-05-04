@@ -29,7 +29,34 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-04T07:52:52Z'
+last_heartbeat: '2026-05-04T08:06:02Z'
+recent_progress_2026-05-04_F807_F796_lane_bridge_negative: |
+  yale-codex ran a lane-shape bridge from the closed F796/F797 HW87 branch
+  toward the repairable F788 HW86 lane.
+
+  Setup:
+    init HW: 87
+    init lane: [10, 11, 9, 14, 11, 11, 12, 9]
+    target lane: [14, 13, 10, 8, 8, 8, 12, 13]
+    objective: HW + 2*L1(lane, target)
+
+  Result:
+    pair-pool HW range: 94..112
+    depth best objective/HW sequence:
+      d1 HW93 obj114
+      d2 HW91 obj127
+      d3 HW91 obj124
+      d4 HW89 obj111
+      d5 HW89 obj119
+      d6 HW90 obj118
+    new records below HW87: 0
+    best seen HW: 87, source init
+    best objective state: HW89 / objective 111 / target-L1 11
+    wall: 693.7s
+
+  Interpretation:
+    Lane bridging did not rescue the F796 branch. It improved target shape but
+    did not enter a lower-HW basin, unlike F800 -> F802.
 recent_progress_2026-05-04_F806_target_w1_bridge_closed: |
   yale-codex ran a target-weight-1 lane bridge from the F802 HW85 witness
   toward the F789 HW78 lane.
