@@ -29,7 +29,7 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-04T00:25:24Z'
+last_heartbeat: '2026-05-04T00:26:56Z'
 recent_progress_2026-05-03_F549_bit24_HW85_closed: |
   macbook-claude iter from bit24 HW=85 with cg-rank radius 12.
   Stayed at HW=85 (locally closed).
@@ -415,6 +415,23 @@ recent_progress_2026-05-04_F769_bit24_F768_HW85_repaired_to_HW84: |
     The F768 detour is repairable by standard pure-HW pair-beam, unlike the
     F765 HW88 target detour. The repair gives up target-lane closeness, but it
     opens a concrete bit24 HW84 side basin that should be mapped once.
+
+recent_progress_2026-05-04_F770_bit24_F769_HW84_pair_potential_top80: |
+  yale-codex mapped the F769 HW84 side basin with a top-80 pair-potential
+  atlas.
+
+  Result over all 130,816 two-bit M2 flips:
+    HW<84 pairs: 0
+    HW<=84 pairs: 0
+    c/g-improving pairs: 0
+    target-L1-improving pairs: 20
+    best raw HW: 95
+    best target: HW96, target L1 16
+
+  Interpretation:
+    The HW84 side basin is one-pair closed for HW and c/g. It still has
+    expensive target-lane moves, but no immediate local score exit. Run one
+    c/g-biased restart from HW84; if it closes, stop this detour branch.
 
 recent_progress_2026-05-03_F747_pathC_bit4_cg_negative: |
   yale-codex restarted Mac's F547 bit4 path-C HW89 absorber witness with c/g
