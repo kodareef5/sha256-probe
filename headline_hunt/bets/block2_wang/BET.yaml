@@ -29,7 +29,25 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-04T09:40:00Z'
+last_heartbeat: '2026-05-04T10:15:00Z'
+recent_progress_2026-05-04_F551_bit15_absorber: |
+  macbook-claude extended absorber framework to bit15 (Path C HW=37
+  residual from F527/F528). M2=0 cold start, 24-round pair beam.
+
+  Result: init absorber HW=139 -> best HW=88 (-51).
+  Joins bit3/bit4 absorber cluster around HW=86-89.
+
+  Updated absorber portfolio (Mac, on respective Path C residuals):
+    bit13 HW=82 (yale F732)
+    bit24 HW=84 (Mac F550 cg-wider on F428-residual)
+    bit3  HW=86 (Mac F547)
+    bit15 HW=88 (Mac F551 NEW)
+    bit4  HW=89 (Mac F547)
+
+  F552 iterates bit15 HW=88 with cg-rank.
+  F553 starts bit18 absorber from yale F601 HW=37 W cold init.
+
+
 recent_progress_2026-05-04_F550_bit24_HW84_my_residual: |
   macbook-claude wider pair beam on bit24 absorber. Used yale's bit24
   HW=78 M2 mask as init with MY F428 bit24 diff63 (different residual
