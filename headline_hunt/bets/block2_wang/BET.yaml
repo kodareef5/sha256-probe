@@ -29,7 +29,58 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-04T05:42:04Z'
+last_heartbeat: '2026-05-04T06:11:26Z'
+recent_progress_2026-05-04_F797_F796_HW87_beam_closed: |
+  yale-codex ran pure-HW M2 pair-beam from the F796 HW87 overlap detour.
+
+  Setup:
+    init HW: 87
+    lane: [10, 11, 9, 14, 11, 11, 12, 9]
+    pair_pool: 1024
+    beam_width: 1024
+    max_pairs: 6
+    max_radius: 12
+
+  Result:
+    pair-pool HW range: 93..109
+    depth bests: 93, 91, 91, 91, 91, 89
+    new records below HW87: 0
+    best seen HW: 87, source init
+    wall: 703.52s
+
+  Interpretation:
+    The F796 HW87 detour is not repairable under the same standard pure-HW
+    repair beam that turned F788 HW86 into F789 HW78. This closes the F763
+    overlap-transfer branch at this depth.
+recent_progress_2026-05-04_F796_bit24_F763_overlap_detour: |
+  yale-codex applied the F788 overlap-detour selector to the second mapped
+  bit24 HW82 tie, F763/F764.
+
+  Setup:
+    init HW: 82
+    init lane: [7, 10, 12, 16, 11, 7, 8, 11]
+    selected pairs: 248
+    pair_count: 6
+    radius: 10..12
+    sampled combos: 5,000,000
+    overlap filter:
+      pair removed-bit union >= 80
+      pair added-bit union <= 170
+      pair added-bit repeat excess >= 250
+
+  Result:
+    evaluated: 4,242,428
+    HW < 82: 0
+    HW <= 82: 0
+    c/g-improving: 0
+    target-L1-improving: 49
+    best HW: 87 / target L1 15
+    best target: HW92 / target L1 10
+    wall: 826.7s
+
+  Interpretation:
+    F763 is tighter than the F760 parent but not as inert as bit13. Its best
+    HW87 detour warranted one repair beam, but the follow-up F797 closed it.
 recent_progress_2026-05-04_F795_bit13_overlap_transfer_negative: |
   yale-codex applied the F788 overlap-detour selector to the bit13/F732 HW82
   parent using the F751 bit13 pair atlas.
