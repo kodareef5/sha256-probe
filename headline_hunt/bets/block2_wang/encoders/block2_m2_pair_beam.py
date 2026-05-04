@@ -118,6 +118,31 @@ def parse_target_lane(raw):
     return parts
 
 
+def parse_word_caps(raw_caps):
+    caps = {}
+    for raw in raw_caps or []:
+        word_raw, count_raw = raw.split(":", 1)
+        word = int(word_raw)
+        count = int(count_raw)
+        if not 0 <= word < 16:
+            raise SystemExit(f"word cap index must be 0..15: {raw}")
+        if count < 0:
+            raise SystemExit(f"word cap count must be non-negative: {raw}")
+        caps[word] = count
+    return caps
+
+
+def added_bits_in_word(base_m2, m2, word_idx):
+    return ((~base_m2[word_idx]) & m2[word_idx] & MASK).bit_count()
+
+
+def passes_added_word_caps(base_m2, m2, caps):
+    for word_idx, cap in caps.items():
+        if added_bits_in_word(base_m2, m2, word_idx) > cap:
+            return False
+    return True
+
+
 def target_l1(lane_hw, target_lane):
     return sum(abs(a - b) for a, b in zip(lane_hw, target_lane))
 
@@ -210,6 +235,9 @@ def main():
                     help="Reject pair/beam states with M2 popcount below this value.")
     ap.add_argument("--max-m2-weight", type=int, default=None,
                     help="Reject pair/beam states with M2 popcount above this value.")
+    ap.add_argument("--max-added-word", action="append", default=[],
+                    help="Reject states adding more than COUNT new bits to WORD relative to init M2. "
+                         "Format WORD:COUNT; may be repeated.")
     ap.add_argument("--max-target-l1", type=int, default=None,
                     help="Reject beam states with L1(lane, target-lane) above this cap.")
     ap.add_argument("--beam-width", type=int, default=1024)
@@ -228,6 +256,7 @@ def main():
         args.pair_rank = args.objective
     lane_weights = parse_lane_weights(args.lane_weights)
     target_lane = parse_target_lane(args.target_lane)
+    added_word_caps = parse_word_caps(args.max_added_word)
     target_objectives = ("target", "target_sparse", "cg_target")
     if (args.objective in target_objectives or args.pair_rank in target_objectives) and target_lane is None:
         raise SystemExit("--target-lane is required for target/target_sparse/cg_target objective or pair-rank")
@@ -294,6 +323,8 @@ def main():
         if args.min_m2_weight is not None and pair_m2_weight < args.min_m2_weight:
             continue
         if args.max_m2_weight is not None and pair_m2_weight > args.max_m2_weight:
+            continue
+        if added_word_caps and not passes_added_word_caps(base_M2, m2, added_word_caps):
             continue
         pair_objective = objective_value(
             hw,
@@ -362,6 +393,8 @@ def main():
                 if args.min_m2_weight is not None and new_m2_weight < args.min_m2_weight:
                     continue
                 if args.max_m2_weight is not None and new_m2_weight > args.max_m2_weight:
+                    continue
+                if added_word_caps and not passes_added_word_caps(base_M2, new_M2, added_word_caps):
                     continue
                 if args.max_target_l1 is not None and target_l1(lane_hw, target_lane) > args.max_target_l1:
                     continue
@@ -470,6 +503,7 @@ def main():
         "m2_weight_penalty": args.m2_weight_penalty,
         "min_m2_weight": args.min_m2_weight,
         "max_m2_weight": args.max_m2_weight,
+        "max_added_word": dict(sorted(added_word_caps.items())),
         "max_target_l1": args.max_target_l1,
         "beam_width": args.beam_width,
         "max_pairs": args.max_pairs,

@@ -29,7 +29,36 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-04T08:50:06Z'
+last_heartbeat: '2026-05-04T09:03:46Z'
+recent_progress_2026-05-04_F813_word15cap2_bridge_closed: |
+  yale-codex added --max-added-word WORD:COUNT to block2_m2_pair_beam.py and
+  ran the F800 -> F788-lane bridge with word15 additions capped at 2.
+
+  Setup:
+    init HW: 86
+    init lane: [10, 7, 9, 9, 17, 14, 11, 9]
+    init M2 weight: 50
+    target lane: [14, 13, 10, 8, 8, 8, 12, 13]
+    objective: HW + 2*L1(lane, target)
+    max added bits in word15: 2
+
+  Result:
+    pair-pool HW range: 96..112
+    depth best objective/HW sequence:
+      d1 HW94 obj124
+      d2 HW90 obj119
+      d3 HW86 obj119
+      d4 HW90 obj117
+      d5 HW87 obj123
+      d6 HW91 obj123
+    new records below HW86: 0
+    best seen HW: 86, source init
+    wall: 692.71s
+
+  Interpretation:
+    Word-local capping also blocks the over-filled F802 HW85 bridge without
+    finding an alternate lower-HW path. Transition-shape constraints need to
+    move upstream into combo selection.
 recent_progress_2026-05-04_F812_m2cap54_bridge_closed: |
   yale-codex added M2 popcount min/max filters to block2_m2_pair_beam.py and
   ran the F800 -> F788-lane bridge with max M2 weight 54.
