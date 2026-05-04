@@ -29,7 +29,27 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-04T03:09:36Z'
+last_heartbeat: '2026-05-04T03:11:06Z'
+recent_progress_2026-05-04_F785_f782_detour_pair_potential_closed: |
+  yale-codex mapped the one-pair atlas around the F782 HW87 / target-L1 13
+  detour.
+
+  Result over all 130,816 two-bit M2 flips:
+    HW < 87 pairs: 0
+    HW <= 87 pairs: 0
+    c/g-improving pairs: 1
+    target-L1-improving pairs: 0
+    best raw-HW pair: HW94 / target L1 22
+    best c/g pair: HW96 / c/g objective 128
+    best target pair: target L1 16 / HW96
+
+  Interpretation:
+    The F782 detour branch is closed. It has attractive lane geometry but no
+    local HW or target repair, and F784 showed no six-pair pure-HW descent.
+    Stop word-graph and target-proximity filters. The next selector should use
+    lane-specific nonlinear cancellation signatures learned from F760/F763
+    versus F782/F783.
+
 recent_progress_2026-05-04_F784_f782_detour_pair_beam_closed: |
   yale-codex restarted standard pure-HW M2 pair-beam from F782's best detour.
 
