@@ -92,6 +92,14 @@ def main():
     )
     ap.add_argument("--rng-seed", type=int, default=0)
     ap.add_argument("--progress-every", type=int, default=0)
+    ap.add_argument("--late-word-start", type=int, default=12)
+    ap.add_argument("--late-word-end", type=int, default=15)
+    ap.add_argument(
+        "--min-late-pairs",
+        type=int,
+        default=0,
+        help="Require at least this many selected pairs to touch words in late-word-start..late-word-end.",
+    )
     ap.add_argument("--out", required=True)
     ap.add_argument("--label", default="")
     args = ap.parse_args()
@@ -147,6 +155,7 @@ def main():
         "hw_le_init": 0,
         "cg_lt_init": 0,
         "target_l1_lt_init": 0,
+        "skipped_late_pair_motif": 0,
     }
     seen = set()
     top_by_hw = []
@@ -177,6 +186,17 @@ def main():
                 f"elapsed={elapsed:.1f}s",
                 flush=True,
             )
+        if args.min_late_pairs:
+            late_pairs = 0
+            for idx in combo_ids:
+                if any(
+                    args.late_word_start <= bit_index // 32 <= args.late_word_end
+                    for bit_index in selected_pairs[idx]["bit_indices"]
+                ):
+                    late_pairs += 1
+            if late_pairs < args.min_late_pairs:
+                counts["skipped_late_pair_motif"] += 1
+                continue
         bits = tuple(sorted({b for idx in combo_ids for b in selected_pairs[idx]["bit_indices"]}))
         radius = len(bits)
         if radius < args.min_radius or radius > args.max_radius:
@@ -246,6 +266,9 @@ def main():
             "max_radius": args.max_radius,
             "sample_combos": args.sample_combos,
             "rng_seed": args.rng_seed if args.sample_combos else None,
+            "late_word_start": args.late_word_start,
+            "late_word_end": args.late_word_end,
+            "min_late_pairs": args.min_late_pairs,
         },
         "counts": counts,
         "top_by_hw": top_by_hw,
