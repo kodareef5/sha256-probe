@@ -29,7 +29,28 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-04T13:10:00Z'
+last_heartbeat: '2026-05-04T13:30:00Z'
+recent_progress_2026-05-04_F562_bit25_closed_at_84: |
+  bit25 HW=84 cg-iter -> stayed at 84 (closed at radius 12).
+  bit4 attempt had path bug (script error).
+
+  Final 11-cand absorber portfolio (after F547-F562):
+    HW=82: bit13 (yale F732)
+    HW=83: bit15
+    HW=84: bit24, bit25
+    HW=85: bit14
+    HW=86: bit3, bit18, bit12, bit2
+    HW=88: bit29
+    HW=89: bit4
+
+  Pattern: 4-cluster at HW=86 (cross-cand convergence), 3 outliers at
+  HW=88-89. Yale's bit13 HW=82 still deepest. Most cands cluster
+  HW=84-86 across the residual basin family.
+
+  Today's macbook-claude commits: F550-F562 = 13 absorber commits +
+  F551 expansion. Pipeline showing diminishing returns at radius 12.
+
+
 recent_progress_2026-05-04_F561_bit25_84: |
   cg-iter on F560 records:
     bit25 HW=89 -> 84 (-5! joins bit24 tier)
