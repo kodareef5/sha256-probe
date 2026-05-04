@@ -179,6 +179,8 @@ def main():
                     help="Eight comma-separated lane HW target for target/cg_target objectives.")
     ap.add_argument("--target-weight", type=float, default=1.0,
                     help="Penalty multiplier on L1 distance to --target-lane.")
+    ap.add_argument("--max-target-l1", type=int, default=None,
+                    help="Reject beam states with L1(lane, target-lane) above this cap.")
     ap.add_argument("--beam-width", type=int, default=1024)
     ap.add_argument("--max-pairs", type=int, default=6)
     ap.add_argument("--max-radius", type=int, default=12)
@@ -197,6 +199,8 @@ def main():
     target_lane = parse_target_lane(args.target_lane)
     if (args.objective in ("target", "cg_target") or args.pair_rank in ("target", "cg_target")) and target_lane is None:
         raise SystemExit("--target-lane is required for target/cg_target objective or pair-rank")
+    if args.max_target_l1 is not None and target_lane is None:
+        raise SystemExit("--target-lane is required for --max-target-l1")
 
     seed, total = load_seed(args.seed_jsonl, args.rank)
     print(f"Loaded seed rank={args.rank} of {total} from {args.seed_jsonl}")
@@ -295,6 +299,8 @@ def main():
                     new_M2[slot] ^= (1 << bit)
                 hw, diff = eval_m2(iv1, iv2, m1_W, tuple(new_M2), args.rounds)
                 lane_hw = hw_per_lane(diff)
+                if args.max_target_l1 is not None and target_l1(lane_hw, target_lane) > args.max_target_l1:
+                    continue
                 state_objective = objective_value(
                     hw, lane_hw, args.objective, lane_weights, args.cg_weight, target_lane, args.target_weight
                 )
@@ -384,6 +390,7 @@ def main():
         "cg_weight": args.cg_weight,
         "target_lane": target_lane,
         "target_weight": args.target_weight,
+        "max_target_l1": args.max_target_l1,
         "beam_width": args.beam_width,
         "max_pairs": args.max_pairs,
         "max_radius": args.max_radius,
