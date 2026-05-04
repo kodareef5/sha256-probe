@@ -29,7 +29,29 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-04T09:03:46Z'
+last_heartbeat: '2026-05-04T09:17:25Z'
+recent_progress_2026-05-04_F814_F799_repair_m2cap44_closed: |
+  yale-codex reran the F800-producing pure-HW repair from F799 HW87 with
+  max M2 weight 44.
+
+  Setup:
+    init HW: 87
+    init lane: [12, 12, 7, 8, 13, 10, 9, 16]
+    init M2 weight: 40
+    objective: pure HW
+    max M2 weight: 44
+
+  Result:
+    pair-pool HW range: 91..109
+    depth bests: 91, 93, 93, 90, 93, 93
+    new records below HW87: 0
+    best seen HW: 87, source init
+    wall: 679.07s
+
+  Interpretation:
+    The F799 HW87 detour cannot improve while staying in the F788/F789 M2
+    weight band. The uncapped F800 HW86 repair requires M2 weight 50, which then
+    leads into the closed over-filled F802 branch.
 recent_progress_2026-05-04_F813_word15cap2_bridge_closed: |
   yale-codex added --max-added-word WORD:COUNT to block2_m2_pair_beam.py and
   ran the F800 -> F788-lane bridge with word15 additions capped at 2.
