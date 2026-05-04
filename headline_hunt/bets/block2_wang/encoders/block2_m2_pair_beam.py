@@ -334,6 +334,90 @@ def summarize_frontier(states, depth, candidate_count, limit, target_lane=None):
     }
 
 
+def add_selected_states(selected, selected_keys, candidates, limit, predicate):
+    added = 0
+    if limit <= 0:
+        return added
+    for state in candidates:
+        if not predicate(state):
+            continue
+        key = state["bits"]
+        if key in selected_keys:
+            continue
+        selected.append(state)
+        selected_keys.add(key)
+        added += 1
+        if added >= limit:
+            break
+    return added
+
+
+def select_beam(candidates, args):
+    """Select the next beam, optionally reserving slots for repair-shape buckets."""
+    if not candidates:
+        return [], []
+
+    reserve_total = args.reserve_low_net_width + args.reserve_removed_width
+    global_primary_limit = max(0, args.beam_width - reserve_total)
+    selected = []
+    selected_keys = set()
+    passes = []
+
+    added = add_selected_states(
+        selected,
+        selected_keys,
+        candidates,
+        global_primary_limit,
+        lambda state: True,
+    )
+    passes.append({"pass": "global_primary", "limit": global_primary_limit, "added": added})
+
+    added = add_selected_states(
+        selected,
+        selected_keys,
+        candidates,
+        args.reserve_low_net_width,
+        lambda state: (
+            state["m2_net_added_bits"] <= args.reserve_low_net_max
+            and state["m2_removed_bits"] >= args.reserve_low_net_min_removed
+        ),
+    )
+    if args.reserve_low_net_width:
+        passes.append({
+            "pass": "low_net_reserve",
+            "limit": args.reserve_low_net_width,
+            "added": added,
+            "max_net_added": args.reserve_low_net_max,
+            "min_removed_bits": args.reserve_low_net_min_removed,
+        })
+
+    added = add_selected_states(
+        selected,
+        selected_keys,
+        candidates,
+        args.reserve_removed_width,
+        lambda state: state["m2_removed_bits"] >= args.reserve_removed_min,
+    )
+    if args.reserve_removed_width:
+        passes.append({
+            "pass": "removed_reserve",
+            "limit": args.reserve_removed_width,
+            "added": added,
+            "min_removed_bits": args.reserve_removed_min,
+        })
+
+    fill_limit = args.beam_width - len(selected)
+    added = add_selected_states(
+        selected,
+        selected_keys,
+        candidates,
+        fill_limit,
+        lambda state: True,
+    )
+    passes.append({"pass": "global_fill", "limit": fill_limit, "added": added})
+    return selected[:args.beam_width], passes
+
+
 def load_seed(path, rank):
     """Load seed JSONL and extract entry at given rank index."""
     seeds = []
@@ -382,6 +466,16 @@ def main():
     ap.add_argument("--max-target-l1", type=int, default=None,
                     help="Reject beam states with L1(lane, target-lane) above this cap.")
     ap.add_argument("--beam-width", type=int, default=1024)
+    ap.add_argument("--reserve-low-net-width", type=int, default=0,
+                    help="Reserve this many beam slots for states with bounded net additions and removals.")
+    ap.add_argument("--reserve-low-net-max", type=int, default=4,
+                    help="Max net added M2 bits for --reserve-low-net-width.")
+    ap.add_argument("--reserve-low-net-min-removed", type=int, default=1,
+                    help="Min removed M2 bits for --reserve-low-net-width.")
+    ap.add_argument("--reserve-removed-width", type=int, default=0,
+                    help="Reserve this many beam slots for states with at least --reserve-removed-min removals.")
+    ap.add_argument("--reserve-removed-min", type=int, default=2,
+                    help="Min removed M2 bits for --reserve-removed-width.")
     ap.add_argument("--max-pairs", type=int, default=6)
     ap.add_argument("--max-radius", type=int, default=12)
     ap.add_argument("--top-records", type=int, default=30)
@@ -538,6 +632,7 @@ def main():
     n_new_records = 0
     top_records = []
     frontier_summaries = []
+    beam_selection_summaries = []
     seen_states = {frozenset(): True}
 
     for depth in range(1, args.max_pairs + 1):
@@ -627,7 +722,13 @@ def main():
                         top_records.sort(key=record_sort_key)
         next_beam.sort(key=lambda s: (s["objective"], s["hw"]))
         candidate_count = len(next_beam)
-        beam = next_beam[:args.beam_width]
+        beam, selection_passes = select_beam(next_beam, args)
+        beam_selection_summaries.append({
+            "depth": depth,
+            "candidate_count": candidate_count,
+            "kept_count": len(beam),
+            "passes": selection_passes,
+        })
         if args.frontier_summary_limit > 0:
             frontier_summaries.append(
                 summarize_frontier(
@@ -717,6 +818,11 @@ def main():
         "max_added_word": dict(sorted(added_word_caps.items())),
         "max_target_l1": args.max_target_l1,
         "beam_width": args.beam_width,
+        "reserve_low_net_width": args.reserve_low_net_width,
+        "reserve_low_net_max": args.reserve_low_net_max,
+        "reserve_low_net_min_removed": args.reserve_low_net_min_removed,
+        "reserve_removed_width": args.reserve_removed_width,
+        "reserve_removed_min": args.reserve_removed_min,
         "max_pairs": args.max_pairs,
         "max_radius": args.max_radius,
         "frontier_summary_limit": args.frontier_summary_limit,
@@ -751,6 +857,7 @@ def main():
         "n_new_records": n_new_records,
         "top_records": top_records,
         "frontier_summaries": frontier_summaries,
+        "beam_selection_summaries": beam_selection_summaries,
         "wall_seconds": round(wall, 2),
     }
     os.makedirs(os.path.dirname(args.out) or ".", exist_ok=True)
