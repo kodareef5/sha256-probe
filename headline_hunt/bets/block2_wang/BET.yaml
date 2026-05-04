@@ -29,7 +29,92 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-04T06:11:26Z'
+last_heartbeat: '2026-05-04T06:51:00Z'
+recent_progress_2026-05-04_F801_F800_HW86_continuation_closed: |
+  yale-codex ran a pure-HW M2 pair-beam continuation from the new F800 HW86
+  witness.
+
+  Setup:
+    init HW: 86
+    lane: [10, 7, 9, 9, 17, 14, 11, 9]
+    pair_pool: 1024
+    beam_width: 1024
+    max_pairs: 6
+    max_radius: 12
+
+  Result:
+    pair-pool HW range: 94..109
+    depth bests: 94, 90, 93, 89, 90, 90
+    new records below HW86: 0
+    best seen HW: 86, source init
+    wall: 691.93s
+
+  Interpretation:
+    The F799/F800 branch is repairable from HW87 to HW86, but it does not
+    continue under the standard pure-HW beam. It is weaker than the F788/F789
+    HW86-to-HW78 breakthrough branch.
+recent_progress_2026-05-04_F800_F799_HW87_repaired_to_HW86: |
+  yale-codex ran pure-HW M2 pair-beam from the F799 motif-gated HW87 detour.
+
+  Setup:
+    init HW: 87
+    lane: [12, 12, 7, 8, 13, 10, 9, 16]
+    pair_pool: 1024
+    beam_width: 1024
+    max_pairs: 6
+    max_radius: 12
+
+  Result:
+    pair-pool HW range: 91..109
+    depth bests: 91, 93, 91, 90, 86, 92
+    new records below HW87: 1
+    best seen HW: 86
+    best lane: [10, 7, 9, 9, 17, 14, 11, 9]
+    wall: 681.87s
+
+  Interpretation:
+    The motif-gated F799 detour is repairable, unlike the closed F796 HW87
+    detour. It did not reach HW78, but it produced a new HW86 side witness.
+recent_progress_2026-05-04_F799_motif_gated_overlap_sample: |
+  yale-codex ran a second-generation overlap selector on the original F760
+  bit24 HW82 parent.
+
+  Selector:
+    overlap filter from F788:
+      pair removed-bit union >= 80
+      pair added-bit union <= 170
+      pair added-bit repeat excess >= 250
+    motif gate from F798:
+      late-touch pairs >= 2
+      early-late pairs >= 1
+
+  Result:
+    evaluated: 3,572,503
+    HW < 82: 0
+    HW <= 82: 0
+    c/g-improving: 8
+    target-L1-improving: 1,916
+    best HW: 87 / target L1 19 / c/g delta -11
+    best target: HW89 / target L1 13
+    wall: 707.2s
+
+  Interpretation:
+    The motif gate preserved the F788-like target-improvement density and
+    found a repairable HW87 detour, but did not directly improve the HW82 floor.
+recent_progress_2026-05-04_F798_overlap_branch_comparison: |
+  yale-codex added summarize_m2_combo_branches.py and compared F788/F793/F795/F796.
+
+  Target-improvement rates:
+    F788 F760 overlap: 532.22 per million evals
+    F796 F763 overlap: 11.55 per million evals
+    F793 HW78 unfiltered: 0.60 per million evals
+    F795 bit13 overlap: 0.00 per million evals
+
+  Interpretation:
+    The discriminating feature is target-lane density plus motif/source shape,
+    not just large nonlinear cancellation. This produced the F799 motif gate:
+    late-touch pairs >= 2 and early-late pairs >= 1 on top of the F788 overlap
+    filter.
 recent_progress_2026-05-04_F797_F796_HW87_beam_closed: |
   yale-codex ran pure-HW M2 pair-beam from the F796 HW87 overlap detour.
 

@@ -1,0 +1,9053 @@
+{
+  "description": "F799_bit24_f760_hw82_overlap_late_early_pair6_sample5m_combo6: M2 target/repair pair combo",
+  "label": "F799_bit24_f760_hw82_overlap_late_early_pair6_sample5m_combo6",
+  "seed_jsonl": "headline_hunt/bets/block2_wang/results/search_artifacts/20260503_F547_pathC_absorber_seeds.jsonl",
+  "seed_rank": 1,
+  "rounds": 24,
+  "pair_atlas": "headline_hunt/bets/block2_wang/results/search_artifacts/20260503_F767_bit24_f760_hw82_pair_potential_top80.json",
+  "init_M2": [
+    "0x00001000",
+    "0x00100000",
+    "0x00004004",
+    "0x40105002",
+    "0x00000000",
+    "0x10001000",
+    "0x00000000",
+    "0x00200000",
+    "0x08002000",
+    "0x20020040",
+    "0x01808108",
+    "0x00000000",
+    "0x00000000",
+    "0x00050000",
+    "0x12018002",
+    "0x00000040"
+  ],
+  "init_hw": 82,
+  "init_lane_hw": [
+    9,
+    10,
+    11,
+    10,
+    10,
+    13,
+    13,
+    6
+  ],
+  "init_cg_objective": 130.0,
+  "target_lane_hw": [
+    10,
+    11,
+    9,
+    12,
+    9,
+    7,
+    10,
+    14
+  ],
+  "init_target_l1": 24,
+  "selection": {
+    "target_pairs": 80,
+    "repair_pairs": 80,
+    "hw_pairs": 20,
+    "cg_pairs": 40,
+    "per_reg_pairs": 10,
+    "selected_pairs": 236,
+    "pair_count": 6,
+    "min_radius": 10,
+    "max_radius": 12,
+    "sample_combos": 5000000,
+    "rng_seed": 799,
+    "late_word_start": 12,
+    "late_word_end": 15,
+    "early_word_end": 8,
+    "min_late_pairs": 2,
+    "min_late_late_pairs": 0,
+    "min_early_late_pairs": 1,
+    "min_delta_lane_sum": null,
+    "max_delta_lane_sum": null,
+    "min_standalone_net_delta_sum": null,
+    "max_standalone_net_delta_sum": null,
+    "min_pair_removed_union": 80,
+    "max_pair_added_union": 170,
+    "min_pair_added_repeat_excess": 250,
+    "min_pair_removed_repeat_excess": null
+  },
+  "counts": {
+    "candidate_combos": 5000000,
+    "skipped_radius": 450,
+    "skipped_duplicate": 48,
+    "evaluated": 3572503,
+    "hw_lt_init": 0,
+    "hw_le_init": 0,
+    "cg_lt_init": 8,
+    "target_l1_lt_init": 1916,
+    "skipped_late_pair_motif": 456667,
+    "skipped_pair_graph_motif": 246556,
+    "skipped_delta_signature": 0,
+    "skipped_bit_overlap_signature": 723776
+  },
+  "top_by_hw": [
+    {
+      "pair_ids": [
+        57,
+        92,
+        142,
+        152,
+        179,
+        201
+      ],
+      "bits": [
+        68,
+        77,
+        158,
+        256,
+        347,
+        374,
+        391,
+        402,
+        403,
+        432,
+        458,
+        462
+      ],
+      "radius": 12,
+      "hw_total": 87,
+      "net_delta": 5,
+      "lane_hw": [
+        12,
+        12,
+        7,
+        8,
+        13,
+        10,
+        9,
+        16
+      ],
+      "cg_objective": 119.0,
+      "cg_delta": -11.0,
+      "target_l1": 19,
+      "target_l1_delta": -5,
+      "standalone_net_delta_sum": 160,
+      "delta_lane_sum": [
+        41,
+        27,
+        25,
+        19,
+        20,
+        -4,
+        -9,
+        41
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 81,
+        "pair_added_union_total": 170,
+        "pair_removed_occurrences": 271,
+        "pair_added_occurrences": 431,
+        "pair_removed_repeat_excess": 190,
+        "pair_added_repeat_excess": 261
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "hw"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_h"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00100000",
+        "0x00006014",
+        "0x40105002",
+        "0x40000000",
+        "0x10001000",
+        "0x00000000",
+        "0x00200000",
+        "0x08002001",
+        "0x20020040",
+        "0x09808108",
+        "0x00400000",
+        "0x000c0080",
+        "0x00040000",
+        "0x1201c402",
+        "0x00000040"
+      ]
+    },
+    {
+      "pair_ids": [
+        42,
+        101,
+        108,
+        113,
+        143,
+        209
+      ],
+      "bits": [
+        100,
+        155,
+        166,
+        193,
+        203,
+        209,
+        213,
+        269,
+        338,
+        422,
+        505
+      ],
+      "radius": 11,
+      "hw_total": 88,
+      "net_delta": 6,
+      "lane_hw": [
+        9,
+        11,
+        15,
+        9,
+        8,
+        13,
+        12,
+        11
+      ],
+      "cg_objective": 142.0,
+      "cg_delta": 12.0,
+      "target_l1": 22,
+      "target_l1_delta": -2,
+      "standalone_net_delta_sum": 157,
+      "delta_lane_sum": [
+        33,
+        40,
+        9,
+        20,
+        19,
+        1,
+        -20,
+        55
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 169,
+        "pair_removed_occurrences": 278,
+        "pair_added_occurrences": 435,
+        "pair_removed_repeat_excess": 196,
+        "pair_added_repeat_excess": 266
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair",
+          "repair_e"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair",
+          "repair_g"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00100000",
+        "0x00004004",
+        "0x40105012",
+        "0x08000000",
+        "0x10001040",
+        "0x00220802",
+        "0x00200000",
+        "0x08000000",
+        "0x20020040",
+        "0x01848108",
+        "0x00000000",
+        "0x00000000",
+        "0x00050040",
+        "0x12018002",
+        "0x02000040"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        28,
+        71,
+        102,
+        106,
+        147
+      ],
+      "bits": [
+        105,
+        120,
+        127,
+        128,
+        144,
+        164,
+        189,
+        230,
+        275,
+        362,
+        404,
+        444
+      ],
+      "radius": 12,
+      "hw_total": 89,
+      "net_delta": 7,
+      "lane_hw": [
+        12,
+        12,
+        9,
+        15,
+        10,
+        8,
+        12,
+        11
+      ],
+      "cg_objective": 131.0,
+      "cg_delta": 1.0,
+      "target_l1": 13,
+      "target_l1_delta": -11,
+      "standalone_net_delta_sum": 130,
+      "delta_lane_sum": [
+        17,
+        26,
+        3,
+        23,
+        21,
+        7,
+        -11,
+        44
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 167,
+        "pair_removed_occurrences": 288,
+        "pair_added_occurrences": 418,
+        "pair_removed_repeat_excess": 206,
+        "pair_added_repeat_excess": 251
+      },
+      "pair_sources": [
+        [
+          "target",
+          "hw",
+          "cg"
+        ],
+        [
+          "target",
+          "hw"
+        ],
+        [
+          "target"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00100000",
+        "0x00004004",
+        "0xc1105202",
+        "0x00010001",
+        "0x30001010",
+        "0x00000000",
+        "0x00200040",
+        "0x08082000",
+        "0x20020040",
+        "0x01808108",
+        "0x00000400",
+        "0x00100000",
+        "0x10050000",
+        "0x12018002",
+        "0x00000040"
+      ]
+    },
+    {
+      "pair_ids": [
+        15,
+        21,
+        30,
+        101,
+        223,
+        231
+      ],
+      "bits": [
+        89,
+        100,
+        101,
+        107,
+        169,
+        238,
+        325,
+        338,
+        352,
+        380,
+        422,
+        432
+      ],
+      "radius": 12,
+      "hw_total": 89,
+      "net_delta": 7,
+      "lane_hw": [
+        10,
+        13,
+        12,
+        11,
+        12,
+        8,
+        12,
+        11
+      ],
+      "cg_objective": 137.0,
+      "cg_delta": 7.0,
+      "target_l1": 15,
+      "target_l1_delta": -9,
+      "standalone_net_delta_sum": 159,
+      "delta_lane_sum": [
+        25,
+        32,
+        16,
+        12,
+        24,
+        7,
+        5,
+        38
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 166,
+        "pair_removed_occurrences": 263,
+        "pair_added_occurrences": 422,
+        "pair_removed_repeat_excess": 181,
+        "pair_added_repeat_excess": 256
+      },
+      "pair_sources": [
+        [
+          "target",
+          "cg"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target",
+          "hw"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair_d"
+        ],
+        [
+          "repair_h"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00100000",
+        "0x02004004",
+        "0x40105832",
+        "0x00000000",
+        "0x10001200",
+        "0x00000000",
+        "0x00204000",
+        "0x08002000",
+        "0x20020040",
+        "0x01848128",
+        "0x10000001",
+        "0x00000000",
+        "0x00040040",
+        "0x12018002",
+        "0x00000040"
+      ]
+    },
+    {
+      "pair_ids": [
+        3,
+        69,
+        125,
+        136,
+        210,
+        220
+      ],
+      "bits": [
+        14,
+        35,
+        106,
+        159,
+        210,
+        228,
+        260,
+        286,
+        396,
+        401,
+        414,
+        501
+      ],
+      "radius": 12,
+      "hw_total": 89,
+      "net_delta": 7,
+      "lane_hw": [
+        12,
+        12,
+        8,
+        6,
+        14,
+        11,
+        15,
+        11
+      ],
+      "cg_objective": 135.0,
+      "cg_delta": 5.0,
+      "target_l1": 27,
+      "target_l1_delta": 3,
+      "standalone_net_delta_sum": 167,
+      "delta_lane_sum": [
+        27,
+        35,
+        11,
+        25,
+        36,
+        -4,
+        -4,
+        41
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 167,
+        "pair_removed_occurrences": 273,
+        "pair_added_occurrences": 440,
+        "pair_removed_repeat_excess": 191,
+        "pair_added_repeat_excess": 273
+      },
+      "pair_sources": [
+        [
+          "target",
+          "hw"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair",
+          "repair_f"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_h"
+        ]
+      ],
+      "M2": [
+        "0x00005000",
+        "0x00100008",
+        "0x00004004",
+        "0x40105402",
+        "0x80000000",
+        "0x10001000",
+        "0x00040000",
+        "0x00200010",
+        "0x48002010",
+        "0x20020040",
+        "0x01808108",
+        "0x00000000",
+        "0x40021000",
+        "0x00050000",
+        "0x12018002",
+        "0x00200040"
+      ]
+    },
+    {
+      "pair_ids": [
+        21,
+        59,
+        68,
+        78,
+        167,
+        203
+      ],
+      "bits": [
+        36,
+        89,
+        114,
+        154,
+        182,
+        266,
+        352,
+        426,
+        463,
+        477,
+        495,
+        504
+      ],
+      "radius": 12,
+      "hw_total": 90,
+      "net_delta": 8,
+      "lane_hw": [
+        10,
+        11,
+        12,
+        11,
+        10,
+        13,
+        8,
+        15
+      ],
+      "cg_objective": 130.0,
+      "cg_delta": 0.0,
+      "target_l1": 14,
+      "target_l1_delta": -10,
+      "standalone_net_delta_sum": 165,
+      "delta_lane_sum": [
+        28,
+        27,
+        8,
+        24,
+        19,
+        1,
+        -6,
+        64
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 81,
+        "pair_added_union_total": 168,
+        "pair_removed_occurrences": 283,
+        "pair_added_occurrences": 448,
+        "pair_removed_repeat_excess": 202,
+        "pair_added_repeat_excess": 280
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair",
+          "repair_g"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00100010",
+        "0x02004004",
+        "0x40145002",
+        "0x04000000",
+        "0x10401000",
+        "0x00000000",
+        "0x00200000",
+        "0x08002400",
+        "0x20020040",
+        "0x01808108",
+        "0x00000001",
+        "0x00000000",
+        "0x00050400",
+        "0x32010002",
+        "0x01008040"
+      ]
+    },
+    {
+      "pair_ids": [
+        13,
+        21,
+        31,
+        142,
+        175,
+        208
+      ],
+      "bits": [
+        33,
+        68,
+        77,
+        89,
+        125,
+        186,
+        352,
+        361,
+        374,
+        427,
+        478,
+        483
+      ],
+      "radius": 12,
+      "hw_total": 90,
+      "net_delta": 8,
+      "lane_hw": [
+        10,
+        10,
+        10,
+        15,
+        15,
+        13,
+        9,
+        8
+      ],
+      "cg_objective": 128.0,
+      "cg_delta": -2.0,
+      "target_l1": 24,
+      "target_l1_delta": 0,
+      "standalone_net_delta_sum": 160,
+      "delta_lane_sum": [
+        40,
+        27,
+        17,
+        21,
+        23,
+        -7,
+        -17,
+        56
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 164,
+        "pair_removed_occurrences": 276,
+        "pair_added_occurrences": 436,
+        "pair_removed_repeat_excess": 194,
+        "pair_added_repeat_excess": 272
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target",
+          "hw"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00100002",
+        "0x02006014",
+        "0x60105002",
+        "0x00000000",
+        "0x14001000",
+        "0x00000000",
+        "0x00200000",
+        "0x08002000",
+        "0x20020040",
+        "0x01808108",
+        "0x00400201",
+        "0x00000000",
+        "0x00050800",
+        "0x52018002",
+        "0x00000048"
+      ]
+    },
+    {
+      "pair_ids": [
+        31,
+        75,
+        155,
+        167,
+        183,
+        184
+      ],
+      "bits": [
+        33,
+        45,
+        60,
+        114,
+        193,
+        196,
+        209,
+        219,
+        377,
+        426,
+        468,
+        483
+      ],
+      "radius": 12,
+      "hw_total": 91,
+      "net_delta": 9,
+      "lane_hw": [
+        14,
+        7,
+        12,
+        15,
+        10,
+        9,
+        8,
+        16
+      ],
+      "cg_objective": 131.0,
+      "cg_delta": 1.0,
+      "target_l1": 21,
+      "target_l1_delta": -3,
+      "standalone_net_delta_sum": 185,
+      "delta_lane_sum": [
+        30,
+        38,
+        31,
+        31,
+        32,
+        -16,
+        -20,
+        59
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 81,
+        "pair_added_union_total": 166,
+        "pair_removed_occurrences": 275,
+        "pair_added_occurrences": 460,
+        "pair_removed_repeat_excess": 194,
+        "pair_added_repeat_excess": 294
+      },
+      "pair_sources": [
+        [
+          "target",
+          "hw"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x10102002",
+        "0x00004004",
+        "0x40145002",
+        "0x00000000",
+        "0x10001000",
+        "0x08020012",
+        "0x00200000",
+        "0x08002000",
+        "0x20020040",
+        "0x01808108",
+        "0x02000000",
+        "0x00000000",
+        "0x00050400",
+        "0x12118002",
+        "0x00000048"
+      ]
+    },
+    {
+      "pair_ids": [
+        16,
+        44,
+        189,
+        217,
+        220,
+        225
+      ],
+      "bits": [
+        14,
+        51,
+        67,
+        126,
+        189,
+        260,
+        264,
+        290,
+        396,
+        420,
+        478,
+        484
+      ],
+      "radius": 12,
+      "hw_total": 91,
+      "net_delta": 9,
+      "lane_hw": [
+        7,
+        11,
+        14,
+        10,
+        18,
+        9,
+        12,
+        10
+      ],
+      "cg_objective": 143.0,
+      "cg_delta": 13.0,
+      "target_l1": 27,
+      "target_l1_delta": 3,
+      "standalone_net_delta_sum": 200,
+      "delta_lane_sum": [
+        15,
+        24,
+        15,
+        37,
+        37,
+        10,
+        9,
+        53
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 81,
+        "pair_added_union_total": 169,
+        "pair_removed_occurrences": 269,
+        "pair_added_occurrences": 469,
+        "pair_removed_repeat_excess": 188,
+        "pair_added_repeat_excess": 300
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair",
+          "repair_b"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_h"
+        ],
+        [
+          "repair_c"
+        ]
+      ],
+      "M2": [
+        "0x00005000",
+        "0x00180000",
+        "0x0000400c",
+        "0x00105002",
+        "0x00000000",
+        "0x30001000",
+        "0x00000000",
+        "0x00200000",
+        "0x08002110",
+        "0x20020044",
+        "0x01808108",
+        "0x00000000",
+        "0x00001000",
+        "0x00050010",
+        "0x52018002",
+        "0x00000050"
+      ]
+    },
+    {
+      "pair_ids": [
+        0,
+        69,
+        105,
+        111,
+        210,
+        231
+      ],
+      "bits": [
+        35,
+        106,
+        107,
+        200,
+        219,
+        299,
+        328,
+        338,
+        407,
+        414,
+        501,
+        505
+      ],
+      "radius": 12,
+      "hw_total": 92,
+      "net_delta": 10,
+      "lane_hw": [
+        13,
+        11,
+        8,
+        16,
+        10,
+        9,
+        14,
+        11
+      ],
+      "cg_objective": 136.0,
+      "cg_delta": 6.0,
+      "target_l1": 18,
+      "target_l1_delta": -6,
+      "standalone_net_delta_sum": 164,
+      "delta_lane_sum": [
+        35,
+        28,
+        9,
+        33,
+        11,
+        8,
+        -9,
+        49
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 169,
+        "pair_removed_occurrences": 294,
+        "pair_added_occurrences": 458,
+        "pair_removed_repeat_excess": 212,
+        "pair_added_repeat_excess": 289
+      },
+      "pair_sources": [
+        [
+          "target",
+          "hw",
+          "cg"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_e"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_h"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00100008",
+        "0x00004004",
+        "0x40105c02",
+        "0x00000000",
+        "0x10001000",
+        "0x08000100",
+        "0x00200000",
+        "0x08002000",
+        "0x20020840",
+        "0x01848008",
+        "0x00000000",
+        "0x40800000",
+        "0x00050000",
+        "0x12018002",
+        "0x02200040"
+      ]
+    },
+    {
+      "pair_ids": [
+        76,
+        158,
+        189,
+        217,
+        231,
+        233
+      ],
+      "bits": [
+        49,
+        107,
+        189,
+        240,
+        264,
+        285,
+        290,
+        338,
+        349,
+        362,
+        478,
+        502
+      ],
+      "radius": 12,
+      "hw_total": 92,
+      "net_delta": 10,
+      "lane_hw": [
+        8,
+        11,
+        7,
+        14,
+        12,
+        11,
+        16,
+        13
+      ],
+      "cg_objective": 138.0,
+      "cg_delta": 8.0,
+      "target_l1": 20,
+      "target_l1_delta": -4,
+      "standalone_net_delta_sum": 206,
+      "delta_lane_sum": [
+        25,
+        21,
+        25,
+        39,
+        28,
+        4,
+        15,
+        49
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 166,
+        "pair_removed_occurrences": 267,
+        "pair_added_occurrences": 473,
+        "pair_removed_repeat_excess": 185,
+        "pair_added_repeat_excess": 307
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "repair_d"
+        ],
+        [
+          "repair",
+          "repair_b"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_h"
+        ],
+        [
+          "repair_b"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00120000",
+        "0x00004004",
+        "0x40105802",
+        "0x00000000",
+        "0x30001000",
+        "0x00000000",
+        "0x00210000",
+        "0x28002100",
+        "0x20020044",
+        "0x21848108",
+        "0x00000400",
+        "0x00000000",
+        "0x00050000",
+        "0x52018002",
+        "0x00400040"
+      ]
+    },
+    {
+      "pair_ids": [
+        23,
+        41,
+        103,
+        123,
+        134,
+        184
+      ],
+      "bits": [
+        75,
+        123,
+        147,
+        150,
+        193,
+        292,
+        306,
+        374,
+        377,
+        411,
+        468,
+        502
+      ],
+      "radius": 12,
+      "hw_total": 92,
+      "net_delta": 10,
+      "lane_hw": [
+        11,
+        14,
+        11,
+        10,
+        8,
+        12,
+        14,
+        12
+      ],
+      "cg_objective": 142.0,
+      "cg_delta": 12.0,
+      "target_l1": 20,
+      "target_l1_delta": -4,
+      "standalone_net_delta_sum": 151,
+      "delta_lane_sum": [
+        31,
+        19,
+        10,
+        32,
+        18,
+        5,
+        -16,
+        52
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 168,
+        "pair_removed_occurrences": 277,
+        "pair_added_occurrences": 428,
+        "pair_removed_repeat_excess": 195,
+        "pair_added_repeat_excess": 260
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair",
+          "cg"
+        ],
+        [
+          "repair",
+          "cg"
+        ],
+        [
+          "repair"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00100000",
+        "0x00004804",
+        "0x48105002",
+        "0x00480000",
+        "0x10001000",
+        "0x00000002",
+        "0x00200000",
+        "0x08002000",
+        "0x20060050",
+        "0x01808108",
+        "0x02400000",
+        "0x08000000",
+        "0x00050000",
+        "0x12118002",
+        "0x00400040"
+      ]
+    },
+    {
+      "pair_ids": [
+        16,
+        59,
+        88,
+        99,
+        163,
+        187
+      ],
+      "bits": [
+        67,
+        82,
+        122,
+        126,
+        172,
+        182,
+        306,
+        433,
+        460,
+        476,
+        477,
+        489
+      ],
+      "radius": 12,
+      "hw_total": 92,
+      "net_delta": 10,
+      "lane_hw": [
+        7,
+        11,
+        11,
+        14,
+        9,
+        13,
+        15,
+        12
+      ],
+      "cg_objective": 144.0,
+      "cg_delta": 14.0,
+      "target_l1": 20,
+      "target_l1_delta": -4,
+      "standalone_net_delta_sum": 139,
+      "delta_lane_sum": [
+        27,
+        17,
+        -7,
+        19,
+        19,
+        4,
+        10,
+        50
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 167,
+        "pair_removed_occurrences": 298,
+        "pair_added_occurrences": 437,
+        "pair_removed_repeat_excess": 216,
+        "pair_added_repeat_excess": 270
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "hw"
+        ],
+        [
+          "repair_e"
+        ],
+        [
+          "repair",
+          "repair_c"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00100000",
+        "0x0004400c",
+        "0x04105002",
+        "0x00000000",
+        "0x10400000",
+        "0x00000000",
+        "0x00200000",
+        "0x08002000",
+        "0x20060040",
+        "0x01808108",
+        "0x00000000",
+        "0x00000000",
+        "0x00070000",
+        "0x22019002",
+        "0x00000240"
+      ]
+    },
+    {
+      "pair_ids": [
+        45,
+        49,
+        61,
+        113,
+        121,
+        129
+      ],
+      "bits": [
+        155,
+        166,
+        172,
+        240,
+        298,
+        341,
+        402,
+        455,
+        456,
+        459,
+        469,
+        485
+      ],
+      "radius": 12,
+      "hw_total": 92,
+      "net_delta": 10,
+      "lane_hw": [
+        13,
+        15,
+        10,
+        7,
+        13,
+        10,
+        9,
+        15
+      ],
+      "cg_objective": 130.0,
+      "cg_delta": 0.0,
+      "target_l1": 22,
+      "target_l1_delta": -2,
+      "standalone_net_delta_sum": 147,
+      "delta_lane_sum": [
+        26,
+        30,
+        13,
+        20,
+        23,
+        -13,
+        -8,
+        56
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 164,
+        "pair_removed_occurrences": 290,
+        "pair_added_occurrences": 437,
+        "pair_removed_repeat_excess": 208,
+        "pair_added_repeat_excess": 273
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair",
+          "repair_f"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00100000",
+        "0x00004004",
+        "0x40105002",
+        "0x08000000",
+        "0x10000040",
+        "0x00000000",
+        "0x00210000",
+        "0x08002000",
+        "0x20020440",
+        "0x01a08108",
+        "0x00000000",
+        "0x00040000",
+        "0x00050000",
+        "0x12218982",
+        "0x00000060"
+      ]
+    },
+    {
+      "pair_ids": [
+        66,
+        68,
+        121,
+        159,
+        170,
+        186
+      ],
+      "bits": [
+        17,
+        163,
+        172,
+        195,
+        241,
+        267,
+        323,
+        335,
+        446,
+        456,
+        495,
+        504
+      ],
+      "radius": 12,
+      "hw_total": 92,
+      "net_delta": 10,
+      "lane_hw": [
+        11,
+        9,
+        11,
+        14,
+        11,
+        17,
+        8,
+        11
+      ],
+      "cg_objective": 130.0,
+      "cg_delta": 0.0,
+      "target_l1": 24,
+      "target_l1_delta": 0,
+      "standalone_net_delta_sum": 156,
+      "delta_lane_sum": [
+        20,
+        24,
+        4,
+        25,
+        33,
+        8,
+        -12,
+        54
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 170,
+        "pair_removed_occurrences": 291,
+        "pair_added_occurrences": 447,
+        "pair_removed_repeat_excess": 209,
+        "pair_added_repeat_excess": 277
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair_b"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00021000",
+        "0x00100000",
+        "0x00004004",
+        "0x40105002",
+        "0x00000000",
+        "0x10000008",
+        "0x00000008",
+        "0x00220000",
+        "0x08002800",
+        "0x20020040",
+        "0x01800100",
+        "0x00000000",
+        "0x00000000",
+        "0x40050000",
+        "0x12018102",
+        "0x01008040"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        17,
+        23,
+        24,
+        187,
+        189
+      ],
+      "bits": [
+        75,
+        79,
+        98,
+        100,
+        136,
+        189,
+        230,
+        306,
+        377,
+        404,
+        460,
+        478
+      ],
+      "radius": 12,
+      "hw_total": 92,
+      "net_delta": 10,
+      "lane_hw": [
+        10,
+        9,
+        14,
+        10,
+        15,
+        10,
+        13,
+        11
+      ],
+      "cg_objective": 146.0,
+      "cg_delta": 16.0,
+      "target_l1": 24,
+      "target_l1_delta": 0,
+      "standalone_net_delta_sum": 144,
+      "delta_lane_sum": [
+        27,
+        4,
+        -1,
+        36,
+        22,
+        1,
+        2,
+        53
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 81,
+        "pair_added_union_total": 169,
+        "pair_removed_occurrences": 298,
+        "pair_added_occurrences": 442,
+        "pair_removed_repeat_excess": 217,
+        "pair_added_repeat_excess": 273
+      },
+      "pair_sources": [
+        [
+          "target",
+          "hw",
+          "cg"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair",
+          "repair_c"
+        ],
+        [
+          "repair",
+          "repair_b"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00100000",
+        "0x0000c804",
+        "0x40105016",
+        "0x00000100",
+        "0x30001000",
+        "0x00000000",
+        "0x00200040",
+        "0x08002000",
+        "0x20060040",
+        "0x01808108",
+        "0x02000000",
+        "0x00100000",
+        "0x00050000",
+        "0x52019002",
+        "0x00000040"
+      ]
+    },
+    {
+      "pair_ids": [
+        18,
+        79,
+        92,
+        160,
+        173,
+        216
+      ],
+      "bits": [
+        76,
+        88,
+        96,
+        186,
+        189,
+        274,
+        275,
+        307,
+        325,
+        403,
+        462,
+        505
+      ],
+      "radius": 12,
+      "hw_total": 92,
+      "net_delta": 10,
+      "lane_hw": [
+        16,
+        14,
+        10,
+        14,
+        14,
+        8,
+        6,
+        10
+      ],
+      "cg_objective": 124.0,
+      "cg_delta": -6.0,
+      "target_l1": 26,
+      "target_l1_delta": 2,
+      "standalone_net_delta_sum": 148,
+      "delta_lane_sum": [
+        38,
+        33,
+        12,
+        21,
+        22,
+        -5,
+        -10,
+        37
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 163,
+        "pair_removed_occurrences": 279,
+        "pair_added_occurrences": 427,
+        "pair_removed_repeat_excess": 197,
+        "pair_added_repeat_excess": 264
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "hw"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair_d"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00100000",
+        "0x01005004",
+        "0x40105003",
+        "0x00000000",
+        "0x34001000",
+        "0x00000000",
+        "0x00200000",
+        "0x080c2000",
+        "0x200a0040",
+        "0x01808128",
+        "0x00000000",
+        "0x00080000",
+        "0x00050000",
+        "0x1201c002",
+        "0x02000040"
+      ]
+    },
+    {
+      "pair_ids": [
+        99,
+        110,
+        149,
+        177,
+        178,
+        204
+      ],
+      "bits": [
+        56,
+        64,
+        82,
+        91,
+        162,
+        249,
+        257,
+        258,
+        288,
+        342,
+        433,
+        471
+      ],
+      "radius": 12,
+      "hw_total": 92,
+      "net_delta": 10,
+      "lane_hw": [
+        15,
+        13,
+        11,
+        8,
+        14,
+        9,
+        12,
+        10
+      ],
+      "cg_objective": 138.0,
+      "cg_delta": 8.0,
+      "target_l1": 26,
+      "target_l1_delta": 2,
+      "standalone_net_delta_sum": 175,
+      "delta_lane_sum": [
+        21,
+        30,
+        27,
+        23,
+        26,
+        -12,
+        7,
+        53
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 81,
+        "pair_added_union_total": 168,
+        "pair_removed_occurrences": 283,
+        "pair_added_occurrences": 458,
+        "pair_removed_repeat_excess": 202,
+        "pair_added_repeat_excess": 290
+      },
+      "pair_sources": [
+        [
+          "hw"
+        ],
+        [
+          "cg",
+          "repair_c"
+        ],
+        [
+          "repair",
+          "repair_f"
+        ],
+        [
+          "repair_e"
+        ],
+        [
+          "repair",
+          "repair_f"
+        ],
+        [
+          "repair"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x01100000",
+        "0x08044005",
+        "0x40105002",
+        "0x00000000",
+        "0x10001004",
+        "0x00000000",
+        "0x02200000",
+        "0x08002006",
+        "0x20020041",
+        "0x01c08108",
+        "0x00000000",
+        "0x00000000",
+        "0x00070000",
+        "0x12818002",
+        "0x00000040"
+      ]
+    },
+    {
+      "pair_ids": [
+        23,
+        32,
+        100,
+        121,
+        220,
+        235
+      ],
+      "bits": [
+        14,
+        61,
+        75,
+        109,
+        172,
+        260,
+        270,
+        305,
+        377,
+        405,
+        456,
+        468
+      ],
+      "radius": 12,
+      "hw_total": 92,
+      "net_delta": 10,
+      "lane_hw": [
+        14,
+        13,
+        13,
+        13,
+        9,
+        11,
+        13,
+        6
+      ],
+      "cg_objective": 144.0,
+      "cg_delta": 14.0,
+      "target_l1": 26,
+      "target_l1_delta": 2,
+      "standalone_net_delta_sum": 171,
+      "delta_lane_sum": [
+        30,
+        31,
+        6,
+        29,
+        27,
+        14,
+        9,
+        25
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 164,
+        "pair_removed_occurrences": 268,
+        "pair_added_occurrences": 439,
+        "pair_removed_repeat_excess": 186,
+        "pair_added_repeat_excess": 275
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target",
+          "hw"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair_h"
+        ],
+        [
+          "repair_h"
+        ]
+      ],
+      "M2": [
+        "0x00005000",
+        "0x20100000",
+        "0x00004804",
+        "0x40107002",
+        "0x00000000",
+        "0x10000000",
+        "0x00000000",
+        "0x00200000",
+        "0x08006010",
+        "0x20000040",
+        "0x01808108",
+        "0x02000000",
+        "0x00200000",
+        "0x00050000",
+        "0x12118102",
+        "0x00000040"
+      ]
+    },
+    {
+      "pair_ids": [
+        13,
+        26,
+        32,
+        121,
+        205,
+        211
+      ],
+      "bits": [
+        34,
+        172,
+        186,
+        217,
+        232,
+        305,
+        339,
+        367,
+        405,
+        427,
+        456,
+        496
+      ],
+      "radius": 12,
+      "hw_total": 93,
+      "net_delta": 11,
+      "lane_hw": [
+        10,
+        16,
+        9,
+        10,
+        10,
+        12,
+        11,
+        15
+      ],
+      "cg_objective": 133.0,
+      "cg_delta": 3.0,
+      "target_l1": 15,
+      "target_l1_delta": -9,
+      "standalone_net_delta_sum": 159,
+      "delta_lane_sum": [
+        28,
+        24,
+        15,
+        14,
+        15,
+        15,
+        -8,
+        56
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 81,
+        "pair_added_union_total": 169,
+        "pair_removed_occurrences": 267,
+        "pair_added_occurrences": 426,
+        "pair_removed_repeat_excess": 186,
+        "pair_added_repeat_excess": 257
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target",
+          "hw"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair_d"
+        ],
+        [
+          "repair",
+          "repair_g"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00100004",
+        "0x00004004",
+        "0x40105002",
+        "0x00000000",
+        "0x14000000",
+        "0x02000000",
+        "0x00200100",
+        "0x08002000",
+        "0x20000040",
+        "0x01888108",
+        "0x00008000",
+        "0x00200000",
+        "0x00050800",
+        "0x12018102",
+        "0x00010040"
+      ]
+    },
+    {
+      "pair_ids": [
+        4,
+        46,
+        136,
+        143,
+        182,
+        184
+      ],
+      "bits": [
+        75,
+        98,
+        193,
+        200,
+        210,
+        213,
+        269,
+        337,
+        396,
+        426,
+        466,
+        468
+      ],
+      "radius": 12,
+      "hw_total": 93,
+      "net_delta": 11,
+      "lane_hw": [
+        12,
+        14,
+        11,
+        12,
+        8,
+        13,
+        12,
+        11
+      ],
+      "cg_objective": 139.0,
+      "cg_delta": 9.0,
+      "target_l1": 19,
+      "target_l1_delta": -5,
+      "standalone_net_delta_sum": 184,
+      "delta_lane_sum": [
+        27,
+        39,
+        15,
+        32,
+        34,
+        -8,
+        -11,
+        56
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 81,
+        "pair_added_union_total": 168,
+        "pair_removed_occurrences": 263,
+        "pair_added_occurrences": 447,
+        "pair_removed_repeat_excess": 182,
+        "pair_added_repeat_excess": 279
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00100000",
+        "0x00004804",
+        "0x40105006",
+        "0x00000000",
+        "0x10001000",
+        "0x00240102",
+        "0x00200000",
+        "0x08000000",
+        "0x20020040",
+        "0x01828108",
+        "0x00000000",
+        "0x00001000",
+        "0x00050400",
+        "0x12158002",
+        "0x00000040"
+      ]
+    },
+    {
+      "pair_ids": [
+        15,
+        23,
+        24,
+        29,
+        93,
+        100
+      ],
+      "bits": [
+        1,
+        75,
+        98,
+        100,
+        109,
+        169,
+        175,
+        377,
+        380,
+        396,
+        468
+      ],
+      "radius": 11,
+      "hw_total": 93,
+      "net_delta": 11,
+      "lane_hw": [
+        9,
+        8,
+        12,
+        17,
+        11,
+        9,
+        13,
+        14
+      ],
+      "cg_objective": 143.0,
+      "cg_delta": 13.0,
+      "target_l1": 19,
+      "target_l1_delta": -5,
+      "standalone_net_delta_sum": 122,
+      "delta_lane_sum": [
+        25,
+        8,
+        -5,
+        23,
+        23,
+        6,
+        -4,
+        46
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 164,
+        "pair_removed_occurrences": 298,
+        "pair_added_occurrences": 420,
+        "pair_removed_repeat_excess": 216,
+        "pair_added_repeat_excess": 256
+      },
+      "pair_sources": [
+        [
+          "target",
+          "cg"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target",
+          "hw",
+          "cg"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "cg"
+        ]
+      ],
+      "M2": [
+        "0x00001002",
+        "0x00100000",
+        "0x00004804",
+        "0x40107016",
+        "0x00000000",
+        "0x10009200",
+        "0x00000000",
+        "0x00200000",
+        "0x08002000",
+        "0x20020040",
+        "0x01808108",
+        "0x12000000",
+        "0x00001000",
+        "0x00050000",
+        "0x12118002",
+        "0x00000040"
+      ]
+    },
+    {
+      "pair_ids": [
+        48,
+        55,
+        117,
+        151,
+        195,
+        226
+      ],
+      "bits": [
+        8,
+        37,
+        204,
+        377,
+        382,
+        390,
+        398,
+        412,
+        427,
+        444,
+        467,
+        476
+      ],
+      "radius": 12,
+      "hw_total": 93,
+      "net_delta": 11,
+      "lane_hw": [
+        13,
+        13,
+        13,
+        13,
+        7,
+        10,
+        12,
+        12
+      ],
+      "cg_objective": 143.0,
+      "cg_delta": 13.0,
+      "target_l1": 19,
+      "target_l1_delta": -5,
+      "standalone_net_delta_sum": 173,
+      "delta_lane_sum": [
+        39,
+        35,
+        24,
+        25,
+        36,
+        -19,
+        -9,
+        42
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 169,
+        "pair_removed_occurrences": 270,
+        "pair_added_occurrences": 443,
+        "pair_removed_repeat_excess": 188,
+        "pair_added_repeat_excess": 274
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target",
+          "repair",
+          "repair_f"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_h"
+        ]
+      ],
+      "M2": [
+        "0x00001100",
+        "0x00100020",
+        "0x00004004",
+        "0x40105002",
+        "0x00000000",
+        "0x10001000",
+        "0x00001000",
+        "0x00200000",
+        "0x08002000",
+        "0x20020040",
+        "0x01808108",
+        "0x42000000",
+        "0x10004040",
+        "0x10050800",
+        "0x02098002",
+        "0x00000040"
+      ]
+    },
+    {
+      "pair_ids": [
+        9,
+        35,
+        85,
+        88,
+        126,
+        181
+      ],
+      "bits": [
+        37,
+        94,
+        111,
+        122,
+        161,
+        172,
+        173,
+        191,
+        289,
+        404,
+        439,
+        476
+      ],
+      "radius": 12,
+      "hw_total": 93,
+      "net_delta": 11,
+      "lane_hw": [
+        12,
+        9,
+        11,
+        14,
+        10,
+        10,
+        15,
+        12
+      ],
+      "cg_objective": 145.0,
+      "cg_delta": 15.0,
+      "target_l1": 19,
+      "target_l1_delta": -5,
+      "standalone_net_delta_sum": 143,
+      "delta_lane_sum": [
+        21,
+        16,
+        15,
+        16,
+        32,
+        5,
+        -18,
+        56
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 80,
+        "pair_added_union_total": 169,
+        "pair_removed_occurrences": 302,
+        "pair_added_occurrences": 445,
+        "pair_removed_repeat_excess": 222,
+        "pair_added_repeat_excess": 276
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair_b"
+        ],
+        [
+          "repair"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00100020",
+        "0x40004004",
+        "0x4410d002",
+        "0x00000000",
+        "0x90002002",
+        "0x00000000",
+        "0x00200000",
+        "0x08002000",
+        "0x20020042",
+        "0x01808108",
+        "0x00000000",
+        "0x00100000",
+        "0x00850000",
+        "0x02018002",
+        "0x00000040"
+      ]
+    },
+    {
+      "pair_ids": [
+        3,
+        65,
+        76,
+        92,
+        150,
+        220
+      ],
+      "bits": [
+        14,
+        56,
+        260,
+        284,
+        286,
+        362,
+        383,
+        401,
+        403,
+        462,
+        479,
+        502
+      ],
+      "radius": 12,
+      "hw_total": 93,
+      "net_delta": 11,
+      "lane_hw": [
+        17,
+        10,
+        14,
+        12,
+        7,
+        10,
+        11,
+        12
+      ],
+      "cg_objective": 143.0,
+      "cg_delta": 13.0,
+      "target_l1": 21,
+      "target_l1_delta": -3,
+      "standalone_net_delta_sum": 146,
+      "delta_lane_sum": [
+        26,
+        26,
+        18,
+        23,
+        22,
+        -8,
+        2,
+        37
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 81,
+        "pair_added_union_total": 161,
+        "pair_removed_occurrences": 267,
+        "pair_added_occurrences": 413,
+        "pair_removed_repeat_excess": 186,
+        "pair_added_repeat_excess": 252
+      },
+      "pair_sources": [
+        [
+          "target",
+          "hw"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "hw"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_h"
+        ]
+      ],
+      "M2": [
+        "0x00005000",
+        "0x01100000",
+        "0x00004004",
+        "0x40105002",
+        "0x00000000",
+        "0x10001000",
+        "0x00000000",
+        "0x00200000",
+        "0x58002010",
+        "0x20020040",
+        "0x01808108",
+        "0x80000400",
+        "0x000a0000",
+        "0x00050000",
+        "0x9201c002",
+        "0x00400040"
+      ]
+    },
+    {
+      "pair_ids": [
+        8,
+        57,
+        179,
+        217,
+        230,
+        234
+      ],
+      "bits": [
+        7,
+        45,
+        50,
+        90,
+        158,
+        264,
+        290,
+        316,
+        391,
+        432,
+        456,
+        458
+      ],
+      "radius": 12,
+      "hw_total": 93,
+      "net_delta": 11,
+      "lane_hw": [
+        12,
+        14,
+        13,
+        9,
+        11,
+        15,
+        9,
+        10
+      ],
+      "cg_objective": 137.0,
+      "cg_delta": 7.0,
+      "target_l1": 27,
+      "target_l1_delta": 3,
+      "standalone_net_delta_sum": 198,
+      "delta_lane_sum": [
+        21,
+        39,
+        29,
+        28,
+        24,
+        18,
+        4,
+        35
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 164,
+        "pair_removed_occurrences": 260,
+        "pair_added_occurrences": 458,
+        "pair_removed_repeat_excess": 178,
+        "pair_added_repeat_excess": 294
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_h"
+        ],
+        [
+          "repair_h"
+        ]
+      ],
+      "M2": [
+        "0x00001080",
+        "0x00142000",
+        "0x04004004",
+        "0x40105002",
+        "0x40000000",
+        "0x10001000",
+        "0x00000000",
+        "0x00200000",
+        "0x08002100",
+        "0x30020044",
+        "0x01808108",
+        "0x00000000",
+        "0x00000080",
+        "0x00040000",
+        "0x12018502",
+        "0x00000040"
+      ]
+    },
+    {
+      "pair_ids": [
+        35,
+        45,
+        96,
+        129,
+        159,
+        183
+      ],
+      "bits": [
+        163,
+        172,
+        179,
+        195,
+        196,
+        219,
+        221,
+        298,
+        341,
+        404,
+        455,
+        469
+      ],
+      "radius": 12,
+      "hw_total": 93,
+      "net_delta": 11,
+      "lane_hw": [
+        18,
+        12,
+        8,
+        10,
+        13,
+        15,
+        9,
+        8
+      ],
+      "cg_objective": 127.0,
+      "cg_delta": -3.0,
+      "target_l1": 31,
+      "target_l1_delta": 7,
+      "standalone_net_delta_sum": 157,
+      "delta_lane_sum": [
+        24,
+        16,
+        29,
+        25,
+        31,
+        -9,
+        -12,
+        53
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 81,
+        "pair_added_union_total": 165,
+        "pair_removed_occurrences": 275,
+        "pair_added_occurrences": 432,
+        "pair_removed_repeat_excess": 194,
+        "pair_added_repeat_excess": 267
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair",
+          "repair_f"
+        ],
+        [
+          "repair_b"
+        ],
+        [
+          "repair"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00100000",
+        "0x00004004",
+        "0x40105002",
+        "0x00000000",
+        "0x10080008",
+        "0x28000018",
+        "0x00200000",
+        "0x08002000",
+        "0x20020440",
+        "0x01a08108",
+        "0x00000000",
+        "0x00100000",
+        "0x00050000",
+        "0x12218082",
+        "0x00000040"
+      ]
+    },
+    {
+      "pair_ids": [
+        22,
+        33,
+        61,
+        148,
+        198,
+        223
+      ],
+      "bits": [
+        50,
+        56,
+        101,
+        136,
+        240,
+        368,
+        389,
+        405,
+        422,
+        432,
+        453,
+        485
+      ],
+      "radius": 12,
+      "hw_total": 94,
+      "net_delta": 12,
+      "lane_hw": [
+        9,
+        13,
+        13,
+        12,
+        10,
+        12,
+        11,
+        14
+      ],
+      "cg_objective": 142.0,
+      "cg_delta": 12.0,
+      "target_l1": 14,
+      "target_l1_delta": -10,
+      "standalone_net_delta_sum": 165,
+      "delta_lane_sum": [
+        40,
+        29,
+        32,
+        14,
+        15,
+        -8,
+        -7,
+        50
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 170,
+        "pair_removed_occurrences": 270,
+        "pair_added_occurrences": 435,
+        "pair_removed_repeat_excess": 188,
+        "pair_added_repeat_excess": 265
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair",
+          "repair_f"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_d"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x01140000",
+        "0x00004004",
+        "0x40105022",
+        "0x00000100",
+        "0x10001000",
+        "0x00000000",
+        "0x00210000",
+        "0x08002000",
+        "0x20020040",
+        "0x01808108",
+        "0x00010000",
+        "0x00200020",
+        "0x00040040",
+        "0x12018022",
+        "0x00000060"
+      ]
+    },
+    {
+      "pair_ids": [
+        17,
+        97,
+        104,
+        126,
+        145,
+        179
+      ],
+      "bits": [
+        17,
+        79,
+        136,
+        161,
+        173,
+        178,
+        192,
+        219,
+        391,
+        396,
+        432,
+        458
+      ],
+      "radius": 12,
+      "hw_total": 94,
+      "net_delta": 12,
+      "lane_hw": [
+        9,
+        11,
+        13,
+        15,
+        10,
+        13,
+        9,
+        14
+      ],
+      "cg_objective": 138.0,
+      "cg_delta": 8.0,
+      "target_l1": 16,
+      "target_l1_delta": -8,
+      "standalone_net_delta_sum": 146,
+      "delta_lane_sum": [
+        35,
+        22,
+        3,
+        25,
+        10,
+        8,
+        -11,
+        54
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 166,
+        "pair_removed_occurrences": 280,
+        "pair_added_occurrences": 426,
+        "pair_removed_repeat_excess": 198,
+        "pair_added_repeat_excess": 260
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair_b"
+        ],
+        [
+          "repair",
+          "cg",
+          "repair_c"
+        ],
+        [
+          "repair"
+        ]
+      ],
+      "M2": [
+        "0x00021000",
+        "0x00100000",
+        "0x0000c004",
+        "0x40105002",
+        "0x00000100",
+        "0x10043002",
+        "0x08000001",
+        "0x00200000",
+        "0x08002000",
+        "0x20020040",
+        "0x01808108",
+        "0x00000000",
+        "0x00001080",
+        "0x00040000",
+        "0x12018402",
+        "0x00000040"
+      ]
+    },
+    {
+      "pair_ids": [
+        88,
+        105,
+        113,
+        124,
+        151,
+        157
+      ],
+      "bits": [
+        70,
+        120,
+        122,
+        154,
+        155,
+        166,
+        328,
+        377,
+        407,
+        467,
+        476,
+        481
+      ],
+      "radius": 12,
+      "hw_total": 94,
+      "net_delta": 12,
+      "lane_hw": [
+        10,
+        13,
+        12,
+        13,
+        14,
+        10,
+        10,
+        12
+      ],
+      "cg_objective": 138.0,
+      "cg_delta": 8.0,
+      "target_l1": 16,
+      "target_l1_delta": -8,
+      "standalone_net_delta_sum": 144,
+      "delta_lane_sum": [
+        26,
+        29,
+        8,
+        17,
+        38,
+        -20,
+        -12,
+        58
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 164,
+        "pair_removed_occurrences": 292,
+        "pair_added_occurrences": 436,
+        "pair_removed_repeat_excess": 210,
+        "pair_added_repeat_excess": 272
+      },
+      "pair_sources": [
+        [
+          "cg"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair",
+          "repair_f"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_d"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00100000",
+        "0x00004044",
+        "0x45105002",
+        "0x0c000000",
+        "0x10001040",
+        "0x00000000",
+        "0x00200000",
+        "0x08002000",
+        "0x20020040",
+        "0x01808008",
+        "0x02000000",
+        "0x00800000",
+        "0x00050000",
+        "0x02098002",
+        "0x00000042"
+      ]
+    }
+  ],
+  "top_by_target_l1": [
+    {
+      "pair_ids": [
+        10,
+        28,
+        71,
+        102,
+        106,
+        147
+      ],
+      "bits": [
+        105,
+        120,
+        127,
+        128,
+        144,
+        164,
+        189,
+        230,
+        275,
+        362,
+        404,
+        444
+      ],
+      "radius": 12,
+      "hw_total": 89,
+      "net_delta": 7,
+      "lane_hw": [
+        12,
+        12,
+        9,
+        15,
+        10,
+        8,
+        12,
+        11
+      ],
+      "cg_objective": 131.0,
+      "cg_delta": 1.0,
+      "target_l1": 13,
+      "target_l1_delta": -11,
+      "standalone_net_delta_sum": 130,
+      "delta_lane_sum": [
+        17,
+        26,
+        3,
+        23,
+        21,
+        7,
+        -11,
+        44
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 167,
+        "pair_removed_occurrences": 288,
+        "pair_added_occurrences": 418,
+        "pair_removed_repeat_excess": 206,
+        "pair_added_repeat_excess": 251
+      },
+      "pair_sources": [
+        [
+          "target",
+          "hw",
+          "cg"
+        ],
+        [
+          "target",
+          "hw"
+        ],
+        [
+          "target"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00100000",
+        "0x00004004",
+        "0xc1105202",
+        "0x00010001",
+        "0x30001010",
+        "0x00000000",
+        "0x00200040",
+        "0x08082000",
+        "0x20020040",
+        "0x01808108",
+        "0x00000400",
+        "0x00100000",
+        "0x10050000",
+        "0x12018002",
+        "0x00000040"
+      ]
+    },
+    {
+      "pair_ids": [
+        21,
+        59,
+        68,
+        78,
+        167,
+        203
+      ],
+      "bits": [
+        36,
+        89,
+        114,
+        154,
+        182,
+        266,
+        352,
+        426,
+        463,
+        477,
+        495,
+        504
+      ],
+      "radius": 12,
+      "hw_total": 90,
+      "net_delta": 8,
+      "lane_hw": [
+        10,
+        11,
+        12,
+        11,
+        10,
+        13,
+        8,
+        15
+      ],
+      "cg_objective": 130.0,
+      "cg_delta": 0.0,
+      "target_l1": 14,
+      "target_l1_delta": -10,
+      "standalone_net_delta_sum": 165,
+      "delta_lane_sum": [
+        28,
+        27,
+        8,
+        24,
+        19,
+        1,
+        -6,
+        64
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 81,
+        "pair_added_union_total": 168,
+        "pair_removed_occurrences": 283,
+        "pair_added_occurrences": 448,
+        "pair_removed_repeat_excess": 202,
+        "pair_added_repeat_excess": 280
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair",
+          "repair_g"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00100010",
+        "0x02004004",
+        "0x40145002",
+        "0x04000000",
+        "0x10401000",
+        "0x00000000",
+        "0x00200000",
+        "0x08002400",
+        "0x20020040",
+        "0x01808108",
+        "0x00000001",
+        "0x00000000",
+        "0x00050400",
+        "0x32010002",
+        "0x01008040"
+      ]
+    },
+    {
+      "pair_ids": [
+        22,
+        33,
+        61,
+        148,
+        198,
+        223
+      ],
+      "bits": [
+        50,
+        56,
+        101,
+        136,
+        240,
+        368,
+        389,
+        405,
+        422,
+        432,
+        453,
+        485
+      ],
+      "radius": 12,
+      "hw_total": 94,
+      "net_delta": 12,
+      "lane_hw": [
+        9,
+        13,
+        13,
+        12,
+        10,
+        12,
+        11,
+        14
+      ],
+      "cg_objective": 142.0,
+      "cg_delta": 12.0,
+      "target_l1": 14,
+      "target_l1_delta": -10,
+      "standalone_net_delta_sum": 165,
+      "delta_lane_sum": [
+        40,
+        29,
+        32,
+        14,
+        15,
+        -8,
+        -7,
+        50
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 170,
+        "pair_removed_occurrences": 270,
+        "pair_added_occurrences": 435,
+        "pair_removed_repeat_excess": 188,
+        "pair_added_repeat_excess": 265
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair",
+          "repair_f"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_d"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x01140000",
+        "0x00004004",
+        "0x40105022",
+        "0x00000100",
+        "0x10001000",
+        "0x00000000",
+        "0x00210000",
+        "0x08002000",
+        "0x20020040",
+        "0x01808108",
+        "0x00010000",
+        "0x00200020",
+        "0x00040040",
+        "0x12018022",
+        "0x00000060"
+      ]
+    },
+    {
+      "pair_ids": [
+        15,
+        21,
+        30,
+        101,
+        223,
+        231
+      ],
+      "bits": [
+        89,
+        100,
+        101,
+        107,
+        169,
+        238,
+        325,
+        338,
+        352,
+        380,
+        422,
+        432
+      ],
+      "radius": 12,
+      "hw_total": 89,
+      "net_delta": 7,
+      "lane_hw": [
+        10,
+        13,
+        12,
+        11,
+        12,
+        8,
+        12,
+        11
+      ],
+      "cg_objective": 137.0,
+      "cg_delta": 7.0,
+      "target_l1": 15,
+      "target_l1_delta": -9,
+      "standalone_net_delta_sum": 159,
+      "delta_lane_sum": [
+        25,
+        32,
+        16,
+        12,
+        24,
+        7,
+        5,
+        38
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 166,
+        "pair_removed_occurrences": 263,
+        "pair_added_occurrences": 422,
+        "pair_removed_repeat_excess": 181,
+        "pair_added_repeat_excess": 256
+      },
+      "pair_sources": [
+        [
+          "target",
+          "cg"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target",
+          "hw"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair_d"
+        ],
+        [
+          "repair_h"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00100000",
+        "0x02004004",
+        "0x40105832",
+        "0x00000000",
+        "0x10001200",
+        "0x00000000",
+        "0x00204000",
+        "0x08002000",
+        "0x20020040",
+        "0x01848128",
+        "0x10000001",
+        "0x00000000",
+        "0x00040040",
+        "0x12018002",
+        "0x00000040"
+      ]
+    },
+    {
+      "pair_ids": [
+        13,
+        26,
+        32,
+        121,
+        205,
+        211
+      ],
+      "bits": [
+        34,
+        172,
+        186,
+        217,
+        232,
+        305,
+        339,
+        367,
+        405,
+        427,
+        456,
+        496
+      ],
+      "radius": 12,
+      "hw_total": 93,
+      "net_delta": 11,
+      "lane_hw": [
+        10,
+        16,
+        9,
+        10,
+        10,
+        12,
+        11,
+        15
+      ],
+      "cg_objective": 133.0,
+      "cg_delta": 3.0,
+      "target_l1": 15,
+      "target_l1_delta": -9,
+      "standalone_net_delta_sum": 159,
+      "delta_lane_sum": [
+        28,
+        24,
+        15,
+        14,
+        15,
+        15,
+        -8,
+        56
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 81,
+        "pair_added_union_total": 169,
+        "pair_removed_occurrences": 267,
+        "pair_added_occurrences": 426,
+        "pair_removed_repeat_excess": 186,
+        "pair_added_repeat_excess": 257
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target",
+          "hw"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair_d"
+        ],
+        [
+          "repair",
+          "repair_g"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00100004",
+        "0x00004004",
+        "0x40105002",
+        "0x00000000",
+        "0x14000000",
+        "0x02000000",
+        "0x00200100",
+        "0x08002000",
+        "0x20000040",
+        "0x01888108",
+        "0x00008000",
+        "0x00200000",
+        "0x00050800",
+        "0x12018102",
+        "0x00010040"
+      ]
+    },
+    {
+      "pair_ids": [
+        11,
+        40,
+        57,
+        58,
+        74,
+        225
+      ],
+      "bits": [
+        124,
+        158,
+        207,
+        391,
+        396,
+        418,
+        420,
+        431,
+        432,
+        437,
+        441,
+        486
+      ],
+      "radius": 12,
+      "hw_total": 95,
+      "net_delta": 13,
+      "lane_hw": [
+        11,
+        11,
+        11,
+        13,
+        11,
+        14,
+        11,
+        13
+      ],
+      "cg_objective": 139.0,
+      "cg_delta": 9.0,
+      "target_l1": 15,
+      "target_l1_delta": -9,
+      "standalone_net_delta_sum": 154,
+      "delta_lane_sum": [
+        31,
+        21,
+        -3,
+        27,
+        23,
+        -3,
+        1,
+        57
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 164,
+        "pair_removed_occurrences": 282,
+        "pair_added_occurrences": 436,
+        "pair_removed_repeat_excess": 200,
+        "pair_added_repeat_excess": 272
+      },
+      "pair_sources": [
+        [
+          "target",
+          "hw",
+          "cg"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target",
+          "repair"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair_c"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00100000",
+        "0x00004004",
+        "0x50105002",
+        "0x40000000",
+        "0x10001000",
+        "0x00008000",
+        "0x00200000",
+        "0x08002000",
+        "0x20020040",
+        "0x01808108",
+        "0x00000000",
+        "0x00001080",
+        "0x02248014",
+        "0x12018002",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        5,
+        95,
+        132,
+        190,
+        219,
+        223
+      ],
+      "bits": [
+        6,
+        57,
+        101,
+        138,
+        210,
+        215,
+        217,
+        303,
+        423,
+        432,
+        456,
+        480
+      ],
+      "radius": 12,
+      "hw_total": 97,
+      "net_delta": 15,
+      "lane_hw": [
+        13,
+        11,
+        11,
+        12,
+        15,
+        10,
+        10,
+        15
+      ],
+      "cg_objective": 139.0,
+      "cg_delta": 9.0,
+      "target_l1": 15,
+      "target_l1_delta": -9,
+      "standalone_net_delta_sum": 175,
+      "delta_lane_sum": [
+        35,
+        13,
+        26,
+        20,
+        17,
+        13,
+        2,
+        49
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 168,
+        "pair_removed_occurrences": 264,
+        "pair_added_occurrences": 439,
+        "pair_removed_repeat_excess": 182,
+        "pair_added_repeat_excess": 271
+      },
+      "pair_sources": [
+        [
+          "target",
+          "hw"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair",
+          "repair_b"
+        ],
+        [
+          "repair_e"
+        ],
+        [
+          "repair_d"
+        ]
+      ],
+      "M2": [
+        "0x00001040",
+        "0x02100000",
+        "0x00004004",
+        "0x40105022",
+        "0x00000400",
+        "0x10001000",
+        "0x02840000",
+        "0x00200000",
+        "0x08002000",
+        "0x20028040",
+        "0x01808108",
+        "0x00000000",
+        "0x00000000",
+        "0x00040080",
+        "0x12018102",
+        "0x00000041"
+      ]
+    },
+    {
+      "pair_ids": [
+        31,
+        52,
+        64,
+        145,
+        166,
+        207
+      ],
+      "bits": [
+        17,
+        33,
+        57,
+        219,
+        244,
+        290,
+        355,
+        369,
+        398,
+        483,
+        505
+      ],
+      "radius": 11,
+      "hw_total": 97,
+      "net_delta": 15,
+      "lane_hw": [
+        10,
+        13,
+        10,
+        13,
+        10,
+        12,
+        12,
+        17
+      ],
+      "cg_objective": 141.0,
+      "cg_delta": 11.0,
+      "target_l1": 15,
+      "target_l1_delta": -9,
+      "standalone_net_delta_sum": 163,
+      "delta_lane_sum": [
+        31,
+        24,
+        6,
+        24,
+        26,
+        -22,
+        18,
+        56
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 169,
+        "pair_removed_occurrences": 291,
+        "pair_added_occurrences": 454,
+        "pair_removed_repeat_excess": 209,
+        "pair_added_repeat_excess": 285
+      },
+      "pair_sources": [
+        [
+          "target",
+          "hw"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair",
+          "cg",
+          "repair_c"
+        ],
+        [
+          "repair",
+          "repair_f"
+        ],
+        [
+          "repair"
+        ]
+      ],
+      "M2": [
+        "0x00021000",
+        "0x02100002",
+        "0x00004004",
+        "0x40105002",
+        "0x00000000",
+        "0x10001000",
+        "0x08000000",
+        "0x00300000",
+        "0x08002000",
+        "0x20020044",
+        "0x01808108",
+        "0x00020008",
+        "0x00004000",
+        "0x00050000",
+        "0x12018002",
+        "0x02000048"
+      ]
+    },
+    {
+      "pair_ids": [
+        12,
+        63,
+        69,
+        71,
+        86,
+        197
+      ],
+      "bits": [
+        35,
+        68,
+        100,
+        127,
+        144,
+        215,
+        223,
+        312,
+        383,
+        414,
+        486,
+        492
+      ],
+      "radius": 12,
+      "hw_total": 97,
+      "net_delta": 15,
+      "lane_hw": [
+        13,
+        13,
+        11,
+        14,
+        10,
+        10,
+        12,
+        14
+      ],
+      "cg_objective": 143.0,
+      "cg_delta": 13.0,
+      "target_l1": 15,
+      "target_l1_delta": -9,
+      "standalone_net_delta_sum": 145,
+      "delta_lane_sum": [
+        35,
+        19,
+        17,
+        12,
+        10,
+        -6,
+        -1,
+        59
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 81,
+        "pair_added_union_total": 166,
+        "pair_removed_occurrences": 282,
+        "pair_added_occurrences": 427,
+        "pair_removed_repeat_excess": 201,
+        "pair_added_repeat_excess": 261
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_d"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00100008",
+        "0x00004014",
+        "0xc0105012",
+        "0x00010000",
+        "0x10001000",
+        "0x80800000",
+        "0x00200000",
+        "0x08002000",
+        "0x21020040",
+        "0x01808108",
+        "0x80000000",
+        "0x40000000",
+        "0x00050000",
+        "0x12018002",
+        "0x00001000"
+      ]
+    },
+    {
+      "pair_ids": [
+        54,
+        59,
+        140,
+        154,
+        188,
+        198
+      ],
+      "bits": [
+        50,
+        132,
+        150,
+        152,
+        182,
+        389,
+        420,
+        449,
+        477,
+        492,
+        500,
+        502
+      ],
+      "radius": 12,
+      "hw_total": 97,
+      "net_delta": 15,
+      "lane_hw": [
+        10,
+        15,
+        13,
+        12,
+        13,
+        10,
+        10,
+        14
+      ],
+      "cg_objective": 143.0,
+      "cg_delta": 13.0,
+      "target_l1": 15,
+      "target_l1_delta": -9,
+      "standalone_net_delta_sum": 164,
+      "delta_lane_sum": [
+        39,
+        19,
+        12,
+        20,
+        21,
+        6,
+        -16,
+        63
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 170,
+        "pair_removed_occurrences": 285,
+        "pair_added_occurrences": 449,
+        "pair_removed_repeat_excess": 203,
+        "pair_added_repeat_excess": 279
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair_e"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00140000",
+        "0x00004004",
+        "0x40105002",
+        "0x01400010",
+        "0x10401000",
+        "0x00000000",
+        "0x00200000",
+        "0x08002000",
+        "0x20020040",
+        "0x01808108",
+        "0x00000000",
+        "0x00000020",
+        "0x00050010",
+        "0x32018000",
+        "0x00501040"
+      ]
+    },
+    {
+      "pair_ids": [
+        33,
+        47,
+        74,
+        138,
+        179,
+        185
+      ],
+      "bits": [
+        6,
+        56,
+        67,
+        118,
+        162,
+        345,
+        368,
+        391,
+        398,
+        431,
+        458,
+        486
+      ],
+      "radius": 12,
+      "hw_total": 97,
+      "net_delta": 15,
+      "lane_hw": [
+        15,
+        11,
+        14,
+        13,
+        10,
+        8,
+        12,
+        14
+      ],
+      "cg_objective": 149.0,
+      "cg_delta": 19.0,
+      "target_l1": 15,
+      "target_l1_delta": -9,
+      "standalone_net_delta_sum": 152,
+      "delta_lane_sum": [
+        25,
+        21,
+        18,
+        20,
+        32,
+        -5,
+        -6,
+        47
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 168,
+        "pair_removed_occurrences": 279,
+        "pair_added_occurrences": 431,
+        "pair_removed_repeat_excess": 197,
+        "pair_added_repeat_excess": 263
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair",
+          "repair_f"
+        ]
+      ],
+      "M2": [
+        "0x00001040",
+        "0x01100000",
+        "0x0000400c",
+        "0x40505002",
+        "0x00000000",
+        "0x10001004",
+        "0x00000000",
+        "0x00200000",
+        "0x08002000",
+        "0x20020040",
+        "0x03808108",
+        "0x00010000",
+        "0x00004080",
+        "0x00058000",
+        "0x12018402",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        56,
+        59,
+        74,
+        79,
+        190,
+        229
+      ],
+      "bits": [
+        83,
+        88,
+        173,
+        182,
+        210,
+        215,
+        325,
+        385,
+        431,
+        477,
+        486
+      ],
+      "radius": 11,
+      "hw_total": 97,
+      "net_delta": 15,
+      "lane_hw": [
+        13,
+        11,
+        13,
+        14,
+        9,
+        7,
+        13,
+        17
+      ],
+      "cg_objective": 149.0,
+      "cg_delta": 19.0,
+      "target_l1": 15,
+      "target_l1_delta": -9,
+      "standalone_net_delta_sum": 171,
+      "delta_lane_sum": [
+        39,
+        12,
+        -4,
+        30,
+        26,
+        -2,
+        9,
+        61
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 81,
+        "pair_added_union_total": 162,
+        "pair_removed_occurrences": 277,
+        "pair_added_occurrences": 448,
+        "pair_removed_repeat_excess": 196,
+        "pair_added_repeat_excess": 286
+      },
+      "pair_sources": [
+        [
+          "target",
+          "cg"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair",
+          "repair_b"
+        ],
+        [
+          "repair_c"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00100000",
+        "0x01084004",
+        "0x40105002",
+        "0x00000000",
+        "0x10403000",
+        "0x00840000",
+        "0x00200000",
+        "0x08002000",
+        "0x20020040",
+        "0x01808128",
+        "0x00000000",
+        "0x00000002",
+        "0x00058000",
+        "0x32018002",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        17,
+        97,
+        104,
+        126,
+        145,
+        179
+      ],
+      "bits": [
+        17,
+        79,
+        136,
+        161,
+        173,
+        178,
+        192,
+        219,
+        391,
+        396,
+        432,
+        458
+      ],
+      "radius": 12,
+      "hw_total": 94,
+      "net_delta": 12,
+      "lane_hw": [
+        9,
+        11,
+        13,
+        15,
+        10,
+        13,
+        9,
+        14
+      ],
+      "cg_objective": 138.0,
+      "cg_delta": 8.0,
+      "target_l1": 16,
+      "target_l1_delta": -8,
+      "standalone_net_delta_sum": 146,
+      "delta_lane_sum": [
+        35,
+        22,
+        3,
+        25,
+        10,
+        8,
+        -11,
+        54
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 166,
+        "pair_removed_occurrences": 280,
+        "pair_added_occurrences": 426,
+        "pair_removed_repeat_excess": 198,
+        "pair_added_repeat_excess": 260
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair_b"
+        ],
+        [
+          "repair",
+          "cg",
+          "repair_c"
+        ],
+        [
+          "repair"
+        ]
+      ],
+      "M2": [
+        "0x00021000",
+        "0x00100000",
+        "0x0000c004",
+        "0x40105002",
+        "0x00000100",
+        "0x10043002",
+        "0x08000001",
+        "0x00200000",
+        "0x08002000",
+        "0x20020040",
+        "0x01808108",
+        "0x00000000",
+        "0x00001080",
+        "0x00040000",
+        "0x12018402",
+        "0x00000040"
+      ]
+    },
+    {
+      "pair_ids": [
+        88,
+        105,
+        113,
+        124,
+        151,
+        157
+      ],
+      "bits": [
+        70,
+        120,
+        122,
+        154,
+        155,
+        166,
+        328,
+        377,
+        407,
+        467,
+        476,
+        481
+      ],
+      "radius": 12,
+      "hw_total": 94,
+      "net_delta": 12,
+      "lane_hw": [
+        10,
+        13,
+        12,
+        13,
+        14,
+        10,
+        10,
+        12
+      ],
+      "cg_objective": 138.0,
+      "cg_delta": 8.0,
+      "target_l1": 16,
+      "target_l1_delta": -8,
+      "standalone_net_delta_sum": 144,
+      "delta_lane_sum": [
+        26,
+        29,
+        8,
+        17,
+        38,
+        -20,
+        -12,
+        58
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 164,
+        "pair_removed_occurrences": 292,
+        "pair_added_occurrences": 436,
+        "pair_removed_repeat_excess": 210,
+        "pair_added_repeat_excess": 272
+      },
+      "pair_sources": [
+        [
+          "cg"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair",
+          "repair_f"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_d"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00100000",
+        "0x00004044",
+        "0x45105002",
+        "0x0c000000",
+        "0x10001040",
+        "0x00000000",
+        "0x00200000",
+        "0x08002000",
+        "0x20020040",
+        "0x01808008",
+        "0x02000000",
+        "0x00800000",
+        "0x00050000",
+        "0x02098002",
+        "0x00000042"
+      ]
+    },
+    {
+      "pair_ids": [
+        5,
+        29,
+        130,
+        137,
+        179,
+        233
+      ],
+      "bits": [
+        1,
+        9,
+        49,
+        167,
+        175,
+        217,
+        271,
+        303,
+        349,
+        389,
+        391,
+        458
+      ],
+      "radius": 12,
+      "hw_total": 94,
+      "net_delta": 12,
+      "lane_hw": [
+        13,
+        13,
+        14,
+        10,
+        11,
+        8,
+        10,
+        15
+      ],
+      "cg_objective": 142.0,
+      "cg_delta": 12.0,
+      "target_l1": 16,
+      "target_l1_delta": -8,
+      "standalone_net_delta_sum": 151,
+      "delta_lane_sum": [
+        22,
+        3,
+        16,
+        23,
+        21,
+        12,
+        -2,
+        56
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 165,
+        "pair_removed_occurrences": 301,
+        "pair_added_occurrences": 452,
+        "pair_removed_repeat_excess": 219,
+        "pair_added_repeat_excess": 287
+      },
+      "pair_sources": [
+        [
+          "target",
+          "hw"
+        ],
+        [
+          "target",
+          "hw",
+          "cg"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "hw",
+          "repair_b"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_b"
+        ]
+      ],
+      "M2": [
+        "0x00001202",
+        "0x00120000",
+        "0x00004004",
+        "0x40105002",
+        "0x00000000",
+        "0x10009080",
+        "0x02000000",
+        "0x00200000",
+        "0x0800a000",
+        "0x20028040",
+        "0x21808108",
+        "0x00000000",
+        "0x000000a0",
+        "0x00050000",
+        "0x12018402",
+        "0x00000040"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        50,
+        109,
+        135,
+        138,
+        213
+      ],
+      "bits": [
+        6,
+        18,
+        67,
+        103,
+        121,
+        178,
+        230,
+        284,
+        324,
+        371,
+        404,
+        466
+      ],
+      "radius": 12,
+      "hw_total": 96,
+      "net_delta": 14,
+      "lane_hw": [
+        9,
+        13,
+        11,
+        13,
+        11,
+        14,
+        11,
+        14
+      ],
+      "cg_objective": 140.0,
+      "cg_delta": 10.0,
+      "target_l1": 16,
+      "target_l1_delta": -8,
+      "standalone_net_delta_sum": 146,
+      "delta_lane_sum": [
+        27,
+        25,
+        10,
+        24,
+        20,
+        3,
+        -4,
+        41
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 169,
+        "pair_removed_occurrences": 293,
+        "pair_added_occurrences": 439,
+        "pair_removed_repeat_excess": 211,
+        "pair_added_repeat_excess": 270
+      },
+      "pair_sources": [
+        [
+          "target",
+          "hw",
+          "cg"
+        ],
+        [
+          "target"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_b"
+        ]
+      ],
+      "M2": [
+        "0x00041040",
+        "0x00100000",
+        "0x0000400c",
+        "0x42105082",
+        "0x00000000",
+        "0x10041000",
+        "0x00000000",
+        "0x00200040",
+        "0x18002000",
+        "0x20020040",
+        "0x01808118",
+        "0x00080000",
+        "0x00100000",
+        "0x00050000",
+        "0x12058002",
+        "0x00000040"
+      ]
+    },
+    {
+      "pair_ids": [
+        3,
+        6,
+        22,
+        57,
+        128,
+        232
+      ],
+      "bits": [
+        15,
+        17,
+        136,
+        158,
+        185,
+        212,
+        286,
+        289,
+        393,
+        401,
+        432,
+        453
+      ],
+      "radius": 12,
+      "hw_total": 96,
+      "net_delta": 14,
+      "lane_hw": [
+        13,
+        14,
+        13,
+        11,
+        11,
+        8,
+        12,
+        14
+      ],
+      "cg_objective": 146.0,
+      "cg_delta": 16.0,
+      "target_l1": 16,
+      "target_l1_delta": -8,
+      "standalone_net_delta_sum": 150,
+      "delta_lane_sum": [
+        25,
+        15,
+        10,
+        25,
+        30,
+        7,
+        -20,
+        58
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 169,
+        "pair_removed_occurrences": 287,
+        "pair_added_occurrences": 437,
+        "pair_removed_repeat_excess": 205,
+        "pair_added_repeat_excess": 268
+      },
+      "pair_sources": [
+        [
+          "target",
+          "hw"
+        ],
+        [
+          "target",
+          "repair",
+          "cg"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair",
+          "repair_g"
+        ]
+      ],
+      "M2": [
+        "0x00029000",
+        "0x00100000",
+        "0x00004004",
+        "0x40105002",
+        "0x40000100",
+        "0x12001000",
+        "0x00100000",
+        "0x00200000",
+        "0x48002000",
+        "0x20020042",
+        "0x01808108",
+        "0x00000000",
+        "0x00020200",
+        "0x00040000",
+        "0x12018022",
+        "0x00000040"
+      ]
+    },
+    {
+      "pair_ids": [
+        14,
+        25,
+        136,
+        158,
+        178,
+        195
+      ],
+      "bits": [
+        162,
+        164,
+        210,
+        240,
+        285,
+        342,
+        382,
+        385,
+        396,
+        412,
+        425,
+        471
+      ],
+      "radius": 12,
+      "hw_total": 96,
+      "net_delta": 14,
+      "lane_hw": [
+        14,
+        11,
+        11,
+        11,
+        10,
+        9,
+        15,
+        15
+      ],
+      "cg_objective": 148.0,
+      "cg_delta": 18.0,
+      "target_l1": 16,
+      "target_l1_delta": -8,
+      "standalone_net_delta_sum": 173,
+      "delta_lane_sum": [
+        26,
+        36,
+        20,
+        22,
+        30,
+        -20,
+        0,
+        59
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 81,
+        "pair_added_union_total": 166,
+        "pair_removed_occurrences": 266,
+        "pair_added_occurrences": 439,
+        "pair_removed_repeat_excess": 185,
+        "pair_added_repeat_excess": 273
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_d"
+        ],
+        [
+          "repair",
+          "repair_f"
+        ],
+        [
+          "repair"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00100000",
+        "0x00004004",
+        "0x40105002",
+        "0x00000000",
+        "0x10001014",
+        "0x00040000",
+        "0x00210000",
+        "0x28002000",
+        "0x20020040",
+        "0x01c08108",
+        "0x40000000",
+        "0x10001002",
+        "0x00050200",
+        "0x12818002",
+        "0x00000040"
+      ]
+    },
+    {
+      "pair_ids": [
+        30,
+        31,
+        35,
+        70,
+        145,
+        219
+      ],
+      "bits": [
+        6,
+        17,
+        33,
+        89,
+        172,
+        182,
+        219,
+        238,
+        325,
+        404,
+        456,
+        483
+      ],
+      "radius": 12,
+      "hw_total": 98,
+      "net_delta": 16,
+      "lane_hw": [
+        13,
+        11,
+        11,
+        15,
+        12,
+        10,
+        11,
+        15
+      ],
+      "cg_objective": 142.0,
+      "cg_delta": 12.0,
+      "target_l1": 16,
+      "target_l1_delta": -8,
+      "standalone_net_delta_sum": 148,
+      "delta_lane_sum": [
+        21,
+        22,
+        5,
+        30,
+        16,
+        4,
+        -2,
+        52
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 81,
+        "pair_added_union_total": 168,
+        "pair_removed_occurrences": 279,
+        "pair_added_occurrences": 427,
+        "pair_removed_repeat_excess": 198,
+        "pair_added_repeat_excess": 259
+      },
+      "pair_sources": [
+        [
+          "target",
+          "hw"
+        ],
+        [
+          "target",
+          "hw"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair",
+          "cg",
+          "repair_c"
+        ],
+        [
+          "repair_e"
+        ]
+      ],
+      "M2": [
+        "0x00021040",
+        "0x00100002",
+        "0x02004004",
+        "0x40105002",
+        "0x00000000",
+        "0x10400000",
+        "0x08000000",
+        "0x00204000",
+        "0x08002000",
+        "0x20020040",
+        "0x01808128",
+        "0x00000000",
+        "0x00100000",
+        "0x00050000",
+        "0x12018102",
+        "0x00000048"
+      ]
+    },
+    {
+      "pair_ids": [
+        5,
+        17,
+        75,
+        140,
+        144,
+        158
+      ],
+      "bits": [
+        9,
+        60,
+        79,
+        136,
+        150,
+        217,
+        240,
+        285,
+        303,
+        377,
+        405,
+        449
+      ],
+      "radius": 12,
+      "hw_total": 98,
+      "net_delta": 16,
+      "lane_hw": [
+        13,
+        13,
+        11,
+        14,
+        11,
+        10,
+        12,
+        14
+      ],
+      "cg_objective": 144.0,
+      "cg_delta": 14.0,
+      "target_l1": 16,
+      "target_l1_delta": -8,
+      "standalone_net_delta_sum": 129,
+      "delta_lane_sum": [
+        19,
+        35,
+        6,
+        5,
+        9,
+        5,
+        -2,
+        52
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 167,
+        "pair_removed_occurrences": 291,
+        "pair_added_occurrences": 420,
+        "pair_removed_repeat_excess": 209,
+        "pair_added_repeat_excess": 253
+      },
+      "pair_sources": [
+        [
+          "target",
+          "hw"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair",
+          "repair_d"
+        ],
+        [
+          "repair_d"
+        ]
+      ],
+      "M2": [
+        "0x00001200",
+        "0x10100000",
+        "0x0000c004",
+        "0x40105002",
+        "0x00400100",
+        "0x10001000",
+        "0x02000000",
+        "0x00210000",
+        "0x28002000",
+        "0x20028040",
+        "0x01808108",
+        "0x02000000",
+        "0x00200000",
+        "0x00050000",
+        "0x12018000",
+        "0x00000040"
+      ]
+    },
+    {
+      "pair_ids": [
+        1,
+        28,
+        52,
+        90,
+        184,
+        187
+      ],
+      "bits": [
+        30,
+        33,
+        101,
+        120,
+        193,
+        240,
+        244,
+        306,
+        362,
+        369,
+        460,
+        468
+      ],
+      "radius": 12,
+      "hw_total": 98,
+      "net_delta": 16,
+      "lane_hw": [
+        11,
+        11,
+        13,
+        19,
+        13,
+        7,
+        10,
+        14
+      ],
+      "cg_objective": 144.0,
+      "cg_delta": 14.0,
+      "target_l1": 16,
+      "target_l1_delta": -8,
+      "standalone_net_delta_sum": 144,
+      "delta_lane_sum": [
+        22,
+        26,
+        4,
+        23,
+        14,
+        3,
+        -1,
+        53
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 168,
+        "pair_removed_occurrences": 285,
+        "pair_added_occurrences": 429,
+        "pair_removed_repeat_excess": 203,
+        "pair_added_repeat_excess": 261
+      },
+      "pair_sources": [
+        [
+          "target",
+          "hw",
+          "cg"
+        ],
+        [
+          "target",
+          "hw"
+        ],
+        [
+          "target"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair",
+          "repair_c"
+        ]
+      ],
+      "M2": [
+        "0x40001000",
+        "0x00100002",
+        "0x00004004",
+        "0x41105022",
+        "0x00000000",
+        "0x10001000",
+        "0x00000002",
+        "0x00310000",
+        "0x08002000",
+        "0x20060040",
+        "0x01808108",
+        "0x00020400",
+        "0x00000000",
+        "0x00050000",
+        "0x12119002",
+        "0x00000040"
+      ]
+    },
+    {
+      "pair_ids": [
+        74,
+        115,
+        203,
+        209,
+        213,
+        230
+      ],
+      "bits": [
+        18,
+        45,
+        121,
+        209,
+        266,
+        285,
+        333,
+        431,
+        456,
+        463,
+        486,
+        505
+      ],
+      "radius": 12,
+      "hw_total": 98,
+      "net_delta": 16,
+      "lane_hw": [
+        10,
+        17,
+        13,
+        12,
+        10,
+        10,
+        11,
+        15
+      ],
+      "cg_objective": 146.0,
+      "cg_delta": 16.0,
+      "target_l1": 16,
+      "target_l1_delta": -8,
+      "standalone_net_delta_sum": 194,
+      "delta_lane_sum": [
+        42,
+        23,
+        22,
+        29,
+        34,
+        20,
+        -14,
+        38
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 81,
+        "pair_added_union_total": 166,
+        "pair_removed_occurrences": 268,
+        "pair_added_occurrences": 462,
+        "pair_removed_repeat_excess": 187,
+        "pair_added_repeat_excess": 296
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair",
+          "repair_g"
+        ],
+        [
+          "repair",
+          "repair_g"
+        ],
+        [
+          "repair_b"
+        ],
+        [
+          "repair_h"
+        ]
+      ],
+      "M2": [
+        "0x00041000",
+        "0x00102000",
+        "0x00004004",
+        "0x42105002",
+        "0x00000000",
+        "0x10001000",
+        "0x00020000",
+        "0x00200000",
+        "0x28002400",
+        "0x20020040",
+        "0x0180a108",
+        "0x00000000",
+        "0x00000000",
+        "0x00058000",
+        "0x12010102",
+        "0x02000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        26,
+        83,
+        97,
+        112,
+        139,
+        175
+      ],
+      "bits": [
+        106,
+        125,
+        178,
+        281,
+        323,
+        361,
+        367,
+        377,
+        396,
+        446,
+        496,
+        505
+      ],
+      "radius": 12,
+      "hw_total": 98,
+      "net_delta": 16,
+      "lane_hw": [
+        11,
+        13,
+        12,
+        13,
+        15,
+        7,
+        12,
+        15
+      ],
+      "cg_objective": 146.0,
+      "cg_delta": 16.0,
+      "target_l1": 16,
+      "target_l1_delta": -8,
+      "standalone_net_delta_sum": 156,
+      "delta_lane_sum": [
+        36,
+        12,
+        11,
+        32,
+        8,
+        -6,
+        2,
+        61
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 164,
+        "pair_removed_occurrences": 287,
+        "pair_added_occurrences": 443,
+        "pair_removed_repeat_excess": 205,
+        "pair_added_repeat_excess": 279
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_e"
+        ],
+        [
+          "repair_b"
+        ],
+        [
+          "repair"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00100000",
+        "0x00004004",
+        "0x60105402",
+        "0x00000000",
+        "0x10041000",
+        "0x00000000",
+        "0x00200000",
+        "0x0a002000",
+        "0x20020040",
+        "0x01808100",
+        "0x02008200",
+        "0x00001000",
+        "0x40050000",
+        "0x12018002",
+        "0x02010040"
+      ]
+    },
+    {
+      "pair_ids": [
+        46,
+        52,
+        129,
+        149,
+        192,
+        199
+      ],
+      "bits": [
+        75,
+        200,
+        244,
+        248,
+        249,
+        258,
+        298,
+        369,
+        414,
+        429,
+        455,
+        465
+      ],
+      "radius": 12,
+      "hw_total": 95,
+      "net_delta": 13,
+      "lane_hw": [
+        17,
+        10,
+        10,
+        14,
+        11,
+        10,
+        10,
+        13
+      ],
+      "cg_objective": 135.0,
+      "cg_delta": 5.0,
+      "target_l1": 17,
+      "target_l1_delta": -7,
+      "standalone_net_delta_sum": 183,
+      "delta_lane_sum": [
+        28,
+        31,
+        16,
+        32,
+        28,
+        -23,
+        13,
+        58
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 81,
+        "pair_added_union_total": 168,
+        "pair_removed_occurrences": 276,
+        "pair_added_occurrences": 459,
+        "pair_removed_repeat_excess": 195,
+        "pair_added_repeat_excess": 291
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair",
+          "repair_f"
+        ],
+        [
+          "repair",
+          "repair_f"
+        ],
+        [
+          "repair_c"
+        ],
+        [
+          "repair"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00100000",
+        "0x00004804",
+        "0x40105002",
+        "0x00000000",
+        "0x10001000",
+        "0x00000100",
+        "0x03300000",
+        "0x08002004",
+        "0x20020440",
+        "0x01808108",
+        "0x00020000",
+        "0x40000000",
+        "0x00052000",
+        "0x12038082",
+        "0x00000040"
+      ]
+    },
+    {
+      "pair_ids": [
+        12,
+        14,
+        55,
+        59,
+        135,
+        174
+      ],
+      "bits": [
+        8,
+        100,
+        162,
+        165,
+        178,
+        182,
+        284,
+        312,
+        318,
+        390,
+        425,
+        477
+      ],
+      "radius": 12,
+      "hw_total": 95,
+      "net_delta": 13,
+      "lane_hw": [
+        9,
+        10,
+        11,
+        16,
+        11,
+        13,
+        10,
+        15
+      ],
+      "cg_objective": 137.0,
+      "cg_delta": 7.0,
+      "target_l1": 17,
+      "target_l1_delta": -7,
+      "standalone_net_delta_sum": 141,
+      "delta_lane_sum": [
+        32,
+        23,
+        11,
+        17,
+        18,
+        -18,
+        -5,
+        63
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 167,
+        "pair_removed_occurrences": 285,
+        "pair_added_occurrences": 426,
+        "pair_removed_repeat_excess": 203,
+        "pair_added_repeat_excess": 259
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target",
+          "repair",
+          "repair_f"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair"
+        ]
+      ],
+      "M2": [
+        "0x00001100",
+        "0x00100000",
+        "0x00004004",
+        "0x40105012",
+        "0x00000000",
+        "0x10441024",
+        "0x00000000",
+        "0x00200000",
+        "0x18002000",
+        "0x61020040",
+        "0x01808108",
+        "0x00000000",
+        "0x00000040",
+        "0x00050200",
+        "0x32018002",
+        "0x00000040"
+      ]
+    },
+    {
+      "pair_ids": [
+        39,
+        56,
+        91,
+        162,
+        165,
+        209
+      ],
+      "bits": [
+        73,
+        83,
+        177,
+        197,
+        209,
+        214,
+        331,
+        385,
+        465,
+        469,
+        483,
+        505
+      ],
+      "radius": 12,
+      "hw_total": 97,
+      "net_delta": 15,
+      "lane_hw": [
+        13,
+        10,
+        11,
+        18,
+        10,
+        9,
+        11,
+        15
+      ],
+      "cg_objective": 141.0,
+      "cg_delta": 11.0,
+      "target_l1": 17,
+      "target_l1_delta": -7,
+      "standalone_net_delta_sum": 161,
+      "delta_lane_sum": [
+        34,
+        31,
+        14,
+        22,
+        0,
+        20,
+        -8,
+        48
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 80,
+        "pair_added_union_total": 164,
+        "pair_removed_occurrences": 274,
+        "pair_added_occurrences": 435,
+        "pair_removed_repeat_excess": 194,
+        "pair_added_repeat_excess": 271
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target",
+          "cg"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_e"
+        ],
+        [
+          "repair_e"
+        ],
+        [
+          "repair",
+          "repair_g"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00100000",
+        "0x00084204",
+        "0x40105002",
+        "0x00000000",
+        "0x10021000",
+        "0x00420020",
+        "0x00200000",
+        "0x08002000",
+        "0x20020040",
+        "0x01808908",
+        "0x00000000",
+        "0x00000002",
+        "0x00050000",
+        "0x12238002",
+        "0x02000048"
+      ]
+    },
+    {
+      "pair_ids": [
+        44,
+        47,
+        48,
+        125,
+        178,
+        203
+      ],
+      "bits": [
+        51,
+        159,
+        162,
+        204,
+        228,
+        266,
+        342,
+        345,
+        463,
+        471,
+        476,
+        484
+      ],
+      "radius": 12,
+      "hw_total": 97,
+      "net_delta": 15,
+      "lane_hw": [
+        11,
+        13,
+        12,
+        13,
+        15,
+        9,
+        11,
+        13
+      ],
+      "cg_objective": 143.0,
+      "cg_delta": 13.0,
+      "target_l1": 17,
+      "target_l1_delta": -7,
+      "standalone_net_delta_sum": 163,
+      "delta_lane_sum": [
+        23,
+        37,
+        23,
+        18,
+        31,
+        -15,
+        -6,
+        52
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 81,
+        "pair_added_union_total": 168,
+        "pair_removed_occurrences": 283,
+        "pair_added_occurrences": 446,
+        "pair_removed_repeat_excess": 202,
+        "pair_added_repeat_excess": 278
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair",
+          "repair_f"
+        ],
+        [
+          "repair",
+          "repair_f"
+        ],
+        [
+          "repair",
+          "repair_g"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00180000",
+        "0x00004004",
+        "0x40105002",
+        "0x80000000",
+        "0x10001004",
+        "0x00001000",
+        "0x00200010",
+        "0x08002400",
+        "0x20020040",
+        "0x03c08108",
+        "0x00000000",
+        "0x00000000",
+        "0x00050000",
+        "0x02810002",
+        "0x00000050"
+      ]
+    },
+    {
+      "pair_ids": [
+        12,
+        68,
+        72,
+        121,
+        179,
+        202
+      ],
+      "bits": [
+        80,
+        89,
+        100,
+        172,
+        192,
+        259,
+        312,
+        391,
+        456,
+        458,
+        495,
+        504
+      ],
+      "radius": 12,
+      "hw_total": 97,
+      "net_delta": 15,
+      "lane_hw": [
+        10,
+        15,
+        14,
+        12,
+        8,
+        11,
+        13,
+        14
+      ],
+      "cg_objective": 151.0,
+      "cg_delta": 21.0,
+      "target_l1": 17,
+      "target_l1_delta": -7,
+      "standalone_net_delta_sum": 158,
+      "delta_lane_sum": [
+        21,
+        27,
+        2,
+        16,
+        18,
+        13,
+        -5,
+        66
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 165,
+        "pair_removed_occurrences": 285,
+        "pair_added_occurrences": 443,
+        "pair_removed_repeat_excess": 203,
+        "pair_added_repeat_excess": 278
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00100000",
+        "0x02014004",
+        "0x40105012",
+        "0x00000000",
+        "0x10000000",
+        "0x00000001",
+        "0x00200000",
+        "0x08002008",
+        "0x21020040",
+        "0x01808108",
+        "0x00000000",
+        "0x00000080",
+        "0x00050000",
+        "0x12018502",
+        "0x01008040"
+      ]
+    },
+    {
+      "pair_ids": [
+        5,
+        30,
+        50,
+        194,
+        203,
+        229
+      ],
+      "bits": [
+        79,
+        88,
+        142,
+        173,
+        217,
+        238,
+        266,
+        303,
+        325,
+        371,
+        463,
+        466
+      ],
+      "radius": 12,
+      "hw_total": 97,
+      "net_delta": 15,
+      "lane_hw": [
+        11,
+        12,
+        13,
+        11,
+        11,
+        10,
+        15,
+        14
+      ],
+      "cg_objective": 153.0,
+      "cg_delta": 23.0,
+      "target_l1": 17,
+      "target_l1_delta": -7,
+      "standalone_net_delta_sum": 178,
+      "delta_lane_sum": [
+        29,
+        30,
+        19,
+        28,
+        21,
+        9,
+        -12,
+        54
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 165,
+        "pair_removed_occurrences": 277,
+        "pair_added_occurrences": 455,
+        "pair_removed_repeat_excess": 195,
+        "pair_added_repeat_excess": 290
+      },
+      "pair_sources": [
+        [
+          "target",
+          "hw"
+        ],
+        [
+          "target",
+          "hw"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair",
+          "repair_g"
+        ],
+        [
+          "repair",
+          "repair_g"
+        ],
+        [
+          "repair_c"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00100000",
+        "0x0100c004",
+        "0x40105002",
+        "0x00004000",
+        "0x10003000",
+        "0x02000000",
+        "0x00204000",
+        "0x08002400",
+        "0x20028040",
+        "0x01808128",
+        "0x00080000",
+        "0x00000000",
+        "0x00050000",
+        "0x12050002",
+        "0x00000040"
+      ]
+    },
+    {
+      "pair_ids": [
+        25,
+        31,
+        51,
+        72,
+        109,
+        146
+      ],
+      "bits": [
+        33,
+        98,
+        103,
+        164,
+        192,
+        259,
+        324,
+        352,
+        385,
+        409,
+        410,
+        483
+      ],
+      "radius": 12,
+      "hw_total": 99,
+      "net_delta": 17,
+      "lane_hw": [
+        14,
+        11,
+        10,
+        16,
+        11,
+        9,
+        11,
+        17
+      ],
+      "cg_objective": 141.0,
+      "cg_delta": 11.0,
+      "target_l1": 17,
+      "target_l1_delta": -7,
+      "standalone_net_delta_sum": 133,
+      "delta_lane_sum": [
+        27,
+        24,
+        10,
+        22,
+        21,
+        -17,
+        -1,
+        47
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 81,
+        "pair_added_union_total": 169,
+        "pair_removed_occurrences": 293,
+        "pair_added_occurrences": 426,
+        "pair_removed_repeat_excess": 212,
+        "pair_added_repeat_excess": 257
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target",
+          "hw"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00100002",
+        "0x00004004",
+        "0x40105086",
+        "0x00000000",
+        "0x10001010",
+        "0x00000001",
+        "0x00200000",
+        "0x08002008",
+        "0x20020040",
+        "0x01808118",
+        "0x00000001",
+        "0x06000002",
+        "0x00050000",
+        "0x12018002",
+        "0x00000048"
+      ]
+    }
+  ],
+  "top_by_cg": [
+    {
+      "pair_ids": [
+        57,
+        92,
+        142,
+        152,
+        179,
+        201
+      ],
+      "bits": [
+        68,
+        77,
+        158,
+        256,
+        347,
+        374,
+        391,
+        402,
+        403,
+        432,
+        458,
+        462
+      ],
+      "radius": 12,
+      "hw_total": 87,
+      "net_delta": 5,
+      "lane_hw": [
+        12,
+        12,
+        7,
+        8,
+        13,
+        10,
+        9,
+        16
+      ],
+      "cg_objective": 119.0,
+      "cg_delta": -11.0,
+      "target_l1": 19,
+      "target_l1_delta": -5,
+      "standalone_net_delta_sum": 160,
+      "delta_lane_sum": [
+        41,
+        27,
+        25,
+        19,
+        20,
+        -4,
+        -9,
+        41
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 81,
+        "pair_added_union_total": 170,
+        "pair_removed_occurrences": 271,
+        "pair_added_occurrences": 431,
+        "pair_removed_repeat_excess": 190,
+        "pair_added_repeat_excess": 261
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "hw"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_h"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00100000",
+        "0x00006014",
+        "0x40105002",
+        "0x40000000",
+        "0x10001000",
+        "0x00000000",
+        "0x00200000",
+        "0x08002001",
+        "0x20020040",
+        "0x09808108",
+        "0x00400000",
+        "0x000c0080",
+        "0x00040000",
+        "0x1201c402",
+        "0x00000040"
+      ]
+    },
+    {
+      "pair_ids": [
+        18,
+        79,
+        92,
+        160,
+        173,
+        216
+      ],
+      "bits": [
+        76,
+        88,
+        96,
+        186,
+        189,
+        274,
+        275,
+        307,
+        325,
+        403,
+        462,
+        505
+      ],
+      "radius": 12,
+      "hw_total": 92,
+      "net_delta": 10,
+      "lane_hw": [
+        16,
+        14,
+        10,
+        14,
+        14,
+        8,
+        6,
+        10
+      ],
+      "cg_objective": 124.0,
+      "cg_delta": -6.0,
+      "target_l1": 26,
+      "target_l1_delta": 2,
+      "standalone_net_delta_sum": 148,
+      "delta_lane_sum": [
+        38,
+        33,
+        12,
+        21,
+        22,
+        -5,
+        -10,
+        37
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 163,
+        "pair_removed_occurrences": 279,
+        "pair_added_occurrences": 427,
+        "pair_removed_repeat_excess": 197,
+        "pair_added_repeat_excess": 264
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "hw"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair_d"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00100000",
+        "0x01005004",
+        "0x40105003",
+        "0x00000000",
+        "0x34001000",
+        "0x00000000",
+        "0x00200000",
+        "0x080c2000",
+        "0x200a0040",
+        "0x01808128",
+        "0x00000000",
+        "0x00080000",
+        "0x00050000",
+        "0x1201c002",
+        "0x02000040"
+      ]
+    },
+    {
+      "pair_ids": [
+        35,
+        45,
+        96,
+        129,
+        159,
+        183
+      ],
+      "bits": [
+        163,
+        172,
+        179,
+        195,
+        196,
+        219,
+        221,
+        298,
+        341,
+        404,
+        455,
+        469
+      ],
+      "radius": 12,
+      "hw_total": 93,
+      "net_delta": 11,
+      "lane_hw": [
+        18,
+        12,
+        8,
+        10,
+        13,
+        15,
+        9,
+        8
+      ],
+      "cg_objective": 127.0,
+      "cg_delta": -3.0,
+      "target_l1": 31,
+      "target_l1_delta": 7,
+      "standalone_net_delta_sum": 157,
+      "delta_lane_sum": [
+        24,
+        16,
+        29,
+        25,
+        31,
+        -9,
+        -12,
+        53
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 81,
+        "pair_added_union_total": 165,
+        "pair_removed_occurrences": 275,
+        "pair_added_occurrences": 432,
+        "pair_removed_repeat_excess": 194,
+        "pair_added_repeat_excess": 267
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair",
+          "repair_f"
+        ],
+        [
+          "repair_b"
+        ],
+        [
+          "repair"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00100000",
+        "0x00004004",
+        "0x40105002",
+        "0x00000000",
+        "0x10080008",
+        "0x28000018",
+        "0x00200000",
+        "0x08002000",
+        "0x20020440",
+        "0x01a08108",
+        "0x00000000",
+        "0x00100000",
+        "0x00050000",
+        "0x12218082",
+        "0x00000040"
+      ]
+    },
+    {
+      "pair_ids": [
+        13,
+        21,
+        31,
+        142,
+        175,
+        208
+      ],
+      "bits": [
+        33,
+        68,
+        77,
+        89,
+        125,
+        186,
+        352,
+        361,
+        374,
+        427,
+        478,
+        483
+      ],
+      "radius": 12,
+      "hw_total": 90,
+      "net_delta": 8,
+      "lane_hw": [
+        10,
+        10,
+        10,
+        15,
+        15,
+        13,
+        9,
+        8
+      ],
+      "cg_objective": 128.0,
+      "cg_delta": -2.0,
+      "target_l1": 24,
+      "target_l1_delta": 0,
+      "standalone_net_delta_sum": 160,
+      "delta_lane_sum": [
+        40,
+        27,
+        17,
+        21,
+        23,
+        -7,
+        -17,
+        56
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 164,
+        "pair_removed_occurrences": 276,
+        "pair_added_occurrences": 436,
+        "pair_removed_repeat_excess": 194,
+        "pair_added_repeat_excess": 272
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target",
+          "hw"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00100002",
+        "0x02006014",
+        "0x60105002",
+        "0x00000000",
+        "0x14001000",
+        "0x00000000",
+        "0x00200000",
+        "0x08002000",
+        "0x20020040",
+        "0x01808108",
+        "0x00400201",
+        "0x00000000",
+        "0x00050800",
+        "0x52018002",
+        "0x00000048"
+      ]
+    },
+    {
+      "pair_ids": [
+        6,
+        54,
+        103,
+        133,
+        172,
+        226
+      ],
+      "bits": [
+        17,
+        23,
+        38,
+        109,
+        132,
+        150,
+        212,
+        277,
+        398,
+        411,
+        427,
+        500
+      ],
+      "radius": 12,
+      "hw_total": 94,
+      "net_delta": 12,
+      "lane_hw": [
+        14,
+        10,
+        8,
+        15,
+        15,
+        8,
+        9,
+        15
+      ],
+      "cg_objective": 128.0,
+      "cg_delta": -2.0,
+      "target_l1": 18,
+      "target_l1_delta": -6,
+      "standalone_net_delta_sum": 147,
+      "delta_lane_sum": [
+        38,
+        17,
+        8,
+        18,
+        33,
+        6,
+        -11,
+        38
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 167,
+        "pair_removed_occurrences": 280,
+        "pair_added_occurrences": 427,
+        "pair_removed_repeat_excess": 198,
+        "pair_added_repeat_excess": 260
+      },
+      "pair_sources": [
+        [
+          "target",
+          "repair",
+          "cg"
+        ],
+        [
+          "target"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair",
+          "repair_d"
+        ],
+        [
+          "repair_h"
+        ]
+      ],
+      "M2": [
+        "0x00821000",
+        "0x00100040",
+        "0x00004004",
+        "0x40107002",
+        "0x00400010",
+        "0x10001000",
+        "0x00100000",
+        "0x00200000",
+        "0x08202000",
+        "0x20020040",
+        "0x01808108",
+        "0x00000000",
+        "0x08004000",
+        "0x00050800",
+        "0x12018002",
+        "0x00100040"
+      ]
+    },
+    {
+      "pair_ids": [
+        18,
+        23,
+        115,
+        145,
+        196,
+        207
+      ],
+      "bits": [
+        17,
+        44,
+        75,
+        126,
+        219,
+        274,
+        285,
+        333,
+        355,
+        377,
+        505
+      ],
+      "radius": 11,
+      "hw_total": 95,
+      "net_delta": 13,
+      "lane_hw": [
+        16,
+        12,
+        11,
+        12,
+        12,
+        12,
+        6,
+        14
+      ],
+      "cg_objective": 129.0,
+      "cg_delta": -1.0,
+      "target_l1": 21,
+      "target_l1_delta": -3,
+      "standalone_net_delta_sum": 172,
+      "delta_lane_sum": [
+        34,
+        36,
+        8,
+        28,
+        13,
+        -4,
+        -2,
+        59
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 170,
+        "pair_removed_occurrences": 282,
+        "pair_added_occurrences": 454,
+        "pair_removed_repeat_excess": 200,
+        "pair_added_repeat_excess": 284
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair",
+          "cg",
+          "repair_c"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair"
+        ]
+      ],
+      "M2": [
+        "0x00021000",
+        "0x00101000",
+        "0x00004804",
+        "0x00105002",
+        "0x00000000",
+        "0x10001000",
+        "0x08000000",
+        "0x00200000",
+        "0x28042000",
+        "0x20020040",
+        "0x0180a108",
+        "0x02000008",
+        "0x00000000",
+        "0x00050000",
+        "0x12018002",
+        "0x02000040"
+      ]
+    },
+    {
+      "pair_ids": [
+        2,
+        50,
+        55,
+        101,
+        198,
+        225
+      ],
+      "bits": [
+        8,
+        50,
+        100,
+        322,
+        371,
+        389,
+        390,
+        396,
+        416,
+        420,
+        422,
+        466
+      ],
+      "radius": 12,
+      "hw_total": 97,
+      "net_delta": 15,
+      "lane_hw": [
+        13,
+        14,
+        5,
+        12,
+        12,
+        13,
+        11,
+        17
+      ],
+      "cg_objective": 129.0,
+      "cg_delta": -1.0,
+      "target_l1": 23,
+      "target_l1_delta": -1,
+      "standalone_net_delta_sum": 163,
+      "delta_lane_sum": [
+        29,
+        28,
+        11,
+        23,
+        22,
+        -9,
+        0,
+        59
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 168,
+        "pair_removed_occurrences": 273,
+        "pair_added_occurrences": 436,
+        "pair_removed_repeat_excess": 191,
+        "pair_added_repeat_excess": 268
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target",
+          "repair",
+          "repair_f"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_c"
+        ]
+      ],
+      "M2": [
+        "0x00001100",
+        "0x00140000",
+        "0x00004004",
+        "0x40105012",
+        "0x00000000",
+        "0x10001000",
+        "0x00000000",
+        "0x00200000",
+        "0x08002000",
+        "0x20020040",
+        "0x0180810c",
+        "0x00080000",
+        "0x00001060",
+        "0x00050051",
+        "0x12058002",
+        "0x00000040"
+      ]
+    },
+    {
+      "pair_ids": [
+        19,
+        29,
+        48,
+        56,
+        137,
+        185
+      ],
+      "bits": [
+        1,
+        83,
+        118,
+        124,
+        158,
+        167,
+        175,
+        204,
+        271,
+        385,
+        398,
+        476
+      ],
+      "radius": 12,
+      "hw_total": 101,
+      "net_delta": 19,
+      "lane_hw": [
+        13,
+        15,
+        6,
+        14,
+        14,
+        16,
+        8,
+        15
+      ],
+      "cg_objective": 129.0,
+      "cg_delta": -1.0,
+      "target_l1": 29,
+      "target_l1_delta": 5,
+      "standalone_net_delta_sum": 132,
+      "delta_lane_sum": [
+        21,
+        9,
+        14,
+        25,
+        27,
+        -5,
+        -7,
+        48
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 166,
+        "pair_removed_occurrences": 299,
+        "pair_added_occurrences": 431,
+        "pair_removed_repeat_excess": 217,
+        "pair_added_repeat_excess": 265
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target",
+          "hw",
+          "cg"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target",
+          "cg"
+        ],
+        [
+          "hw",
+          "repair_b"
+        ],
+        [
+          "repair",
+          "repair_f"
+        ]
+      ],
+      "M2": [
+        "0x00001002",
+        "0x00100000",
+        "0x00084004",
+        "0x50505002",
+        "0x40000000",
+        "0x10009080",
+        "0x00001000",
+        "0x00200000",
+        "0x0800a000",
+        "0x20020040",
+        "0x01808108",
+        "0x00000000",
+        "0x00004002",
+        "0x00050000",
+        "0x02018002",
+        "0x00000040"
+      ]
+    },
+    {
+      "pair_ids": [
+        21,
+        59,
+        68,
+        78,
+        167,
+        203
+      ],
+      "bits": [
+        36,
+        89,
+        114,
+        154,
+        182,
+        266,
+        352,
+        426,
+        463,
+        477,
+        495,
+        504
+      ],
+      "radius": 12,
+      "hw_total": 90,
+      "net_delta": 8,
+      "lane_hw": [
+        10,
+        11,
+        12,
+        11,
+        10,
+        13,
+        8,
+        15
+      ],
+      "cg_objective": 130.0,
+      "cg_delta": 0.0,
+      "target_l1": 14,
+      "target_l1_delta": -10,
+      "standalone_net_delta_sum": 165,
+      "delta_lane_sum": [
+        28,
+        27,
+        8,
+        24,
+        19,
+        1,
+        -6,
+        64
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 81,
+        "pair_added_union_total": 168,
+        "pair_removed_occurrences": 283,
+        "pair_added_occurrences": 448,
+        "pair_removed_repeat_excess": 202,
+        "pair_added_repeat_excess": 280
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair",
+          "repair_g"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00100010",
+        "0x02004004",
+        "0x40145002",
+        "0x04000000",
+        "0x10401000",
+        "0x00000000",
+        "0x00200000",
+        "0x08002400",
+        "0x20020040",
+        "0x01808108",
+        "0x00000001",
+        "0x00000000",
+        "0x00050400",
+        "0x32010002",
+        "0x01008040"
+      ]
+    },
+    {
+      "pair_ids": [
+        45,
+        49,
+        61,
+        113,
+        121,
+        129
+      ],
+      "bits": [
+        155,
+        166,
+        172,
+        240,
+        298,
+        341,
+        402,
+        455,
+        456,
+        459,
+        469,
+        485
+      ],
+      "radius": 12,
+      "hw_total": 92,
+      "net_delta": 10,
+      "lane_hw": [
+        13,
+        15,
+        10,
+        7,
+        13,
+        10,
+        9,
+        15
+      ],
+      "cg_objective": 130.0,
+      "cg_delta": 0.0,
+      "target_l1": 22,
+      "target_l1_delta": -2,
+      "standalone_net_delta_sum": 147,
+      "delta_lane_sum": [
+        26,
+        30,
+        13,
+        20,
+        23,
+        -13,
+        -8,
+        56
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 164,
+        "pair_removed_occurrences": 290,
+        "pair_added_occurrences": 437,
+        "pair_removed_repeat_excess": 208,
+        "pair_added_repeat_excess": 273
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair",
+          "repair_f"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00100000",
+        "0x00004004",
+        "0x40105002",
+        "0x08000000",
+        "0x10000040",
+        "0x00000000",
+        "0x00210000",
+        "0x08002000",
+        "0x20020440",
+        "0x01a08108",
+        "0x00000000",
+        "0x00040000",
+        "0x00050000",
+        "0x12218982",
+        "0x00000060"
+      ]
+    },
+    {
+      "pair_ids": [
+        66,
+        68,
+        121,
+        159,
+        170,
+        186
+      ],
+      "bits": [
+        17,
+        163,
+        172,
+        195,
+        241,
+        267,
+        323,
+        335,
+        446,
+        456,
+        495,
+        504
+      ],
+      "radius": 12,
+      "hw_total": 92,
+      "net_delta": 10,
+      "lane_hw": [
+        11,
+        9,
+        11,
+        14,
+        11,
+        17,
+        8,
+        11
+      ],
+      "cg_objective": 130.0,
+      "cg_delta": 0.0,
+      "target_l1": 24,
+      "target_l1_delta": 0,
+      "standalone_net_delta_sum": 156,
+      "delta_lane_sum": [
+        20,
+        24,
+        4,
+        25,
+        33,
+        8,
+        -12,
+        54
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 170,
+        "pair_removed_occurrences": 291,
+        "pair_added_occurrences": 447,
+        "pair_removed_repeat_excess": 209,
+        "pair_added_repeat_excess": 277
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair_b"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00021000",
+        "0x00100000",
+        "0x00004004",
+        "0x40105002",
+        "0x00000000",
+        "0x10000008",
+        "0x00000008",
+        "0x00220000",
+        "0x08002800",
+        "0x20020040",
+        "0x01800100",
+        "0x00000000",
+        "0x00000000",
+        "0x40050000",
+        "0x12018102",
+        "0x01008040"
+      ]
+    },
+    {
+      "pair_ids": [
+        135,
+        140,
+        141,
+        144,
+        185,
+        190
+      ],
+      "bits": [
+        9,
+        118,
+        150,
+        178,
+        210,
+        215,
+        263,
+        284,
+        398,
+        405,
+        445,
+        449
+      ],
+      "radius": 12,
+      "hw_total": 98,
+      "net_delta": 16,
+      "lane_hw": [
+        15,
+        11,
+        6,
+        12,
+        18,
+        12,
+        10,
+        14
+      ],
+      "cg_objective": 130.0,
+      "cg_delta": 0.0,
+      "target_l1": 22,
+      "target_l1_delta": -2,
+      "standalone_net_delta_sum": 169,
+      "delta_lane_sum": [
+        36,
+        29,
+        16,
+        21,
+        35,
+        -16,
+        -2,
+        50
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 167,
+        "pair_removed_occurrences": 272,
+        "pair_added_occurrences": 441,
+        "pair_removed_repeat_excess": 190,
+        "pair_added_repeat_excess": 274
+      },
+      "pair_sources": [
+        [
+          "repair"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair_c"
+        ],
+        [
+          "repair",
+          "repair_d"
+        ],
+        [
+          "repair",
+          "repair_f"
+        ],
+        [
+          "repair",
+          "repair_b"
+        ]
+      ],
+      "M2": [
+        "0x00001200",
+        "0x00100000",
+        "0x00004004",
+        "0x40505002",
+        "0x00400000",
+        "0x10041000",
+        "0x00840000",
+        "0x00200000",
+        "0x18002080",
+        "0x20020040",
+        "0x01808108",
+        "0x00000000",
+        "0x00204000",
+        "0x20050000",
+        "0x12018000",
+        "0x00000040"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        28,
+        71,
+        102,
+        106,
+        147
+      ],
+      "bits": [
+        105,
+        120,
+        127,
+        128,
+        144,
+        164,
+        189,
+        230,
+        275,
+        362,
+        404,
+        444
+      ],
+      "radius": 12,
+      "hw_total": 89,
+      "net_delta": 7,
+      "lane_hw": [
+        12,
+        12,
+        9,
+        15,
+        10,
+        8,
+        12,
+        11
+      ],
+      "cg_objective": 131.0,
+      "cg_delta": 1.0,
+      "target_l1": 13,
+      "target_l1_delta": -11,
+      "standalone_net_delta_sum": 130,
+      "delta_lane_sum": [
+        17,
+        26,
+        3,
+        23,
+        21,
+        7,
+        -11,
+        44
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 167,
+        "pair_removed_occurrences": 288,
+        "pair_added_occurrences": 418,
+        "pair_removed_repeat_excess": 206,
+        "pair_added_repeat_excess": 251
+      },
+      "pair_sources": [
+        [
+          "target",
+          "hw",
+          "cg"
+        ],
+        [
+          "target",
+          "hw"
+        ],
+        [
+          "target"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00100000",
+        "0x00004004",
+        "0xc1105202",
+        "0x00010001",
+        "0x30001010",
+        "0x00000000",
+        "0x00200040",
+        "0x08082000",
+        "0x20020040",
+        "0x01808108",
+        "0x00000400",
+        "0x00100000",
+        "0x10050000",
+        "0x12018002",
+        "0x00000040"
+      ]
+    },
+    {
+      "pair_ids": [
+        31,
+        75,
+        155,
+        167,
+        183,
+        184
+      ],
+      "bits": [
+        33,
+        45,
+        60,
+        114,
+        193,
+        196,
+        209,
+        219,
+        377,
+        426,
+        468,
+        483
+      ],
+      "radius": 12,
+      "hw_total": 91,
+      "net_delta": 9,
+      "lane_hw": [
+        14,
+        7,
+        12,
+        15,
+        10,
+        9,
+        8,
+        16
+      ],
+      "cg_objective": 131.0,
+      "cg_delta": 1.0,
+      "target_l1": 21,
+      "target_l1_delta": -3,
+      "standalone_net_delta_sum": 185,
+      "delta_lane_sum": [
+        30,
+        38,
+        31,
+        31,
+        32,
+        -16,
+        -20,
+        59
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 81,
+        "pair_added_union_total": 166,
+        "pair_removed_occurrences": 275,
+        "pair_added_occurrences": 460,
+        "pair_removed_repeat_excess": 194,
+        "pair_added_repeat_excess": 294
+      },
+      "pair_sources": [
+        [
+          "target",
+          "hw"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x10102002",
+        "0x00004004",
+        "0x40145002",
+        "0x00000000",
+        "0x10001000",
+        "0x08020012",
+        "0x00200000",
+        "0x08002000",
+        "0x20020040",
+        "0x01808108",
+        "0x02000000",
+        "0x00000000",
+        "0x00050400",
+        "0x12118002",
+        "0x00000048"
+      ]
+    },
+    {
+      "pair_ids": [
+        68,
+        84,
+        96,
+        129,
+        198,
+        215
+      ],
+      "bits": [
+        50,
+        52,
+        153,
+        179,
+        221,
+        298,
+        389,
+        404,
+        421,
+        455,
+        495,
+        504
+      ],
+      "radius": 12,
+      "hw_total": 97,
+      "net_delta": 15,
+      "lane_hw": [
+        13,
+        12,
+        7,
+        16,
+        10,
+        12,
+        10,
+        17
+      ],
+      "cg_objective": 131.0,
+      "cg_delta": 1.0,
+      "target_l1": 19,
+      "target_l1_delta": -5,
+      "standalone_net_delta_sum": 175,
+      "delta_lane_sum": [
+        20,
+        18,
+        33,
+        32,
+        23,
+        -12,
+        -9,
+        70
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 169,
+        "pair_removed_occurrences": 289,
+        "pair_added_occurrences": 464,
+        "pair_removed_repeat_excess": 207,
+        "pair_added_repeat_excess": 295
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair",
+          "repair_f"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00040000",
+        "0x00004004",
+        "0x40105002",
+        "0x02000000",
+        "0x10081000",
+        "0x20000000",
+        "0x00200000",
+        "0x08002000",
+        "0x20020440",
+        "0x01808108",
+        "0x00000000",
+        "0x00100020",
+        "0x00050020",
+        "0x12018082",
+        "0x01008040"
+      ]
+    },
+    {
+      "pair_ids": [
+        69,
+        79,
+        87,
+        101,
+        142,
+        150
+      ],
+      "bits": [
+        35,
+        68,
+        88,
+        100,
+        231,
+        284,
+        325,
+        374,
+        383,
+        414,
+        422,
+        447
+      ],
+      "radius": 12,
+      "hw_total": 97,
+      "net_delta": 15,
+      "lane_hw": [
+        16,
+        14,
+        7,
+        17,
+        5,
+        12,
+        10,
+        16
+      ],
+      "cg_objective": 131.0,
+      "cg_delta": 1.0,
+      "target_l1": 27,
+      "target_l1_delta": 3,
+      "standalone_net_delta_sum": 143,
+      "delta_lane_sum": [
+        34,
+        27,
+        15,
+        15,
+        14,
+        -4,
+        -12,
+        54
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 81,
+        "pair_added_union_total": 166,
+        "pair_removed_occurrences": 285,
+        "pair_added_occurrences": 428,
+        "pair_removed_repeat_excess": 204,
+        "pair_added_repeat_excess": 262
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "hw",
+          "cg"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00100008",
+        "0x01004014",
+        "0x40105012",
+        "0x00000000",
+        "0x10001000",
+        "0x00000000",
+        "0x00200080",
+        "0x18002000",
+        "0x20020040",
+        "0x01808128",
+        "0x80400000",
+        "0x40000000",
+        "0x80050040",
+        "0x12018002",
+        "0x00000040"
+      ]
+    },
+    {
+      "pair_ids": [
+        0,
+        19,
+        173,
+        183,
+        194,
+        219
+      ],
+      "bits": [
+        6,
+        79,
+        124,
+        142,
+        158,
+        189,
+        196,
+        200,
+        219,
+        275,
+        456,
+        505
+      ],
+      "radius": 12,
+      "hw_total": 99,
+      "net_delta": 17,
+      "lane_hw": [
+        10,
+        18,
+        10,
+        21,
+        14,
+        11,
+        6,
+        9
+      ],
+      "cg_objective": 131.0,
+      "cg_delta": 1.0,
+      "target_l1": 35,
+      "target_l1_delta": 11,
+      "standalone_net_delta_sum": 177,
+      "delta_lane_sum": [
+        40,
+        24,
+        22,
+        32,
+        15,
+        5,
+        -19,
+        58
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 168,
+        "pair_removed_occurrences": 267,
+        "pair_added_occurrences": 444,
+        "pair_removed_repeat_excess": 185,
+        "pair_added_repeat_excess": 276
+      },
+      "pair_sources": [
+        [
+          "target",
+          "hw",
+          "cg"
+        ],
+        [
+          "target"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair",
+          "repair_g"
+        ],
+        [
+          "repair_e"
+        ]
+      ],
+      "M2": [
+        "0x00001040",
+        "0x00100000",
+        "0x0000c004",
+        "0x50105002",
+        "0x40004000",
+        "0x30001000",
+        "0x08000110",
+        "0x00200000",
+        "0x08082000",
+        "0x20020040",
+        "0x01808108",
+        "0x00000000",
+        "0x00000000",
+        "0x00050000",
+        "0x12018102",
+        "0x02000040"
+      ]
+    },
+    {
+      "pair_ids": [
+        57,
+        173,
+        176,
+        207,
+        215,
+        218
+      ],
+      "bits": [
+        52,
+        153,
+        158,
+        188,
+        189,
+        275,
+        339,
+        355,
+        417,
+        423,
+        432,
+        505
+      ],
+      "radius": 12,
+      "hw_total": 94,
+      "net_delta": 12,
+      "lane_hw": [
+        13,
+        11,
+        11,
+        12,
+        14,
+        15,
+        8,
+        10
+      ],
+      "cg_objective": 132.0,
+      "cg_delta": 2.0,
+      "target_l1": 24,
+      "target_l1_delta": 0,
+      "standalone_net_delta_sum": 199,
+      "delta_lane_sum": [
+        38,
+        21,
+        19,
+        40,
+        10,
+        8,
+        -1,
+        64
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 170,
+        "pair_removed_occurrences": 272,
+        "pair_added_occurrences": 471,
+        "pair_removed_repeat_excess": 190,
+        "pair_added_repeat_excess": 301
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair_c"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_e"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00000000",
+        "0x00004004",
+        "0x40105002",
+        "0x42000000",
+        "0x20001000",
+        "0x00000000",
+        "0x00200000",
+        "0x08082000",
+        "0x20020040",
+        "0x01888108",
+        "0x00000008",
+        "0x00000000",
+        "0x00040082",
+        "0x12018002",
+        "0x02000040"
+      ]
+    },
+    {
+      "pair_ids": [
+        40,
+        56,
+        57,
+        81,
+        189,
+        200
+      ],
+      "bits": [
+        58,
+        83,
+        158,
+        189,
+        203,
+        236,
+        385,
+        403,
+        418,
+        432,
+        441,
+        478
+      ],
+      "radius": 12,
+      "hw_total": 96,
+      "net_delta": 14,
+      "lane_hw": [
+        15,
+        13,
+        9,
+        13,
+        11,
+        15,
+        9,
+        11
+      ],
+      "cg_objective": 132.0,
+      "cg_delta": 2.0,
+      "target_l1": 22,
+      "target_l1_delta": -2,
+      "standalone_net_delta_sum": 136,
+      "delta_lane_sum": [
+        21,
+        12,
+        15,
+        30,
+        30,
+        -1,
+        -9,
+        38
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 160,
+        "pair_removed_occurrences": 284,
+        "pair_added_occurrences": 420,
+        "pair_removed_repeat_excess": 202,
+        "pair_added_repeat_excess": 260
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target",
+          "cg"
+        ],
+        [
+          "target"
+        ],
+        [
+          "hw"
+        ],
+        [
+          "repair",
+          "repair_b"
+        ],
+        [
+          "repair_h"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x04100000",
+        "0x00084004",
+        "0x40105002",
+        "0x40000000",
+        "0x30001000",
+        "0x00000800",
+        "0x00201000",
+        "0x08002000",
+        "0x20020040",
+        "0x01808108",
+        "0x00000000",
+        "0x00080002",
+        "0x02040004",
+        "0x52018002",
+        "0x00000040"
+      ]
+    },
+    {
+      "pair_ids": [
+        24,
+        31,
+        44,
+        62,
+        104,
+        135
+      ],
+      "bits": [
+        33,
+        51,
+        98,
+        100,
+        178,
+        192,
+        229,
+        284,
+        302,
+        432,
+        483,
+        484
+      ],
+      "radius": 12,
+      "hw_total": 100,
+      "net_delta": 18,
+      "lane_hw": [
+        12,
+        16,
+        9,
+        15,
+        10,
+        15,
+        7,
+        16
+      ],
+      "cg_objective": 132.0,
+      "cg_delta": 2.0,
+      "target_l1": 24,
+      "target_l1_delta": 0,
+      "standalone_net_delta_sum": 134,
+      "delta_lane_sum": [
+        30,
+        24,
+        13,
+        22,
+        21,
+        -14,
+        -4,
+        42
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 80,
+        "pair_added_union_total": 161,
+        "pair_removed_occurrences": 287,
+        "pair_added_occurrences": 421,
+        "pair_removed_repeat_excess": 207,
+        "pair_added_repeat_excess": 260
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target",
+          "hw"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00180002",
+        "0x00004004",
+        "0x40105016",
+        "0x00000000",
+        "0x10041000",
+        "0x00000001",
+        "0x00200020",
+        "0x18002000",
+        "0x20024040",
+        "0x01808108",
+        "0x00000000",
+        "0x00000000",
+        "0x00040000",
+        "0x12018002",
+        "0x00000058"
+      ]
+    },
+    {
+      "pair_ids": [
+        24,
+        81,
+        126,
+        182,
+        209,
+        218
+      ],
+      "bits": [
+        98,
+        100,
+        161,
+        173,
+        203,
+        209,
+        337,
+        339,
+        403,
+        417,
+        426,
+        505
+      ],
+      "radius": 12,
+      "hw_total": 100,
+      "net_delta": 18,
+      "lane_hw": [
+        11,
+        19,
+        7,
+        17,
+        12,
+        11,
+        9,
+        14
+      ],
+      "cg_objective": 132.0,
+      "cg_delta": 2.0,
+      "target_l1": 24,
+      "target_l1_delta": 0,
+      "standalone_net_delta_sum": 171,
+      "delta_lane_sum": [
+        38,
+        17,
+        20,
+        27,
+        17,
+        14,
+        -16,
+        54
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 167,
+        "pair_removed_occurrences": 270,
+        "pair_added_occurrences": 441,
+        "pair_removed_repeat_excess": 188,
+        "pair_added_repeat_excess": 274
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "hw"
+        ],
+        [
+          "repair_b"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair",
+          "repair_g"
+        ],
+        [
+          "repair_e"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00100000",
+        "0x00004004",
+        "0x40105016",
+        "0x00000000",
+        "0x10003002",
+        "0x00020800",
+        "0x00200000",
+        "0x08002000",
+        "0x20020040",
+        "0x018a8108",
+        "0x00000000",
+        "0x00080000",
+        "0x00050402",
+        "0x12018002",
+        "0x02000040"
+      ]
+    },
+    {
+      "pair_ids": [
+        44,
+        70,
+        100,
+        119,
+        152,
+        181
+      ],
+      "bits": [
+        37,
+        51,
+        89,
+        93,
+        109,
+        182,
+        347,
+        372,
+        402,
+        439,
+        468,
+        484
+      ],
+      "radius": 12,
+      "hw_total": 106,
+      "net_delta": 24,
+      "lane_hw": [
+        18,
+        16,
+        6,
+        12,
+        19,
+        14,
+        7,
+        14
+      ],
+      "cg_objective": 132.0,
+      "cg_delta": 2.0,
+      "target_l1": 36,
+      "target_l1_delta": 12,
+      "standalone_net_delta_sum": 158,
+      "delta_lane_sum": [
+        30,
+        22,
+        5,
+        34,
+        30,
+        -9,
+        -9,
+        55
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 164,
+        "pair_removed_occurrences": 284,
+        "pair_added_occurrences": 442,
+        "pair_removed_repeat_excess": 202,
+        "pair_added_repeat_excess": 278
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair_c"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00180020",
+        "0x22004004",
+        "0x40107002",
+        "0x00000000",
+        "0x10401000",
+        "0x00000000",
+        "0x00200000",
+        "0x08002000",
+        "0x20020040",
+        "0x09808108",
+        "0x00100000",
+        "0x00040000",
+        "0x00850000",
+        "0x12118002",
+        "0x00000050"
+      ]
+    },
+    {
+      "pair_ids": [
+        13,
+        26,
+        32,
+        121,
+        205,
+        211
+      ],
+      "bits": [
+        34,
+        172,
+        186,
+        217,
+        232,
+        305,
+        339,
+        367,
+        405,
+        427,
+        456,
+        496
+      ],
+      "radius": 12,
+      "hw_total": 93,
+      "net_delta": 11,
+      "lane_hw": [
+        10,
+        16,
+        9,
+        10,
+        10,
+        12,
+        11,
+        15
+      ],
+      "cg_objective": 133.0,
+      "cg_delta": 3.0,
+      "target_l1": 15,
+      "target_l1_delta": -9,
+      "standalone_net_delta_sum": 159,
+      "delta_lane_sum": [
+        28,
+        24,
+        15,
+        14,
+        15,
+        15,
+        -8,
+        56
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 81,
+        "pair_added_union_total": 169,
+        "pair_removed_occurrences": 267,
+        "pair_added_occurrences": 426,
+        "pair_removed_repeat_excess": 186,
+        "pair_added_repeat_excess": 257
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target",
+          "hw"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair_d"
+        ],
+        [
+          "repair",
+          "repair_g"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00100004",
+        "0x00004004",
+        "0x40105002",
+        "0x00000000",
+        "0x14000000",
+        "0x02000000",
+        "0x00200100",
+        "0x08002000",
+        "0x20000040",
+        "0x01888108",
+        "0x00008000",
+        "0x00200000",
+        "0x00050800",
+        "0x12018102",
+        "0x00010040"
+      ]
+    },
+    {
+      "pair_ids": [
+        24,
+        87,
+        101,
+        140,
+        159,
+        225
+      ],
+      "bits": [
+        98,
+        100,
+        150,
+        163,
+        195,
+        231,
+        396,
+        420,
+        422,
+        447,
+        449
+      ],
+      "radius": 11,
+      "hw_total": 95,
+      "net_delta": 13,
+      "lane_hw": [
+        19,
+        16,
+        11,
+        8,
+        11,
+        9,
+        8,
+        13
+      ],
+      "cg_objective": 133.0,
+      "cg_delta": 3.0,
+      "target_l1": 27,
+      "target_l1_delta": 3,
+      "standalone_net_delta_sum": 148,
+      "delta_lane_sum": [
+        24,
+        15,
+        2,
+        8,
+        29,
+        15,
+        2,
+        53
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 81,
+        "pair_added_union_total": 168,
+        "pair_removed_occurrences": 280,
+        "pair_added_occurrences": 428,
+        "pair_removed_repeat_excess": 199,
+        "pair_added_repeat_excess": 260
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "hw",
+          "cg"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair_b"
+        ],
+        [
+          "repair_c"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00100000",
+        "0x00004004",
+        "0x40105016",
+        "0x00400000",
+        "0x10001008",
+        "0x00000008",
+        "0x00200080",
+        "0x08002000",
+        "0x20020040",
+        "0x01808108",
+        "0x00000000",
+        "0x00001000",
+        "0x80050050",
+        "0x12018000",
+        "0x00000040"
+      ]
+    },
+    {
+      "pair_ids": [
+        18,
+        48,
+        84,
+        107,
+        157,
+        218
+      ],
+      "bits": [
+        117,
+        154,
+        201,
+        204,
+        274,
+        339,
+        404,
+        417,
+        421,
+        476,
+        481,
+        505
+      ],
+      "radius": 12,
+      "hw_total": 97,
+      "net_delta": 15,
+      "lane_hw": [
+        10,
+        14,
+        10,
+        12,
+        16,
+        13,
+        8,
+        14
+      ],
+      "cg_objective": 133.0,
+      "cg_delta": 3.0,
+      "target_l1": 19,
+      "target_l1_delta": -5,
+      "standalone_net_delta_sum": 148,
+      "delta_lane_sum": [
+        35,
+        20,
+        13,
+        20,
+        14,
+        -10,
+        3,
+        53
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 81,
+        "pair_added_union_total": 167,
+        "pair_removed_occurrences": 301,
+        "pair_added_occurrences": 449,
+        "pair_removed_repeat_excess": 220,
+        "pair_added_repeat_excess": 282
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair",
+          "hw"
+        ],
+        [
+          "repair_d"
+        ],
+        [
+          "repair_e"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00100000",
+        "0x00004004",
+        "0x40305002",
+        "0x04000000",
+        "0x10001000",
+        "0x00001200",
+        "0x00200000",
+        "0x08042000",
+        "0x20020040",
+        "0x01888108",
+        "0x00000000",
+        "0x00100000",
+        "0x00050022",
+        "0x02018002",
+        "0x02000042"
+      ]
+    },
+    {
+      "pair_ids": [
+        19,
+        35,
+        59,
+        116,
+        130,
+        202
+      ],
+      "bits": [
+        9,
+        80,
+        89,
+        124,
+        158,
+        172,
+        182,
+        389,
+        404,
+        464,
+        475,
+        477
+      ],
+      "radius": 12,
+      "hw_total": 97,
+      "net_delta": 15,
+      "lane_hw": [
+        12,
+        6,
+        11,
+        16,
+        16,
+        16,
+        7,
+        13
+      ],
+      "cg_objective": 133.0,
+      "cg_delta": 3.0,
+      "target_l1": 33,
+      "target_l1_delta": 9,
+      "standalone_net_delta_sum": 149,
+      "delta_lane_sum": [
+        14,
+        20,
+        8,
+        28,
+        29,
+        1,
+        -4,
+        53
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 81,
+        "pair_added_union_total": 166,
+        "pair_removed_occurrences": 285,
+        "pair_added_occurrences": 434,
+        "pair_removed_repeat_excess": 204,
+        "pair_added_repeat_excess": 268
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00001200",
+        "0x00100000",
+        "0x02014004",
+        "0x50105002",
+        "0x40000000",
+        "0x10400000",
+        "0x00000000",
+        "0x00200000",
+        "0x08002000",
+        "0x20020040",
+        "0x01808108",
+        "0x00000000",
+        "0x00100020",
+        "0x00050000",
+        "0x3a008002",
+        "0x00000040"
+      ]
+    },
+    {
+      "pair_ids": [
+        98,
+        99,
+        112,
+        140,
+        172,
+        226
+      ],
+      "bits": [
+        23,
+        82,
+        83,
+        106,
+        109,
+        120,
+        150,
+        323,
+        398,
+        427,
+        433,
+        449
+      ],
+      "radius": 12,
+      "hw_total": 99,
+      "net_delta": 17,
+      "lane_hw": [
+        14,
+        15,
+        8,
+        14,
+        12,
+        14,
+        9,
+        13
+      ],
+      "cg_objective": 133.0,
+      "cg_delta": 3.0,
+      "target_l1": 23,
+      "target_l1_delta": -1,
+      "standalone_net_delta_sum": 144,
+      "delta_lane_sum": [
+        39,
+        17,
+        9,
+        2,
+        24,
+        7,
+        3,
+        43
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 169,
+        "pair_removed_occurrences": 284,
+        "pair_added_occurrences": 428,
+        "pair_removed_repeat_excess": 202,
+        "pair_added_repeat_excess": 259
+      },
+      "pair_sources": [
+        [
+          "hw",
+          "cg"
+        ],
+        [
+          "hw"
+        ],
+        [
+          "repair_e"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair",
+          "repair_d"
+        ],
+        [
+          "repair_h"
+        ]
+      ],
+      "M2": [
+        "0x00801000",
+        "0x00100000",
+        "0x000c4004",
+        "0x41107402",
+        "0x00400000",
+        "0x10001000",
+        "0x00000000",
+        "0x00200000",
+        "0x08002000",
+        "0x20020040",
+        "0x01808100",
+        "0x00000000",
+        "0x00004000",
+        "0x00070800",
+        "0x12018000",
+        "0x00000040"
+      ]
+    },
+    {
+      "pair_ids": [
+        36,
+        57,
+        136,
+        154,
+        223,
+        225
+      ],
+      "bits": [
+        69,
+        87,
+        101,
+        158,
+        210,
+        396,
+        420,
+        432,
+        492,
+        502
+      ],
+      "radius": 10,
+      "hw_total": 99,
+      "net_delta": 17,
+      "lane_hw": [
+        13,
+        12,
+        8,
+        17,
+        14,
+        13,
+        9,
+        13
+      ],
+      "cg_objective": 133.0,
+      "cg_delta": 3.0,
+      "target_l1": 23,
+      "target_l1_delta": -1,
+      "standalone_net_delta_sum": 191,
+      "delta_lane_sum": [
+        35,
+        34,
+        10,
+        14,
+        21,
+        11,
+        8,
+        58
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 81,
+        "pair_added_union_total": 168,
+        "pair_removed_occurrences": 272,
+        "pair_added_occurrences": 463,
+        "pair_removed_repeat_excess": 191,
+        "pair_added_repeat_excess": 295
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_e"
+        ],
+        [
+          "repair_d"
+        ],
+        [
+          "repair_c"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00100000",
+        "0x00804024",
+        "0x40105022",
+        "0x40000000",
+        "0x10001000",
+        "0x00040000",
+        "0x00200000",
+        "0x08002000",
+        "0x20020040",
+        "0x01808108",
+        "0x00000000",
+        "0x00001000",
+        "0x00040010",
+        "0x12018002",
+        "0x00401040"
+      ]
+    },
+    {
+      "pair_ids": [
+        2,
+        92,
+        170,
+        189,
+        192,
+        225
+      ],
+      "bits": [
+        189,
+        248,
+        322,
+        323,
+        396,
+        403,
+        416,
+        420,
+        429,
+        446,
+        462,
+        478
+      ],
+      "radius": 12,
+      "hw_total": 103,
+      "net_delta": 21,
+      "lane_hw": [
+        11,
+        15,
+        7,
+        13,
+        14,
+        19,
+        8,
+        16
+      ],
+      "cg_objective": 133.0,
+      "cg_delta": 3.0,
+      "target_l1": 29,
+      "target_l1_delta": 5,
+      "standalone_net_delta_sum": 179,
+      "delta_lane_sum": [
+        32,
+        20,
+        4,
+        38,
+        31,
+        -4,
+        0,
+        58
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 81,
+        "pair_added_union_total": 166,
+        "pair_removed_occurrences": 262,
+        "pair_added_occurrences": 441,
+        "pair_removed_repeat_excess": 181,
+        "pair_added_repeat_excess": 275
+      },
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "hw"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair",
+          "repair_b"
+        ],
+        [
+          "repair_c"
+        ],
+        [
+          "repair_c"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x00100000",
+        "0x00004004",
+        "0x40105002",
+        "0x00000000",
+        "0x30001000",
+        "0x00000000",
+        "0x01200000",
+        "0x08002000",
+        "0x20020040",
+        "0x01808104",
+        "0x00000000",
+        "0x00081000",
+        "0x40052011",
+        "0x5201c002",
+        "0x00000040"
+      ]
+    },
+    {
+      "pair_ids": [
+        3,
+        54,
+        185,
+        200,
+        218,
+        230
+      ],
+      "bits": [
+        45,
+        58,
+        118,
+        132,
+        236,
+        286,
+        339,
+        398,
+        401,
+        417,
+        456,
+        500
+      ],
+      "radius": 12,
+      "hw_total": 103,
+      "net_delta": 21,
+      "lane_hw": [
+        13,
+        13,
+        10,
+        14,
+        18,
+        16,
+        5,
+        14
+      ],
+      "cg_objective": 133.0,
+      "cg_delta": 3.0,
+      "target_l1": 31,
+      "target_l1_delta": 7,
+      "standalone_net_delta_sum": 183,
+      "delta_lane_sum": [
+        32,
+        25,
+        32,
+        35,
+        25,
+        -7,
+        4,
+        37
+      ],
+      "bit_overlap_signature": {
+        "pair_removed_union_total": 82,
+        "pair_added_union_total": 162,
+        "pair_removed_occurrences": 261,
+        "pair_added_occurrences": 444,
+        "pair_removed_repeat_excess": 179,
+        "pair_added_repeat_excess": 282
+      },
+      "pair_sources": [
+        [
+          "target",
+          "hw"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair",
+          "repair_f"
+        ],
+        [
+          "repair_h"
+        ],
+        [
+          "repair_e"
+        ],
+        [
+          "repair_h"
+        ]
+      ],
+      "M2": [
+        "0x00001000",
+        "0x04102000",
+        "0x00004004",
+        "0x40505002",
+        "0x00000010",
+        "0x10001000",
+        "0x00000000",
+        "0x00201000",
+        "0x48002000",
+        "0x20020040",
+        "0x01888108",
+        "0x00000000",
+        "0x00024000",
+        "0x00050002",
+        "0x12018102",
+        "0x00100040"
+      ]
+    }
+  ],
+  "top_records_hw_le_init": [],
+  "wall_seconds": 707.2
+}
