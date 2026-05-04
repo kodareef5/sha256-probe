@@ -36,6 +36,21 @@ def l1_distance(left, right):
     return sum(abs(a - b) for a, b in zip(left, right))
 
 
+def parse_optional_int_vector(raw, name):
+    if not raw:
+        return None
+    values = []
+    for part in raw.split(","):
+        item = part.strip().lower()
+        if item in ("", "*", "x", "none", "na"):
+            values.append(None)
+        else:
+            values.append(int(item))
+    if len(values) != 8:
+        raise SystemExit(f"{name} needs 8 comma-separated values, got {len(values)}")
+    return values
+
+
 def flip_bits(base_m2, bits):
     m2 = list(base_m2)
     for bit_index in bits:
@@ -103,9 +118,23 @@ def main():
     )
     ap.add_argument("--min-late-late-pairs", type=int, default=0)
     ap.add_argument("--min-early-late-pairs", type=int, default=0)
+    ap.add_argument(
+        "--min-delta-lane-sum",
+        default="",
+        help="Optional 8-int lower bounds for sum of selected pairs' delta_lane_hw; use x to ignore a lane.",
+    )
+    ap.add_argument(
+        "--max-delta-lane-sum",
+        default="",
+        help="Optional 8-int upper bounds for sum of selected pairs' delta_lane_hw; use x to ignore a lane.",
+    )
+    ap.add_argument("--min-standalone-net-delta-sum", type=int, default=None)
+    ap.add_argument("--max-standalone-net-delta-sum", type=int, default=None)
     ap.add_argument("--out", required=True)
     ap.add_argument("--label", default="")
     args = ap.parse_args()
+    min_delta_lane_sum = parse_optional_int_vector(args.min_delta_lane_sum, "--min-delta-lane-sum")
+    max_delta_lane_sum = parse_optional_int_vector(args.max_delta_lane_sum, "--max-delta-lane-sum")
 
     seed, total = load_seed(args.seed_jsonl, args.rank)
     diff63 = parse_w_arr(seed["block1_diff63"])
@@ -160,6 +189,7 @@ def main():
         "target_l1_lt_init": 0,
         "skipped_late_pair_motif": 0,
         "skipped_pair_graph_motif": 0,
+        "skipped_delta_signature": 0,
     }
     seen = set()
     top_by_hw = []
@@ -215,6 +245,43 @@ def main():
             if late_late_pairs < args.min_late_late_pairs or early_late_pairs < args.min_early_late_pairs:
                 counts["skipped_pair_graph_motif"] += 1
                 continue
+        delta_lane_sum = [0] * 8
+        standalone_net_delta_sum = 0
+        if (
+            min_delta_lane_sum
+            or max_delta_lane_sum
+            or args.min_standalone_net_delta_sum is not None
+            or args.max_standalone_net_delta_sum is not None
+        ):
+            for idx in combo_ids:
+                pair = selected_pairs[idx]
+                standalone_net_delta_sum += pair["hw_total"] - init_hw
+                for lane_idx, value in enumerate(pair["delta_lane_hw"]):
+                    delta_lane_sum[lane_idx] += value
+            failed_delta_signature = False
+            if (
+                args.min_standalone_net_delta_sum is not None
+                and standalone_net_delta_sum < args.min_standalone_net_delta_sum
+            ):
+                failed_delta_signature = True
+            if (
+                args.max_standalone_net_delta_sum is not None
+                and standalone_net_delta_sum > args.max_standalone_net_delta_sum
+            ):
+                failed_delta_signature = True
+            if min_delta_lane_sum:
+                for lane_idx, minimum in enumerate(min_delta_lane_sum):
+                    if minimum is not None and delta_lane_sum[lane_idx] < minimum:
+                        failed_delta_signature = True
+                        break
+            if max_delta_lane_sum:
+                for lane_idx, maximum in enumerate(max_delta_lane_sum):
+                    if maximum is not None and delta_lane_sum[lane_idx] > maximum:
+                        failed_delta_signature = True
+                        break
+            if failed_delta_signature:
+                counts["skipped_delta_signature"] += 1
+                continue
         bits = tuple(sorted({b for idx in combo_ids for b in selected_pairs[idx]["bit_indices"]}))
         radius = len(bits)
         if radius < args.min_radius or radius > args.max_radius:
@@ -240,6 +307,8 @@ def main():
             "cg_delta": round(cg_obj - init_cg, 6),
             "target_l1": target_l1,
             "target_l1_delta": target_l1 - init_target_l1,
+            "standalone_net_delta_sum": standalone_net_delta_sum,
+            "delta_lane_sum": delta_lane_sum,
             "pair_sources": [selected_pairs[idx].get("selection_sources", []) for idx in combo_ids],
             "M2": [f"0x{x:08x}" for x in m2],
         }
@@ -290,6 +359,10 @@ def main():
             "min_late_pairs": args.min_late_pairs,
             "min_late_late_pairs": args.min_late_late_pairs,
             "min_early_late_pairs": args.min_early_late_pairs,
+            "min_delta_lane_sum": min_delta_lane_sum,
+            "max_delta_lane_sum": max_delta_lane_sum,
+            "min_standalone_net_delta_sum": args.min_standalone_net_delta_sum,
+            "max_standalone_net_delta_sum": args.max_standalone_net_delta_sum,
         },
         "counts": counts,
         "top_by_hw": top_by_hw,

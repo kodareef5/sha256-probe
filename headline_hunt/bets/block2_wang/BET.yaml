@@ -29,7 +29,40 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-04T03:11:06Z'
+last_heartbeat: '2026-05-04T03:15:45Z'
+recent_progress_2026-05-04_F786_delta_signature_negative: |
+  yale-codex added lane-delta signature filters to m2_target_pair_combo.py and
+  tested a selector modeled on the F763 HW82 composition.
+
+  F786 filter:
+    standalone net-delta sum >= 140
+    delta lane b >= 25
+    delta lane c >= 18
+    delta lane g >= 0
+    delta lane h >= 30
+
+  Result from original F760 bit24 HW82 witness:
+    sampled combos: 20,000,000
+    skipped by delta signature: 19,729,820
+    evaluated: 269,735
+    HW < 82: 0
+    HW <= 82: 0
+    c/g-improving: 0
+    target-L1-improving: 128
+    best HW: 93 / target L1 23
+    best target: HW97 / target L1 17
+
+  Cancellation comparison:
+    F763 HW82 nonlinear gain: 163
+    F786 best-HW nonlinear gain: 144, final HW93
+    F786 best-target nonlinear gain: 136, final HW97
+
+  Interpretation:
+    Aggregate lane-HW delta signatures are not enough. F786 finds large
+    cancellation and F763-like predicted damage, but not floor states. The next
+    useful selector needs signed bit/carry-chart overlap, not aggregate lane
+    totals or word-pair graph motifs.
+
 recent_progress_2026-05-04_F785_f782_detour_pair_potential_closed: |
   yale-codex mapped the one-pair atlas around the F782 HW87 / target-L1 13
   detour.
