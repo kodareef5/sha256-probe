@@ -29,7 +29,7 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-04T01:55:09Z'
+last_heartbeat: '2026-05-04T02:01:51Z'
 recent_progress_2026-05-03_F549_bit24_HW85_closed: |
   macbook-claude iter from bit24 HW=85 with cg-rank radius 12.
   Stayed at HW=85 (locally closed).
@@ -552,6 +552,34 @@ recent_progress_2026-05-04_F777_F778_bit24_F768_HW85_atlas_beam_negative: |
     that repair, so the useful F769 primitive sits outside these local atlas
     buckets. Use the atlas beam next on the original F760/F767 HW82 basin,
     where target slack exists.
+
+recent_progress_2026-05-04_F779_F780_bit24_F760_HW82_atlas_beam_negative: |
+  yale-codex ran the new m2_atlas_pair_beam.py on the original F760 HW82 basin
+  using the F767 top-80 atlas.
+
+  Shared setup:
+    selected pairs: 236
+    beam=1024, max_pairs=6, max_radius=12
+
+  Results:
+    F779 objective=HW:
+      expanded 974,747 states
+      HW<=82: 0
+      target-improving states: 576
+      best HW: 90, target L1 26
+      best target: HW93, target L1 13
+    F780 objective=HW + 2*target_L1:
+      expanded 974,891 states
+      HW<=82: 0
+      target-improving states: 569
+      best HW: 90, target L1 26
+      best target: HW96, target L1 14
+
+  Interpretation:
+    The atlas beam moves target geometry but cannot compose a floor-preserving
+    HW82 state from the broad top-80 pool. Together with F776, this says the
+    next operator needs a compatibility rule for lane-delta cancellation, not
+    broader independent target/repair buckets.
 
 recent_progress_2026-05-03_F747_pathC_bit4_cg_negative: |
   yale-codex restarted Mac's F547 bit4 path-C HW89 absorber witness with c/g
