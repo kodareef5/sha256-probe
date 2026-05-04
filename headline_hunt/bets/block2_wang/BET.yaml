@@ -29,7 +29,7 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-04T00:26:56Z'
+last_heartbeat: '2026-05-04T00:39:18Z'
 recent_progress_2026-05-03_F549_bit24_HW85_closed: |
   macbook-claude iter from bit24 HW=85 with cg-rank radius 12.
   Stayed at HW=85 (locally closed).
@@ -432,6 +432,28 @@ recent_progress_2026-05-04_F770_bit24_F769_HW84_pair_potential_top80: |
     The HW84 side basin is one-pair closed for HW and c/g. It still has
     expensive target-lane moves, but no immediate local score exit. Run one
     c/g-biased restart from HW84; if it closes, stop this detour branch.
+
+recent_progress_2026-05-04_F771_bit24_F769_HW84_cg_restart_negative: |
+  yale-codex ran the c/g-biased pair-beam closure check from the F769 HW84
+  side basin.
+
+  Setup:
+    init HW 84
+    init lane [12,6,13,8,9,11,9,16]
+    objective=cg, pair_rank=cg
+    pair_pool=1024, beam=1024, max_pairs=6, max_radius=12
+
+  Result:
+    best seen HW 84
+    best source init
+    new HW records 0
+    best c/g objective state: HW88, objective 118
+    wall 672.51s
+
+  Interpretation:
+    The F769 HW84 side basin is closed under the c/g restart. The detour branch
+    produced HW84 but has not found a route back to or below HW82; direct
+    detour/repair work should pause unless a new operator is added.
 
 recent_progress_2026-05-03_F747_pathC_bit4_cg_negative: |
   yale-codex restarted Mac's F547 bit4 path-C HW89 absorber witness with c/g
