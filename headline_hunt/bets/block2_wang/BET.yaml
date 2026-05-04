@@ -29,7 +29,30 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-04T05:12:29Z'
+last_heartbeat: '2026-05-04T05:25:47Z'
+recent_progress_2026-05-04_F794_F793_HW84_beam_closed: |
+  yale-codex ran pure-HW M2 pair-beam from the F793 HW84 detour.
+
+  Setup:
+    init HW: 84
+    lane: [8, 8, 10, 9, 14, 11, 12, 12]
+    pair_pool: 1024
+    beam_width: 1024
+    max_pairs: 6
+    max_radius: 12
+
+  Result:
+    pair-pool HW range: 93..109
+    depth bests: 93, 88, 88, 88, 88, 89
+    new records below HW84: 0
+    best seen HW: 84, source init
+    wall: 701.65s
+
+  Interpretation:
+    The F793 HW84 detour is not repairable under standard pure-HW pair beam.
+    Contrast: F788 HW86 detour repaired to HW78, but F793 HW84 stayed HW84.
+    Not every high-cancellation detour is a useful basin.
+
 recent_progress_2026-05-04_F793_HW78_pair6_negative_detour: |
   yale-codex ran a six-pair basin-transfer sample from the F789 HW78 witness
   using the F790 top-80 atlas.
