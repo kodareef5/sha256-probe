@@ -51,6 +51,44 @@ def parse_optional_int_vector(raw, name):
     return values
 
 
+def bit_set(word):
+    return {idx for idx in range(32) if (word >> idx) & 1}
+
+
+def diff_bit_sets(diff):
+    return [bit_set(word) for word in diff]
+
+
+def lane_changes(init_sets, final_sets):
+    removed = [init_sets[idx] - final_sets[idx] for idx in range(8)]
+    added = [final_sets[idx] - init_sets[idx] for idx in range(8)]
+    return removed, added
+
+
+def bit_effect_summary(pair_effects, combo_ids):
+    removed_union = [set() for _ in range(8)]
+    added_union = [set() for _ in range(8)]
+    removed_occurrences = 0
+    added_occurrences = 0
+    for idx in combo_ids:
+        removed, added = pair_effects[idx]
+        for lane_idx in range(8):
+            removed_occurrences += len(removed[lane_idx])
+            added_occurrences += len(added[lane_idx])
+            removed_union[lane_idx].update(removed[lane_idx])
+            added_union[lane_idx].update(added[lane_idx])
+    removed_union_total = sum(len(items) for items in removed_union)
+    added_union_total = sum(len(items) for items in added_union)
+    return {
+        "pair_removed_union_total": removed_union_total,
+        "pair_added_union_total": added_union_total,
+        "pair_removed_occurrences": removed_occurrences,
+        "pair_added_occurrences": added_occurrences,
+        "pair_removed_repeat_excess": removed_occurrences - removed_union_total,
+        "pair_added_repeat_excess": added_occurrences - added_union_total,
+    }
+
+
 def flip_bits(base_m2, bits):
     m2 = list(base_m2)
     for bit_index in bits:
@@ -130,6 +168,10 @@ def main():
     )
     ap.add_argument("--min-standalone-net-delta-sum", type=int, default=None)
     ap.add_argument("--max-standalone-net-delta-sum", type=int, default=None)
+    ap.add_argument("--min-pair-removed-union", type=int, default=None)
+    ap.add_argument("--max-pair-added-union", type=int, default=None)
+    ap.add_argument("--min-pair-added-repeat-excess", type=int, default=None)
+    ap.add_argument("--min-pair-removed-repeat-excess", type=int, default=None)
     ap.add_argument("--out", required=True)
     ap.add_argument("--label", default="")
     args = ap.parse_args()
@@ -172,6 +214,23 @@ def main():
             e["bit_indices"],
         ),
     )
+    use_bit_overlap_signature = any(
+        value is not None
+        for value in (
+            args.min_pair_removed_union,
+            args.max_pair_added_union,
+            args.min_pair_added_repeat_excess,
+            args.min_pair_removed_repeat_excess,
+        )
+    )
+    pair_effects = None
+    if use_bit_overlap_signature:
+        init_sets = diff_bit_sets(init_diff)
+        pair_effects = []
+        for pair in selected_pairs:
+            pair_m2 = flip_bits(base_m2, pair["bit_indices"])
+            _, pair_diff = eval_m2(iv1, iv2, m1_w, pair_m2, args.rounds)
+            pair_effects.append(lane_changes(init_sets, diff_bit_sets(pair_diff)))
 
     print(
         f"=== m2_target_pair_combo.py: rank={args.rank}/{total} "
@@ -190,6 +249,7 @@ def main():
         "skipped_late_pair_motif": 0,
         "skipped_pair_graph_motif": 0,
         "skipped_delta_signature": 0,
+        "skipped_bit_overlap_signature": 0,
     }
     seen = set()
     top_by_hw = []
@@ -282,6 +342,33 @@ def main():
             if failed_delta_signature:
                 counts["skipped_delta_signature"] += 1
                 continue
+        bit_overlap_summary = None
+        if use_bit_overlap_signature:
+            bit_overlap_summary = bit_effect_summary(pair_effects, combo_ids)
+            failed_bit_overlap_signature = False
+            if (
+                args.min_pair_removed_union is not None
+                and bit_overlap_summary["pair_removed_union_total"] < args.min_pair_removed_union
+            ):
+                failed_bit_overlap_signature = True
+            if (
+                args.max_pair_added_union is not None
+                and bit_overlap_summary["pair_added_union_total"] > args.max_pair_added_union
+            ):
+                failed_bit_overlap_signature = True
+            if (
+                args.min_pair_added_repeat_excess is not None
+                and bit_overlap_summary["pair_added_repeat_excess"] < args.min_pair_added_repeat_excess
+            ):
+                failed_bit_overlap_signature = True
+            if (
+                args.min_pair_removed_repeat_excess is not None
+                and bit_overlap_summary["pair_removed_repeat_excess"] < args.min_pair_removed_repeat_excess
+            ):
+                failed_bit_overlap_signature = True
+            if failed_bit_overlap_signature:
+                counts["skipped_bit_overlap_signature"] += 1
+                continue
         bits = tuple(sorted({b for idx in combo_ids for b in selected_pairs[idx]["bit_indices"]}))
         radius = len(bits)
         if radius < args.min_radius or radius > args.max_radius:
@@ -309,6 +396,7 @@ def main():
             "target_l1_delta": target_l1 - init_target_l1,
             "standalone_net_delta_sum": standalone_net_delta_sum,
             "delta_lane_sum": delta_lane_sum,
+            "bit_overlap_signature": bit_overlap_summary,
             "pair_sources": [selected_pairs[idx].get("selection_sources", []) for idx in combo_ids],
             "M2": [f"0x{x:08x}" for x in m2],
         }
@@ -363,6 +451,10 @@ def main():
             "max_delta_lane_sum": max_delta_lane_sum,
             "min_standalone_net_delta_sum": args.min_standalone_net_delta_sum,
             "max_standalone_net_delta_sum": args.max_standalone_net_delta_sum,
+            "min_pair_removed_union": args.min_pair_removed_union,
+            "max_pair_added_union": args.max_pair_added_union,
+            "min_pair_added_repeat_excess": args.min_pair_added_repeat_excess,
+            "min_pair_removed_repeat_excess": args.min_pair_removed_repeat_excess,
         },
         "counts": counts,
         "top_by_hw": top_by_hw,
@@ -379,8 +471,11 @@ def main():
         f"  evaluated={counts['evaluated']} hw<init={counts['hw_lt_init']} "
         f"hw<=init={counts['hw_le_init']} target<init={counts['target_l1_lt_init']}"
     )
-    print(f"  best HW combo: {top_by_hw[0]['hw_total']} target_l1={top_by_hw[0]['target_l1']}")
-    print(f"  best target combo: l1={top_by_target[0]['target_l1']} hw={top_by_target[0]['hw_total']}")
+    if top_by_hw:
+        print(f"  best HW combo: {top_by_hw[0]['hw_total']} target_l1={top_by_hw[0]['target_l1']}")
+        print(f"  best target combo: l1={top_by_target[0]['target_l1']} hw={top_by_target[0]['hw_total']}")
+    else:
+        print("  no combos passed filters")
     print(f"Total wall: {wall:.1f}s")
     print(f"wrote {out}")
 
