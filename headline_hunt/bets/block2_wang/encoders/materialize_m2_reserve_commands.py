@@ -120,6 +120,7 @@ def main():
     ap.add_argument("--skip-m2", action="append", default=[], help="Comma-separated M2 words to skip.")
     ap.add_argument("--date", default=datetime.now().strftime("%Y%m%d"))
     ap.add_argument("--start-id", type=int, required=True)
+    ap.add_argument("--id-step", type=int, default=1, help="Increment between materialized run IDs.")
     ap.add_argument("--limit", type=int, default=5)
     ap.add_argument("--out-dir", default="headline_hunt/bets/block2_wang/results/search_artifacts")
     ap.add_argument("--out", required=True)
@@ -130,7 +131,7 @@ def main():
     skip_keys = load_skip_keys(args.skip_artifact, args.skip_m2)
     rows = collect(plan, skip_keys, args.limit)
     commands = [
-        materialize(candidate, args.start_id + index, args.date, args.out_dir)
+        materialize(candidate, args.start_id + index * args.id_step, args.date, args.out_dir)
         for index, candidate in enumerate(rows)
     ]
 
@@ -139,6 +140,7 @@ def main():
         "plan": args.plan,
         "date": args.date,
         "start_id": args.start_id,
+        "id_step": args.id_step,
         "limit": args.limit,
         "skip_artifacts": args.skip_artifact,
         "skip_m2": args.skip_m2,
