@@ -94,12 +94,15 @@ def main():
     ap.add_argument("--progress-every", type=int, default=0)
     ap.add_argument("--late-word-start", type=int, default=12)
     ap.add_argument("--late-word-end", type=int, default=15)
+    ap.add_argument("--early-word-end", type=int, default=8)
     ap.add_argument(
         "--min-late-pairs",
         type=int,
         default=0,
         help="Require at least this many selected pairs to touch words in late-word-start..late-word-end.",
     )
+    ap.add_argument("--min-late-late-pairs", type=int, default=0)
+    ap.add_argument("--min-early-late-pairs", type=int, default=0)
     ap.add_argument("--out", required=True)
     ap.add_argument("--label", default="")
     args = ap.parse_args()
@@ -156,6 +159,7 @@ def main():
         "cg_lt_init": 0,
         "target_l1_lt_init": 0,
         "skipped_late_pair_motif": 0,
+        "skipped_pair_graph_motif": 0,
     }
     seen = set()
     top_by_hw = []
@@ -196,6 +200,20 @@ def main():
                     late_pairs += 1
             if late_pairs < args.min_late_pairs:
                 counts["skipped_late_pair_motif"] += 1
+                continue
+        if args.min_late_late_pairs or args.min_early_late_pairs:
+            late_late_pairs = 0
+            early_late_pairs = 0
+            for idx in combo_ids:
+                words = [bit_index // 32 for bit_index in selected_pairs[idx]["bit_indices"]]
+                touches_late = any(args.late_word_start <= word <= args.late_word_end for word in words)
+                touches_early = any(word <= args.early_word_end for word in words)
+                if all(args.late_word_start <= word <= args.late_word_end for word in words):
+                    late_late_pairs += 1
+                if touches_late and touches_early:
+                    early_late_pairs += 1
+            if late_late_pairs < args.min_late_late_pairs or early_late_pairs < args.min_early_late_pairs:
+                counts["skipped_pair_graph_motif"] += 1
                 continue
         bits = tuple(sorted({b for idx in combo_ids for b in selected_pairs[idx]["bit_indices"]}))
         radius = len(bits)
@@ -268,7 +286,10 @@ def main():
             "rng_seed": args.rng_seed if args.sample_combos else None,
             "late_word_start": args.late_word_start,
             "late_word_end": args.late_word_end,
+            "early_word_end": args.early_word_end,
             "min_late_pairs": args.min_late_pairs,
+            "min_late_late_pairs": args.min_late_late_pairs,
+            "min_early_late_pairs": args.min_early_late_pairs,
         },
         "counts": counts,
         "top_by_hw": top_by_hw,
