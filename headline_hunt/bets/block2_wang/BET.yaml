@@ -29,7 +29,33 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-04T03:15:45Z'
+last_heartbeat: '2026-05-04T03:18:47Z'
+recent_progress_2026-05-04_F787_bit_overlap_diagnostic: |
+  yale-codex added analyze_m2_combo_bit_overlap.py to compare combo records at
+  the final-diff bit-position level.
+
+  Compared F760/F763 HW82 records with F782/F783/F786 near misses by asking
+  how much of the actual combo repair/addition set is covered by the union of
+  standalone pair repair/addition sets.
+
+  Key result:
+    F760 best HW82: removed 52, added 49
+    F763 best HW82: removed 54, added 54
+    F782 best HW87: removed 62, added 67
+    F783 best HW90: removed 54, added 62
+    F786 best HW93: removed 52, added 63
+
+  Standalone repair coverage does not separate successes:
+    F763 covers 53/54 repaired bits
+    F782 covers 62/62 repaired bits
+    F786 covers 52/52 repaired bits
+
+  Interpretation:
+    The near misses know how to repair bits; they fail by adding too many new
+    final-state bits. Next selector should estimate addition risk before full
+    evaluation: reward repeated standalone-added bits and penalize broad
+    added-bit union while keeping high repair union.
+
 recent_progress_2026-05-04_F786_delta_signature_negative: |
   yale-codex added lane-delta signature filters to m2_target_pair_combo.py and
   tested a selector modeled on the F763 HW82 composition.
