@@ -98,6 +98,15 @@ def flip_bits(base_m2, bits):
     return m2
 
 
+def m2_transition_counts(base_m2, m2):
+    added = 0
+    removed = 0
+    for base_word, word in zip(base_m2, m2):
+        added += bin((~base_word) & word & MASK).count("1")
+        removed += bin(base_word & (~word) & MASK).count("1")
+    return added, removed, added - removed
+
+
 def pair_key(entry):
     return tuple(sorted(entry["bit_indices"]))
 
@@ -172,6 +181,12 @@ def main():
     ap.add_argument("--max-pair-added-union", type=int, default=None)
     ap.add_argument("--min-pair-added-repeat-excess", type=int, default=None)
     ap.add_argument("--min-pair-removed-repeat-excess", type=int, default=None)
+    ap.add_argument("--min-m2-added", type=int, default=None)
+    ap.add_argument("--max-m2-added", type=int, default=None)
+    ap.add_argument("--min-m2-removed", type=int, default=None)
+    ap.add_argument("--max-m2-removed", type=int, default=None)
+    ap.add_argument("--min-m2-net-added", type=int, default=None)
+    ap.add_argument("--max-m2-net-added", type=int, default=None)
     ap.add_argument("--out", required=True)
     ap.add_argument("--label", default="")
     args = ap.parse_args()
@@ -250,6 +265,7 @@ def main():
         "skipped_pair_graph_motif": 0,
         "skipped_delta_signature": 0,
         "skipped_bit_overlap_signature": 0,
+        "skipped_m2_shape_signature": 0,
     }
     seen = set()
     top_by_hw = []
@@ -379,6 +395,23 @@ def main():
             continue
         seen.add(bits)
         m2 = flip_bits(base_m2, bits)
+        m2_added, m2_removed, m2_net_added = m2_transition_counts(base_m2, m2)
+        failed_m2_shape = False
+        if args.min_m2_added is not None and m2_added < args.min_m2_added:
+            failed_m2_shape = True
+        if args.max_m2_added is not None and m2_added > args.max_m2_added:
+            failed_m2_shape = True
+        if args.min_m2_removed is not None and m2_removed < args.min_m2_removed:
+            failed_m2_shape = True
+        if args.max_m2_removed is not None and m2_removed > args.max_m2_removed:
+            failed_m2_shape = True
+        if args.min_m2_net_added is not None and m2_net_added < args.min_m2_net_added:
+            failed_m2_shape = True
+        if args.max_m2_net_added is not None and m2_net_added > args.max_m2_net_added:
+            failed_m2_shape = True
+        if failed_m2_shape:
+            counts["skipped_m2_shape_signature"] += 1
+            continue
         hw, diff = eval_m2(iv1, iv2, m1_w, m2, args.rounds)
         lane = hw_per_lane(diff)
         cg_obj = objective_value(hw, lane, "cg", [1.0] * 8, args.cg_weight)
@@ -387,6 +420,9 @@ def main():
             "pair_ids": list(combo_ids),
             "bits": list(bits),
             "radius": radius,
+            "m2_added_bits": m2_added,
+            "m2_removed_bits": m2_removed,
+            "m2_net_added_bits": m2_net_added,
             "hw_total": hw,
             "net_delta": hw - init_hw,
             "lane_hw": lane,
@@ -455,6 +491,12 @@ def main():
             "max_pair_added_union": args.max_pair_added_union,
             "min_pair_added_repeat_excess": args.min_pair_added_repeat_excess,
             "min_pair_removed_repeat_excess": args.min_pair_removed_repeat_excess,
+            "min_m2_added": args.min_m2_added,
+            "max_m2_added": args.max_m2_added,
+            "min_m2_removed": args.min_m2_removed,
+            "max_m2_removed": args.max_m2_removed,
+            "min_m2_net_added": args.min_m2_net_added,
+            "max_m2_net_added": args.max_m2_net_added,
         },
         "counts": counts,
         "top_by_hw": top_by_hw,
