@@ -29,7 +29,35 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-04T02:56:53Z'
+last_heartbeat: '2026-05-04T03:09:36Z'
+recent_progress_2026-05-04_F784_f782_detour_pair_beam_closed: |
+  yale-codex restarted standard pure-HW M2 pair-beam from F782's best detour.
+
+  Seed:
+    init HW: 87
+    lane: [10, 8, 12, 15, 10, 7, 12, 13]
+    target L1: 13
+
+  Run:
+    objective: HW
+    pair_pool: 1024
+    beam_width: 1024
+    max_pairs: 6
+    max_radius: 12
+
+  Result:
+    pair pool HW range: 94..109
+    depth bests: 94, 91, 90, 91, 89, 90
+    new records below HW87: 0
+    best seen HW: 87, source init
+    wall: 661.42s
+
+  Interpretation:
+    The F782 detour has attractive target-lane geometry but no local pure-HW
+    repair path under the standard pair-beam operator. Next step is a cheap
+    one-pair potential atlas around the F782 detour; if that is also locally
+    closed, stop this branch.
+
 recent_progress_2026-05-04_F783_repair_graph_motif_negative: |
   yale-codex ran the repair-only counterpart to F782.
 
