@@ -151,6 +151,19 @@ def m2_weight(m2):
     return sum(word.bit_count() for word in m2)
 
 
+def m2_transition_counts(base_m2, m2):
+    added = 0
+    removed = 0
+    for base_word, word in zip(base_m2, m2):
+        added += ((~base_word) & word & MASK).bit_count()
+        removed += (base_word & (~word) & MASK).bit_count()
+    return added, removed, added - removed
+
+
+def shape_objective_adjustment(added, removed, net_add_penalty, removed_bonus):
+    return net_add_penalty * float(max(0, added - removed)) - removed_bonus * float(removed)
+
+
 def objective_value(
     hw_total,
     lane_hw,
@@ -231,6 +244,10 @@ def main():
                     help="Penalty multiplier on L1 distance to --target-lane.")
     ap.add_argument("--m2-weight-penalty", type=float, default=0.0,
                     help="Penalty multiplier on M2 popcount for sparse/target_sparse objectives.")
+    ap.add_argument("--shape-net-add-penalty", type=float, default=0.0,
+                    help="Extra objective penalty per net added M2 bit relative to init M2.")
+    ap.add_argument("--shape-removed-bonus", type=float, default=0.0,
+                    help="Extra objective bonus per removed init-M2 bit relative to init M2.")
     ap.add_argument("--min-m2-weight", type=int, default=None,
                     help="Reject pair/beam states with M2 popcount below this value.")
     ap.add_argument("--max-m2-weight", type=int, default=None,
@@ -285,6 +302,7 @@ def main():
         raise SystemExit(f"--init-hw mismatch: expected {args.init_hw}, evaluated {init_hw}")
     init_lane_hw = hw_per_lane(init_diff)
     init_m2_weight = m2_weight(m2_init)
+    init_m2_added, init_m2_removed, init_m2_net_added = m2_transition_counts(m2_init, m2_init)
     init_objective = objective_value(
         init_hw,
         init_lane_hw,
@@ -295,6 +313,12 @@ def main():
         args.target_weight,
         init_m2_weight,
         args.m2_weight_penalty,
+    )
+    init_objective += shape_objective_adjustment(
+        init_m2_added,
+        init_m2_removed,
+        args.shape_net_add_penalty,
+        args.shape_removed_bonus,
     )
     print(f"Init lane HW: {init_lane_hw} (sum={init_hw})")
     print(f"Init M2 weight: {init_m2_weight}")
@@ -320,6 +344,7 @@ def main():
         hw, diff = eval_m2(iv1, iv2, m1_W, m2, args.rounds)
         lane_hw = hw_per_lane(diff)
         pair_m2_weight = m2_weight(m2)
+        pair_added, pair_removed, pair_net_added = m2_transition_counts(base_M2, m2)
         if args.min_m2_weight is not None and pair_m2_weight < args.min_m2_weight:
             continue
         if args.max_m2_weight is not None and pair_m2_weight > args.max_m2_weight:
@@ -337,11 +362,20 @@ def main():
             pair_m2_weight,
             args.m2_weight_penalty,
         )
+        pair_objective += shape_objective_adjustment(
+            pair_added,
+            pair_removed,
+            args.shape_net_add_penalty,
+            args.shape_removed_bonus,
+        )
         all_pairs.append({
             "bit_indices": [i, j],
             "hw_total": hw,
             "lane_hw": lane_hw,
             "m2_weight": pair_m2_weight,
+            "m2_added_bits": pair_added,
+            "m2_removed_bits": pair_removed,
+            "m2_net_added_bits": pair_net_added,
             "objective": round(pair_objective, 6),
         })
     all_pairs.sort(key=lambda p: (p["objective"], p["hw_total"]))
@@ -360,6 +394,9 @@ def main():
         "hw": init_hw,
         "lane_hw": init_lane_hw,
         "m2_weight": init_m2_weight,
+        "m2_added_bits": init_m2_added,
+        "m2_removed_bits": init_m2_removed,
+        "m2_net_added_bits": init_m2_net_added,
         "objective": init_objective,
         "depth": 0,
         "M2": tuple(base_M2),
@@ -390,6 +427,7 @@ def main():
                 hw, diff = eval_m2(iv1, iv2, m1_W, tuple(new_M2), args.rounds)
                 lane_hw = hw_per_lane(diff)
                 new_m2_weight = m2_weight(new_M2)
+                new_added, new_removed, new_net_added = m2_transition_counts(base_M2, new_M2)
                 if args.min_m2_weight is not None and new_m2_weight < args.min_m2_weight:
                     continue
                 if args.max_m2_weight is not None and new_m2_weight > args.max_m2_weight:
@@ -409,6 +447,12 @@ def main():
                     new_m2_weight,
                     args.m2_weight_penalty,
                 )
+                state_objective += shape_objective_adjustment(
+                    new_added,
+                    new_removed,
+                    args.shape_net_add_penalty,
+                    args.shape_removed_bonus,
+                )
                 key = new_bits
                 if key in seen_states:
                     continue
@@ -418,6 +462,9 @@ def main():
                     "hw": hw,
                     "lane_hw": lane_hw,
                     "m2_weight": new_m2_weight,
+                    "m2_added_bits": new_added,
+                    "m2_removed_bits": new_removed,
+                    "m2_net_added_bits": new_net_added,
                     "objective": state_objective,
                     "depth": depth,
                     "M2": tuple(new_M2),
@@ -431,6 +478,9 @@ def main():
                         "hw": hw,
                         "lane_hw": lane_hw,
                         "m2_weight": new_m2_weight,
+                        "m2_added_bits": new_added,
+                        "m2_removed_bits": new_removed,
+                        "m2_net_added_bits": new_net_added,
                         "objective": round(state_objective, 6),
                         "M2": [f"0x{w:08x}" for w in new_M2],
                         "bits": sorted(new_bits),
@@ -465,6 +515,9 @@ def main():
     best_seen_m2 = [f"0x{w:08x}" for w in initial["M2"]]
     best_seen_lane_hw = initial["lane_hw"]
     best_seen_m2_weight = initial["m2_weight"]
+    best_seen_m2_added = initial["m2_added_bits"]
+    best_seen_m2_removed = initial["m2_removed_bits"]
+    best_seen_m2_net_added = initial["m2_net_added_bits"]
     best_seen_depth = initial["depth"]
     best_seen_source = "init"
     if beam:
@@ -474,6 +527,9 @@ def main():
             best_seen_m2 = [f"0x{w:08x}" for w in beam_best["M2"]]
             best_seen_lane_hw = beam_best["lane_hw"]
             best_seen_m2_weight = beam_best["m2_weight"]
+            best_seen_m2_added = beam_best["m2_added_bits"]
+            best_seen_m2_removed = beam_best["m2_removed_bits"]
+            best_seen_m2_net_added = beam_best["m2_net_added_bits"]
             best_seen_depth = beam_best["depth"]
             best_seen_source = "final_beam"
     if top_records and top_records[0]["hw"] < best_seen_hw:
@@ -481,6 +537,9 @@ def main():
         best_seen_m2 = top_records[0]["M2"]
         best_seen_lane_hw = top_records[0]["lane_hw"]
         best_seen_m2_weight = top_records[0]["m2_weight"]
+        best_seen_m2_added = top_records[0]["m2_added_bits"]
+        best_seen_m2_removed = top_records[0]["m2_removed_bits"]
+        best_seen_m2_net_added = top_records[0]["m2_net_added_bits"]
         best_seen_depth = top_records[0]["depth"]
         best_seen_source = "new_records"
     print(f"best seen HW={best_seen_hw} source={best_seen_source}")
@@ -501,6 +560,8 @@ def main():
         "target_lane": target_lane,
         "target_weight": args.target_weight,
         "m2_weight_penalty": args.m2_weight_penalty,
+        "shape_net_add_penalty": args.shape_net_add_penalty,
+        "shape_removed_bonus": args.shape_removed_bonus,
         "min_m2_weight": args.min_m2_weight,
         "max_m2_weight": args.max_m2_weight,
         "max_added_word": dict(sorted(added_word_caps.items())),
@@ -513,17 +574,26 @@ def main():
         "init_M2_overridden": bool(args.init_M2),
         "init_hw": init_hw,
         "init_m2_weight": init_m2_weight,
+        "init_m2_added_bits": init_m2_added,
+        "init_m2_removed_bits": init_m2_removed,
+        "init_m2_net_added_bits": init_m2_net_added,
         "absorber_best_hw_claimed": absorber_best_hw,
         "best_seen_hw": best_seen_hw,
         "best_seen_M2": best_seen_m2,
         "best_seen_lane_hw": best_seen_lane_hw,
         "best_seen_m2_weight": best_seen_m2_weight,
+        "best_seen_m2_added_bits": best_seen_m2_added,
+        "best_seen_m2_removed_bits": best_seen_m2_removed,
+        "best_seen_m2_net_added_bits": best_seen_m2_net_added,
         "best_seen_depth": best_seen_depth,
         "best_seen_source": best_seen_source,
         "best_objective": round(best_objective_state["objective"], 6),
         "best_objective_hw": best_objective_state["hw"],
         "best_objective_lane_hw": best_objective_state["lane_hw"],
         "best_objective_m2_weight": best_objective_state["m2_weight"],
+        "best_objective_m2_added_bits": best_objective_state["m2_added_bits"],
+        "best_objective_m2_removed_bits": best_objective_state["m2_removed_bits"],
+        "best_objective_m2_net_added_bits": best_objective_state["m2_net_added_bits"],
         "best_objective_depth": best_objective_state["depth"],
         "best_objective_bits": sorted(best_objective_state["bits"]),
         "best_objective_M2": [f"0x{w:08x}" for w in best_objective_state["M2"]],
