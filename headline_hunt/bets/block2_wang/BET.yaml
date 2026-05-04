@@ -29,7 +29,7 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-04T00:39:18Z'
+last_heartbeat: '2026-05-04T00:53:52Z'
 recent_progress_2026-05-03_F549_bit24_HW85_closed: |
   macbook-claude iter from bit24 HW=85 with cg-rank radius 12.
   Stayed at HW=85 (locally closed).
@@ -454,6 +454,29 @@ recent_progress_2026-05-04_F771_bit24_F769_HW84_cg_restart_negative: |
     The F769 HW84 side basin is closed under the c/g restart. The detour branch
     produced HW84 but has not found a route back to or below HW82; direct
     detour/repair work should pause unless a new operator is added.
+
+recent_progress_2026-05-04_F772_bit24_target_objective_beam_HW84: |
+  yale-codex added a target-lane objective to block2_m2_pair_beam.py and ran
+  the first full target-objective beam from F768's HW85 detour.
+
+  Setup:
+    init HW 85
+    init lane [14,11,10,13,7,6,12,12]
+    target lane bit13 HW82 [10,11,9,12,9,7,10,14]
+    objective = HW + 2*target_L1
+    pair_rank=target, pair_pool=1024, beam=1024, max_pairs=6
+
+  Result:
+    HW85 -> HW84
+    best lane [13,9,9,8,9,15,12,9]
+    target L1 24
+    wall 677.07s
+
+  Interpretation:
+    The target-objective tool works and found a distinct HW84 record, but it
+    did not preserve target-lane closeness. The best target-objective state
+    remained the seed. Soft target weight 2 is not enough; future constrained
+    repair should use a higher target weight or a hard target-L1 cap.
 
 recent_progress_2026-05-03_F747_pathC_bit4_cg_negative: |
   yale-codex restarted Mac's F547 bit4 path-C HW89 absorber witness with c/g
