@@ -307,17 +307,17 @@ def main():
                 continue
         delta_lane_sum = [0] * 8
         standalone_net_delta_sum = 0
+        for idx in combo_ids:
+            pair = selected_pairs[idx]
+            standalone_net_delta_sum += pair["hw_total"] - init_hw
+            for lane_idx, value in enumerate(pair["delta_lane_hw"]):
+                delta_lane_sum[lane_idx] += value
         if (
             min_delta_lane_sum
             or max_delta_lane_sum
             or args.min_standalone_net_delta_sum is not None
             or args.max_standalone_net_delta_sum is not None
         ):
-            for idx in combo_ids:
-                pair = selected_pairs[idx]
-                standalone_net_delta_sum += pair["hw_total"] - init_hw
-                for lane_idx, value in enumerate(pair["delta_lane_hw"]):
-                    delta_lane_sum[lane_idx] += value
             failed_delta_signature = False
             if (
                 args.min_standalone_net_delta_sum is not None

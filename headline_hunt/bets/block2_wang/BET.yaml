@@ -29,7 +29,39 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-04T03:18:47Z'
+last_heartbeat: '2026-05-04T04:17:52Z'
+recent_progress_2026-05-04_F788_overlap_pair6_negative_detour: |
+  yale-codex ran the first six-pair M2 combo sample from the original F760
+  bit24 HW82 parent, using the F787 bit-overlap selector.
+
+  Selector:
+    pair removed-bit union >= 80
+    pair added-bit union <= 170
+    pair added-bit repeat excess >= 250
+
+  Result:
+    sampled combos: 20,000,000
+    skipped by overlap signature: 3,349,939
+    evaluated: 16,647,332
+    HW < 82: 0
+    HW <= 82: 0
+    c/g-improving: 40
+    target-L1-improving: 8,860
+    best HW: 86 / target L1 16
+    best target: HW89 / target L1 9
+
+  Best-HW detour:
+    lane [14, 13, 10, 8, 8, 8, 12, 13]
+    removed bits 56, added bits 60
+    standalone net-delta sum 175
+    nonlinear HW gain 171
+
+  Interpretation:
+    The overlap selector found a real side detour but did not preserve the
+    HW82 floor. Failure mode remains "repairs work, additions are not
+    suppressed enough." Next step is pure-HW M2 pair-beam restart from the
+    F788 HW86 detour, matching the earlier F768 -> F769 repair test.
+
 recent_progress_2026-05-04_F787_bit_overlap_diagnostic: |
   yale-codex added analyze_m2_combo_bit_overlap.py to compare combo records at
   the final-diff bit-position level.
