@@ -29,7 +29,29 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-04T09:17:25Z'
+last_heartbeat: '2026-05-04T09:30:18Z'
+recent_progress_2026-05-04_F815_F799_repair_m2cap48_closed: |
+  yale-codex reran the F800-producing pure-HW repair from F799 HW87 with
+  max M2 weight 48.
+
+  Setup:
+    init HW: 87
+    init lane: [12, 12, 7, 8, 13, 10, 9, 16]
+    init M2 weight: 40
+    objective: pure HW
+    max M2 weight: 48
+
+  Result:
+    pair-pool HW range: 91..109
+    depth bests: 91, 93, 91, 90, 88, 92
+    new records below HW87: 0
+    best seen HW: 87, source init
+    wall: 693.84s
+
+  Interpretation:
+    M2 weight 48 is still not enough. The F799 branch only repairs when it jumps
+    to M2 weight 50, which then leads into the closed over-filled F800/F802
+    geometry.
 recent_progress_2026-05-04_F814_F799_repair_m2cap44_closed: |
   yale-codex reran the F800-producing pure-HW repair from F799 HW87 with
   max M2 weight 44.
