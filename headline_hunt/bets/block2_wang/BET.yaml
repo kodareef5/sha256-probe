@@ -29,7 +29,7 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-04T00:12:16Z'
+last_heartbeat: '2026-05-04T00:25:24Z'
 recent_progress_2026-05-03_F549_bit24_HW85_closed: |
   macbook-claude iter from bit24 HW=85 with cg-rank radius 12.
   Stayed at HW=85 (locally closed).
@@ -391,6 +391,30 @@ recent_progress_2026-05-03_F768_bit24_F760_HW82_repair_cg_sample20m_negative: |
     slack than F763. F765 from F763 had only 250 target improvements; F768
     from F760 has 10,634. The best HW85 sample is worth one standard pair-beam
     repair check, but direct five-pair repair/cg sampling has not broken HW82.
+
+recent_progress_2026-05-04_F769_bit24_F768_HW85_repaired_to_HW84: |
+  yale-codex restarted pure-HW M2 pair-beam from F768's best raw-HW sample.
+
+  Setup:
+    init HW 85
+    init lane [14,11,10,13,7,6,12,12]
+    target L1 13
+    c/g objective 129
+    objective=hw, pair_rank=hw
+    pair_pool=1024, beam=1024, max_pairs=6, max_radius=12
+
+  Result:
+    HW85 -> HW84
+    best depth 4
+    best lane [12,6,13,8,9,11,9,16]
+    target L1 22
+    c/g objective 128
+    wall 690.82s
+
+  Interpretation:
+    The F768 detour is repairable by standard pure-HW pair-beam, unlike the
+    F765 HW88 target detour. The repair gives up target-lane closeness, but it
+    opens a concrete bit24 HW84 side basin that should be mapped once.
 
 recent_progress_2026-05-03_F747_pathC_bit4_cg_negative: |
   yale-codex restarted Mac's F547 bit4 path-C HW89 absorber witness with c/g
