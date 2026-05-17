@@ -344,6 +344,56 @@ those r61-only witnesses still have mediocre tails, so the split-registry
 model remains right. No tail improvement appeared after crossing 61% of the
 N=13 prefix surface, and the full reduced-width N=13 scan surface is now
 complete. The added `630..1023` windows only reached HW12, at
-`sample_start=53477376` and `sample_start=55377920`. The latest r61-HW7 repeat
-is `sample_start=65142784`, with tail HW20. The best r61-HW7 tail remains HW16
-at `sample_start=26607616` and `sample_start=54853632`.
+`sample_start=53477376` and `sample_start=55377920`. Corrected the summarizer
+to distinguish `window_tail` from the actual `r61_tail`: the latest r61-HW7
+repeat is `sample_start=65142784`, with `r61_tail=27`, and the best true
+r61-HW7 tail is HW16 at `sample_start=54853632`.
+
+## 2026-05-17 ~late EDT
+
+Shifted from N=13 coverage to new fronts after full-surface exhaustion.
+
+Added:
+
+- `analyze_scan_structure.py` for log-level D60/fiber/bucket/registry analysis.
+- `run_scan_batch.py --refine-seed-cap` for richer retained witness pools.
+- `run_scan_batch.py --stride` for strided sampling across a larger surface.
+- `20260517_next_fronts_after_n13.md` as the next-front artifact.
+
+N=13 structure mining says D60 density and fiber shape are not good selectors:
+
+```text
+correlation vs best_tail:
+best_r61             -0.0232
+tail_r61             +0.2541
+d0                   -0.0245
+d0_prefixes          -0.0120
+max_fiber            -0.0433
+largest_bucket_count +0.0394
+```
+
+N=14 contiguous staged pilot:
+
+```text
+windows          = 112
+prefixes covered = 3,670,016 / 268,435,456 = 1.37%
+triples          = 60,129,542,144
+best tail HW     = 16 at sample_start 458752
+best r61 HW      = 10 at sample_start 2097152, actual r61_tail HW36
+```
+
+N=14 strided registry pilot:
+
+```text
+windows          = 32 across window range 112..8048
+prefixes covered = 1,048,576 / 268,435,456 = 0.39%
+triples          = 17,179,869,184
+best tail HW     = 16 at sample_start 54001664
+best r61 HW      = 11 at sample_start 54001664, actual r61_tail HW27
+registry entries = 512 tail + 512 r61
+```
+
+Current read: N=14 is alive as a staged sampling front, but if another few
+hundred registry-rich windows stay at tail HW16+ with no r61<=9 joint structure,
+the better next build is an interface change: D60 low-HW repair, wider free-word
+shaping, or cross-window registry recombination.

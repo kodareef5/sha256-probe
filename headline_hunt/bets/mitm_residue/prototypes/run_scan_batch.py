@@ -42,7 +42,8 @@ def unique_log_path(out_dir: Path, n: int, sample_start: int) -> Path:
     raise RuntimeError(f"too many reruns for sample_start={sample_start}")
 
 
-def launch(binary: Path, n: int, prefix_limit: int, sample_start: int,
+def launch(binary: Path, n: int, prefix_limit: int, refine_budget: int,
+           refine_seed_cap: int, sample_start: int,
            out_dir: Path) -> tuple[subprocess.Popen[bytes], Path]:
     log_path = unique_log_path(out_dir, n, sample_start)
     log_file = log_path.open("wb")
@@ -51,8 +52,8 @@ def launch(binary: Path, n: int, prefix_limit: int, sample_start: int,
             str(binary),
             str(n),
             str(prefix_limit),
-            "0",
-            "0",
+            str(refine_budget),
+            str(refine_seed_cap),
             str(sample_start),
             "scan",
         ],
@@ -68,7 +69,10 @@ def main() -> int:
     parser.add_argument("--binary", default="/private/tmp/free_word_mitm_reducedn")
     parser.add_argument("--n", type=int, default=13)
     parser.add_argument("--prefix-limit", type=int, default=65536)
+    parser.add_argument("--refine-budget", type=int, default=0)
+    parser.add_argument("--refine-seed-cap", type=int, default=1)
     parser.add_argument("--start-window", type=int, required=True)
+    parser.add_argument("--stride", type=int, default=1)
     parser.add_argument("--windows", type=int, required=True)
     parser.add_argument("--workers", type=int, default=8)
     parser.add_argument("--out-dir", required=True)
@@ -80,7 +84,7 @@ def main() -> int:
     summary_path = out_dir / "summaries.jsonl"
 
     pending = [
-        (args.start_window + i) * args.prefix_limit
+        (args.start_window + i * args.stride) * args.prefix_limit
         for i in range(args.windows)
     ]
     active: list[tuple[subprocess.Popen[bytes], Path, int, float]] = []
@@ -91,6 +95,7 @@ def main() -> int:
             while pending and len(active) < args.workers:
                 sample_start = pending.pop(0)
                 proc, log_path = launch(binary, args.n, args.prefix_limit,
+                                        args.refine_budget, args.refine_seed_cap,
                                         sample_start, out_dir)
                 active.append((proc, log_path, sample_start, time.time()))
                 print(f"launched sample_start={sample_start} pid={proc.pid}", flush=True)

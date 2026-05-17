@@ -381,59 +381,59 @@ for the first three HW7 r61-only points; later scan-only repeats are retained
 in the JSONL:
 
 ```text
-sample_start = 26607616
+sample_start = 54853632
 r61 HW       = 7
-tail HW      = 16
-W1[57..59]   = 0368,1385,0157
-W2[57..59]   = 1ce4,16cd,17cf
+r61-tail HW  = 16
+W1[57..59]   = 0f48,0b0a,0a7b
+W2[57..59]   = 08c4,167e,1071
+
+sample_start = 47054848
+r61 HW       = 7
+r61-tail HW  = 25
+W1[57..59]   = 1366,0abe,1713
+W2[57..59]   = 0ce2,0e22,0dd9
+
+sample_start = 28442624
+r61 HW       = 7
+r61-tail HW  = 26
+W1[57..59]   = 02b0,195e,15b0
+W2[57..59]   = 1c2c,0a0c,1228
 
 sample_start = 8257536
 r61 HW       = 7
-tail HW      = 27
+r61-tail HW  = 27
 W1[57..59]   = 1330,1b38,04f8
 W2[57..59]   = 0cac,0be6,0d2e
 
+sample_start = 26607616
+r61 HW       = 7
+r61-tail HW  = 27
+W1[57..59]   = 0368,1385,0157
+W2[57..59]   = 1ce4,16cd,17cf
+
+sample_start = 65142784
+r61 HW       = 7
+r61-tail HW  = 27
+W1[57..59]   = 12e6,062d,0f31
+W2[57..59]   = 0c62,1b11,0f37
+
 sample_start = 14680064
 r61 HW       = 7
-tail HW      = 32
+r61-tail HW  = 32
 W1[57..59]   = 1e88,157b,0b71
 W2[57..59]   = 1804,1397,0b67
 
 sample_start = 22151168
 r61 HW       = 7
-tail HW      = 33
+r61-tail HW  = 33
 W1[57..59]   = 0288,15af,16e2
 W2[57..59]   = 1c04,0847,08ea
 
-sample_start = 28442624
-r61 HW       = 7
-tail HW      = 19
-W1[57..59]   = 02b0,195e,15b0
-W2[57..59]   = 1c2c,0a0c,1228
-
-sample_start = 47054848
-r61 HW       = 7
-tail HW      = 20
-W1[57..59]   = 1366,0abe,1713
-W2[57..59]   = 0ce2,0e22,0dd9
-
-sample_start = 54853632
-r61 HW       = 7
-tail HW      = 16
-W1[57..59]   = 0f48,0b0a,0a7b
-W2[57..59]   = 08c4,167e,1071
-
 sample_start = 62390272
 r61 HW       = 7
-tail HW      = 20
+r61-tail HW  = 35
 W1[57..59]   = 0306,1bd0,07ec
 W2[57..59]   = 1c82,0e64,07e2
-
-sample_start = 65142784
-r61 HW       = 7
-tail HW      = 20
-W1[57..59]   = 12e6,062d,0f31
-W2[57..59]   = 0c62,1b11,0f37
 ```
 
 The N=13 scan surface is now exhausted for this reduced-width setup. Crossing

@@ -5,7 +5,27 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 from pathlib import Path
+
+
+R61_WIT_RE = re.compile(r"\s+r61_witness\[00\] r61=(?P<r61>\d+) tail=(?P<tail>\d+)")
+
+
+def enrich_from_log(row: dict[str, object]) -> None:
+    log_path = row.get("log")
+    if not isinstance(log_path, str):
+        return
+    path = Path(log_path)
+    if not path.exists():
+        return
+    for line in path.read_text(encoding="utf-8", errors="replace").splitlines():
+        match = R61_WIT_RE.match(line)
+        if not match:
+            continue
+        row["r61_tail"] = int(match.group("tail"))
+        row["r61_registry_hw"] = int(match.group("r61"))
+        return
 
 
 def load_rows(path: Path) -> list[dict[str, object]]:
@@ -19,6 +39,7 @@ def load_rows(path: Path) -> list[dict[str, object]]:
         if sample_start in seen:
             continue
         seen.add(sample_start)
+        enrich_from_log(row)
         rows.append(row)
     return rows
 
@@ -62,9 +83,11 @@ def main() -> int:
 
     print("\nbest_r61:")
     for row in sorted(rows, key=lambda r: (int(r["best_r61"]), int(r["best_tail"])))[:args.top]:
+        r61_tail = row.get("r61_tail", "?")
         print(
             f"  sample_start={row['sample_start']} r61={row['best_r61']} "
-            f"tail={row['best_tail']} W1={row['r61_W1']} W2={row['r61_W2']}"
+            f"r61_tail={r61_tail} window_tail={row['best_tail']} "
+            f"W1={row['r61_W1']} W2={row['r61_W2']}"
         )
 
     return 0
