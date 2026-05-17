@@ -319,12 +319,12 @@ Built logged batch tooling for the all-day N=13 sweep:
 - Batch summaries are in
   `headline_hunt/bets/mitm_residue/results/runs/20260517_n13_scan_batch/summaries.jsonl`.
 
-Checkpoint through window 629:
+Checkpoint through window 693:
 
 ```text
-unique N=13 windows = 630
-prefixes covered    = 41,287,680 / 67,108,864 = 61.52%
-triples covered     = 338,228,674,560
+unique N=13 windows = 694
+prefixes covered    = 45,481,984 / 67,108,864 = 67.77%
+triples covered     = 372,588,412,928
 tail frontier       = HW7 at sample_start 24641536
 r61 frontier        = HW7 in five logged windows
 ```
@@ -342,4 +342,4 @@ found 64,306 `D60=0` returns, but did not improve below HW7. The separate r61
 frontier also improved from HW8 to HW7 and repeated in five logged windows;
 those r61-only witnesses still have mediocre tails, so the split-registry
 model remains right. No tail improvement appeared after crossing 61% of the
-N=13 prefix surface.
+N=13 prefix surface; the added `630..693` windows only reached HW13/HW14 tails.
