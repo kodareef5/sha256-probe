@@ -26,7 +26,7 @@
  * Run:
  *   /tmp/free_word_mitm_reducedn 8
  *   /tmp/free_word_mitm_reducedn 10 65536
- *   /tmp/free_word_mitm_reducedn 12 262144 1000000 128
+ *   /tmp/free_word_mitm_reducedn 12 262144 50000000 512 0
  */
 
 #include <inttypes.h>
@@ -117,8 +117,9 @@ typedef struct {
     uint64_t tested;
     uint64_t d0;
     uint64_t collision;
-    uint64_t phase_tested[3];
-    uint64_t phase_d0[3];
+    uint64_t phase_tested[4];
+    uint64_t phase_d0[4];
+    uint64_t prefix_enums;
     uint64_t seed_inserts;
     uint64_t tail_improvements;
     uint64_t r61_improvements;
@@ -534,7 +535,7 @@ static int refine_test_candidate(const uint32_t init1[8], const uint32_t init2[8
     witness_t wit;
     int tail_hw = eval_tail(init1, init2, Wpre1, Wpre2, w57, w58, w59, &wit, &d60);
     stats->tested++;
-    if (phase >= 0 && phase < 3) stats->phase_tested[phase]++;
+    if (phase >= 0 && phase < 4) stats->phase_tested[phase]++;
 
     int dhw = hw(d60);
     if (dhw < stats->min_d_hw) {
@@ -547,7 +548,7 @@ static int refine_test_candidate(const uint32_t init1[8], const uint32_t init2[8
 
     if (d60 != 0) return dhw;
     stats->d0++;
-    if (phase >= 0 && phase < 3) stats->phase_d0[phase]++;
+    if (phase >= 0 && phase < 4) stats->phase_d0[phase]++;
 
     if (refine_seed_insert(seeds, seed_count, seed_cap, &wit)) stats->seed_inserts++;
     if (tail_hw == 0) {
@@ -583,6 +584,42 @@ static void mutate_random_words(const uint32_t base[3], uint64_t ctr,
     *w59 = words[2] & gMASK;
 }
 
+static void refine_scan_prefix(const uint32_t init1[8], const uint32_t init2[8],
+                               const uint32_t Wpre1[64], const uint32_t Wpre2[64],
+                               uint32_t w57, uint32_t w58,
+                               uint64_t budget,
+                               refine_seed_t *seeds, int *seed_count, int seed_cap,
+                               refine_stats_t *stats) {
+    if (stats->tested >= budget) return;
+    stats->prefix_enums++;
+    uint64_t word_space = 1ull << gN;
+    for (uint64_t w59 = 0; w59 < word_space && stats->tested < budget; w59++) {
+        refine_test_candidate(init1, init2, Wpre1, Wpre2, w57, w58, (uint32_t)w59,
+                              3, budget, seeds, seed_count, seed_cap, stats);
+    }
+}
+
+static void flip_prefix_bit(uint32_t words[2], int idx) {
+    int word = idx / gN;
+    int bit = idx % gN;
+    words[word] = (words[word] ^ (1u << bit)) & gMASK;
+}
+
+static void mutate_random_prefix(const witness_t *seed, uint64_t ctr,
+                                 uint32_t *w57, uint32_t *w58) {
+    uint32_t words[2] = { seed->w57, seed->w58 };
+    uint64_t x = mix64(ctr ^ ((uint64_t)seed->w57 << 32) ^
+                       ((uint64_t)seed->w58 << 1));
+    int flips = 1 + (int)(x & 3u);
+    int bits = 2 * gN;
+    for (int i = 0; i < flips; i++) {
+        x = mix64(x + 0x517cc1b727220a95ULL + (uint64_t)i);
+        flip_prefix_bit(words, (int)(x % (uint64_t)bits));
+    }
+    *w57 = words[0] & gMASK;
+    *w58 = words[1] & gMASK;
+}
+
 static void run_refinement(const uint32_t init1[8], const uint32_t init2[8],
                            const uint32_t Wpre1[64], const uint32_t Wpre2[64],
                            refine_seed_t *seeds, int *seed_count, int seed_cap,
@@ -597,9 +634,30 @@ static void run_refinement(const uint32_t init1[8], const uint32_t init2[8],
     if (!seeds || *seed_count <= 0 || budget == 0) return;
 
     int bits = 3 * gN;
+    int prefix_bits = 2 * gN;
     int initial_seed_count = *seed_count;
     for (int s = 0; s < initial_seed_count && stats->tested < budget; s++) {
         const witness_t seed = seeds[s].wit;
+        refine_scan_prefix(init1, init2, Wpre1, Wpre2,
+                           seed.w57, seed.w58, budget,
+                           seeds, seed_count, seed_cap, stats);
+        for (int b = 0; b < prefix_bits && stats->tested < budget; b++) {
+            uint32_t pwords[2] = { seed.w57, seed.w58 };
+            flip_prefix_bit(pwords, b);
+            refine_scan_prefix(init1, init2, Wpre1, Wpre2,
+                               pwords[0], pwords[1], budget,
+                               seeds, seed_count, seed_cap, stats);
+        }
+        for (int b1 = 0; b1 < prefix_bits && stats->tested < budget; b1++) {
+            for (int b2 = b1 + 1; b2 < prefix_bits && stats->tested < budget; b2++) {
+                uint32_t pwords[2] = { seed.w57, seed.w58 };
+                flip_prefix_bit(pwords, b1);
+                flip_prefix_bit(pwords, b2);
+                refine_scan_prefix(init1, init2, Wpre1, Wpre2,
+                                   pwords[0], pwords[1], budget,
+                                   seeds, seed_count, seed_cap, stats);
+            }
+        }
         for (int b = 0; b < bits && stats->tested < budget; b++) {
             uint32_t words[3] = { seed.w57, seed.w58, seed.w59 };
             flip_local_bit(words, b);
@@ -617,6 +675,18 @@ static void run_refinement(const uint32_t init1[8], const uint32_t init2[8],
                                       seeds, seed_count, seed_cap, stats);
             }
         }
+    }
+
+    uint64_t prefix_ctr = 0;
+    while (stats->tested + (1ull << gN) <= budget && *seed_count > 0) {
+        uint64_t r = mix64(0xc6a4a7935bd1e995ULL ^ prefix_ctr);
+        int s = (int)(r % (uint64_t)*seed_count);
+        uint32_t w57, w58;
+        mutate_random_prefix(&seeds[s].wit, prefix_ctr, &w57, &w58);
+        refine_scan_prefix(init1, init2, Wpre1, Wpre2,
+                           w57, w58, budget,
+                           seeds, seed_count, seed_cap, stats);
+        prefix_ctr++;
     }
 
     uint64_t ctr = 0;
@@ -659,8 +729,10 @@ static void run_refinement(const uint32_t init1[8], const uint32_t init2[8],
 
 int main(int argc, char **argv) {
     if (argc < 2) {
-        fprintf(stderr, "Usage: %s N [prefix_limit] [refine_budget] [refine_seed_cap]\n", argv[0]);
+        fprintf(stderr, "Usage: %s N [prefix_limit] [refine_budget] [refine_seed_cap] [sample_start]\n", argv[0]);
         fprintf(stderr, "  prefix_limit=0 or omitted means all W57,W58 prefixes.\n");
+        fprintf(stderr, "  refinement scans neighboring (W57,W58) prefixes over all W59 first.\n");
+        fprintf(stderr, "  sample_start shifts permuted-prefix samples; ignored for exact scans.\n");
         fprintf(stderr, "  refine_budget=0 or omitted disables second-stage local refinement.\n");
         return 2;
     }
@@ -684,6 +756,8 @@ int main(int argc, char **argv) {
     if (argc >= 5) refine_seed_cap = atoi(argv[4]);
     if (refine_seed_cap < 1) refine_seed_cap = 1;
     if (refine_seed_cap > 4096) refine_seed_cap = 4096;
+    uint64_t sample_start = 0;
+    if (argc >= 6) sample_start = strtoull(argv[5], NULL, 0) & (prefix_space - 1u);
     uint64_t word_space = 1ull << N;
 
     uint32_t M1[16], M2[16], init1[8], init2[8], Wpre1[64] = {0}, Wpre2[64] = {0};
@@ -808,7 +882,9 @@ int main(int argc, char **argv) {
     const char *prefix_mode = (prefix_limit == prefix_space) ? "exact" : "permuted-prefix-sample";
 
     for (uint64_t i = 0; i < prefix_limit; i++) {
-        uint64_t p = (prefix_limit == prefix_space) ? i : ((i * perm_step) & (prefix_space - 1u));
+        uint64_t p = (prefix_limit == prefix_space)
+            ? i
+            : (((sample_start + i) * perm_step) & (prefix_space - 1u));
         uint32_t w57 = (uint32_t)(p & gMASK);
         uint32_t w58 = (uint32_t)((p >> N) & gMASK);
         uint64_t prefix_d0 = 0;
@@ -1168,6 +1244,9 @@ int main(int argc, char **argv) {
     printf("candidate: M0=0x%x fill=0x%x kernel=dM0=dM9=0x%x\n", m0, gMASK, gMSB);
     printf("prefixes=%" PRIu64 "/%" PRIu64 " mode=%s w59_per_prefix=%" PRIu64 " total=%" PRIu64 "\n",
            prefix_limit, prefix_space, prefix_mode, word_space, total);
+    if (prefix_limit != prefix_space) {
+        printf("sample_start=%" PRIu64 "\n", sample_start);
+    }
     printf("scan_elapsed=%.3fs rate=%.2f Mtriples/s\n",
            scan_elapsed, scan_elapsed > 0.0 ? (double)total / scan_elapsed / 1e6 : 0.0);
     if (refine_budget) {
@@ -1225,17 +1304,21 @@ int main(int argc, char **argv) {
             printf("\n");
         }
         printf("  budget=%" PRIu64 " tested=%" PRIu64 " D60=0=%" PRIu64
-               " collisions=%" PRIu64 " seed_inserts=%" PRIu64 "\n",
+               " collisions=%" PRIu64 " seed_inserts=%" PRIu64
+               " prefix_enums=%" PRIu64 "\n",
                refine_budget, refine_stats.tested, refine_stats.d0,
-               refine_stats.collision, refine_stats.seed_inserts);
+               refine_stats.collision, refine_stats.seed_inserts,
+               refine_stats.prefix_enums);
         if (refine_stats.tested) {
             printf("  D60=0 rate: %.6f\n", (double)refine_stats.d0 / (double)refine_stats.tested);
             printf("  phase tested/D60=0: single=%" PRIu64 "/%" PRIu64
                    " double=%" PRIu64 "/%" PRIu64
-                   " walk=%" PRIu64 "/%" PRIu64 "\n",
+                   " walk=%" PRIu64 "/%" PRIu64
+                   " prefix=%" PRIu64 "/%" PRIu64 "\n",
                    refine_stats.phase_tested[0], refine_stats.phase_d0[0],
                    refine_stats.phase_tested[1], refine_stats.phase_d0[1],
-                   refine_stats.phase_tested[2], refine_stats.phase_d0[2]);
+                   refine_stats.phase_tested[2], refine_stats.phase_d0[2],
+                   refine_stats.phase_tested[3], refine_stats.phase_d0[3]);
             printf("  min refined D60 HW: %d d60=0x%x at W1[57..59]=0x%x,0x%x,0x%x\n",
                    refine_stats.min_d_hw, refine_stats.min_d60,
                    refine_stats.min_d_w57, refine_stats.min_d_w58, refine_stats.min_d_w59);

@@ -168,3 +168,31 @@ Conclusion: raw local mutation around best bucket witnesses is cheap and valid,
 but not a closing mechanism. Next refinement should preserve or directly solve
 the `D60=0` interface, e.g. mutate a `(W57,W58)` neighborhood and enumerate or
 solve `W59` values that land on `D60=0`, then score tail.
+
+## 2026-05-17 ~14:05 EDT
+
+Implemented the `D60=0`-surface version of refinement: retained low-tail seeds
+now drive full `W59` fiber enumeration over neighboring `(W57,W58)` prefixes.
+Also added `sample_start` so disjoint N=12 prefix samples can run in parallel.
+
+Controls stayed clean:
+
+- N=8 exact: 389 prefix fibers, best stayed HW9.
+- N=10 exact: 975 prefix fibers, best stayed HW7.
+
+Ran nine N=12 262,144-prefix windows total. Best reduced-N lead is now
+sample_start `524288` with tail HW11:
+
+```text
+W1[57..59] = e43,203,594
+W2[57..59] = 878,faf,d04
+r61 HW     = 14
+```
+
+Focused 500M-test prefix refinement on that HW11 window enumerated 122,005 full
+prefix fibers and found 126,199 `D60=0` returns, but did not improve below HW11.
+
+Conclusion: broad disjoint prefix sampling is currently higher EV than local
+refinement. Next build should be a lean scan-only/witness-registry mode for
+parallel N=12/N=13 sample sweeps, retaining compact low-tail witnesses without
+the full profiling tables.
