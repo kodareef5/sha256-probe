@@ -503,3 +503,57 @@ This is conditional evidence only because the probe edits `W60_2` directly. The
 next real algebraic target is to construct a schedule-realizable variable that
 can realize these low-HW `D60` patches without breaking the existing round
 57..59 shaping.
+
+## 2026-05-17 ~later EDT
+
+Kept the N=14 sweep running through a full second interleaved grid and added a
+repair-aware local refinement pass.
+
+Exact N=14 breadth checkpoint, excluding duplicate phase5:
+
+```text
+windows          = 1184
+prefixes covered = 38,797,312 / 268,435,456 = 14.45%
+scan triples     = 635,655,159,808
+best exact tail  = HW13 at sample_start 235143168 / window 7176
+best exact r61   = HW10; no exact r61 <= 9
+```
+
+New exact frontier:
+
+```text
+sample_start = 235143168
+window       = 7176
+tail HW      = 13
+tail r61 HW  = 18
+best r61 HW  = 12
+W1[57..59]   = 00f4,0ddd,285e
+W2[57..59]   = 0001,160c,3600
+```
+
+Repair surface update:
+
+```text
+k=6/k=7 low-HW repair plateau = repaired tail HW10, repaired r61 HW9
+full W60 oracle               = repaired tail HW8 with d60_hw=10
+frontier window 7176 repair   = repaired tail HW10 with d60=0x24b0, d60_hw=5
+```
+
+Implemented repair-aware second-stage local refinement in
+`free_word_mitm_reducedn.c`. First run on windows `7176,3592` with
+`repair_hw_limit=8`, cap128, and 5M refinement tests per window found no
+improvement:
+
+```text
+window 7176: best repaired tail HW10, best repaired r61 HW9
+window 3592: best repaired tail HW12, best repaired r61 HW9
+```
+
+Read: exact breadth can still surprise, but the stronger algebraic signal is
+that arbitrary W60 repair reaches HW8 while low-HW schedule defects plateau at
+HW10/HW9. Next useful code is a seed-only repair refiner or a true
+schedule-realizable repair variable targeting the higher-HW oracle patches.
+
+Phase34 in the next interleaving family added another tail-HW14 row at
+`sample_start=92405760` with `tail_r61=16`, but phases34-38 did not beat the
+phase18 tail-HW13 frontier.

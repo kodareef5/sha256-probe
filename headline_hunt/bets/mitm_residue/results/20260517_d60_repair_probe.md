@@ -215,6 +215,89 @@ W2=0xc5a,0x3fe5,0x1b11
 The k=5 expansion added more HW10/HW9 handles but did not improve beyond the
 k=4 frontier in the focused four-window set.
 
+## N=14 k=6/k=7 and Full-W60 Oracle
+
+The k=6 and k=7 expansions on the same focused repair surface increased the
+candidate count but did not beat the low-HW plateau:
+
+```text
+k=6 repair candidates = 848,604,554
+k=7 repair candidates = 1,298,598,395
+best repaired tail    = HW10
+best repaired r61     = HW9
+```
+
+The best more-joint conditional r61 row stayed:
+
+```text
+sample_start=16252928 window=496
+r61=9 tail=16 d60=0x5ac d60_hw=6 gh60=0x4608cea
+W1=0x290d,0x1e92,0x3ec6
+W2=0x281a,0x1f85,0x0e6f
+```
+
+A full-width `W60` oracle (`repair_hw_limit=14`) over the earlier focused
+windows showed that arbitrary `W60` repair has more tail signal, but it uses
+larger defects:
+
+```text
+best repaired tail = HW8
+sample_start=16252928 window=496
+tail=8 r61=19 d60=0x3eb6 d60_hw=10 gh60=0x5be9cba
+W1=0x00f5,0x33cc,0x2197
+W2=0x0002,0x18c7,0x0b53
+
+second repaired tail = HW9
+sample_start=54001664 window=1648
+d60=0x322f d60_hw=8
+```
+
+This is a useful separation: low-HW repair plateaus at tail HW10/r61 HW9, but
+unrestricted `W60` patching can reach tail HW8. The algebraic target is
+therefore not just "increase k"; it is to find a schedule-realizable repair
+degree of freedom that can realize selected higher-HW `D60` patches without
+breaking the late cascade.
+
+## Exact Frontier Repair and Local Refinement
+
+After the exact breadth scan found a new `tail=13` row at
+`sample_start=235143168` (`window=7176`), a full repair oracle over the exact
+frontier windows produced:
+
+```text
+sample_start=235143168 window=7176
+best repaired tail = HW10
+d60=0x24b0 d60_hw=5 r61=13 gh60=0x4967b6a
+W1=0x31d2,0x27c9,0x1d3b
+W2=0x30df,0x04cd,0x3c5b
+
+sample_start=117702656 window=3592
+best repaired tail = HW12
+d60=0x307a d60_hw=7 r61=16
+```
+
+I added a repair-aware second-stage refinement path to
+`free_word_mitm_reducedn.c`: retained repaired-D60 witnesses now drive the same
+prefix-neighborhood and local mutation machinery that previously existed only
+for exact `D60=0` witnesses.
+
+First repair-refinement run:
+
+```text
+windows              = 7176,3592
+repair_hw_limit      = 8
+refine_seed_cap      = 128
+repair refine budget = 5,000,000 candidates per window
+
+window 7176: repairable=3,945,018 exact_D60=0=296 best repaired tail=HW10 best repaired r61=HW9
+window 3592: repairable=3,950,075 exact_D60=0=272 best repaired tail=HW12 best repaired r61=HW9
+```
+
+No local-refinement improvement was found. The immediate prefix neighborhood
+around the best repaired witnesses is not enough; future refinement should
+either skip the expensive rescan and start directly from recorded repair seeds,
+or use a different move set that targets the high-HW oracle patches.
+
 ## Read
 
 The repair surface is not a closure yet. It did not produce a joint tail/r61

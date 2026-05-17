@@ -59,6 +59,31 @@ The best same-witness joint N=14 row is now `sample_start=229113856`, with tail
 HW16 and r61 HW13. The best r61-HW10 rows have actual `r61_tail` HW25, HW29,
 and HW36, so they are not closure proxies.
 
+Extended checkpoint after the next N=14 breadth block:
+
+```text
+unique N=14 windows = 1184
+prefixes covered    = 38,797,312 / 268,435,456 = 14.45%
+scan triples        = 635,655,159,808
+best tail HW        = 13 at sample_start=235143168 / window=7176
+best r61 HW         = 10 in eight windows, still non-joint
+```
+
+The exact tail frontier is now:
+
+```text
+sample_start=235143168 window=7176
+tail=13 tail_r61=18 best_r61=12
+W1=00f4,0ddd,285e
+W2=0001,160c,3600
+```
+
+No exact `tail <= 12` or `r61 <= 9` row appeared through the completed
+`0 mod 16` and `8 mod 16` interleaved grids or the first five `4 mod 16`
+lanes. The `4 mod 16` family did add a second `tail=14` row at
+`sample_start=92405760`; keep breadth running as background, but promote only
+fresh `tail <= 13`, `r61 <= 9`, or repaired-tail/r61 improvements.
+
 ## Front 2: Rich witness registries
 
 The old batch runner effectively used `registry_cap=1`, which is enough for
@@ -175,6 +200,15 @@ N=14 k=2 probe : best repaired tail HW15, best repaired r61 HW10
 N=14 k=3 probe : best repaired tail HW11, best repaired r61 HW10
 N=14 k=4 probe : best repaired tail HW10, best repaired r61 HW9
 N=14 k=5 probe : no improvement beyond k=4 in focused windows
+```
+
+Extended repair read:
+
+```text
+N=14 k=6/k=7 low-HW repair: plateau at repaired tail HW10 / repaired r61 HW9
+N=14 full-W60 oracle       : repaired tail HW8, but with d60_hw=10
+new exact frontier repair : window 7176 repairs to tail HW10 with d60_hw=5
+repair local refinement   : 5M tests/window did not improve window 7176 or 3592
 ```
 
 This is conditional evidence only: the probe edits `W60_2` directly and does not

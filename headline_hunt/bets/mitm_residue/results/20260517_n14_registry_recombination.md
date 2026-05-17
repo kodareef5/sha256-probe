@@ -7,6 +7,37 @@ targeted cap64 registry rerun on the best joint and near-`gh60` windows.
 
 ## Coverage
 
+Extended checkpoint after phases 10-38, excluding the known duplicate
+`phase5`, completes two interleaved 32-window grids (`0 mod 16` and `8 mod
+16`) and starts the `4 mod 16` grid:
+
+```text
+windows          = 1184
+prefixes covered = 38,797,312 / 268,435,456 = 14.45%
+scan triples     = 635,655,159,808
+```
+
+Current exact frontier histogram at this checkpoint:
+
+```text
+best_tail: 13:1 14:2 15:3 16:11 17:23 18:49 19:95 20:188 21:319 22:306 23:158 24:29
+best_r61 : 10:8 11:55 12:174 13:414 14:415 15:117 16:1
+```
+
+The first exact `tail <= 13` row arrived in phase18:
+
+```text
+sample_start=235143168 window=7176
+tail=13 tail_r61=18 best_r61=12
+gh60=0x7ba5ca6
+W1=0x00f4,0x0ddd,0x285e
+W2=0x0001,0x160c,0x3600
+```
+
+The next exact rows are `tail=14` at `sample_start=117702656` and
+`sample_start=92405760`. Phases19-38 did not improve the exact frontier. There
+are still no exact rows with `tail <= 12` or `r61 <= 9`.
+
 Unique N=14 scan coverage:
 
 ```text

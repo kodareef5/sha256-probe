@@ -120,6 +120,7 @@ typedef struct {
     uint64_t collision;
     uint64_t phase_tested[4];
     uint64_t phase_d0[4];
+    uint64_t repairable;
     uint64_t prefix_enums;
     uint64_t seed_inserts;
     uint64_t tail_improvements;
@@ -678,6 +679,77 @@ static int refine_test_candidate(const uint32_t init1[8], const uint32_t init2[8
     return dhw;
 }
 
+static void repair_refine_consider_wit(const witness_t *wit, int phase,
+                                       refine_seed_t *seeds, int *seed_count, int seed_cap,
+                                       refine_seed_t *r61_seeds, int *r61_seed_count,
+                                       refine_stats_t *stats) {
+    stats->repairable++;
+    if (phase >= 0 && phase < 4) stats->phase_d0[phase]++;
+    if (seeds && refine_seed_insert(seeds, seed_count, seed_cap, wit)) {
+        stats->seed_inserts++;
+    }
+    if (r61_seeds) {
+        refine_seed_insert_r61(r61_seeds, r61_seed_count, seed_cap, wit);
+    }
+    if (wit->tail_hw == 0) {
+        if (stats->collision == 0) stats->first_collision = *wit;
+        stats->collision++;
+    }
+    if (wit->tail_hw < stats->best_tail) {
+        stats->best_tail = wit->tail_hw;
+        stats->best_tail_wit = *wit;
+        stats->tail_improvements++;
+    }
+    if (wit->r61_hw < stats->best_r61) {
+        stats->best_r61 = wit->r61_hw;
+        stats->best_r61_wit = *wit;
+        stats->r61_improvements++;
+    }
+}
+
+static int repair_refine_test_candidate(const uint32_t init1[8], const uint32_t init2[8],
+                                        const uint32_t Wpre1[64], const uint32_t Wpre2[64],
+                                        uint32_t w57, uint32_t w58, uint32_t w59,
+                                        int repair_hw_limit, int phase, uint64_t budget,
+                                        refine_seed_t *seeds, int *seed_count, int seed_cap,
+                                        refine_seed_t *r61_seeds, int *r61_seed_count,
+                                        refine_stats_t *stats) {
+    if (stats->tested >= budget) return -1;
+
+    uint32_t d60 = 0;
+    witness_t exact_wit;
+    int exact_tail = eval_tail(init1, init2, Wpre1, Wpre2, w57, w58, w59, &exact_wit, &d60);
+    stats->tested++;
+    if (phase >= 0 && phase < 4) stats->phase_tested[phase]++;
+
+    int dhw = hw(d60);
+    if (dhw < stats->min_d_hw) {
+        stats->min_d_hw = dhw;
+        stats->min_d60 = d60;
+        stats->min_d_w57 = w57;
+        stats->min_d_w58 = w58;
+        stats->min_d_w59 = w59;
+    }
+
+    if (d60 == 0) {
+        stats->d0++;
+        if (exact_tail >= 0) {
+            repair_refine_consider_wit(&exact_wit, phase, seeds, seed_count, seed_cap,
+                                       r61_seeds, r61_seed_count, stats);
+        }
+        return dhw;
+    }
+    if (dhw > repair_hw_limit) return dhw;
+
+    uint32_t repaired_d60 = 0;
+    witness_t repair_wit;
+    eval_repaired_tail(init1, init2, Wpre1, Wpre2, w57, w58, w59,
+                       &repair_wit, &repaired_d60);
+    repair_refine_consider_wit(&repair_wit, phase, seeds, seed_count, seed_cap,
+                               r61_seeds, r61_seed_count, stats);
+    return dhw;
+}
+
 static void mutate_random_words(const uint32_t base[3], uint64_t ctr,
                                 uint32_t *w57, uint32_t *w58, uint32_t *w59) {
     uint32_t words[3] = { base[0], base[1], base[2] };
@@ -706,6 +778,25 @@ static void refine_scan_prefix(const uint32_t init1[8], const uint32_t init2[8],
     for (uint64_t w59 = 0; w59 < word_space && stats->tested < budget; w59++) {
         refine_test_candidate(init1, init2, Wpre1, Wpre2, w57, w58, (uint32_t)w59,
                               3, budget, seeds, seed_count, seed_cap, stats);
+    }
+}
+
+static void repair_refine_scan_prefix(const uint32_t init1[8], const uint32_t init2[8],
+                                      const uint32_t Wpre1[64], const uint32_t Wpre2[64],
+                                      uint32_t w57, uint32_t w58,
+                                      int repair_hw_limit, uint64_t budget,
+                                      refine_seed_t *seeds, int *seed_count, int seed_cap,
+                                      refine_seed_t *r61_seeds, int *r61_seed_count,
+                                      refine_stats_t *stats) {
+    if (stats->tested >= budget) return;
+    stats->prefix_enums++;
+    uint64_t word_space = 1ull << gN;
+    for (uint64_t w59 = 0; w59 < word_space && stats->tested < budget; w59++) {
+        repair_refine_test_candidate(init1, init2, Wpre1, Wpre2,
+                                     w57, w58, (uint32_t)w59,
+                                     repair_hw_limit, 3, budget,
+                                     seeds, seed_count, seed_cap,
+                                     r61_seeds, r61_seed_count, stats);
     }
 }
 
@@ -819,6 +910,126 @@ static void run_refinement(const uint32_t init1[8], const uint32_t init2[8],
         int cand_dhw = refine_test_candidate(init1, init2, Wpre1, Wpre2,
                                              w57, w58, w59, 2, budget,
                                              seeds, seed_count, seed_cap, stats);
+        if (cand_dhw >= 0) {
+            int delta = cand_dhw - cur_dhw;
+            uint64_t coin = mix64(r ^ 0x94d049bb133111ebULL) & 255u;
+            uint64_t accept_bar = (delta <= 0) ? 256u : (64u / (uint64_t)(delta + 1));
+            if (delta <= 0 || coin < accept_bar) {
+                cur[0] = w57;
+                cur[1] = w58;
+                cur[2] = w59;
+                cur_dhw = cand_dhw;
+                since_restart = 1;
+            } else {
+                since_restart++;
+            }
+        }
+        ctr++;
+    }
+}
+
+static void run_repair_refinement(const uint32_t init1[8], const uint32_t init2[8],
+                                  const uint32_t Wpre1[64], const uint32_t Wpre2[64],
+                                  refine_seed_t *seeds, int *seed_count, int seed_cap,
+                                  refine_seed_t *r61_seeds, int *r61_seed_count,
+                                  uint64_t budget, int repair_hw_limit,
+                                  const witness_t *scan_best_tail,
+                                  const witness_t *scan_best_r61,
+                                  refine_stats_t *stats) {
+    memset(stats, 0, sizeof(*stats));
+    stats->best_tail = scan_best_tail ? scan_best_tail->tail_hw : 999;
+    stats->best_r61 = scan_best_r61 ? scan_best_r61->r61_hw : 999;
+    stats->min_d_hw = 999;
+    if (scan_best_tail) stats->best_tail_wit = *scan_best_tail;
+    if (scan_best_r61) stats->best_r61_wit = *scan_best_r61;
+    if (!seeds || *seed_count <= 0 || budget == 0) return;
+
+    int bits = 3 * gN;
+    int prefix_bits = 2 * gN;
+    int initial_seed_count = *seed_count;
+    for (int s = 0; s < initial_seed_count && stats->tested < budget; s++) {
+        const witness_t seed = seeds[s].wit;
+        repair_refine_scan_prefix(init1, init2, Wpre1, Wpre2,
+                                  seed.w57, seed.w58, repair_hw_limit, budget,
+                                  seeds, seed_count, seed_cap,
+                                  r61_seeds, r61_seed_count, stats);
+        for (int b = 0; b < prefix_bits && stats->tested < budget; b++) {
+            uint32_t pwords[2] = { seed.w57, seed.w58 };
+            flip_prefix_bit(pwords, b);
+            repair_refine_scan_prefix(init1, init2, Wpre1, Wpre2,
+                                      pwords[0], pwords[1], repair_hw_limit, budget,
+                                      seeds, seed_count, seed_cap,
+                                      r61_seeds, r61_seed_count, stats);
+        }
+        for (int b1 = 0; b1 < prefix_bits && stats->tested < budget; b1++) {
+            for (int b2 = b1 + 1; b2 < prefix_bits && stats->tested < budget; b2++) {
+                uint32_t pwords[2] = { seed.w57, seed.w58 };
+                flip_prefix_bit(pwords, b1);
+                flip_prefix_bit(pwords, b2);
+                repair_refine_scan_prefix(init1, init2, Wpre1, Wpre2,
+                                          pwords[0], pwords[1], repair_hw_limit, budget,
+                                          seeds, seed_count, seed_cap,
+                                          r61_seeds, r61_seed_count, stats);
+            }
+        }
+        for (int b = 0; b < bits && stats->tested < budget; b++) {
+            uint32_t words[3] = { seed.w57, seed.w58, seed.w59 };
+            flip_local_bit(words, b);
+            repair_refine_test_candidate(init1, init2, Wpre1, Wpre2,
+                                         words[0], words[1], words[2],
+                                         repair_hw_limit, 0, budget,
+                                         seeds, seed_count, seed_cap,
+                                         r61_seeds, r61_seed_count, stats);
+        }
+        for (int b1 = 0; b1 < bits && stats->tested < budget; b1++) {
+            for (int b2 = b1 + 1; b2 < bits && stats->tested < budget; b2++) {
+                uint32_t words[3] = { seed.w57, seed.w58, seed.w59 };
+                flip_local_bit(words, b1);
+                flip_local_bit(words, b2);
+                repair_refine_test_candidate(init1, init2, Wpre1, Wpre2,
+                                             words[0], words[1], words[2],
+                                             repair_hw_limit, 1, budget,
+                                             seeds, seed_count, seed_cap,
+                                             r61_seeds, r61_seed_count, stats);
+            }
+        }
+    }
+
+    uint64_t prefix_ctr = 0;
+    while (stats->tested + (1ull << gN) <= budget && *seed_count > 0) {
+        uint64_t r = mix64(0x91e10da5c79e7b1dULL ^ prefix_ctr);
+        int s = (int)(r % (uint64_t)*seed_count);
+        uint32_t w57, w58;
+        mutate_random_prefix(&seeds[s].wit, prefix_ctr, &w57, &w58);
+        repair_refine_scan_prefix(init1, init2, Wpre1, Wpre2,
+                                  w57, w58, repair_hw_limit, budget,
+                                  seeds, seed_count, seed_cap,
+                                  r61_seeds, r61_seed_count, stats);
+        prefix_ctr++;
+    }
+
+    uint64_t ctr = 0;
+    uint32_t cur[3] = { seeds[0].wit.w57, seeds[0].wit.w58, seeds[0].wit.w59 };
+    int cur_dhw = hw(seeds[0].wit.d60);
+    uint64_t since_restart = 0;
+    while (stats->tested < budget && *seed_count > 0) {
+        uint64_t r = mix64(0x6a09e667f3bcc909ULL ^ ctr);
+        if (since_restart == 0 || since_restart >= 4096) {
+            int s = (int)(r % (uint64_t)*seed_count);
+            cur[0] = seeds[s].wit.w57;
+            cur[1] = seeds[s].wit.w58;
+            cur[2] = seeds[s].wit.w59;
+            cur_dhw = hw(seeds[s].wit.d60);
+            since_restart = 1;
+        }
+
+        uint32_t w57, w58, w59;
+        mutate_random_words(cur, ctr, &w57, &w58, &w59);
+        int cand_dhw = repair_refine_test_candidate(init1, init2, Wpre1, Wpre2,
+                                                    w57, w58, w59,
+                                                    repair_hw_limit, 2, budget,
+                                                    seeds, seed_count, seed_cap,
+                                                    r61_seeds, r61_seed_count, stats);
         if (cand_dhw >= 0) {
             int delta = cand_dhw - cur_dhw;
             uint64_t coin = mix64(r ^ 0x94d049bb133111ebULL) & 255u;
@@ -1409,7 +1620,12 @@ int main(int argc, char **argv) {
     double scan_elapsed = (double)(clock() - t0) / (double)CLOCKS_PER_SEC;
     refine_stats_t refine_stats;
     memset(&refine_stats, 0, sizeof(refine_stats));
+    refine_stats_t repair_refine_stats;
+    memset(&repair_refine_stats, 0, sizeof(repair_refine_stats));
     double refine_elapsed = 0.0;
+    double repair_refine_elapsed = 0.0;
+    int repair_scan_best_tail_hw = repair_min_tail_hw;
+    int repair_scan_best_r61_hw = repair_min_r61_hw;
     if (refine_budget && refine_seed_count > 0 && min_tail_hw < 999) {
         clock_t tr0 = clock();
         run_refinement(init1, init2, Wpre1, Wpre2,
@@ -1417,7 +1633,25 @@ int main(int argc, char **argv) {
                        refine_budget, &best_tail, &best_r61, &refine_stats);
         refine_elapsed = (double)(clock() - tr0) / (double)CLOCKS_PER_SEC;
     }
-    double elapsed = scan_elapsed + refine_elapsed;
+    if (repair_enabled && refine_budget && repair_seed_count > 0 && repair_min_tail_hw < 999) {
+        clock_t tr0 = clock();
+        run_repair_refinement(init1, init2, Wpre1, Wpre2,
+                              repair_seeds, &repair_seed_count, refine_seed_cap,
+                              repair_r61_seeds, &repair_r61_seed_count,
+                              refine_budget, repair_hw_limit,
+                              &repair_best_tail, &repair_best_r61,
+                              &repair_refine_stats);
+        repair_refine_elapsed = (double)(clock() - tr0) / (double)CLOCKS_PER_SEC;
+        if (repair_refine_stats.best_tail < repair_min_tail_hw) {
+            repair_min_tail_hw = repair_refine_stats.best_tail;
+            repair_best_tail = repair_refine_stats.best_tail_wit;
+        }
+        if (repair_refine_stats.best_r61 < repair_min_r61_hw) {
+            repair_min_r61_hw = repair_refine_stats.best_r61;
+            repair_best_r61 = repair_refine_stats.best_r61_wit;
+        }
+    }
+    double elapsed = scan_elapsed + refine_elapsed + repair_refine_elapsed;
     double expected_d0 = (double)total / (double)word_space;
 
     printf("free_word_mitm_reducedn\n");
@@ -1436,7 +1670,8 @@ int main(int argc, char **argv) {
     printf("scan_elapsed=%.3fs rate=%.2f Mtriples/s\n",
            scan_elapsed, scan_elapsed > 0.0 ? (double)total / scan_elapsed / 1e6 : 0.0);
     if (refine_budget) {
-        printf("refine_elapsed=%.3fs total_elapsed=%.3fs\n", refine_elapsed, elapsed);
+        printf("refine_elapsed=%.3fs repair_refine_elapsed=%.3fs total_elapsed=%.3fs\n",
+               refine_elapsed, repair_refine_elapsed, elapsed);
     }
     printf("\nD60 interface\n");
     printf("  D60=0 matches: %" PRIu64 " (random expectation %.1f, enrichment %.3fx)\n",
@@ -1559,6 +1794,47 @@ int main(int argc, char **argv) {
                        i, sw->r61_hw, sw->tail_hw, sw->d60, hw(sw->d60), sw->gh60_key,
                        sw->w57, sw->w58, sw->w59,
                        sw->w2_57, sw->w2_58, sw->w2_59);
+            }
+        }
+        if (refine_budget) {
+            printf("\nD60 repair second-stage local refinement\n");
+            printf("  seed pool: count=%d cap=%d\n", repair_seed_count, refine_seed_cap);
+            printf("  budget=%" PRIu64 " tested=%" PRIu64 " repairable=%" PRIu64
+                   " exact_D60=0=%" PRIu64 " collisions=%" PRIu64
+                   " seed_inserts=%" PRIu64 " prefix_enums=%" PRIu64 "\n",
+                   refine_budget, repair_refine_stats.tested, repair_refine_stats.repairable,
+                   repair_refine_stats.d0, repair_refine_stats.collision,
+                   repair_refine_stats.seed_inserts, repair_refine_stats.prefix_enums);
+            if (repair_refine_stats.tested) {
+                printf("  repairable rate: %.6f\n",
+                       (double)repair_refine_stats.repairable /
+                       (double)repair_refine_stats.tested);
+                printf("  phase tested/repairable: single=%" PRIu64 "/%" PRIu64
+                       " double=%" PRIu64 "/%" PRIu64
+                       " walk=%" PRIu64 "/%" PRIu64
+                       " prefix=%" PRIu64 "/%" PRIu64 "\n",
+                       repair_refine_stats.phase_tested[0], repair_refine_stats.phase_d0[0],
+                       repair_refine_stats.phase_tested[1], repair_refine_stats.phase_d0[1],
+                       repair_refine_stats.phase_tested[2], repair_refine_stats.phase_d0[2],
+                       repair_refine_stats.phase_tested[3], repair_refine_stats.phase_d0[3]);
+                printf("  min refined D60 HW: %d d60=0x%x at W1[57..59]=0x%x,0x%x,0x%x\n",
+                       repair_refine_stats.min_d_hw, repair_refine_stats.min_d60,
+                       repair_refine_stats.min_d_w57, repair_refine_stats.min_d_w58,
+                       repair_refine_stats.min_d_w59);
+                printf("  best refined repaired tail HW: %d (scan repair best %d, improvements=%" PRIu64 ")\n",
+                       repair_refine_stats.best_tail, repair_scan_best_tail_hw,
+                       repair_refine_stats.tail_improvements);
+                printf("  best refined repaired tail W1[57..59]=0x%x,0x%x,0x%x\n",
+                       repair_refine_stats.best_tail_wit.w57,
+                       repair_refine_stats.best_tail_wit.w58,
+                       repair_refine_stats.best_tail_wit.w59);
+                printf("  best refined repaired tail W2[57..59]=0x%x,0x%x,0x%x\n",
+                       repair_refine_stats.best_tail_wit.w2_57,
+                       repair_refine_stats.best_tail_wit.w2_58,
+                       repair_refine_stats.best_tail_wit.w2_59);
+                printf("  best refined repaired r61 HW: %d (scan repair best %d, improvements=%" PRIu64 ")\n",
+                       repair_refine_stats.best_r61, repair_scan_best_r61_hw,
+                       repair_refine_stats.r61_improvements);
             }
         }
     }
