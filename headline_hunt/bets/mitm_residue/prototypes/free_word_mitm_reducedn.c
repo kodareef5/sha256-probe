@@ -1048,6 +1048,258 @@ static void run_repair_refinement(const uint32_t init1[8], const uint32_t init2[
     }
 }
 
+static void run_repair_wordwalk(const uint32_t init1[8], const uint32_t init2[8],
+                                const uint32_t Wpre1[64], const uint32_t Wpre2[64],
+                                refine_seed_t *seeds, int *seed_count, int seed_cap,
+                                refine_seed_t *r61_seeds, int *r61_seed_count,
+                                uint64_t budget, int repair_hw_limit,
+                                uint64_t walk_nonce,
+                                const witness_t *scan_best_tail,
+                                const witness_t *scan_best_r61,
+                                refine_stats_t *stats) {
+    memset(stats, 0, sizeof(*stats));
+    stats->best_tail = scan_best_tail ? scan_best_tail->tail_hw : 999;
+    stats->best_r61 = scan_best_r61 ? scan_best_r61->r61_hw : 999;
+    stats->min_d_hw = 999;
+    if (scan_best_tail) stats->best_tail_wit = *scan_best_tail;
+    if (scan_best_r61) stats->best_r61_wit = *scan_best_r61;
+    if (!seeds || *seed_count <= 0 || budget == 0) return;
+
+    int bits = 3 * gN;
+    int initial_seed_count = *seed_count;
+    for (int s = 0; s < initial_seed_count && stats->tested < budget; s++) {
+        const witness_t seed = seeds[s].wit;
+        repair_refine_test_candidate(init1, init2, Wpre1, Wpre2,
+                                     seed.w57, seed.w58, seed.w59,
+                                     repair_hw_limit, 0, budget,
+                                     seeds, seed_count, seed_cap,
+                                     r61_seeds, r61_seed_count, stats);
+        for (int b = 0; b < bits && stats->tested < budget; b++) {
+            uint32_t words[3] = { seed.w57, seed.w58, seed.w59 };
+            flip_local_bit(words, b);
+            repair_refine_test_candidate(init1, init2, Wpre1, Wpre2,
+                                         words[0], words[1], words[2],
+                                         repair_hw_limit, 0, budget,
+                                         seeds, seed_count, seed_cap,
+                                         r61_seeds, r61_seed_count, stats);
+        }
+        for (int b1 = 0; b1 < bits && stats->tested < budget; b1++) {
+            for (int b2 = b1 + 1; b2 < bits && stats->tested < budget; b2++) {
+                uint32_t words[3] = { seed.w57, seed.w58, seed.w59 };
+                flip_local_bit(words, b1);
+                flip_local_bit(words, b2);
+                repair_refine_test_candidate(init1, init2, Wpre1, Wpre2,
+                                             words[0], words[1], words[2],
+                                             repair_hw_limit, 1, budget,
+                                             seeds, seed_count, seed_cap,
+                                             r61_seeds, r61_seed_count, stats);
+            }
+        }
+    }
+
+    uint64_t ctr = 0;
+    uint32_t cur[3] = { seeds[0].wit.w57, seeds[0].wit.w58, seeds[0].wit.w59 };
+    int cur_dhw = hw(seeds[0].wit.d60);
+    uint64_t since_restart = 0;
+    while (stats->tested < budget && *seed_count > 0) {
+        uint64_t walk_ctr = ctr ^ (walk_nonce * 0x9e3779b97f4a7c15ULL);
+        uint64_t r = mix64(0x9e3779b97f4a7c15ULL ^ walk_ctr);
+        if (since_restart == 0 || since_restart >= 4096) {
+            int s = (int)(r % (uint64_t)*seed_count);
+            cur[0] = seeds[s].wit.w57;
+            cur[1] = seeds[s].wit.w58;
+            cur[2] = seeds[s].wit.w59;
+            cur_dhw = hw(seeds[s].wit.d60);
+            since_restart = 1;
+        }
+
+        uint32_t w57, w58, w59;
+        mutate_random_words(cur, walk_ctr, &w57, &w58, &w59);
+        int cand_dhw = repair_refine_test_candidate(init1, init2, Wpre1, Wpre2,
+                                                    w57, w58, w59,
+                                                    repair_hw_limit, 2, budget,
+                                                    seeds, seed_count, seed_cap,
+                                                    r61_seeds, r61_seed_count, stats);
+        if (cand_dhw >= 0) {
+            int delta = cand_dhw - cur_dhw;
+            uint64_t coin = mix64(r ^ 0xd1b54a32d192ed03ULL) & 255u;
+            uint64_t accept_bar = (delta <= 0) ? 256u : (64u / (uint64_t)(delta + 1));
+            if (delta <= 0 || coin < accept_bar) {
+                cur[0] = w57;
+                cur[1] = w58;
+                cur[2] = w59;
+                cur_dhw = cand_dhw;
+                since_restart = 1;
+            } else {
+                since_restart++;
+            }
+        }
+        ctr++;
+    }
+}
+
+static int parse_seed_arg(const char *arg, uint32_t *w57, uint32_t *w58, uint32_t *w59) {
+    char *end = NULL;
+    unsigned long v57 = strtoul(arg, &end, 0);
+    if (!end || *end != ',') return 0;
+    unsigned long v58 = strtoul(end + 1, &end, 0);
+    if (!end || *end != ',') return 0;
+    unsigned long v59 = strtoul(end + 1, &end, 0);
+    if (!end || *end != '\0') return 0;
+    *w57 = (uint32_t)v57 & gMASK;
+    *w58 = (uint32_t)v58 & gMASK;
+    *w59 = (uint32_t)v59 & gMASK;
+    return 1;
+}
+
+static int run_repair_seed_mode(int N, uint64_t refine_budget, int refine_seed_cap,
+                                int repair_hw_limit, int argc, char **argv,
+                                int seed_arg_start, int walk_only,
+                                uint64_t walk_nonce,
+                                const uint32_t init1[8], const uint32_t init2[8],
+                                const uint32_t Wpre1[64], const uint32_t Wpre2[64]) {
+    refine_seed_t *repair_seeds = calloc((size_t)refine_seed_cap, sizeof(refine_seed_t));
+    refine_seed_t *repair_r61_seeds = calloc((size_t)refine_seed_cap, sizeof(refine_seed_t));
+    if (!repair_seeds || !repair_r61_seeds) {
+        fprintf(stderr, "Repair seed allocation failed.\n");
+        free(repair_seeds);
+        free(repair_r61_seeds);
+        return 1;
+    }
+
+    int repair_seed_count = 0;
+    int repair_r61_seed_count = 0;
+    int seed_inputs = 0;
+    int seed_parse_errors = 0;
+    int seed_best_tail = 999;
+    int seed_best_r61 = 999;
+    witness_t seed_best_tail_wit = {0};
+    witness_t seed_best_r61_wit = {0};
+
+    printf("free_word_mitm_reducedn %s\n", walk_only ? "repair_seed_walk" : "repair_seed");
+    printf("N=%d mask=0x%x msb=0x%x\n", N, gMASK, gMSB);
+    printf("repair_d60_hw_limit=%d seed_cap=%d budget=%" PRIu64
+           " walk_only=%d walk_nonce=%" PRIu64 "\n",
+           repair_hw_limit, refine_seed_cap, refine_budget, walk_only, walk_nonce);
+
+    for (int i = seed_arg_start; i < argc; i++) {
+        uint32_t w57 = 0, w58 = 0, w59 = 0;
+        if (!parse_seed_arg(argv[i], &w57, &w58, &w59)) {
+            fprintf(stderr, "Bad repair seed '%s'; expected W57,W58,W59.\n", argv[i]);
+            seed_parse_errors++;
+            continue;
+        }
+
+        uint32_t d60 = 0;
+        witness_t wit;
+        eval_repaired_tail(init1, init2, Wpre1, Wpre2, w57, w58, w59, &wit, &d60);
+        seed_inputs++;
+        if (wit.tail_hw < seed_best_tail) {
+            seed_best_tail = wit.tail_hw;
+            seed_best_tail_wit = wit;
+        }
+        if (wit.r61_hw < seed_best_r61) {
+            seed_best_r61 = wit.r61_hw;
+            seed_best_r61_wit = wit;
+        }
+        refine_seed_insert(repair_seeds, &repair_seed_count, refine_seed_cap, &wit);
+        refine_seed_insert_r61(repair_r61_seeds, &repair_r61_seed_count, refine_seed_cap, &wit);
+        printf("seed[%02d] repaired_tail=%d r61=%d d60=0x%x d60_hw=%d gh60=0x%x "
+               "W1=0x%x,0x%x,0x%x W2=0x%x,0x%x,0x%x\n",
+               seed_inputs - 1, wit.tail_hw, wit.r61_hw, wit.d60, hw(wit.d60),
+               wit.gh60_key, wit.w57, wit.w58, wit.w59,
+               wit.w2_57, wit.w2_58, wit.w2_59);
+    }
+
+    if (seed_parse_errors || seed_inputs == 0) {
+        free(repair_seeds);
+        free(repair_r61_seeds);
+        return seed_inputs == 0 ? 2 : 1;
+    }
+
+    refine_stats_t stats;
+    memset(&stats, 0, sizeof(stats));
+    clock_t tr0 = clock();
+    if (walk_only) {
+        run_repair_wordwalk(init1, init2, Wpre1, Wpre2,
+                            repair_seeds, &repair_seed_count, refine_seed_cap,
+                            repair_r61_seeds, &repair_r61_seed_count,
+                            refine_budget, repair_hw_limit, walk_nonce,
+                            &seed_best_tail_wit, &seed_best_r61_wit,
+                            &stats);
+    } else {
+        run_repair_refinement(init1, init2, Wpre1, Wpre2,
+                              repair_seeds, &repair_seed_count, refine_seed_cap,
+                              repair_r61_seeds, &repair_r61_seed_count,
+                              refine_budget, repair_hw_limit,
+                              &seed_best_tail_wit, &seed_best_r61_wit,
+                              &stats);
+    }
+    double repair_refine_elapsed = (double)(clock() - tr0) / (double)CLOCKS_PER_SEC;
+
+    int final_tail = stats.best_tail;
+    int final_r61 = stats.best_r61;
+    witness_t final_tail_wit = stats.best_tail_wit;
+    witness_t final_r61_wit = stats.best_r61_wit;
+
+    printf("\nD60 repair seed refinement\n");
+    printf("  input_seeds=%d retained_tail_seeds=%d retained_r61_seeds=%d\n",
+           seed_inputs, repair_seed_count, repair_r61_seed_count);
+    printf("  elapsed=%.3fs budget=%" PRIu64 " tested=%" PRIu64
+           " repairable=%" PRIu64 " exact_D60=0=%" PRIu64
+           " collisions=%" PRIu64 " seed_inserts=%" PRIu64
+           " prefix_enums=%" PRIu64 "\n",
+           repair_refine_elapsed, refine_budget, stats.tested, stats.repairable,
+           stats.d0, stats.collision, stats.seed_inserts, stats.prefix_enums);
+    if (stats.tested) {
+        printf("  rate=%.2f Mtests/s repairable_rate=%.6f\n",
+               repair_refine_elapsed > 0.0
+                   ? (double)stats.tested / repair_refine_elapsed / 1e6
+                   : 0.0,
+               (double)stats.repairable / (double)stats.tested);
+        printf("  phase tested/repairable: single=%" PRIu64 "/%" PRIu64
+               " double=%" PRIu64 "/%" PRIu64
+               " walk=%" PRIu64 "/%" PRIu64
+               " prefix=%" PRIu64 "/%" PRIu64 "\n",
+               stats.phase_tested[0], stats.phase_d0[0],
+               stats.phase_tested[1], stats.phase_d0[1],
+               stats.phase_tested[2], stats.phase_d0[2],
+               stats.phase_tested[3], stats.phase_d0[3]);
+        printf("  min refined D60 HW: %d d60=0x%x at W1[57..59]=0x%x,0x%x,0x%x\n",
+               stats.min_d_hw, stats.min_d60,
+               stats.min_d_w57, stats.min_d_w58, stats.min_d_w59);
+    }
+    printf("  best repaired tail HW: %d d60=0x%x d60_hw=%d r61=%d gh60=0x%x\n",
+           final_tail, final_tail_wit.d60, hw(final_tail_wit.d60),
+           final_tail_wit.r61_hw, final_tail_wit.gh60_key);
+    printf("  best repaired tail W1[57..59]=0x%x,0x%x,0x%x\n",
+           final_tail_wit.w57, final_tail_wit.w58, final_tail_wit.w59);
+    printf("  best repaired tail W2[57..59]=0x%x,0x%x,0x%x\n",
+           final_tail_wit.w2_57, final_tail_wit.w2_58, final_tail_wit.w2_59);
+    printf("  best repaired r61 HW: %d d60=0x%x d60_hw=%d tail=%d gh60=0x%x\n",
+           final_r61, final_r61_wit.d60, hw(final_r61_wit.d60),
+           final_r61_wit.tail_hw, final_r61_wit.gh60_key);
+    printf("  best repaired r61 W1[57..59]=0x%x,0x%x,0x%x\n",
+           final_r61_wit.w57, final_r61_wit.w58, final_r61_wit.w59);
+    printf("  best repaired r61 W2[57..59]=0x%x,0x%x,0x%x\n",
+           final_r61_wit.w2_57, final_r61_wit.w2_58, final_r61_wit.w2_59);
+
+    printf("\nSUMMARY N=%d sample_start=0 prefixes=0 total=%" PRIu64
+           " d0=%" PRIu64 " best_tail=%d tail_r61=%d best_r61=%d"
+           " tail_W1=0x%x,0x%x,0x%x tail_W2=0x%x,0x%x,0x%x"
+           " r61_W1=0x%x,0x%x,0x%x r61_W2=0x%x,0x%x,0x%x\n",
+           N, stats.tested, stats.d0, final_tail, final_tail_wit.r61_hw,
+           final_r61, final_tail_wit.w57, final_tail_wit.w58,
+           final_tail_wit.w59, final_tail_wit.w2_57, final_tail_wit.w2_58,
+           final_tail_wit.w2_59, final_r61_wit.w57, final_r61_wit.w58,
+           final_r61_wit.w59, final_r61_wit.w2_57, final_r61_wit.w2_58,
+           final_r61_wit.w2_59);
+
+    free(repair_seeds);
+    free(repair_r61_seeds);
+    return 0;
+}
+
 int main(int argc, char **argv) {
     if (argc < 2) {
         fprintf(stderr, "Usage: %s N [prefix_limit] [refine_budget] [refine_seed_cap] [sample_start] [mode]\n", argv[0]);
@@ -1057,6 +1309,8 @@ int main(int argc, char **argv) {
         fprintf(stderr, "  refine_budget=0 or omitted disables second-stage local refinement.\n");
         fprintf(stderr, "  mode=scan disables heavy profiling and keeps a compact witness registry.\n");
         fprintf(stderr, "  mode=repair also probes low-HW nonzero D60 as if W60 were repairable.\n");
+        fprintf(stderr, "  mode=repair_seed skips scanning and refines explicit W57,W58,W59 seed triples.\n");
+        fprintf(stderr, "  mode=repair_seed_walk only mutates explicit seed triples; it skips prefix sweeps.\n");
         return 2;
     }
 
@@ -1083,7 +1337,10 @@ int main(int argc, char **argv) {
     if (argc >= 6) sample_start = strtoull(argv[5], NULL, 0) & (prefix_space - 1u);
     const char *mode = (argc >= 7) ? argv[6] : "";
     int repair_enabled = (strcmp(mode, "repair") == 0);
-    int scan_only = (strcmp(mode, "scan") == 0) || repair_enabled;
+    int repair_seed_mode = (strcmp(mode, "repair_seed") == 0);
+    int repair_seed_walk_mode = (strcmp(mode, "repair_seed_walk") == 0);
+    int scan_only = (strcmp(mode, "scan") == 0) || repair_enabled ||
+        repair_seed_mode || repair_seed_walk_mode;
     int profile_enabled = !scan_only;
     int repair_hw_limit = 1;
     if (argc >= 8) repair_hw_limit = atoi(argv[7]);
@@ -1097,6 +1354,18 @@ int main(int argc, char **argv) {
     if (!find_candidate(&m0, &candidate_mode, M1, M2, init1, init2, Wpre1, Wpre2)) {
         fprintf(stderr, "No da56=0 candidate found at N=%d.\n", N);
         return 1;
+    }
+
+    if (repair_seed_mode || repair_seed_walk_mode) {
+        if (argc < 9) {
+            fprintf(stderr, "%s mode expects: %s N prefix_limit refine_budget refine_seed_cap sample_start %s repair_hw_limit W57,W58,W59 [...]\n",
+                    mode, argv[0], mode);
+            return 2;
+        }
+        return run_repair_seed_mode(N, refine_budget, refine_seed_cap, repair_hw_limit,
+                                    argc, argv, 8, repair_seed_walk_mode,
+                                    sample_start,
+                                    init1, init2, Wpre1, Wpre2);
     }
 
     uint64_t *d_hist = calloc((size_t)word_space, sizeof(uint64_t));
