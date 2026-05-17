@@ -326,13 +326,13 @@ headline_hunt/bets/mitm_residue/results/runs/20260517_n13_scan_batch/summaries.j
 The runner writes one log per window and appends parsed `SUMMARY` rows to JSONL.
 The summarizer deduplicates by `sample_start` and reports coverage/frontiers.
 
-Checkpoint after logged windows `102..533`, combined with the earlier manual
+Checkpoint after logged windows `102..629`, combined with the earlier manual
 windows `0..101`:
 
 ```text
-unique windows: 534
-unique prefixes covered: 34,996,224 / 67,108,864 = 52.15%
-unique triples covered: 286,689,067,008
+unique windows: 630
+unique prefixes covered: 41,287,680 / 67,108,864 = 61.52%
+unique triples covered: 338,228,674,560
 tail frontier: HW7 at sample_start 24641536
 r61 frontier: HW7 in five logged windows
 ```
@@ -365,12 +365,13 @@ Best logged tail rows:
 ```text
 sample_start  tail HW  tail r61  best r61  W1[57..59]       W2[57..59]
 24641536      7        9         9         0f36,07db,082b   08b2,1b15,1ef6
+38404096      10       12        11        1d6a,1a83,0914   16e6,1622,1287
+36765696      11       15        10        08f3,1d31,083e   026f,11a8,1382
 9961472       12       13        10        0c8d,0983,14dd   0609,02a2,127e
+41025536      12       14        11        0f80,0ed5,1d57   08fc,1141,0f5c
 8126464       13       11        10        11f0,0e92,122e   0b6c,1f19,17a5
 19988480      13       16        10        11ff,1bae,01e1   0b7b,15e8,0b0c
 30736384      13       18        10        13d6,1ff1,10bc   0d52,0737,1e8c
-26804224      13       12        11        0366,05d7,1b92   1ce2,093b,021a
-6946816       14       14        10        1e00,14fd,09f4   177c,13a8,0c0c
 ```
 
 The r61 side improved to HW7 and then repeated. Full-registry reruns were done
@@ -409,6 +410,6 @@ W1[57..59]   = 02b0,195e,15b0
 W2[57..59]   = 1c2c,0a0c,1228
 ```
 
-Crossing 52% of N=13 did not improve below tail HW7. The new tail-HW7 witness
+Crossing 61% of N=13 did not improve below tail HW7. The new tail-HW7 witness
 is still the only strong joint tail/r61 hit, with `tail HW=7` and `r61 HW=9`
 in the same witness.
