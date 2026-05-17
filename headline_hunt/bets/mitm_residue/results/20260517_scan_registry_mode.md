@@ -252,3 +252,63 @@ unique triples covered: 33,822,867,456
 tail frontier: HW12 at sample_start 1048576
 r61 frontier: HW8 at sample_start 2031616
 ```
+
+## Continuation: Summary Lines and N=13 HW9 Lead
+
+Added a single-line `SUMMARY` record to scan output so broad sweeps can be
+parsed without retaining the full witness registry:
+
+```text
+SUMMARY N=13 sample_start=5570560 prefixes=65536 total=536870912 d0=66059 best_tail=9 tail_r61=17 best_r61=10 tail_W1=0x4cb,0xeaa,0x196e tail_W2=0x1e47,0x13bf,0x29e r61_W1=0x1346,0xfb0,0x1233 r61_W2=0xcc2,0x153c,0x15a9
+```
+
+Continued N=13 broad scan from `sample_start=4128768` through `6094848`.
+This added 31 more unique windows after the previous 63-window checkpoint.
+Total N=13 coverage for this artifact is now:
+
+```text
+unique windows: 94
+unique prefixes covered: 6,160,384 / 67,108,864 = 9.18%
+unique triples covered: 50,465,865,728
+plus four targeted duplicate refinement/registry reruns over already-covered windows
+```
+
+New tail frontier:
+
+```text
+sample_start = 5570560
+tail HW      = 9
+r61 HW       = 17
+gh60         = 0x1d065e3
+W1[57..59]   = 04cb,0eaa,196e
+W2[57..59]   = 1e47,13bf,029e
+```
+
+The first HW9 hit came from the scan-only pass. A focused second-stage local
+refinement on the same window validated the witness but did not improve it:
+
+```text
+command: /private/tmp/free_word_mitm_reducedn 13 65536 500000000 1024 5570560 scan
+scan best tail HW: 9
+refinement tested: 500,000,000
+prefix_enums: 61,019
+refinement D60=0: 64,120
+collisions: 0
+best refined tail HW: 9
+best refined r61 HW: 10
+```
+
+The r61 frontier remains HW8. The latest matching r61-HW8 witness was:
+
+```text
+sample_start = 5177344
+r61 HW       = 8
+tail HW      = 21
+W1[57..59]   = 12ae,0b33,127c
+W2[57..59]   = 0c2a,1bfd,1af2
+```
+
+Interpretation update: broad disjoint scan is still the main productive engine.
+The HW9 witness is a large enough jump that subsequent work should bias toward
+neighboring broad coverage and nonlocal recombination over retained witnesses,
+while using local prefix-fiber refinement only as a validator.

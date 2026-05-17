@@ -278,3 +278,34 @@ best r61 HW   = 13 at sample_start 98304
 
 Current interpretation: keep N=13 broad scan as the best near-term tail hunt,
 but N=14 is now cheap enough for staged pilots and scaling checks.
+
+## 2026-05-17 ~17:45 EDT
+
+Continued N=13 broad scan and added a grep-friendly `SUMMARY` line to
+`free_word_mitm_reducedn.c`.
+
+Coverage is now 94 unique N=13 windows:
+
+```text
+prefixes covered = 6,160,384 / 67,108,864 = 9.18%
+triples covered  = 50,465,865,728
+```
+
+New N=13 tail frontier:
+
+```text
+tail HW      = 9
+sample_start = 5570560
+r61 HW       = 17
+W1[57..59]   = 04cb,0eaa,196e
+W2[57..59]   = 1e47,13bf,029e
+```
+
+Focused 500M-test prefix-surface refinement on the HW9 window validated the
+witness and found 64,120 `D60=0` returns, but did not improve below HW9.
+
+The r61 frontier remains HW8 at `sample_start=2031616`; a later HW8 r61 match
+also appeared at `sample_start=5177344`, but with tail HW21. Current working
+rule is unchanged: broad disjoint scan is the productive engine, local
+prefix-fiber refinement is a validator, and the next research value is in
+nonlocal recombination over retained witnesses.

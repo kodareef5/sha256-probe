@@ -1358,6 +1358,19 @@ int main(int argc, char **argv) {
                first_collision.w2_57, first_collision.w2_58, first_collision.w2_59);
     }
 
+    printf("\nSUMMARY N=%d sample_start=%" PRIu64 " prefixes=%" PRIu64
+           " total=%" PRIu64 " d0=%" PRIu64 " best_tail=%d tail_r61=%d"
+           " best_r61=%d tail_W1=0x%x,0x%x,0x%x tail_W2=0x%x,0x%x,0x%x"
+           " r61_W1=0x%x,0x%x,0x%x r61_W2=0x%x,0x%x,0x%x\n",
+           N, sample_start, prefix_limit, total, d0,
+           min_tail_hw < 999 ? min_tail_hw : -1,
+           min_tail_hw < 999 ? best_tail.r61_hw : -1,
+           min_r61_hw < 999 ? min_r61_hw : -1,
+           best_tail.w57, best_tail.w58, best_tail.w59,
+           best_tail.w2_57, best_tail.w2_58, best_tail.w2_59,
+           best_r61.w57, best_r61.w58, best_r61.w59,
+           best_r61.w2_57, best_r61.w2_58, best_r61.w2_59);
+
     if (scan_only && refine_seeds) {
         printf("\nScan-only witness registry\n");
         printf("  registry_count=%d registry_cap=%d\n", refine_seed_count, refine_seed_cap);
