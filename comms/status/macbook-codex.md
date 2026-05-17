@@ -455,3 +455,51 @@ Current read: N=14 breadth remains useful but random-looking. The next
 higher-leverage build is a repairable interface around exact/near `gh60` pairs:
 D60 low-HW repair, one more free word, or a wider W56..W60/W57..W61 shaping
 surface.
+
+## 2026-05-17 ~continued EDT
+
+Kept the N=14 machine work running and shifted the algebraic front from a vague
+"change the interface" note into a concrete D60 repair probe.
+
+Tooling added/extended:
+
+- `free_word_mitm_reducedn.c` now supports `mode=repair`, which scores low-HW
+  nonzero `D60` rows as if `W60_2` could be patched to the required value.
+- `run_scan_batch.py` now passes `--mode repair` and `--repair-hw-limit`.
+- `analyze_scan_structure.py` parses repaired tail/r61 witness registries and
+  has `--keep-reruns` for comparing deliberate duplicate-window repair probes.
+
+N=14 exact breadth through phase9:
+
+```text
+unique windows   = 365
+prefixes covered = 11,960,320 / 268,435,456 = 4.46%
+scan triples     = 195,957,882,880
+best tail HW     = 16 in five windows
+best r61 HW      = 10 in three windows, all non-joint
+```
+
+New exact joint/recombination read:
+
+```text
+best same-witness joint = tail HW16 + r61 HW13 at sample_start 229113856
+registry entries        = 9,011
+best exact gh60 score   = 29 at gh60=ca847a6
+best non-identical near = score 30, tail17 near r6111 at gh60 distance 2
+```
+
+D60 repair probe:
+
+```text
+N=8 control   k=1: exact tail HW12 -> repaired tail HW8, repaired r61 HW6
+N=14 probe    k=1: best repaired tail HW15, repaired r61 HW11
+N=14 probe    k=2: best repaired tail HW15, repaired r61 HW10
+N=14 probe    k=3: best repaired tail HW11, repaired r61 HW10
+N=14 probe    k=4: best repaired tail HW10, repaired r61 HW9
+N=14 probe    k=5: no improvement beyond k=4 in focused windows
+```
+
+This is conditional evidence only because the probe edits `W60_2` directly. The
+next real algebraic target is to construct a schedule-realizable variable that
+can realize these low-HW `D60` patches without breaking the existing round
+57..59 shaping.

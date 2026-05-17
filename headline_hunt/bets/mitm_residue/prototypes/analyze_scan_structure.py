@@ -33,9 +33,22 @@ R61_WIT_RE = re.compile(
     r"gh60=(?P<gh60>0x[0-9a-fA-F]+) W1=(?P<w1>[0-9a-fA-Fx,]+) "
     r"W2=(?P<w2>[0-9a-fA-Fx,]+)"
 )
+REPAIR_WIT_RE = re.compile(
+    r"\s+repair_witness\[(?P<idx>\d+)\] tail=(?P<tail>\d+) r61=(?P<r61>\d+) "
+    r"d60=(?P<d60>0x[0-9a-fA-F]+) d60_hw=(?P<d60_hw>\d+) "
+    r"gh60=(?P<gh60>0x[0-9a-fA-F]+) W1=(?P<w1>[0-9a-fA-Fx,]+) "
+    r"W2=(?P<w2>[0-9a-fA-Fx,]+)"
+)
+REPAIR_R61_WIT_RE = re.compile(
+    r"\s+repair_r61_witness\[(?P<idx>\d+)\] r61=(?P<r61>\d+) tail=(?P<tail>\d+) "
+    r"d60=(?P<d60>0x[0-9a-fA-F]+) d60_hw=(?P<d60_hw>\d+) "
+    r"gh60=(?P<gh60>0x[0-9a-fA-F]+) W1=(?P<w1>[0-9a-fA-Fx,]+) "
+    r"W2=(?P<w2>[0-9a-fA-Fx,]+)"
+)
+REPAIR_CAND_RE = re.compile(r"\s+repair_candidates=(?P<count>\d+) d60_hw_limit=(?P<limit>\d+)")
 
 
-def load_rows(paths: Iterable[Path]) -> list[dict[str, object]]:
+def load_rows(paths: Iterable[Path], *, dedupe: bool = True) -> list[dict[str, object]]:
     rows: list[dict[str, object]] = []
     seen: set[tuple[int, int]] = set()
     for path in paths:
@@ -45,7 +58,7 @@ def load_rows(paths: Iterable[Path]) -> list[dict[str, object]]:
             row = json.loads(line)
             sample_start = int(row["sample_start"])
             key = (int(row["N"]), sample_start)
-            if key in seen:
+            if dedupe and key in seen:
                 continue
             seen.add(key)
             rows.append(row)
@@ -63,7 +76,12 @@ def parse_hist(raw: str) -> dict[int, int]:
 
 
 def parse_log(path: Path) -> dict[str, object]:
-    out: dict[str, object] = {"tail_registry": [], "r61_registry": []}
+    out: dict[str, object] = {
+        "tail_registry": [],
+        "r61_registry": [],
+        "repair_registry": [],
+        "repair_r61_registry": [],
+    }
     text = path.read_text(encoding="utf-8", errors="replace")
     for line in text.splitlines():
         if match := D0_RE.search(line):
@@ -93,6 +111,31 @@ def parse_log(path: Path) -> dict[str, object]:
                 "idx": int(match.group("idx")),
                 "r61": int(match.group("r61")),
                 "tail": int(match.group("tail")),
+                "gh60": int(match.group("gh60"), 16),
+                "W1": match.group("w1"),
+                "W2": match.group("w2"),
+            })
+        elif match := REPAIR_CAND_RE.search(line):
+            out["repair_candidates"] = int(match.group("count"))
+            out["repair_d60_hw_limit"] = int(match.group("limit"))
+        elif match := REPAIR_WIT_RE.search(line):
+            out["repair_registry"].append({
+                "idx": int(match.group("idx")),
+                "tail": int(match.group("tail")),
+                "r61": int(match.group("r61")),
+                "d60": int(match.group("d60"), 16),
+                "d60_hw": int(match.group("d60_hw")),
+                "gh60": int(match.group("gh60"), 16),
+                "W1": match.group("w1"),
+                "W2": match.group("w2"),
+            })
+        elif match := REPAIR_R61_WIT_RE.search(line):
+            out["repair_r61_registry"].append({
+                "idx": int(match.group("idx")),
+                "r61": int(match.group("r61")),
+                "tail": int(match.group("tail")),
+                "d60": int(match.group("d60"), 16),
+                "d60_hw": int(match.group("d60_hw")),
                 "gh60": int(match.group("gh60"), 16),
                 "W1": match.group("w1"),
                 "W2": match.group("w2"),
@@ -147,9 +190,12 @@ def print_rows(title: str, rows: list[dict[str, object]], limit: int, *, witness
 def print_registry_rows(title: str, rows: list[dict[str, object]], limit: int) -> None:
     print(f"\n{title}:")
     for row in rows[:limit]:
+        d60 = ""
+        if "d60" in row:
+            d60 = f" d60=0x{int(row['d60']):x} d60_hw={row['d60_hw']}"
         print(
             f"  sample_start={row['sample_start']} window={row['window']} idx={row['idx']} "
-            f"tail={row['tail']} r61={row['r61']} gh60=0x{int(row['gh60']):x} "
+            f"tail={row['tail']} r61={row['r61']}{d60} gh60=0x{int(row['gh60']):x} "
             f"W1={row['W1']} W2={row['W2']}"
         )
 
@@ -159,9 +205,14 @@ def main() -> int:
     parser.add_argument("summary_jsonl", nargs="+")
     parser.add_argument("--prior-windows", type=int, default=0)
     parser.add_argument("--top", type=int, default=12)
+    parser.add_argument(
+        "--keep-reruns",
+        action="store_true",
+        help="keep duplicate (N, sample_start) rows, useful for comparing repair modes",
+    )
     args = parser.parse_args()
 
-    rows = load_rows(Path(path) for path in args.summary_jsonl)
+    rows = load_rows((Path(path) for path in args.summary_jsonl), dedupe=not args.keep_reruns)
     if not rows:
         raise SystemExit("no rows")
 
@@ -206,6 +257,8 @@ def main() -> int:
 
     tail_registry_rows: list[dict[str, object]] = []
     r61_registry_rows: list[dict[str, object]] = []
+    repair_registry_rows: list[dict[str, object]] = []
+    repair_r61_registry_rows: list[dict[str, object]] = []
     for row in enriched:
         sample_start = int(row["sample_start"])
         window = sample_start // int(row["prefixes"])
@@ -219,9 +272,23 @@ def main() -> int:
             merged["sample_start"] = sample_start
             merged["window"] = window
             r61_registry_rows.append(merged)
+        for entry in row.get("repair_registry", []):
+            merged = dict(entry)
+            merged["sample_start"] = sample_start
+            merged["window"] = window
+            repair_registry_rows.append(merged)
+        for entry in row.get("repair_r61_registry", []):
+            merged = dict(entry)
+            merged["sample_start"] = sample_start
+            merged["window"] = window
+            repair_r61_registry_rows.append(merged)
 
     print(f"tail_registry_entries={len(tail_registry_rows)}")
     print(f"r61_registry_entries={len(r61_registry_rows)}")
+    if repair_registry_rows or repair_r61_registry_rows:
+        print(f"repair_registry_entries={len(repair_registry_rows)}")
+        print(f"repair_r61_registry_entries={len(repair_r61_registry_rows)}")
+        print(f"repair_candidates={sum(int(row.get('repair_candidates', 0)) for row in enriched)}")
 
     print("\nband_summary:")
     band_count = 16
@@ -269,6 +336,18 @@ def main() -> int:
         print_registry_rows(
             "registry_r61_rows",
             sorted(r61_registry_rows, key=lambda r: (int(r["r61"]), int(r["tail"]))),
+            args.top,
+        )
+    if repair_registry_rows:
+        print_registry_rows(
+            "repair_registry_tail_rows",
+            sorted(repair_registry_rows, key=lambda r: (int(r["tail"]), int(r["r61"]), int(r["d60_hw"]))),
+            args.top,
+        )
+    if repair_r61_registry_rows:
+        print_registry_rows(
+            "repair_registry_r61_rows",
+            sorted(repair_r61_registry_rows, key=lambda r: (int(r["r61"]), int(r["tail"]), int(r["d60_hw"]))),
             args.top,
         )
     return 0

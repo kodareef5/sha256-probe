@@ -53,20 +53,24 @@ def parse_window_list(raw: str) -> list[int]:
 
 
 def launch(binary: Path, n: int, prefix_limit: int, refine_budget: int,
-           refine_seed_cap: int, sample_start: int,
+           refine_seed_cap: int, sample_start: int, mode: str,
+           repair_hw_limit: int,
            out_dir: Path) -> tuple[subprocess.Popen[bytes], Path]:
     log_path = unique_log_path(out_dir, n, sample_start)
     log_file = log_path.open("wb")
+    command = [
+        str(binary),
+        str(n),
+        str(prefix_limit),
+        str(refine_budget),
+        str(refine_seed_cap),
+        str(sample_start),
+        mode,
+    ]
+    if mode == "repair":
+        command.append(str(repair_hw_limit))
     proc = subprocess.Popen(
-        [
-            str(binary),
-            str(n),
-            str(prefix_limit),
-            str(refine_budget),
-            str(refine_seed_cap),
-            str(sample_start),
-            "scan",
-        ],
+        command,
         stdout=log_file,
         stderr=subprocess.STDOUT,
     )
@@ -81,6 +85,8 @@ def main() -> int:
     parser.add_argument("--prefix-limit", type=int, default=65536)
     parser.add_argument("--refine-budget", type=int, default=0)
     parser.add_argument("--refine-seed-cap", type=int, default=1)
+    parser.add_argument("--mode", choices=("scan", "repair"), default="scan")
+    parser.add_argument("--repair-hw-limit", type=int, default=1)
     parser.add_argument("--start-window", type=int)
     parser.add_argument("--window-list", help="comma-separated absolute window indexes")
     parser.add_argument("--stride", type=int, default=1)
@@ -110,7 +116,8 @@ def main() -> int:
                 sample_start = pending.pop(0)
                 proc, log_path = launch(binary, args.n, args.prefix_limit,
                                         args.refine_budget, args.refine_seed_cap,
-                                        sample_start, out_dir)
+                                        sample_start, args.mode,
+                                        args.repair_hw_limit, out_dir)
                 active.append((proc, log_path, sample_start, time.time()))
                 print(f"launched sample_start={sample_start} pid={proc.pid}", flush=True)
 
@@ -125,6 +132,9 @@ def main() -> int:
                 record = parse_summary(text)
                 if record is None:
                     record = {"sample_start": sample_start, "parse_error": True}
+                record["mode"] = args.mode
+                if args.mode == "repair":
+                    record["repair_hw_limit"] = args.repair_hw_limit
                 record["returncode"] = rc
                 record["log"] = os.fspath(log_path)
                 record["wall_seconds"] = round(time.time() - started_at, 3)

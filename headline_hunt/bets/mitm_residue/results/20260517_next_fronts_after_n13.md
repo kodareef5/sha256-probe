@@ -44,20 +44,20 @@ This repeats HW16 away from the low contiguous window band. It does not yet make
 N=14 look better than N=13, but it is now a live staged sampling front rather
 than a smoke test.
 
-Two more 32-window strided N=14 phases and one targeted cap64 rerun have now
-expanded the staged N=14 picture:
+Seven more useful 32-window strided N=14 phases and one targeted cap64 rerun
+have now expanded the staged N=14 picture:
 
 ```text
-unique N=14 windows = 208
-prefixes covered    = 6,815,744 / 268,435,456 = 2.54%
-scan triples        = 111,669,149,696
-best tail HW        = 16 in three windows
-best r61 HW         = 10 in two windows, both non-joint
+unique N=14 windows = 365
+prefixes covered    = 11,960,320 / 268,435,456 = 4.46%
+scan triples        = 195,957,882,880
+best tail HW        = 16 in five windows
+best r61 HW         = 10 in three windows, all non-joint
 ```
 
-The best joint N=14 row is still `sample_start=54001664`, with tail HW16 and
-the same tail witness at r61 HW14. The best r61-HW10 rows have actual
-`r61_tail` HW29 and HW36, so they are not closure proxies.
+The best same-witness joint N=14 row is now `sample_start=229113856`, with tail
+HW16 and r61 HW13. The best r61-HW10 rows have actual `r61_tail` HW25, HW29,
+and HW36, so they are not closure proxies.
 
 ## Front 2: Rich witness registries
 
@@ -67,6 +67,8 @@ frontier tracking but bad for recombination. `run_scan_batch.py` now exposes:
 ```text
 --refine-seed-cap
 --stride
+--mode repair
+--repair-hw-limit
 ```
 
 Use `--refine-seed-cap 16` or `64` for exploration batches. The logs then retain
@@ -116,49 +118,72 @@ mass are not useful selectors for low-tail windows. The only visible signal is
 that the r61 score of the same tail witness has a modest relationship to final
 tail. That argues against choosing windows by D60 geometry alone.
 
-Aggregate N=14 after 208 unique windows says the same thing:
+Aggregate N=14 after 365 unique windows says the same thing:
 
 ```text
 correlation vs best_tail:
-best_r61             +0.1400
-tail_r61             +0.2585
-d0                   +0.1142
-d0_prefixes          +0.0063
-max_fiber            +0.0330
-largest_bucket_count -0.0534
+best_r61             +0.0897
+tail_r61             +0.3016
+d0                   +0.0783
+d0_prefixes          +0.0496
+max_fiber            +0.0540
+largest_bucket_count +0.0246
 ```
 
-N=14 has three HW16 tail rows and five HW17 rows, but still no `tail <= 13` or
+N=14 has five HW16 tail rows and eight HW17 rows, but still no `tail <= 13` or
 `r61 <= 8` window in the current coverage.
 
 ## Front 4: Registry recombination
 
 `mine_registry_recombination.py` now mines retained tail/r61 registries for exact
-and near `gh60` pairings. After cap64 de-duplication the N=14 pool has `3,897`
-unique entries: `1,949` tail and `1,948` r61.
+and near `gh60` pairings. After cap64 de-duplication and the latest strided
+passes, the N=14 pool has `9,011` unique entries: `4,506` tail and `4,505` r61.
 
 Best exact N=14 `gh60` pairs:
 
 ```text
+score=29 gh60=ca847a6  tail=16 r61=13 sample_start=229113856
 score=30 gh60=fa045e6  tail=16 r61=14 sample_start=54001664
 score=30 gh60=5684da6  tail=18 r61=12 sample_start=2392064
 score=30 gh60=c609ce6  tail=19 r61=11 sample_start=1638400
-score=33 gh60=4504566  tail=21 r61=12 sample_start=246939648
 ```
 
 Best non-identical near-`gh60` pairs at Hamming distance <= 2 include:
 
 ```text
-score=32 tail=18 sample_start=3440640   r61=12 sample_start=2260992
-score=33 tail=17 sample_start=190316544 r61=14 sample_start=3178496
-score=33 tail=20 sample_start=230162432 r61=11 sample_start=1638400
+score=30 tail=17 sample_start=51904512  r61=11 sample_start=224919552
+score=32 tail=16 sample_start=57147392  r61=14 sample_start=229113856
+score=32 tail=16 sample_start=54001664  r61=14 sample_start=245891072
 ```
 
 These are not closures, but they are concrete handles for the next algebraic
 interface: add a repair degree of freedom so near `gh60` pairings can be shaped
 instead of only observed.
 
-## Front 5: Correct r61 accounting
+## Front 5: D60 low-HW repair
+
+The interface-change idea is now a running probe. `run_scan_batch.py --mode
+repair` asks what would happen if low-HW nonzero `D60` rows could be patched at
+`W60_2` and then scored through rounds 60..63.
+
+Results:
+
+```text
+N=8 k=1 control: exact tail HW12 -> repaired tail HW8, repaired r61 HW6
+N=14 k=1 probe : best repaired tail HW15, best repaired r61 HW11
+N=14 k=2 probe : best repaired tail HW15, best repaired r61 HW10
+N=14 k=3 probe : best repaired tail HW11, best repaired r61 HW10
+N=14 k=4 probe : best repaired tail HW10, best repaired r61 HW9
+N=14 k=5 probe : no improvement beyond k=4 in focused windows
+```
+
+This is conditional evidence only: the probe edits `W60_2` directly and does not
+yet construct a schedule-realizable upstream repair. Still, it turns the vague
+"change the interface" front into a specific algebraic task: find a real free
+variable or perturbation family that realizes those low-HW `D60` patches without
+breaking the round-57..59 shaping.
+
+## Front 6: Correct r61 accounting
 
 The old summarizer printed the window's `best_tail` beside the best-r61 witness,
 which made some r61-only rows look less bad than they were. It now reports
@@ -174,7 +199,7 @@ latest r61-HW7 repeat  = sample_start 65142784 with r61_tail HW27
 So r61-HW7 alone is not a closure proxy. The useful joint row remains the HW7
 tail witness at `sample_start=24641536` with `tail r61 HW=9`.
 
-## Front 6: Change the interface if N=14 stays random
+## Front 7: Change the interface further if repair stalls
 
 If another few hundred N=14 registry windows stay around tail HW16+ with no
 r61<=9 joint structure, the next higher-leverage build is not a larger scan. It
