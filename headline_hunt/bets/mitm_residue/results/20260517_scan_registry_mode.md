@@ -326,15 +326,15 @@ headline_hunt/bets/mitm_residue/results/runs/20260517_n13_scan_batch/summaries.j
 The runner writes one log per window and appends parsed `SUMMARY` rows to JSONL.
 The summarizer deduplicates by `sample_start` and reports coverage/frontiers.
 
-Checkpoint after logged windows `102..405`, combined with the earlier manual
+Checkpoint after logged windows `102..533`, combined with the earlier manual
 windows `0..101`:
 
 ```text
-unique windows: 406
-unique prefixes covered: 26,607,616 / 67,108,864 = 39.65%
-unique triples covered: 217,969,590,272
+unique windows: 534
+unique prefixes covered: 34,996,224 / 67,108,864 = 52.15%
+unique triples covered: 286,689,067,008
 tail frontier: HW7 at sample_start 24641536
-r61 frontier: HW7 at sample_start 8257536, 14680064, and 22151168
+r61 frontier: HW7 in five logged windows
 ```
 
 The logged sweep found a new joint tail/r61 lead:
@@ -368,13 +368,22 @@ sample_start  tail HW  tail r61  best r61  W1[57..59]       W2[57..59]
 9961472       12       13        10        0c8d,0983,14dd   0609,02a2,127e
 8126464       13       11        10        11f0,0e92,122e   0b6c,1f19,17a5
 19988480      13       16        10        11ff,1bae,01e1   0b7b,15e8,0b0c
+30736384      13       18        10        13d6,1ff1,10bc   0d52,0737,1e8c
+26804224      13       12        11        0366,05d7,1b92   1ce2,093b,021a
 6946816       14       14        10        1e00,14fd,09f4   177c,13a8,0c0c
-13238272      14       11        10        034a,1151,1dde   1cc6,0f23,025e
 ```
 
-The r61 side improved three times:
+The r61 side improved to HW7 and then repeated. Full-registry reruns were done
+for the first three HW7 r61-only points; later scan-only repeats are retained
+in the JSONL:
 
 ```text
+sample_start = 26607616
+r61 HW       = 7
+tail HW      = 16
+W1[57..59]   = 0368,1385,0157
+W2[57..59]   = 1ce4,16cd,17cf
+
 sample_start = 8257536
 r61 HW       = 7
 tail HW      = 27
@@ -392,8 +401,14 @@ r61 HW       = 7
 tail HW      = 33
 W1[57..59]   = 0288,15af,16e2
 W2[57..59]   = 1c04,0847,08ea
+
+sample_start = 28442624
+r61 HW       = 7
+tail HW      = 19
+W1[57..59]   = 02b0,195e,15b0
+W2[57..59]   = 1c2c,0a0c,1228
 ```
 
-All three HW7 r61 witnesses were rerun with a full `1024`-entry registry and
-stayed low-r61/mediocre-tail. The new tail-HW7 witness is different: it is a
-joint tail/r61 hit, with `tail HW=7` and `r61 HW=9` in the same witness.
+Crossing 52% of N=13 did not improve below tail HW7. The new tail-HW7 witness
+is still the only strong joint tail/r61 hit, with `tail HW=7` and `r61 HW=9`
+in the same witness.
