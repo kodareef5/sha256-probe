@@ -192,3 +192,51 @@ sample_start  tail HW  r61 HW  W1[57..59]       W2[57..59]
 Interpretation update: tail minimization and r61 minimization are correlated
 enough to produce occasional joint hits, but not enough that one registry can
 serve both goals. Keep both registries for future nonlocal recombination.
+
+## N=14 Pilot
+
+Ran four N=14 scan windows after the r61-registry commit. Each row used
+`32,768` prefixes and all `16,384` `W59` values per prefix, so the per-process
+work stayed at `536,870,912` triples.
+
+N=14 also required the deterministic random-fallback seed:
+
+```text
+candidate M0=0x3d36
+mode=random-fallback
+kernel=dM0=dM9=0x2000
+```
+
+Results:
+
+```text
+sample_start  best tail  tail r61  best r61  best W1[57..59]       best W2[57..59]
+0             24         17        15        37f6,0479,08db        3703,36b9,30cc
+32768         20         15        14        354d,1b36,1ba6        345a,1535,2ffc
+65536         20         22        15        192e,2a33,0bb3        183b,3bb3,1625
+98304         21         17        13        12bb,11a2,2fc8        11c8,35c7,0162
+```
+
+Best N=14 tail pilot lead:
+
+```text
+tail HW      = 20
+sample_start = 32768
+W1[57..59]   = 354d,1b36,1ba6
+W2[57..59]   = 345a,1535,2ffc
+r61 HW       = 15
+```
+
+Best N=14 r61 pilot lead:
+
+```text
+r61 HW       = 13
+sample_start = 98304
+tail HW      = 27
+W1[57..59]   = 15bd,3fae,248c
+W2[57..59]   = 14ca,3fb1,3397
+```
+
+N=14 scan rate stayed around `23M` triples/sec per worker in this mixed batch.
+The first N=14 tail scores are not yet close to the N=13 frontier, but the
+interface scales operationally.

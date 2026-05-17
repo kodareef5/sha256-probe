@@ -255,3 +255,23 @@ W2[57..59]       = 1e02,169e,0967
 Added a separate r61-first scan registry. The targeted rerun showed the r61-HW8
 witness would be dropped by the tail-first registry, so future scan output now
 retains both tail frontier candidates and low-r61 candidates.
+
+## 2026-05-17 ~16:50 EDT
+
+Ran a mixed batch after the r61-registry commit:
+
+- four more N=13 windows, no improvement beyond tail HW12 or r61 HW8,
+- four N=14 pilot windows, same 536,870,912 triples per worker.
+
+N=14 is operational with the same random-fallback seed path:
+
+```text
+M0            = 0x3d36
+kernel        = dM0=dM9=0x2000
+scan rate     = about 23M triples/sec/worker
+best tail HW  = 20 at sample_start 32768
+best r61 HW   = 13 at sample_start 98304
+```
+
+Current interpretation: keep N=13 broad scan as the best near-term tail hunt,
+but N=14 is now cheap enough for staged pilots and scaling checks.
