@@ -170,6 +170,115 @@ The next tool should be a streaming top-k bucket miner over many projected
 features, scoring by low-tail rate directly instead of by mean shift or bucket
 size.
 
+## Streaming projected-bucket miner
+
+Implemented a streaming miner over ten projected key families:
+
+```text
+gh60
+gh60+r61_hw
+gh60+reg6hw+reg7hw
+gh60+late_fold8
+gh60+reg6_low8
+gh60+reg7_low8
+gh60+reg6_high8
+gh60+reg7_high8
+r61hw+reg_hw+fold8
+reg_hw+late_fold8
+```
+
+The miner tracks count, mean tail HW, best tail HW, and low-tail counts at
+thresholds 8/12/16/20/24/32. It reports top buckets by low-tail rate, by
+rate-weighted score, and by best observed tail.
+
+### N=8 exact
+
+```text
+D60=0 matches: 65,954
+best tail HW: 9
+miner unique buckets: 36,750 / 2,097,152
+low threshold: <=16
+```
+
+Best low-rate buckets are real but shallow:
+
+```text
+r61hw+reg_hw+fold8 key=0x00000000f8850f cnt=32 low=6 rate=0.188 mean=20.84 best=16
+gh60+r61_hw       key=0x000000000942a3 cnt=39 low=7 rate=0.179 mean=19.46 best=12
+```
+
+The best-tail list recovers the global HW9 witness through large `gh60` and
+`reg_hw+late_fold8` buckets.
+
+### N=10 exact
+
+```text
+D60=0 matches: 1,045,126
+best tail HW: 7
+miner unique buckets: 197,465 / 33,554,432
+low threshold: <=12
+```
+
+The apparent best low-rate buckets are mostly 32-count one-hit artifacts:
+
+```text
+gh60+reg6_low8  key=0x00000004eda88e cnt=32 low=1 rate=0.031 mean=29.88 best=11
+gh60+late_fold8 key=0x0000000a096b9a cnt=32 low=1 rate=0.031 mean=29.22 best=10
+gh60+r61_hw     key=0x00000000b8609a cnt=32 low=1 rate=0.031 mean=22.66 best=12
+```
+
+The best-tail list does retrieve the global HW7 witness, but not as an enriched
+bucket:
+
+```text
+reg_hw+late_fold8 key=0x000000000344a3 cnt=4555 low=1 rate=0.000 mean=30.11 best=7
+gh60              key=0x00000000099886 cnt=2150 low=1 rate=0.000 mean=30.08 best=7
+```
+
+### N=12 sampled, 262,144 prefixes
+
+```text
+D60=0 matches: 260,993
+best tail HW: 15
+miner unique buckets: 859,469 / 8,388,608
+low threshold: <=20
+```
+
+Top low-rate buckets are again small or duplicate the same coarse `gh60`
+surface:
+
+```text
+gh60+reg7_high8 key=0x0000001010309f cnt=43 low=2 rate=0.047 mean=34.51 best=20
+gh60            key=0x0000000010309f cnt=43 low=2 rate=0.047 mean=34.51 best=20
+```
+
+The best-tail list can still surface the best sampled HW15 witnesses:
+
+```text
+reg_hw+late_fold8 key=0x0000000000b906 cnt=104 low=1 rate=0.010 mean=35.14 best=15
+gh60              key=0x000000000e3f91 cnt=24  low=1 rate=0.042 mean=37.17 best=15
+gh60              key=0x000000007f1193 cnt=17  low=1 rate=0.059 mean=36.35 best=15
+```
+
+## Streaming-miner verdict
+
+The projected-bucket miner changes the next move. It can recover buckets that
+contain the global best reduced-N witnesses, but the useful event is isolated
+inside those buckets. Bucket-level low-tail rate is not enriched enough to be a
+standalone construction rule.
+
+That means the next sr=61-useful tool should not merely pick buckets. It should
+store witnesses from the top best-tail buckets, then run a second-stage local
+refinement inside those buckets:
+
+```text
+coarse bucket -> keep best witnesses -> local mutate W57/W58/W59 or nearby
+projection bits -> re-test D60=0 and tail HW
+```
+
+The current evidence says `D60=0 + projected bucket` is a good address system,
+not yet a closing constraint.
+
 ## Engineering note
 
 The enhanced exact N=11 run scanned `8,589,934,592` triples in 287.8 seconds.

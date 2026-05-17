@@ -84,6 +84,29 @@ typedef struct {
     uint8_t used;
 } sig_bucket_t;
 
+typedef struct {
+    uint64_t key;
+    uint64_t sum_tail;
+    uint32_t count;
+    uint32_t low8, low12, low16, low20, low24, low32;
+    uint8_t best_tail;
+    uint8_t used;
+} miner_bucket_t;
+
+static const int MINER_FAMILIES = 10;
+static const char *miner_family_names[10] = {
+    "gh60",
+    "gh60+r61_hw",
+    "gh60+reg6hw+reg7hw",
+    "gh60+late_fold8",
+    "gh60+reg6_low8",
+    "gh60+reg7_low8",
+    "gh60+reg6_high8",
+    "gh60+reg7_high8",
+    "r61hw+reg_hw+fold8",
+    "reg_hw+late_fold8"
+};
+
 static int scale_rot(int k32) {
     int r = (int)rint((double)k32 * (double)gN / 32.0);
     return r < 1 ? 1 : r;
@@ -251,6 +274,44 @@ static void sig_table_insert(sig_bucket_t *tab, uint64_t cap,
     }
     tab[pos].count++;
     if (tail_hw < tab[pos].best_tail) tab[pos].best_tail = (uint8_t)tail_hw;
+}
+
+static void miner_insert(miner_bucket_t *tab, uint64_t cap, uint64_t key, int tail_hw) {
+    uint64_t pos = mix64(key) & (cap - 1u);
+    while (tab[pos].used && tab[pos].key != key) {
+        pos = (pos + 1u) & (cap - 1u);
+    }
+    if (!tab[pos].used) {
+        tab[pos].used = 1;
+        tab[pos].key = key;
+        tab[pos].sum_tail = 0;
+        tab[pos].count = 0;
+        tab[pos].low8 = tab[pos].low12 = tab[pos].low16 = 0;
+        tab[pos].low20 = tab[pos].low24 = tab[pos].low32 = 0;
+        tab[pos].best_tail = 255;
+    }
+    tab[pos].count++;
+    tab[pos].sum_tail += (uint64_t)tail_hw;
+    if (tail_hw <= 8) tab[pos].low8++;
+    if (tail_hw <= 12) tab[pos].low12++;
+    if (tail_hw <= 16) tab[pos].low16++;
+    if (tail_hw <= 20) tab[pos].low20++;
+    if (tail_hw <= 24) tab[pos].low24++;
+    if (tail_hw <= 32) tab[pos].low32++;
+    if (tail_hw < tab[pos].best_tail) tab[pos].best_tail = (uint8_t)tail_hw;
+}
+
+static inline uint64_t miner_key(int family, uint64_t data) {
+    return ((uint64_t)family << 56) | (data & 0x00ffffffffffffffULL);
+}
+
+static uint32_t miner_low_count(const miner_bucket_t *b, int threshold) {
+    if (threshold <= 8) return b->low8;
+    if (threshold <= 12) return b->low12;
+    if (threshold <= 16) return b->low16;
+    if (threshold <= 20) return b->low20;
+    if (threshold <= 24) return b->low24;
+    return b->low32;
 }
 
 static void fold_carry_diff(uint64_t *sig, uint32_t a1, uint32_t b1,
@@ -452,12 +513,25 @@ int main(int argc, char **argv) {
     mask_bucket_t *mask_table = NULL;
     sig_bucket_t *sig_table = NULL;
     sig_bucket_t *coarse_table = NULL;
+    miner_bucket_t *miner_table = NULL;
+    uint64_t miner_cap = next_pow2_u64(prefix_limit * (uint64_t)MINER_FAMILIES * 2u + 4096u);
+    if (miner_cap > (1ull << 25)) miner_cap = 0;
     if (table_cap <= (1ull << 25)) {
         mask_table = calloc((size_t)table_cap, sizeof(mask_bucket_t));
         sig_table = calloc((size_t)table_cap, sizeof(sig_bucket_t));
         coarse_table = calloc((size_t)table_cap, sizeof(sig_bucket_t));
         if (!mask_table || !sig_table || !coarse_table) {
             fprintf(stderr, "Enhanced-key table allocation failed.\n");
+            free(d_hist); free(fiber_hist);
+            free(gh_count); free(gh_best_tail); free(gh_best_r61);
+            free(mask_table); free(sig_table); free(coarse_table);
+            return 1;
+        }
+    }
+    if (miner_cap) {
+        miner_table = calloc((size_t)miner_cap, sizeof(miner_bucket_t));
+        if (!miner_table) {
+            fprintf(stderr, "Miner table allocation failed.\n");
             free(d_hist); free(fiber_hist);
             free(gh_count); free(gh_best_tail); free(gh_best_r61);
             free(mask_table); free(sig_table); free(coarse_table);
@@ -560,6 +634,42 @@ int main(int argc, char **argv) {
                             ? ((wit.r61_mask_lo >> global_bit) & 1ull)
                             : ((wit.r61_mask_hi >> (global_bit - 64)) & 1ull);
                         if (active) late_mask |= 1ull << lb;
+                    }
+                    uint64_t reg_mask = (gN == 32) ? 0xffffffffULL : ((1ull << gN) - 1ull);
+                    uint64_t reg6_mask = late_mask & reg_mask;
+                    uint64_t reg7_mask = (late_mask >> gN) & reg_mask;
+                    int reg6_hw = __builtin_popcountll(reg6_mask);
+                    int reg7_hw = __builtin_popcountll(reg7_mask);
+                    uint64_t fold8 = 0;
+                    for (int lb = 0; lb < late_bits; lb++) {
+                        if ((late_mask >> lb) & 1ull) fold8 ^= 1ull << (lb & 7);
+                    }
+                    uint64_t gh = wit.gh60_key;
+                    uint64_t shift = (uint64_t)(2 * gN);
+                    uint64_t reg6_low8 = reg6_mask & 0xffu;
+                    uint64_t reg7_low8 = reg7_mask & 0xffu;
+                    uint64_t reg6_high8 = (gN > 8) ? ((reg6_mask >> (gN - 8)) & 0xffu) : reg6_low8;
+                    uint64_t reg7_high8 = (gN > 8) ? ((reg7_mask >> (gN - 8)) & 0xffu) : reg7_low8;
+                    if (miner_table) {
+                        miner_insert(miner_table, miner_cap, miner_key(0, gh), tail_hw);
+                        miner_insert(miner_table, miner_cap, miner_key(1, gh | ((uint64_t)(wit.r61_hw & 0xff) << shift)), tail_hw);
+                        miner_insert(miner_table, miner_cap, miner_key(2, gh | ((uint64_t)reg6_hw << shift) | ((uint64_t)reg7_hw << (shift + 5))), tail_hw);
+                        miner_insert(miner_table, miner_cap, miner_key(3, gh | (fold8 << shift)), tail_hw);
+                        miner_insert(miner_table, miner_cap, miner_key(4, gh | (reg6_low8 << shift)), tail_hw);
+                        miner_insert(miner_table, miner_cap, miner_key(5, gh | (reg7_low8 << shift)), tail_hw);
+                        miner_insert(miner_table, miner_cap, miner_key(6, gh | (reg6_high8 << shift)), tail_hw);
+                        miner_insert(miner_table, miner_cap, miner_key(7, gh | (reg7_high8 << shift)), tail_hw);
+                        miner_insert(miner_table, miner_cap,
+                                     miner_key(8, (uint64_t)(wit.r61_hw & 0xff) |
+                                                    ((uint64_t)reg6_hw << 8) |
+                                                    ((uint64_t)reg7_hw << 13) |
+                                                    (fold8 << 18)),
+                                     tail_hw);
+                        miner_insert(miner_table, miner_cap,
+                                     miner_key(9, (uint64_t)reg6_hw |
+                                                    ((uint64_t)reg7_hw << 5) |
+                                                    (fold8 << 10)),
+                                     tail_hw);
                     }
                     int pair_idx = 0;
                     for (int a = 0; a < late_bits; a++) {
@@ -745,6 +855,72 @@ int main(int argc, char **argv) {
         }
     }
 
+    int miner_threshold = min_tail_hw + 5;
+    if (miner_threshold <= 8) miner_threshold = 8;
+    else if (miner_threshold <= 12) miner_threshold = 12;
+    else if (miner_threshold <= 16) miner_threshold = 16;
+    else if (miner_threshold <= 20) miner_threshold = 20;
+    else if (miner_threshold <= 24) miner_threshold = 24;
+    else miner_threshold = 32;
+
+    uint64_t miner_unique = 0;
+    int top_rate_idx[8], top_best_idx[8], top_score_idx[8];
+    double top_rate[8], top_score[8];
+    for (int i = 0; i < 8; i++) {
+        top_rate_idx[i] = top_best_idx[i] = top_score_idx[i] = -1;
+        top_rate[i] = top_score[i] = -1e100;
+    }
+    if (miner_table) {
+        for (uint64_t i = 0; i < miner_cap; i++) {
+            if (!miner_table[i].used) continue;
+            miner_unique++;
+            uint32_t cnt = miner_table[i].count;
+            uint32_t low = miner_low_count(&miner_table[i], miner_threshold);
+            double rate = cnt ? (double)low / (double)cnt : 0.0;
+            double score = rate * log((double)cnt + 1.0);
+
+            if (cnt >= 32 && low > 0) {
+                for (int k = 0; k < 8; k++) {
+                    if (rate > top_rate[k]) {
+                        for (int j = 7; j > k; j--) {
+                            top_rate[j] = top_rate[j - 1];
+                            top_rate_idx[j] = top_rate_idx[j - 1];
+                        }
+                        top_rate[k] = rate;
+                        top_rate_idx[k] = (int)i;
+                        break;
+                    }
+                }
+            }
+            if (cnt >= 16) {
+                for (int k = 0; k < 8; k++) {
+                    int cur = top_best_idx[k];
+                    if (cur < 0 ||
+                        miner_table[i].best_tail < miner_table[cur].best_tail ||
+                        (miner_table[i].best_tail == miner_table[cur].best_tail &&
+                         miner_table[i].count > miner_table[cur].count)) {
+                        for (int j = 7; j > k; j--) top_best_idx[j] = top_best_idx[j - 1];
+                        top_best_idx[k] = (int)i;
+                        break;
+                    }
+                }
+            }
+            if (cnt >= 32 && low > 0) {
+                for (int k = 0; k < 8; k++) {
+                    if (score > top_score[k]) {
+                        for (int j = 7; j > k; j--) {
+                            top_score[j] = top_score[j - 1];
+                            top_score_idx[j] = top_score_idx[j - 1];
+                        }
+                        top_score[k] = score;
+                        top_score_idx[k] = (int)i;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
     double elapsed = (double)(clock() - t0) / (double)CLOCKS_PER_SEC;
     double expected_d0 = (double)total / (double)word_space;
 
@@ -877,6 +1053,55 @@ int main(int argc, char **argv) {
                pair_best_tail[idx]);
     }
     printf("\n");
+    if (miner_table) {
+        printf("  streaming top-k bucket miner: unique=%" PRIu64 " cap=%" PRIu64
+               " low_threshold<=%d min_count_rate=32 min_count_best=16\n",
+               miner_unique, miner_cap, miner_threshold);
+        printf("    top low-rate buckets:");
+        for (int k = 0; k < 8; k++) {
+            int idx = top_rate_idx[k];
+            if (idx < 0) continue;
+            miner_bucket_t *b = &miner_table[idx];
+            int fam = (int)(b->key >> 56);
+            uint32_t low = miner_low_count(b, miner_threshold);
+            double rate = (double)low / (double)b->count;
+            double mean = (double)b->sum_tail / (double)b->count;
+            printf(" [%s key=0x%014" PRIx64 " cnt=%u low=%u rate=%.3f mean=%.2f best=%u]",
+                   miner_family_names[fam], b->key & 0x00ffffffffffffffULL,
+                   b->count, low, rate, mean, b->best_tail);
+        }
+        printf("\n");
+        printf("    top score buckets:");
+        for (int k = 0; k < 8; k++) {
+            int idx = top_score_idx[k];
+            if (idx < 0) continue;
+            miner_bucket_t *b = &miner_table[idx];
+            int fam = (int)(b->key >> 56);
+            uint32_t low = miner_low_count(b, miner_threshold);
+            double rate = (double)low / (double)b->count;
+            double mean = (double)b->sum_tail / (double)b->count;
+            printf(" [%s key=0x%014" PRIx64 " cnt=%u low=%u rate=%.3f mean=%.2f best=%u score=%.3f]",
+                   miner_family_names[fam], b->key & 0x00ffffffffffffffULL,
+                   b->count, low, rate, mean, b->best_tail, top_score[k]);
+        }
+        printf("\n");
+        printf("    top best-tail buckets:");
+        for (int k = 0; k < 8; k++) {
+            int idx = top_best_idx[k];
+            if (idx < 0) continue;
+            miner_bucket_t *b = &miner_table[idx];
+            int fam = (int)(b->key >> 56);
+            uint32_t low = miner_low_count(b, miner_threshold);
+            double rate = (double)low / (double)b->count;
+            double mean = (double)b->sum_tail / (double)b->count;
+            printf(" [%s key=0x%014" PRIx64 " cnt=%u low=%u rate=%.3f mean=%.2f best=%u]",
+                   miner_family_names[fam], b->key & 0x00ffffffffffffffULL,
+                   b->count, low, rate, mean, b->best_tail);
+        }
+        printf("\n");
+    } else {
+        printf("  streaming top-k bucket miner: skipped (table cap would be too large)\n");
+    }
 
     printf("\nD60=0 fiber histogram:");
     int printed = 0;
@@ -898,6 +1123,7 @@ int main(int argc, char **argv) {
     free(mask_table);
     free(sig_table);
     free(coarse_table);
+    free(miner_table);
     free(pair_count);
     free(pair_tail_sum);
     free(pair_best_tail);

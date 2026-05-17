@@ -134,3 +134,18 @@ Added late-register pair-state stats over r61 regs 6/7. Also weak: pair states
 move the mean slightly more than single bits, but still do not rank the global
 low-tail witnesses. Simple manual feature selectors are now poor candidates;
 next best implementation is direct top-k bucket mining by low-tail rate.
+
+## 2026-05-17 ~11:20 EDT
+
+Built the streaming top-k projected-bucket miner into
+`headline_hunt/bets/mitm_residue/prototypes/free_word_mitm_reducedn.c`.
+
+Runs covered N=8 exact, N=10 exact, and an N=12 262,144-prefix sample. The
+miner can recover buckets containing the best reduced-N tail witnesses, but the
+low-tail event is usually isolated inside a bucket rather than enriched across
+the bucket. This demotes plain bucket selection as a construction rule.
+
+Next useful build: persist best witnesses from top best-tail buckets and launch
+a second-stage local refinement around those witnesses. Treat projected buckets
+as an address system for neighborhoods, not as a closing constraint by
+themselves.
