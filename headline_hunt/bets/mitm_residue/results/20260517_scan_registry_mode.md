@@ -326,13 +326,13 @@ headline_hunt/bets/mitm_residue/results/runs/20260517_n13_scan_batch/summaries.j
 The runner writes one log per window and appends parsed `SUMMARY` rows to JSONL.
 The summarizer deduplicates by `sample_start` and reports coverage/frontiers.
 
-Checkpoint after logged windows `102..789`, combined with the earlier manual
+Checkpoint after logged windows `102..821`, combined with the earlier manual
 windows `0..101`:
 
 ```text
-unique windows: 790
-unique prefixes covered: 51,773,440 / 67,108,864 = 77.15%
-unique triples covered: 424,128,020,480
+unique windows: 822
+unique prefixes covered: 53,870,592 / 67,108,864 = 80.27%
+unique triples covered: 441,307,889,664
 tail frontier: HW7 at sample_start 24641536
 r61 frontier: HW7 in six logged windows
 ```
@@ -368,6 +368,7 @@ sample_start  tail HW  tail r61  best r61  W1[57..59]       W2[57..59]
 38404096      10       12        11        1d6a,1a83,0914   16e6,1622,1287
 36765696      11       15        10        08f3,1d31,083e   026f,11a8,1382
 9961472       12       13        10        0c8d,0983,14dd   0609,02a2,127e
+53477376      12       18        10        1c27,12e3,1e02   15a3,083e,18a4
 41025536      12       14        11        0f80,0ed5,1d57   08fc,1141,0f5c
 8126464       13       11        10        11f0,0e92,122e   0b6c,1f19,17a5
 19988480      13       16        10        11ff,1bae,01e1   0b7b,15e8,0b0c
@@ -416,8 +417,7 @@ W1[57..59]   = 1366,0abe,1713
 W2[57..59]   = 0ce2,0e22,0dd9
 ```
 
-Crossing 77% of N=13 did not improve below tail HW7. The new tail-HW7 witness
+Crossing 80% of N=13 did not improve below tail HW7. The new tail-HW7 witness
 is still the only strong joint tail/r61 hit, with `tail HW=7` and `r61 HW=9`
-in the same witness. The added windows `630..789` are coverage-only so far:
-their best new tails were HW13 at `sample_start=41549824` and HW14 at
-`sample_start=44630016`.
+in the same witness. The added windows `630..821` are coverage-only so far;
+their best new tail is HW12 at `sample_start=53477376`, with `r61 HW=18`.
