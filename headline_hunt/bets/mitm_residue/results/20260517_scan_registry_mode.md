@@ -326,15 +326,15 @@ headline_hunt/bets/mitm_residue/results/runs/20260517_n13_scan_batch/summaries.j
 The runner writes one log per window and appends parsed `SUMMARY` rows to JSONL.
 The summarizer deduplicates by `sample_start` and reports coverage/frontiers.
 
-Checkpoint after logged windows `102..949`, combined with the earlier manual
+Checkpoint after logged windows `102..981`, combined with the earlier manual
 windows `0..101`:
 
 ```text
-unique windows: 950
-unique prefixes covered: 62,259,200 / 67,108,864 = 92.77%
-unique triples covered: 510,027,366,400
+unique windows: 982
+unique prefixes covered: 64,356,352 / 67,108,864 = 95.90%
+unique triples covered: 527,207,235,584
 tail frontier: HW7 at sample_start 24641536
-r61 frontier: HW7 in seven logged windows
+r61 frontier: HW7 in eight logged windows
 ```
 
 The logged sweep found a new joint tail/r61 lead:
@@ -422,10 +422,16 @@ r61 HW       = 7
 tail HW      = 16
 W1[57..59]   = 0f48,0b0a,0a7b
 W2[57..59]   = 08c4,167e,1071
+
+sample_start = 62390272
+r61 HW       = 7
+tail HW      = 20
+W1[57..59]   = 0306,1bd0,07ec
+W2[57..59]   = 1c82,0e64,07e2
 ```
 
-Crossing 92% of N=13 did not improve below tail HW7. The new tail-HW7 witness
+Crossing 95% of N=13 did not improve below tail HW7. The new tail-HW7 witness
 is still the only strong joint tail/r61 hit, with `tail HW=7` and `r61 HW=9`
-in the same witness. The added windows `630..949` are coverage-only so far;
+in the same witness. The added windows `630..981` are coverage-only so far;
 their best new tails are HW12 at `sample_start=53477376` and
 `sample_start=55377920`.
