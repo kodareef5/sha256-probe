@@ -1,0 +1,37 @@
+free_word_mitm_reducedn
+N=13 mask=0x1fff msb=0x1000
+candidate: M0=0x974 mode=random-fallback fill=0x1fff kernel=dM0=dM9=0x1000
+prefixes=65536/67108864 mode=permuted-prefix-sample w59_per_prefix=8192 total=536870912
+run_mode=scan registry_cap=1
+sample_start=12451840
+scan_elapsed=22.225s rate=24.16 Mtriples/s
+
+D60 interface
+  D60=0 matches: 65589 (random expectation 65536.0, enrichment 1.001x)
+  prefixes with D60=0: 30583
+  max D60=0 fiber per prefix: 21 at W57=0x1556 W58=0xf66
+  largest D60 bucket: D=0x1234 count=67125
+  min D60 HW: 0
+  D60 HW histogram: 0:65589 1:852454 2:5116115 3:18761076 4:46896365 5:84378247 6:112469637 7:112431806 8:84307324 9:46823602 10:18732802 11:5117008 12:852845 13:66042
+
+Tail closure among D60=0 matches
+  final tail collisions: 0
+  best r61 HW: 10
+  best r61 W1[57..59]=0x1f50,0x1dc4,0xa9
+  best r61 W2[57..59]=0x18cc,0x9b6,0x1db1
+  best tail HW: 20
+  best tail r61 HW: 21
+  best W1[57..59]=0xe69,0x1d4e,0x1f6e
+  best W2[57..59]=0x7e5,0x8ec,0x120d
+
+SUMMARY N=13 sample_start=12451840 prefixes=65536 total=536870912 d0=65589 best_tail=20 tail_r61=21 best_r61=10 tail_W1=0xe69,0x1d4e,0x1f6e tail_W2=0x7e5,0x8ec,0x120d r61_W1=0x1f50,0x1dc4,0xa9 r61_W2=0x18cc,0x9b6,0x1db1
+
+Scan-only witness registry
+  registry_count=1 registry_cap=1
+  witness[00] tail=20 r61=21 gh60=0x90bd27 W1=0xe69,0x1d4e,0x1f6e W2=0x7e5,0x8ec,0x120d
+
+Scan-only r61 registry
+  registry_count=1 registry_cap=1
+  r61_witness[00] r61=10 tail=27 gh60=0x101ce1 W1=0x1f50,0x1dc4,0xa9 W2=0x18cc,0x9b6,0x1db1
+
+D60=0 fiber histogram: 1:13927 2:8537 3:3407 4:2427 5:948 6:579 7:248 8:290 9:99 10:44 11:16 12:19 13:11 14:5 15:2 16:12 17:6 18:2 19:1 20:1 21:2

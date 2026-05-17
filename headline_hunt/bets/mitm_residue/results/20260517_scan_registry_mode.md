@@ -312,3 +312,88 @@ Interpretation update: broad disjoint scan is still the main productive engine.
 The HW9 witness is a large enough jump that subsequent work should bias toward
 neighboring broad coverage and nonlocal recombination over retained witnesses,
 while using local prefix-fiber refinement only as a validator.
+
+## Continuation: Logged All-Day N=13 Sweep
+
+Added lightweight batch tooling:
+
+```text
+headline_hunt/bets/mitm_residue/prototypes/run_scan_batch.py
+headline_hunt/bets/mitm_residue/prototypes/summarize_scan_batch.py
+headline_hunt/bets/mitm_residue/results/runs/20260517_n13_scan_batch/summaries.jsonl
+```
+
+The runner writes one log per window and appends parsed `SUMMARY` rows to JSONL.
+The summarizer deduplicates by `sample_start` and reports coverage/frontiers.
+
+Checkpoint after logged windows `102..405`, combined with the earlier manual
+windows `0..101`:
+
+```text
+unique windows: 406
+unique prefixes covered: 26,607,616 / 67,108,864 = 39.65%
+unique triples covered: 217,969,590,272
+tail frontier: HW7 at sample_start 24641536
+r61 frontier: HW7 at sample_start 8257536, 14680064, and 22151168
+```
+
+The logged sweep found a new joint tail/r61 lead:
+
+```text
+sample_start = 24641536
+tail HW      = 7
+r61 HW       = 9
+gh60         = 0x121d21
+W1[57..59]   = 0f36,07db,082b
+W2[57..59]   = 08b2,1b15,1ef6
+```
+
+Focused validation on that window:
+
+```text
+command: /private/tmp/free_word_mitm_reducedn 13 65536 500000000 1024 24641536 scan
+refinement tested: 500,000,000
+prefix_enums: 61,019
+refinement D60=0: 64,306
+collisions: 0
+best refined tail HW: 7
+best refined r61 HW: 9
+```
+
+Best logged tail rows:
+
+```text
+sample_start  tail HW  tail r61  best r61  W1[57..59]       W2[57..59]
+24641536      7        9         9         0f36,07db,082b   08b2,1b15,1ef6
+9961472       12       13        10        0c8d,0983,14dd   0609,02a2,127e
+8126464       13       11        10        11f0,0e92,122e   0b6c,1f19,17a5
+19988480      13       16        10        11ff,1bae,01e1   0b7b,15e8,0b0c
+6946816       14       14        10        1e00,14fd,09f4   177c,13a8,0c0c
+13238272      14       11        10        034a,1151,1dde   1cc6,0f23,025e
+```
+
+The r61 side improved three times:
+
+```text
+sample_start = 8257536
+r61 HW       = 7
+tail HW      = 27
+W1[57..59]   = 1330,1b38,04f8
+W2[57..59]   = 0cac,0be6,0d2e
+
+sample_start = 14680064
+r61 HW       = 7
+tail HW      = 32
+W1[57..59]   = 1e88,157b,0b71
+W2[57..59]   = 1804,1397,0b67
+
+sample_start = 22151168
+r61 HW       = 7
+tail HW      = 33
+W1[57..59]   = 0288,15af,16e2
+W2[57..59]   = 1c04,0847,08ea
+```
+
+All three HW7 r61 witnesses were rerun with a full `1024`-entry registry and
+stayed low-r61/mediocre-tail. The new tail-HW7 witness is different: it is a
+joint tail/r61 hit, with `tail HW=7` and `r61 HW=9` in the same witness.

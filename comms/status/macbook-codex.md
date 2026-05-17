@@ -309,3 +309,35 @@ also appeared at `sample_start=5177344`, but with tail HW21. Current working
 rule is unchanged: broad disjoint scan is the productive engine, local
 prefix-fiber refinement is a validator, and the next research value is in
 nonlocal recombination over retained witnesses.
+
+## 2026-05-17 ~19:00 EDT
+
+Built logged batch tooling for the all-day N=13 sweep:
+
+- `run_scan_batch.py` launches parallel scan windows and writes per-window logs.
+- `summarize_scan_batch.py` reports JSONL coverage/frontiers.
+- Batch summaries are in
+  `headline_hunt/bets/mitm_residue/results/runs/20260517_n13_scan_batch/summaries.jsonl`.
+
+Checkpoint through window 405:
+
+```text
+unique N=13 windows = 406
+prefixes covered    = 26,607,616 / 67,108,864 = 39.65%
+triples covered     = 217,969,590,272
+tail frontier       = HW7 at sample_start 24641536
+r61 frontier        = HW7 at sample_start 8257536, 14680064, and 22151168
+```
+
+The tail frontier moved from HW9 to HW7:
+
+```text
+W1[57..59] = 0f36,07db,082b
+W2[57..59] = 08b2,1b15,1ef6
+r61 HW     = 9
+```
+
+Focused 500M-test prefix-surface refinement validated the HW7 witness and
+found 64,306 `D60=0` returns, but did not improve below HW7. The separate r61
+frontier also improved from HW8 to HW7 in three windows; those r61-only
+witnesses still have mediocre tails, so the split-registry model remains right.
