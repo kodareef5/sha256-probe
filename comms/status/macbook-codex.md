@@ -108,3 +108,24 @@ First reduced-N result:
 Conclusion: W60-defect matching is the right interface to instrument, but D60
 alone is not the construction key. Next useful key is D60 + r61 residual bucket
 + tail carry chamber signature.
+
+## 2026-05-17 ~10:35 EDT
+
+Extended the free-word MITM prototype with enhanced key profiling:
+
+- `(g60,h60)` bucket profile,
+- exact r61 active-mask buckets,
+- tail carry-signature buckets,
+- coarse `gh60+r61_hw` buckets.
+
+Ran N=8 exact, N=10 exact, N=11 exact, and N=12 samples. Result: `gh60`
+compresses strongly, but exact r61 masks are nearly injective and tail carry
+signatures are fully injective. Coarse `gh60+r61_hw` keeps multiplicity but
+its fattest buckets are mediocre. The next useful direction is supervised
+coarse-key design: selected late-register bits or learned tail-score features,
+not occupancy-max buckets.
+
+Added one-bit r61 supervised feature stats. Result is negative: active/inactive
+mean-tail shifts are only hundredths of a bit at N=10/N=12. Single r61 bits are
+too weak. Next should be pair/triple projected features or a streaming top-k
+bucket miner keyed by `gh60 + feature projection`.
