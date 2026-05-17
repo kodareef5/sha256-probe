@@ -26,6 +26,7 @@
  * Run:
  *   /tmp/free_word_mitm_reducedn 8
  *   /tmp/free_word_mitm_reducedn 10 65536
+ *   /tmp/free_word_mitm_reducedn 12 262144 1000000 128
  */
 
 #include <inttypes.h>
@@ -106,6 +107,30 @@ static const char *miner_family_names[10] = {
     "r61hw+reg_hw+fold8",
     "reg_hw+late_fold8"
 };
+
+typedef struct {
+    witness_t wit;
+    uint8_t used;
+} refine_seed_t;
+
+typedef struct {
+    uint64_t tested;
+    uint64_t d0;
+    uint64_t collision;
+    uint64_t phase_tested[3];
+    uint64_t phase_d0[3];
+    uint64_t seed_inserts;
+    uint64_t tail_improvements;
+    uint64_t r61_improvements;
+    int best_tail;
+    int best_r61;
+    int min_d_hw;
+    uint32_t min_d60;
+    uint32_t min_d_w57, min_d_w58, min_d_w59;
+    witness_t best_tail_wit;
+    witness_t best_r61_wit;
+    witness_t first_collision;
+} refine_stats_t;
 
 static int scale_rot(int k32) {
     int r = (int)rint((double)k32 * (double)gN / 32.0);
@@ -454,10 +479,189 @@ static int eval_tail(const uint32_t init1[8], const uint32_t init2[8],
     return tail_hw;
 }
 
+static int refine_seed_cmp(const void *a, const void *b) {
+    const refine_seed_t *sa = (const refine_seed_t *)a;
+    const refine_seed_t *sb = (const refine_seed_t *)b;
+    if (sa->wit.tail_hw != sb->wit.tail_hw) return sa->wit.tail_hw - sb->wit.tail_hw;
+    if (sa->wit.r61_hw != sb->wit.r61_hw) return sa->wit.r61_hw - sb->wit.r61_hw;
+    if (sa->wit.w57 != sb->wit.w57) return (sa->wit.w57 < sb->wit.w57) ? -1 : 1;
+    if (sa->wit.w58 != sb->wit.w58) return (sa->wit.w58 < sb->wit.w58) ? -1 : 1;
+    if (sa->wit.w59 != sb->wit.w59) return (sa->wit.w59 < sb->wit.w59) ? -1 : 1;
+    return 0;
+}
+
+static int same_witness_words(const witness_t *a, const witness_t *b) {
+    return a->w57 == b->w57 && a->w58 == b->w58 && a->w59 == b->w59;
+}
+
+static int refine_seed_insert(refine_seed_t *seeds, int *seed_count, int seed_cap,
+                              const witness_t *wit) {
+    if (!seeds || seed_cap <= 0 || wit->tail_hw < 0) return 0;
+    for (int i = 0; i < *seed_count; i++) {
+        if (same_witness_words(&seeds[i].wit, wit)) return 0;
+    }
+    if (*seed_count < seed_cap) {
+        seeds[*seed_count].wit = *wit;
+        seeds[*seed_count].used = 1;
+        (*seed_count)++;
+        qsort(seeds, (size_t)*seed_count, sizeof(refine_seed_t), refine_seed_cmp);
+        return 1;
+    }
+    refine_seed_t *worst = &seeds[*seed_count - 1];
+    if (wit->tail_hw > worst->wit.tail_hw) return 0;
+    if (wit->tail_hw == worst->wit.tail_hw && wit->r61_hw >= worst->wit.r61_hw) return 0;
+    worst->wit = *wit;
+    worst->used = 1;
+    qsort(seeds, (size_t)*seed_count, sizeof(refine_seed_t), refine_seed_cmp);
+    return 1;
+}
+
+static void flip_local_bit(uint32_t words[3], int idx) {
+    int word = idx / gN;
+    int bit = idx % gN;
+    words[word] = (words[word] ^ (1u << bit)) & gMASK;
+}
+
+static int refine_test_candidate(const uint32_t init1[8], const uint32_t init2[8],
+                                 const uint32_t Wpre1[64], const uint32_t Wpre2[64],
+                                 uint32_t w57, uint32_t w58, uint32_t w59,
+                                 int phase, uint64_t budget,
+                                 refine_seed_t *seeds, int *seed_count, int seed_cap,
+                                 refine_stats_t *stats) {
+    if (stats->tested >= budget) return -1;
+
+    uint32_t d60 = 0;
+    witness_t wit;
+    int tail_hw = eval_tail(init1, init2, Wpre1, Wpre2, w57, w58, w59, &wit, &d60);
+    stats->tested++;
+    if (phase >= 0 && phase < 3) stats->phase_tested[phase]++;
+
+    int dhw = hw(d60);
+    if (dhw < stats->min_d_hw) {
+        stats->min_d_hw = dhw;
+        stats->min_d60 = d60;
+        stats->min_d_w57 = w57;
+        stats->min_d_w58 = w58;
+        stats->min_d_w59 = w59;
+    }
+
+    if (d60 != 0) return dhw;
+    stats->d0++;
+    if (phase >= 0 && phase < 3) stats->phase_d0[phase]++;
+
+    if (refine_seed_insert(seeds, seed_count, seed_cap, &wit)) stats->seed_inserts++;
+    if (tail_hw == 0) {
+        if (stats->collision == 0) stats->first_collision = wit;
+        stats->collision++;
+    }
+    if (tail_hw >= 0 && tail_hw < stats->best_tail) {
+        stats->best_tail = tail_hw;
+        stats->best_tail_wit = wit;
+        stats->tail_improvements++;
+    }
+    if (wit.r61_hw < stats->best_r61) {
+        stats->best_r61 = wit.r61_hw;
+        stats->best_r61_wit = wit;
+        stats->r61_improvements++;
+    }
+    return dhw;
+}
+
+static void mutate_random_words(const uint32_t base[3], uint64_t ctr,
+                                uint32_t *w57, uint32_t *w58, uint32_t *w59) {
+    uint32_t words[3] = { base[0], base[1], base[2] };
+    uint64_t x = mix64(ctr ^ ((uint64_t)base[0] << 32) ^
+                       ((uint64_t)base[1] << 16) ^ (uint64_t)base[2]);
+    int flips = 1 + (int)(x & 3u);
+    int bits = 3 * gN;
+    for (int i = 0; i < flips; i++) {
+        x = mix64(x + 0x9e3779b97f4a7c15ULL + (uint64_t)i);
+        flip_local_bit(words, (int)(x % (uint64_t)bits));
+    }
+    *w57 = words[0] & gMASK;
+    *w58 = words[1] & gMASK;
+    *w59 = words[2] & gMASK;
+}
+
+static void run_refinement(const uint32_t init1[8], const uint32_t init2[8],
+                           const uint32_t Wpre1[64], const uint32_t Wpre2[64],
+                           refine_seed_t *seeds, int *seed_count, int seed_cap,
+                           uint64_t budget, const witness_t *scan_best_tail,
+                           const witness_t *scan_best_r61, refine_stats_t *stats) {
+    memset(stats, 0, sizeof(*stats));
+    stats->best_tail = scan_best_tail ? scan_best_tail->tail_hw : 999;
+    stats->best_r61 = scan_best_r61 ? scan_best_r61->r61_hw : 999;
+    stats->min_d_hw = 999;
+    if (scan_best_tail) stats->best_tail_wit = *scan_best_tail;
+    if (scan_best_r61) stats->best_r61_wit = *scan_best_r61;
+    if (!seeds || *seed_count <= 0 || budget == 0) return;
+
+    int bits = 3 * gN;
+    int initial_seed_count = *seed_count;
+    for (int s = 0; s < initial_seed_count && stats->tested < budget; s++) {
+        const witness_t seed = seeds[s].wit;
+        for (int b = 0; b < bits && stats->tested < budget; b++) {
+            uint32_t words[3] = { seed.w57, seed.w58, seed.w59 };
+            flip_local_bit(words, b);
+            refine_test_candidate(init1, init2, Wpre1, Wpre2,
+                                  words[0], words[1], words[2], 0, budget,
+                                  seeds, seed_count, seed_cap, stats);
+        }
+        for (int b1 = 0; b1 < bits && stats->tested < budget; b1++) {
+            for (int b2 = b1 + 1; b2 < bits && stats->tested < budget; b2++) {
+                uint32_t words[3] = { seed.w57, seed.w58, seed.w59 };
+                flip_local_bit(words, b1);
+                flip_local_bit(words, b2);
+                refine_test_candidate(init1, init2, Wpre1, Wpre2,
+                                      words[0], words[1], words[2], 1, budget,
+                                      seeds, seed_count, seed_cap, stats);
+            }
+        }
+    }
+
+    uint64_t ctr = 0;
+    uint32_t cur[3] = { seeds[0].wit.w57, seeds[0].wit.w58, seeds[0].wit.w59 };
+    int cur_dhw = 0;
+    uint64_t since_restart = 0;
+    while (stats->tested < budget && *seed_count > 0) {
+        uint64_t r = mix64(0xd1b54a32d192ed03ULL ^ ctr);
+        if (since_restart == 0 || since_restart >= 4096) {
+            int s = (int)(r % (uint64_t)*seed_count);
+            cur[0] = seeds[s].wit.w57;
+            cur[1] = seeds[s].wit.w58;
+            cur[2] = seeds[s].wit.w59;
+            cur_dhw = 0;
+            since_restart = 1;
+        }
+
+        uint32_t w57, w58, w59;
+        mutate_random_words(cur, ctr, &w57, &w58, &w59);
+        int cand_dhw = refine_test_candidate(init1, init2, Wpre1, Wpre2,
+                                             w57, w58, w59, 2, budget,
+                                             seeds, seed_count, seed_cap, stats);
+        if (cand_dhw >= 0) {
+            int delta = cand_dhw - cur_dhw;
+            uint64_t coin = mix64(r ^ 0x94d049bb133111ebULL) & 255u;
+            uint64_t accept_bar = (delta <= 0) ? 256u : (64u / (uint64_t)(delta + 1));
+            if (delta <= 0 || coin < accept_bar) {
+                cur[0] = w57;
+                cur[1] = w58;
+                cur[2] = w59;
+                cur_dhw = cand_dhw;
+                since_restart = 1;
+            } else {
+                since_restart++;
+            }
+        }
+        ctr++;
+    }
+}
+
 int main(int argc, char **argv) {
     if (argc < 2) {
-        fprintf(stderr, "Usage: %s N [prefix_limit]\n", argv[0]);
+        fprintf(stderr, "Usage: %s N [prefix_limit] [refine_budget] [refine_seed_cap]\n", argv[0]);
         fprintf(stderr, "  prefix_limit=0 or omitted means all W57,W58 prefixes.\n");
+        fprintf(stderr, "  refine_budget=0 or omitted disables second-stage local refinement.\n");
         return 2;
     }
 
@@ -474,6 +678,12 @@ int main(int argc, char **argv) {
         prefix_limit = strtoull(argv[2], NULL, 0);
         if (prefix_limit == 0 || prefix_limit > prefix_space) prefix_limit = prefix_space;
     }
+    uint64_t refine_budget = 0;
+    int refine_seed_cap = 128;
+    if (argc >= 4) refine_budget = strtoull(argv[3], NULL, 0);
+    if (argc >= 5) refine_seed_cap = atoi(argv[4]);
+    if (refine_seed_cap < 1) refine_seed_cap = 1;
+    if (refine_seed_cap > 4096) refine_seed_cap = 4096;
     uint64_t word_space = 1ull << N;
 
     uint32_t M1[16], M2[16], init1[8], init2[8], Wpre1[64] = {0}, Wpre2[64] = {0};
@@ -564,6 +774,21 @@ int main(int argc, char **argv) {
     }
     memset(pair_best_tail, 255, (size_t)late_pair_count * 4u);
 
+    refine_seed_t *refine_seeds = NULL;
+    int refine_seed_count = 0;
+    if (refine_budget) {
+        refine_seeds = calloc((size_t)refine_seed_cap, sizeof(refine_seed_t));
+        if (!refine_seeds) {
+            fprintf(stderr, "Refinement seed allocation failed.\n");
+            free(d_hist); free(fiber_hist);
+            free(gh_count); free(gh_best_tail); free(gh_best_r61);
+            free(mask_table); free(sig_table); free(coarse_table);
+            free(miner_table);
+            free(pair_count); free(pair_tail_sum); free(pair_best_tail);
+            return 1;
+        }
+    }
+
     uint64_t total = 0;
     uint64_t d0 = 0;
     uint64_t collision = 0;
@@ -608,6 +833,9 @@ int main(int argc, char **argv) {
                 if (tail_hw >= 0 && tail_hw < min_tail_hw) {
                     min_tail_hw = tail_hw;
                     best_tail = wit;
+                }
+                if (refine_seeds && tail_hw >= 0) {
+                    refine_seed_insert(refine_seeds, &refine_seed_count, refine_seed_cap, &wit);
                 }
                 if (wit.r61_hw >= 0 && wit.r61_hw < 257) {
                     r61_hw_hist[wit.r61_hw]++;
@@ -921,7 +1149,18 @@ int main(int argc, char **argv) {
         }
     }
 
-    double elapsed = (double)(clock() - t0) / (double)CLOCKS_PER_SEC;
+    double scan_elapsed = (double)(clock() - t0) / (double)CLOCKS_PER_SEC;
+    refine_stats_t refine_stats;
+    memset(&refine_stats, 0, sizeof(refine_stats));
+    double refine_elapsed = 0.0;
+    if (refine_budget && refine_seed_count > 0 && min_tail_hw < 999) {
+        clock_t tr0 = clock();
+        run_refinement(init1, init2, Wpre1, Wpre2,
+                       refine_seeds, &refine_seed_count, refine_seed_cap,
+                       refine_budget, &best_tail, &best_r61, &refine_stats);
+        refine_elapsed = (double)(clock() - tr0) / (double)CLOCKS_PER_SEC;
+    }
+    double elapsed = scan_elapsed + refine_elapsed;
     double expected_d0 = (double)total / (double)word_space;
 
     printf("free_word_mitm_reducedn\n");
@@ -929,7 +1168,11 @@ int main(int argc, char **argv) {
     printf("candidate: M0=0x%x fill=0x%x kernel=dM0=dM9=0x%x\n", m0, gMASK, gMSB);
     printf("prefixes=%" PRIu64 "/%" PRIu64 " mode=%s w59_per_prefix=%" PRIu64 " total=%" PRIu64 "\n",
            prefix_limit, prefix_space, prefix_mode, word_space, total);
-    printf("elapsed=%.3fs rate=%.2f Mtriples/s\n", elapsed, elapsed > 0.0 ? (double)total / elapsed / 1e6 : 0.0);
+    printf("scan_elapsed=%.3fs rate=%.2f Mtriples/s\n",
+           scan_elapsed, scan_elapsed > 0.0 ? (double)total / scan_elapsed / 1e6 : 0.0);
+    if (refine_budget) {
+        printf("refine_elapsed=%.3fs total_elapsed=%.3fs\n", refine_elapsed, elapsed);
+    }
     printf("\nD60 interface\n");
     printf("  D60=0 matches: %" PRIu64 " (random expectation %.1f, enrichment %.3fx)\n",
            d0, expected_d0, expected_d0 > 0.0 ? (double)d0 / expected_d0 : 0.0);
@@ -966,6 +1209,47 @@ int main(int argc, char **argv) {
                first_collision.w57, first_collision.w58, first_collision.w59);
         printf("  first collision W2[57..59]=0x%x,0x%x,0x%x\n",
                first_collision.w2_57, first_collision.w2_58, first_collision.w2_59);
+    }
+
+    if (refine_budget) {
+        printf("\nSecond-stage local refinement\n");
+        printf("  seed pool: count=%d cap=%d\n", refine_seed_count, refine_seed_cap);
+        if (refine_seed_count > 0) {
+            int show = refine_seed_count < 8 ? refine_seed_count : 8;
+            printf("  top seeds:");
+            for (int i = 0; i < show; i++) {
+                witness_t *sw = &refine_seeds[i].wit;
+                printf(" [tail%d/r61%d W=0x%x,0x%x,0x%x]",
+                       sw->tail_hw, sw->r61_hw, sw->w57, sw->w58, sw->w59);
+            }
+            printf("\n");
+        }
+        printf("  budget=%" PRIu64 " tested=%" PRIu64 " D60=0=%" PRIu64
+               " collisions=%" PRIu64 " seed_inserts=%" PRIu64 "\n",
+               refine_budget, refine_stats.tested, refine_stats.d0,
+               refine_stats.collision, refine_stats.seed_inserts);
+        if (refine_stats.tested) {
+            printf("  D60=0 rate: %.6f\n", (double)refine_stats.d0 / (double)refine_stats.tested);
+            printf("  phase tested/D60=0: single=%" PRIu64 "/%" PRIu64
+                   " double=%" PRIu64 "/%" PRIu64
+                   " walk=%" PRIu64 "/%" PRIu64 "\n",
+                   refine_stats.phase_tested[0], refine_stats.phase_d0[0],
+                   refine_stats.phase_tested[1], refine_stats.phase_d0[1],
+                   refine_stats.phase_tested[2], refine_stats.phase_d0[2]);
+            printf("  min refined D60 HW: %d d60=0x%x at W1[57..59]=0x%x,0x%x,0x%x\n",
+                   refine_stats.min_d_hw, refine_stats.min_d60,
+                   refine_stats.min_d_w57, refine_stats.min_d_w58, refine_stats.min_d_w59);
+            printf("  best refined tail HW: %d (scan best %d, improvements=%" PRIu64 ")\n",
+                   refine_stats.best_tail, min_tail_hw, refine_stats.tail_improvements);
+            printf("  best refined tail W1[57..59]=0x%x,0x%x,0x%x\n",
+                   refine_stats.best_tail_wit.w57, refine_stats.best_tail_wit.w58,
+                   refine_stats.best_tail_wit.w59);
+            printf("  best refined tail W2[57..59]=0x%x,0x%x,0x%x\n",
+                   refine_stats.best_tail_wit.w2_57, refine_stats.best_tail_wit.w2_58,
+                   refine_stats.best_tail_wit.w2_59);
+            printf("  best refined r61 HW: %d (scan best %d, improvements=%" PRIu64 ")\n",
+                   refine_stats.best_r61, min_r61_hw, refine_stats.r61_improvements);
+        }
     }
 
     printf("\nEnhanced key profile among D60=0 matches\n");
@@ -1124,6 +1408,7 @@ int main(int argc, char **argv) {
     free(sig_table);
     free(coarse_table);
     free(miner_table);
+    free(refine_seeds);
     free(pair_count);
     free(pair_tail_sum);
     free(pair_best_tail);

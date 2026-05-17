@@ -149,3 +149,22 @@ Next useful build: persist best witnesses from top best-tail buckets and launch
 a second-stage local refinement around those witnesses. Treat projected buckets
 as an address system for neighborhoods, not as a closing constraint by
 themselves.
+
+## 2026-05-17 ~12:35 EDT
+
+Built second-stage local refinement into the free-word MITM prototype. The scan
+retains top `D60=0` witnesses, then the refinement stage tests one-bit and
+two-bit neighborhoods plus an annealed D60-HW walk through nearby nonzero-D60
+states.
+
+Controls:
+
+- N=8 exact, 100k refinement tests: best tail stayed HW9.
+- N=10 exact, 1M refinement tests: best tail stayed HW7.
+- N=12 262,144-prefix sample, 50M refinement tests: 18,768 local `D60=0`
+  returns and 24 new retained seeds, but best tail stayed HW15.
+
+Conclusion: raw local mutation around best bucket witnesses is cheap and valid,
+but not a closing mechanism. Next refinement should preserve or directly solve
+the `D60=0` interface, e.g. mutate a `(W57,W58)` neighborhood and enumerate or
+solve `W59` values that land on `D60=0`, then score tail.
