@@ -27,6 +27,7 @@
  *   /tmp/free_word_mitm_reducedn 8
  *   /tmp/free_word_mitm_reducedn 10 65536
  *   /tmp/free_word_mitm_reducedn 12 262144 50000000 512 0
+ *   /tmp/free_word_mitm_reducedn 12 262144 0 1024 524288 scan
  */
 
 #include <inttypes.h>
@@ -396,10 +397,12 @@ static void copy_state(uint32_t dst[8], const uint32_t src[8]) {
     memcpy(dst, src, 8 * sizeof(uint32_t));
 }
 
-static int find_candidate(uint32_t *out_m0, uint32_t M1[16], uint32_t M2[16],
+static int find_candidate(uint32_t *out_m0, int *out_mode,
+                          uint32_t M1[16], uint32_t M2[16],
                           uint32_t st1[8], uint32_t st2[8],
                           uint32_t W1[64], uint32_t W2[64]) {
     uint64_t limit = (uint64_t)gMASK + 1u;
+    if (out_mode) *out_mode = 0;
     for (uint64_t m0 = 0; m0 < limit; m0++) {
         for (int i = 0; i < 16; i++) M1[i] = gMASK;
         M1[0] = (uint32_t)m0;
@@ -411,6 +414,26 @@ static int find_candidate(uint32_t *out_m0, uint32_t M1[16], uint32_t M2[16],
         precompute(M2, st2, W2);
         if (st1[0] == st2[0]) {
             *out_m0 = (uint32_t)m0;
+            if (out_mode) *out_mode = 0;
+            return 1;
+        }
+    }
+
+    uint64_t random_limit = 1ull << 24;
+    for (uint64_t trial = 0; trial < random_limit; trial++) {
+        for (int i = 0; i < 16; i++) {
+            uint64_t x = mix64(trial ^ (0x9e3779b97f4a7c15ULL * (uint64_t)(i + 1)));
+            M1[i] = (uint32_t)x & gMASK;
+        }
+        memcpy(M2, M1, 16 * sizeof(uint32_t));
+        M2[0] ^= gMSB;
+        M2[9] ^= gMSB;
+
+        precompute(M1, st1, W1);
+        precompute(M2, st2, W2);
+        if (st1[0] == st2[0]) {
+            *out_m0 = M1[0];
+            if (out_mode) *out_mode = 1;
             return 1;
         }
     }
@@ -729,11 +752,12 @@ static void run_refinement(const uint32_t init1[8], const uint32_t init2[8],
 
 int main(int argc, char **argv) {
     if (argc < 2) {
-        fprintf(stderr, "Usage: %s N [prefix_limit] [refine_budget] [refine_seed_cap] [sample_start]\n", argv[0]);
+        fprintf(stderr, "Usage: %s N [prefix_limit] [refine_budget] [refine_seed_cap] [sample_start] [mode]\n", argv[0]);
         fprintf(stderr, "  prefix_limit=0 or omitted means all W57,W58 prefixes.\n");
         fprintf(stderr, "  refinement scans neighboring (W57,W58) prefixes over all W59 first.\n");
         fprintf(stderr, "  sample_start shifts permuted-prefix samples; ignored for exact scans.\n");
         fprintf(stderr, "  refine_budget=0 or omitted disables second-stage local refinement.\n");
+        fprintf(stderr, "  mode=scan disables heavy profiling and keeps a compact witness registry.\n");
         return 2;
     }
 
@@ -758,11 +782,14 @@ int main(int argc, char **argv) {
     if (refine_seed_cap > 4096) refine_seed_cap = 4096;
     uint64_t sample_start = 0;
     if (argc >= 6) sample_start = strtoull(argv[5], NULL, 0) & (prefix_space - 1u);
+    int scan_only = (argc >= 7 && strcmp(argv[6], "scan") == 0);
+    int profile_enabled = !scan_only;
     uint64_t word_space = 1ull << N;
 
     uint32_t M1[16], M2[16], init1[8], init2[8], Wpre1[64] = {0}, Wpre2[64] = {0};
     uint32_t m0 = 0;
-    if (!find_candidate(&m0, M1, M2, init1, init2, Wpre1, Wpre2)) {
+    int candidate_mode = 0;
+    if (!find_candidate(&m0, &candidate_mode, M1, M2, init1, init2, Wpre1, Wpre2)) {
         fprintf(stderr, "No da56=0 candidate found at N=%d.\n", N);
         return 1;
     }
@@ -775,7 +802,7 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-    uint64_t gh_space = (2 * N <= 26) ? (1ull << (2 * N)) : 0;
+    uint64_t gh_space = (profile_enabled && 2 * N <= 26) ? (1ull << (2 * N)) : 0;
     uint32_t *gh_count = NULL;
     uint8_t *gh_best_tail = NULL;
     uint8_t *gh_best_r61 = NULL;
@@ -798,9 +825,11 @@ int main(int argc, char **argv) {
     sig_bucket_t *sig_table = NULL;
     sig_bucket_t *coarse_table = NULL;
     miner_bucket_t *miner_table = NULL;
-    uint64_t miner_cap = next_pow2_u64(prefix_limit * (uint64_t)MINER_FAMILIES * 2u + 4096u);
+    uint64_t miner_cap = profile_enabled
+        ? next_pow2_u64(prefix_limit * (uint64_t)MINER_FAMILIES * 2u + 4096u)
+        : 0;
     if (miner_cap > (1ull << 25)) miner_cap = 0;
-    if (table_cap <= (1ull << 25)) {
+    if (profile_enabled && table_cap <= (1ull << 25)) {
         mask_table = calloc((size_t)table_cap, sizeof(mask_bucket_t));
         sig_table = calloc((size_t)table_cap, sizeof(sig_bucket_t));
         coarse_table = calloc((size_t)table_cap, sizeof(sig_bucket_t));
@@ -850,7 +879,7 @@ int main(int argc, char **argv) {
 
     refine_seed_t *refine_seeds = NULL;
     int refine_seed_count = 0;
-    if (refine_budget) {
+    if (refine_budget || scan_only) {
         refine_seeds = calloc((size_t)refine_seed_cap, sizeof(refine_seed_t));
         if (!refine_seeds) {
             fprintf(stderr, "Refinement seed allocation failed.\n");
@@ -913,13 +942,13 @@ int main(int argc, char **argv) {
                 if (refine_seeds && tail_hw >= 0) {
                     refine_seed_insert(refine_seeds, &refine_seed_count, refine_seed_cap, &wit);
                 }
-                if (wit.r61_hw >= 0 && wit.r61_hw < 257) {
+                if (profile_enabled && wit.r61_hw >= 0 && wit.r61_hw < 257) {
                     r61_hw_hist[wit.r61_hw]++;
                     if (tail_hw >= 0 && tail_hw < best_tail_by_r61_hw[wit.r61_hw])
                         best_tail_by_r61_hw[wit.r61_hw] = (uint8_t)tail_hw;
                 }
-                if (tail_hw >= 0 && tail_hw < 257) tail_hw_hist[tail_hw]++;
-                if (tail_hw >= 0) {
+                if (profile_enabled && tail_hw >= 0 && tail_hw < 257) tail_hw_hist[tail_hw]++;
+                if (profile_enabled && tail_hw >= 0) {
                     total_tail_sum += (uint64_t)tail_hw;
                     for (int bit = 0; bit < 8 * N && bit < 128; bit++) {
                         uint64_t active = (bit < 64)
@@ -1241,9 +1270,13 @@ int main(int argc, char **argv) {
 
     printf("free_word_mitm_reducedn\n");
     printf("N=%d mask=0x%x msb=0x%x\n", N, gMASK, gMSB);
-    printf("candidate: M0=0x%x fill=0x%x kernel=dM0=dM9=0x%x\n", m0, gMASK, gMSB);
+    printf("candidate: M0=0x%x mode=%s fill=0x%x kernel=dM0=dM9=0x%x\n",
+           m0, candidate_mode ? "random-fallback" : "fixed-fill", gMASK, gMSB);
     printf("prefixes=%" PRIu64 "/%" PRIu64 " mode=%s w59_per_prefix=%" PRIu64 " total=%" PRIu64 "\n",
            prefix_limit, prefix_space, prefix_mode, word_space, total);
+    if (scan_only) {
+        printf("run_mode=scan registry_cap=%d\n", refine_seed_cap);
+    }
     if (prefix_limit != prefix_space) {
         printf("sample_start=%" PRIu64 "\n", sample_start);
     }
@@ -1288,6 +1321,19 @@ int main(int argc, char **argv) {
                first_collision.w57, first_collision.w58, first_collision.w59);
         printf("  first collision W2[57..59]=0x%x,0x%x,0x%x\n",
                first_collision.w2_57, first_collision.w2_58, first_collision.w2_59);
+    }
+
+    if (scan_only && refine_seeds) {
+        printf("\nScan-only witness registry\n");
+        printf("  registry_count=%d registry_cap=%d\n", refine_seed_count, refine_seed_cap);
+        int show = refine_seed_count < 16 ? refine_seed_count : 16;
+        for (int i = 0; i < show; i++) {
+            witness_t *sw = &refine_seeds[i].wit;
+            printf("  witness[%02d] tail=%d r61=%d gh60=0x%x W1=0x%x,0x%x,0x%x W2=0x%x,0x%x,0x%x\n",
+                   i, sw->tail_hw, sw->r61_hw, sw->gh60_key,
+                   sw->w57, sw->w58, sw->w59,
+                   sw->w2_57, sw->w2_58, sw->w2_59);
+        }
     }
 
     if (refine_budget) {
@@ -1335,139 +1381,141 @@ int main(int argc, char **argv) {
         }
     }
 
-    printf("\nEnhanced key profile among D60=0 matches\n");
-    printf("  r61 HW histogram:");
-    for (int i = 0; i <= 8 * N && i < 257; i++) {
-        if (r61_hw_hist[i]) {
-            int bt = best_tail_by_r61_hw[i] == 255 ? -1 : best_tail_by_r61_hw[i];
-            printf(" %d:%" PRIu64 "/bt%d", i, r61_hw_hist[i], bt);
-        }
-    }
-    printf("\n");
-    printf("  tail HW histogram:");
-    for (int i = 0; i <= 8 * N && i < 257; i++) {
-        if (tail_hw_hist[i]) printf(" %d:%" PRIu64, i, tail_hw_hist[i]);
-    }
-    printf("\n");
-    if (gh_space) {
-        uint32_t max_dg = (gh_max_key >> N) & gMASK;
-        uint32_t max_dh = gh_max_key & gMASK;
-        printf("  gh60 buckets: unique=%" PRIu64 "/%" PRIu64
-               " max_count=%" PRIu64 " key=(0x%x,0x%x) max_bucket_best_tail=%d global_best_tail=%d\n",
-               gh_unique, gh_space, gh_max_count, max_dg, max_dh,
-               gh_max_best_tail, gh_global_best_tail);
-    } else {
-        printf("  gh60 buckets: skipped (2N key too large for dense table)\n");
-    }
-    if (mask_table) {
-        printf("  r61 active-mask buckets: unique=%" PRIu64 " table_cap=%" PRIu64
-               " max_count=%" PRIu64 " max_bucket_best_tail=%d global_best_tail=%d"
-               " max_mask_lo=0x%016" PRIx64 " max_mask_hi=0x%016" PRIx64 "\n",
-               mask_unique, table_cap, mask_max_count, mask_max_best_tail,
-               mask_global_best_tail, mask_max_lo, mask_max_hi);
-    } else {
-        printf("  r61 active-mask buckets: skipped (table cap would be too large)\n");
-    }
-    if (sig_table) {
-        printf("  tail carry-signature buckets: unique=%" PRIu64 " table_cap=%" PRIu64
-               " max_count=%" PRIu64 " max_bucket_best_tail=%d global_best_tail=%d"
-               " max_sig=0x%016" PRIx64 "\n",
-               sig_unique, table_cap, sig_max_count, sig_max_best_tail,
-               sig_global_best_tail, sig_max);
-    } else {
-        printf("  tail carry-signature buckets: skipped (table cap would be too large)\n");
-    }
-    if (coarse_table) {
-        uint32_t coarse_gh = (uint32_t)(coarse_max >> 8);
-        int coarse_r61 = (int)(coarse_max & 0xffu);
-        printf("  coarse gh60+r61_hw buckets: unique=%" PRIu64 " table_cap=%" PRIu64
-               " max_count=%" PRIu64 " max_bucket_best_tail=%d global_best_tail=%d"
-               " max_key_gh=(0x%x,0x%x) max_key_r61=%d\n",
-               coarse_unique, table_cap, coarse_max_count, coarse_max_best_tail,
-               coarse_global_best_tail, (coarse_gh >> N) & gMASK, coarse_gh & gMASK,
-               coarse_r61);
-    } else {
-        printf("  coarse gh60+r61_hw buckets: skipped (table cap would be too large)\n");
-    }
-    printf("  top r61 active-bit mean-tail gains:");
-    for (int k = 0; k < 8; k++) {
-        int bit = top_bits[k];
-        if (bit < 0) continue;
-        uint64_t on = bit_active_count[bit];
-        uint64_t off = d0 - on;
-        double on_mean = (double)bit_active_tail_sum[bit] / (double)on;
-        double off_mean = (double)(total_tail_sum - bit_active_tail_sum[bit]) / (double)off;
-        int reg = bit / N;
-        int reg_bit = bit % N;
-        printf(" r%d.b%d:on%" PRIu64 ":mean%.2f/off%.2f:best%d",
-               reg, reg_bit, on, on_mean, off_mean, bit_active_best_tail[bit]);
-    }
-    printf("\n");
-    printf("  top late r61 pair-state mean-tail gains:");
-    for (int k = 0; k < 8; k++) {
-        if (top_pair_a[k] < 0) continue;
-        int a = top_pair_a[k], b = top_pair_b[k], state = top_pair_state[k];
-        int pair_idx2 = a * (late_bits - 1) - (a * (a - 1)) / 2 + (b - a - 1);
-        size_t idx = (size_t)pair_idx2 * 4u + (size_t)state;
-        uint64_t on = pair_count[idx];
-        uint64_t off = d0 - on;
-        double on_mean = (double)pair_tail_sum[idx] / (double)on;
-        double off_mean = (double)(total_tail_sum - pair_tail_sum[idx]) / (double)off;
-        int reg_a = 6 + a / N, bit_a = a % N;
-        int reg_b = 6 + b / N, bit_b = b % N;
-        printf(" r%d.b%d/r%d.b%d=s%d:on%" PRIu64 ":mean%.2f/off%.2f:best%d",
-               reg_a, bit_a, reg_b, bit_b, state, on, on_mean, off_mean,
-               pair_best_tail[idx]);
-    }
-    printf("\n");
-    if (miner_table) {
-        printf("  streaming top-k bucket miner: unique=%" PRIu64 " cap=%" PRIu64
-               " low_threshold<=%d min_count_rate=32 min_count_best=16\n",
-               miner_unique, miner_cap, miner_threshold);
-        printf("    top low-rate buckets:");
-        for (int k = 0; k < 8; k++) {
-            int idx = top_rate_idx[k];
-            if (idx < 0) continue;
-            miner_bucket_t *b = &miner_table[idx];
-            int fam = (int)(b->key >> 56);
-            uint32_t low = miner_low_count(b, miner_threshold);
-            double rate = (double)low / (double)b->count;
-            double mean = (double)b->sum_tail / (double)b->count;
-            printf(" [%s key=0x%014" PRIx64 " cnt=%u low=%u rate=%.3f mean=%.2f best=%u]",
-                   miner_family_names[fam], b->key & 0x00ffffffffffffffULL,
-                   b->count, low, rate, mean, b->best_tail);
+    if (profile_enabled) {
+        printf("\nEnhanced key profile among D60=0 matches\n");
+        printf("  r61 HW histogram:");
+        for (int i = 0; i <= 8 * N && i < 257; i++) {
+            if (r61_hw_hist[i]) {
+                int bt = best_tail_by_r61_hw[i] == 255 ? -1 : best_tail_by_r61_hw[i];
+                printf(" %d:%" PRIu64 "/bt%d", i, r61_hw_hist[i], bt);
+            }
         }
         printf("\n");
-        printf("    top score buckets:");
-        for (int k = 0; k < 8; k++) {
-            int idx = top_score_idx[k];
-            if (idx < 0) continue;
-            miner_bucket_t *b = &miner_table[idx];
-            int fam = (int)(b->key >> 56);
-            uint32_t low = miner_low_count(b, miner_threshold);
-            double rate = (double)low / (double)b->count;
-            double mean = (double)b->sum_tail / (double)b->count;
-            printf(" [%s key=0x%014" PRIx64 " cnt=%u low=%u rate=%.3f mean=%.2f best=%u score=%.3f]",
-                   miner_family_names[fam], b->key & 0x00ffffffffffffffULL,
-                   b->count, low, rate, mean, b->best_tail, top_score[k]);
+        printf("  tail HW histogram:");
+        for (int i = 0; i <= 8 * N && i < 257; i++) {
+            if (tail_hw_hist[i]) printf(" %d:%" PRIu64, i, tail_hw_hist[i]);
         }
         printf("\n");
-        printf("    top best-tail buckets:");
+        if (gh_space) {
+            uint32_t max_dg = (gh_max_key >> N) & gMASK;
+            uint32_t max_dh = gh_max_key & gMASK;
+            printf("  gh60 buckets: unique=%" PRIu64 "/%" PRIu64
+                   " max_count=%" PRIu64 " key=(0x%x,0x%x) max_bucket_best_tail=%d global_best_tail=%d\n",
+                   gh_unique, gh_space, gh_max_count, max_dg, max_dh,
+                   gh_max_best_tail, gh_global_best_tail);
+        } else {
+            printf("  gh60 buckets: skipped (2N key too large for dense table)\n");
+        }
+        if (mask_table) {
+            printf("  r61 active-mask buckets: unique=%" PRIu64 " table_cap=%" PRIu64
+                   " max_count=%" PRIu64 " max_bucket_best_tail=%d global_best_tail=%d"
+                   " max_mask_lo=0x%016" PRIx64 " max_mask_hi=0x%016" PRIx64 "\n",
+                   mask_unique, table_cap, mask_max_count, mask_max_best_tail,
+                   mask_global_best_tail, mask_max_lo, mask_max_hi);
+        } else {
+            printf("  r61 active-mask buckets: skipped (table cap would be too large)\n");
+        }
+        if (sig_table) {
+            printf("  tail carry-signature buckets: unique=%" PRIu64 " table_cap=%" PRIu64
+                   " max_count=%" PRIu64 " max_bucket_best_tail=%d global_best_tail=%d"
+                   " max_sig=0x%016" PRIx64 "\n",
+                   sig_unique, table_cap, sig_max_count, sig_max_best_tail,
+                   sig_global_best_tail, sig_max);
+        } else {
+            printf("  tail carry-signature buckets: skipped (table cap would be too large)\n");
+        }
+        if (coarse_table) {
+            uint32_t coarse_gh = (uint32_t)(coarse_max >> 8);
+            int coarse_r61 = (int)(coarse_max & 0xffu);
+            printf("  coarse gh60+r61_hw buckets: unique=%" PRIu64 " table_cap=%" PRIu64
+                   " max_count=%" PRIu64 " max_bucket_best_tail=%d global_best_tail=%d"
+                   " max_key_gh=(0x%x,0x%x) max_key_r61=%d\n",
+                   coarse_unique, table_cap, coarse_max_count, coarse_max_best_tail,
+                   coarse_global_best_tail, (coarse_gh >> N) & gMASK, coarse_gh & gMASK,
+                   coarse_r61);
+        } else {
+            printf("  coarse gh60+r61_hw buckets: skipped (table cap would be too large)\n");
+        }
+        printf("  top r61 active-bit mean-tail gains:");
         for (int k = 0; k < 8; k++) {
-            int idx = top_best_idx[k];
-            if (idx < 0) continue;
-            miner_bucket_t *b = &miner_table[idx];
-            int fam = (int)(b->key >> 56);
-            uint32_t low = miner_low_count(b, miner_threshold);
-            double rate = (double)low / (double)b->count;
-            double mean = (double)b->sum_tail / (double)b->count;
-            printf(" [%s key=0x%014" PRIx64 " cnt=%u low=%u rate=%.3f mean=%.2f best=%u]",
-                   miner_family_names[fam], b->key & 0x00ffffffffffffffULL,
-                   b->count, low, rate, mean, b->best_tail);
+            int bit = top_bits[k];
+            if (bit < 0) continue;
+            uint64_t on = bit_active_count[bit];
+            uint64_t off = d0 - on;
+            double on_mean = (double)bit_active_tail_sum[bit] / (double)on;
+            double off_mean = (double)(total_tail_sum - bit_active_tail_sum[bit]) / (double)off;
+            int reg = bit / N;
+            int reg_bit = bit % N;
+            printf(" r%d.b%d:on%" PRIu64 ":mean%.2f/off%.2f:best%d",
+                   reg, reg_bit, on, on_mean, off_mean, bit_active_best_tail[bit]);
         }
         printf("\n");
-    } else {
-        printf("  streaming top-k bucket miner: skipped (table cap would be too large)\n");
+        printf("  top late r61 pair-state mean-tail gains:");
+        for (int k = 0; k < 8; k++) {
+            if (top_pair_a[k] < 0) continue;
+            int a = top_pair_a[k], b = top_pair_b[k], state = top_pair_state[k];
+            int pair_idx2 = a * (late_bits - 1) - (a * (a - 1)) / 2 + (b - a - 1);
+            size_t idx = (size_t)pair_idx2 * 4u + (size_t)state;
+            uint64_t on = pair_count[idx];
+            uint64_t off = d0 - on;
+            double on_mean = (double)pair_tail_sum[idx] / (double)on;
+            double off_mean = (double)(total_tail_sum - pair_tail_sum[idx]) / (double)off;
+            int reg_a = 6 + a / N, bit_a = a % N;
+            int reg_b = 6 + b / N, bit_b = b % N;
+            printf(" r%d.b%d/r%d.b%d=s%d:on%" PRIu64 ":mean%.2f/off%.2f:best%d",
+                   reg_a, bit_a, reg_b, bit_b, state, on, on_mean, off_mean,
+                   pair_best_tail[idx]);
+        }
+        printf("\n");
+        if (miner_table) {
+            printf("  streaming top-k bucket miner: unique=%" PRIu64 " cap=%" PRIu64
+                   " low_threshold<=%d min_count_rate=32 min_count_best=16\n",
+                   miner_unique, miner_cap, miner_threshold);
+            printf("    top low-rate buckets:");
+            for (int k = 0; k < 8; k++) {
+                int idx = top_rate_idx[k];
+                if (idx < 0) continue;
+                miner_bucket_t *b = &miner_table[idx];
+                int fam = (int)(b->key >> 56);
+                uint32_t low = miner_low_count(b, miner_threshold);
+                double rate = (double)low / (double)b->count;
+                double mean = (double)b->sum_tail / (double)b->count;
+                printf(" [%s key=0x%014" PRIx64 " cnt=%u low=%u rate=%.3f mean=%.2f best=%u]",
+                       miner_family_names[fam], b->key & 0x00ffffffffffffffULL,
+                       b->count, low, rate, mean, b->best_tail);
+            }
+            printf("\n");
+            printf("    top score buckets:");
+            for (int k = 0; k < 8; k++) {
+                int idx = top_score_idx[k];
+                if (idx < 0) continue;
+                miner_bucket_t *b = &miner_table[idx];
+                int fam = (int)(b->key >> 56);
+                uint32_t low = miner_low_count(b, miner_threshold);
+                double rate = (double)low / (double)b->count;
+                double mean = (double)b->sum_tail / (double)b->count;
+                printf(" [%s key=0x%014" PRIx64 " cnt=%u low=%u rate=%.3f mean=%.2f best=%u score=%.3f]",
+                       miner_family_names[fam], b->key & 0x00ffffffffffffffULL,
+                       b->count, low, rate, mean, b->best_tail, top_score[k]);
+            }
+            printf("\n");
+            printf("    top best-tail buckets:");
+            for (int k = 0; k < 8; k++) {
+                int idx = top_best_idx[k];
+                if (idx < 0) continue;
+                miner_bucket_t *b = &miner_table[idx];
+                int fam = (int)(b->key >> 56);
+                uint32_t low = miner_low_count(b, miner_threshold);
+                double rate = (double)low / (double)b->count;
+                double mean = (double)b->sum_tail / (double)b->count;
+                printf(" [%s key=0x%014" PRIx64 " cnt=%u low=%u rate=%.3f mean=%.2f best=%u]",
+                       miner_family_names[fam], b->key & 0x00ffffffffffffffULL,
+                       b->count, low, rate, mean, b->best_tail);
+            }
+            printf("\n");
+        } else {
+            printf("  streaming top-k bucket miner: skipped (table cap would be too large)\n");
+        }
     }
 
     printf("\nD60=0 fiber histogram:");

@@ -196,3 +196,34 @@ Conclusion: broad disjoint prefix sampling is currently higher EV than local
 refinement. Next build should be a lean scan-only/witness-registry mode for
 parallel N=12/N=13 sample sweeps, retaining compact low-tail witnesses without
 the full profiling tables.
+
+## 2026-05-17 ~15:20 EDT
+
+Implemented scan-only witness-registry mode in
+`headline_hunt/bets/mitm_residue/prototypes/free_word_mitm_reducedn.c`.
+
+Changes:
+
+- `mode=scan` disables the heavy profiling tables and keeps compact low-tail
+  witnesses.
+- N=13 is now unlocked by a deterministic random-fallback `da56=0` seed:
+  `M0=0x974`, `kernel=dM0=dM9=0x1000`.
+- Scan mode can be used with refinement, so retained witnesses feed the same
+  prefix-fiber second stage.
+
+Ran 20 disjoint N=13 windows of 65,536 prefixes each, covering 1,310,720 of
+67,108,864 N=13 prefixes. Best N=13 tail lead improved to HW12:
+
+```text
+sample_start = 1048576
+W1[57..59]   = 0092,0dbf,0ae1
+W2[57..59]   = 1a0e,05d3,1eb2
+r61 HW       = 22
+```
+
+Best r61 lead in the N=13 sweep is HW9, seen in multiple windows.
+
+Focused 500M-test prefix-surface refinement on the HW12 window found 63,497
+`D60=0` returns and no improvement below HW12. This reinforces the current
+working rule: broad disjoint scan is the main engine; local prefix-fiber
+refinement is validation, not a basin descent.
