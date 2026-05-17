@@ -90,3 +90,21 @@ bit2 (+14.79%) and bit28 (+12.69%). F343 remains the better panel-wide nudge.
 
 Next if continuing this branch: bit24-only decomposition of hotspot bits
 14/16 vs 21-25 and smaller caps. Stop hotspot-priority for bit2/bit28.
+
+## 2026-05-17 ~09:45 EDT
+
+Re-entered as mac-codex for free-word shaping / MITM task design and a first
+prototype pass.
+
+Added task-design packet under `headline_hunt/reports/task_design/`, then built
+`headline_hunt/bets/mitm_residue/prototypes/free_word_mitm_reducedn.c`.
+
+First reduced-N result:
+
+- N=8 exact: D60=0 matches 65,954 vs 65,536 random expectation, no tail collisions.
+- N=10 exact: D60=0 matches 1,045,126 vs 1,048,576 random expectation, no tail collisions, best tail HW7.
+- N=12 sampled: D60=0 matches 65,266 vs 65,536 expectation, no tail collisions in the sample.
+
+Conclusion: W60-defect matching is the right interface to instrument, but D60
+alone is not the construction key. Next useful key is D60 + r61 residual bucket
++ tail carry chamber signature.
