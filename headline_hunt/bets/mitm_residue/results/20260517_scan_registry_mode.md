@@ -137,3 +137,58 @@ Next useful work is more disjoint N=13/N=14 scan windows, plus a separate
 attempt at a nonlocal combiner over retained witness registries. Local
 prefix-fiber refinement remains useful as a validator, but not as the main
 search engine.
+
+## Continuation: r61 Registry and Wider N=13 Sweep
+
+After the first 20-window sweep, scan mode was extended with a second retained
+registry sorted by `r61_hw` first. The original witness registry is still
+tail-first. The reason is empirical: some very low-r61 witnesses have mediocre
+tail scores and were getting printed as the single best-r61 line but not
+retained in the seed pool or compact registry.
+
+Control:
+
+```text
+command: /private/tmp/free_word_mitm_reducedn 8 0 0 16 0 scan
+best tail HW: 9
+best r61 HW: 5
+tail-first registry: populated with tail 9/10 witnesses
+r61-first registry: populated with r61 5/6 witnesses
+```
+
+The extended N=13 sweep now covers `59` unique windows of `65,536` prefixes:
+
+```text
+unique prefixes covered: 3,866,624 / 67,108,864 = 5.76%
+unique triples covered: 31,675,383,808
+plus one targeted duplicate rerun of sample_start 2031616
+```
+
+The N=13 tail frontier did not improve beyond HW12. The r61 frontier improved:
+
+```text
+sample_start = 2031616
+r61 HW       = 8
+tail HW      = 28
+gh60         = 0x500561
+W1[57..59]   = 0486,020a,1fcf
+W2[57..59]   = 1e02,169e,0967
+```
+
+The targeted rerun with the r61 registry confirmed why this needs a separate
+retainer: the r61-HW8 witness is not competitive on tail score. It would not be
+kept by a tail-first top-k registry.
+
+Notable combined tail/r61 witnesses from the wider scan:
+
+```text
+sample_start  tail HW  r61 HW  W1[57..59]       W2[57..59]
+1441792       16       9       0400,0c51,037a   1d7c,0e75,0007
+2752512       18       9       06f0,108e,1ef9   006c,1018,1831
+3538944       19       10      1d06,000c,080c   1682,1ca4,1593
+3735552       19       10      0478,1884,02bd   1df4,0e7e,10aa
+```
+
+Interpretation update: tail minimization and r61 minimization are correlated
+enough to produce occasional joint hits, but not enough that one registry can
+serve both goals. Keep both registries for future nonlocal recombination.

@@ -227,3 +227,31 @@ Focused 500M-test prefix-surface refinement on the HW12 window found 63,497
 `D60=0` returns and no improvement below HW12. This reinforces the current
 working rule: broad disjoint scan is the main engine; local prefix-fiber
 refinement is validation, not a basin descent.
+
+## 2026-05-17 ~16:20 EDT
+
+Continued the N=13 scan sweep through 59 unique windows, covering 3,866,624 of
+67,108,864 prefixes, plus one targeted duplicate rerun of the best r61 window.
+
+Tail frontier is unchanged:
+
+```text
+N=13 best tail HW = 12
+sample_start      = 1048576
+W1[57..59]        = 0092,0dbf,0ae1
+W2[57..59]        = 1a0e,05d3,1eb2
+```
+
+r61 frontier improved:
+
+```text
+N=13 best r61 HW = 8
+sample_start     = 2031616
+tail HW          = 28
+W1[57..59]       = 0486,020a,1fcf
+W2[57..59]       = 1e02,169e,0967
+```
+
+Added a separate r61-first scan registry. The targeted rerun showed the r61-HW8
+witness would be dropped by the tail-first registry, so future scan output now
+retains both tail frontier candidates and low-r61 candidates.

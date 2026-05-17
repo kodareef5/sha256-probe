@@ -514,30 +514,57 @@ static int refine_seed_cmp(const void *a, const void *b) {
     return 0;
 }
 
+static int refine_seed_r61_cmp(const void *a, const void *b) {
+    const refine_seed_t *sa = (const refine_seed_t *)a;
+    const refine_seed_t *sb = (const refine_seed_t *)b;
+    if (sa->wit.r61_hw != sb->wit.r61_hw) return sa->wit.r61_hw - sb->wit.r61_hw;
+    if (sa->wit.tail_hw != sb->wit.tail_hw) return sa->wit.tail_hw - sb->wit.tail_hw;
+    if (sa->wit.w57 != sb->wit.w57) return (sa->wit.w57 < sb->wit.w57) ? -1 : 1;
+    if (sa->wit.w58 != sb->wit.w58) return (sa->wit.w58 < sb->wit.w58) ? -1 : 1;
+    if (sa->wit.w59 != sb->wit.w59) return (sa->wit.w59 < sb->wit.w59) ? -1 : 1;
+    return 0;
+}
+
 static int same_witness_words(const witness_t *a, const witness_t *b) {
     return a->w57 == b->w57 && a->w58 == b->w58 && a->w59 == b->w59;
 }
 
-static int refine_seed_insert(refine_seed_t *seeds, int *seed_count, int seed_cap,
-                              const witness_t *wit) {
+static int refine_seed_insert_ordered(refine_seed_t *seeds, int *seed_count, int seed_cap,
+                                      const witness_t *wit, int r61_first) {
     if (!seeds || seed_cap <= 0 || wit->tail_hw < 0) return 0;
     for (int i = 0; i < *seed_count; i++) {
         if (same_witness_words(&seeds[i].wit, wit)) return 0;
     }
+    int (*cmp)(const void *, const void *) = r61_first ? refine_seed_r61_cmp : refine_seed_cmp;
     if (*seed_count < seed_cap) {
         seeds[*seed_count].wit = *wit;
         seeds[*seed_count].used = 1;
         (*seed_count)++;
-        qsort(seeds, (size_t)*seed_count, sizeof(refine_seed_t), refine_seed_cmp);
+        qsort(seeds, (size_t)*seed_count, sizeof(refine_seed_t), cmp);
         return 1;
     }
     refine_seed_t *worst = &seeds[*seed_count - 1];
-    if (wit->tail_hw > worst->wit.tail_hw) return 0;
-    if (wit->tail_hw == worst->wit.tail_hw && wit->r61_hw >= worst->wit.r61_hw) return 0;
+    if (!r61_first) {
+        if (wit->tail_hw > worst->wit.tail_hw) return 0;
+        if (wit->tail_hw == worst->wit.tail_hw && wit->r61_hw >= worst->wit.r61_hw) return 0;
+    } else {
+        if (wit->r61_hw > worst->wit.r61_hw) return 0;
+        if (wit->r61_hw == worst->wit.r61_hw && wit->tail_hw >= worst->wit.tail_hw) return 0;
+    }
     worst->wit = *wit;
     worst->used = 1;
-    qsort(seeds, (size_t)*seed_count, sizeof(refine_seed_t), refine_seed_cmp);
+    qsort(seeds, (size_t)*seed_count, sizeof(refine_seed_t), cmp);
     return 1;
+}
+
+static int refine_seed_insert(refine_seed_t *seeds, int *seed_count, int seed_cap,
+                              const witness_t *wit) {
+    return refine_seed_insert_ordered(seeds, seed_count, seed_cap, wit, 0);
+}
+
+static int refine_seed_insert_r61(refine_seed_t *seeds, int *seed_count, int seed_cap,
+                                  const witness_t *wit) {
+    return refine_seed_insert_ordered(seeds, seed_count, seed_cap, wit, 1);
 }
 
 static void flip_local_bit(uint32_t words[3], int idx) {
@@ -878,16 +905,20 @@ int main(int argc, char **argv) {
     memset(pair_best_tail, 255, (size_t)late_pair_count * 4u);
 
     refine_seed_t *refine_seeds = NULL;
+    refine_seed_t *r61_refine_seeds = NULL;
     int refine_seed_count = 0;
+    int r61_refine_seed_count = 0;
     if (refine_budget || scan_only) {
         refine_seeds = calloc((size_t)refine_seed_cap, sizeof(refine_seed_t));
-        if (!refine_seeds) {
+        r61_refine_seeds = calloc((size_t)refine_seed_cap, sizeof(refine_seed_t));
+        if (!refine_seeds || !r61_refine_seeds) {
             fprintf(stderr, "Refinement seed allocation failed.\n");
             free(d_hist); free(fiber_hist);
             free(gh_count); free(gh_best_tail); free(gh_best_r61);
             free(mask_table); free(sig_table); free(coarse_table);
             free(miner_table);
             free(pair_count); free(pair_tail_sum); free(pair_best_tail);
+            free(refine_seeds); free(r61_refine_seeds);
             return 1;
         }
     }
@@ -941,6 +972,10 @@ int main(int argc, char **argv) {
                 }
                 if (refine_seeds && tail_hw >= 0) {
                     refine_seed_insert(refine_seeds, &refine_seed_count, refine_seed_cap, &wit);
+                }
+                if (r61_refine_seeds && tail_hw >= 0) {
+                    refine_seed_insert_r61(r61_refine_seeds, &r61_refine_seed_count,
+                                           refine_seed_cap, &wit);
                 }
                 if (profile_enabled && wit.r61_hw >= 0 && wit.r61_hw < 257) {
                     r61_hw_hist[wit.r61_hw]++;
@@ -1336,6 +1371,19 @@ int main(int argc, char **argv) {
         }
     }
 
+    if (scan_only && r61_refine_seeds) {
+        printf("\nScan-only r61 registry\n");
+        printf("  registry_count=%d registry_cap=%d\n", r61_refine_seed_count, refine_seed_cap);
+        int show = r61_refine_seed_count < 16 ? r61_refine_seed_count : 16;
+        for (int i = 0; i < show; i++) {
+            witness_t *sw = &r61_refine_seeds[i].wit;
+            printf("  r61_witness[%02d] r61=%d tail=%d gh60=0x%x W1=0x%x,0x%x,0x%x W2=0x%x,0x%x,0x%x\n",
+                   i, sw->r61_hw, sw->tail_hw, sw->gh60_key,
+                   sw->w57, sw->w58, sw->w59,
+                   sw->w2_57, sw->w2_58, sw->w2_59);
+        }
+    }
+
     if (refine_budget) {
         printf("\nSecond-stage local refinement\n");
         printf("  seed pool: count=%d cap=%d\n", refine_seed_count, refine_seed_cap);
@@ -1540,6 +1588,7 @@ int main(int argc, char **argv) {
     free(coarse_table);
     free(miner_table);
     free(refine_seeds);
+    free(r61_refine_seeds);
     free(pair_count);
     free(pair_tail_sum);
     free(pair_best_tail);
