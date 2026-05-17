@@ -240,3 +240,15 @@ W2[57..59]   = 14ca,3fb1,3397
 N=14 scan rate stayed around `23M` triples/sec per worker in this mixed batch.
 The first N=14 tail scores are not yet close to the N=13 frontier, but the
 interface scales operationally.
+
+The same mixed batch also added four more N=13 windows
+(`sample_start=3866624..4063232`) with no frontier improvement. Total N=13
+coverage for this artifact is now:
+
+```text
+unique windows: 63
+unique prefixes covered: 4,128,768 / 67,108,864 = 6.15%
+unique triples covered: 33,822,867,456
+tail frontier: HW12 at sample_start 1048576
+r61 frontier: HW8 at sample_start 2031616
+```

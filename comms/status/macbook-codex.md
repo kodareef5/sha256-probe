@@ -263,6 +263,9 @@ Ran a mixed batch after the r61-registry commit:
 - four more N=13 windows, no improvement beyond tail HW12 or r61 HW8,
 - four N=14 pilot windows, same 536,870,912 triples per worker.
 
+This brings N=13 coverage to 63 unique windows, or 4,128,768 of 67,108,864
+prefixes.
+
 N=14 is operational with the same random-fallback seed path:
 
 ```text
