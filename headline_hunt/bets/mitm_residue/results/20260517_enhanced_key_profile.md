@@ -143,6 +143,33 @@ The immediate engineering shape is a top-k supervised bucket miner: stream
 `D60=0` matches, score coarse feature buckets by best-tail or low-tail rate,
 and keep only the promising buckets rather than exact masks/signatures.
 
+## Late-register pair-state check
+
+A follow-up scans all pair states over r61 registers 6 and 7. This is still
+weak:
+
+- N=8: best pair-state mean shift about 0.17 tail bits; best tail in top
+  pair buckets still only matches the global best by luck.
+- N=10: best pair-state mean shift about 0.06 tail bits; best tails in top
+  pair buckets are mostly 8 to 13 while the global best is 7.
+- N=12 sample: best pair-state mean shift about 0.18 tail bits in a tiny bucket,
+  but best tail in top pair buckets is 15 to 28 while the global best is 15.
+
+Pair states are slightly stronger than one-bit states but still not a usable
+ranking function. This closes the simple manual feature path:
+
+```text
+r61_hw                  weak
+single late r61 bit      weak
+late r61 bit pair state  weak
+exact r61 mask           too fine
+tail carry signature     injective
+```
+
+The next tool should be a streaming top-k bucket miner over many projected
+features, scoring by low-tail rate directly instead of by mean shift or bucket
+size.
+
 ## Engineering note
 
 The enhanced exact N=11 run scanned `8,589,934,592` triples in 287.8 seconds.

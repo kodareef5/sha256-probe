@@ -129,3 +129,8 @@ Added one-bit r61 supervised feature stats. Result is negative: active/inactive
 mean-tail shifts are only hundredths of a bit at N=10/N=12. Single r61 bits are
 too weak. Next should be pair/triple projected features or a streaming top-k
 bucket miner keyed by `gh60 + feature projection`.
+
+Added late-register pair-state stats over r61 regs 6/7. Also weak: pair states
+move the mean slightly more than single bits, but still do not rank the global
+low-tail witnesses. Simple manual feature selectors are now poor candidates;
+next best implementation is direct top-k bucket mining by low-tail rate.

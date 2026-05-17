@@ -475,6 +475,20 @@ int main(int argc, char **argv) {
     uint8_t bit_active_best_tail[128];
     memset(bit_active_best_tail, 255, sizeof(bit_active_best_tail));
     uint64_t total_tail_sum = 0;
+    int late_bits = 2 * N;
+    int late_pair_count = late_bits * (late_bits - 1) / 2;
+    uint64_t *pair_count = calloc((size_t)late_pair_count * 4u, sizeof(uint64_t));
+    uint64_t *pair_tail_sum = calloc((size_t)late_pair_count * 4u, sizeof(uint64_t));
+    uint8_t *pair_best_tail = malloc((size_t)late_pair_count * 4u);
+    if (!pair_count || !pair_tail_sum || !pair_best_tail) {
+        fprintf(stderr, "Pair-feature allocation failed.\n");
+        free(d_hist); free(fiber_hist);
+        free(gh_count); free(gh_best_tail); free(gh_best_r61);
+        free(mask_table); free(sig_table); free(coarse_table);
+        free(pair_count); free(pair_tail_sum); free(pair_best_tail);
+        return 1;
+    }
+    memset(pair_best_tail, 255, (size_t)late_pair_count * 4u);
 
     uint64_t total = 0;
     uint64_t d0 = 0;
@@ -538,6 +552,27 @@ int main(int argc, char **argv) {
                         bit_active_tail_sum[bit] += (uint64_t)tail_hw;
                         if (tail_hw < bit_active_best_tail[bit])
                             bit_active_best_tail[bit] = (uint8_t)tail_hw;
+                    }
+                    uint64_t late_mask = 0;
+                    for (int lb = 0; lb < late_bits; lb++) {
+                        int global_bit = 6 * N + lb;
+                        uint64_t active = (global_bit < 64)
+                            ? ((wit.r61_mask_lo >> global_bit) & 1ull)
+                            : ((wit.r61_mask_hi >> (global_bit - 64)) & 1ull);
+                        if (active) late_mask |= 1ull << lb;
+                    }
+                    int pair_idx = 0;
+                    for (int a = 0; a < late_bits; a++) {
+                        int abit = (late_mask >> a) & 1u;
+                        for (int b = a + 1; b < late_bits; b++, pair_idx++) {
+                            int bbit = (late_mask >> b) & 1u;
+                            int state = (abit << 1) | bbit;
+                            size_t idx = (size_t)pair_idx * 4u + (size_t)state;
+                            pair_count[idx]++;
+                            pair_tail_sum[idx] += (uint64_t)tail_hw;
+                            if (tail_hw < pair_best_tail[idx])
+                                pair_best_tail[idx] = (uint8_t)tail_hw;
+                        }
                     }
                 }
                 if (gh_space) {
@@ -672,6 +707,44 @@ int main(int argc, char **argv) {
         }
     }
 
+    int top_pair_a[8], top_pair_b[8], top_pair_state[8];
+    double top_pair_gain[8];
+    for (int i = 0; i < 8; i++) {
+        top_pair_a[i] = -1;
+        top_pair_b[i] = -1;
+        top_pair_state[i] = -1;
+        top_pair_gain[i] = -1e100;
+    }
+    int pair_idx = 0;
+    for (int a = 0; a < late_bits; a++) {
+        for (int b = a + 1; b < late_bits; b++, pair_idx++) {
+            for (int state = 0; state < 4; state++) {
+                size_t idx = (size_t)pair_idx * 4u + (size_t)state;
+                uint64_t on = pair_count[idx];
+                uint64_t off = d0 - on;
+                if (on < 32 || off < 32) continue;
+                double on_mean = (double)pair_tail_sum[idx] / (double)on;
+                double off_mean = (double)(total_tail_sum - pair_tail_sum[idx]) / (double)off;
+                double gain = off_mean - on_mean;
+                for (int k = 0; k < 8; k++) {
+                    if (gain > top_pair_gain[k]) {
+                        for (int j = 7; j > k; j--) {
+                            top_pair_gain[j] = top_pair_gain[j - 1];
+                            top_pair_a[j] = top_pair_a[j - 1];
+                            top_pair_b[j] = top_pair_b[j - 1];
+                            top_pair_state[j] = top_pair_state[j - 1];
+                        }
+                        top_pair_gain[k] = gain;
+                        top_pair_a[k] = a;
+                        top_pair_b[k] = b;
+                        top_pair_state[k] = state;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
     double elapsed = (double)(clock() - t0) / (double)CLOCKS_PER_SEC;
     double expected_d0 = (double)total / (double)word_space;
 
@@ -787,6 +860,23 @@ int main(int argc, char **argv) {
                reg, reg_bit, on, on_mean, off_mean, bit_active_best_tail[bit]);
     }
     printf("\n");
+    printf("  top late r61 pair-state mean-tail gains:");
+    for (int k = 0; k < 8; k++) {
+        if (top_pair_a[k] < 0) continue;
+        int a = top_pair_a[k], b = top_pair_b[k], state = top_pair_state[k];
+        int pair_idx2 = a * (late_bits - 1) - (a * (a - 1)) / 2 + (b - a - 1);
+        size_t idx = (size_t)pair_idx2 * 4u + (size_t)state;
+        uint64_t on = pair_count[idx];
+        uint64_t off = d0 - on;
+        double on_mean = (double)pair_tail_sum[idx] / (double)on;
+        double off_mean = (double)(total_tail_sum - pair_tail_sum[idx]) / (double)off;
+        int reg_a = 6 + a / N, bit_a = a % N;
+        int reg_b = 6 + b / N, bit_b = b % N;
+        printf(" r%d.b%d/r%d.b%d=s%d:on%" PRIu64 ":mean%.2f/off%.2f:best%d",
+               reg_a, bit_a, reg_b, bit_b, state, on, on_mean, off_mean,
+               pair_best_tail[idx]);
+    }
+    printf("\n");
 
     printf("\nD60=0 fiber histogram:");
     int printed = 0;
@@ -808,5 +898,8 @@ int main(int argc, char **argv) {
     free(mask_table);
     free(sig_table);
     free(coarse_table);
+    free(pair_count);
+    free(pair_tail_sum);
+    free(pair_best_tail);
     return 0;
 }
