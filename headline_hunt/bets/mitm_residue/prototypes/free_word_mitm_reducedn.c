@@ -1344,7 +1344,7 @@ int main(int argc, char **argv) {
     int profile_enabled = !scan_only;
     int repair_hw_limit = 1;
     if (argc >= 8) repair_hw_limit = atoi(argv[7]);
-    if (repair_hw_limit < 1) repair_hw_limit = 1;
+    if (repair_hw_limit < 0) repair_hw_limit = 0;
     if (repair_hw_limit > N) repair_hw_limit = N;
     uint64_t word_space = 1ull << N;
 
