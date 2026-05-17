@@ -10,6 +10,7 @@ import re
 from collections import Counter
 from pathlib import Path
 from statistics import mean
+from typing import Iterable
 
 
 D0_RE = re.compile(r"D60=0 matches: (?P<d0>\d+)")
@@ -34,18 +35,20 @@ R61_WIT_RE = re.compile(
 )
 
 
-def load_rows(path: Path) -> list[dict[str, object]]:
+def load_rows(paths: Iterable[Path]) -> list[dict[str, object]]:
     rows: list[dict[str, object]] = []
-    seen: set[int] = set()
-    for line in path.read_text(encoding="utf-8").splitlines():
-        if not line.strip():
-            continue
-        row = json.loads(line)
-        sample_start = int(row["sample_start"])
-        if sample_start in seen:
-            continue
-        seen.add(sample_start)
-        rows.append(row)
+    seen: set[tuple[int, int]] = set()
+    for path in paths:
+        for line in path.read_text(encoding="utf-8").splitlines():
+            if not line.strip():
+                continue
+            row = json.loads(line)
+            sample_start = int(row["sample_start"])
+            key = (int(row["N"]), sample_start)
+            if key in seen:
+                continue
+            seen.add(key)
+            rows.append(row)
     return rows
 
 
@@ -153,12 +156,12 @@ def print_registry_rows(title: str, rows: list[dict[str, object]], limit: int) -
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("summary_jsonl")
+    parser.add_argument("summary_jsonl", nargs="+")
     parser.add_argument("--prior-windows", type=int, default=0)
     parser.add_argument("--top", type=int, default=12)
     args = parser.parse_args()
 
-    rows = load_rows(Path(args.summary_jsonl))
+    rows = load_rows(Path(path) for path in args.summary_jsonl)
     if not rows:
         raise SystemExit("no rows")
 

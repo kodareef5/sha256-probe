@@ -42,6 +42,16 @@ def unique_log_path(out_dir: Path, n: int, sample_start: int) -> Path:
     raise RuntimeError(f"too many reruns for sample_start={sample_start}")
 
 
+def parse_window_list(raw: str) -> list[int]:
+    windows: list[int] = []
+    for part in raw.split(","):
+        part = part.strip()
+        if not part:
+            continue
+        windows.append(int(part, 0))
+    return windows
+
+
 def launch(binary: Path, n: int, prefix_limit: int, refine_budget: int,
            refine_seed_cap: int, sample_start: int,
            out_dir: Path) -> tuple[subprocess.Popen[bytes], Path]:
@@ -71,9 +81,10 @@ def main() -> int:
     parser.add_argument("--prefix-limit", type=int, default=65536)
     parser.add_argument("--refine-budget", type=int, default=0)
     parser.add_argument("--refine-seed-cap", type=int, default=1)
-    parser.add_argument("--start-window", type=int, required=True)
+    parser.add_argument("--start-window", type=int)
+    parser.add_argument("--window-list", help="comma-separated absolute window indexes")
     parser.add_argument("--stride", type=int, default=1)
-    parser.add_argument("--windows", type=int, required=True)
+    parser.add_argument("--windows", type=int)
     parser.add_argument("--workers", type=int, default=8)
     parser.add_argument("--out-dir", required=True)
     args = parser.parse_args()
@@ -83,10 +94,13 @@ def main() -> int:
     out_dir.mkdir(parents=True, exist_ok=True)
     summary_path = out_dir / "summaries.jsonl"
 
-    pending = [
-        (args.start_window + i * args.stride) * args.prefix_limit
-        for i in range(args.windows)
-    ]
+    if args.window_list:
+        pending_windows = parse_window_list(args.window_list)
+    else:
+        if args.start_window is None or args.windows is None:
+            raise SystemExit("either --window-list or both --start-window and --windows are required")
+        pending_windows = [args.start_window + i * args.stride for i in range(args.windows)]
+    pending = [window * args.prefix_limit for window in pending_windows]
     active: list[tuple[subprocess.Popen[bytes], Path, int, float]] = []
     completed = 0
 

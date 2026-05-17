@@ -397,3 +397,61 @@ Current read: N=14 is alive as a staged sampling front, but if another few
 hundred registry-rich windows stay at tail HW16+ with no r61<=9 joint structure,
 the better next build is an interface change: D60 low-HW repair, wider free-word
 shaping, or cross-window registry recombination.
+
+## 2026-05-17 ~later EDT
+
+Continued N=14 staged work with two more 32-window strided registry phases, a
+new registry recombination miner, and a targeted cap64 rerun.
+
+Tooling added/extended:
+
+- `mine_registry_recombination.py` mines retained tail/r61 registries for exact
+  and near `gh60` pairings.
+- `run_scan_batch.py --window-list` supports non-strided targeted reruns.
+- `summarize_scan_batch.py` and `analyze_scan_structure.py` now accept multiple
+  JSONL files and de-duplicate by `(N, sample_start)`.
+
+Aggregate N=14 coverage is now:
+
+```text
+unique windows   = 208
+prefixes covered = 6,815,744 / 268,435,456 = 2.54%
+scan triples     = 111,669,149,696
+best tail HW     = 16 in three windows
+best r61 HW      = 10 in two windows, both non-joint
+```
+
+The current best N=14 joint row remains:
+
+```text
+sample_start = 54001664
+tail HW      = 16
+tail r61 HW  = 14
+best r61 HW  = 11
+W1[57..59]   = 3a8c,0a1e,2c98
+W2[57..59]   = 3999,2bde,19ba
+```
+
+Phase 3 added another HW16 at `sample_start=16252928` and a HW17 at
+`sample_start=133693440`. The targeted cap64 rerun covered 12 selected windows;
+it did not change per-window best scores, but expanded the retained registry
+pool.
+
+N=14 registry recombination after de-duplication:
+
+```text
+registry entries = 3,897
+tail entries     = 1,949
+r61 entries      = 1,948
+exact gh60 score = 30 best, from tail16/r6114 and tail18/r6112 rows
+near gh60 leads  = 212 candidates at Hamming distance <= 2
+```
+
+Best non-identical near-`gh60` lead: tail HW18 at `sample_start=3440640` near an
+r61 HW12 row at `sample_start=2260992` with `gh60` distance 2. The
+`sample_start=190316544` HW17 tail also has a distance-2 r61 HW14 handle.
+
+Current read: N=14 breadth remains useful but random-looking. The next
+higher-leverage build is a repairable interface around exact/near `gh60` pairs:
+D60 low-HW repair, one more free word, or a wider W56..W60/W57..W61 shaping
+surface.

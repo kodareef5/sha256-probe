@@ -7,6 +7,7 @@ import argparse
 import json
 import re
 from pathlib import Path
+from typing import Iterable
 
 
 R61_WIT_RE = re.compile(r"\s+r61_witness\[00\] r61=(?P<r61>\d+) tail=(?P<tail>\d+)")
@@ -28,31 +29,33 @@ def enrich_from_log(row: dict[str, object]) -> None:
         return
 
 
-def load_rows(path: Path) -> list[dict[str, object]]:
+def load_rows(paths: Iterable[Path]) -> list[dict[str, object]]:
     rows: list[dict[str, object]] = []
-    seen: set[int] = set()
-    for line in path.read_text(encoding="utf-8").splitlines():
-        if not line.strip():
-            continue
-        row = json.loads(line)
-        sample_start = int(row["sample_start"])
-        if sample_start in seen:
-            continue
-        seen.add(sample_start)
-        enrich_from_log(row)
-        rows.append(row)
+    seen: set[tuple[int, int]] = set()
+    for path in paths:
+        for line in path.read_text(encoding="utf-8").splitlines():
+            if not line.strip():
+                continue
+            row = json.loads(line)
+            sample_start = int(row["sample_start"])
+            key = (int(row["N"]), sample_start)
+            if key in seen:
+                continue
+            seen.add(key)
+            enrich_from_log(row)
+            rows.append(row)
     return rows
 
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("summary_jsonl")
+    parser.add_argument("summary_jsonl", nargs="+")
     parser.add_argument("--prior-windows", type=int, default=0)
     parser.add_argument("--prefix-space", type=int, default=1 << 26)
     parser.add_argument("--top", type=int, default=8)
     args = parser.parse_args()
 
-    rows = load_rows(Path(args.summary_jsonl))
+    rows = load_rows(Path(path) for path in args.summary_jsonl)
     if not rows:
         raise SystemExit("no summary rows found")
 
