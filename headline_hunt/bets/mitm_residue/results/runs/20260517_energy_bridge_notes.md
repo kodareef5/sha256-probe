@@ -134,6 +134,23 @@ solo lane found a weaker local point:
 - W1=0x3e9a,0x25fe,0x3295
 - W2=0x3da7,0x16d2,0x254c
 
+The phase357 tail18/r61=10 solo lane found a nonzero surrogate with a very
+low tail but weaker scalar energy than the 865 bridge:
+
+- repaired nonzero surrogate: energy=928 tail=7 r61=13 d60=0x0360 d60_hw=4
+- gh60=0x49887aa
+- W1=0x036d,0x0be3,0x18d1
+- W2=0x027a,0x3ca7,0x3a64
+
+The phase357 bridge and phase358/359 bridge lanes preserved the 865 repaired
+nonzero surrogate. The phase360 tail16/r61=19 solo lane found a weaker local
+point:
+
+- repaired nonzero surrogate: energy=936 tail=13 r61=10 d60=0x0395 d60_hw=6
+- gh60=0x4a047e6
+- W1=0x1b8c,0x2364,0x0fe1
+- W2=0x1a99,0x1d34,0x1880
+
 Refresh6 exact-refinement plan:
 
 - `20260517_joint_first_refresh6_top384.txt`
@@ -153,6 +170,7 @@ Active follow-up lanes:
 - refresh5 gap queue: batches 24-31 and 42-63
 - refresh6 xover queue: batches 6-31
 - phase357 tail18/r61=10 solo, W1=0x0b4d,0x0ac8,0x0286
-- phase357 bridge with 865, 873, and 869 nonzero seeds
-- phase360 tail16/r61=19 solo, W1=0x185e,0x01b4,0x1c91
-- phase358/359 mixed bridge with 865 and 873 nonzero seeds
+- phase357 nonzero928 prefix lane, W1=0x036d,0x0be3,0x18d1
+- phase357 nonzero928 energy-walk lane with 865, 873, and 869 seeds
+- phase361 tail16/r61=16 solo, W1=0x2061,0x2954,0x3344
+- phase357/361/364 nonzero928 bridge with 865 and 873 seeds

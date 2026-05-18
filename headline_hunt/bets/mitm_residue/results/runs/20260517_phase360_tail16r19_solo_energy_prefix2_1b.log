@@ -1,0 +1,28 @@
+free_word_mitm_reducedn repair_seed_joint_energy
+N=14 mask=0x3fff msb=0x2000
+repair_d60_hw_limit=0 seed_cap=32 budget=1000000000 seed_mode=5 mode_param=834360
+seed[00] repaired_tail=16 r61=19 d60=0x0 d60_hw=0 gh60=0xcd14d6a W1=0x185e,0x1b4,0x1c91 W2=0x176b,0x11f4,0x1676
+
+D60 repair seed refinement
+  input_seeds=1 retained_tail_seeds=32 retained_r61_seeds=32
+  elapsed=729.281s budget=1000000000 tested=1000000000 repairable=63952 exact_D60=0=63952 collisions=0 seed_inserts=261 prefix_enums=61035
+  rate=1.37 Mtests/s repairable_rate=0.000064
+  phase tested/repairable: single=42/1 double=861/0 walk=1657/5 prefix=999997440/63946
+  min refined D60 HW: 0 d60=0x0 at W1[57..59]=0x185e,0x1b4,0x118b
+  best repaired tail HW: 16 d60=0x0 d60_hw=0 r61=19 gh60=0xcd14d6a
+  best repaired tail W1[57..59]=0x185e,0x1b4,0x1c91
+  best repaired tail W2[57..59]=0x176b,0x11f4,0x1676
+  best repaired r61 HW: 13 d60=0x0 d60_hw=0 tail=29 gh60=0x4a04ce6
+  best repaired r61 W1[57..59]=0x381c,0x7b4,0xdc8
+  best repaired r61 W2[57..59]=0x3729,0x1037,0x1ca9
+  best repaired joint score: 35 max=19 tail=16 r61=19 d60=0x0 d60_hw=0 gh60=0xcd14d6a improvements=0
+  best repaired joint W1[57..59]=0x185e,0x1b4,0x1c91
+  best repaired joint W2[57..59]=0x176b,0x11f4,0x1676
+  best repaired energy surrogate: 936 tail=13 r61=10 d60=0x395 d60_hw=6 gh60=0x4a047e6 improvements=6
+  best repaired energy W1[57..59]=0x1b8c,0x2364,0xfe1
+  best repaired energy W2[57..59]=0x1a99,0x1d34,0x1880
+  best repaired nonzero energy surrogate: 936 tail=13 r61=10 d60=0x395 d60_hw=6 gh60=0x4a047e6 improvements=13
+  best repaired nonzero energy W1[57..59]=0x1b8c,0x2364,0xfe1
+  best repaired nonzero energy W2[57..59]=0x1a99,0x1d34,0x1880
+
+SUMMARY N=14 sample_start=0 prefixes=0 total=1000000000 d0=63952 best_tail=16 tail_r61=19 best_r61=13 best_joint=35 joint_max=19 joint_tail=16 joint_r61=19 tail_W1=0x185e,0x1b4,0x1c91 tail_W2=0x176b,0x11f4,0x1676 joint_W1=0x185e,0x1b4,0x1c91 joint_W2=0x176b,0x11f4,0x1676 r61_W1=0x381c,0x7b4,0xdc8 r61_W2=0x3729,0x1037,0x1ca9
