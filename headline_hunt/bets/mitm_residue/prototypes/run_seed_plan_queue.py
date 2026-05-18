@@ -144,6 +144,16 @@ def replace_mode(job: PlanJob, mode: str | None) -> PlanJob:
     return PlanJob(batch=job.batch, command=command, log_path=job.log_path)
 
 
+def replace_command_index(job: PlanJob, index: int, value: int | None, label: str) -> PlanJob:
+    if value is None:
+        return job
+    command = list(job.command)
+    if len(command) <= index:
+        raise ValueError(f"command too short to replace {label} for batch {job.batch}: {command}")
+    command[index] = str(value)
+    return PlanJob(batch=job.batch, command=command, log_path=job.log_path)
+
+
 def log_has_summary(path: Path) -> bool:
     if not path.exists():
         return False
@@ -215,9 +225,18 @@ def main() -> int:
     parser.add_argument("--rerun-completed", action="store_true")
     parser.add_argument("--poll-seconds", type=float, default=2.0)
     parser.add_argument("--replace-binary", help="override the executable parsed from the plan")
+    parser.add_argument("--replace-budget", type=int, help="override parsed refine budget")
+    parser.add_argument("--replace-seed-cap", type=int, help="override parsed seed cap")
+    parser.add_argument("--replace-repair-hw-limit", type=int, help="override parsed repair HW limit")
     parser.add_argument(
         "--replace-mode",
-        choices=("repair_seed", "repair_seed_walk", "repair_seed_joint_walk", "repair_seed_ball"),
+        choices=(
+            "repair_seed",
+            "repair_seed_walk",
+            "repair_seed_joint_walk",
+            "repair_seed_joint_energy_walk",
+            "repair_seed_ball",
+        ),
         help="override the repair mode parsed from exact-walk plan commands",
     )
     parser.add_argument("--log-suffix", default="", help="insert suffix before .log for derived runs")
@@ -245,8 +264,17 @@ def main() -> int:
         ]
     if args.replace_binary:
         jobs = [replace_binary(job, args.replace_binary) for job in jobs]
+    if args.replace_budget is not None:
+        jobs = [replace_command_index(job, 3, args.replace_budget, "budget") for job in jobs]
+    if args.replace_seed_cap is not None:
+        jobs = [replace_command_index(job, 4, args.replace_seed_cap, "seed cap") for job in jobs]
     if args.replace_mode:
         jobs = [replace_mode(job, args.replace_mode) for job in jobs]
+    if args.replace_repair_hw_limit is not None:
+        jobs = [
+            replace_command_index(job, 7, args.replace_repair_hw_limit, "repair HW limit")
+            for job in jobs
+        ]
     if args.log_suffix:
         jobs = [add_log_suffix(job, args.log_suffix) for job in jobs]
 

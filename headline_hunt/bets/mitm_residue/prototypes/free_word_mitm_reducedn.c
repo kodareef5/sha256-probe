@@ -126,16 +126,19 @@ typedef struct {
     uint64_t tail_improvements;
     uint64_t r61_improvements;
     uint64_t joint_improvements;
+    uint64_t energy_improvements;
     int best_tail;
     int best_r61;
     int best_joint_score;
     int best_joint_max;
+    int best_energy;
     int min_d_hw;
     uint32_t min_d60;
     uint32_t min_d_w57, min_d_w58, min_d_w59;
     witness_t best_tail_wit;
     witness_t best_r61_wit;
     witness_t best_joint_wit;
+    witness_t best_energy_wit;
     witness_t first_collision;
 } refine_stats_t;
 
@@ -600,6 +603,18 @@ static int witness_joint_max(const witness_t *wit) {
     return wit->tail_hw > wit->r61_hw ? wit->tail_hw : wit->r61_hw;
 }
 
+static int witness_joint_balance(const witness_t *wit) {
+    int delta = wit->tail_hw - wit->r61_hw;
+    return delta < 0 ? -delta : delta;
+}
+
+static int witness_repaired_joint_energy(const witness_t *wit) {
+    return witness_joint_max(wit) * 64 +
+           witness_joint_score(wit) * 4 +
+           witness_joint_balance(wit) * 2 +
+           hw(wit->d60);
+}
+
 static int refine_seed_joint_cmp(const void *a, const void *b) {
     const refine_seed_t *sa = (const refine_seed_t *)a;
     const refine_seed_t *sb = (const refine_seed_t *)b;
@@ -643,10 +658,12 @@ static void refine_stats_init_best(refine_stats_t *stats,
     stats->best_r61 = scan_best_r61 ? scan_best_r61->r61_hw : 999;
     stats->best_joint_score = scan_best_joint ? witness_joint_score(scan_best_joint) : 999;
     stats->best_joint_max = scan_best_joint ? witness_joint_max(scan_best_joint) : 999;
+    stats->best_energy = scan_best_joint ? witness_repaired_joint_energy(scan_best_joint) : 999999;
     stats->min_d_hw = 999;
     if (scan_best_tail) stats->best_tail_wit = *scan_best_tail;
     if (scan_best_r61) stats->best_r61_wit = *scan_best_r61;
     if (scan_best_joint) stats->best_joint_wit = *scan_best_joint;
+    if (scan_best_joint) stats->best_energy_wit = *scan_best_joint;
 }
 
 static void refine_stats_consider_joint(refine_stats_t *stats, const witness_t *wit) {
@@ -819,6 +836,53 @@ static int repair_refine_test_candidate(const uint32_t init1[8], const uint32_t 
     repair_refine_consider_wit(&repair_wit, phase, seeds, seed_count, seed_cap,
                                seed_rank_mode,
                                r61_seeds, r61_seed_count, stats);
+    return dhw;
+}
+
+static int repair_joint_energy_test_candidate(const uint32_t init1[8], const uint32_t init2[8],
+                                              const uint32_t Wpre1[64], const uint32_t Wpre2[64],
+                                              uint32_t w57, uint32_t w58, uint32_t w59,
+                                              int repair_hw_limit, int phase, uint64_t budget,
+                                              refine_seed_t *seeds, int *seed_count, int seed_cap,
+                                              int seed_rank_mode,
+                                              refine_seed_t *r61_seeds, int *r61_seed_count,
+                                              refine_stats_t *stats, int *energy_out) {
+    if (stats->tested >= budget) return -1;
+
+    uint32_t d60 = 0;
+    witness_t wit;
+    eval_repaired_tail(init1, init2, Wpre1, Wpre2, w57, w58, w59, &wit, &d60);
+    stats->tested++;
+    if (phase >= 0 && phase < 4) stats->phase_tested[phase]++;
+
+    int dhw = hw(d60);
+    if (dhw < stats->min_d_hw) {
+        stats->min_d_hw = dhw;
+        stats->min_d60 = d60;
+        stats->min_d_w57 = w57;
+        stats->min_d_w58 = w58;
+        stats->min_d_w59 = w59;
+    }
+    int energy = witness_repaired_joint_energy(&wit);
+    if (energy_out) *energy_out = energy;
+    if (energy < stats->best_energy) {
+        stats->best_energy = energy;
+        stats->best_energy_wit = wit;
+        stats->energy_improvements++;
+    }
+
+    if (d60 == 0) {
+        stats->d0++;
+        repair_refine_consider_wit(&wit, phase, seeds, seed_count, seed_cap,
+                                   seed_rank_mode,
+                                   r61_seeds, r61_seed_count, stats);
+        return dhw;
+    }
+    if (dhw <= repair_hw_limit) {
+        repair_refine_consider_wit(&wit, phase, seeds, seed_count, seed_cap,
+                                   seed_rank_mode,
+                                   r61_seeds, r61_seed_count, stats);
+    }
     return dhw;
 }
 
@@ -1217,6 +1281,105 @@ static void run_repair_wordwalk(const uint32_t init1[8], const uint32_t init2[8]
     }
 }
 
+static void run_repair_joint_energy_walk(const uint32_t init1[8], const uint32_t init2[8],
+                                         const uint32_t Wpre1[64], const uint32_t Wpre2[64],
+                                         refine_seed_t *seeds, int *seed_count, int seed_cap,
+                                         int seed_rank_mode,
+                                         refine_seed_t *r61_seeds, int *r61_seed_count,
+                                         uint64_t budget, int repair_hw_limit,
+                                         uint64_t walk_nonce,
+                                         const witness_t *scan_best_tail,
+                                         const witness_t *scan_best_r61,
+                                         const witness_t *scan_best_joint,
+                                         refine_stats_t *stats) {
+    memset(stats, 0, sizeof(*stats));
+    refine_stats_init_best(stats, scan_best_tail, scan_best_r61, scan_best_joint);
+    if (!seeds || *seed_count <= 0 || budget == 0) return;
+
+    int bits = 3 * gN;
+    int initial_seed_count = *seed_count;
+    for (int s = 0; s < initial_seed_count && stats->tested < budget; s++) {
+        const witness_t seed = seeds[s].wit;
+        int energy = 0;
+        repair_joint_energy_test_candidate(init1, init2, Wpre1, Wpre2,
+                                           seed.w57, seed.w58, seed.w59,
+                                           repair_hw_limit, 0, budget,
+                                           seeds, seed_count, seed_cap,
+                                           seed_rank_mode,
+                                           r61_seeds, r61_seed_count, stats,
+                                           &energy);
+        for (int b = 0; b < bits && stats->tested < budget; b++) {
+            uint32_t words[3] = { seed.w57, seed.w58, seed.w59 };
+            flip_local_bit(words, b);
+            repair_joint_energy_test_candidate(init1, init2, Wpre1, Wpre2,
+                                               words[0], words[1], words[2],
+                                               repair_hw_limit, 0, budget,
+                                               seeds, seed_count, seed_cap,
+                                               seed_rank_mode,
+                                               r61_seeds, r61_seed_count, stats,
+                                               &energy);
+        }
+        for (int b1 = 0; b1 < bits && stats->tested < budget; b1++) {
+            for (int b2 = b1 + 1; b2 < bits && stats->tested < budget; b2++) {
+                uint32_t words[3] = { seed.w57, seed.w58, seed.w59 };
+                flip_local_bit(words, b1);
+                flip_local_bit(words, b2);
+                repair_joint_energy_test_candidate(init1, init2, Wpre1, Wpre2,
+                                                   words[0], words[1], words[2],
+                                                   repair_hw_limit, 1, budget,
+                                                   seeds, seed_count, seed_cap,
+                                                   seed_rank_mode,
+                                                   r61_seeds, r61_seed_count, stats,
+                                                   &energy);
+            }
+        }
+    }
+
+    uint64_t ctr = 0;
+    uint32_t cur[3] = { seeds[0].wit.w57, seeds[0].wit.w58, seeds[0].wit.w59 };
+    int cur_energy = witness_repaired_joint_energy(&seeds[0].wit);
+    uint64_t since_restart = 0;
+    while (stats->tested < budget && *seed_count > 0) {
+        uint64_t walk_ctr = ctr ^ (walk_nonce * 0xbf58476d1ce4e5b9ULL);
+        uint64_t r = mix64(0x510e527fade682d1ULL ^ walk_ctr);
+        if (since_restart == 0 || since_restart >= 8192) {
+            int s = (int)(r % (uint64_t)*seed_count);
+            cur[0] = seeds[s].wit.w57;
+            cur[1] = seeds[s].wit.w58;
+            cur[2] = seeds[s].wit.w59;
+            cur_energy = witness_repaired_joint_energy(&seeds[s].wit);
+            since_restart = 1;
+        }
+
+        uint32_t w57, w58, w59;
+        mutate_random_words(cur, walk_ctr, &w57, &w58, &w59);
+        int cand_energy = cur_energy;
+        int cand_dhw = repair_joint_energy_test_candidate(init1, init2, Wpre1, Wpre2,
+                                                          w57, w58, w59,
+                                                          repair_hw_limit, 2, budget,
+                                                          seeds, seed_count, seed_cap,
+                                                          seed_rank_mode,
+                                                          r61_seeds, r61_seed_count, stats,
+                                                          &cand_energy);
+        if (cand_dhw >= 0) {
+            int delta = cand_energy - cur_energy;
+            uint64_t coin = mix64(r ^ 0x94d049bb133111ebULL) & 255u;
+            uint64_t accept_bar = (delta <= 0) ? 256u :
+                (96u / (uint64_t)(1 + (delta / 16)));
+            if (delta <= 0 || coin < accept_bar) {
+                cur[0] = w57;
+                cur[1] = w58;
+                cur[2] = w59;
+                cur_energy = cand_energy;
+                since_restart = 1;
+            } else {
+                since_restart++;
+            }
+        }
+        ctr++;
+    }
+}
+
 static void enumerate_repair_word_ball(const uint32_t init1[8], const uint32_t init2[8],
                                        const uint32_t Wpre1[64], const uint32_t Wpre2[64],
                                        uint32_t words[3], int bits, int start_bit,
@@ -1323,10 +1486,11 @@ static int run_repair_seed_mode(int N, uint64_t refine_budget, int refine_seed_c
     witness_t seed_best_r61_wit = {0};
     witness_t seed_best_joint_wit = {0};
 
-    const char *seed_mode_name = seed_mode == 3 ? "repair_seed_joint_walk" :
-                                 (seed_mode == 2 ? "repair_seed_ball" :
-                                  (seed_mode == 1 ? "repair_seed_walk" : "repair_seed"));
-    int primary_seed_rank = seed_mode == 3 ? 2 : 0;
+    const char *seed_mode_name = seed_mode == 4 ? "repair_seed_joint_energy_walk" :
+                                 (seed_mode == 3 ? "repair_seed_joint_walk" :
+                                  (seed_mode == 2 ? "repair_seed_ball" :
+                                   (seed_mode == 1 ? "repair_seed_walk" : "repair_seed")));
+    int primary_seed_rank = (seed_mode == 3 || seed_mode == 4) ? 2 : 0;
     printf("free_word_mitm_reducedn %s\n", seed_mode_name);
     printf("N=%d mask=0x%x msb=0x%x\n", N, gMASK, gMSB);
     printf("repair_d60_hw_limit=%d seed_cap=%d budget=%" PRIu64
@@ -1387,6 +1551,15 @@ static int run_repair_seed_mode(int N, uint64_t refine_budget, int refine_seed_c
                             &seed_best_tail_wit, &seed_best_r61_wit,
                             &seed_best_joint_wit,
                             &stats);
+    } else if (seed_mode == 4) {
+        run_repair_joint_energy_walk(init1, init2, Wpre1, Wpre2,
+                                     repair_seeds, &repair_seed_count, refine_seed_cap,
+                                     primary_seed_rank,
+                                     repair_r61_seeds, &repair_r61_seed_count,
+                                     refine_budget, repair_hw_limit, mode_param,
+                                     &seed_best_tail_wit, &seed_best_r61_wit,
+                                     &seed_best_joint_wit,
+                                     &stats);
     } else if (seed_mode == 1 || seed_mode == 3) {
         run_repair_wordwalk(init1, init2, Wpre1, Wpre2,
                             repair_seeds, &repair_seed_count, refine_seed_cap,
@@ -1465,6 +1638,19 @@ static int run_repair_seed_mode(int N, uint64_t refine_budget, int refine_seed_c
            final_joint_wit.w57, final_joint_wit.w58, final_joint_wit.w59);
     printf("  best repaired joint W2[57..59]=0x%x,0x%x,0x%x\n",
            final_joint_wit.w2_57, final_joint_wit.w2_58, final_joint_wit.w2_59);
+    if (stats.energy_improvements) {
+        printf("  best repaired energy surrogate: %d tail=%d r61=%d d60=0x%x d60_hw=%d gh60=0x%x improvements=%" PRIu64 "\n",
+               stats.best_energy, stats.best_energy_wit.tail_hw,
+               stats.best_energy_wit.r61_hw, stats.best_energy_wit.d60,
+               hw(stats.best_energy_wit.d60), stats.best_energy_wit.gh60_key,
+               stats.energy_improvements);
+        printf("  best repaired energy W1[57..59]=0x%x,0x%x,0x%x\n",
+               stats.best_energy_wit.w57, stats.best_energy_wit.w58,
+               stats.best_energy_wit.w59);
+        printf("  best repaired energy W2[57..59]=0x%x,0x%x,0x%x\n",
+               stats.best_energy_wit.w2_57, stats.best_energy_wit.w2_58,
+               stats.best_energy_wit.w2_59);
+    }
 
     printf("\nSUMMARY N=%d sample_start=0 prefixes=0 total=%" PRIu64
            " d0=%" PRIu64 " best_tail=%d tail_r61=%d best_r61=%d"
@@ -1500,6 +1686,7 @@ int main(int argc, char **argv) {
         fprintf(stderr, "  mode=repair_seed skips scanning and refines explicit W57,W58,W59 seed triples.\n");
         fprintf(stderr, "  mode=repair_seed_walk only mutates explicit seed triples; it skips prefix sweeps.\n");
         fprintf(stderr, "  mode=repair_seed_joint_walk is repair_seed_walk with joint-ranked restarts.\n");
+        fprintf(stderr, "  mode=repair_seed_joint_energy_walk steers by repaired tail/r61 joint energy.\n");
         fprintf(stderr, "  mode=repair_seed_ball enumerates a Hamming ball around explicit seed triples; sample_start is max_radius.\n");
         return 2;
     }
@@ -1530,10 +1717,11 @@ int main(int argc, char **argv) {
     int repair_seed_mode = (strcmp(mode, "repair_seed") == 0);
     int repair_seed_walk_mode = (strcmp(mode, "repair_seed_walk") == 0);
     int repair_seed_joint_walk_mode = (strcmp(mode, "repair_seed_joint_walk") == 0);
+    int repair_seed_joint_energy_walk_mode = (strcmp(mode, "repair_seed_joint_energy_walk") == 0);
     int repair_seed_ball_mode = (strcmp(mode, "repair_seed_ball") == 0);
     int scan_only = (strcmp(mode, "scan") == 0) || repair_enabled ||
         repair_seed_mode || repair_seed_walk_mode || repair_seed_joint_walk_mode ||
-        repair_seed_ball_mode;
+        repair_seed_joint_energy_walk_mode || repair_seed_ball_mode;
     int profile_enabled = !scan_only;
     int repair_hw_limit = 1;
     if (argc >= 8) repair_hw_limit = atoi(argv[7]);
@@ -1549,14 +1737,16 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-    if (repair_seed_mode || repair_seed_walk_mode || repair_seed_joint_walk_mode || repair_seed_ball_mode) {
+    if (repair_seed_mode || repair_seed_walk_mode || repair_seed_joint_walk_mode ||
+        repair_seed_joint_energy_walk_mode || repair_seed_ball_mode) {
         if (argc < 9) {
             fprintf(stderr, "%s mode expects: %s N prefix_limit refine_budget refine_seed_cap sample_start %s repair_hw_limit W57,W58,W59 [...]\n",
                     mode, argv[0], mode);
             return 2;
         }
-        int seed_mode = repair_seed_joint_walk_mode ? 3 :
-                        (repair_seed_ball_mode ? 2 : (repair_seed_walk_mode ? 1 : 0));
+        int seed_mode = repair_seed_joint_energy_walk_mode ? 4 :
+                        (repair_seed_joint_walk_mode ? 3 :
+                         (repair_seed_ball_mode ? 2 : (repair_seed_walk_mode ? 1 : 0)));
         return run_repair_seed_mode(N, refine_budget, refine_seed_cap, repair_hw_limit,
                                     argc, argv, 8, seed_mode,
                                     sample_start,
