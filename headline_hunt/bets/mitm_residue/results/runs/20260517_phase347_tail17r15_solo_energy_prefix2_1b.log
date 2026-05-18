@@ -1,0 +1,28 @@
+free_word_mitm_reducedn repair_seed_joint_energy
+N=14 mask=0x3fff msb=0x2000
+repair_d60_hw_limit=0 seed_cap=32 budget=1000000000 seed_mode=5 mode_param=834343
+seed[00] repaired_tail=17 r61=15 d60=0x0 d60_hw=0 gh60=0xc89fb9a W1=0x11aa,0x233f,0x595 W2=0x10b7,0x14c,0x275a
+
+D60 repair seed refinement
+  input_seeds=1 retained_tail_seeds=32 retained_r61_seeds=32
+  elapsed=727.680s budget=1000000000 tested=1000000000 repairable=63893 exact_D60=0=63893 collisions=0 seed_inserts=243 prefix_enums=61035
+  rate=1.37 Mtests/s repairable_rate=0.000064
+  phase tested/repairable: single=42/0 double=861/0 walk=1657/0 prefix=999997440/63893
+  min refined D60 HW: 0 d60=0x0 at W1[57..59]=0x11aa,0x233f,0x595
+  best repaired tail HW: 17 d60=0x0 d60_hw=0 r61=15 gh60=0xc89fb9a
+  best repaired tail W1[57..59]=0x11aa,0x233f,0x595
+  best repaired tail W2[57..59]=0x10b7,0x14c,0x275a
+  best repaired r61 HW: 13 d60=0x0 d60_hw=0 tail=31 gh60=0x48884ae
+  best repaired r61 W1[57..59]=0x1d2f,0x2163,0x300e
+  best repaired r61 W2[57..59]=0x1c3c,0xe83,0x51a
+  best repaired joint score: 32 max=17 tail=17 r61=15 d60=0x0 d60_hw=0 gh60=0xc89fb9a improvements=0
+  best repaired joint W1[57..59]=0x11aa,0x233f,0x595
+  best repaired joint W2[57..59]=0x10b7,0x14c,0x275a
+  best repaired energy surrogate: 1007 tail=11 r61=14 d60=0xac2 d60_hw=5 gh60=0xde084e6 improvements=7
+  best repaired energy W1[57..59]=0x131b,0x2323,0x2ff0
+  best repaired energy W2[57..59]=0x1228,0x13e4,0x55f
+  best repaired nonzero energy surrogate: 1007 tail=11 r61=14 d60=0xac2 d60_hw=5 gh60=0xde084e6 improvements=24
+  best repaired nonzero energy W1[57..59]=0x131b,0x2323,0x2ff0
+  best repaired nonzero energy W2[57..59]=0x1228,0x13e4,0x55f
+
+SUMMARY N=14 sample_start=0 prefixes=0 total=1000000000 d0=63893 best_tail=17 tail_r61=15 best_r61=13 best_joint=32 joint_max=17 joint_tail=17 joint_r61=15 tail_W1=0x11aa,0x233f,0x595 tail_W2=0x10b7,0x14c,0x275a joint_W1=0x11aa,0x233f,0x595 joint_W2=0x10b7,0x14c,0x275a r61_W1=0x1d2f,0x2163,0x300e r61_W2=0x1c3c,0xe83,0x51a
