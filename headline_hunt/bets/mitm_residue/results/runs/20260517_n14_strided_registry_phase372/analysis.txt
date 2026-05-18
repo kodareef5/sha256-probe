@@ -1,0 +1,155 @@
+N=14
+logged_windows=32
+prior_windows=0
+logged_prefixes=1048576/268435456 (0.39%)
+total_prefixes_with_prior=1048576/268435456 (0.39%)
+triples=17179869184
+
+best_tail_hist:
+  13:1 14:1 18:3 19:6 20:4 21:7 22:7 23:3
+
+best_r61_hist:
+  10:1 12:5 13:14 14:10 15:2
+
+correlations_vs_best_tail:
+  best_r61: +0.3941
+  tail_r61: +0.3303
+  d0: -0.2106
+  d0_prefixes: -0.3458
+  max_fiber: -0.0005
+  largest_bucket_count: +0.1627
+
+low_tail_windows_tail_le_13=1
+low_r61_windows_r61_le_8=0
+tail_registry_entries=512
+r61_registry_entries=512
+
+band_summary:
+  band=00 windows=  2 best_tail=21 avg_tail=21.00 best_r61=13 tail_le13=0
+  band=01 windows=  2 best_tail=19 avg_tail=20.00 best_r61=12 tail_le13=0
+  band=02 windows=  2 best_tail=21 avg_tail=22.00 best_r61=13 tail_le13=0
+  band=03 windows=  2 best_tail=19 avg_tail=21.00 best_r61=10 tail_le13=0
+  band=04 windows=  2 best_tail=22 avg_tail=22.00 best_r61=12 tail_le13=0
+  band=05 windows=  2 best_tail=19 avg_tail=20.00 best_r61=15 tail_le13=0
+  band=06 windows=  2 best_tail=18 avg_tail=20.00 best_r61=13 tail_le13=0
+  band=07 windows=  2 best_tail=14 avg_tail=16.50 best_r61=12 tail_le13=0
+  band=08 windows=  2 best_tail=18 avg_tail=19.50 best_r61=13 tail_le13=0
+  band=09 windows=  2 best_tail=20 avg_tail=21.00 best_r61=13 tail_le13=0
+  band=10 windows=  2 best_tail=22 avg_tail=22.00 best_r61=14 tail_le13=0
+  band=11 windows=  2 best_tail=19 avg_tail=20.50 best_r61=13 tail_le13=0
+  band=12 windows=  2 best_tail=20 avg_tail=21.50 best_r61=13 tail_le13=0
+  band=13 windows=  2 best_tail=18 avg_tail=19.50 best_r61=12 tail_le13=0
+  band=14 windows=  2 best_tail=13 avg_tail=16.50 best_r61=12 tail_le13=1
+  band=15 windows=  2 best_tail=19 avg_tail=19.50 best_r61=13 tail_le13=0
+
+best_tail_rows:
+  sample_start=235143168 window=7176 tail=13 window_tail=13 tail_r61=18 best_r61=12 d0=32792 max_fiber=21 bucket=33739 W1=0xf4,0xddd,0x285e W2=0x1,0x160c,0x3600
+  sample_start=117702656 window=3592 tail=14 window_tail=14 tail_r61=14 best_r61=12 d0=32991 max_fiber=26 bucket=33918 W1=0x3918,0x1174,0x2094 W2=0x3825,0x29dc,0x24a9
+  sample_start=226754560 window=6920 tail=18 window_tail=18 tail_r61=16 best_r61=12 d0=32473 max_fiber=16 bucket=33832 W1=0x2b76,0x1688,0x2786 W2=0x2a83,0x17e3,0x1f99
+  sample_start=134479872 window=4104 tail=18 window_tail=18 tail_r61=17 best_r61=14 d0=32697 max_fiber=20 bucket=33780 W1=0xb5f,0x2104,0x20f0 W2=0xa6c,0x2036,0x3ffb
+  sample_start=100925440 window=3080 tail=18 window_tail=18 tail_r61=21 best_r61=13 d0=32793 max_fiber=20 bucket=33760 W1=0x6b9,0x2c82,0x341e W2=0x5c6,0xc59,0xb37
+  sample_start=50593792 window=1544 tail=19 window_tail=19 tail_r61=10 best_r61=10 d0=32708 max_fiber=18 bucket=33760 W1=0x1daa,0x3bd0,0x7f6 W2=0x1cb7,0x2d19,0xf1a
+  sample_start=260308992 window=7944 tail=19 window_tail=19 tail_r61=15 best_r61=13 d0=32710 max_fiber=19 bucket=33900 W1=0xc02,0xd42,0x3244 W2=0xb0f,0x14d7,0x330a
+  sample_start=92536832 window=2824 tail=19 window_tail=19 tail_r61=16 best_r61=15 d0=32859 max_fiber=19 bucket=33732 W1=0x16b3,0x3ab6,0x16eb W2=0x15c0,0x1fa,0xed8
+  sample_start=126091264 window=3848 tail=19 window_tail=19 tail_r61=19 best_r61=13 d0=32748 max_fiber=18 bucket=33765 W1=0x833,0x502,0x2509 W2=0x740,0xfae,0x4a5
+  sample_start=193200128 window=5896 tail=19 window_tail=19 tail_r61=19 best_r61=13 d0=32728 max_fiber=18 bucket=33720 W1=0x1e9c,0x1ab4,0x1c1 W2=0x1da9,0x32e1,0x78c
+  sample_start=25427968 window=776 tail=19 window_tail=19 tail_r61=20 best_r61=12 d0=32749 max_fiber=26 bucket=33774 W1=0x3906,0x12ec,0x1f98 W2=0x3813,0x6c3,0x1b71
+  sample_start=201588736 window=6152 tail=20 window_tail=20 tail_r61=14 best_r61=13 d0=32741 max_fiber=22 bucket=33891 W1=0x1dab,0x219a,0x3194 W2=0x1cb8,0x27ec,0x393b
+  sample_start=243531776 window=7432 tail=20 window_tail=20 tail_r61=15 best_r61=13 d0=31999 max_fiber=16 bucket=33779 W1=0x7c,0x3f35,0x2912 W2=0x3f89,0x2fd8,0x2c5b
+  sample_start=251920384 window=7688 tail=20 window_tail=20 tail_r61=15 best_r61=14 d0=32442 max_fiber=18 bucket=33790 W1=0x21b0,0x1f48,0x17a5 W2=0x20bd,0x1450,0x399d
+  sample_start=159645696 window=4872 tail=20 window_tail=20 tail_r61=22 best_r61=13 d0=32517 max_fiber=17 bucket=33872 W1=0x17fe,0x2c39,0x28d8 W2=0x170b,0x3ee9,0x2da2
+  sample_start=42205184 window=1288 tail=21 window_tail=21 tail_r61=15 best_r61=13 d0=32411 max_fiber=26 bucket=33764 W1=0x22f7,0x1fa3,0x3e76 W2=0x2204,0x2145,0x1cab
+  sample_start=262144 window=8 tail=21 window_tail=21 tail_r61=17 best_r61=13 d0=32860 max_fiber=18 bucket=33993 W1=0xc2,0x2397,0x3ac5 W2=0x3fcf,0x2f97,0x65
+  sample_start=8650752 window=264 tail=21 window_tail=21 tail_r61=17 best_r61=14 d0=32664 max_fiber=22 bucket=33757 W1=0x1,0x192f,0x19df W2=0x3f0e,0x1d9e,0x1ef3
+  sample_start=142868480 window=4360 tail=21 window_tail=21 tail_r61=20 best_r61=13 d0=32215 max_fiber=18 bucket=33727 W1=0x3a72,0xc21,0x2486 W2=0x397f,0x2a3e,0x862
+  sample_start=218365952 window=6664 tail=21 window_tail=21 tail_r61=20 best_r61=14 d0=32479 max_fiber=28 bucket=33709 W1=0x6ac,0x3916,0x1a7e W2=0x5b9,0x11db,0x1e47
+
+best_r61_rows:
+  sample_start=50593792 window=1544 r61_tail=19 window_tail=19 tail_r61=10 best_r61=10 d0=32708 max_fiber=18 bucket=33760 W1=0x1daa,0x3bd0,0x7f6 W2=0x1cb7,0x2d19,0xf1a
+  sample_start=235143168 window=7176 r61_tail=30 window_tail=13 tail_r61=18 best_r61=12 d0=32792 max_fiber=21 bucket=33739 W1=0x11ca,0x1f5a,0x3a8e W2=0x10d7,0x3da7,0x854
+  sample_start=117702656 window=3592 r61_tail=35 window_tail=14 tail_r61=14 best_r61=12 d0=32991 max_fiber=26 bucket=33918 W1=0x3956,0x3547,0xf84 W2=0x3863,0x3f8b,0x1d67
+  sample_start=226754560 window=6920 r61_tail=27 window_tail=18 tail_r61=16 best_r61=12 d0=32473 max_fiber=16 bucket=33832 W1=0x2ebb,0x11ad,0x3e65 W2=0x2dc8,0x1e4b,0xb02
+  sample_start=25427968 window=776 r61_tail=34 window_tail=19 tail_r61=20 best_r61=12 d0=32749 max_fiber=26 bucket=33774 W1=0x13bc,0x2058,0x1546 W2=0x12c9,0x1b0e,0x4d8
+  sample_start=75759616 window=2312 r61_tail=36 window_tail=22 tail_r61=20 best_r61=12 d0=32893 max_fiber=32 bucket=33927 W1=0x15ba,0x3d22,0x210b W2=0x14c7,0x3c62,0x2387
+  sample_start=100925440 window=3080 r61_tail=29 window_tail=18 tail_r61=21 best_r61=13 d0=32793 max_fiber=20 bucket=33760 W1=0x1b8f,0xe91,0x328e W2=0x1a9c,0x1c63,0x25ba
+  sample_start=126091264 window=3848 r61_tail=36 window_tail=19 tail_r61=19 best_r61=13 d0=32748 max_fiber=18 bucket=33765 W1=0xa3b,0x13c5,0xd8c W2=0x948,0x2110,0x2c6f
+  sample_start=193200128 window=5896 r61_tail=26 window_tail=19 tail_r61=19 best_r61=13 d0=32728 max_fiber=18 bucket=33720 W1=0x403,0x217f,0x37f2 W2=0x310,0x2f7a,0x16df
+  sample_start=260308992 window=7944 r61_tail=32 window_tail=19 tail_r61=15 best_r61=13 d0=32710 max_fiber=19 bucket=33900 W1=0x332e,0x9f5,0x2d67 W2=0x323b,0x20f6,0x1e6e
+  sample_start=159645696 window=4872 r61_tail=30 window_tail=20 tail_r61=22 best_r61=13 d0=32517 max_fiber=17 bucket=33872 W1=0x33b2,0x1454,0x20ff W2=0x32bf,0x15a1,0x3cea
+  sample_start=201588736 window=6152 r61_tail=29 window_tail=20 tail_r61=14 best_r61=13 d0=32741 max_fiber=22 bucket=33891 W1=0x3a3e,0x32,0xded W2=0x394b,0x14e3,0x2d6d
+  sample_start=243531776 window=7432 r61_tail=31 window_tail=20 tail_r61=15 best_r61=13 d0=31999 max_fiber=16 bucket=33779 W1=0x9db,0x3e76,0x3858 W2=0x8e8,0x3c,0x881
+  sample_start=262144 window=8 r61_tail=34 window_tail=21 tail_r61=17 best_r61=13 d0=32860 max_fiber=18 bucket=33993 W1=0x48a,0x2f51,0x2a46 W2=0x397,0x1da7,0x8bf
+  sample_start=42205184 window=1288 r61_tail=28 window_tail=21 tail_r61=15 best_r61=13 d0=32411 max_fiber=26 bucket=33764 W1=0x2b8b,0x6e,0x16e3 W2=0x2a98,0x2939,0x24c6
+  sample_start=142868480 window=4360 r61_tail=28 window_tail=21 tail_r61=20 best_r61=13 d0=32215 max_fiber=18 bucket=33727 W1=0x3f44,0x803,0x1862 W2=0x3e51,0x3642,0x2c38
+  sample_start=109314048 window=3336 r61_tail=26 window_tail=22 tail_r61=25 best_r61=13 d0=32308 max_fiber=14 bucket=33884 W1=0x1006,0x2926,0x3dab W2=0xf13,0x3a37,0xcf2
+  sample_start=184811520 window=5640 r61_tail=34 window_tail=22 tail_r61=17 best_r61=13 d0=32716 max_fiber=18 bucket=33825 W1=0x3cc1,0x125,0xbd W2=0x3bce,0xf2d,0x2ea9
+  sample_start=58982400 window=1800 r61_tail=24 window_tail=23 tail_r61=19 best_r61=13 d0=32807 max_fiber=20 bucket=33850 W1=0x380b,0x31af,0x3fb8 W2=0x3718,0x2d55,0x14ba
+  sample_start=209977344 window=6408 r61_tail=28 window_tail=23 tail_r61=20 best_r61=13 d0=32781 max_fiber=19 bucket=33752 W1=0x2d30,0x246f,0x145f W2=0x2c3d,0x1090,0x2faf
+
+best_joint_rows:
+  sample_start=235143168 window=7176 tail=13 window_tail=13 tail_r61=18 best_r61=12 d0=32792 max_fiber=21 bucket=33739 W1=0xf4,0xddd,0x285e W2=0x1,0x160c,0x3600
+  sample_start=117702656 window=3592 tail=14 window_tail=14 tail_r61=14 best_r61=12 d0=32991 max_fiber=26 bucket=33918 W1=0x3918,0x1174,0x2094 W2=0x3825,0x29dc,0x24a9
+  sample_start=50593792 window=1544 tail=19 window_tail=19 tail_r61=10 best_r61=10 d0=32708 max_fiber=18 bucket=33760 W1=0x1daa,0x3bd0,0x7f6 W2=0x1cb7,0x2d19,0xf1a
+  sample_start=226754560 window=6920 tail=18 window_tail=18 tail_r61=16 best_r61=12 d0=32473 max_fiber=16 bucket=33832 W1=0x2b76,0x1688,0x2786 W2=0x2a83,0x17e3,0x1f99
+  sample_start=100925440 window=3080 tail=18 window_tail=18 tail_r61=21 best_r61=13 d0=32793 max_fiber=20 bucket=33760 W1=0x6b9,0x2c82,0x341e W2=0x5c6,0xc59,0xb37
+  sample_start=25427968 window=776 tail=19 window_tail=19 tail_r61=20 best_r61=12 d0=32749 max_fiber=26 bucket=33774 W1=0x3906,0x12ec,0x1f98 W2=0x3813,0x6c3,0x1b71
+  sample_start=134479872 window=4104 tail=18 window_tail=18 tail_r61=17 best_r61=14 d0=32697 max_fiber=20 bucket=33780 W1=0xb5f,0x2104,0x20f0 W2=0xa6c,0x2036,0x3ffb
+  sample_start=126091264 window=3848 tail=19 window_tail=19 tail_r61=19 best_r61=13 d0=32748 max_fiber=18 bucket=33765 W1=0x833,0x502,0x2509 W2=0x740,0xfae,0x4a5
+  sample_start=193200128 window=5896 tail=19 window_tail=19 tail_r61=19 best_r61=13 d0=32728 max_fiber=18 bucket=33720 W1=0x1e9c,0x1ab4,0x1c1 W2=0x1da9,0x32e1,0x78c
+  sample_start=260308992 window=7944 tail=19 window_tail=19 tail_r61=15 best_r61=13 d0=32710 max_fiber=19 bucket=33900 W1=0xc02,0xd42,0x3244 W2=0xb0f,0x14d7,0x330a
+  sample_start=159645696 window=4872 tail=20 window_tail=20 tail_r61=22 best_r61=13 d0=32517 max_fiber=17 bucket=33872 W1=0x17fe,0x2c39,0x28d8 W2=0x170b,0x3ee9,0x2da2
+  sample_start=201588736 window=6152 tail=20 window_tail=20 tail_r61=14 best_r61=13 d0=32741 max_fiber=22 bucket=33891 W1=0x1dab,0x219a,0x3194 W2=0x1cb8,0x27ec,0x393b
+  sample_start=243531776 window=7432 tail=20 window_tail=20 tail_r61=15 best_r61=13 d0=31999 max_fiber=16 bucket=33779 W1=0x7c,0x3f35,0x2912 W2=0x3f89,0x2fd8,0x2c5b
+  sample_start=92536832 window=2824 tail=19 window_tail=19 tail_r61=16 best_r61=15 d0=32859 max_fiber=19 bucket=33732 W1=0x16b3,0x3ab6,0x16eb W2=0x15c0,0x1fa,0xed8
+  sample_start=251920384 window=7688 tail=20 window_tail=20 tail_r61=15 best_r61=14 d0=32442 max_fiber=18 bucket=33790 W1=0x21b0,0x1f48,0x17a5 W2=0x20bd,0x1450,0x399d
+  sample_start=262144 window=8 tail=21 window_tail=21 tail_r61=17 best_r61=13 d0=32860 max_fiber=18 bucket=33993 W1=0xc2,0x2397,0x3ac5 W2=0x3fcf,0x2f97,0x65
+  sample_start=42205184 window=1288 tail=21 window_tail=21 tail_r61=15 best_r61=13 d0=32411 max_fiber=26 bucket=33764 W1=0x22f7,0x1fa3,0x3e76 W2=0x2204,0x2145,0x1cab
+  sample_start=142868480 window=4360 tail=21 window_tail=21 tail_r61=20 best_r61=13 d0=32215 max_fiber=18 bucket=33727 W1=0x3a72,0xc21,0x2486 W2=0x397f,0x2a3e,0x862
+  sample_start=75759616 window=2312 tail=22 window_tail=22 tail_r61=20 best_r61=12 d0=32893 max_fiber=32 bucket=33927 W1=0x3010,0x293e,0x349f W2=0x2f1d,0x3092,0x281b
+  sample_start=8650752 window=264 tail=21 window_tail=21 tail_r61=17 best_r61=14 d0=32664 max_fiber=22 bucket=33757 W1=0x1,0x192f,0x19df W2=0x3f0e,0x1d9e,0x1ef3
+
+registry_tail_rows:
+  sample_start=235143168 window=7176 idx=0 tail=13 r61=18 gh60=0x7ba5ca6 W1=0xf4,0xddd,0x285e W2=0x1,0x160c,0x3600
+  sample_start=117702656 window=3592 idx=0 tail=14 r61=14 gh60=0x4a3ccfe W1=0x3918,0x1174,0x2094 W2=0x3825,0x29dc,0x24a9
+  sample_start=226754560 window=6920 idx=0 tail=18 r61=16 gh60=0x3a747ba W1=0x2b76,0x1688,0x2786 W2=0x2a83,0x17e3,0x1f99
+  sample_start=134479872 window=4104 idx=0 tail=18 r61=17 gh60=0xdf0876e W1=0xb5f,0x2104,0x20f0 W2=0xa6c,0x2036,0x3ffb
+  sample_start=100925440 window=3080 idx=0 tail=18 r61=21 gh60=0x4558dba W1=0x6b9,0x2c82,0x341e W2=0x5c6,0xc59,0xb37
+  sample_start=50593792 window=1544 idx=0 tail=19 r61=10 gh60=0xc885b9a W1=0x1daa,0x3bd0,0x7f6 W2=0x1cb7,0x2d19,0xf1a
+  sample_start=260308992 window=7944 idx=0 tail=19 r61=15 gh60=0x4aec4aa W1=0xc02,0xd42,0x3244 W2=0xb0f,0x14d7,0x330a
+  sample_start=92536832 window=2824 idx=0 tail=19 r61=16 gh60=0x3b98da6 W1=0x16b3,0x3ab6,0x16eb W2=0x15c0,0x1fa,0xed8
+  sample_start=50593792 window=1544 idx=1 tail=19 r61=18 gh60=0xdb0cb9a W1=0x29ca,0x33d7,0x3bda W2=0x28d7,0x1f2a,0x2690
+  sample_start=126091264 window=3848 idx=0 tail=19 r61=19 gh60=0xbca8ca6 W1=0x833,0x502,0x2509 W2=0x740,0xfae,0x4a5
+  sample_start=193200128 window=5896 idx=0 tail=19 r61=19 gh60=0xfa0dde6 W1=0x1e9c,0x1ab4,0x1c1 W2=0x1da9,0x32e1,0x78c
+  sample_start=25427968 window=776 idx=0 tail=19 r61=20 gh60=0xde54c9a W1=0x3906,0x12ec,0x1f98 W2=0x3813,0x6c3,0x1b71
+  sample_start=201588736 window=6152 idx=0 tail=20 r61=14 gh60=0x3989ba6 W1=0x1dab,0x219a,0x3194 W2=0x1cb8,0x27ec,0x393b
+  sample_start=243531776 window=7432 idx=0 tail=20 r61=15 gh60=0x5a8dda6 W1=0x7c,0x3f35,0x2912 W2=0x3f89,0x2fd8,0x2c5b
+  sample_start=251920384 window=7688 idx=0 tail=20 r61=15 gh60=0xd895bae W1=0x21b0,0x1f48,0x17a5 W2=0x20bd,0x1450,0x399d
+  sample_start=100925440 window=3080 idx=1 tail=20 r61=18 gh60=0x5d0c56a W1=0xace,0x3739,0x2b44 W2=0x9db,0x33c8,0x335c
+  sample_start=159645696 window=4872 idx=0 tail=20 r61=22 gh60=0xbdf4caa W1=0x17fe,0x2c39,0x28d8 W2=0x170b,0x3ee9,0x2da2
+  sample_start=42205184 window=1288 idx=0 tail=21 r61=15 gh60=0xcea84be W1=0x22f7,0x1fa3,0x3e76 W2=0x2204,0x2145,0x1cab
+  sample_start=262144 window=8 idx=0 tail=21 r61=17 gh60=0x4beddaa W1=0xc2,0x2397,0x3ac5 W2=0x3fcf,0x2f97,0x65
+  sample_start=8650752 window=264 idx=0 tail=21 r61=17 gh60=0xb689caa W1=0x1,0x192f,0x19df W2=0x3f0e,0x1d9e,0x1ef3
+
+registry_r61_rows:
+  sample_start=50593792 window=1544 idx=0 tail=19 r61=10 gh60=0xc885b9a W1=0x1daa,0x3bd0,0x7f6 W2=0x1cb7,0x2d19,0xf1a
+  sample_start=226754560 window=6920 idx=0 tail=27 r61=12 gh60=0x448bda6 W1=0x2ebb,0x11ad,0x3e65 W2=0x2dc8,0x1e4b,0xb02
+  sample_start=235143168 window=7176 idx=0 tail=30 r61=12 gh60=0x490fb9a W1=0x11ca,0x1f5a,0x3a8e W2=0x10d7,0x3da7,0x854
+  sample_start=25427968 window=776 idx=0 tail=34 r61=12 gh60=0x48847a6 W1=0x13bc,0x2058,0x1546 W2=0x12c9,0x1b0e,0x4d8
+  sample_start=117702656 window=3592 idx=0 tail=35 r61=12 gh60=0x4b54b7a W1=0x3956,0x3547,0xf84 W2=0x3863,0x3f8b,0x1d67
+  sample_start=75759616 window=2312 idx=0 tail=36 r61=12 gh60=0x4884bba W1=0x15ba,0x3d22,0x210b W2=0x14c7,0x3c62,0x2387
+  sample_start=58982400 window=1800 idx=0 tail=24 r61=13 gh60=0x56e44aa W1=0x2a02,0x1ad9,0x1358 W2=0x290f,0x1eee,0x25f7
+  sample_start=109314048 window=3336 idx=0 tail=26 r61=13 gh60=0x4a2fc9a W1=0x1006,0x2926,0x3dab W2=0xf13,0x3a37,0xcf2
+  sample_start=193200128 window=5896 idx=0 tail=26 r61=13 gh60=0x3a284a6 W1=0x403,0x217f,0x37f2 W2=0x310,0x2f7a,0x16df
+  sample_start=42205184 window=1288 idx=0 tail=28 r61=13 gh60=0x4e087e6 W1=0x2b8b,0x6e,0x16e3 W2=0x2a98,0x2939,0x24c6
+  sample_start=117702656 window=3592 idx=1 tail=28 r61=13 gh60=0x548fcaa W1=0x302e,0x357d,0x3b13 W2=0x2f3b,0x2845,0x1962
+  sample_start=142868480 window=4360 idx=0 tail=28 r61=13 gh60=0xd925ca6 W1=0x3f44,0x803,0x1862 W2=0x3e51,0x3642,0x2c38
+  sample_start=209977344 window=6408 idx=0 tail=28 r61=13 gh60=0xc8944ae W1=0x2d30,0x246f,0x145f W2=0x2c3d,0x1090,0x2faf
+  sample_start=25427968 window=776 idx=1 tail=29 r61=13 gh60=0x45845a6 W1=0x147c,0x22f6,0x1a7d W2=0x1389,0x299c,0x2ab1
+  sample_start=100925440 window=3080 idx=0 tail=29 r61=13 gh60=0xca087ee W1=0x1b8f,0xe91,0x328e W2=0x1a9c,0x1c63,0x25ba
+  sample_start=201588736 window=6152 idx=0 tail=29 r61=13 gh60=0x4b18d6a W1=0x2651,0x3ac3,0x156 W2=0x255e,0x132,0x22f4
+  sample_start=226754560 window=6920 idx=1 tail=29 r61=13 gh60=0x490cb6a W1=0x294e,0x2ddd,0x7c7 W2=0x285b,0x2c1d,0xf9f
+  sample_start=159645696 window=4872 idx=0 tail=30 r61=13 gh60=0x48a47aa W1=0x33b2,0x1454,0x20ff W2=0x32bf,0x15a1,0x3cea
+  sample_start=201588736 window=6152 idx=1 tail=30 r61=13 gh60=0x749c4aa W1=0x3a3e,0x32,0xded W2=0x394b,0x14e3,0x2d6d
+  sample_start=117702656 window=3592 idx=2 tail=31 r61=13 gh60=0x4a29f9e W1=0x1f87,0x20e8,0x21eb W2=0x1e94,0x1a04,0x2d24
+
+# rc=0 wall_seconds=0.095

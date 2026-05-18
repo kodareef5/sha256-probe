@@ -184,6 +184,22 @@ reconfirmed the exact phase-234 joint anchor as a repaired energy surrogate
 with energy=792 and d60=0; that exact witness does not supersede the nonzero
 frontier.
 
+The phase357 nonzero802 bridge improved the repaired nonzero frontier from
+802 to 798:
+
+- repaired nonzero surrogate: energy=798 tail=11 r61=10 d60=0x2b99 d60_hw=8
+- gh60=0x490876a
+- W1=0x235d,0x1ef3,0x1368
+- W2=0x226a,0x1639,0x141f
+
+The phase357 nonzero802 energy-walk then produced a much stronger repaired
+nonzero frontier:
+
+- repaired nonzero surrogate: energy=652 tail=8 r61=9 d60=0x3126 d60_hw=6
+- gh60=0x4908f6a
+- W1=0x075d,0x24ea,0x2ccc
+- W2=0x066a,0x0ff9,0x2bd3
+
 Refresh6 exact-refinement plan:
 
 - `20260517_joint_first_refresh6_top384.txt`
@@ -203,16 +219,63 @@ Refresh6 exact-refinement plan:
   also completed with the exact frontier unchanged
 - refresh5b batch 48, refresh5c batches 68-69, and refresh6 xover batch 12
   also completed with the exact frontier unchanged
-- active exact lanes: refresh5b batch 49, refresh5c batches 70-71, and
-  refresh6 xover batch 13
+- refresh5b batches 49-63, refresh5c batches 70-95, and refresh6 xover
+  batches 13-31 also completed with the exact frontier unchanged
+
+Refresh7 exact-refinement plan:
+
+- `20260517_joint_first_refresh7_top640.txt`
+- 76,800 registry entries, 321 batches
+- global seeds include exact tail, exact r61, exact joint, phase334, nonzero802,
+  and new nonzero652
+- active lanes: refresh7a batches 0-63 and refresh7b batches 64-127
+
+Phase372 breadth highlights from the start-window-8 band:
+
+- phase372 window=7176: tail=13 r61=18, gh60=0x7ba5ca6,
+  W1=0x00f4,0x0ddd,0x285e, W2=0x0001,0x160c,0x3600
+- phase372 window=3592: tail=14 r61=14, gh60=0x4a3ccfe,
+  W1=0x3918,0x1174,0x2094, W2=0x3825,0x29dc,0x24a9
+- phase372 window=1544: tail=19 r61=10 self-aligned, gh60=0xc885b9a,
+  W1=0x1daa,0x3bd0,0x07f6, W2=0x1cb7,0x2d19,0x0f1a
+
+Phase373 breadth highlights from the start-window-24 band:
+
+- phase373 window=5656: tail=19 r61=17, gh60=0x7d69c9a,
+  W1=0x2049,0x15cf,0x24cb, W2=0x1f56,0x369b,0x2fa6
+- phase373 window=5656: r61=11 tail=25, gh60=0x4a885aa,
+  W1=0x027d,0x0e12,0x3845, W2=0x018a,0x19a6,0x1d5b
+- phase373 window=6168: r61=11 tail=31, gh60=0xc70856e,
+  W1=0x2c4f,0x26e9,0x10c1, W2=0x2b5c,0x0b37,0x1d67
+
+Phase374-379 breadth highlights from the remaining start-window-40..120 band:
+
+- phase374 window=2856: tail=17 r61=17,
+  W1=0x2169,0x2e5c,0x278d, W2=0x2076,0x2bf0,0x0167
+- phase374 window=5416: r61=11 tail=22,
+  W1=0x1761,0x3221,0x0a95, W2=0x166e,0x0230,0x20e5
+- phase375 window=568: tail=17 r61=17,
+  W1=0x1271,0x20a0,0x0d6e, W2=0x117e,0x2e48,0x3d0d
+- phase376 window=328: r61=11 tail=21,
+  W1=0x16fc,0x190b,0x033c, W2=0x1609,0x3618,0x22c2
+- phase377 window=856: r61=11 tail=19,
+  W1=0x239b,0x38f5,0x2081, W2=0x22a8,0x2132,0x1288
+- phase378 window=5480: r61=11 tail=18,
+  W1=0x3f71,0x20ed,0x365b, W2=0x3e7e,0x2178,0x38e8
+- phase379 window=3704: tail=19 r61=16,
+  W1=0x24e9,0x3b40,0x3c4e, W2=0x23f6,0x2193,0x251e
+
+Phase380 breadth highlights from the next start-window-9 band:
+
+- phase380 window=2825: tail=17 r61=20,
+  W1=0x2949,0x0d15,0x0888, W2=0x2856,0x2e23,0x1a51
+- phase380 window=1801: tail=18 r61=12 balanced,
+  W1=0x2bae,0x03b4,0x1e39, W2=0x2abb,0x03fd,0x2ad8
+- phase380 window=7945: tail=18 r61=19,
+  W1=0x0bd0,0x3711,0x0198, W2=0x0add,0x2950,0x335a
 
 Active follow-up lanes:
 
-- breadth scan phases 364-371, start windows 7,23,...,119; phase371
-  active after phase370 finished without moving the exact frontier
-- refresh5 gap queue: batches 32-63 and 64-95
-- refresh6 xover queue: batches 0-31
-- phase357 nonzero802 solo, W1=0x2bcc,0x01c6,0x0dab
-- phase357 nonzero802 energy-walk with 802, 928, 865, 867, and exact joint seeds
-- phase357 nonzero802 bridge across phase357/361/364/366/367/368 seeds
-- phase371 tail16/nonzero802 bridge, W1=0x3186,0x2eb7,0x0baf
+- breadth scan phases 388-395, start windows 10,26,...,122; phase388 active
+- refresh7 queues: batches 0-63 and 64-127
+- 5B nonzero652 solo, energy-walk, phase372-379 bridge, and phase380 bridge
