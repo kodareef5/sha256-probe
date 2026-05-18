@@ -1,0 +1,28 @@
+free_word_mitm_reducedn repair_seed_joint_energy
+N=14 mask=0x3fff msb=0x2000
+repair_d60_hw_limit=0 seed_cap=32 budget=1000000000 seed_mode=5 mode_param=834363
+seed[00] repaired_tail=16 r61=16 d60=0x0 d60_hw=0 gh60=0x7b09d6a W1=0x2061,0x2954,0x3344 W2=0x1f6e,0x270f,0xab7
+
+D60 repair seed refinement
+  input_seeds=1 retained_tail_seeds=32 retained_r61_seeds=32
+  elapsed=728.375s budget=1000000000 tested=1000000000 repairable=66050 exact_D60=0=66050 collisions=0 seed_inserts=276 prefix_enums=61035
+  rate=1.37 Mtests/s repairable_rate=0.000066
+  phase tested/repairable: single=42/0 double=861/0 walk=1657/0 prefix=999997440/66050
+  min refined D60 HW: 0 d60=0x0 at W1[57..59]=0x2061,0x2954,0x1997
+  best repaired tail HW: 16 d60=0x0 d60_hw=0 r61=16 gh60=0x7b09d6a
+  best repaired tail W1[57..59]=0x2061,0x2954,0x3344
+  best repaired tail W2[57..59]=0x1f6e,0x270f,0xab7
+  best repaired r61 HW: 12 d60=0x0 d60_hw=0 tail=32 gh60=0xc614bea
+  best repaired r61 W1[57..59]=0x299e,0x3d04,0x397e
+  best repaired r61 W2[57..59]=0x28ab,0x3bc8,0x1165
+  best repaired joint score: 31 max=17 tail=17 r61=14 d60=0x0 d60_hw=0 gh60=0x570856e improvements=1
+  best repaired joint W1[57..59]=0xa5f,0x550,0x3a30
+  best repaired joint W2[57..59]=0x96c,0x2ef2,0x3943
+  best repaired energy surrogate: 867 tail=11 r61=12 d60=0x282a d60_hw=5 gh60=0x4a08cea improvements=5
+  best repaired energy W1[57..59]=0x1921,0x3d57,0x2686
+  best repaired energy W2[57..59]=0x182e,0x11fe,0x98
+  best repaired nonzero energy surrogate: 867 tail=11 r61=12 d60=0x282a d60_hw=5 gh60=0x4a08cea improvements=23
+  best repaired nonzero energy W1[57..59]=0x1921,0x3d57,0x2686
+  best repaired nonzero energy W2[57..59]=0x182e,0x11fe,0x98
+
+SUMMARY N=14 sample_start=0 prefixes=0 total=1000000000 d0=66050 best_tail=16 tail_r61=16 best_r61=12 best_joint=31 joint_max=17 joint_tail=17 joint_r61=14 tail_W1=0x2061,0x2954,0x3344 tail_W2=0x1f6e,0x270f,0xab7 joint_W1=0xa5f,0x550,0x3a30 joint_W2=0x96c,0x2ef2,0x3943 r61_W1=0x299e,0x3d04,0x397e r61_W2=0x28ab,0x3bc8,0x1165

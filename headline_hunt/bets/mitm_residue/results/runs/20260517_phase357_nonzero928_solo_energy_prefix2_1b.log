@@ -1,0 +1,28 @@
+free_word_mitm_reducedn repair_seed_joint_energy
+N=14 mask=0x3fff msb=0x2000
+repair_d60_hw_limit=0 seed_cap=32 budget=1000000000 seed_mode=5 mode_param=834361
+seed[00] repaired_tail=7 r61=13 d60=0x360 d60_hw=4 gh60=0x49887aa W1=0x36d,0xbe3,0x18d1 W2=0x27a,0x3ca7,0x3a64
+
+D60 repair seed refinement
+  input_seeds=1 retained_tail_seeds=32 retained_r61_seeds=32
+  elapsed=725.210s budget=1000000000 tested=1000000000 repairable=65769 exact_D60=0=65769 collisions=0 seed_inserts=267 prefix_enums=61035
+  rate=1.38 Mtests/s repairable_rate=0.000066
+  phase tested/repairable: single=42/0 double=861/0 walk=1657/0 prefix=999997440/65769
+  min refined D60 HW: 0 d60=0x0 at W1[57..59]=0x36d,0xbe3,0x2101
+  best repaired tail HW: 7 d60=0x360 d60_hw=4 r61=13 gh60=0x49887aa
+  best repaired tail W1[57..59]=0x36d,0xbe3,0x18d1
+  best repaired tail W2[57..59]=0x27a,0x3ca7,0x3a64
+  best repaired r61 HW: 12 d60=0x0 d60_hw=0 tail=35 gh60=0x4a0bcee
+  best repaired r61 W1[57..59]=0x2f0f,0x22c3,0x1a39
+  best repaired r61 W2[57..59]=0x2e1c,0x2c16,0x2226
+  best repaired joint score: 20 max=13 tail=7 r61=13 d60=0x360 d60_hw=4 gh60=0x49887aa improvements=0
+  best repaired joint W1[57..59]=0x36d,0xbe3,0x18d1
+  best repaired joint W2[57..59]=0x27a,0x3ca7,0x3a64
+  best repaired energy surrogate: 802 tail=11 r61=11 d60=0x37da d60_hw=10 gh60=0xc904766 improvements=2
+  best repaired energy W1[57..59]=0x2bcc,0x1c6,0xdab
+  best repaired energy W2[57..59]=0x2ad9,0x2e0a,0x1f4e
+  best repaired nonzero energy surrogate: 802 tail=11 r61=11 d60=0x37da d60_hw=10 gh60=0xc904766 improvements=17
+  best repaired nonzero energy W1[57..59]=0x2bcc,0x1c6,0xdab
+  best repaired nonzero energy W2[57..59]=0x2ad9,0x2e0a,0x1f4e
+
+SUMMARY N=14 sample_start=0 prefixes=0 total=1000000000 d0=65769 best_tail=7 tail_r61=13 best_r61=12 best_joint=20 joint_max=13 joint_tail=7 joint_r61=13 tail_W1=0x36d,0xbe3,0x18d1 tail_W2=0x27a,0x3ca7,0x3a64 joint_W1=0x36d,0xbe3,0x18d1 joint_W2=0x27a,0x3ca7,0x3a64 r61_W1=0x2f0f,0x22c3,0x1a39 r61_W2=0x2e1c,0x2c16,0x2226

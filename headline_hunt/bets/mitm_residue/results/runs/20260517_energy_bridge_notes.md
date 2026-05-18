@@ -41,6 +41,18 @@ New local scan shapes from phases 324-331:
 - phase361 window=854: tail=16 r61=16, W1=0x2061,0x2954,0x3344
 - phase362 window=870: tail=18 r61=12, W1=0x243d,0x13a0,0x2b58
 - phase363 window=2422: tail=18 r61=18, W1=0x1326,0x0792,0x13f2
+- phase364 window=3847: tail=16 r61=23, W1=0x2ff5,0x005d,0x166f
+- phase365 window=6679: tail=18 r61=16, W1=0x0833,0x1d78,0x3640
+- phase366 window=2855: tail=17 r61=13, W1=0x10cc,0x03d5,0x3b24
+- phase367 window=6455: tail=16 r61=18, W1=0x15c2,0x373d,0x3da7
+- phase367 window=6711: r61=11 tail=26, W1=0x075a,0x16f7,0x0b80
+- phase368 window=7751: tail=18 r61=13, W1=0x3bd5,0x3953,0x2f00
+- phase368 window=583: r61=11 tail=27, W1=0x33e0,0x2bb3,0x3070
+- phase369 window=4439: tail=19 r61=14, W1=0x0639,0x1456,0x33c8
+- phase370 window=2663: tail=18 r61=18, W1=0x38e9,0x0037,0x3c54
+- phase370 window=871: r61=11 tail=29, W1=0x3bcf,0x25d7,0x2178
+- phase371 window=2935: tail=16 r61=22, W1=0x3186,0x2eb7,0x0baf
+- phase371 window=3703: r61=11 tail=31, W1=0x19dc,0x2f90,0x122a
 
 The repeatable repaired nonzero bridge seed from 10M energy-prefix probes:
 
@@ -151,6 +163,27 @@ point:
 - W1=0x1b8c,0x2364,0x0fe1
 - W2=0x1a99,0x1d34,0x1880
 
+The phase357 nonzero928 solo follow-up produced the new repaired nonzero
+energy frontier:
+
+- repaired nonzero surrogate: energy=802 tail=11 r61=11 d60=0x37da d60_hw=10
+- gh60=0xc904766
+- W1=0x2bcc,0x01c6,0x0dab
+- W2=0x2ad9,0x2e0a,0x1f4e
+
+The phase357 nonzero928 energy-walk preserved the older 865 bridge, and the
+phase361 solo lane found a close but weaker point:
+
+- repaired nonzero surrogate: energy=867 tail=11 r61=12 d60=0x282a d60_hw=5
+- gh60=0x4a08cea
+- W1=0x1921,0x3d57,0x2686
+- W2=0x182e,0x11fe,0x0098
+
+The phase357/361/364 bridge preserved the 865 nonzero point, but also
+reconfirmed the exact phase-234 joint anchor as a repaired energy surrogate
+with energy=792 and d60=0; that exact witness does not supersede the nonzero
+frontier.
+
 Refresh6 exact-refinement plan:
 
 - `20260517_joint_first_refresh6_top384.txt`
@@ -163,14 +196,23 @@ Refresh6 exact-refinement plan:
 - refresh5 batches 28-29, refresh5b batch 44, and refresh6 batch 8 also
   completed with the exact frontier unchanged
 - active first lane: batches 0-31 with 16-seed crossover expansion
+- refresh5 batches 30-31, refresh5b batches 45-46, refresh5c batches 64-65,
+  and refresh6 xover batches 9-10 also completed with the exact frontier
+  unchanged
+- refresh5b batch 47, refresh5c batches 66-67, and refresh6 xover batch 11
+  also completed with the exact frontier unchanged
+- refresh5b batch 48, refresh5c batches 68-69, and refresh6 xover batch 12
+  also completed with the exact frontier unchanged
+- active exact lanes: refresh5b batch 49, refresh5c batches 70-71, and
+  refresh6 xover batch 13
 
 Active follow-up lanes:
 
-- breadth scan phases 364-371, start windows 7,23,...,119
-- refresh5 gap queue: batches 24-31 and 42-63
-- refresh6 xover queue: batches 6-31
-- phase357 tail18/r61=10 solo, W1=0x0b4d,0x0ac8,0x0286
-- phase357 nonzero928 prefix lane, W1=0x036d,0x0be3,0x18d1
-- phase357 nonzero928 energy-walk lane with 865, 873, and 869 seeds
-- phase361 tail16/r61=16 solo, W1=0x2061,0x2954,0x3344
-- phase357/361/364 nonzero928 bridge with 865 and 873 seeds
+- breadth scan phases 364-371, start windows 7,23,...,119; phase371
+  active after phase370 finished without moving the exact frontier
+- refresh5 gap queue: batches 32-63 and 64-95
+- refresh6 xover queue: batches 0-31
+- phase357 nonzero802 solo, W1=0x2bcc,0x01c6,0x0dab
+- phase357 nonzero802 energy-walk with 802, 928, 865, 867, and exact joint seeds
+- phase357 nonzero802 bridge across phase357/361/364/366/367/368 seeds
+- phase371 tail16/nonzero802 bridge, W1=0x3186,0x2eb7,0x0baf
