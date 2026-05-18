@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import shlex
 from collections import defaultdict
 from pathlib import Path
 from typing import Iterable
@@ -99,6 +100,117 @@ def fmt_entry(entry: dict[str, object]) -> str:
     )
 
 
+def seed_slug(seed: str) -> str:
+    return seed.lower().replace("0x", "").replace(",", "_")
+
+
+def shell_join(parts: Iterable[object]) -> str:
+    return " ".join(shlex.quote(str(part)) for part in parts)
+
+
+def dedupe_seeds(entries: Iterable[dict[str, object]]) -> list[str]:
+    seeds: list[str] = []
+    seen: set[str] = set()
+    for entry in entries:
+        seed = str(entry["W1"])
+        key = seed.lower()
+        if key in seen:
+            continue
+        seen.add(key)
+        seeds.append(seed)
+    return seeds
+
+
+def chunked(values: list[str], size: int) -> Iterable[list[str]]:
+    for idx in range(0, len(values), size):
+        yield values[idx:idx + size]
+
+
+def emit_seed_batches(
+    *,
+    entries: list[dict[str, object]],
+    n: int,
+    global_seeds: list[str],
+    batch_size: int,
+    top: int,
+    near_tail: int,
+    near_r61: int,
+    walk_binary: str,
+    ball_binary: str,
+    out_dir: Path,
+    run_tag: str,
+    nonce_start: int,
+    walk_budget: int,
+    walk_seed_cap: int,
+    ball_radius: int,
+    ball_budget: int,
+    ball_seed_cap: int,
+) -> None:
+    rows = [entry for entry in entries if int(entry["N"]) == n]
+    if not rows:
+        return
+
+    tail_entries = [entry for entry in rows if entry["kind"] == "tail"]
+    r61_entries = [entry for entry in rows if entry["kind"] == "r61"]
+    ranked_entries = (
+        sorted(tail_entries, key=lambda e: (int(e["tail"]), int(e["r61"]), int(e["sample_start"])))[:top]
+        + sorted(r61_entries, key=lambda e: (int(e["r61"]), int(e["tail"]), int(e["sample_start"])))[:top]
+        + sorted(rows, key=lambda e: (int(e["tail"]) + int(e["r61"]), int(e["tail"]), int(e["r61"])))[:top]
+        + sorted(
+            [
+                entry for entry in rows
+                if int(entry["tail"]) <= near_tail or int(entry["r61"]) <= near_r61
+            ],
+            key=lambda e: (
+                min(int(e["tail"]), near_tail + 1),
+                min(int(e["r61"]), near_r61 + 1),
+                int(e["tail"]) + int(e["r61"]),
+            ),
+        )[:top]
+    )
+    candidate_seeds = dedupe_seeds(ranked_entries)
+    base_seeds = dedupe_seeds({"W1": seed} for seed in global_seeds)
+    usable_batch_size = max(1, batch_size - len(base_seeds))
+    if not candidate_seeds:
+        return
+
+    print(f"\nseed_refinement_batches_N{n}:")
+    print(f"  selected_candidate_seeds={len(candidate_seeds)} global_seeds={len(base_seeds)}")
+    for offset, group in enumerate(chunked(candidate_seeds, usable_batch_size)):
+        nonce = nonce_start + offset
+        seeds = base_seeds + group
+        label = f"{run_tag}_n{n}_batch{offset:02d}_{seed_slug(group[0])}"
+        walk_log = out_dir / f"{label}_nonce{nonce}_walk.log"
+        walk_cmd = [
+            walk_binary,
+            n,
+            0,
+            walk_budget,
+            walk_seed_cap,
+            nonce,
+            "repair_seed_walk",
+            0,
+            *seeds,
+        ]
+        print(f"  # exact walk batch={offset} seeds={len(seeds)}")
+        print(f"  {shell_join(walk_cmd)} > {shlex.quote(str(walk_log))}")
+        if ball_radius > 0:
+            ball_log = out_dir / f"{label}_radius{ball_radius}_ball.log"
+            ball_cmd = [
+                ball_binary,
+                n,
+                0,
+                ball_budget,
+                ball_seed_cap,
+                ball_radius,
+                "repair_seed_ball",
+                0,
+                *seeds,
+            ]
+            print(f"  # hamming ball batch={offset} seeds={len(seeds)} radius={ball_radius}")
+            print(f"  {shell_join(ball_cmd)} > {shlex.quote(str(ball_log))}")
+
+
 def print_entries(title: str, entries: list[dict[str, object]], limit: int) -> None:
     print(f"\n{title}:")
     for entry in entries[:limit]:
@@ -127,6 +239,19 @@ def main() -> int:
     parser.add_argument("--near-tail", type=int, default=20)
     parser.add_argument("--near-r61", type=int, default=14)
     parser.add_argument("--near-gh60-hw", type=int, default=2)
+    parser.add_argument("--emit-seed-batches", action="store_true")
+    parser.add_argument("--global-seed", action="append", default=[])
+    parser.add_argument("--batch-size", type=int, default=6)
+    parser.add_argument("--nonce-start", type=int, default=831000)
+    parser.add_argument("--run-tag", default="registry_plan")
+    parser.add_argument("--out-dir", default="headline_hunt/bets/mitm_residue/results/runs")
+    parser.add_argument("--walk-binary", default="/private/tmp/free_word_mitm_reducedn_seed")
+    parser.add_argument("--walk-budget", type=int, default=5_000_000_000)
+    parser.add_argument("--walk-seed-cap", type=int, default=16)
+    parser.add_argument("--ball-binary", default="/private/tmp/free_word_mitm_reducedn_ball")
+    parser.add_argument("--ball-radius", type=int, default=0)
+    parser.add_argument("--ball-budget", type=int, default=500_000_000)
+    parser.add_argument("--ball-seed-cap", type=int, default=48)
     args = parser.parse_args()
 
     entries = load_entries(Path(path) for path in args.summary_jsonl)
@@ -211,6 +336,31 @@ def main() -> int:
             f"    a: {fmt_entry(a)}\n"
             f"    b: {fmt_entry(b)}"
         )
+
+    if args.emit_seed_batches:
+        if args.batch_size <= 0:
+            raise SystemExit("--batch-size must be positive")
+        out_dir = Path(args.out_dir)
+        for n in sorted(by_n):
+            emit_seed_batches(
+                entries=entries,
+                n=n,
+                global_seeds=args.global_seed,
+                batch_size=args.batch_size,
+                top=args.top,
+                near_tail=args.near_tail,
+                near_r61=args.near_r61,
+                walk_binary=args.walk_binary,
+                ball_binary=args.ball_binary,
+                out_dir=out_dir,
+                run_tag=args.run_tag,
+                nonce_start=args.nonce_start,
+                walk_budget=args.walk_budget,
+                walk_seed_cap=args.walk_seed_cap,
+                ball_radius=args.ball_radius,
+                ball_budget=args.ball_budget,
+                ball_seed_cap=args.ball_seed_cap,
+            )
 
     return 0
 
