@@ -938,6 +938,29 @@ static void repair_refine_scan_prefix(const uint32_t init1[8], const uint32_t in
     }
 }
 
+static void repair_joint_energy_scan_prefix(const uint32_t init1[8], const uint32_t init2[8],
+                                            const uint32_t Wpre1[64], const uint32_t Wpre2[64],
+                                            uint32_t w57, uint32_t w58,
+                                            int repair_hw_limit, uint64_t budget,
+                                            refine_seed_t *seeds, int *seed_count, int seed_cap,
+                                            int seed_rank_mode,
+                                            refine_seed_t *r61_seeds, int *r61_seed_count,
+                                            refine_stats_t *stats) {
+    if (stats->tested >= budget) return;
+    stats->prefix_enums++;
+    uint64_t word_space = 1ull << gN;
+    for (uint64_t w59 = 0; w59 < word_space && stats->tested < budget; w59++) {
+        int energy = 0;
+        repair_joint_energy_test_candidate(init1, init2, Wpre1, Wpre2,
+                                           w57, w58, (uint32_t)w59,
+                                           repair_hw_limit, 3, budget,
+                                           seeds, seed_count, seed_cap,
+                                           seed_rank_mode,
+                                           r61_seeds, r61_seed_count, stats,
+                                           &energy);
+    }
+}
+
 static void flip_prefix_bit(uint32_t words[2], int idx) {
     int word = idx / gN;
     int bit = idx % gN;
@@ -1180,6 +1203,145 @@ static void run_repair_refinement(const uint32_t init1[8], const uint32_t init2[
                 cur[1] = w58;
                 cur[2] = w59;
                 cur_dhw = cand_dhw;
+                since_restart = 1;
+            } else {
+                since_restart++;
+            }
+        }
+        ctr++;
+    }
+}
+
+static void run_repair_joint_energy_refinement(const uint32_t init1[8], const uint32_t init2[8],
+                                               const uint32_t Wpre1[64], const uint32_t Wpre2[64],
+                                               refine_seed_t *seeds, int *seed_count, int seed_cap,
+                                               int seed_rank_mode,
+                                               refine_seed_t *r61_seeds, int *r61_seed_count,
+                                               uint64_t budget, int repair_hw_limit,
+                                               uint64_t walk_nonce,
+                                               const witness_t *scan_best_tail,
+                                               const witness_t *scan_best_r61,
+                                               const witness_t *scan_best_joint,
+                                               refine_stats_t *stats) {
+    memset(stats, 0, sizeof(*stats));
+    refine_stats_init_best(stats, scan_best_tail, scan_best_r61, scan_best_joint);
+    if (!seeds || *seed_count <= 0 || budget == 0) return;
+
+    int bits = 3 * gN;
+    int prefix_bits = 2 * gN;
+    int initial_seed_count = *seed_count;
+    for (int s = 0; s < initial_seed_count && stats->tested < budget; s++) {
+        const witness_t seed = seeds[s].wit;
+        repair_joint_energy_scan_prefix(init1, init2, Wpre1, Wpre2,
+                                        seed.w57, seed.w58,
+                                        repair_hw_limit, budget,
+                                        seeds, seed_count, seed_cap,
+                                        seed_rank_mode,
+                                        r61_seeds, r61_seed_count, stats);
+        for (int b = 0; b < prefix_bits && stats->tested < budget; b++) {
+            uint32_t pwords[2] = { seed.w57, seed.w58 };
+            flip_prefix_bit(pwords, b);
+            repair_joint_energy_scan_prefix(init1, init2, Wpre1, Wpre2,
+                                            pwords[0], pwords[1],
+                                            repair_hw_limit, budget,
+                                            seeds, seed_count, seed_cap,
+                                            seed_rank_mode,
+                                            r61_seeds, r61_seed_count, stats);
+        }
+        for (int b1 = 0; b1 < prefix_bits && stats->tested < budget; b1++) {
+            for (int b2 = b1 + 1; b2 < prefix_bits && stats->tested < budget; b2++) {
+                uint32_t pwords[2] = { seed.w57, seed.w58 };
+                flip_prefix_bit(pwords, b1);
+                flip_prefix_bit(pwords, b2);
+                repair_joint_energy_scan_prefix(init1, init2, Wpre1, Wpre2,
+                                                pwords[0], pwords[1],
+                                                repair_hw_limit, budget,
+                                                seeds, seed_count, seed_cap,
+                                                seed_rank_mode,
+                                                r61_seeds, r61_seed_count, stats);
+            }
+        }
+        for (int b = 0; b < bits && stats->tested < budget; b++) {
+            uint32_t words[3] = { seed.w57, seed.w58, seed.w59 };
+            int energy = 0;
+            flip_local_bit(words, b);
+            repair_joint_energy_test_candidate(init1, init2, Wpre1, Wpre2,
+                                               words[0], words[1], words[2],
+                                               repair_hw_limit, 0, budget,
+                                               seeds, seed_count, seed_cap,
+                                               seed_rank_mode,
+                                               r61_seeds, r61_seed_count, stats,
+                                               &energy);
+        }
+        for (int b1 = 0; b1 < bits && stats->tested < budget; b1++) {
+            for (int b2 = b1 + 1; b2 < bits && stats->tested < budget; b2++) {
+                uint32_t words[3] = { seed.w57, seed.w58, seed.w59 };
+                int energy = 0;
+                flip_local_bit(words, b1);
+                flip_local_bit(words, b2);
+                repair_joint_energy_test_candidate(init1, init2, Wpre1, Wpre2,
+                                                   words[0], words[1], words[2],
+                                                   repair_hw_limit, 1, budget,
+                                                   seeds, seed_count, seed_cap,
+                                                   seed_rank_mode,
+                                                   r61_seeds, r61_seed_count, stats,
+                                                   &energy);
+            }
+        }
+    }
+
+    uint64_t prefix_ctr = 0;
+    while (stats->tested + (1ull << gN) <= budget && *seed_count > 0) {
+        uint64_t walk_ctr = prefix_ctr ^ (walk_nonce * 0x94d049bb133111ebULL);
+        uint64_t r = mix64(0x3c6ef372fe94f82bULL ^ walk_ctr);
+        int s = (int)(r % (uint64_t)*seed_count);
+        uint32_t w57, w58;
+        mutate_random_prefix(&seeds[s].wit, walk_ctr, &w57, &w58);
+        repair_joint_energy_scan_prefix(init1, init2, Wpre1, Wpre2,
+                                        w57, w58,
+                                        repair_hw_limit, budget,
+                                        seeds, seed_count, seed_cap,
+                                        seed_rank_mode,
+                                        r61_seeds, r61_seed_count, stats);
+        prefix_ctr++;
+    }
+
+    uint64_t ctr = 0;
+    uint32_t cur[3] = { seeds[0].wit.w57, seeds[0].wit.w58, seeds[0].wit.w59 };
+    int cur_energy = witness_repaired_joint_energy(&seeds[0].wit);
+    uint64_t since_restart = 0;
+    while (stats->tested < budget && *seed_count > 0) {
+        uint64_t walk_ctr = ctr ^ (walk_nonce * 0xbf58476d1ce4e5b9ULL);
+        uint64_t r = mix64(0xbb67ae8584caa73bULL ^ walk_ctr);
+        if (since_restart == 0 || since_restart >= 8192) {
+            int s = (int)(r % (uint64_t)*seed_count);
+            cur[0] = seeds[s].wit.w57;
+            cur[1] = seeds[s].wit.w58;
+            cur[2] = seeds[s].wit.w59;
+            cur_energy = witness_repaired_joint_energy(&seeds[s].wit);
+            since_restart = 1;
+        }
+
+        uint32_t w57, w58, w59;
+        mutate_random_words(cur, walk_ctr, &w57, &w58, &w59);
+        int cand_energy = cur_energy;
+        int cand_dhw = repair_joint_energy_test_candidate(init1, init2, Wpre1, Wpre2,
+                                                          w57, w58, w59,
+                                                          repair_hw_limit, 2, budget,
+                                                          seeds, seed_count, seed_cap,
+                                                          seed_rank_mode,
+                                                          r61_seeds, r61_seed_count, stats,
+                                                          &cand_energy);
+        if (cand_dhw >= 0) {
+            int delta = cand_energy - cur_energy;
+            uint64_t coin = mix64(r ^ 0x510e527fade682d1ULL) & 255u;
+            uint64_t accept_bar = (delta <= 0) ? 256u :
+                (96u / (uint64_t)(1 + (delta / 16)));
+            if (delta <= 0 || coin < accept_bar) {
+                cur[0] = w57;
+                cur[1] = w58;
+                cur[2] = w59;
+                cur_energy = cand_energy;
                 since_restart = 1;
             } else {
                 since_restart++;
@@ -1486,11 +1648,12 @@ static int run_repair_seed_mode(int N, uint64_t refine_budget, int refine_seed_c
     witness_t seed_best_r61_wit = {0};
     witness_t seed_best_joint_wit = {0};
 
-    const char *seed_mode_name = seed_mode == 4 ? "repair_seed_joint_energy_walk" :
-                                 (seed_mode == 3 ? "repair_seed_joint_walk" :
-                                  (seed_mode == 2 ? "repair_seed_ball" :
-                                   (seed_mode == 1 ? "repair_seed_walk" : "repair_seed")));
-    int primary_seed_rank = (seed_mode == 3 || seed_mode == 4) ? 2 : 0;
+    const char *seed_mode_name = seed_mode == 5 ? "repair_seed_joint_energy" :
+                                 (seed_mode == 4 ? "repair_seed_joint_energy_walk" :
+                                  (seed_mode == 3 ? "repair_seed_joint_walk" :
+                                   (seed_mode == 2 ? "repair_seed_ball" :
+                                    (seed_mode == 1 ? "repair_seed_walk" : "repair_seed"))));
+    int primary_seed_rank = (seed_mode == 3 || seed_mode == 4 || seed_mode == 5) ? 2 : 0;
     printf("free_word_mitm_reducedn %s\n", seed_mode_name);
     printf("N=%d mask=0x%x msb=0x%x\n", N, gMASK, gMSB);
     printf("repair_d60_hw_limit=%d seed_cap=%d budget=%" PRIu64
@@ -1551,6 +1714,15 @@ static int run_repair_seed_mode(int N, uint64_t refine_budget, int refine_seed_c
                             &seed_best_tail_wit, &seed_best_r61_wit,
                             &seed_best_joint_wit,
                             &stats);
+    } else if (seed_mode == 5) {
+        run_repair_joint_energy_refinement(init1, init2, Wpre1, Wpre2,
+                                           repair_seeds, &repair_seed_count, refine_seed_cap,
+                                           primary_seed_rank,
+                                           repair_r61_seeds, &repair_r61_seed_count,
+                                           refine_budget, repair_hw_limit, mode_param,
+                                           &seed_best_tail_wit, &seed_best_r61_wit,
+                                           &seed_best_joint_wit,
+                                           &stats);
     } else if (seed_mode == 4) {
         run_repair_joint_energy_walk(init1, init2, Wpre1, Wpre2,
                                      repair_seeds, &repair_seed_count, refine_seed_cap,
@@ -1686,7 +1858,8 @@ int main(int argc, char **argv) {
         fprintf(stderr, "  mode=repair_seed skips scanning and refines explicit W57,W58,W59 seed triples.\n");
         fprintf(stderr, "  mode=repair_seed_walk only mutates explicit seed triples; it skips prefix sweeps.\n");
         fprintf(stderr, "  mode=repair_seed_joint_walk is repair_seed_walk with joint-ranked restarts.\n");
-        fprintf(stderr, "  mode=repair_seed_joint_energy_walk steers by repaired tail/r61 joint energy.\n");
+        fprintf(stderr, "  mode=repair_seed_joint_energy steers prefix sweeps by repaired tail/r61 joint energy.\n");
+        fprintf(stderr, "  mode=repair_seed_joint_energy_walk steers random walks by repaired tail/r61 joint energy.\n");
         fprintf(stderr, "  mode=repair_seed_ball enumerates a Hamming ball around explicit seed triples; sample_start is max_radius.\n");
         return 2;
     }
@@ -1717,11 +1890,13 @@ int main(int argc, char **argv) {
     int repair_seed_mode = (strcmp(mode, "repair_seed") == 0);
     int repair_seed_walk_mode = (strcmp(mode, "repair_seed_walk") == 0);
     int repair_seed_joint_walk_mode = (strcmp(mode, "repair_seed_joint_walk") == 0);
+    int repair_seed_joint_energy_mode = (strcmp(mode, "repair_seed_joint_energy") == 0);
     int repair_seed_joint_energy_walk_mode = (strcmp(mode, "repair_seed_joint_energy_walk") == 0);
     int repair_seed_ball_mode = (strcmp(mode, "repair_seed_ball") == 0);
     int scan_only = (strcmp(mode, "scan") == 0) || repair_enabled ||
         repair_seed_mode || repair_seed_walk_mode || repair_seed_joint_walk_mode ||
-        repair_seed_joint_energy_walk_mode || repair_seed_ball_mode;
+        repair_seed_joint_energy_mode || repair_seed_joint_energy_walk_mode ||
+        repair_seed_ball_mode;
     int profile_enabled = !scan_only;
     int repair_hw_limit = 1;
     if (argc >= 8) repair_hw_limit = atoi(argv[7]);
@@ -1738,15 +1913,17 @@ int main(int argc, char **argv) {
     }
 
     if (repair_seed_mode || repair_seed_walk_mode || repair_seed_joint_walk_mode ||
-        repair_seed_joint_energy_walk_mode || repair_seed_ball_mode) {
+        repair_seed_joint_energy_mode || repair_seed_joint_energy_walk_mode ||
+        repair_seed_ball_mode) {
         if (argc < 9) {
             fprintf(stderr, "%s mode expects: %s N prefix_limit refine_budget refine_seed_cap sample_start %s repair_hw_limit W57,W58,W59 [...]\n",
                     mode, argv[0], mode);
             return 2;
         }
-        int seed_mode = repair_seed_joint_energy_walk_mode ? 4 :
+        int seed_mode = repair_seed_joint_energy_mode ? 5 :
+                        (repair_seed_joint_energy_walk_mode ? 4 :
                         (repair_seed_joint_walk_mode ? 3 :
-                         (repair_seed_ball_mode ? 2 : (repair_seed_walk_mode ? 1 : 0)));
+                         (repair_seed_ball_mode ? 2 : (repair_seed_walk_mode ? 1 : 0))));
         return run_repair_seed_mode(N, refine_budget, refine_seed_cap, repair_hw_limit,
                                     argc, argv, 8, seed_mode,
                                     sample_start,

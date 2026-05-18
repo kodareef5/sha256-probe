@@ -292,6 +292,7 @@ def main() -> int:
             "repair_seed",
             "repair_seed_walk",
             "repair_seed_joint_walk",
+            "repair_seed_joint_energy",
             "repair_seed_joint_energy_walk",
             "repair_seed_ball",
         ),
