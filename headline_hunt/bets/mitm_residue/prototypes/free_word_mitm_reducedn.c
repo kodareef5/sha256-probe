@@ -1138,6 +1138,69 @@ static void run_repair_wordwalk(const uint32_t init1[8], const uint32_t init2[8]
     }
 }
 
+static void enumerate_repair_word_ball(const uint32_t init1[8], const uint32_t init2[8],
+                                       const uint32_t Wpre1[64], const uint32_t Wpre2[64],
+                                       uint32_t words[3], int bits, int start_bit,
+                                       int remaining, int repair_hw_limit,
+                                       int phase, uint64_t budget,
+                                       refine_seed_t *seeds, int *seed_count, int seed_cap,
+                                       refine_seed_t *r61_seeds, int *r61_seed_count,
+                                       refine_stats_t *stats) {
+    if (stats->tested >= budget) return;
+    if (remaining == 0) {
+        repair_refine_test_candidate(init1, init2, Wpre1, Wpre2,
+                                     words[0], words[1], words[2],
+                                     repair_hw_limit, phase, budget,
+                                     seeds, seed_count, seed_cap,
+                                     r61_seeds, r61_seed_count, stats);
+        return;
+    }
+
+    for (int bit = start_bit; bit <= bits - remaining && stats->tested < budget; bit++) {
+        flip_local_bit(words, bit);
+        enumerate_repair_word_ball(init1, init2, Wpre1, Wpre2,
+                                   words, bits, bit + 1, remaining - 1,
+                                   repair_hw_limit, phase, budget,
+                                   seeds, seed_count, seed_cap,
+                                   r61_seeds, r61_seed_count, stats);
+        flip_local_bit(words, bit);
+    }
+}
+
+static void run_repair_wordball(const uint32_t init1[8], const uint32_t init2[8],
+                                const uint32_t Wpre1[64], const uint32_t Wpre2[64],
+                                refine_seed_t *seeds, int *seed_count, int seed_cap,
+                                refine_seed_t *r61_seeds, int *r61_seed_count,
+                                uint64_t budget, int repair_hw_limit,
+                                uint64_t max_radius,
+                                const witness_t *scan_best_tail,
+                                const witness_t *scan_best_r61,
+                                refine_stats_t *stats) {
+    memset(stats, 0, sizeof(*stats));
+    stats->best_tail = scan_best_tail ? scan_best_tail->tail_hw : 999;
+    stats->best_r61 = scan_best_r61 ? scan_best_r61->r61_hw : 999;
+    stats->min_d_hw = 999;
+    if (scan_best_tail) stats->best_tail_wit = *scan_best_tail;
+    if (scan_best_r61) stats->best_r61_wit = *scan_best_r61;
+    if (!seeds || *seed_count <= 0 || budget == 0) return;
+
+    int bits = 3 * gN;
+    if (max_radius > (uint64_t)bits) max_radius = (uint64_t)bits;
+    int initial_seed_count = *seed_count;
+    for (int s = 0; s < initial_seed_count && stats->tested < budget; s++) {
+        const witness_t seed = seeds[s].wit;
+        for (uint64_t radius = 0; radius <= max_radius && stats->tested < budget; radius++) {
+            uint32_t words[3] = { seed.w57, seed.w58, seed.w59 };
+            int phase = radius <= 1 ? 0 : (radius == 2 ? 1 : 2);
+            enumerate_repair_word_ball(init1, init2, Wpre1, Wpre2,
+                                       words, bits, 0, (int)radius,
+                                       repair_hw_limit, phase, budget,
+                                       seeds, seed_count, seed_cap,
+                                       r61_seeds, r61_seed_count, stats);
+        }
+    }
+}
+
 static int parse_seed_arg(const char *arg, uint32_t *w57, uint32_t *w58, uint32_t *w59) {
     char *end = NULL;
     unsigned long v57 = strtoul(arg, &end, 0);
@@ -1154,8 +1217,8 @@ static int parse_seed_arg(const char *arg, uint32_t *w57, uint32_t *w58, uint32_
 
 static int run_repair_seed_mode(int N, uint64_t refine_budget, int refine_seed_cap,
                                 int repair_hw_limit, int argc, char **argv,
-                                int seed_arg_start, int walk_only,
-                                uint64_t walk_nonce,
+                                int seed_arg_start, int seed_mode,
+                                uint64_t mode_param,
                                 const uint32_t init1[8], const uint32_t init2[8],
                                 const uint32_t Wpre1[64], const uint32_t Wpre2[64]) {
     refine_seed_t *repair_seeds = calloc((size_t)refine_seed_cap, sizeof(refine_seed_t));
@@ -1176,11 +1239,13 @@ static int run_repair_seed_mode(int N, uint64_t refine_budget, int refine_seed_c
     witness_t seed_best_tail_wit = {0};
     witness_t seed_best_r61_wit = {0};
 
-    printf("free_word_mitm_reducedn %s\n", walk_only ? "repair_seed_walk" : "repair_seed");
+    const char *seed_mode_name = seed_mode == 2 ? "repair_seed_ball" :
+                                 (seed_mode == 1 ? "repair_seed_walk" : "repair_seed");
+    printf("free_word_mitm_reducedn %s\n", seed_mode_name);
     printf("N=%d mask=0x%x msb=0x%x\n", N, gMASK, gMSB);
     printf("repair_d60_hw_limit=%d seed_cap=%d budget=%" PRIu64
-           " walk_only=%d walk_nonce=%" PRIu64 "\n",
-           repair_hw_limit, refine_seed_cap, refine_budget, walk_only, walk_nonce);
+           " seed_mode=%d mode_param=%" PRIu64 "\n",
+           repair_hw_limit, refine_seed_cap, refine_budget, seed_mode, mode_param);
 
     for (int i = seed_arg_start; i < argc; i++) {
         uint32_t w57 = 0, w58 = 0, w59 = 0;
@@ -1220,11 +1285,18 @@ static int run_repair_seed_mode(int N, uint64_t refine_budget, int refine_seed_c
     refine_stats_t stats;
     memset(&stats, 0, sizeof(stats));
     clock_t tr0 = clock();
-    if (walk_only) {
+    if (seed_mode == 2) {
+        run_repair_wordball(init1, init2, Wpre1, Wpre2,
+                            repair_seeds, &repair_seed_count, refine_seed_cap,
+                            repair_r61_seeds, &repair_r61_seed_count,
+                            refine_budget, repair_hw_limit, mode_param,
+                            &seed_best_tail_wit, &seed_best_r61_wit,
+                            &stats);
+    } else if (seed_mode == 1) {
         run_repair_wordwalk(init1, init2, Wpre1, Wpre2,
                             repair_seeds, &repair_seed_count, refine_seed_cap,
                             repair_r61_seeds, &repair_r61_seed_count,
-                            refine_budget, repair_hw_limit, walk_nonce,
+                            refine_budget, repair_hw_limit, mode_param,
                             &seed_best_tail_wit, &seed_best_r61_wit,
                             &stats);
     } else {
@@ -1311,6 +1383,7 @@ int main(int argc, char **argv) {
         fprintf(stderr, "  mode=repair also probes low-HW nonzero D60 as if W60 were repairable.\n");
         fprintf(stderr, "  mode=repair_seed skips scanning and refines explicit W57,W58,W59 seed triples.\n");
         fprintf(stderr, "  mode=repair_seed_walk only mutates explicit seed triples; it skips prefix sweeps.\n");
+        fprintf(stderr, "  mode=repair_seed_ball enumerates a Hamming ball around explicit seed triples; sample_start is max_radius.\n");
         return 2;
     }
 
@@ -1339,8 +1412,9 @@ int main(int argc, char **argv) {
     int repair_enabled = (strcmp(mode, "repair") == 0);
     int repair_seed_mode = (strcmp(mode, "repair_seed") == 0);
     int repair_seed_walk_mode = (strcmp(mode, "repair_seed_walk") == 0);
+    int repair_seed_ball_mode = (strcmp(mode, "repair_seed_ball") == 0);
     int scan_only = (strcmp(mode, "scan") == 0) || repair_enabled ||
-        repair_seed_mode || repair_seed_walk_mode;
+        repair_seed_mode || repair_seed_walk_mode || repair_seed_ball_mode;
     int profile_enabled = !scan_only;
     int repair_hw_limit = 1;
     if (argc >= 8) repair_hw_limit = atoi(argv[7]);
@@ -1356,14 +1430,15 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-    if (repair_seed_mode || repair_seed_walk_mode) {
+    if (repair_seed_mode || repair_seed_walk_mode || repair_seed_ball_mode) {
         if (argc < 9) {
             fprintf(stderr, "%s mode expects: %s N prefix_limit refine_budget refine_seed_cap sample_start %s repair_hw_limit W57,W58,W59 [...]\n",
                     mode, argv[0], mode);
             return 2;
         }
+        int seed_mode = repair_seed_ball_mode ? 2 : (repair_seed_walk_mode ? 1 : 0);
         return run_repair_seed_mode(N, refine_budget, refine_seed_cap, repair_hw_limit,
-                                    argc, argv, 8, repair_seed_walk_mode,
+                                    argc, argv, 8, seed_mode,
                                     sample_start,
                                     init1, init2, Wpre1, Wpre2);
     }
