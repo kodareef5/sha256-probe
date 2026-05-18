@@ -23,7 +23,14 @@ New local scan shapes from phases 324-331:
 - phase347 window=1140: r61=11 tail=31, W1=0x11ac,0x22e8,0x1b8a
 - phase349 window=7445: tail=19 r61=17, W1=0x1d4c,0x1e37,0x2d7e
 - phase349 window=7445: r61=10 tail=28, W1=0x061c,0x0522,0x2622
+- phase350 window=1629: tail=17 r61=14, W1=0x1a07,0x079d,0x129a
+- phase350 window=5781: tail=21 r61=11, W1=0x37de,0x0132,0x3a37
+- phase351 window=3822: tail=16 r61=14, W1=0x1bf3,0x3294,0x21c7
+- phase351 window=6726: r61=10 tail=27, W1=0x3d0a,0x1c32,0x04d9
+- phase352 window=446: tail=17 r61=19, W1=0x206f,0x25c0,0x1acf
+- phase353 window=4167: tail=16 r61=16, W1=0x1fb9,0x1bd0,0x3d14
 - phase354 window=3173: tail=14 r61=16, W1=0x3c4a,0x0174,0x205b
+- phase355 window=5398: r61=10 tail=33, W1=0x0661,0x3b7a,0x37c3
 
 The repeatable repaired nonzero bridge seed from 10M energy-prefix probes:
 
@@ -97,15 +104,29 @@ The phase347 tail17/r15 solo lane found a weaker local point:
 - W1=0x131b,0x2323,0x2ff0
 - W2=0x1228,0x13e4,0x055f
 
+The phase349 r61=10 solo lane found a local nonzero point that is closer
+than phase340 but still behind the 865 bridge:
+
+- repaired nonzero surrogate: energy=869 tail=12 r61=12 d60=0x0724 d60_hw=5
+- gh60=0x460bfee
+- W1=0x0f9f,0x05f0,0x3dd9
+- W2=0x0eac,0x27ab,0x117d
+
+The phase349 bridge preserved the 865 repaired nonzero surrogate and the
+exact phase-234 frontier.
+
 Refresh6 exact-refinement plan:
 
 - `20260517_joint_first_refresh6_top384.txt`
 - 49,280 registry entries, 772 candidate seeds, 193 batches
+- batches 0-4 completed with the exact frontier unchanged
 - active first lane: batches 0-31 with 16-seed crossover expansion
 
 Active follow-up lanes:
 
-- phase347 tail17/r15 solo, W1=0x11aa,0x233f,0x0595
-- phase346/347 r61=11 bridge with 865 and 873 nonzero seeds
-- phase349 r61=10 solo and bridge, W1=0x061c,0x0522,0x2622
-- phase354 tail14/r16 bridge and solo, W1=0x3c4a,0x0174,0x205b
+- breadth scan phases 356-363, start windows 6,22,...,118
+- refresh5 gap queue: batches 24-31 and 42-63
+- refresh6 xover queue: batches 6-31
+- phase350 tail17/r14 plus r61=11 bridge, with 865 and 873 nonzero seeds
+- phase351 tail16/r14 plus r61=10 bridge, with 865 and 873 nonzero seeds
+- phase354 tail14/r16 bridge and solo rerun, W1=0x3c4a,0x0174,0x205b
