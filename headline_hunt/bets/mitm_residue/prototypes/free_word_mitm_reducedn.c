@@ -127,11 +127,13 @@ typedef struct {
     uint64_t r61_improvements;
     uint64_t joint_improvements;
     uint64_t energy_improvements;
+    uint64_t nonzero_energy_improvements;
     int best_tail;
     int best_r61;
     int best_joint_score;
     int best_joint_max;
     int best_energy;
+    int best_nonzero_energy;
     int min_d_hw;
     uint32_t min_d60;
     uint32_t min_d_w57, min_d_w58, min_d_w59;
@@ -139,6 +141,7 @@ typedef struct {
     witness_t best_r61_wit;
     witness_t best_joint_wit;
     witness_t best_energy_wit;
+    witness_t best_nonzero_energy_wit;
     witness_t first_collision;
 } refine_stats_t;
 
@@ -659,6 +662,7 @@ static void refine_stats_init_best(refine_stats_t *stats,
     stats->best_joint_score = scan_best_joint ? witness_joint_score(scan_best_joint) : 999;
     stats->best_joint_max = scan_best_joint ? witness_joint_max(scan_best_joint) : 999;
     stats->best_energy = scan_best_joint ? witness_repaired_joint_energy(scan_best_joint) : 999999;
+    stats->best_nonzero_energy = 999999;
     stats->min_d_hw = 999;
     if (scan_best_tail) stats->best_tail_wit = *scan_best_tail;
     if (scan_best_r61) stats->best_r61_wit = *scan_best_r61;
@@ -869,6 +873,11 @@ static int repair_joint_energy_test_candidate(const uint32_t init1[8], const uin
         stats->best_energy = energy;
         stats->best_energy_wit = wit;
         stats->energy_improvements++;
+    }
+    if (d60 != 0 && energy < stats->best_nonzero_energy) {
+        stats->best_nonzero_energy = energy;
+        stats->best_nonzero_energy_wit = wit;
+        stats->nonzero_energy_improvements++;
     }
 
     if (d60 == 0) {
@@ -1822,6 +1831,23 @@ static int run_repair_seed_mode(int N, uint64_t refine_budget, int refine_seed_c
         printf("  best repaired energy W2[57..59]=0x%x,0x%x,0x%x\n",
                stats.best_energy_wit.w2_57, stats.best_energy_wit.w2_58,
                stats.best_energy_wit.w2_59);
+    }
+    if (stats.nonzero_energy_improvements) {
+        printf("  best repaired nonzero energy surrogate: %d tail=%d r61=%d d60=0x%x d60_hw=%d gh60=0x%x improvements=%" PRIu64 "\n",
+               stats.best_nonzero_energy, stats.best_nonzero_energy_wit.tail_hw,
+               stats.best_nonzero_energy_wit.r61_hw,
+               stats.best_nonzero_energy_wit.d60,
+               hw(stats.best_nonzero_energy_wit.d60),
+               stats.best_nonzero_energy_wit.gh60_key,
+               stats.nonzero_energy_improvements);
+        printf("  best repaired nonzero energy W1[57..59]=0x%x,0x%x,0x%x\n",
+               stats.best_nonzero_energy_wit.w57,
+               stats.best_nonzero_energy_wit.w58,
+               stats.best_nonzero_energy_wit.w59);
+        printf("  best repaired nonzero energy W2[57..59]=0x%x,0x%x,0x%x\n",
+               stats.best_nonzero_energy_wit.w2_57,
+               stats.best_nonzero_energy_wit.w2_58,
+               stats.best_nonzero_energy_wit.w2_59);
     }
 
     printf("\nSUMMARY N=%d sample_start=0 prefixes=0 total=%" PRIu64
