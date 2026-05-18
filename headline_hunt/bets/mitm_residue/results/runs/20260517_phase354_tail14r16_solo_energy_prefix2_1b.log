@@ -1,0 +1,28 @@
+free_word_mitm_reducedn repair_seed_joint_energy
+N=14 mask=0x3fff msb=0x2000
+repair_d60_hw_limit=0 seed_cap=32 budget=1000000000 seed_mode=5 mode_param=834348
+seed[00] repaired_tail=14 r61=16 d60=0x0 d60_hw=0 gh60=0x4f0449a W1=0x3c4a,0x174,0x205b W2=0x3b57,0x37bc,0x2a96
+
+D60 repair seed refinement
+  input_seeds=1 retained_tail_seeds=32 retained_r61_seeds=32
+  elapsed=730.036s budget=1000000000 tested=1000000000 repairable=62073 exact_D60=0=62073 collisions=0 seed_inserts=232 prefix_enums=61035
+  rate=1.37 Mtests/s repairable_rate=0.000062
+  phase tested/repairable: single=42/0 double=861/0 walk=1657/1 prefix=999997440/62072
+  min refined D60 HW: 0 d60=0x0 at W1[57..59]=0x3c4a,0x174,0x205b
+  best repaired tail HW: 14 d60=0x0 d60_hw=0 r61=16 gh60=0x4f0449a
+  best repaired tail W1[57..59]=0x3c4a,0x174,0x205b
+  best repaired tail W2[57..59]=0x3b57,0x37bc,0x2a96
+  best repaired r61 HW: 13 d60=0x0 d60_hw=0 tail=24 gh60=0x4719b66
+  best repaired r61 W1[57..59]=0x21db,0x2855,0x5ad
+  best repaired r61 W2[57..59]=0x20e8,0x30a5,0x11f0
+  best repaired joint score: 30 max=16 tail=14 r61=16 d60=0x0 d60_hw=0 gh60=0x4f0449a improvements=0
+  best repaired joint W1[57..59]=0x3c4a,0x174,0x205b
+  best repaired joint W2[57..59]=0x3b57,0x37bc,0x2a96
+  best repaired energy surrogate: 942 tail=13 r61=13 d60=0xd91 d60_hw=6 gh60=0x5a05dfa improvements=3
+  best repaired energy W1[57..59]=0x3e9a,0x25fe,0x3295
+  best repaired energy W2[57..59]=0x3da7,0x16d2,0x254c
+  best repaired nonzero energy surrogate: 942 tail=13 r61=13 d60=0xd91 d60_hw=6 gh60=0x5a05dfa improvements=15
+  best repaired nonzero energy W1[57..59]=0x3e9a,0x25fe,0x3295
+  best repaired nonzero energy W2[57..59]=0x3da7,0x16d2,0x254c
+
+SUMMARY N=14 sample_start=0 prefixes=0 total=1000000000 d0=62073 best_tail=14 tail_r61=16 best_r61=13 best_joint=30 joint_max=16 joint_tail=14 joint_r61=16 tail_W1=0x3c4a,0x174,0x205b tail_W2=0x3b57,0x37bc,0x2a96 joint_W1=0x3c4a,0x174,0x205b joint_W2=0x3b57,0x37bc,0x2a96 r61_W1=0x21db,0x2855,0x5ad r61_W2=0x20e8,0x30a5,0x11f0

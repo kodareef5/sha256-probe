@@ -31,6 +31,13 @@ New local scan shapes from phases 324-331:
 - phase353 window=4167: tail=16 r61=16, W1=0x1fb9,0x1bd0,0x3d14
 - phase354 window=3173: tail=14 r61=16, W1=0x3c4a,0x0174,0x205b
 - phase355 window=5398: r61=10 tail=33, W1=0x0661,0x3b7a,0x37c3
+- phase357 window=534: tail=15 r61=18, W1=0x0e14,0x1274,0x1da6
+- phase357 window=1046: tail=18 r61=10, W1=0x0b4d,0x0ac8,0x0286
+- phase357 window=2070: repeat of global tail=10/r61=12 seed,
+  W1=0x3384,0x0997,0x12b7
+- phase358 window=806: tail=17 r61=12, W1=0x288b,0x3eb8,0x235b
+- phase359 window=6454: tail=17 r61=13, W1=0x2e86,0x356b,0x29ac
+- phase360 window=3142: tail=16 r61=19, W1=0x185e,0x01b4,0x1c91
 
 The repeatable repaired nonzero bridge seed from 10M energy-prefix probes:
 
@@ -115,11 +122,24 @@ than phase340 but still behind the 865 bridge:
 The phase349 bridge preserved the 865 repaired nonzero surrogate and the
 exact phase-234 frontier.
 
+The phase350, phase351, and phase354 bridge lanes also preserved the 865
+repaired nonzero surrogate and the exact phase-234 frontier. The phase354
+solo lane found a weaker local point:
+
+- repaired nonzero surrogate: energy=942 tail=13 r61=13 d60=0x0d91 d60_hw=6
+- gh60=0x5a05dfa
+- W1=0x3e9a,0x25fe,0x3295
+- W2=0x3da7,0x16d2,0x254c
+
 Refresh6 exact-refinement plan:
 
 - `20260517_joint_first_refresh6_top384.txt`
 - 49,280 registry entries, 772 candidate seeds, 193 batches
 - batches 0-4 completed with the exact frontier unchanged
+- refresh5 batches 24-25, refresh5b batch 42, and refresh6 batch 6 also
+  completed with the exact frontier unchanged
+- refresh5 batches 26-27, refresh5b batch 43, and refresh6 batch 7 also
+  completed with the exact frontier unchanged
 - active first lane: batches 0-31 with 16-seed crossover expansion
 
 Active follow-up lanes:
@@ -127,6 +147,7 @@ Active follow-up lanes:
 - breadth scan phases 356-363, start windows 6,22,...,118
 - refresh5 gap queue: batches 24-31 and 42-63
 - refresh6 xover queue: batches 6-31
-- phase350 tail17/r14 plus r61=11 bridge, with 865 and 873 nonzero seeds
-- phase351 tail16/r14 plus r61=10 bridge, with 865 and 873 nonzero seeds
-- phase354 tail14/r16 bridge and solo rerun, W1=0x3c4a,0x0174,0x205b
+- phase357 tail18/r61=10 solo, W1=0x0b4d,0x0ac8,0x0286
+- phase357 bridge with 865, 873, and 869 nonzero seeds
+- phase360 tail16/r61=19 solo, W1=0x185e,0x01b4,0x1c91
+- phase358/359 mixed bridge with 865 and 873 nonzero seeds
