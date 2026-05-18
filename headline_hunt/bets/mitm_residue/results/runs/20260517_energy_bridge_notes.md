@@ -13,6 +13,8 @@ New local scan shapes from phases 324-331:
 - phase325 window=7954: tail=16 r61=16, W1=0x2d13,0x05b3,0x1b25
 - phase331 window=882: tail=16 r61=17, W1=0x1a5d,0x3d95,0x1d08
 - phase334 window=547: tail=13 r61=14, W1=0x160a,0x1400,0x3d93
+- phase337 window=1363: tail=16 r61=16, W1=0x298f,0x3786,0x06aa
+- phase338 window=6755: tail=15 r61=15, W1=0x0f24,0x3e0f,0x2b4d
 
 The repeatable repaired nonzero bridge seed from 10M energy-prefix probes:
 
@@ -43,9 +45,13 @@ The 939 bridge lane found a nearby but weaker repaired nonzero point:
 - W1=0x2f10,0x2f5b,0x065a
 - W2=0x2e1d,0x08bf,0x36bf
 
+The 865 solo and bridge repeats preserved the same best nonzero surrogate
+without improving it.
+
 Active follow-up lanes:
 
-- `20260517_nonzero865_bridge_energy_prefix2_1b.log`
-- `20260517_nonzero865_solo_energy_prefix2_1b.log`
 - `20260517_phase333_tail16r14_nonzero865_bridge_energy_prefix2_1b.log`
 - `20260517_phase334_tail13r14_nonzero865_bridge_energy_prefix2_1b.log`
+- `20260517_phase337_tail16r16_nonzero865_bridge_energy_prefix2_1b.log`
+- `20260517_phase336_tail16r13_nonzero865_bridge_energy_prefix2_1b.log`
+- pending next free lane: phase338 tail15/r15, W1=0x0f24,0x3e0f,0x2b4d
