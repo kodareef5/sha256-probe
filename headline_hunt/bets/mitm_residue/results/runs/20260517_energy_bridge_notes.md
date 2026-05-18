@@ -70,6 +70,14 @@ The phase338 solo lane found a distinct but weaker nonzero point:
 - W1=0x0f2c,0x1e8e,0x3d42
 - W2=0x0e39,0x1d29,0x21e0
 
+The phase340 tail14/r16 bridge preserved the 865 repaired nonzero surrogate.
+The phase340 solo lane found a closer but still weaker local point:
+
+- repaired nonzero surrogate: energy=873 tail=12 r61=12 d60=0x1eae d60_hw=9
+- gh60=0xd51859a
+- W1=0x22c5,0x14ce,0x329b
+- W2=0x21d2,0x0137,0x0a3f
+
 Refresh6 exact-refinement plan:
 
 - `20260517_joint_first_refresh6_top384.txt`
@@ -78,5 +86,6 @@ Refresh6 exact-refinement plan:
 
 Active follow-up lanes:
 
-- phase340 tail14/r16 bridge and solo, W1=0x22c5,0x24ca,0x164c
 - phase343 tail15/r18 bridge and solo, W1=0x37b2,0x3648,0x2a2d
+- phase347 tail17/r15 solo, W1=0x11aa,0x233f,0x0595
+- phase346/347 r61=11 bridge with 865 and 873 nonzero seeds

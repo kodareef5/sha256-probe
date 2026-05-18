@@ -1,0 +1,28 @@
+free_word_mitm_reducedn repair_seed_joint_energy
+N=14 mask=0x3fff msb=0x2000
+repair_d60_hw_limit=0 seed_cap=32 budget=1000000000 seed_mode=5 mode_param=834340
+seed[00] repaired_tail=14 r61=16 d60=0x0 d60_hw=0 gh60=0x553859a W1=0x22c5,0x24ca,0x164c W2=0x21d2,0x1133,0x18eb
+
+D60 repair seed refinement
+  input_seeds=1 retained_tail_seeds=32 retained_r61_seeds=32
+  elapsed=698.972s budget=1000000000 tested=1000000000 repairable=63439 exact_D60=0=63439 collisions=0 seed_inserts=231 prefix_enums=61035
+  rate=1.43 Mtests/s repairable_rate=0.000063
+  phase tested/repairable: single=42/0 double=861/0 walk=1657/2 prefix=999997440/63437
+  min refined D60 HW: 0 d60=0x0 at W1[57..59]=0x22c5,0x24ca,0x164c
+  best repaired tail HW: 14 d60=0x0 d60_hw=0 r61=16 gh60=0x553859a
+  best repaired tail W1[57..59]=0x22c5,0x24ca,0x164c
+  best repaired tail W2[57..59]=0x21d2,0x1133,0x18eb
+  best repaired r61 HW: 12 d60=0x0 d60_hw=0 tail=34 gh60=0x4b0c566
+  best repaired r61 W1[57..59]=0x2acc,0x24cb,0x57b
+  best repaired r61 W2[57..59]=0x29d9,0x3b1f,0x1d9f
+  best repaired joint score: 30 max=16 tail=14 r61=16 d60=0x0 d60_hw=0 gh60=0x553859a improvements=0
+  best repaired joint W1[57..59]=0x22c5,0x24ca,0x164c
+  best repaired joint W2[57..59]=0x21d2,0x1133,0x18eb
+  best repaired energy surrogate: 873 tail=12 r61=12 d60=0x1eae d60_hw=9 gh60=0xd51859a improvements=1
+  best repaired energy W1[57..59]=0x22c5,0x14ce,0x329b
+  best repaired energy W2[57..59]=0x21d2,0x137,0xa3f
+  best repaired nonzero energy surrogate: 873 tail=12 r61=12 d60=0x1eae d60_hw=9 gh60=0xd51859a improvements=21
+  best repaired nonzero energy W1[57..59]=0x22c5,0x14ce,0x329b
+  best repaired nonzero energy W2[57..59]=0x21d2,0x137,0xa3f
+
+SUMMARY N=14 sample_start=0 prefixes=0 total=1000000000 d0=63439 best_tail=14 tail_r61=16 best_r61=12 best_joint=30 joint_max=16 joint_tail=14 joint_r61=16 tail_W1=0x22c5,0x24ca,0x164c tail_W2=0x21d2,0x1133,0x18eb joint_W1=0x22c5,0x24ca,0x164c joint_W2=0x21d2,0x1133,0x18eb r61_W1=0x2acc,0x24cb,0x57b r61_W2=0x29d9,0x3b1f,0x1d9f
