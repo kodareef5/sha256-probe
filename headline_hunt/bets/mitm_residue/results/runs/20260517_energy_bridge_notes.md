@@ -38,6 +38,9 @@ New local scan shapes from phases 324-331:
 - phase358 window=806: tail=17 r61=12, W1=0x288b,0x3eb8,0x235b
 - phase359 window=6454: tail=17 r61=13, W1=0x2e86,0x356b,0x29ac
 - phase360 window=3142: tail=16 r61=19, W1=0x185e,0x01b4,0x1c91
+- phase361 window=854: tail=16 r61=16, W1=0x2061,0x2954,0x3344
+- phase362 window=870: tail=18 r61=12, W1=0x243d,0x13a0,0x2b58
+- phase363 window=2422: tail=18 r61=18, W1=0x1326,0x0792,0x13f2
 
 The repeatable repaired nonzero bridge seed from 10M energy-prefix probes:
 
@@ -140,11 +143,13 @@ Refresh6 exact-refinement plan:
   completed with the exact frontier unchanged
 - refresh5 batches 26-27, refresh5b batch 43, and refresh6 batch 7 also
   completed with the exact frontier unchanged
+- refresh5 batches 28-29, refresh5b batch 44, and refresh6 batch 8 also
+  completed with the exact frontier unchanged
 - active first lane: batches 0-31 with 16-seed crossover expansion
 
 Active follow-up lanes:
 
-- breadth scan phases 356-363, start windows 6,22,...,118
+- breadth scan phases 364-371, start windows 7,23,...,119
 - refresh5 gap queue: batches 24-31 and 42-63
 - refresh6 xover queue: batches 6-31
 - phase357 tail18/r61=10 solo, W1=0x0b4d,0x0ac8,0x0286
