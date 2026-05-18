@@ -27,8 +27,16 @@ surrogate without moving the exact frontier:
 - W1=0x1e71,0x1459,0x1fb5
 - W2=0x1d7e,0x16c4,0x19e4
 
+The phase325 16/16 solo prefix2 lane found a closer repaired nonzero
+bridge:
+
+- repaired nonzero surrogate: energy=865 tail=11 r61=12 d60=0x0109 d60_hw=3
+- gh60=0x448c59a
+- W1=0x04aa,0x1053,0x2db5
+- W2=0x03b7,0x3e07,0x2150
+
 Active follow-up lanes:
 
-- `20260517_nonzero1160_solo_energy_prefix2_1b.log`
-- `20260517_phase325_tail16r16_solo_energy_prefix2_1b.log`
 - `20260517_nonzero939_bridge_energy_prefix2_1b.log`
+- `20260517_nonzero865_bridge_energy_prefix2_1b.log`
+- `20260517_nonzero865_solo_energy_prefix2_1b.log`

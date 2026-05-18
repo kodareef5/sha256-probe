@@ -1,0 +1,28 @@
+free_word_mitm_reducedn repair_seed_joint_energy
+N=14 mask=0x3fff msb=0x2000
+repair_d60_hw_limit=0 seed_cap=32 budget=1000000000 seed_mode=5 mode_param=834328
+seed[00] repaired_tail=16 r61=16 d60=0x3ce1 d60_hw=8 gh60=0x5b89caa W1=0x3e31,0xcbb,0x2e80 W2=0x3d3e,0x12ba,0xb91
+
+D60 repair seed refinement
+  input_seeds=1 retained_tail_seeds=32 retained_r61_seeds=32
+  elapsed=704.688s budget=1000000000 tested=1000000000 repairable=64230 exact_D60=0=64230 collisions=0 seed_inserts=227 prefix_enums=61035
+  rate=1.42 Mtests/s repairable_rate=0.000064
+  phase tested/repairable: single=42/0 double=861/0 walk=1657/0 prefix=999997440/64230
+  min refined D60 HW: 0 d60=0x0 at W1[57..59]=0x3e31,0xcbb,0x1a81
+  best repaired tail HW: 11 d60=0x0 d60_hw=0 r61=11 gh60=0x4489caa
+  best repaired tail W1[57..59]=0x3e31,0xcdb,0x286a
+  best repaired tail W2[57..59]=0x3d3e,0x12da,0x25ff
+  best repaired r61 HW: 11 d60=0x0 d60_hw=0 tail=11 gh60=0x4489caa
+  best repaired r61 W1[57..59]=0x3e31,0xcdb,0x286a
+  best repaired r61 W2[57..59]=0x3d3e,0x12da,0x25ff
+  best repaired joint score: 22 max=11 tail=11 r61=11 d60=0x0 d60_hw=0 gh60=0x4489caa improvements=1
+  best repaired joint W1[57..59]=0x3e31,0xcdb,0x286a
+  best repaired joint W2[57..59]=0x3d3e,0x12da,0x25ff
+  best repaired energy surrogate: 792 tail=11 r61=11 d60=0x0 d60_hw=0 gh60=0x4489caa improvements=2
+  best repaired energy W1[57..59]=0x3e31,0xcdb,0x286a
+  best repaired energy W2[57..59]=0x3d3e,0x12da,0x25ff
+  best repaired nonzero energy surrogate: 942 tail=13 r61=13 d60=0x58d d60_hw=6 gh60=0xca09cea improvements=12
+  best repaired nonzero energy W1[57..59]=0x3f21,0xcbf,0xb5e
+  best repaired nonzero energy W2[57..59]=0x3e2e,0x10e6,0x1241
+
+SUMMARY N=14 sample_start=0 prefixes=0 total=1000000000 d0=64230 best_tail=11 tail_r61=11 best_r61=11 best_joint=22 joint_max=11 joint_tail=11 joint_r61=11 tail_W1=0x3e31,0xcdb,0x286a tail_W2=0x3d3e,0x12da,0x25ff joint_W1=0x3e31,0xcdb,0x286a joint_W2=0x3d3e,0x12da,0x25ff r61_W1=0x3e31,0xcdb,0x286a r61_W2=0x3d3e,0x12da,0x25ff

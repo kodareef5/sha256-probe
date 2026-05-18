@@ -1,0 +1,28 @@
+free_word_mitm_reducedn repair_seed_joint_energy
+N=14 mask=0x3fff msb=0x2000
+repair_d60_hw_limit=0 seed_cap=32 budget=1000000000 seed_mode=5 mode_param=834329
+seed[00] repaired_tail=16 r61=16 d60=0x0 d60_hw=0 gh60=0x4de84e6 W1=0x2d13,0x5b3,0x1b25 W2=0x2c20,0x2294,0x36a8
+
+D60 repair seed refinement
+  input_seeds=1 retained_tail_seeds=32 retained_r61_seeds=32
+  elapsed=680.798s budget=1000000000 tested=1000000000 repairable=63438 exact_D60=0=63438 collisions=0 seed_inserts=247 prefix_enums=61035
+  rate=1.47 Mtests/s repairable_rate=0.000063
+  phase tested/repairable: single=42/0 double=861/0 walk=1657/1 prefix=999997440/63437
+  min refined D60 HW: 0 d60=0x0 at W1[57..59]=0x2d13,0x5b3,0x6b7
+  best repaired tail HW: 16 d60=0x0 d60_hw=0 r61=16 gh60=0x4de84e6
+  best repaired tail W1[57..59]=0x2d13,0x5b3,0x1b25
+  best repaired tail W2[57..59]=0x2c20,0x2294,0x36a8
+  best repaired r61 HW: 14 d60=0x0 d60_hw=0 tail=34 gh60=0x46285e6
+  best repaired r61 W1[57..59]=0xc93,0x27fb,0x3755
+  best repaired r61 W2[57..59]=0xba0,0x3ac4,0x8c9
+  best repaired joint score: 32 max=16 tail=16 r61=16 d60=0x0 d60_hw=0 gh60=0x4de84e6 improvements=0
+  best repaired joint W1[57..59]=0x2d13,0x5b3,0x1b25
+  best repaired joint W2[57..59]=0x2c20,0x2294,0x36a8
+  best repaired energy surrogate: 865 tail=11 r61=12 d60=0x109 d60_hw=3 gh60=0x448c59a improvements=7
+  best repaired energy W1[57..59]=0x4aa,0x1053,0x2db5
+  best repaired energy W2[57..59]=0x3b7,0x3e07,0x2150
+  best repaired nonzero energy surrogate: 865 tail=11 r61=12 d60=0x109 d60_hw=3 gh60=0x448c59a improvements=29
+  best repaired nonzero energy W1[57..59]=0x4aa,0x1053,0x2db5
+  best repaired nonzero energy W2[57..59]=0x3b7,0x3e07,0x2150
+
+SUMMARY N=14 sample_start=0 prefixes=0 total=1000000000 d0=63438 best_tail=16 tail_r61=16 best_r61=14 best_joint=32 joint_max=16 joint_tail=16 joint_r61=16 tail_W1=0x2d13,0x5b3,0x1b25 tail_W2=0x2c20,0x2294,0x36a8 joint_W1=0x2d13,0x5b3,0x1b25 joint_W2=0x2c20,0x2294,0x36a8 r61_W1=0xc93,0x27fb,0x3755 r61_W2=0xba0,0x3ac4,0x8c9
