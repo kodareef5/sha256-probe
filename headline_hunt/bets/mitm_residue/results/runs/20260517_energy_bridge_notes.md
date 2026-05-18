@@ -17,6 +17,10 @@ New local scan shapes from phases 324-331:
 - phase338 window=6755: tail=15 r61=15, W1=0x0f24,0x3e0f,0x2b4d
 - phase340 window=2820: tail=14 r61=16, W1=0x22c5,0x24ca,0x164c
 - phase343 window=2100: tail=15 r61=18, W1=0x37b2,0x3648,0x2a2d
+- phase346 window=3684: tail=18 r61=19, W1=0x0ab7,0x14c2,0x15ce
+- phase346 window=4452: r61=11 tail=29, W1=0x0c4a,0x3a50,0x0e9d
+- phase347 window=5236: tail=17 r61=15, W1=0x11aa,0x233f,0x0595
+- phase347 window=1140: r61=11 tail=31, W1=0x11ac,0x22e8,0x1b8a
 
 The repeatable repaired nonzero bridge seed from 10M energy-prefix probes:
 
@@ -58,8 +62,21 @@ preserved the same best nonzero surrogate without improving it:
 - `20260517_phase337_tail16r16_nonzero865_bridge_energy_prefix2_1b.log`
 - `20260517_phase336_tail16r13_nonzero865_bridge_energy_prefix2_1b.log`
 
+The phase338 tail15/r15 bridge preserved the 865 repaired nonzero surrogate.
+The phase338 solo lane found a distinct but weaker nonzero point:
+
+- repaired nonzero surrogate: energy=938 tail=13 r61=10 d60=0x02f7 d60_hw=8
+- gh60=0x5887ca6
+- W1=0x0f2c,0x1e8e,0x3d42
+- W2=0x0e39,0x1d29,0x21e0
+
+Refresh6 exact-refinement plan:
+
+- `20260517_joint_first_refresh6_top384.txt`
+- 49,280 registry entries, 772 candidate seeds, 193 batches
+- active first lane: batches 0-31 with 16-seed crossover expansion
+
 Active follow-up lanes:
 
-- phase338 tail15/r15 bridge and solo, W1=0x0f24,0x3e0f,0x2b4d
 - phase340 tail14/r16 bridge and solo, W1=0x22c5,0x24ca,0x164c
-- pending next free lane: phase343 tail15/r18 bridge, W1=0x37b2,0x3648,0x2a2d
+- phase343 tail15/r18 bridge and solo, W1=0x37b2,0x3648,0x2a2d

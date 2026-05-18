@@ -1,0 +1,28 @@
+free_word_mitm_reducedn repair_seed_joint_energy
+N=14 mask=0x3fff msb=0x2000
+repair_d60_hw_limit=0 seed_cap=32 budget=1000000000 seed_mode=5 mode_param=834338
+seed[00] repaired_tail=15 r61=15 d60=0x0 d60_hw=0 gh60=0xd89fce6 W1=0xf24,0x3e0f,0x2b4d W2=0xe31,0x1d58,0x293a
+
+D60 repair seed refinement
+  input_seeds=1 retained_tail_seeds=32 retained_r61_seeds=32
+  elapsed=724.328s budget=1000000000 tested=1000000000 repairable=63356 exact_D60=0=63356 collisions=0 seed_inserts=266 prefix_enums=61035
+  rate=1.38 Mtests/s repairable_rate=0.000063
+  phase tested/repairable: single=42/0 double=861/0 walk=1657/0 prefix=999997440/63356
+  min refined D60 HW: 0 d60=0x0 at W1[57..59]=0xf24,0x3e0f,0x2b4d
+  best repaired tail HW: 15 d60=0x0 d60_hw=0 r61=15 gh60=0xd89fce6
+  best repaired tail W1[57..59]=0xf24,0x3e0f,0x2b4d
+  best repaired tail W2[57..59]=0xe31,0x1d58,0x293a
+  best repaired r61 HW: 14 d60=0x0 d60_hw=0 tail=29 gh60=0x388bbaa
+  best repaired r61 W1[57..59]=0xdad,0xcf4,0x1e1
+  best repaired r61 W2[57..59]=0xcba,0x330f,0x15c4
+  best repaired joint score: 30 max=15 tail=15 r61=15 d60=0x0 d60_hw=0 gh60=0xd89fce6 improvements=0
+  best repaired joint W1[57..59]=0xf24,0x3e0f,0x2b4d
+  best repaired joint W2[57..59]=0xe31,0x1d58,0x293a
+  best repaired energy surrogate: 938 tail=13 r61=10 d60=0x2f7 d60_hw=8 gh60=0x5887ca6 improvements=4
+  best repaired energy W1[57..59]=0xf2c,0x1e8e,0x3d42
+  best repaired energy W2[57..59]=0xe39,0x1d29,0x21e0
+  best repaired nonzero energy surrogate: 938 tail=13 r61=10 d60=0x2f7 d60_hw=8 gh60=0x5887ca6 improvements=19
+  best repaired nonzero energy W1[57..59]=0xf2c,0x1e8e,0x3d42
+  best repaired nonzero energy W2[57..59]=0xe39,0x1d29,0x21e0
+
+SUMMARY N=14 sample_start=0 prefixes=0 total=1000000000 d0=63356 best_tail=15 tail_r61=15 best_r61=14 best_joint=30 joint_max=15 joint_tail=15 joint_r61=15 tail_W1=0xf24,0x3e0f,0x2b4d tail_W2=0xe31,0x1d58,0x293a joint_W1=0xf24,0x3e0f,0x2b4d joint_W2=0xe31,0x1d58,0x293a r61_W1=0xdad,0xcf4,0x1e1 r61_W2=0xcba,0x330f,0x15c4
