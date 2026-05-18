@@ -1,0 +1,28 @@
+free_word_mitm_reducedn repair_seed_joint_energy
+N=14 mask=0x3fff msb=0x2000
+repair_d60_hw_limit=0 seed_cap=32 budget=1000000000 seed_mode=5 mode_param=834342
+seed[00] repaired_tail=15 r61=18 d60=0x0 d60_hw=0 gh60=0x4bacfaa W1=0x37b2,0x3648,0x2a2d W2=0x36bf,0x3354,0x34a3
+
+D60 repair seed refinement
+  input_seeds=1 retained_tail_seeds=32 retained_r61_seeds=32
+  elapsed=693.654s budget=1000000000 tested=1000000000 repairable=64358 exact_D60=0=64358 collisions=0 seed_inserts=250 prefix_enums=61035
+  rate=1.44 Mtests/s repairable_rate=0.000064
+  phase tested/repairable: single=42/0 double=861/0 walk=1657/2 prefix=999997440/64356
+  min refined D60 HW: 0 d60=0x0 at W1[57..59]=0x37b2,0x3648,0x8c2
+  best repaired tail HW: 15 d60=0x0 d60_hw=0 r61=18 gh60=0x4bacfaa
+  best repaired tail W1[57..59]=0x37b2,0x3648,0x2a2d
+  best repaired tail W2[57..59]=0x36bf,0x3354,0x34a3
+  best repaired r61 HW: 13 d60=0x0 d60_hw=0 tail=29 gh60=0x4888ba6
+  best repaired r61 W1[57..59]=0x15ab,0x1748,0x208b
+  best repaired r61 W2[57..59]=0x14b8,0x2f1c,0x1a98
+  best repaired joint score: 33 max=18 tail=15 r61=18 d60=0x0 d60_hw=0 gh60=0x4bacfaa improvements=0
+  best repaired joint W1[57..59]=0x37b2,0x3648,0x2a2d
+  best repaired joint W2[57..59]=0x36bf,0x3354,0x34a3
+  best repaired energy surrogate: 943 tail=12 r61=13 d60=0x3e8d d60_hw=9 gh60=0xc889baa improvements=4
+  best repaired energy W1[57..59]=0x21b1,0x226c,0xe99
+  best repaired energy W2[57..59]=0x20be,0x1b83,0x38a1
+  best repaired nonzero energy surrogate: 943 tail=12 r61=13 d60=0x3e8d d60_hw=9 gh60=0xc889baa improvements=19
+  best repaired nonzero energy W1[57..59]=0x21b1,0x226c,0xe99
+  best repaired nonzero energy W2[57..59]=0x20be,0x1b83,0x38a1
+
+SUMMARY N=14 sample_start=0 prefixes=0 total=1000000000 d0=64358 best_tail=15 tail_r61=18 best_r61=13 best_joint=33 joint_max=18 joint_tail=15 joint_r61=18 tail_W1=0x37b2,0x3648,0x2a2d tail_W2=0x36bf,0x3354,0x34a3 joint_W1=0x37b2,0x3648,0x2a2d joint_W2=0x36bf,0x3354,0x34a3 r61_W1=0x15ab,0x1748,0x208b r61_W2=0x14b8,0x2f1c,0x1a98

@@ -21,6 +21,8 @@ New local scan shapes from phases 324-331:
 - phase346 window=4452: r61=11 tail=29, W1=0x0c4a,0x3a50,0x0e9d
 - phase347 window=5236: tail=17 r61=15, W1=0x11aa,0x233f,0x0595
 - phase347 window=1140: r61=11 tail=31, W1=0x11ac,0x22e8,0x1b8a
+- phase349 window=7445: tail=19 r61=17, W1=0x1d4c,0x1e37,0x2d7e
+- phase349 window=7445: r61=10 tail=28, W1=0x061c,0x0522,0x2622
 
 The repeatable repaired nonzero bridge seed from 10M energy-prefix probes:
 
@@ -78,6 +80,14 @@ The phase340 solo lane found a closer but still weaker local point:
 - W1=0x22c5,0x14ce,0x329b
 - W2=0x21d2,0x0137,0x0a3f
 
+The phase343 tail15/r18 bridge preserved the 865 repaired nonzero surrogate.
+The phase343 solo lane found a weaker local point:
+
+- repaired nonzero surrogate: energy=943 tail=12 r61=13 d60=0x3e8d d60_hw=9
+- gh60=0xc889baa
+- W1=0x21b1,0x226c,0x0e99
+- W2=0x20be,0x1b83,0x38a1
+
 Refresh6 exact-refinement plan:
 
 - `20260517_joint_first_refresh6_top384.txt`
@@ -86,6 +96,6 @@ Refresh6 exact-refinement plan:
 
 Active follow-up lanes:
 
-- phase343 tail15/r18 bridge and solo, W1=0x37b2,0x3648,0x2a2d
 - phase347 tail17/r15 solo, W1=0x11aa,0x233f,0x0595
 - phase346/347 r61=11 bridge with 865 and 873 nonzero seeds
+- phase349 r61=10 solo and bridge, W1=0x061c,0x0522,0x2622
