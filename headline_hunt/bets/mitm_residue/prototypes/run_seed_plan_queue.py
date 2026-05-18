@@ -154,6 +154,57 @@ def replace_command_index(job: PlanJob, index: int, value: int | None, label: st
     return PlanJob(batch=job.batch, command=command, log_path=job.log_path)
 
 
+def parse_seed(seed: str) -> tuple[int, int, int]:
+    parts = seed.split(",")
+    if len(parts) != 3:
+        raise ValueError(f"bad seed triple: {seed}")
+    return (int(parts[0], 0), int(parts[1], 0), int(parts[2], 0))
+
+
+def fmt_seed(seed: tuple[int, int, int]) -> str:
+    return f"0x{seed[0]:x},0x{seed[1]:x},0x{seed[2]:x}"
+
+
+def augment_crossovers(job: PlanJob, seed_limit: int) -> PlanJob:
+    if seed_limit <= 0:
+        return job
+    command = list(job.command)
+    if len(command) < 9:
+        raise ValueError(f"command too short to augment seed batch {job.batch}: {command}")
+    seeds = command[8:]
+    parsed = [parse_seed(seed) for seed in seeds]
+    out: list[tuple[int, int, int]] = []
+    seen: set[tuple[int, int, int]] = set()
+
+    def add(seed: tuple[int, int, int]) -> None:
+        if len(out) >= seed_limit or seed in seen:
+            return
+        seen.add(seed)
+        out.append(seed)
+
+    for seed in parsed:
+        add(seed)
+    for i, a in enumerate(parsed):
+        for j, b in enumerate(parsed):
+            if i == j:
+                continue
+            add((a[0], b[1], a[2]))
+            add((a[0], a[1], b[2]))
+            add((b[0], a[1], a[2]))
+            add((a[0], b[1], b[2]))
+            add((b[0], a[1], b[2]))
+            add((b[0], b[1], a[2]))
+            if len(out) >= seed_limit:
+                break
+        if len(out) >= seed_limit:
+            break
+
+    command[8:] = [fmt_seed(seed) for seed in out]
+    if len(command) > 4:
+        command[4] = str(max(int(command[4]), len(out)))
+    return PlanJob(batch=job.batch, command=command, log_path=job.log_path)
+
+
 def log_has_summary(path: Path) -> bool:
     if not path.exists():
         return False
@@ -229,6 +280,13 @@ def main() -> int:
     parser.add_argument("--replace-seed-cap", type=int, help="override parsed seed cap")
     parser.add_argument("--replace-repair-hw-limit", type=int, help="override parsed repair HW limit")
     parser.add_argument(
+        "--augment-crossovers",
+        type=int,
+        default=0,
+        metavar="SEED_LIMIT",
+        help="expand each batch with word-wise W57/W58/W59 crossovers up to this seed count",
+    )
+    parser.add_argument(
         "--replace-mode",
         choices=(
             "repair_seed",
@@ -275,6 +333,8 @@ def main() -> int:
             replace_command_index(job, 7, args.replace_repair_hw_limit, "repair HW limit")
             for job in jobs
         ]
+    if args.augment_crossovers:
+        jobs = [augment_crossovers(job, args.augment_crossovers) for job in jobs]
     if args.log_suffix:
         jobs = [add_log_suffix(job, args.log_suffix) for job in jobs]
 
