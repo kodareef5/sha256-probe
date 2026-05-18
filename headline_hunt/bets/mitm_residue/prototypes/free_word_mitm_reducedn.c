@@ -125,13 +125,17 @@ typedef struct {
     uint64_t seed_inserts;
     uint64_t tail_improvements;
     uint64_t r61_improvements;
+    uint64_t joint_improvements;
     int best_tail;
     int best_r61;
+    int best_joint_score;
+    int best_joint_max;
     int min_d_hw;
     uint32_t min_d60;
     uint32_t min_d_w57, min_d_w58, min_d_w59;
     witness_t best_tail_wit;
     witness_t best_r61_wit;
+    witness_t best_joint_wit;
     witness_t first_collision;
 } refine_stats_t;
 
@@ -586,17 +590,84 @@ static int refine_seed_r61_cmp(const void *a, const void *b) {
     return 0;
 }
 
+static int witness_joint_score(const witness_t *wit) {
+    if (wit->tail_hw < 0 || wit->r61_hw < 0) return 999;
+    return wit->tail_hw + wit->r61_hw;
+}
+
+static int witness_joint_max(const witness_t *wit) {
+    if (wit->tail_hw < 0 || wit->r61_hw < 0) return 999;
+    return wit->tail_hw > wit->r61_hw ? wit->tail_hw : wit->r61_hw;
+}
+
+static int refine_seed_joint_cmp(const void *a, const void *b) {
+    const refine_seed_t *sa = (const refine_seed_t *)a;
+    const refine_seed_t *sb = (const refine_seed_t *)b;
+    int score_a = witness_joint_score(&sa->wit);
+    int score_b = witness_joint_score(&sb->wit);
+    int max_a = witness_joint_max(&sa->wit);
+    int max_b = witness_joint_max(&sb->wit);
+    if (score_a != score_b) return score_a - score_b;
+    if (max_a != max_b) return max_a - max_b;
+    if (sa->wit.tail_hw != sb->wit.tail_hw) return sa->wit.tail_hw - sb->wit.tail_hw;
+    if (sa->wit.r61_hw != sb->wit.r61_hw) return sa->wit.r61_hw - sb->wit.r61_hw;
+    if (sa->wit.w57 != sb->wit.w57) return (sa->wit.w57 < sb->wit.w57) ? -1 : 1;
+    if (sa->wit.w58 != sb->wit.w58) return (sa->wit.w58 < sb->wit.w58) ? -1 : 1;
+    if (sa->wit.w59 != sb->wit.w59) return (sa->wit.w59 < sb->wit.w59) ? -1 : 1;
+    return 0;
+}
+
 static int same_witness_words(const witness_t *a, const witness_t *b) {
     return a->w57 == b->w57 && a->w58 == b->w58 && a->w59 == b->w59;
 }
 
+static int witness_better_joint(const witness_t *wit, int best_score,
+                                int best_max, const witness_t *best_wit) {
+    int score = witness_joint_score(wit);
+    int max_hw = witness_joint_max(wit);
+    if (score != best_score) return score < best_score;
+    if (max_hw != best_max) return max_hw < best_max;
+    if (wit->tail_hw != best_wit->tail_hw) return wit->tail_hw < best_wit->tail_hw;
+    if (wit->r61_hw != best_wit->r61_hw) return wit->r61_hw < best_wit->r61_hw;
+    if (wit->w57 != best_wit->w57) return wit->w57 < best_wit->w57;
+    if (wit->w58 != best_wit->w58) return wit->w58 < best_wit->w58;
+    if (wit->w59 != best_wit->w59) return wit->w59 < best_wit->w59;
+    return 0;
+}
+
+static void refine_stats_init_best(refine_stats_t *stats,
+                                   const witness_t *scan_best_tail,
+                                   const witness_t *scan_best_r61,
+                                   const witness_t *scan_best_joint) {
+    stats->best_tail = scan_best_tail ? scan_best_tail->tail_hw : 999;
+    stats->best_r61 = scan_best_r61 ? scan_best_r61->r61_hw : 999;
+    stats->best_joint_score = scan_best_joint ? witness_joint_score(scan_best_joint) : 999;
+    stats->best_joint_max = scan_best_joint ? witness_joint_max(scan_best_joint) : 999;
+    stats->min_d_hw = 999;
+    if (scan_best_tail) stats->best_tail_wit = *scan_best_tail;
+    if (scan_best_r61) stats->best_r61_wit = *scan_best_r61;
+    if (scan_best_joint) stats->best_joint_wit = *scan_best_joint;
+}
+
+static void refine_stats_consider_joint(refine_stats_t *stats, const witness_t *wit) {
+    if (witness_better_joint(wit, stats->best_joint_score,
+                             stats->best_joint_max, &stats->best_joint_wit)) {
+        stats->best_joint_score = witness_joint_score(wit);
+        stats->best_joint_max = witness_joint_max(wit);
+        stats->best_joint_wit = *wit;
+        stats->joint_improvements++;
+    }
+}
+
 static int refine_seed_insert_ordered(refine_seed_t *seeds, int *seed_count, int seed_cap,
-                                      const witness_t *wit, int r61_first) {
+                                      const witness_t *wit, int rank_mode) {
     if (!seeds || seed_cap <= 0 || wit->tail_hw < 0) return 0;
     for (int i = 0; i < *seed_count; i++) {
         if (same_witness_words(&seeds[i].wit, wit)) return 0;
     }
-    int (*cmp)(const void *, const void *) = r61_first ? refine_seed_r61_cmp : refine_seed_cmp;
+    int (*cmp)(const void *, const void *) = refine_seed_cmp;
+    if (rank_mode == 1) cmp = refine_seed_r61_cmp;
+    if (rank_mode == 2) cmp = refine_seed_joint_cmp;
     if (*seed_count < seed_cap) {
         seeds[*seed_count].wit = *wit;
         seeds[*seed_count].used = 1;
@@ -605,13 +676,8 @@ static int refine_seed_insert_ordered(refine_seed_t *seeds, int *seed_count, int
         return 1;
     }
     refine_seed_t *worst = &seeds[*seed_count - 1];
-    if (!r61_first) {
-        if (wit->tail_hw > worst->wit.tail_hw) return 0;
-        if (wit->tail_hw == worst->wit.tail_hw && wit->r61_hw >= worst->wit.r61_hw) return 0;
-    } else {
-        if (wit->r61_hw > worst->wit.r61_hw) return 0;
-        if (wit->r61_hw == worst->wit.r61_hw && wit->tail_hw >= worst->wit.tail_hw) return 0;
-    }
+    refine_seed_t candidate = { .wit = *wit, .used = 1 };
+    if (cmp(&candidate, worst) >= 0) return 0;
     worst->wit = *wit;
     worst->used = 1;
     qsort(seeds, (size_t)*seed_count, sizeof(refine_seed_t), cmp);
@@ -676,16 +742,18 @@ static int refine_test_candidate(const uint32_t init1[8], const uint32_t init2[8
         stats->best_r61_wit = wit;
         stats->r61_improvements++;
     }
+    refine_stats_consider_joint(stats, &wit);
     return dhw;
 }
 
 static void repair_refine_consider_wit(const witness_t *wit, int phase,
                                        refine_seed_t *seeds, int *seed_count, int seed_cap,
+                                       int seed_rank_mode,
                                        refine_seed_t *r61_seeds, int *r61_seed_count,
                                        refine_stats_t *stats) {
     stats->repairable++;
     if (phase >= 0 && phase < 4) stats->phase_d0[phase]++;
-    if (seeds && refine_seed_insert(seeds, seed_count, seed_cap, wit)) {
+    if (seeds && refine_seed_insert_ordered(seeds, seed_count, seed_cap, wit, seed_rank_mode)) {
         stats->seed_inserts++;
     }
     if (r61_seeds) {
@@ -705,6 +773,7 @@ static void repair_refine_consider_wit(const witness_t *wit, int phase,
         stats->best_r61_wit = *wit;
         stats->r61_improvements++;
     }
+    refine_stats_consider_joint(stats, wit);
 }
 
 static int repair_refine_test_candidate(const uint32_t init1[8], const uint32_t init2[8],
@@ -712,6 +781,7 @@ static int repair_refine_test_candidate(const uint32_t init1[8], const uint32_t 
                                         uint32_t w57, uint32_t w58, uint32_t w59,
                                         int repair_hw_limit, int phase, uint64_t budget,
                                         refine_seed_t *seeds, int *seed_count, int seed_cap,
+                                        int seed_rank_mode,
                                         refine_seed_t *r61_seeds, int *r61_seed_count,
                                         refine_stats_t *stats) {
     if (stats->tested >= budget) return -1;
@@ -735,6 +805,7 @@ static int repair_refine_test_candidate(const uint32_t init1[8], const uint32_t 
         stats->d0++;
         if (exact_tail >= 0) {
             repair_refine_consider_wit(&exact_wit, phase, seeds, seed_count, seed_cap,
+                                       seed_rank_mode,
                                        r61_seeds, r61_seed_count, stats);
         }
         return dhw;
@@ -746,6 +817,7 @@ static int repair_refine_test_candidate(const uint32_t init1[8], const uint32_t 
     eval_repaired_tail(init1, init2, Wpre1, Wpre2, w57, w58, w59,
                        &repair_wit, &repaired_d60);
     repair_refine_consider_wit(&repair_wit, phase, seeds, seed_count, seed_cap,
+                               seed_rank_mode,
                                r61_seeds, r61_seed_count, stats);
     return dhw;
 }
@@ -786,6 +858,7 @@ static void repair_refine_scan_prefix(const uint32_t init1[8], const uint32_t in
                                       uint32_t w57, uint32_t w58,
                                       int repair_hw_limit, uint64_t budget,
                                       refine_seed_t *seeds, int *seed_count, int seed_cap,
+                                      int seed_rank_mode,
                                       refine_seed_t *r61_seeds, int *r61_seed_count,
                                       refine_stats_t *stats) {
     if (stats->tested >= budget) return;
@@ -796,6 +869,7 @@ static void repair_refine_scan_prefix(const uint32_t init1[8], const uint32_t in
                                      w57, w58, (uint32_t)w59,
                                      repair_hw_limit, 3, budget,
                                      seeds, seed_count, seed_cap,
+                                     seed_rank_mode,
                                      r61_seeds, r61_seed_count, stats);
     }
 }
@@ -825,13 +899,11 @@ static void run_refinement(const uint32_t init1[8], const uint32_t init2[8],
                            const uint32_t Wpre1[64], const uint32_t Wpre2[64],
                            refine_seed_t *seeds, int *seed_count, int seed_cap,
                            uint64_t budget, const witness_t *scan_best_tail,
-                           const witness_t *scan_best_r61, refine_stats_t *stats) {
+                           const witness_t *scan_best_r61,
+                           const witness_t *scan_best_joint,
+                           refine_stats_t *stats) {
     memset(stats, 0, sizeof(*stats));
-    stats->best_tail = scan_best_tail ? scan_best_tail->tail_hw : 999;
-    stats->best_r61 = scan_best_r61 ? scan_best_r61->r61_hw : 999;
-    stats->min_d_hw = 999;
-    if (scan_best_tail) stats->best_tail_wit = *scan_best_tail;
-    if (scan_best_r61) stats->best_r61_wit = *scan_best_r61;
+    refine_stats_init_best(stats, scan_best_tail, scan_best_r61, scan_best_joint);
     if (!seeds || *seed_count <= 0 || budget == 0) return;
 
     int bits = 3 * gN;
@@ -931,17 +1003,15 @@ static void run_refinement(const uint32_t init1[8], const uint32_t init2[8],
 static void run_repair_refinement(const uint32_t init1[8], const uint32_t init2[8],
                                   const uint32_t Wpre1[64], const uint32_t Wpre2[64],
                                   refine_seed_t *seeds, int *seed_count, int seed_cap,
+                                  int seed_rank_mode,
                                   refine_seed_t *r61_seeds, int *r61_seed_count,
                                   uint64_t budget, int repair_hw_limit,
                                   const witness_t *scan_best_tail,
                                   const witness_t *scan_best_r61,
+                                  const witness_t *scan_best_joint,
                                   refine_stats_t *stats) {
     memset(stats, 0, sizeof(*stats));
-    stats->best_tail = scan_best_tail ? scan_best_tail->tail_hw : 999;
-    stats->best_r61 = scan_best_r61 ? scan_best_r61->r61_hw : 999;
-    stats->min_d_hw = 999;
-    if (scan_best_tail) stats->best_tail_wit = *scan_best_tail;
-    if (scan_best_r61) stats->best_r61_wit = *scan_best_r61;
+    refine_stats_init_best(stats, scan_best_tail, scan_best_r61, scan_best_joint);
     if (!seeds || *seed_count <= 0 || budget == 0) return;
 
     int bits = 3 * gN;
@@ -952,6 +1022,7 @@ static void run_repair_refinement(const uint32_t init1[8], const uint32_t init2[
         repair_refine_scan_prefix(init1, init2, Wpre1, Wpre2,
                                   seed.w57, seed.w58, repair_hw_limit, budget,
                                   seeds, seed_count, seed_cap,
+                                  seed_rank_mode,
                                   r61_seeds, r61_seed_count, stats);
         for (int b = 0; b < prefix_bits && stats->tested < budget; b++) {
             uint32_t pwords[2] = { seed.w57, seed.w58 };
@@ -959,6 +1030,7 @@ static void run_repair_refinement(const uint32_t init1[8], const uint32_t init2[
             repair_refine_scan_prefix(init1, init2, Wpre1, Wpre2,
                                       pwords[0], pwords[1], repair_hw_limit, budget,
                                       seeds, seed_count, seed_cap,
+                                      seed_rank_mode,
                                       r61_seeds, r61_seed_count, stats);
         }
         for (int b1 = 0; b1 < prefix_bits && stats->tested < budget; b1++) {
@@ -969,6 +1041,7 @@ static void run_repair_refinement(const uint32_t init1[8], const uint32_t init2[
                 repair_refine_scan_prefix(init1, init2, Wpre1, Wpre2,
                                           pwords[0], pwords[1], repair_hw_limit, budget,
                                           seeds, seed_count, seed_cap,
+                                          seed_rank_mode,
                                           r61_seeds, r61_seed_count, stats);
             }
         }
@@ -979,6 +1052,7 @@ static void run_repair_refinement(const uint32_t init1[8], const uint32_t init2[
                                          words[0], words[1], words[2],
                                          repair_hw_limit, 0, budget,
                                          seeds, seed_count, seed_cap,
+                                         seed_rank_mode,
                                          r61_seeds, r61_seed_count, stats);
         }
         for (int b1 = 0; b1 < bits && stats->tested < budget; b1++) {
@@ -990,6 +1064,7 @@ static void run_repair_refinement(const uint32_t init1[8], const uint32_t init2[
                                              words[0], words[1], words[2],
                                              repair_hw_limit, 1, budget,
                                              seeds, seed_count, seed_cap,
+                                             seed_rank_mode,
                                              r61_seeds, r61_seed_count, stats);
             }
         }
@@ -1004,6 +1079,7 @@ static void run_repair_refinement(const uint32_t init1[8], const uint32_t init2[
         repair_refine_scan_prefix(init1, init2, Wpre1, Wpre2,
                                   w57, w58, repair_hw_limit, budget,
                                   seeds, seed_count, seed_cap,
+                                  seed_rank_mode,
                                   r61_seeds, r61_seed_count, stats);
         prefix_ctr++;
     }
@@ -1029,6 +1105,7 @@ static void run_repair_refinement(const uint32_t init1[8], const uint32_t init2[
                                                     w57, w58, w59,
                                                     repair_hw_limit, 2, budget,
                                                     seeds, seed_count, seed_cap,
+                                                    seed_rank_mode,
                                                     r61_seeds, r61_seed_count, stats);
         if (cand_dhw >= 0) {
             int delta = cand_dhw - cur_dhw;
@@ -1051,18 +1128,16 @@ static void run_repair_refinement(const uint32_t init1[8], const uint32_t init2[
 static void run_repair_wordwalk(const uint32_t init1[8], const uint32_t init2[8],
                                 const uint32_t Wpre1[64], const uint32_t Wpre2[64],
                                 refine_seed_t *seeds, int *seed_count, int seed_cap,
+                                int seed_rank_mode,
                                 refine_seed_t *r61_seeds, int *r61_seed_count,
                                 uint64_t budget, int repair_hw_limit,
                                 uint64_t walk_nonce,
                                 const witness_t *scan_best_tail,
                                 const witness_t *scan_best_r61,
+                                const witness_t *scan_best_joint,
                                 refine_stats_t *stats) {
     memset(stats, 0, sizeof(*stats));
-    stats->best_tail = scan_best_tail ? scan_best_tail->tail_hw : 999;
-    stats->best_r61 = scan_best_r61 ? scan_best_r61->r61_hw : 999;
-    stats->min_d_hw = 999;
-    if (scan_best_tail) stats->best_tail_wit = *scan_best_tail;
-    if (scan_best_r61) stats->best_r61_wit = *scan_best_r61;
+    refine_stats_init_best(stats, scan_best_tail, scan_best_r61, scan_best_joint);
     if (!seeds || *seed_count <= 0 || budget == 0) return;
 
     int bits = 3 * gN;
@@ -1073,6 +1148,7 @@ static void run_repair_wordwalk(const uint32_t init1[8], const uint32_t init2[8]
                                      seed.w57, seed.w58, seed.w59,
                                      repair_hw_limit, 0, budget,
                                      seeds, seed_count, seed_cap,
+                                     seed_rank_mode,
                                      r61_seeds, r61_seed_count, stats);
         for (int b = 0; b < bits && stats->tested < budget; b++) {
             uint32_t words[3] = { seed.w57, seed.w58, seed.w59 };
@@ -1081,6 +1157,7 @@ static void run_repair_wordwalk(const uint32_t init1[8], const uint32_t init2[8]
                                          words[0], words[1], words[2],
                                          repair_hw_limit, 0, budget,
                                          seeds, seed_count, seed_cap,
+                                         seed_rank_mode,
                                          r61_seeds, r61_seed_count, stats);
         }
         for (int b1 = 0; b1 < bits && stats->tested < budget; b1++) {
@@ -1092,6 +1169,7 @@ static void run_repair_wordwalk(const uint32_t init1[8], const uint32_t init2[8]
                                              words[0], words[1], words[2],
                                              repair_hw_limit, 1, budget,
                                              seeds, seed_count, seed_cap,
+                                             seed_rank_mode,
                                              r61_seeds, r61_seed_count, stats);
             }
         }
@@ -1119,6 +1197,7 @@ static void run_repair_wordwalk(const uint32_t init1[8], const uint32_t init2[8]
                                                     w57, w58, w59,
                                                     repair_hw_limit, 2, budget,
                                                     seeds, seed_count, seed_cap,
+                                                    seed_rank_mode,
                                                     r61_seeds, r61_seed_count, stats);
         if (cand_dhw >= 0) {
             int delta = cand_dhw - cur_dhw;
@@ -1144,6 +1223,7 @@ static void enumerate_repair_word_ball(const uint32_t init1[8], const uint32_t i
                                        int remaining, int repair_hw_limit,
                                        int phase, uint64_t budget,
                                        refine_seed_t *seeds, int *seed_count, int seed_cap,
+                                       int seed_rank_mode,
                                        refine_seed_t *r61_seeds, int *r61_seed_count,
                                        refine_stats_t *stats) {
     if (stats->tested >= budget) return;
@@ -1152,6 +1232,7 @@ static void enumerate_repair_word_ball(const uint32_t init1[8], const uint32_t i
                                      words[0], words[1], words[2],
                                      repair_hw_limit, phase, budget,
                                      seeds, seed_count, seed_cap,
+                                     seed_rank_mode,
                                      r61_seeds, r61_seed_count, stats);
         return;
     }
@@ -1162,6 +1243,7 @@ static void enumerate_repair_word_ball(const uint32_t init1[8], const uint32_t i
                                    words, bits, bit + 1, remaining - 1,
                                    repair_hw_limit, phase, budget,
                                    seeds, seed_count, seed_cap,
+                                   seed_rank_mode,
                                    r61_seeds, r61_seed_count, stats);
         flip_local_bit(words, bit);
     }
@@ -1170,18 +1252,16 @@ static void enumerate_repair_word_ball(const uint32_t init1[8], const uint32_t i
 static void run_repair_wordball(const uint32_t init1[8], const uint32_t init2[8],
                                 const uint32_t Wpre1[64], const uint32_t Wpre2[64],
                                 refine_seed_t *seeds, int *seed_count, int seed_cap,
+                                int seed_rank_mode,
                                 refine_seed_t *r61_seeds, int *r61_seed_count,
                                 uint64_t budget, int repair_hw_limit,
                                 uint64_t max_radius,
                                 const witness_t *scan_best_tail,
                                 const witness_t *scan_best_r61,
+                                const witness_t *scan_best_joint,
                                 refine_stats_t *stats) {
     memset(stats, 0, sizeof(*stats));
-    stats->best_tail = scan_best_tail ? scan_best_tail->tail_hw : 999;
-    stats->best_r61 = scan_best_r61 ? scan_best_r61->r61_hw : 999;
-    stats->min_d_hw = 999;
-    if (scan_best_tail) stats->best_tail_wit = *scan_best_tail;
-    if (scan_best_r61) stats->best_r61_wit = *scan_best_r61;
+    refine_stats_init_best(stats, scan_best_tail, scan_best_r61, scan_best_joint);
     if (!seeds || *seed_count <= 0 || budget == 0) return;
 
     int bits = 3 * gN;
@@ -1196,6 +1276,7 @@ static void run_repair_wordball(const uint32_t init1[8], const uint32_t init2[8]
                                        words, bits, 0, (int)radius,
                                        repair_hw_limit, phase, budget,
                                        seeds, seed_count, seed_cap,
+                                       seed_rank_mode,
                                        r61_seeds, r61_seed_count, stats);
         }
     }
@@ -1236,11 +1317,16 @@ static int run_repair_seed_mode(int N, uint64_t refine_budget, int refine_seed_c
     int seed_parse_errors = 0;
     int seed_best_tail = 999;
     int seed_best_r61 = 999;
+    int seed_best_joint_score = 999;
+    int seed_best_joint_max = 999;
     witness_t seed_best_tail_wit = {0};
     witness_t seed_best_r61_wit = {0};
+    witness_t seed_best_joint_wit = {0};
 
-    const char *seed_mode_name = seed_mode == 2 ? "repair_seed_ball" :
-                                 (seed_mode == 1 ? "repair_seed_walk" : "repair_seed");
+    const char *seed_mode_name = seed_mode == 3 ? "repair_seed_joint_walk" :
+                                 (seed_mode == 2 ? "repair_seed_ball" :
+                                  (seed_mode == 1 ? "repair_seed_walk" : "repair_seed"));
+    int primary_seed_rank = seed_mode == 3 ? 2 : 0;
     printf("free_word_mitm_reducedn %s\n", seed_mode_name);
     printf("N=%d mask=0x%x msb=0x%x\n", N, gMASK, gMSB);
     printf("repair_d60_hw_limit=%d seed_cap=%d budget=%" PRIu64
@@ -1267,7 +1353,14 @@ static int run_repair_seed_mode(int N, uint64_t refine_budget, int refine_seed_c
             seed_best_r61 = wit.r61_hw;
             seed_best_r61_wit = wit;
         }
-        refine_seed_insert(repair_seeds, &repair_seed_count, refine_seed_cap, &wit);
+        if (witness_better_joint(&wit, seed_best_joint_score,
+                                 seed_best_joint_max, &seed_best_joint_wit)) {
+            seed_best_joint_score = witness_joint_score(&wit);
+            seed_best_joint_max = witness_joint_max(&wit);
+            seed_best_joint_wit = wit;
+        }
+        refine_seed_insert_ordered(repair_seeds, &repair_seed_count, refine_seed_cap,
+                                   &wit, primary_seed_rank);
         refine_seed_insert_r61(repair_r61_seeds, &repair_r61_seed_count, refine_seed_cap, &wit);
         printf("seed[%02d] repaired_tail=%d r61=%d d60=0x%x d60_hw=%d gh60=0x%x "
                "W1=0x%x,0x%x,0x%x W2=0x%x,0x%x,0x%x\n",
@@ -1288,31 +1381,40 @@ static int run_repair_seed_mode(int N, uint64_t refine_budget, int refine_seed_c
     if (seed_mode == 2) {
         run_repair_wordball(init1, init2, Wpre1, Wpre2,
                             repair_seeds, &repair_seed_count, refine_seed_cap,
+                            primary_seed_rank,
                             repair_r61_seeds, &repair_r61_seed_count,
                             refine_budget, repair_hw_limit, mode_param,
                             &seed_best_tail_wit, &seed_best_r61_wit,
+                            &seed_best_joint_wit,
                             &stats);
-    } else if (seed_mode == 1) {
+    } else if (seed_mode == 1 || seed_mode == 3) {
         run_repair_wordwalk(init1, init2, Wpre1, Wpre2,
                             repair_seeds, &repair_seed_count, refine_seed_cap,
+                            primary_seed_rank,
                             repair_r61_seeds, &repair_r61_seed_count,
                             refine_budget, repair_hw_limit, mode_param,
                             &seed_best_tail_wit, &seed_best_r61_wit,
+                            &seed_best_joint_wit,
                             &stats);
     } else {
         run_repair_refinement(init1, init2, Wpre1, Wpre2,
                               repair_seeds, &repair_seed_count, refine_seed_cap,
+                              primary_seed_rank,
                               repair_r61_seeds, &repair_r61_seed_count,
                               refine_budget, repair_hw_limit,
                               &seed_best_tail_wit, &seed_best_r61_wit,
+                              &seed_best_joint_wit,
                               &stats);
     }
     double repair_refine_elapsed = (double)(clock() - tr0) / (double)CLOCKS_PER_SEC;
 
     int final_tail = stats.best_tail;
     int final_r61 = stats.best_r61;
+    int final_joint_score = stats.best_joint_score;
+    int final_joint_max = stats.best_joint_max;
     witness_t final_tail_wit = stats.best_tail_wit;
     witness_t final_r61_wit = stats.best_r61_wit;
+    witness_t final_joint_wit = stats.best_joint_wit;
 
     printf("\nD60 repair seed refinement\n");
     printf("  input_seeds=%d retained_tail_seeds=%d retained_r61_seeds=%d\n",
@@ -1355,15 +1457,29 @@ static int run_repair_seed_mode(int N, uint64_t refine_budget, int refine_seed_c
            final_r61_wit.w57, final_r61_wit.w58, final_r61_wit.w59);
     printf("  best repaired r61 W2[57..59]=0x%x,0x%x,0x%x\n",
            final_r61_wit.w2_57, final_r61_wit.w2_58, final_r61_wit.w2_59);
+    printf("  best repaired joint score: %d max=%d tail=%d r61=%d d60=0x%x d60_hw=%d gh60=0x%x improvements=%" PRIu64 "\n",
+           final_joint_score, final_joint_max, final_joint_wit.tail_hw,
+           final_joint_wit.r61_hw, final_joint_wit.d60, hw(final_joint_wit.d60),
+           final_joint_wit.gh60_key, stats.joint_improvements);
+    printf("  best repaired joint W1[57..59]=0x%x,0x%x,0x%x\n",
+           final_joint_wit.w57, final_joint_wit.w58, final_joint_wit.w59);
+    printf("  best repaired joint W2[57..59]=0x%x,0x%x,0x%x\n",
+           final_joint_wit.w2_57, final_joint_wit.w2_58, final_joint_wit.w2_59);
 
     printf("\nSUMMARY N=%d sample_start=0 prefixes=0 total=%" PRIu64
            " d0=%" PRIu64 " best_tail=%d tail_r61=%d best_r61=%d"
+           " best_joint=%d joint_max=%d joint_tail=%d joint_r61=%d"
            " tail_W1=0x%x,0x%x,0x%x tail_W2=0x%x,0x%x,0x%x"
+           " joint_W1=0x%x,0x%x,0x%x joint_W2=0x%x,0x%x,0x%x"
            " r61_W1=0x%x,0x%x,0x%x r61_W2=0x%x,0x%x,0x%x\n",
            N, stats.tested, stats.d0, final_tail, final_tail_wit.r61_hw,
-           final_r61, final_tail_wit.w57, final_tail_wit.w58,
+           final_r61, final_joint_score, final_joint_max,
+           final_joint_wit.tail_hw, final_joint_wit.r61_hw,
+           final_tail_wit.w57, final_tail_wit.w58,
            final_tail_wit.w59, final_tail_wit.w2_57, final_tail_wit.w2_58,
-           final_tail_wit.w2_59, final_r61_wit.w57, final_r61_wit.w58,
+           final_tail_wit.w2_59, final_joint_wit.w57, final_joint_wit.w58,
+           final_joint_wit.w59, final_joint_wit.w2_57, final_joint_wit.w2_58,
+           final_joint_wit.w2_59, final_r61_wit.w57, final_r61_wit.w58,
            final_r61_wit.w59, final_r61_wit.w2_57, final_r61_wit.w2_58,
            final_r61_wit.w2_59);
 
@@ -1383,6 +1499,7 @@ int main(int argc, char **argv) {
         fprintf(stderr, "  mode=repair also probes low-HW nonzero D60 as if W60 were repairable.\n");
         fprintf(stderr, "  mode=repair_seed skips scanning and refines explicit W57,W58,W59 seed triples.\n");
         fprintf(stderr, "  mode=repair_seed_walk only mutates explicit seed triples; it skips prefix sweeps.\n");
+        fprintf(stderr, "  mode=repair_seed_joint_walk is repair_seed_walk with joint-ranked restarts.\n");
         fprintf(stderr, "  mode=repair_seed_ball enumerates a Hamming ball around explicit seed triples; sample_start is max_radius.\n");
         return 2;
     }
@@ -1412,9 +1529,11 @@ int main(int argc, char **argv) {
     int repair_enabled = (strcmp(mode, "repair") == 0);
     int repair_seed_mode = (strcmp(mode, "repair_seed") == 0);
     int repair_seed_walk_mode = (strcmp(mode, "repair_seed_walk") == 0);
+    int repair_seed_joint_walk_mode = (strcmp(mode, "repair_seed_joint_walk") == 0);
     int repair_seed_ball_mode = (strcmp(mode, "repair_seed_ball") == 0);
     int scan_only = (strcmp(mode, "scan") == 0) || repair_enabled ||
-        repair_seed_mode || repair_seed_walk_mode || repair_seed_ball_mode;
+        repair_seed_mode || repair_seed_walk_mode || repair_seed_joint_walk_mode ||
+        repair_seed_ball_mode;
     int profile_enabled = !scan_only;
     int repair_hw_limit = 1;
     if (argc >= 8) repair_hw_limit = atoi(argv[7]);
@@ -1430,13 +1549,14 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-    if (repair_seed_mode || repair_seed_walk_mode || repair_seed_ball_mode) {
+    if (repair_seed_mode || repair_seed_walk_mode || repair_seed_joint_walk_mode || repair_seed_ball_mode) {
         if (argc < 9) {
             fprintf(stderr, "%s mode expects: %s N prefix_limit refine_budget refine_seed_cap sample_start %s repair_hw_limit W57,W58,W59 [...]\n",
                     mode, argv[0], mode);
             return 2;
         }
-        int seed_mode = repair_seed_ball_mode ? 2 : (repair_seed_walk_mode ? 1 : 0);
+        int seed_mode = repair_seed_joint_walk_mode ? 3 :
+                        (repair_seed_ball_mode ? 2 : (repair_seed_walk_mode ? 1 : 0));
         return run_repair_seed_mode(N, refine_budget, refine_seed_cap, repair_hw_limit,
                                     argc, argv, 8, seed_mode,
                                     sample_start,
@@ -1974,16 +2094,19 @@ int main(int argc, char **argv) {
         clock_t tr0 = clock();
         run_refinement(init1, init2, Wpre1, Wpre2,
                        refine_seeds, &refine_seed_count, refine_seed_cap,
-                       refine_budget, &best_tail, &best_r61, &refine_stats);
+                       refine_budget, &best_tail, &best_r61, &best_tail,
+                       &refine_stats);
         refine_elapsed = (double)(clock() - tr0) / (double)CLOCKS_PER_SEC;
     }
     if (repair_enabled && refine_budget && repair_seed_count > 0 && repair_min_tail_hw < 999) {
         clock_t tr0 = clock();
         run_repair_refinement(init1, init2, Wpre1, Wpre2,
                               repair_seeds, &repair_seed_count, refine_seed_cap,
+                              0,
                               repair_r61_seeds, &repair_r61_seed_count,
                               refine_budget, repair_hw_limit,
                               &repair_best_tail, &repair_best_r61,
+                              &repair_best_tail,
                               &repair_refine_stats);
         repair_refine_elapsed = (double)(clock() - tr0) / (double)CLOCKS_PER_SEC;
         if (repair_refine_stats.best_tail < repair_min_tail_hw) {

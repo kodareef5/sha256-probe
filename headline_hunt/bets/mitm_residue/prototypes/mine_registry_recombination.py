@@ -126,6 +126,27 @@ def chunked(values: list[str], size: int) -> Iterable[list[str]]:
         yield values[idx:idx + size]
 
 
+def joint_sort_key(entry: dict[str, object]) -> tuple[int, int, int, int, int, int]:
+    tail = int(entry["tail"])
+    r61 = int(entry["r61"])
+    return (
+        max(tail, r61),
+        tail + r61,
+        abs(tail - r61),
+        tail,
+        r61,
+        int(entry["sample_start"]),
+    )
+
+
+def tail_sort_key(entry: dict[str, object]) -> tuple[int, int, int]:
+    return (int(entry["tail"]), int(entry["r61"]), int(entry["sample_start"]))
+
+
+def r61_sort_key(entry: dict[str, object]) -> tuple[int, int, int]:
+    return (int(entry["r61"]), int(entry["tail"]), int(entry["sample_start"]))
+
+
 def emit_seed_batches(
     *,
     entries: list[dict[str, object]],
@@ -145,6 +166,7 @@ def emit_seed_batches(
     ball_radius: int,
     ball_budget: int,
     ball_seed_cap: int,
+    seed_rank: str,
 ) -> None:
     rows = [entry for entry in entries if int(entry["N"]) == n]
     if not rows:
@@ -152,30 +174,54 @@ def emit_seed_batches(
 
     tail_entries = [entry for entry in rows if entry["kind"] == "tail"]
     r61_entries = [entry for entry in rows if entry["kind"] == "r61"]
-    ranked_entries = (
-        sorted(tail_entries, key=lambda e: (int(e["tail"]), int(e["r61"]), int(e["sample_start"])))[:top]
-        + sorted(r61_entries, key=lambda e: (int(e["r61"]), int(e["tail"]), int(e["sample_start"])))[:top]
-        + sorted(rows, key=lambda e: (int(e["tail"]) + int(e["r61"]), int(e["tail"]), int(e["r61"])))[:top]
-        + sorted(
-            [
-                entry for entry in rows
-                if int(entry["tail"]) <= near_tail or int(entry["r61"]) <= near_r61
-            ],
-            key=lambda e: (
-                min(int(e["tail"]), near_tail + 1),
-                min(int(e["r61"]), near_r61 + 1),
-                int(e["tail"]) + int(e["r61"]),
-            ),
-        )[:top]
-    )
+    tail_ranked = sorted(tail_entries, key=tail_sort_key)[:top]
+    r61_ranked = sorted(r61_entries, key=r61_sort_key)[:top]
+    sum_ranked = sorted(
+        rows,
+        key=lambda e: (int(e["tail"]) + int(e["r61"]), max(int(e["tail"]), int(e["r61"])), int(e["tail"])),
+    )[:top]
+    balanced_ranked = sorted(rows, key=joint_sort_key)[:top]
+    near_ranked = sorted(
+        [
+            entry for entry in rows
+            if int(entry["tail"]) <= near_tail or int(entry["r61"]) <= near_r61
+        ],
+        key=lambda e: (
+            min(int(e["tail"]), near_tail + 1),
+            min(int(e["r61"]), near_r61 + 1),
+            max(int(e["tail"]), int(e["r61"])),
+            int(e["tail"]) + int(e["r61"]),
+        ),
+    )[:top]
+    if seed_rank == "joint-first":
+        ranked_entries = (
+            balanced_ranked
+            + sum_ranked
+            + near_ranked
+            + tail_ranked
+            + r61_ranked
+        )
+    else:
+        ranked_entries = (
+            tail_ranked
+            + r61_ranked
+            + sum_ranked
+            + balanced_ranked
+            + near_ranked
+        )
     candidate_seeds = dedupe_seeds(ranked_entries)
     base_seeds = dedupe_seeds({"W1": seed} for seed in global_seeds)
+    base_seed_keys = {seed.lower() for seed in base_seeds}
+    candidate_seeds = [seed for seed in candidate_seeds if seed.lower() not in base_seed_keys]
     usable_batch_size = max(1, batch_size - len(base_seeds))
     if not candidate_seeds:
         return
 
     print(f"\nseed_refinement_batches_N{n}:")
-    print(f"  selected_candidate_seeds={len(candidate_seeds)} global_seeds={len(base_seeds)}")
+    print(
+        f"  selected_candidate_seeds={len(candidate_seeds)} global_seeds={len(base_seeds)} "
+        f"seed_rank={seed_rank}"
+    )
     for offset, group in enumerate(chunked(candidate_seeds, usable_batch_size)):
         nonce = nonce_start + offset
         seeds = base_seeds + group
@@ -232,14 +278,41 @@ def print_exact_pairs(title: str, rows: list[tuple[int, int, int, int, dict[str,
         )
 
 
+NearPair = tuple[int, int, int, dict[str, object], dict[str, object]]
+
+
+def print_near_pairs(title: str, near_pairs: list[NearPair], limit: int) -> None:
+    print(f"\n{title}: candidates={len(near_pairs)}")
+    for score, _tie, dist, a, b in sorted(near_pairs, key=lambda row: (
+        row[0],
+        row[1],
+        row[2],
+        int(row[3]["N"]),
+        int(row[3]["sample_start"]),
+        int(row[4]["sample_start"]),
+    ))[:limit]:
+        print(
+            f"  score={score} gh60_hw_dist={dist}\n"
+            f"    a: {fmt_entry(a)}\n"
+            f"    b: {fmt_entry(b)}"
+        )
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("summary_jsonl", nargs="+")
     parser.add_argument("--top", type=int, default=16)
+    parser.add_argument("--only-n", type=int, action="append", default=[])
     parser.add_argument("--near-tail", type=int, default=20)
     parser.add_argument("--near-r61", type=int, default=14)
     parser.add_argument("--near-gh60-hw", type=int, default=2)
     parser.add_argument("--emit-seed-batches", action="store_true")
+    parser.add_argument(
+        "--seed-rank",
+        choices=("mixed", "joint-first"),
+        default="mixed",
+        help="ordering strategy for emitted refinement seed batches",
+    )
     parser.add_argument("--global-seed", action="append", default=[])
     parser.add_argument("--batch-size", type=int, default=6)
     parser.add_argument("--nonce-start", type=int, default=831000)
@@ -255,6 +328,9 @@ def main() -> int:
     args = parser.parse_args()
 
     entries = load_entries(Path(path) for path in args.summary_jsonl)
+    if args.only_n:
+        only_n = set(args.only_n)
+        entries = [entry for entry in entries if int(entry["N"]) in only_n]
     if not entries:
         raise SystemExit("no registry entries found")
 
@@ -286,6 +362,11 @@ def main() -> int:
     print_entries(
         "top_joint_registry",
         sorted(entries, key=lambda e: (int(e["tail"]) + int(e["r61"]), int(e["tail"]))),
+        args.top,
+    )
+    print_entries(
+        "top_balanced_joint_registry",
+        sorted(entries, key=joint_sort_key),
         args.top,
     )
 
@@ -322,19 +403,12 @@ def main() -> int:
             score = int(a["tail"]) + int(b["r61"]) + dist
             tie = int(a["r61"]) + int(b["tail"])
             near_pairs.append((score, tie, dist, a, b))
-    print(f"\nnear_gh60_pairs_hw_le_{args.near_gh60_hw}: candidates={len(near_pairs)}")
-    for score, _tie, dist, a, b in sorted(near_pairs, key=lambda row: (
-        row[0],
-        row[1],
-        row[2],
-        int(row[3]["N"]),
-        int(row[3]["sample_start"]),
-        int(row[4]["sample_start"]),
-    ))[:args.top]:
-        print(
-            f"  score={score} gh60_hw_dist={dist}\n"
-            f"    a: {fmt_entry(a)}\n"
-            f"    b: {fmt_entry(b)}"
+    print_near_pairs(f"near_gh60_pairs_hw_le_{args.near_gh60_hw}", near_pairs, args.top)
+    for n in sorted(by_n):
+        print_near_pairs(
+            f"near_gh60_pairs_N{n}_hw_le_{args.near_gh60_hw}",
+            [row for row in near_pairs if int(row[3]["N"]) == n],
+            args.top,
         )
 
     if args.emit_seed_batches:
@@ -360,6 +434,7 @@ def main() -> int:
                 ball_radius=args.ball_radius,
                 ball_budget=args.ball_budget,
                 ball_seed_cap=args.ball_seed_cap,
+                seed_rank=args.seed_rank,
             )
 
     return 0
