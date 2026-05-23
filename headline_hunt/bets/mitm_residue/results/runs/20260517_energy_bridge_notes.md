@@ -928,3 +928,41 @@ May 23 continuation checkpoint 23:
 - the phase556-564 replacement energy lane remains active, exact xover32
   scanning continued into batches 22-63, and breadth scanning continued into
   phases 580-587 with start windows 1685,1701,1717,1733,1749,1765,1781,1797
+
+May 23 continuation checkpoint 24:
+
+- committed checkpoint 23 as b79ff1ca with author and committer set to
+  kodareef5 <kodareef5@users.noreply.github.com>
+- refresh8 xover32 exact-only batches 22-29 completed with the same exact
+  frontier: tail10, best_r61=9, best_joint=22/joint_max=11
+- breadth phases 580-587 completed without a tail<=13 or r61<=8 move; the
+  block again mostly re-hit established periodic anchors
+- phase580 was weak, bottoming at tail18 and r61=11 without opening a new
+  lead
+- phase581 rediscovered the phase485/533/549/565 tail17 row
+  W1=0x16cd,0x3550,0x3a62 and r61=10 row
+  W1=0x3a1f,0x39eb,0x15e9
+- phase582 was weak, bottoming at tail19 and r61=11 without moving either
+  frontier
+- phase583 rediscovered the phase487/535/551/567 tail15 row
+  W1=0x2f1a,0x0a34,0x3867 and r61=10 row
+  W1=0x37d3,0x23af,0x0f3a
+- phase584 re-hit the phase536/552/568 bridge cluster: tail18
+  W1=0x0956,0x2a04,0x2595 and r61=11 rows including
+  W1=0x19d1,0x030f,0x39e8, W1=0x12bb,0x3816,0x1cef,
+  W1=0x3dac,0x3510,0x262e, and W1=0x21a1,0x3fea,0x1f32
+- phase585 rediscovered the phase489/537/553/569 tail16/r61=11 joint row
+  W1=0x0221,0x2b8d,0x010d and W2=0x012e,0x2f07,0x38d2
+- phase586 rediscovered the phase490/522/538/554/570 tail16 row
+  W1=0x221b,0x3351,0x26a1 and r61=11 row
+  W1=0x2110,0x134a,0x283b
+- phase587 was weak, bottoming at tail19 and r61=11 without moving either
+  frontier
+- the phase556-564 replacement energy lane completed without beating the
+  repaired nonzero energy frontier of 652; the best row remains
+  tail8/r61=9, d60=0x3126, gh60=0x4908f6a,
+  W1=0x075d,0x24ea,0x2ccc and W2=0x066a,0x0ff9,0x2bd3
+- launched a phase580-587 replacement energy lane at nonce 835580; exact
+  xover32 scanning continued into batches 30-63, and breadth scanning
+  continued into phases 588-595 with start windows 1813,1829,1845,1861,1877,
+  1893,1909,1925
