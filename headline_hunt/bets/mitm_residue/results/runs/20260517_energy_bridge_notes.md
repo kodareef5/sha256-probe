@@ -344,3 +344,31 @@ Active follow-up lanes:
 - next breadth band: phases 396-403, start windows 11,27,...,123
 - next exact-only lane: refresh8 batches 32-95
 - next nonzero bridge lane: nonzero652 plus phase394/393/391/389 seeds
+
+May 23 continuation checkpoint:
+
+- committed the prior restart work at 3350e7c2; remaining dirty paths were
+  unrelated workspace changes and were left alone
+- rebuilt the /private/tmp reduced-n binaries and restarted refresh8 exact-only
+  batches 32-95, including a retry for batch 32 after the first missing-binary
+  launch created an empty log
+- refresh8 exact-only batches 32-48 completed with the same exact frontier:
+  tail10, best_r61=9, best_joint=22/joint_max=11
+- breadth phases 396-403 completed without a frontier move; notable rows were:
+  phase400 tail17/r6111 at window 4683,
+  phase401 tail19/r6110 at window 7003, and
+  phase403 tail17/r6114 at window 4731
+- breadth phases 404-411 completed without an exact improvement, but produced
+  several bridge-worthy seeds:
+  phase404 window 6924 reached equal-frontier r61=9 with joint tail19/r619
+  and a separate r61 row at tail25;
+  phase407 window 1340 reached tail16/r6116;
+  phase408 window 1868 reached tail16/r6116;
+  phase409 window 6748 reached tail18/r6110;
+  phase410 windows 2412 and 4716 reached tail16;
+  phase411 window 1916 reached tail17/r6112
+- launched a new phase404/phase401/phase400 targeted energy bridge lane with
+  nonce 835402 in addition to the older phase394/393/391 and tail7/r6110
+  bridge lanes; all three energy lanes were still running at this checkpoint
+- breadth scanning continued into phases 412-419 with start windows
+  13,29,45,61,77,93,109,125
