@@ -452,3 +452,28 @@ May 23 continuation checkpoint 5:
   running at this checkpoint
 - breadth scanning continued into phases 444-451 with start windows
   17,33,49,65,81,97,113,129
+
+May 23 continuation checkpoint 6:
+
+- committed checkpoint 5 as 1fb347b3 with author and committer set to
+  kodareef5 <kodareef5@users.noreply.github.com>
+- refresh8 exact-only batches 87-95 completed with the same exact frontier:
+  tail10, best_r61=9, best_joint=22/joint_max=11
+- breadth phases 444-451 completed without a tail<=13 or r61<=8 move; the
+  strongest new row was phase450 window 3953 at tail14/r6117, W1=0x2b13,
+  0x3500,0x1bfa and W2=0x2a20,0x33e1,0x12ee
+- other useful low-tail rows in this tranche were phase445 window 7713
+  tail15/r6119, phase444 window 2065 tail16/r6116, phase446 window 1073
+  tail17/r6119, phase449 window 1377 tail17/r6121, and phase451 window 3713
+  tail17/r6116
+- the best r61 rows in the tranche stayed at r61=11 or worse, with phase444
+  window 17, phase445 window 5153, phase446 windows 6961/6449, phase448
+  windows 1105/4689, phase449 window 3681, and phase450 windows 1905/1393
+  all failing to approach the r61=9 exact frontier
+- the phase421 r61=9/low-tail and phase420-425 r61=9/10/11 5B energy bridge
+  lanes completed without beating the repaired nonzero energy frontier of 652
+- launched three follow-up 5B energy lanes: phase445/444 low-tail mix
+  nonce 835410, phase444-446 r61 bridge nonce 835411, and a dedicated
+  phase450-tail14 low-tail bridge nonce 835412
+- exact refresh8 scanning continued into batches 96-159, and breadth scanning
+  continued into phases 452-459 with start windows 18,34,50,66,82,98,114,130
