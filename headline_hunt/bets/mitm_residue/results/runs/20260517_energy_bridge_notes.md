@@ -701,3 +701,30 @@ May 23 continuation checkpoint 16:
   835427; exact refresh8 scanning continued into batches 180-223, and breadth
   scanning continued into phases 524-531 with start windows 789,805,821,837,
   853,869,885,901
+
+May 23 continuation checkpoint 17:
+
+- committed checkpoint 16 as 6aa96933 with author and committer set to
+  kodareef5 <kodareef5@users.noreply.github.com>
+- refresh8 exact-only batches 180-189 completed with the same exact frontier:
+  tail10, best_r61=9, best_joint=22/joint_max=11
+- breadth phases 524-531 completed without a tail<=13 or r61<=8 move; this
+  tranche again mostly repeated known periodic anchors instead of opening a
+  new frontier
+- phase524 rediscovered the phase476/508 r61=10 row at window 7445, phase526
+  rediscovered the phase478 tail16 and r61=10 pair, and phase530 rediscovered
+  the phase482/514 r61=10 row
+- phase525 rediscovered the phase477/493 tail17 plus r61=11 cluster, phase527
+  rediscovered the phase479/495 tail17 plus r61=11 pair, and phase528
+  rediscovered the phase480/512 tail16 row
+- phase529's strongest low-tail row was the phase481/513 tail14 duplicate at
+  window 3173, W1=0x3c4a,0x0174,0x205b and W2=0x3b57,0x37bc,0x2a96; its
+  best r61 row was the known r61=10 W1=0x2111,0x1574,0x256f family
+- phase531 matched the phase499/515 tail17 row and r61=11 cluster, including
+  W1=0x03b9,0x3c8c,0x1b93 at tail17 and r61=11 rows
+  W1=0x238b,0x1963,0x1933, W1=0x13b1,0x1302,0x2fba, and
+  W1=0x11be,0x3e10,0x1df9
+- the phase520/488 r61=11 plus tail18 5B energy bridge remains active, exact
+  refresh8 scanning continued into batches 190-223, and breadth scanning
+  continued into phases 532-539 with start windows 917,933,949,965,981,997,
+  1013,1029
