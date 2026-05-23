@@ -757,3 +757,36 @@ May 23 continuation checkpoint 18:
   refresh8 scanning continued into batches 198-223, and breadth scanning
   continued into phases 540-547 with start windows 1045,1061,1077,1093,1109,
   1125,1141,1157
+
+May 23 continuation checkpoint 19:
+
+- committed checkpoint 18 as 430be52e with author and committer set to
+  kodareef5 <kodareef5@users.noreply.github.com>
+- refresh8 exact-only batches 198-205 completed with the same exact frontier:
+  tail10, best_r61=9, best_joint=22/joint_max=11
+- breadth phases 540-547 completed without a tail<=13 or r61<=8 move; the
+  scans continued the periodic re-hit pattern rather than opening a new
+  SR=64 lead
+- phase540 rediscovered the phase524 r61=10 row at window 7445,
+  W1=0x061c,0x0522,0x2622; phases541 and 542 re-hit the phase493/525 and
+  phase478/526 clusters
+- phase543 was weak, bottoming at tail17 and r61=11; phase544 re-hit the
+  phase480/512 tail16 row W1=0x1fb9,0x1bd0,0x3d14
+- phase545 re-hit the phase481/513 tail14 row
+  W1=0x3c4a,0x0174,0x205b and the known phase529 r61=10 family
+  W1=0x2111,0x1574,0x256f
+- phase546 re-hit the phase482/514/530 r61=10 row
+  W1=0x0661,0x3b7a,0x37c3 and a phase530 joint row
+  W1=0x06b7,0x2ed0,0x2ad6
+- phase547 re-hit the phase499/515/531 tail17 row
+  W1=0x03b9,0x3c8c,0x1b93 and the r61=11 cluster
+  W1=0x238b,0x1963,0x1933, W1=0x13b1,0x1302,0x2fba, and
+  W1=0x11be,0x3e10,0x1df9
+- the phase520/488 r61=11 plus tail18 5B energy bridge completed without
+  beating the repaired nonzero energy frontier of 652; the best row remains
+  tail8/r61=9, d60=0x3126, gh60=0x4908f6a,
+  W1=0x075d,0x24ea,0x2ccc and W2=0x066a,0x0ff9,0x2bd3
+- launched a phase535/537/538/542 replacement energy lane at nonce 835428;
+  exact refresh8 scanning continued into batches 206-223, and breadth scanning
+  continued into phases 548-555 with start windows 1173,1189,1205,1221,1237,
+  1253,1269,1285
