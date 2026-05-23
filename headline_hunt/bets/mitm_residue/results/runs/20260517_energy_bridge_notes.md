@@ -822,3 +822,40 @@ May 23 continuation checkpoint 20:
   refresh8 scanning continued into batches 214-223, and breadth scanning
   continued into phases 556-563 with start windows 1301,1317,1333,1349,1365,
   1381,1397,1413
+
+May 23 continuation checkpoint 21:
+
+- committed checkpoint 20 as 8fb6ecea with author and committer set to
+  kodareef5 <kodareef5@users.noreply.github.com>
+- refresh8 exact-only batches 214-215 completed with the same exact frontier:
+  tail10, best_r61=9, best_joint=22/joint_max=11; the refresh8 plan has no
+  pending batches beyond 215 in the current top640 file
+- started the refresh8 xover32 exact-only pass over batches 0-63; batches 0-5
+  completed with the same exact frontier and batches 6-7 remain active
+- breadth phases 556-563 completed without a tail<=13 or r61<=8 move; the
+  window sweep again primarily confirmed periodic copies of known anchor
+  families
+- phase556 rediscovered the phase524/540 r61=10 row at window 7445,
+  W1=0x061c,0x0522,0x2622
+- phase557 re-hit the phase541/525 cluster, bottoming at tail17 with
+  W1=0x1a07,0x079d,0x129a and r61=11 rows including
+  W1=0x37de,0x0132,0x3a37
+- phase558 bottomed at tail16 with W1=0x1bf3,0x3294,0x21c7 and re-hit r61=10
+  rows including W1=0x3d0a,0x1c32,0x04d9 and W1=0x0621,0x2b7e,0x3a81
+- phase559 was weak overall, bottoming at tail17 and r61=11 without moving
+  either frontier
+- phase560 re-hit the phase480/512/544 tail16 row
+  W1=0x1fb9,0x1bd0,0x3d14
+- phase561 re-hit the phase481/513/545 tail14 row
+  W1=0x3c4a,0x0174,0x205b and the known r61=10 family
+  W1=0x2111,0x1574,0x256f
+- phase562 re-hit the phase482/514/530/546 bridge, including the r61=10 row
+  W1=0x0661,0x3b7a,0x37c3 and joint row W1=0x06b7,0x2ed0,0x2ad6
+- phase563 re-hit the phase499/515/531/547 tail17 row
+  W1=0x03b9,0x3c8c,0x1b93 and the r61=11 cluster
+  W1=0x238b,0x1963,0x1933, W1=0x13b1,0x1302,0x2fba, and
+  W1=0x11be,0x3e10,0x1df9
+- the phase535/537/538/542 replacement energy lane remains active, exact
+  xover32 scanning continued into batches 6-63, and breadth scanning
+  continued into phases 564-571 with start windows 1429,1445,1461,1477,1493,
+  1509,1525,1541
