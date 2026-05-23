@@ -522,3 +522,23 @@ May 23 continuation checkpoint 8:
   phase461/465/464/466 low-tail bridge at nonce 835417
 - exact refresh8 scanning continued into batches 110-159, and breadth scanning
   continued into phases 468-475 with start windows 20,36,52,68,84,100,116,132
+
+May 23 continuation checkpoint 9:
+
+- committed checkpoint 8 as e584d1c0 with author and committer set to
+  kodareef5 <kodareef5@users.noreply.github.com>
+- refresh8 exact-only batches 110-121 completed with the same exact frontier:
+  tail10, best_r61=9, best_joint=22/joint_max=11
+- breadth phases 468-475 completed without a tail<=13 or r61<=8 move; the
+  strongest low-tail rows were phase470 window 2100 tail15/r6118,
+  phase469 window 1316 tail16/r6122, phase474 window 5236 tail17/r6115,
+  and phase475 window 2948 tail17/r6124
+- the best r61 rows in this tranche were phase470 window 820 at r61=10,
+  W1=0x3e9a,0x1c38,0x14ef and W2=0x3da7,0x0d0c,0x1b30, plus r61=11 rows
+  in phases468, 469, 471, 473, 474, and 475
+- the phase450-tail14 5B energy bridge lane completed without beating the
+  repaired nonzero energy frontier of 652
+- launched a phase470 tail15/r61=10 bridge at nonce 835418, seeded with the
+  phase470 tail15 and r61=10 rows plus the phase461/450/462/457 anchors
+- exact refresh8 scanning continued into batches 122-159, and breadth scanning
+  continued into phases 476-483 with start windows 21,37,53,69,85,101,117,133
