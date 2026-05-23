@@ -431,3 +431,24 @@ May 23 continuation checkpoint 4:
   running at this checkpoint
 - breadth scanning continued into phases 436-443 with start windows
   16,32,48,64,80,96,112,128
+
+May 23 continuation checkpoint 5:
+
+- committed checkpoint 4 as 57956b79 with author and committer set to
+  kodareef5 <kodareef5@users.noreply.github.com>
+- refresh8 exact-only batches 77-86 completed with the same exact frontier:
+  tail10, best_r61=9, best_joint=22/joint_max=11
+- breadth phases 436-443 completed without a tail<=13 or r61<=8 move; the
+  best new bridge rows were phase439 window 832 tail15/r6121,
+  phase437 window 4896 tail16/r6115, phase440 window 6992 tail16/r6113,
+  phase442 window 1648 tail16/r6114 with a separate r61=11 row, and phase443
+  windows 5760 and 7808 at tail17
+- the lowest r61 rows in this tranche were phase436 window 2064 at r61=10,
+  phase439 windows 64 and 7744 at r61=10, and r61=11 rows in phases 437,
+  440, 441, 442, and 443; none beat the r61=9 exact frontier
+- the phase417/418 tail16-18 and phase415-418 r61=11/12 5B energy bridge
+  lanes completed without beating the repaired nonzero energy frontier of 652
+- the phase421 low-tail/r61 and phase436/437 bridge energy lanes were still
+  running at this checkpoint
+- breadth scanning continued into phases 444-451 with start windows
+  17,33,49,65,81,97,113,129
