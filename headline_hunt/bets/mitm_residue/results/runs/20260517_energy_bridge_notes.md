@@ -229,6 +229,16 @@ Refresh7 exact-refinement plan:
 - global seeds include exact tail, exact r61, exact joint, phase334, nonzero802,
   and new nonzero652
 - active lanes: refresh7a batches 0-63 and refresh7b batches 64-127
+- note: refresh7 is a mixed exact/nonzero bridge queue; summaries dominated by
+  W1=0x075d,0x24ea,0x2ccc should be interpreted as nonzero-energy bridge
+  behavior, not exact frontier movement
+
+Refresh8 exact-only refinement plan:
+
+- `20260517_joint_first_refresh8_exactonly_top640.txt`
+- 87,040 registry entries, 216 batches
+- global seeds restricted to exact tail, exact r61, exact joint, and phase334
+- active first lane: batches 0-31 with nonzero802/nonzero652 excluded
 
 Phase372 breadth highlights from the start-window-8 band:
 
@@ -274,8 +284,63 @@ Phase380 breadth highlights from the next start-window-9 band:
 - phase380 window=7945: tail=18 r61=19,
   W1=0x0bd0,0x3711,0x0198, W2=0x0add,0x2950,0x335a
 
+Phase388 breadth highlights from the start-window-10 band:
+
+- phase388 window=2570: tail=17 r61=18,
+  W1=0x01d5,0x1c6c,0x1c28, W2=0x00e2,0x0ca7,0x33bc
+- phase388 window=3338: tail=17 r61=19,
+  W1=0x083f,0x2ef8,0x1bd8, W2=0x074c,0x1847,0x050e
+- phase388 window=4618: tail=18 r61=14 and best_r61=10 in same window,
+  tail W1=0x2f7d,0x2e33,0x179b, r61 W1=0x330d,0x04c1,0x2213
+
+Phase389 breadth highlights from the start-window-26 band:
+
+- phase389 window=3098: tail=15 r61=16, gh60=0x4ab44ba,
+  W1=0x39f6,0x3130,0x395c, W2=0x3903,0x266f,0x2ec5
+- phase389 window=7450: tail=18 r61=17 with a separate r61=12 witness,
+  tail W1=0x3c73,0x2d3d,0x3cc1, r61 W1=0x0ba5,0x1c5a,0x1b10
+- phase389 window=26: r61=12 tail=26,
+  W1=0x0eab,0x0ba3,0x3727, W2=0x0db8,0x125d,0x2578
+
+Phase390 breadth highlights from the start-window-42 band:
+
+- phase390 window=4394: tail=17 r61=17, gh60=0xc6045fa,
+  W1=0x1c9a,0x3041,0x3fed, W2=0x1ba7,0x2dd6,0x132c
+- same phase390 window also has a separate r61=12 tail=26 witness,
+  W1=0x334f,0x0326,0x1b79, W2=0x325c,0x1068,0x30a8
+
+Phase391-395 breadth highlights from the completed start-window-58..122 band:
+
+- phase391 window=6970: self-aligned tail=18 r61=10,
+  W1=0x2ca2,0x3c60,0x21fb, W2=0x2baf,0x0d97,0x19ca
+- phase393 window=2650: tail=17 r61=17 with a separate r61=10 witness,
+  tail W1=0x3f2f,0x1991,0x3f96, r61 W1=0x080a,0x1674,0x07ea
+- phase394 window=3434: tail=14 r61=18,
+  W1=0x00c9,0x1a5b,0x25c6, W2=0x3fd6,0x30ff,0x307c
+- phase394 window=362: tail=15 r61=21 with a separate r61=12 witness,
+  tail W1=0x0835,0x2095,0x3f35, r61 W1=0x3e8f,0x053c,0x1565
+- phase395 window=122: tail=16 r61=19 with a separate r61=11 witness,
+  tail W1=0x2f8e,0x0b51,0x114d, r61 W1=0x32bb,0x2f1d,0x285c
+
+Completed 5B nonzero652 bridge lanes:
+
+- solo prefix2, energy-walk, phase372-379 bridge, phase380 bridge, and
+  phase388 bridge all completed without beating the repaired nonzero energy
+  frontier of 652
+- phase380 and phase388 bridges did expose a raw repaired tail=7 r61=13 point
+  at W1=0x036d,0x0be3,0x18d1, W2=0x027a,0x3ca7,0x3a64, but the best
+  nonzero energy/joint witness remains W1=0x075d,0x24ea,0x2ccc
+
+Completed refinement queues:
+
+- refresh7 mixed exact/nonzero queues completed batches 0-127; summaries were
+  dominated by the nonzero652 anchor and did not move the exact frontier
+- refresh8 exact-only queue completed batches 0-31; exact frontier unchanged
+- next exact-only queue segment should continue at refresh8 batch 32
+
 Active follow-up lanes:
 
-- breadth scan phases 388-395, start windows 10,26,...,122; phase388 active
-- refresh7 queues: batches 0-63 and 64-127
-- 5B nonzero652 solo, energy-walk, phase372-379 bridge, and phase380 bridge
+- no active lanes as of the May 23 restart check
+- next breadth band: phases 396-403, start windows 11,27,...,123
+- next exact-only lane: refresh8 batches 32-95
+- next nonzero bridge lane: nonzero652 plus phase394/393/391/389 seeds

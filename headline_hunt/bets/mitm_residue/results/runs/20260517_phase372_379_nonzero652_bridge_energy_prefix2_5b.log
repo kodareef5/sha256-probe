@@ -1,0 +1,32 @@
+free_word_mitm_reducedn repair_seed_joint_energy
+N=14 mask=0x3fff msb=0x2000
+repair_d60_hw_limit=0 seed_cap=32 budget=5000000000 seed_mode=5 mode_param=834376
+seed[00] repaired_tail=8 r61=9 d60=0x3126 d60_hw=6 gh60=0x4908f6a W1=0x75d,0x24ea,0x2ccc W2=0x66a,0xff9,0x2bd3
+seed[01] repaired_tail=13 r61=18 d60=0x0 d60_hw=0 gh60=0x7ba5ca6 W1=0xf4,0xddd,0x285e W2=0x1,0x160c,0x3600
+seed[02] repaired_tail=14 r61=14 d60=0x0 d60_hw=0 gh60=0x4a3ccfe W1=0x3918,0x1174,0x2094 W2=0x3825,0x29dc,0x24a9
+seed[03] repaired_tail=19 r61=10 d60=0x0 d60_hw=0 gh60=0xc885b9a W1=0x1daa,0x3bd0,0x7f6 W2=0x1cb7,0x2d19,0xf1a
+seed[04] repaired_tail=17 r61=17 d60=0x0 d60_hw=0 gh60=0xfaa9b9a W1=0x2169,0x2e5c,0x278d W2=0x2076,0x2bf0,0x167
+seed[05] repaired_tail=17 r61=17 d60=0x0 d60_hw=0 gh60=0xb5885aa W1=0x1271,0x20a0,0xd6e W2=0x117e,0x2e48,0x3d0d
+seed[06] repaired_tail=23 r61=11 d60=0x0 d60_hw=0 gh60=0x4e087e6 W1=0x239b,0x38f5,0x2081 W2=0x22a8,0x2132,0x1288
+seed[07] repaired_tail=26 r61=11 d60=0x0 d60_hw=0 gh60=0x4989faa W1=0x3f71,0x20ed,0x365b W2=0x3e7e,0x2178,0x38e8
+
+D60 repair seed refinement
+  input_seeds=8 retained_tail_seeds=32 retained_r61_seeds=32
+  elapsed=3602.476s budget=5000000000 tested=5000000000 repairable=319836 exact_D60=0=319836 collisions=0 seed_inserts=238 prefix_enums=305175
+  rate=1.39 Mtests/s repairable_rate=0.000064
+  phase tested/repairable: single=336/3 double=6888/1 walk=5576/5 prefix=4999987200/319827
+  min refined D60 HW: 0 d60=0x0 at W1[57..59]=0x75d,0x24ea,0x27c7
+  best repaired tail HW: 8 d60=0x3126 d60_hw=6 r61=9 gh60=0x4908f6a
+  best repaired tail W1[57..59]=0x75d,0x24ea,0x2ccc
+  best repaired tail W2[57..59]=0x66a,0xff9,0x2bd3
+  best repaired r61 HW: 9 d60=0x3126 d60_hw=6 tail=8 gh60=0x4908f6a
+  best repaired r61 W1[57..59]=0x75d,0x24ea,0x2ccc
+  best repaired r61 W2[57..59]=0x66a,0xff9,0x2bd3
+  best repaired joint score: 17 max=9 tail=8 r61=9 d60=0x3126 d60_hw=6 gh60=0x4908f6a improvements=0
+  best repaired joint W1[57..59]=0x75d,0x24ea,0x2ccc
+  best repaired joint W2[57..59]=0x66a,0xff9,0x2bd3
+  best repaired nonzero energy surrogate: 652 tail=8 r61=9 d60=0x3126 d60_hw=6 gh60=0x4908f6a improvements=12
+  best repaired nonzero energy W1[57..59]=0x75d,0x24ea,0x2ccc
+  best repaired nonzero energy W2[57..59]=0x66a,0xff9,0x2bd3
+
+SUMMARY N=14 sample_start=0 prefixes=0 total=5000000000 d0=319836 best_tail=8 tail_r61=9 best_r61=9 best_joint=17 joint_max=9 joint_tail=8 joint_r61=9 tail_W1=0x75d,0x24ea,0x2ccc tail_W2=0x66a,0xff9,0x2bd3 joint_W1=0x75d,0x24ea,0x2ccc joint_W2=0x66a,0xff9,0x2bd3 r61_W1=0x75d,0x24ea,0x2ccc r61_W2=0x66a,0xff9,0x2bd3

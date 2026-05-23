@@ -1,0 +1,31 @@
+free_word_mitm_reducedn repair_seed_joint_walk
+N=14 mask=0x3fff msb=0x2000
+repair_d60_hw_limit=0 seed_cap=16 budget=5000000000 seed_mode=3 mode_param=834521
+seed[00] repaired_tail=10 r61=12 d60=0x0 d60_hw=0 gh60=0x5a247a6 W1=0x3384,0x997,0x12b7 W2=0x3291,0x28b,0x85b
+seed[01] repaired_tail=23 r61=9 d60=0x0 d60_hw=0 gh60=0x4a044e6 W1=0x121c,0x3035,0x3416 W2=0x1129,0x18f7,0x158b
+seed[02] repaired_tail=11 r61=11 d60=0x0 d60_hw=0 gh60=0x4489caa W1=0x3e31,0xcdb,0x286a W2=0x3d3e,0x12da,0x25ff
+seed[03] repaired_tail=13 r61=14 d60=0x0 d60_hw=0 gh60=0x4e04c9a W1=0x160a,0x1400,0x3d93 W2=0x1517,0xbc3,0x1f5e
+seed[04] repaired_tail=11 r61=11 d60=0x37da d60_hw=10 gh60=0xc904766 W1=0x2bcc,0x1c6,0xdab W2=0x2ad9,0x2e0a,0x1f4e
+seed[05] repaired_tail=8 r61=9 d60=0x3126 d60_hw=6 gh60=0x4908f6a W1=0x75d,0x24ea,0x2ccc W2=0x66a,0xff9,0x2bd3
+seed[06] repaired_tail=18 r61=17 d60=0x0 d60_hw=0 gh60=0x4e57c9e W1=0x2de8,0x26a0,0x225b W2=0x2cf5,0x1591,0x2800
+seed[07] repaired_tail=18 r61=17 d60=0x0 d60_hw=0 gh60=0xc6745ea W1=0x249e,0x3947,0x1f98 W2=0x23ab,0x395a,0x2ba6
+seed[08] repaired_tail=18 r61=17 d60=0x0 d60_hw=0 gh60=0x4bb44aa W1=0x3d3e,0x3dcf,0x1c67 W2=0x3c4b,0x13c0,0x3250
+seed[09] repaired_tail=18 r61=18 d60=0x0 d60_hw=0 gh60=0x55d449e W1=0x2508,0x3c19,0x35f2 W2=0x2415,0xa83,0x22ba
+
+D60 repair seed refinement
+  input_seeds=10 retained_tail_seeds=16 retained_r61_seeds=16
+  elapsed=318.372s budget=5000000000 tested=5000000000 repairable=485681 exact_D60=0=485681 collisions=0 seed_inserts=75 prefix_enums=0
+  rate=15.70 Mtests/s repairable_rate=0.000097
+  phase tested/repairable: single=430/9 double=8610/4 walk=4999990960/485668 prefix=0/0
+  min refined D60 HW: 0 d60=0x0 at W1[57..59]=0x3e31,0xcdb,0x286a
+  best repaired tail HW: 8 d60=0x3126 d60_hw=6 r61=9 gh60=0x4908f6a
+  best repaired tail W1[57..59]=0x75d,0x24ea,0x2ccc
+  best repaired tail W2[57..59]=0x66a,0xff9,0x2bd3
+  best repaired r61 HW: 9 d60=0x0 d60_hw=0 tail=23 gh60=0x4a044e6
+  best repaired r61 W1[57..59]=0x121c,0x3035,0x3416
+  best repaired r61 W2[57..59]=0x1129,0x18f7,0x158b
+  best repaired joint score: 17 max=9 tail=8 r61=9 d60=0x3126 d60_hw=6 gh60=0x4908f6a improvements=0
+  best repaired joint W1[57..59]=0x75d,0x24ea,0x2ccc
+  best repaired joint W2[57..59]=0x66a,0xff9,0x2bd3
+
+SUMMARY N=14 sample_start=0 prefixes=0 total=5000000000 d0=485681 best_tail=8 tail_r61=9 best_r61=9 best_joint=17 joint_max=9 joint_tail=8 joint_r61=9 tail_W1=0x75d,0x24ea,0x2ccc tail_W2=0x66a,0xff9,0x2bd3 joint_W1=0x75d,0x24ea,0x2ccc joint_W2=0x66a,0xff9,0x2bd3 r61_W1=0x121c,0x3035,0x3416 r61_W2=0x1129,0x18f7,0x158b
