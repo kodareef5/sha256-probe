@@ -372,3 +372,26 @@ May 23 continuation checkpoint:
   bridge lanes; all three energy lanes were still running at this checkpoint
 - breadth scanning continued into phases 412-419 with start windows
   13,29,45,61,77,93,109,125
+
+May 23 continuation checkpoint 2:
+
+- amended the previous checkpoint metadata so both author and committer are
+  kodareef5 <kodareef5@users.noreply.github.com>; no file content changed in
+  that amend
+- refresh8 exact-only batches 49-57 completed with the same exact frontier:
+  tail10, best_r61=9, best_joint=22/joint_max=11
+- breadth phases 412-419 completed without a tail<=13 or r61<=8 move; notable
+  bridge rows were:
+  phase412 window 781 tail15/r6115 and window 2829 tail15/r6113;
+  phase417 window 7517 tail16/r6112 plus a separate r61=11 row at window 4957;
+  phase419 window 7549 tail16/r6120 plus a separate r61=11 row at window 3197
+- phase414-416 were ordinary breadth coverage, with best tail17/18 and
+  best_r61=11; phase418 topped out at tail18/r6112
+- the phase394/393/391/nonzero652 and tail7/r6110 5B energy bridge lanes
+  completed without beating the repaired nonzero energy frontier of 652; the
+  tail7/r6113 witness remains a tail outlier, not an energy improvement
+- launched two follow-up 5B energy bridge lanes from the phase417/418 tail16-18
+  cluster and the phase415-419 r61=11/12 cluster; both were still running at
+  this checkpoint
+- breadth scanning continued into phases 420-427 with start windows
+  14,30,46,62,78,94,110,126
