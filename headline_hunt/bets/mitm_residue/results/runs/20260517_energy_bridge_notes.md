@@ -395,3 +395,22 @@ May 23 continuation checkpoint 2:
   this checkpoint
 - breadth scanning continued into phases 420-427 with start windows
   14,30,46,62,78,94,110,126
+
+May 23 continuation checkpoint 3:
+
+- refresh8 exact-only batches 58-68 completed with the same exact frontier:
+  tail10, best_r61=9, best_joint=22/joint_max=11
+- breadth phases 420-427 completed without a tail<=13 or r61<9 move; the
+  main new candidate was phase421 window 3358 with an equal-frontier r61=9
+  witness, W1=0x3c3d,0x1862,0x1ee8 and W2=0x3b4a,0x2e8e,0x0077; its joint
+  row was tail19/r6117 at W1=0x23b3,0x3aca,0x3a15
+- other bridge-worthy low-tail rows in this tranche were phase420 tail16 at
+  windows 14 and 1550, phase425 tail17 at window 2398, phase426 tail17 at
+  window 3950, and phase427 tail16 at window 5246
+- the phase404/401/400 and phase412-tail15 energy bridge lanes completed
+  without beating the repaired nonzero energy frontier of 652
+- launched two follow-up 5B energy bridge lanes with nonce 835406 and 835407:
+  one mixes phase421 r61=9 with low-tail rows from phases 420-427, and the
+  other stacks new r61=9/10/11 witnesses from phases 420-425
+- breadth scanning continued into phases 428-435 with start windows
+  15,31,47,63,79,95,111,127
