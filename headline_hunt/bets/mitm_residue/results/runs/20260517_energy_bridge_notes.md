@@ -414,3 +414,20 @@ May 23 continuation checkpoint 3:
   other stacks new r61=9/10/11 witnesses from phases 420-425
 - breadth scanning continued into phases 428-435 with start windows
   15,31,47,63,79,95,111,127
+
+May 23 continuation checkpoint 4:
+
+- committed checkpoint 3 as 348f0cde with author and committer set to
+  kodareef5 <kodareef5@users.noreply.github.com>
+- refresh8 exact-only batches 69-76 completed with the same exact frontier:
+  tail10, best_r61=9, best_joint=22/joint_max=11
+- breadth phases 428-435 completed without a tail<=13 or r61<9 move; the best
+  rows were phase428 r61=10 at window 5135, phase431 tail16 at window 6719,
+  phase432 tail17 at windows 3919 and 6223, phase433 tail17 at window 2143,
+  and phase435 tail17 at window 4223
+- phase429, phase430, and phase434 were ordinary breadth coverage; their best
+  tails were 18, 20, and 18, and their best_r61 values were 11, 11, and 12
+- the four active 5B energy bridge lanes from checkpoint 2/3 were still
+  running at this checkpoint
+- breadth scanning continued into phases 436-443 with start windows
+  16,32,48,64,80,96,112,128
