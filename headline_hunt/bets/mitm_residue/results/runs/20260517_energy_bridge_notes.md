@@ -728,3 +728,32 @@ May 23 continuation checkpoint 17:
   refresh8 scanning continued into batches 190-223, and breadth scanning
   continued into phases 532-539 with start windows 917,933,949,965,981,997,
   1013,1029
+
+May 23 continuation checkpoint 18:
+
+- committed checkpoint 17 as fc7ad67b with author and committer set to
+  kodareef5 <kodareef5@users.noreply.github.com>
+- refresh8 exact-only batches 190-197 completed with the same exact frontier:
+  tail10, best_r61=9, best_joint=22/joint_max=11
+- breadth phases 532-539 completed without a tail<=13 or r61<=8 move; the
+  scans remain dominated by periodic rediscoveries of the known anchors
+- phase532 was weak, bottoming at tail18 and r61=11; phase534 was also weak,
+  with only a single r61=11 row and no low-tail row below tail19
+- phase533 rediscovered the phase485 r61=10 row
+  W1=0x3a1f,0x39eb,0x15e9 and the phase485 tail17 row
+  W1=0x16cd,0x3550,0x3a62
+- phase535 rediscovered the phase487 tail15 row
+  W1=0x2f1a,0x0a34,0x3867 and the phase487 r61=10 row
+  W1=0x37d3,0x23af,0x0f3a
+- phase536 re-hit the phase520/488 bridge cluster, bottoming at tail18 and
+  four r61=11 rows, including W1=0x19d1,0x030f,0x39e8
+- phase537 rediscovered the phase489 tail16/r61=11 joint row
+  W1=0x0221,0x2b8d,0x010d and W2=0x012e,0x2f07,0x38d2
+- phase538 rediscovered the phase490/522 tail16 row
+  W1=0x221b,0x3351,0x26a1 and the r61=11 row
+  W1=0x2110,0x134a,0x283b; phase539 was weak, bottoming at tail19 and
+  r61=11
+- the phase520/488 r61=11 plus tail18 5B energy bridge remains active, exact
+  refresh8 scanning continued into batches 198-223, and breadth scanning
+  continued into phases 540-547 with start windows 1045,1061,1077,1093,1109,
+  1125,1141,1157
