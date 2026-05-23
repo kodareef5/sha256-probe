@@ -542,3 +542,29 @@ May 23 continuation checkpoint 9:
   phase470 tail15 and r61=10 rows plus the phase461/450/462/457 anchors
 - exact refresh8 scanning continued into batches 122-159, and breadth scanning
   continued into phases 476-483 with start windows 21,37,53,69,85,101,117,133
+
+May 23 continuation checkpoint 10:
+
+- committed checkpoint 9 as 279bb3fa with author and committer set to
+  kodareef5 <kodareef5@users.noreply.github.com>
+- refresh8 exact-only batches 122-131 completed with the same exact frontier:
+  tail10, best_r61=9, best_joint=22/joint_max=11
+- breadth phases 476-483 completed without a tail<=13 or r61<=8 move; the
+  strongest new low-tail row was phase481 window 3173 at tail14/r6116,
+  W1=0x3c4a,0x0174,0x205b and W2=0x3b57,0x37bc,0x2a96
+- other useful low-tail seeds were phase478 window 5685 tail16/r6114,
+  phase480 window 2133 tail16/r6116, phase477 window 4133 tail17/r6114,
+  phase479 window 6725 tail17/r6119, and phase483 window 1925 tail17/r6120
+- the best r61 rows in this tranche were phase476 window 7445 r61=10,
+  phase478 windows 7221 and 5429 at r61=10, phase481 window 357 at r61=10,
+  and phase482 window 4725 at r61=10; phases477, 479, and 483 only reached
+  r61=11
+- the phase457/452/454, phase458/452/454, and phase461-tail13 5B energy
+  bridge lanes completed without beating the repaired nonzero energy frontier
+  of 652
+- launched three follow-up 5B energy lanes: a phase478 tail16/r61=10 bridge
+  at nonce 835419, a phase480/479/478 local bridge at nonce 835420, and a
+  phase481 tail14/r61=10 bridge at nonce 835421
+- exact refresh8 scanning continued into batches 132-159, and breadth scanning
+  continued into phases 484-491 with start windows 149,165,181,197,213,229,
+  245,261
