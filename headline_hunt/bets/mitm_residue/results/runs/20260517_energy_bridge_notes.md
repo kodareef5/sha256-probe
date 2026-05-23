@@ -895,3 +895,36 @@ May 23 continuation checkpoint 22:
   xover32 scanning continued into batches 14-63, and breadth scanning
   continued into phases 572-579 with start windows 1557,1573,1589,1605,1621,
   1637,1653,1669
+
+May 23 continuation checkpoint 23:
+
+- committed checkpoint 22 as 05cf70ac with author and committer set to
+  kodareef5 <kodareef5@users.noreply.github.com>
+- refresh8 xover32 exact-only batches 14-21 completed with the same exact
+  frontier: tail10, best_r61=9, best_joint=22/joint_max=11
+- breadth phases 572-579 completed without a tail<=13 or r61<=8 move; the
+  block mainly confirmed the same periodic anchor families seen in the prior
+  scan tranches
+- phase572 rediscovered the phase524/540/556 r61=10 row at window 7445,
+  W1=0x061c,0x0522,0x2622
+- phase573 re-hit the phase557 cluster, bottoming at tail17 with
+  W1=0x1a07,0x079d,0x129a and r61=11 rows including
+  W1=0x37de,0x0132,0x3a37
+- phase574 bottomed at tail16 with W1=0x1bf3,0x3294,0x21c7 and re-hit r61=10
+  rows including W1=0x3d0a,0x1c32,0x04d9 and W1=0x0621,0x2b7e,0x3a81
+- phase575 was weak overall, bottoming at tail17 and r61=11 without moving
+  either frontier
+- phase576 re-hit the phase480/512/544/560 tail16 row
+  W1=0x1fb9,0x1bd0,0x3d14
+- phase577 re-hit the phase481/513/545/561 tail14 row
+  W1=0x3c4a,0x0174,0x205b and the known r61=10 family
+  W1=0x2111,0x1574,0x256f
+- phase578 re-hit the phase482/514/530/546/562 bridge, including the r61=10
+  row W1=0x0661,0x3b7a,0x37c3 and joint row W1=0x06b7,0x2ed0,0x2ad6
+- phase579 re-hit the phase499/515/531/547/563 tail17 row
+  W1=0x03b9,0x3c8c,0x1b93 and the r61=11 cluster
+  W1=0x238b,0x1963,0x1933, W1=0x13b1,0x1302,0x2fba, and
+  W1=0x11be,0x3e10,0x1df9
+- the phase556-564 replacement energy lane remains active, exact xover32
+  scanning continued into batches 22-63, and breadth scanning continued into
+  phases 580-587 with start windows 1685,1701,1717,1733,1749,1765,1781,1797
