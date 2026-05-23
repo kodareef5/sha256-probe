@@ -659,3 +659,24 @@ May 23 continuation checkpoint 14:
 - exact refresh8 scanning continued into batches 160-223, and breadth scanning
   continued into phases 508-515 with start windows 533,549,565,581,597,613,
   629,645
+
+May 23 continuation checkpoint 15:
+
+- committed checkpoint 14 as bad6eed4 with author and committer set to
+  kodareef5 <kodareef5@users.noreply.github.com>
+- refresh8 exact-only batches 160-171 completed with the same exact frontier:
+  tail10, best_r61=9, best_joint=22/joint_max=11
+- breadth phases 508-515 completed without a tail<=13 or r61<=8 move; this
+  tranche mostly re-hit shifted versions of the recent low-tail and r61=10
+  anchors
+- phase508 rediscovered the phase476 r61=10 row; phase510 rediscovered the
+  phase478 tail16 and r61=10 rows; phase513 rediscovered the phase481 tail14
+  and r61=10 rows; phase514 rediscovered the phase482 r61=10 row
+- phase509 rediscovered the phase477 tail17 row, phase511 rediscovered the
+  phase479 tail17 row, phase512 rediscovered the phase480 tail16 row, and
+  phase515 matched the phase499 tail17 plus r61=11 cluster
+- the phase487 tail15/r61=10 and phase489 tail16/r61=11 5B energy bridge
+  lanes completed without beating the repaired nonzero energy frontier of 652
+- exact refresh8 scanning continued into batches 172-223, breadth scanning
+  continued into phases 516-523 with start windows 661,677,693,709,725,741,
+  757,773, and the phase499/500 energy lane remains active
