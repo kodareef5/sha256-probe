@@ -1128,3 +1128,34 @@ May 23 continuation checkpoint 29:
 - the phase604-610 replacement energy lane remains active at nonce 835604;
   breadth scanning continued into phase629+ with start windows beginning at
   2469
+
+May 23 continuation checkpoint 30:
+
+- committed checkpoint 29 as 6b0d9bb0 with author and committer set to
+  kodareef5 <kodareef5@users.noreply.github.com>
+- the phase604-610 replacement energy lane completed its 5B budget without
+  improving the repaired nonzero energy frontier; best remained energy=652,
+  tail8/r61=9, d60=0x3126, gh60=0x4908f6a,
+  W1=0x075d,0x24ea,0x2ccc and W2=0x066a,0x0ff9,0x2bd3
+- breadth phases 629-642 completed without a tail<=13 or r61<=8 move
+- phase629 bottomed at tail17 and R61=10; phase630 reached tail19/R61=11
+- phase631 re-hit the tail15 row W1=0x2f1a,0x0a34,0x3867 and an R61=10 row
+  W1=0x37d3,0x23af,0x0f3a
+- phase632 reached tail18/R61=11; phase633 re-hit the joint tail16/R61=11
+  row W1=0x0221,0x2b8d,0x010d and W2=0x012e,0x2f07,0x38d2
+- phase634 re-hit tail16 W1=0x221b,0x3351,0x26a1 and R61=11
+  W1=0x2110,0x134a,0x283b
+- phases635-640 stayed in the same terrain, with recurring R61=10 rows in
+  phases636 and 638 and a phase640 tail16 row W1=0x1fb9,0x1bd0,0x3d14
+- phase641 produced the best breadth hit in this block at tail14,
+  W1=0x3c4a,0x0174,0x205b and W2=0x3b57,0x37bc,0x2a96, plus an R61=10 row
+  W1=0x2111,0x1574,0x256f
+- phase642 bottomed at tail18 and R61=10, re-hitting
+  W1=0x0661,0x3b7a,0x37c3 for the R61 row
+- local refinement for phases629-638 did not move the global exact or joint
+  frontiers; useful shaped rows included phase631 tail15/R61=13 and
+  tail17/R61=10, phase633 tail19/R61=10, phase634 tail16/R61=12, phase636
+  R61=10, and phase638 tail16/R61=13 plus two R61=10 rows
+- selected phase640 and phase641 local-refinement windows are queued; phase639
+  local refinement and the phase631-634 replacement energy lane are active,
+  and breadth scanning continued into phase643
