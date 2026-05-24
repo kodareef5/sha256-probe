@@ -997,3 +997,33 @@ May 23 continuation checkpoint 25:
   exact xover32 scanning continued into batches 40-63, and breadth scanning
   continued into phases 596-603 with start windows 1941,1957,1973,1989,2005,
   2021,2037,2053
+
+May 23 continuation checkpoint 26:
+
+- committed checkpoint 25 as 1cb0de12 with author and committer set to
+  kodareef5 <kodareef5@users.noreply.github.com>
+- refresh8 xover32 exact-only batches 40-47 completed with the same exact
+  frontier: tail10, best_r61=9, best_joint=22/joint_max=11
+- breadth phases 596-603 completed without a tail<=13 or r61<=8 move; the
+  block again tracked the same phase-periodic anchors
+- phase596 was weak, bottoming at tail18 and r61=11 without moving either
+  frontier
+- phase597 re-hit the phase581 tail17 row W1=0x16cd,0x3550,0x3a62 and
+  r61=10 row W1=0x3a1f,0x39eb,0x15e9
+- phase598 was weak, bottoming at tail19 and r61=11 with an r61 row
+  W1=0x2b91,0x378c,0x2b4e
+- phase599 re-hit the phase583 tail15 row W1=0x2f1a,0x0a34,0x3867 and
+  r61=10 row W1=0x37d3,0x23af,0x0f3a
+- phase600 re-hit the phase584 bridge cluster: tail18
+  W1=0x0956,0x2a04,0x2595 and r61=11 rows including
+  W1=0x21a1,0x3fea,0x1f32
+- phase601 re-hit the phase585 tail16/r61=11 joint row
+  W1=0x0221,0x2b8d,0x010d and W2=0x012e,0x2f07,0x38d2
+- phase602 re-hit the phase586 tail16 row W1=0x221b,0x3351,0x26a1 and
+  r61=11 row W1=0x2110,0x134a,0x283b
+- phase603 was weak, bottoming at tail19 and r61=11 without moving either
+  frontier
+- the phase580-587 replacement energy lane is still active at nonce 835580;
+  exact xover32 scanning continued into batches 48-63, and breadth scanning
+  continued into phases 604-611 with start windows 2069,2085,2101,2117,2133,
+  2149,2165,2181
