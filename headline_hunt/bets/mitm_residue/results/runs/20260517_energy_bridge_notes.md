@@ -1433,3 +1433,34 @@ May 23 continuation checkpoint 37:
 - phase739 local refinement preserved the window 1925 tail17/R61=12 row and
   selected R61=11 rows at windows 3717, 4229, and 2181; it also improved
   window 2437 from scan tail21 to tail19/R61=12
+
+May 23 continuation checkpoint 38:
+
+- committed checkpoint 37 as ad1292f8 with author and committer set to
+  kodareef5 <kodareef5@users.noreply.github.com>
+- breadth phases 740-747 completed without a tail<=13 or R61<=8 move
+- phase740 local refinement improved window 405 from scan tail22 to
+  tail18/R61=11, preserved tail18 rows at windows 1173 and 4757, and shaped
+  windows 7317 and 1429 to R61=12
+- phase741 local refinement preserved tail17 at window 7333 and the window
+  2725 R61=10 row; it improved window 6309 from scan tail21 to tail20/R61=11
+  and shaped window 5797 from R61=13 to R61=11
+- phase742 local refinement was weaker, bottoming at tail19 and R61=11; it
+  improved windows 4277 and 6069 to R61=12 while preserving the window 437
+  R61=11 row
+- phase743 breadth produced a tail15 row at window 197 and an R61=10 row at
+  window 5061; local refinement preserved those rows, shaped window 7877 to
+  tail17/R61=10, improved window 3269 to R61=11, and carried tail20/R61=12
+  rows at windows 6853 and 709
+- phase744 local refinement preserved a tail18 row at window 7893 and R61=11
+  rows at windows 7381, 4053, 6613, and 725
+- phase745 breadth/local preserved the joint tail16/R61=11 row at window
+  6629, W1=0x0221,0x2b8d,0x010d and W2=0x012e,0x2f07,0x38d2; local
+  refinement also shaped window 7397 to R61=10 and window 5861 to R61=11
+- phase746 breadth/local preserved the window 6901 tail16 row,
+  W1=0x221b,0x3351,0x26a1 and W2=0x2128,0x3d26,0x04b4; local refinement
+  improved its local R61 side from 14 to 12, and improved window 7669 from
+  scan tail21 to tail19/R61=11
+- phase747 was weaker on tail depth, bottoming at tail19; local refinement
+  preserved the window 6917 R61=11 row and improved window 3589 from R61=14
+  to R61=13
