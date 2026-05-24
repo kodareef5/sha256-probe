@@ -1349,3 +1349,55 @@ May 23 continuation checkpoint 35:
   improved window 7669 from scan tail21 to tail19/R61=11
 - phase715 was weaker, bottoming at tail19 and R61=11; local refinement
   preserved the window 6917 R61=11 row and did not improve the frontier
+
+May 23 continuation checkpoint 36:
+
+- committed checkpoint 35 as bf062e80 with author and committer set to
+  kodareef5 <kodareef5@users.noreply.github.com>
+- breadth phases 716-731 completed without a tail<=13 or R61<=8 move
+- phase716 local refinement preserved the window 7445 R61=10 row
+  W1=0x061c,0x0522,0x2622 and W2=0x0529,0x2729,0x3fbf; it also improved
+  window 4373 to R61=12 and window 6165 from scan tail21 to tail19/R61=12
+- phase717 local refinement preserved the window 4133 tail17 row, improved
+  its local R61 side to 13, and preserved selected R61=11 rows at windows
+  5413, 3877, and 1829
+- phase718 local refinement preserved the window 5685 tail16 row and the
+  R61=10 rows at windows 5429 and 7221; it also improved window 2101 to
+  R61=12 and window 5429 from scan tail22 to tail21
+- phase719 local refinement improved window 69 from scan tail22 to
+  tail16/R61=12, preserved tail17 at window 6725, and preserved or shaped
+  selected R61=11 rows at windows 5445, 837, and 1093
+- phase720 local refinement preserved window 2133 at tail16/R61=13,
+  preserved window 3669 at tail18/R61=12, and improved window 2389 from scan
+  tail22 to tail18/R61=12
+- phase721 breadth/local re-hit the tail14 row at window 3173, preserved the
+  window 357 R61=10 row, improved window 101 from R61=14 to R61=12, and
+  improved window 4965 from R61=12 to R61=11
+- phase722 local refinement preserved the window 4725 R61=10 row, improved
+  window 1653 from R61=13 to R61=11, and improved window 6005 from scan
+  tail21 to tail19/R61=12
+- phase723 local refinement preserved the window 1925 tail17/R61=12 row and
+  selected R61=11 rows at windows 3717, 4229, and 2181; it also improved
+  window 2437 from scan tail21 to tail19/R61=12
+- phase724 local refinement improved window 405 from scan tail22 to
+  tail18/R61=11, preserved tail18 rows at windows 1173 and 4757, and shaped
+  windows 7317 and 1429 to R61=12
+- phase725 local refinement preserved tail17 at window 7333 and the window
+  2725 R61=10 row; it improved window 6309 from scan tail21 to tail20/R61=11
+  and shaped window 5797 from R61=13 to R61=11
+- phase726 local refinement was weaker, bottoming at tail19 and R61=11; it
+  improved windows 4277 and 6069 to R61=12 while preserving the window 437
+  R61=11 row
+- phase727 breadth produced a tail15 row at window 197 and an R61=10 row at
+  window 5061; local refinement preserved those rows, shaped window 7877 to
+  tail17/R61=10, and improved window 3269 to R61=11
+- phase728 local refinement preserved a tail18 row at window 7893 and R61=11
+  rows at windows 7381, 4053, 6613, and 725
+- phase729 breadth/local preserved the joint tail16/R61=11 row at window
+  6629, W1=0x0221,0x2b8d,0x010d and W2=0x012e,0x2f07,0x38d2; local
+  refinement also shaped window 7397 to R61=10 and window 5861 to R61=11
+- phase730 breadth produced a tail16/R61=14 row at window 6901; local
+  refinement preserved tail16 and improved its local R61 side to 12, and
+  improved window 7669 from scan tail21 to tail19/R61=11
+- phase731 was weaker, bottoming at tail19 and R61=11; local refinement
+  preserved the window 6917 R61=11 row and did not improve the frontier
