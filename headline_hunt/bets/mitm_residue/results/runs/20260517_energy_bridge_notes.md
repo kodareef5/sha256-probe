@@ -1188,3 +1188,74 @@ May 23 continuation checkpoint 31:
 - phase659 was weaker, bottoming at tail17 and R61=11
 - a fresh phase657-seeded energy bridge is active at nonce 835634; phase659
   local refinement and breadth phases660-667 are active
+
+May 23 continuation checkpoint 32:
+
+- committed checkpoint 31 as 83dcb61c with author and committer set to
+  kodareef5 <kodareef5@users.noreply.github.com>
+- the phase657-seeded replacement energy bridge completed its 5B budget without
+  improving the repaired nonzero energy frontier; best remained energy=652,
+  tail8/r61=9, d60=0x3126, gh60=0x4908f6a,
+  W1=0x075d,0x24ea,0x2ccc and W2=0x066a,0x0ff9,0x2bd3
+- breadth phases 660-680 completed without a tail<=13 or r61<=8 move
+- phase663 and phase679 re-hit the tail15 row
+  W1=0x2f1a,0x0a34,0x3867; phase679 also re-hit the R61=10 row
+  W1=0x37d3,0x23af,0x0f3a
+- phase665 and phase681 re-hit the joint tail16/R61=11 row
+  W1=0x0221,0x2b8d,0x010d and W2=0x012e,0x2f07,0x38d2
+- phase666 re-hit tail16 W1=0x221b,0x3351,0x26a1 and R61=11
+  W1=0x2110,0x134a,0x283b
+- phase670 produced a tail16/R61=13 row W1=0x1bf3,0x3294,0x21c7 and
+  preserved R61=10 rows W1=0x0621,0x2b7e,0x3a81 and
+  W1=0x3d0a,0x1c32,0x04d9
+- phase671 local refinement turned window 69 from scan tail22 into
+  tail16/R61=12, W1=0x2b7c,0x0929,0x195f and
+  W2=0x2a89,0x32ed,0x09d7
+- phase672 local refinement preserved a tail16/R61=13 row at window 2133
+  and improved window 2389 from scan tail22 to tail18/R61=12
+- phase673 again produced the best breadth hit in this block at tail14,
+  W1=0x3c4a,0x0174,0x205b and W2=0x3b57,0x37bc,0x2a96; a 1B priority
+  local refinement kept tail14 and improved that row's local R61 witness
+  from 15 to 13
+- phase674 local refinement produced a useful tail18/R61=11 row at window
+  1653, W1=0x3f0d,0x1c98,0x148f and W2=0x3e1a,0x210b,0x32b1
+- phase676 local refinement improved window 405 to tail18/R61=11,
+  W1=0x2de2,0x350c,0x3800
+- phase678 local refinement stayed weak, bottoming at tail19 and R61=11
+- phase679 local refinement preserved the tail15 row and produced a useful
+  tail17/R61=10 shaped row at window 7877,
+  W1=0x2a95,0x1960,0x0a2d and W2=0x29a2,0x047c,0x38a5; it also preserved
+  the R61=10 row W1=0x37d3,0x23af,0x0f3a at window 5061
+- phase682 breadth completed with a tail16 row
+  W1=0x221b,0x3351,0x26a1 and R61=11 at
+  W1=0x2110,0x134a,0x283b; phase682 local-refinement windows have been
+  selected
+- phase680 and phase681 local refinement are active, and breadth scanning
+  continued into phase683+
+
+May 23 continuation checkpoint 33:
+
+- breadth phases 683-687 completed without a tail<=13 or R61<=8 move
+- phase681 local refinement preserved the joint tail16/R61=11 row
+  W1=0x0221,0x2b8d,0x010d and W2=0x012e,0x2f07,0x38d2; it also shaped
+  window 7397 to R61=10 with
+  W1=0x365a,0x2a29,0x10a0 and W2=0x3567,0x2811,0x2f53
+- phase682 local refinement preserved tail16 at window 6901 and improved that
+  row's local R61 side to 12; it also preserved R61=11 at window 7669
+- phase683 local refinement stayed weak, bottoming at tail19 and R61=11
+- phase684 breadth and local refinement preserved the window 7445 R61=10 row
+  W1=0x061c,0x0522,0x2622 and W2=0x0529,0x2729,0x3fbf; selected local
+  refinement also shaped window 4373 from R61=15 to R61=12
+- a second-stage 1B priority pass over phase681/window7397 and
+  phase684/window7445 preserved both R61=10 rows but did not improve them
+- phase685 breadth produced a tail17 row at window 4133 and R61=11 rows at
+  windows 3877, 1829, and 5413; local refinement kept the tail17 row and
+  improved its local R61 side to 13
+- a seed-cap-512 priority pass over the tail-frontier windows preserved
+  phase673/window3173 at tail14/R61=13 and phase679/window197 at tail15/R61=13
+- phase686 breadth produced tail16 at window 5685 plus R61=10 rows at windows
+  5429 and 7221; local refinement preserved tail16/R61=13 and both R61=10
+  rows
+- phase687 breadth produced a tail17 row at window 6725 and R61=11 rows at
+  windows 837 and 5445; phase687 local refinement is active, and breadth
+  scanning continued into phase688+
