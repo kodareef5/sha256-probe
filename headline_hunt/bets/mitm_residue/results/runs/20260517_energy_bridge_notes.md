@@ -1464,3 +1464,36 @@ May 23 continuation checkpoint 38:
 - phase747 was weaker on tail depth, bottoming at tail19; local refinement
   preserved the window 6917 R61=11 row and improved window 3589 from R61=14
   to R61=13
+
+May 23 continuation checkpoint 39:
+
+- committed checkpoint 38 as 14cb8e7c with author and committer set to
+  kodareef5 <kodareef5@users.noreply.github.com>
+- breadth phases 748-755 completed without a tail<=13 or R61<=8 move
+- phase748 breadth/local re-hit the window 7445 R61=10 row; local refinement
+  preserved it, improved window 4373 from R61=15 to R61=12, and improved
+  window 6165 from scan tail21 to tail19/R61=12
+- phase749 breadth produced tail17 at window 4133, tail18 at window 1573,
+  and R61=11 rows at windows 5413, 3877, and 1829; local refinement
+  preserved those rows and improved windows 4133, 1573, and 5669 on the
+  R61 side
+- phase750 breadth/local preserved tail16 at window 5685 and R61=10 rows at
+  windows 7221 and 5429; local refinement also improved window 2101 to
+  R61=12 and window 5429 from scan tail22 to tail21
+- phase751 local refinement improved window 69 from scan tail22 to
+  tail16/R61=12, preserved tail17 at window 6725, and preserved or shaped
+  selected R61=11 rows at windows 5445, 837, and 1093
+- phase752 local refinement preserved the window 2133 tail16 row, improved
+  its local R61 side from 14 to 13, preserved tail18 at windows 3669 and
+  7253, and improved window 2389 from scan tail22 to tail18/R61=12
+- phase753 breadth/local re-hit the tail14 row at window 3173,
+  W1=0x3c4a,0x0174,0x205b and W2=0x3b57,0x37bc,0x2a96; local refinement
+  improved its local R61 side from 15 to 13, preserved the window 357 R61=10
+  row, improved window 101 from R61=14 to R61=12, and improved window 4965
+  from R61=12 to R61=11
+- phase754 breadth/local preserved the window 4725 R61=10 row, improved
+  window 1653 from R61=13 to R61=11, and improved window 6005 from scan
+  tail21 to tail19/R61=12
+- phase755 local refinement preserved the window 1925 tail17/R61=12 row and
+  selected R61=11 rows at windows 3717, 4229, and 2181; it also improved
+  window 2437 from scan tail21 to tail19/R61=12
