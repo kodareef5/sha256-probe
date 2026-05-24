@@ -2695,6 +2695,14 @@ int main(int argc, char **argv) {
                 printf("  best refined repaired r61 HW: %d (scan repair best %d, improvements=%" PRIu64 ")\n",
                        repair_refine_stats.best_r61, repair_scan_best_r61_hw,
                        repair_refine_stats.r61_improvements);
+                printf("  best refined repaired r61 W1[57..59]=0x%x,0x%x,0x%x\n",
+                       repair_refine_stats.best_r61_wit.w57,
+                       repair_refine_stats.best_r61_wit.w58,
+                       repair_refine_stats.best_r61_wit.w59);
+                printf("  best refined repaired r61 W2[57..59]=0x%x,0x%x,0x%x\n",
+                       repair_refine_stats.best_r61_wit.w2_57,
+                       repair_refine_stats.best_r61_wit.w2_58,
+                       repair_refine_stats.best_r61_wit.w2_59);
             }
         }
     }
@@ -2741,6 +2749,12 @@ int main(int argc, char **argv) {
                    refine_stats.best_tail_wit.w2_59);
             printf("  best refined r61 HW: %d (scan best %d, improvements=%" PRIu64 ")\n",
                    refine_stats.best_r61, min_r61_hw, refine_stats.r61_improvements);
+            printf("  best refined r61 W1[57..59]=0x%x,0x%x,0x%x\n",
+                   refine_stats.best_r61_wit.w57, refine_stats.best_r61_wit.w58,
+                   refine_stats.best_r61_wit.w59);
+            printf("  best refined r61 W2[57..59]=0x%x,0x%x,0x%x\n",
+                   refine_stats.best_r61_wit.w2_57, refine_stats.best_r61_wit.w2_58,
+                   refine_stats.best_r61_wit.w2_59);
         }
     }
 

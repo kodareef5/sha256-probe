@@ -1093,3 +1093,38 @@ May 23 continuation checkpoint 28:
 - the phase604-610 replacement energy lane is still active at nonce 835604;
   breadth scanning continued into phases 620-627 with start windows 2325,
   2341,2357,2373,2389,2405,2421,2437
+
+May 23 continuation checkpoint 29:
+
+- committed checkpoint 28 as cbdc8ecf with author and committer set to
+  kodareef5 <kodareef5@users.noreply.github.com>
+- added a window selector for local-refinement batches and a local-refinement
+  summarizer; rebuilt the reduced-n scanner with logging for refined R61 W
+  witnesses so later logs distinguish scan registry rows from local-refined
+  rows
+- breadth phases 620-628 completed without a tail<=13 or r61<=8 move
+- phase620 bottomed at tail19 and R61=10; the tail row was
+  W1=0x26f0,0x1dfb,0x1b7a and the R61 row was
+  W1=0x061c,0x0522,0x2622
+- phase621 bottomed at tail17 and R61=11; the tail row was
+  W1=0x1a07,0x079d,0x129a and the R61 row was
+  W1=0x37de,0x0132,0x3a37
+- phase622 bottomed at tail16 and R61=10; the tail row was
+  W1=0x1bf3,0x3294,0x21c7 and the R61 row was
+  W1=0x0621,0x2b7e,0x3a81
+- phase623 bottomed at tail17 and R61=11; local refinement later found a
+  tail16 row at window 69, W1=0x2b7c,0x0929,0x195f
+- phase624 bottomed at tail16 and R61=12; local refinement improved selected
+  R61 rows to 12 but did not beat the global R61 frontier
+- phase625 was the best breadth hit in this block at tail14; local refinement
+  improved several selected rows, including R61 14->12 at window 101, but did
+  not beat the known R61=9 frontier
+- phase626 bottomed at tail18 and R61=10; local refinement improved one
+  selected R61 row from 13 to 11
+- phase627 bottomed at tail17 and R61=11; local refinement had four improved
+  rows, with selected bests staying at tail17 and R61=11
+- phase628 bottomed at tail18 and R61=11; no selected registry row approached
+  the exact tail10/R61=9 frontier
+- the phase604-610 replacement energy lane remains active at nonce 835604;
+  breadth scanning continued into phase629+ with start windows beginning at
+  2469
