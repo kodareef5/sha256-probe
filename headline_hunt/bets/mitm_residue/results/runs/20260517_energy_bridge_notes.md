@@ -1638,3 +1638,40 @@ May 23 continuation checkpoint 43:
   R61=11 rows at windows 3717, 4229, and 2181; it also improved window 2437
   from scan tail21 to tail19/R61=12 and improved window 4741 from R61=13 to
   R61=12
+
+May 23 continuation checkpoint 44:
+
+- committed checkpoint 43 as 1b762224 with author and committer set to
+  kodareef5 <kodareef5@users.noreply.github.com>
+- breadth phases 788-795 completed without a tail<=13 or R61<=8 move
+- phase788 local refinement improved window 405 from scan tail22 to
+  tail18/R61=11, preserved tail18 rows at windows 1173 and 4757, preserved
+  R61=11 rows at windows 405, 4245, and 5525, and shaped windows 7317 and
+  1429 to R61=12
+- phase789 local refinement preserved tail17 at window 7333 and the window
+  2725 R61=10 row; it preserved R61=11 rows at windows 933 and 6309, shaped
+  window 5797 from scan R61=13 to R61=11, and improved window 7333 on the
+  R61 side from 13 to 12
+- phase790 was weaker, bottoming at tail19 and R61=11; local refinement
+  improved window 4277 from R61=14 to R61=12, improved window 6069 from scan
+  tail20 to tail19/R61=12, improved window 437 from scan tail22 to
+  tail20/R61=11, and shaped window 4021 to tail20/R61=12
+- phase791 breadth produced a tail15 row at window 197 and an R61=10 row at
+  window 5061; local refinement preserved those rows, shaped window 7877
+  from scan tail18/R61=13 to tail17/R61=10, improved window 3269 to
+  R61=11, and improved window 6341 from scan tail22 to tail18/R61=13
+- phase792 local refinement preserved a tail18 row at window 7893 and R61=11
+  rows at windows 7381, 4053, 6613, and 725; it also improved the local
+  R61 side at window 7893 from 14 to 12 and improved the tail side at
+  windows 4053, 6613, and 725
+- phase793 breadth/local preserved the joint tail16/R61=11 row at window
+  6629, W1=0x0221,0x2b8d,0x010d and W2=0x012e,0x2f07,0x38d2; local
+  refinement also shaped window 7397 to R61=10 and window 5861 to R61=11
+- phase794 breadth/local preserved the window 6901 tail16 row,
+  W1=0x221b,0x3351,0x26a1 and W2=0x2128,0x3d26,0x04b4; local refinement
+  improved its local R61 side from 14 to 12, improved window 7669 from scan
+  tail21 to tail19/R61=11, and improved window 6645 from scan tail22 to
+  tail20/R61=12
+- phase795 was weaker on tail depth, bottoming at tail19; local refinement
+  preserved the window 6917 R61=11 row, improved window 3589 from R61=14 to
+  R61=13, and improved window 5125 from scan tail23 to tail22/R61=12
