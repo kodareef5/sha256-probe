@@ -1027,3 +1027,40 @@ May 23 continuation checkpoint 26:
   exact xover32 scanning continued into batches 48-63, and breadth scanning
   continued into phases 604-611 with start windows 2069,2085,2101,2117,2133,
   2149,2165,2181
+
+May 23 continuation checkpoint 27:
+
+- committed checkpoint 26 as 0ffd171f with author and committer set to
+  kodareef5 <kodareef5@users.noreply.github.com>
+- refresh8 xover32 exact-only batches 48-55 completed with the same exact
+  frontier: tail10, best_r61=9, best_joint=22/joint_max=11
+- breadth phases 604-611 completed without a tail<=13 or r61<=8 move; the
+  block stayed on the known phase-periodic terrain
+- phase604 bottomed at tail19 and re-hit the R61=10 row
+  W1=0x061c,0x0522,0x2622
+- phase605 re-hit the phase589/573 tail17 row
+  W1=0x1a07,0x079d,0x129a and an r61=11 row
+  W1=0x37de,0x0132,0x3a37
+- phase606 re-hit the phase590/574 tail16 row
+  W1=0x1bf3,0x3294,0x21c7 and R61=10 row
+  W1=0x0621,0x2b7e,0x3a81
+- phase607 re-hit a tail17 row W1=0x206f,0x25c0,0x1acf and an R61=11 row
+  W1=0x3662,0x3c88,0x2ea2
+- phase608 re-hit the phase592/576 tail16 row
+  W1=0x1fb9,0x1bd0,0x3d14; best_r61 was only 12
+- phase609 re-hit the phase593/577 tail14 row
+  W1=0x3c4a,0x0174,0x205b and R61=10 row
+  W1=0x2111,0x1574,0x256f
+- phase610 re-hit the phase594/578 R61=10 row
+  W1=0x0661,0x3b7a,0x37c3; tail only reached 18
+- phase611 re-hit the phase595/579 tail17 row
+  W1=0x03b9,0x3c8c,0x1b93 and an R61=11 row
+  W1=0x11be,0x3e10,0x1df9
+- the phase580-587 replacement energy lane completed its 5B budget without
+  beating the repaired nonzero energy frontier of 652; the best row remains
+  tail8/r61=9, d60=0x3126, gh60=0x4908f6a,
+  W1=0x075d,0x24ea,0x2ccc and W2=0x066a,0x0ff9,0x2bd3
+- launched a fresh phase604-610 replacement energy lane at nonce 835604, and
+  breadth scanning continued into phases 612-619 with start windows 2197,
+  2213,2229,2245,2261,2277,2293,2309 while exact xover32 scanning continued
+  into batches 56-63
