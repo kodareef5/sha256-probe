@@ -1159,3 +1159,32 @@ May 23 continuation checkpoint 30:
 - selected phase640 and phase641 local-refinement windows are queued; phase639
   local refinement and the phase631-634 replacement energy lane are active,
   and breadth scanning continued into phase643
+
+May 23 continuation checkpoint 31:
+
+- committed checkpoint 30 as 1876111c with author and committer set to
+  kodareef5 <kodareef5@users.noreply.github.com>
+- the phase631-634 replacement energy lane completed its 5B budget without
+  improving the repaired nonzero energy frontier; best remained energy=652,
+  tail8/r61=9, d60=0x3126, gh60=0x4908f6a,
+  W1=0x075d,0x24ea,0x2ccc and W2=0x066a,0x0ff9,0x2bd3
+- breadth phases 643-659 completed without a tail<=13 or r61<=8 move
+- phase647 re-hit the tail15 row W1=0x2f1a,0x0a34,0x3867; local refinement
+  shaped that window to R61=13 and also preserved a tail17/R61=10 selected row
+- phase649 re-hit the joint tail16/R61=11 row W1=0x0221,0x2b8d,0x010d and
+  local refinement repaired one selected R61 row to 10 at window 7397
+- phase650 re-hit tail16 W1=0x221b,0x3351,0x26a1 and R61=11
+  W1=0x2110,0x134a,0x283b; local refinement kept the tail16 row and repaired
+  selected R61 rows to 11-12
+- phase654 produced a tail16 row W1=0x1bf3,0x3294,0x21c7 and two R61=10 rows
+  W1=0x0621,0x2b7e,0x3a81 and W1=0x3d0a,0x1c32,0x04d9; local refinement
+  preserved those R61=10 rows but did not improve them
+- phase657 produced the best breadth hit in this block at tail14,
+  W1=0x3c4a,0x0174,0x205b and W2=0x3b57,0x37bc,0x2a96, plus an R61=10 row
+  W1=0x2111,0x1574,0x256f; local refinement preserved tail14 and repaired
+  that tail row's local R61 witness from 15 to 13
+- phase658 bottomed at tail18 and R61=10; local refinement kept the R61=10
+  row W1=0x0661,0x3b7a,0x37c3 and repaired one selected R61 row from 13 to 11
+- phase659 was weaker, bottoming at tail17 and R61=11
+- a fresh phase657-seeded energy bridge is active at nonce 835634; phase659
+  local refinement and breadth phases660-667 are active
