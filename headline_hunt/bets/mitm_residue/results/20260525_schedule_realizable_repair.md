@@ -130,9 +130,48 @@ EVIDENCE level: the saturation result is a clean same-sample comparison (N=8);
 worth confirming at N=10/12 and characterizing the `W60_2` reachable set vs the
 `req` the e-wave demands.
 
+## Update 2: reachability split (mode 5) — the gap lives on un-satisfiable interfaces
+
+`delta_mode=5` classifies each free triple as **D60=0 reachable** iff some `w2_58`
+(full δ sweep) zeroes `d60`, then splits the oracle frontier by reachability.
+
+N=8, 2048-prefix sample (524288 triples):
+
+```
+D60=0 reachable          = 63.4% of triples
+min oracle tail | reachable   = 6   unreachable = 3
+min honest(D60=0) | reachable = 9
+```
+
+Two findings, both **opposite** to the naive guess:
+
+1. **The oracle's deepest wins are on UNREACHABLE triples** (HW3 there vs HW6 on
+   reachable). The oracle's real power is fixing the round-60 e-interface for free
+   exactly where the schedule *cannot* satisfy it (`d60` can't be zeroed by any
+   `w2_58`). So the residual cascade→oracle gap is concentrated on
+   schedule-unsatisfiable interfaces — not something a schedule DOF can reach.
+2. **Even on reachable triples, oracle (6) beats honest-D60=0 (9).** Achieving
+   `d60=0` honestly requires `w2_58 = base+δ`, which perturbs the round-58 state;
+   the oracle keeps the clean a-zeroed round-58 state *and* fixes `W60_2`. The
+   oracle decouples (round-58 shaping) from (W60_2); the schedule couples them
+   through the single word `w2_58`. That coupling is the cost.
+
+(Note: best honest tail over *all* δ — not just `d60=0` — does reach ~HW6 at N=8,
+via `d60!=0` paths; it's the `d60=0`-constrained honest that plateaus at 9.)
+
+## Net read
+
+Freeing message-2 words is a real but **bounded** lever: one word recovers a large
+slice of the gap (HW9→6 at N=8); more words add nothing; the rest of the gap is
+structural — the oracle wins by (a) satisfying un-satisfiable interfaces and
+(b) decoupling round-58 shaping from W60_2. Closing it would need a genuinely new
+DOF (e.g. perturbing the *prefix* words W44/W45/W53 that feed W60 without touching
+round-58), whose schedule-realizability is the open question.
+
 ## Next
 
-- **Characterize the gap**: is `req_w2_60` reachable as `s1(x)+const`? Measure the
-  image of the reduced `s1` and how often `req` falls outside it (explains the gap).
+- Probe the **prefix-word lever**: can perturbing Wpre2[44] (feeds only W60,
+  linearly) realize the unreachable patches without a round-58 cost? (caveat: in
+  full SHA this re-derives init2 — measure the relaxed gain first).
 - Measure whether freed-word near-collisions retain MITM `gh60` residue structure.
-- Confirm single-word-saturation at N=10/12.
+- Confirm single-word-saturation + reachability split at N=10/12.

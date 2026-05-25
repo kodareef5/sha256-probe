@@ -179,7 +179,7 @@ static int find_candidate(uint32_t M1[16], uint32_t M2[16],
 
 typedef struct {
     int tail_hw, r61_hw, mid58_hw, d60_hw;
-    uint32_t d60, delta, w57, w58, w59;
+    uint32_t d60, delta, w57, w58, w59, req;
 } res_t;
 
 /* One tail evaluation. delta perturbs the schedule word W2_58. oracle=1 overwrites
@@ -228,7 +228,7 @@ static int eval_probe(const uint32_t init1[8], const uint32_t init2[8],
     if (r) {
         r->tail_hw = tail; r->r61_hw = r61; r->mid58_hw = mid58;
         r->d60 = d60; r->d60_hw = hw(d60); r->delta = delta;
-        r->w57 = w57; r->w58 = w58; r->w59 = w59;
+        r->w57 = w57; r->w58 = w58; r->w59 = w59; r->req = req;
     }
     return tail;
 }
@@ -268,7 +268,7 @@ static int eval_probe3(const uint32_t init1[8], const uint32_t init2[8],
     if (r) {
         r->tail_hw=tail; r->r61_hw=r61; r->mid58_hw=mid58;
         r->d60=d60; r->d60_hw=hw(d60); r->delta=d58;
-        r->w57=w57; r->w58=w58; r->w59=w59;
+        r->w57=w57; r->w58=w58; r->w59=w59; r->req=req;
     }
     return tail;
 }
@@ -322,6 +322,55 @@ int main(int argc, char **argv) {
 
     const uint64_t perm_step = 11400714819323198485ull;
     int exact = (tri_limit == prefix_space);
+
+    /* delta_mode=5: reachability report. A free triple is "D60=0 reachable" iff
+     * some w2_KNOB (full delta sweep) zeroes d60. Splits the oracle frontier by
+     * reachability to test whether the oracle's deep wins live on UNREACHABLE
+     * triples (i.e. the residual gap is W60_2 reachability under the schedule). */
+    if (delta_mode == 5) {
+        uint64_t tot = 0, reach = 0;
+        int or_reach = 999, or_unreach = 999, hon_reach = 999;
+        #pragma omp parallel
+        {
+            uint64_t l_tot = 0, l_reach = 0;
+            int l_or_r = 999, l_or_u = 999, l_hon_r = 999;
+            #pragma omp for schedule(dynamic, 256)
+            for (uint64_t i = 0; i < tri_limit; i++) {
+                uint64_t p = exact ? i : (((sample_start + i) * perm_step) & (prefix_space - 1u));
+                uint32_t w57 = (uint32_t)(p & gMASK);
+                uint32_t w58 = (uint32_t)((p >> N) & gMASK);
+                for (uint64_t w = 0; w < word_space; w++) {
+                    uint32_t w59 = (uint32_t)w;
+                    res_t ro; eval_probe(init1, init2, Wpre1, Wpre2, w57, w58, w59, 0, 1, &ro);
+                    int reachable = 0, best_hon = 999;
+                    for (uint64_t d = 0; d < word_space; d++) {
+                        res_t r; eval_probe(init1, init2, Wpre1, Wpre2, w57, w58, w59, (uint32_t)d, 0, &r);
+                        if (r.d60 == 0) { reachable = 1; if (r.tail_hw < best_hon) best_hon = r.tail_hw; }
+                    }
+                    l_tot++;
+                    if (reachable) {
+                        l_reach++;
+                        if (ro.tail_hw < l_or_r) l_or_r = ro.tail_hw;
+                        if (best_hon < l_hon_r) l_hon_r = best_hon;
+                    } else if (ro.tail_hw < l_or_u) l_or_u = ro.tail_hw;
+                }
+            }
+            #pragma omp critical
+            {
+                tot += l_tot; reach += l_reach;
+                if (l_or_r < or_reach) or_reach = l_or_r;
+                if (l_or_u < or_unreach) or_unreach = l_or_u;
+                if (l_hon_r < hon_reach) hon_reach = l_hon_r;
+            }
+        }
+        printf("N=%d REACHABILITY (knob=W2_%d) tri_limit=%" PRIu64 " sample_start=%" PRIu64 "\n",
+               N, gKnob, tri_limit, sample_start);
+        printf("triples=%" PRIu64 "  D60=0 reachable = %" PRIu64 " (%.2f%%)\n",
+               tot, reach, 100.0 * (double)reach / (double)tot);
+        printf("min oracle tail | reachable=%d  unreachable=%d\n", or_reach, or_unreach);
+        printf("min honest(D60=0) tail | reachable=%d\n", hon_reach);
+        return 0;
+    }
 
     res_t best_d0   = {.tail_hw=999,.r61_hw=999};
     res_t best_any  = {.tail_hw=999,.r61_hw=999};
