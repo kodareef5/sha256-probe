@@ -160,8 +160,17 @@
   - Run gpu_mitm_prototype.py at N=8 against known 260 collisions for validation.
   - Connect forward/backward fingerprints to a hash-keyed table structure.
   - Test candidate-independence of hard-residue location.
-  next_action: See bets/mitm_residue/prototypes/audit_summary.md (2026-04-24). Forward-enumeration scale-up + GPU N=8 validation
-    are the next two concrete CPU-hours of work.
+  next_action: "2026-05-25: schedule-realizable-repair sub-angle RESOLVED (see
+    bets/mitm_residue/results/20260525_schedule_realizable_repair.md). Reduced-N
+    (N=8..24) result: the round-57..60 free-word interface fully admits the repair
+    via prefix word Wpre2[44]; the residue obstacle reduces to the upstream
+    W44<->init2 coupling, which is tight/width-stable (~25-30% of round-57 state)
+    and IS block2_wang's dense schedule inverse. The repair is orthogonal to the
+    gh60 residue (gh60=f(w57,w58)), so tail-repair and residue-MITM are separable.
+    No new tractable path from this angle; further progress routes through
+    block2_wang's neutral-set machinery. Original dormant items (cascade_mitm_full.py
+    forward scale-up to 2^20+, gpu_mitm_prototype.py N=8 validation) remain
+    unstarted but are lower-leverage given the above."
   kill_criteria:
   - N=8/N=10 prototype not faster than the existing structural solver.
   - Effective-residue width at N=32 turns out to be substantially larger than 24 bits under any candidate.
@@ -171,10 +180,15 @@
   evidence:
   - bets/mitm_residue/prototypes/audit_summary.md
   - q4_mitm_geometry/cascade_mitm_full.py (verified working)
+  - bets/mitm_residue/results/20260525_schedule_realizable_repair.md (repair-angle resolved, N=8..24)
+  - bets/mitm_residue/prototypes/sched_repair_probe.c (modes 0-8)
   owner: macbook
-  last_updated: '2026-04-24'
+  last_updated: '2026-05-25'
   notes: "Audit completed 2026-04-24 \u2014 promoted blocked \u2192 open. Tools were never blocked, just dormant. GPU box\
-    \ should pick up gpu_mitm_prototype.py at N=8."
+    \ should pick up gpu_mitm_prototype.py at N=8. 2026-05-25: schedule-realizable-repair\
+    \ sub-angle resolved (kodareef5) \u2014 repair realizable at the interface but the\
+    \ residue obstacle == block2_wang's dense schedule inverse; repair orthogonal to\
+    \ gh60. See 20260525 memo."
 - id: chunk_mode_dp_with_modes
   name: Chunk-mode DP with mode variables on future-completion state
   headline_if_success: First constructive DP route for cascade collisions; would invalidate carry-state-injectivity-as-barrier
