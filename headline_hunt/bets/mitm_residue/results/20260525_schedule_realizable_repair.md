@@ -100,9 +100,39 @@ knob=57 vs knob=58 (same prefixes):
 3. **Sampled coverage** at N>=10: frontier values are upper bounds; the robust
    claim is the *gap* (sched_repair < cascade on identical prefixes).
 
+## Update (same day): freeing all three message-2 words does NOT help — gain saturates at one word
+
+Tested lead (1) directly with two extra search modes in the same probe:
+- `delta_mode=3` — random joint `(d57,d58,d59)` draws (8192/triple).
+- `delta_mode=4` — coordinate descent: exhaustively optimize one word, fix, repeat.
+
+On an identical N=8 4096-prefix sample (`honest_d0=9`, oracle `=3`):
+
+| method | sched_repair tail |
+|--------|------------------:|
+| single word d58 (mode 1) | 8 |
+| single word d57 (mode 1) | 8 |
+| coordinate descent, 3 sweeps (mode 4) | 8 (identical witness to d58) |
+| random joint, 8192 draws (mode 3) | 7–8 (sparser, never beats single word) |
+
+**Coordinate descent returns the exact same HW8 witness as single-word d58** —
+optimizing `d59`/`d57` after `d58` yields no further drop. So the gain **saturates
+with one freed word**; the remaining cascade→oracle gap (HW8→3 here, HW6→2 on the
+full N=8 space) is *not* a message-2 word-freedom deficit.
+
+**Reframing of the gap.** All three words drive the round-60 interface through the
+same bottleneck `W60_2 = s1(w2_58) + const`. The oracle wins only because it sets
+`W60_2` to a value that need not lie in the schedule-reachable set
+`{ s1(x) + const }`. So the residual gap is the **non-surjectivity / reachability
+of `W60_2` under the schedule recurrence**, not a lack of free words.
+
+EVIDENCE level: the saturation result is a clean same-sample comparison (N=8);
+worth confirming at N=10/12 and characterizing the `W60_2` reachable set vs the
+`req` the e-wave demands.
+
 ## Next
 
-- Free all three message-2 words jointly (6-free-word search) — does it reach the oracle?
+- **Characterize the gap**: is `req_w2_60` reachable as `s1(x)+const`? Measure the
+  image of the reduced `s1` and how often `req` falls outside it (explains the gap).
 - Measure whether freed-word near-collisions retain MITM `gh60` residue structure.
-- If structure survives: this is a real new DOF for the bet. If not: it bounds
-  what the cascade costs and argues for a different residue definition.
+- Confirm single-word-saturation at N=10/12.

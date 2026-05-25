@@ -303,8 +303,10 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-    /* delta_mode=3 (joint): delta_radius is reused as the random joint-draw count. */
+    /* delta_mode=3 (joint random): delta_radius reused as random joint-draw count. */
     uint64_t joint_draws = (delta_mode == 3) ? (delta_radius > 0 ? (uint64_t)delta_radius : 4096u) : 0;
+    /* delta_mode=4 (coordinate descent): delta_radius reused as #sweep rounds. */
+    int cd_rounds = (delta_mode == 4) ? (delta_radius > 0 ? delta_radius : 3) : 0;
     /* Precompute the delta set for ball mode. */
     uint32_t *delta_set = NULL; uint64_t delta_count = 0;
     if (delta_mode == 1) {
@@ -375,6 +377,34 @@ int main(int argc, char **argv) {
                         eval_probe3(init1, init2, Wpre1, Wpre2, w57, w58, w59, d57, d58, d59, &rr);
                         maybe_update(&l_rep, &rr);
                     }
+                } else if (delta_mode == 4) {
+                    /* coordinate descent over (d57,d58,d59): exhaustively optimize one
+                     * word at a time, fix it, repeat for cd_rounds sweeps */
+                    uint32_t d57 = 0, d58 = 0, d59 = 0;
+                    for (int rnd = 0; rnd < cd_rounds; rnd++) {
+                        int bt; uint32_t bv; res_t t;
+                        bt = 999; bv = d58;
+                        for (uint64_t v = 0; v < word_space; v++) {
+                            eval_probe3(init1, init2, Wpre1, Wpre2, w57, w58, w59, d57, (uint32_t)v, d59, &t);
+                            if (t.tail_hw < bt) { bt = t.tail_hw; bv = (uint32_t)v; }
+                        }
+                        d58 = bv;
+                        bt = 999; bv = d59;
+                        for (uint64_t v = 0; v < word_space; v++) {
+                            eval_probe3(init1, init2, Wpre1, Wpre2, w57, w58, w59, d57, d58, (uint32_t)v, &t);
+                            if (t.tail_hw < bt) { bt = t.tail_hw; bv = (uint32_t)v; }
+                        }
+                        d59 = bv;
+                        bt = 999; bv = d57;
+                        for (uint64_t v = 0; v < word_space; v++) {
+                            eval_probe3(init1, init2, Wpre1, Wpre2, w57, w58, w59, (uint32_t)v, d58, d59, &t);
+                            if (t.tail_hw < bt) { bt = t.tail_hw; bv = (uint32_t)v; }
+                        }
+                        d57 = bv;
+                    }
+                    res_t rr;
+                    eval_probe3(init1, init2, Wpre1, Wpre2, w57, w58, w59, d57, d58, d59, &rr);
+                    maybe_update(&l_rep, &rr);
                 }
             }
         }
