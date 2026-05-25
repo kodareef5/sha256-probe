@@ -233,16 +233,27 @@
   expected_info_per_cpu_hour: low
   dependencies:
   - Fill sweep code (likely in q3_candidate_families/ or kernel_sweep_neon.c).
-  next_action: Decide whether to do this OR pivot the same compute into block2_wang.
+  next_action: "TRIAGED 2026-05-25 (macbook-claude): do NOT run the fill sweep. Its
+    kill criterion ('no solve-time separation vs best candidate') is effectively
+    pre-satisfied by negatives.yaml#rotation_aligned_kernels_not_structural (VERIFIED:
+    rotation/sigma1-aligned kernels give ~20% candidate-yield but NO structural SAT
+    advantage). The live residual angle (bit-19 structurally-distinguished candidates,
+    non-uniform de58 marginals) is already owned by singular_chamber_rank
+    (linux_gpu_laptop). Recommend: fold the bit-10/17/19 candidate pool into
+    true_sr61_n32; keep this de-prioritized (P7, low EV). No autonomous compute warranted."
   kill_criteria:
   - No solve-time separation on controlled true-sr=61 instances vs current best candidate.
   reopen_criteria:
   - Kernel-pair theory predicts a specific (bit, fill, M[0]) class.
   evidence:
   - cnfs_n32/sr61_n32_bit10_*, sr61_n32_bit17_*, sr61_n32_bit19_*
+  - negatives.yaml#rotation_aligned_kernels_not_structural (covers the no-SAT-advantage finding)
   owner: unassigned
-  last_updated: '2026-04-24'
-  notes: "GPT-5.5 ranked low \u2014 candidate-count yield was weak/refuted. Consider folding into true_sr61_n32."
+  last_updated: '2026-05-25'
+  notes: "GPT-5.5 ranked low \u2014 candidate-count yield was weak/refuted. Consider folding into true_sr61_n32.
+    2026-05-25 triage (macbook-claude): superseded \u2014 rotation-aligned negative shows no SAT advantage, and the
+    live bit-19 structural-distinction angle is owned by singular_chamber_rank. Left unassigned/open but
+    de-prioritized; no autonomous compute warranted."
 - id: programmatic_sat_cascade_propagator
   name: Programmatic SAT solver with SHA-256/cascade-aware propagator
   headline_if_success: Sub-brute-force on a nontrivial reduced-SHA target via early-termination from cascade-aware reasoning.
