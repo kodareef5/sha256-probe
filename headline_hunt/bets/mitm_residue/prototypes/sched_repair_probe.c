@@ -233,6 +233,46 @@ static int eval_probe(const uint32_t init1[8], const uint32_t init2[8],
     return tail;
 }
 
+/* Joint variant: independent deltas on all three message-2 words (no oracle).
+ * Tests whether freeing the whole cascade-pinned message-2 triple reaches the
+ * oracle bound. */
+static int eval_probe3(const uint32_t init1[8], const uint32_t init2[8],
+                       const uint32_t Wpre1[64], const uint32_t Wpre2[64],
+                       uint32_t w57, uint32_t w58, uint32_t w59,
+                       uint32_t d57, uint32_t d58, uint32_t d59, res_t *r) {
+    uint32_t s1v[8], s2v[8];
+    copy_state(s1v, init1); copy_state(s2v, init2);
+    uint32_t w2_57 = (w2_for_zero_a(s1v, s2v, 57, w57) + d57) & gMASK;
+    sha_round(s1v, 57, w57); sha_round(s2v, 57, w2_57);
+    uint32_t w2_58 = (w2_for_zero_a(s1v, s2v, 58, w58) + d58) & gMASK;
+    sha_round(s1v, 58, w58); sha_round(s2v, 58, w2_58);
+    int mid58 = state_diff_hw(s1v, s2v);
+    uint32_t W60_1 = (s1(w58)   + Wpre1[53] + s0(Wpre1[45]) + Wpre1[44]) & gMASK;
+    uint32_t W60_2 = (s1(w2_58) + Wpre2[53] + s0(Wpre2[45]) + Wpre2[44]) & gMASK;
+    uint32_t w2_59 = (w2_for_zero_a(s1v, s2v, 59, w59) + d59) & gMASK;
+    sha_round(s1v, 59, w59); sha_round(s2v, 59, w2_59);
+    uint32_t req = w2_for_zero_e(s1v, s2v, 60, W60_1);
+    uint32_t d60 = (W60_2 - req) & gMASK;
+    uint32_t W61_1 = (s1(w59)   + Wpre1[54] + s0(Wpre1[46]) + Wpre1[45]) & gMASK;
+    uint32_t W61_2 = (s1(w2_59) + Wpre2[54] + s0(Wpre2[46]) + Wpre2[45]) & gMASK;
+    uint32_t W62_1 = (s1(W60_1) + Wpre1[55] + s0(Wpre1[47]) + Wpre1[46]) & gMASK;
+    uint32_t W62_2 = (s1(W60_2) + Wpre2[55] + s0(Wpre2[47]) + Wpre2[46]) & gMASK;
+    uint32_t W63_1 = (s1(W61_1) + Wpre1[56] + s0(Wpre1[48]) + Wpre1[47]) & gMASK;
+    uint32_t W63_2 = (s1(W61_2) + Wpre2[56] + s0(Wpre2[48]) + Wpre2[47]) & gMASK;
+    sha_round(s1v, 60, W60_1); sha_round(s2v, 60, W60_2);
+    sha_round(s1v, 61, W61_1); sha_round(s2v, 61, W61_2);
+    int r61 = state_diff_hw(s1v, s2v);
+    sha_round(s1v, 62, W62_1); sha_round(s2v, 62, W62_2);
+    sha_round(s1v, 63, W63_1); sha_round(s2v, 63, W63_2);
+    int tail = state_diff_hw(s1v, s2v);
+    if (r) {
+        r->tail_hw=tail; r->r61_hw=r61; r->mid58_hw=mid58;
+        r->d60=d60; r->d60_hw=hw(d60); r->delta=d58;
+        r->w57=w57; r->w58=w58; r->w59=w59;
+    }
+    return tail;
+}
+
 static void maybe_update(res_t *best, const res_t *cand) {
     if (cand->tail_hw < best->tail_hw ||
         (cand->tail_hw == best->tail_hw && cand->r61_hw < best->r61_hw))
@@ -263,6 +303,8 @@ int main(int argc, char **argv) {
         return 1;
     }
 
+    /* delta_mode=3 (joint): delta_radius is reused as the random joint-draw count. */
+    uint64_t joint_draws = (delta_mode == 3) ? (delta_radius > 0 ? (uint64_t)delta_radius : 4096u) : 0;
     /* Precompute the delta set for ball mode. */
     uint32_t *delta_set = NULL; uint64_t delta_count = 0;
     if (delta_mode == 1) {
@@ -320,6 +362,17 @@ int main(int argc, char **argv) {
                         if (delta_set[k] == 0) continue;
                         res_t rr;
                         eval_probe(init1, init2, Wpre1, Wpre2, w57, w58, w59, delta_set[k], 0, &rr);
+                        maybe_update(&l_rep, &rr);
+                    }
+                } else if (delta_mode == 3) {
+                    /* joint: random (d57,d58,d59) draws, all three message-2 words freed */
+                    for (uint64_t k = 0; k < joint_draws; k++) {
+                        uint64_t hb = mix64(((p << 8) ^ (w << 24)) + k * 0x9e3779b97f4a7c15ULL);
+                        uint32_t d57 = (uint32_t)(mix64(hb + 1) & gMASK);
+                        uint32_t d58 = (uint32_t)(mix64(hb + 2) & gMASK);
+                        uint32_t d59 = (uint32_t)(mix64(hb + 3) & gMASK);
+                        res_t rr;
+                        eval_probe3(init1, init2, Wpre1, Wpre2, w57, w58, w59, d57, d58, d59, &rr);
                         maybe_update(&l_rep, &rr);
                     }
                 }
