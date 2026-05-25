@@ -179,7 +179,7 @@ static int find_candidate(uint32_t M1[16], uint32_t M2[16],
 
 typedef struct {
     int tail_hw, r61_hw, mid58_hw, d60_hw;
-    uint32_t d60, delta, w57, w58, w59, req;
+    uint32_t d60, delta, w57, w58, w59, req, gh60;
 } res_t;
 
 /* One tail evaluation. delta perturbs the schedule word W2_58. oracle=1 overwrites
@@ -219,6 +219,7 @@ static int eval_probe(const uint32_t init1[8], const uint32_t init2[8],
     uint32_t W63_2 = (s1(W61_2) + Wpre2[56] + s0(Wpre2[48]) + Wpre2[47]) & gMASK;
 
     sha_round(s1v, 60, W60_1); sha_round(s2v, 60, use_W60_2);
+    uint32_t gh60_v = (((s1v[6]^s2v[6]) & gMASK) << gN) | ((s1v[7]^s2v[7]) & gMASK);
     sha_round(s1v, 61, W61_1); sha_round(s2v, 61, W61_2);
     int r61 = state_diff_hw(s1v, s2v);
     sha_round(s1v, 62, W62_1); sha_round(s2v, 62, W62_2);
@@ -228,7 +229,7 @@ static int eval_probe(const uint32_t init1[8], const uint32_t init2[8],
     if (r) {
         r->tail_hw = tail; r->r61_hw = r61; r->mid58_hw = mid58;
         r->d60 = d60; r->d60_hw = hw(d60); r->delta = delta;
-        r->w57 = w57; r->w58 = w58; r->w59 = w59; r->req = req;
+        r->w57 = w57; r->w58 = w58; r->w59 = w59; r->req = req; r->gh60 = gh60_v;
     }
     return tail;
 }
@@ -260,6 +261,7 @@ static int eval_probe3(const uint32_t init1[8], const uint32_t init2[8],
     uint32_t W63_1 = (s1(W61_1) + Wpre1[56] + s0(Wpre1[48]) + Wpre1[47]) & gMASK;
     uint32_t W63_2 = (s1(W61_2) + Wpre2[56] + s0(Wpre2[48]) + Wpre2[47]) & gMASK;
     sha_round(s1v, 60, W60_1); sha_round(s2v, 60, W60_2);
+    uint32_t gh60_v = (((s1v[6]^s2v[6]) & gMASK) << gN) | ((s1v[7]^s2v[7]) & gMASK);
     sha_round(s1v, 61, W61_1); sha_round(s2v, 61, W61_2);
     int r61 = state_diff_hw(s1v, s2v);
     sha_round(s1v, 62, W62_1); sha_round(s2v, 62, W62_2);
@@ -268,7 +270,7 @@ static int eval_probe3(const uint32_t init1[8], const uint32_t init2[8],
     if (r) {
         r->tail_hw=tail; r->r61_hw=r61; r->mid58_hw=mid58;
         r->d60=d60; r->d60_hw=hw(d60); r->delta=d58;
-        r->w57=w57; r->w58=w58; r->w59=w59; r->req=req;
+        r->w57=w57; r->w58=w58; r->w59=w59; r->req=req; r->gh60=gh60_v;
     }
     return tail;
 }
@@ -303,14 +305,20 @@ static int eval_pfx44(const uint32_t init1[8], const uint32_t init2[8],
     uint32_t W63_1 = (s1(W61_1) + Wpre1[56] + s0(Wpre1[48]) + Wpre1[47]) & gMASK;
     uint32_t W63_2 = (s1(W61_2) + Wpre2[56] + s0(Wpre2[48]) + Wpre2[47]) & gMASK;
     sha_round(s1v, 60, W60_1); sha_round(s2v, 60, W60_2);
+    uint32_t gh60_v = (((s1v[6]^s2v[6]) & gMASK) << gN) | ((s1v[7]^s2v[7]) & gMASK);
     sha_round(s1v, 61, W61_1); sha_round(s2v, 61, W61_2);
     int r61 = state_diff_hw(s1v, s2v);
     sha_round(s1v, 62, W62_1); sha_round(s2v, 62, W62_2);
     sha_round(s1v, 63, W63_1); sha_round(s2v, 63, W63_2);
     int tail = state_diff_hw(s1v, s2v);
     if (r) { r->tail_hw=tail; r->r61_hw=r61; r->mid58_hw=mid58; r->d60=d60;
-             r->d60_hw=hw(d60); r->delta=pdelta; r->w57=w57; r->w58=w58; r->w59=w59; r->req=req; }
+             r->d60_hw=hw(d60); r->delta=pdelta; r->w57=w57; r->w58=w58; r->w59=w59; r->req=req; r->gh60=gh60_v; }
     return tail;
+}
+
+static int u32cmp(const void *a, const void *b) {
+    uint32_t x = *(const uint32_t *)a, y = *(const uint32_t *)b;
+    return (x > y) - (x < y);
 }
 
 static void maybe_update(res_t *best, const res_t *cand) {
@@ -462,6 +470,53 @@ int main(int argc, char **argv) {
         printf("Pareto (dW44_hw : min d-state_hw):\n");
         for (int i = 1; i <= 12 && i < 64; i++)
             if (min_state_by_w44hw[i] < 9999) printf("  %2d : %d\n", i, min_state_by_w44hw[i]);
+        return 0;
+    }
+
+    /* delta_mode=8: gh60 residue concentration, CASCADE vs LEVER. For each free
+     * triple record (a) the cascade D60=0 witness gh60 and (b) the best prefix-44
+     * lever witness gh60 (if tail<=T), then count distinct gh60 per regime. If the
+     * lever's distinct/witness ratio is much higher, the repair DESTROYS the MITM
+     * residue structure; if comparable, it PRESERVES it. N<=16 (gh60 fits 32b).
+     * tri_limit = prefixes, delta_radius = tail threshold T. */
+    if (delta_mode == 8) {
+        if (N > 16) { fprintf(stderr, "mode 8 needs N<=16 (gh60 fits 32 bits)\n"); return 1; }
+        int tail_T = delta_radius > 0 ? delta_radius : 999;
+        const uint32_t SENT = 0xFFFFFFFFu;
+        uint64_t slots = tri_limit * word_space;
+        uint32_t *casc = malloc(slots * sizeof(uint32_t));
+        uint32_t *levr = malloc(slots * sizeof(uint32_t));
+        if (!casc || !levr) { fprintf(stderr, "alloc failed\n"); return 1; }
+        #pragma omp parallel for schedule(dynamic, 64)
+        for (uint64_t i = 0; i < tri_limit; i++) {
+            uint64_t p = exact ? i : (((sample_start + i) * perm_step) & (prefix_space - 1u));
+            uint32_t w57 = (uint32_t)(p & gMASK);
+            uint32_t w58 = (uint32_t)((p >> N) & gMASK);
+            for (uint64_t w = 0; w < word_space; w++) {
+                uint32_t w59 = (uint32_t)w;
+                uint64_t idx = i * word_space + w;
+                res_t rc; eval_probe(init1, init2, Wpre1, Wpre2, w57, w58, w59, 0, 0, &rc);
+                casc[idx] = (rc.d60 == 0 && rc.tail_hw <= tail_T) ? rc.gh60 : SENT;
+                int bt = 999; uint32_t bgh = SENT;
+                for (uint64_t d = 0; d < word_space; d++) {
+                    res_t rl; eval_pfx44(init1, init2, Wpre1, Wpre2, w57, w58, w59, (uint32_t)d, &rl);
+                    if (rl.tail_hw < bt) { bt = rl.tail_hw; bgh = rl.gh60; }
+                }
+                levr[idx] = (bt <= tail_T) ? bgh : SENT;
+            }
+        }
+        qsort(casc, slots, sizeof(uint32_t), u32cmp);
+        qsort(levr, slots, sizeof(uint32_t), u32cmp);
+        uint64_t cn = 0; while (cn < slots && casc[cn] != SENT) cn++;
+        uint64_t cd = 0; for (uint64_t i = 0; i < cn; i++) if (i == 0 || casc[i] != casc[i-1]) cd++;
+        uint64_t ln = 0; while (ln < slots && levr[ln] != SENT) ln++;
+        uint64_t ld = 0; for (uint64_t i = 0; i < ln; i++) if (i == 0 || levr[i] != levr[i-1]) ld++;
+        printf("N=%d gh60 CONCENTRATION (tail<=%d) tri_limit=%" PRIu64 "\n", N, tail_T, tri_limit);
+        printf("cascade(D60=0): witnesses=%" PRIu64 " distinct_gh60=%" PRIu64 " ratio=%.4f\n",
+               cn, cd, cn ? (double)cd / (double)cn : 0.0);
+        printf("lever(pfx44):   witnesses=%" PRIu64 " distinct_gh60=%" PRIu64 " ratio=%.4f\n",
+               ln, ld, ln ? (double)ld / (double)ln : 0.0);
+        free(casc); free(levr);
         return 0;
     }
 

@@ -290,9 +290,36 @@ schedule-inverse / neutral-set problem that `block2_wang` is already grinding on
 "oracle gap" mystery is fully explained and localized, and the two leads are now
 known to share one bottleneck rather than being independent shots.
 
-## Next
+## Update 6 (gh60 follow-up RESOLVED): the repair is orthogonal to the residue
 
-- (compute, running) coupling scaling at N=20/24 to confirm width-stability.
-- If pursuing further, it is `block2_wang`'s atlas-loss search aimed at the
-  `Wpre2[44]`-shift target — but expect the dense-inverse wall both leads hit.
-- Lower priority: gh60 structure of mode-6 oracle-matching near-collisions.
+`delta_mode=8` compares gh60 of cascade vs prefix-44-lever near-collisions. The
+decisive observation: the lever produces exactly **prefix-count** distinct gh60
+values (16 prefixes→16, 64→64, 128→128). Reason from the round function: after
+round 60, `g60 = e58` and `h60 = e57` (the g,h registers are shifted in *before*
+W60 acts), so **gh60 is independent of W60_2** — hence of the prefix-44 lever and
+the oracle — and `gh60 = f(w57, w58)` only (independent of `w59` too).
+
+Consequence: the round-60 repair touches only `a60/e60`; it **cannot** disturb
+the gh60 residue key. So the tail-repair and the gh60-keyed MITM residue are
+**separable** — the repair preserves the residue structure by construction.
+Tail-optimization (via W60_2) and residue-MITM (keyed on gh60 = f(w57,w58)) act on
+orthogonal parts of the round-60 state. (Mode-8 distinct/witness ratios are
+confounded by unequal witness populations — cascade has only the rare D60=0
+triples; the round-structure argument above is the decisive one.)
+
+## Final status
+
+The schedule-realizable-repair investigation is **complete**:
+1. Cascade a-zeroing is tail-suboptimal; one freed word recovers a big slice; the
+   gain saturates (joint/coord-descent add nothing).
+2. The full oracle is realizable at the interface via the prefix word `Wpre2[44]`
+   (== oracle N=8/10/12, *beats* the e-zeroing oracle N=14).
+3. The sole obstacle is the upstream `W44<->init2` coupling — tight, width-stable
+   (~25-30% of state, N=12..24), == `block2_wang`'s dense schedule inverse.
+4. The repair is **orthogonal to the gh60 residue** (gh60 = f(w57,w58)); it
+   preserves the MITM residue by construction.
+
+Net for the bet: no new *tractable* path (the upstream coupling is the same hard
+problem block2_wang faces), but the oracle-gap mystery is fully explained, the
+tail-repair and residue are shown separable, and the two leads are unified on one
+bottleneck. Further work routes through `block2_wang`'s neutral-set machinery.
