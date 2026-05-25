@@ -1,0 +1,11458 @@
+{
+  "description": "F866_bit18_hw86_to_bit14_combo1m_m2shape_loose: M2 target/repair pair combo",
+  "label": "F866_bit18_hw86_to_bit14_combo1m_m2shape_loose",
+  "seed_jsonl": "headline_hunt/bets/block2_wang/results/search_artifacts/20260504_F553_bit18_absorber_seed.jsonl",
+  "seed_rank": 0,
+  "rounds": 24,
+  "pair_atlas": "headline_hunt/bets/block2_wang/results/search_artifacts/20260504_F851_bit18_hw86_to_bit14_pair_potential.json",
+  "init_M2": [
+    "0x00000000",
+    "0x00000000",
+    "0x00000400",
+    "0x01010000",
+    "0x00000010",
+    "0x00000000",
+    "0x00000000",
+    "0x00000000",
+    "0x00000000",
+    "0x00000000",
+    "0x00000000",
+    "0x00000000",
+    "0x20000200",
+    "0x04000000",
+    "0x00800000",
+    "0x00000000"
+  ],
+  "init_hw": 86,
+  "init_lane_hw": [
+    11,
+    14,
+    9,
+    7,
+    13,
+    11,
+    10,
+    11
+  ],
+  "init_cg_objective": 124.0,
+  "target_lane_hw": [
+    13,
+    11,
+    14,
+    10,
+    12,
+    9,
+    10,
+    6
+  ],
+  "init_target_l1": 21,
+  "selection": {
+    "target_pairs": 64,
+    "repair_pairs": 64,
+    "hw_pairs": 16,
+    "cg_pairs": 16,
+    "per_reg_pairs": 8,
+    "selected_pairs": 151,
+    "pair_count": 6,
+    "min_radius": 8,
+    "max_radius": 12,
+    "sample_combos": 1000000,
+    "rng_seed": 866,
+    "late_word_start": 12,
+    "late_word_end": 15,
+    "early_word_end": 8,
+    "min_late_pairs": 0,
+    "min_late_late_pairs": 0,
+    "min_early_late_pairs": 0,
+    "min_delta_lane_sum": null,
+    "max_delta_lane_sum": null,
+    "min_standalone_net_delta_sum": null,
+    "max_standalone_net_delta_sum": null,
+    "min_pair_removed_union": null,
+    "max_pair_added_union": null,
+    "min_pair_added_repeat_excess": null,
+    "min_pair_removed_repeat_excess": null,
+    "min_m2_added": null,
+    "max_m2_added": null,
+    "min_m2_removed": 2,
+    "max_m2_removed": null,
+    "min_m2_net_added": null,
+    "max_m2_net_added": 8
+  },
+  "counts": {
+    "candidate_combos": 1000000,
+    "skipped_radius": 0,
+    "skipped_duplicate": 27,
+    "evaluated": 3964,
+    "hw_lt_init": 0,
+    "hw_le_init": 0,
+    "cg_lt_init": 0,
+    "target_l1_lt_init": 1,
+    "skipped_late_pair_motif": 0,
+    "skipped_pair_graph_motif": 0,
+    "skipped_delta_signature": 0,
+    "skipped_bit_overlap_signature": 0,
+    "skipped_m2_shape_signature": 996009
+  },
+  "top_by_hw": [
+    {
+      "pair_ids": [
+        10,
+        14,
+        24,
+        65,
+        134,
+        150
+      ],
+      "bits": [
+        53,
+        74,
+        112,
+        261,
+        280,
+        342,
+        392,
+        416,
+        448,
+        483,
+        484
+      ],
+      "radius": 11,
+      "m2_added_bits": 9,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 7,
+      "hw_total": 99,
+      "net_delta": 13,
+      "lane_hw": [
+        13,
+        11,
+        14,
+        10,
+        10,
+        14,
+        14,
+        13
+      ],
+      "cg_objective": 155.0,
+      "cg_delta": 31.0,
+      "target_l1": 18,
+      "target_l1_delta": -3,
+      "standalone_net_delta_sum": 147,
+      "delta_lane_sum": [
+        7,
+        4,
+        35,
+        23,
+        13,
+        35,
+        21,
+        9
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair_d"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00200000",
+        "0x00000000",
+        "0x01000000",
+        "0x00000010",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x01000020",
+        "0x00000000",
+        "0x00400000",
+        "0x00000000",
+        "0x20000300",
+        "0x04000001",
+        "0x00800001",
+        "0x00000018"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        25,
+        78,
+        111,
+        112,
+        150
+      ],
+      "bits": [
+        74,
+        112,
+        113,
+        194,
+        261,
+        319,
+        323,
+        342,
+        359,
+        465,
+        476,
+        499
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 100,
+      "net_delta": 14,
+      "lane_hw": [
+        9,
+        13,
+        8,
+        14,
+        14,
+        12,
+        17,
+        13
+      ],
+      "cg_objective": 150.0,
+      "cg_delta": 26.0,
+      "target_l1": 35,
+      "target_l1_delta": 14,
+      "standalone_net_delta_sum": 167,
+      "delta_lane_sum": [
+        9,
+        10,
+        29,
+        46,
+        15,
+        19,
+        21,
+        18
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair_h"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair_f"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x01020000",
+        "0x00000010",
+        "0x00000000",
+        "0x00000004",
+        "0x00000000",
+        "0x00000020",
+        "0x80000000",
+        "0x00400008",
+        "0x00000080",
+        "0x20000200",
+        "0x04000000",
+        "0x10820000",
+        "0x00080000"
+      ]
+    },
+    {
+      "pair_ids": [
+        0,
+        10,
+        62,
+        116,
+        133,
+        150
+      ],
+      "bits": [
+        74,
+        85,
+        112,
+        261,
+        304,
+        337,
+        342,
+        370,
+        377,
+        392,
+        464,
+        468
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 101,
+      "net_delta": 15,
+      "lane_hw": [
+        17,
+        17,
+        14,
+        7,
+        12,
+        13,
+        9,
+        12
+      ],
+      "cg_objective": 147.0,
+      "cg_delta": 23.0,
+      "target_l1": 24,
+      "target_l1_delta": 3,
+      "standalone_net_delta_sum": 142,
+      "delta_lane_sum": [
+        2,
+        6,
+        34,
+        44,
+        1,
+        9,
+        24,
+        22
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target",
+          "hw"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair_f"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_c"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00000000",
+        "0x00200000",
+        "0x01000000",
+        "0x00000010",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000020",
+        "0x00010000",
+        "0x00420000",
+        "0x02040000",
+        "0x20000300",
+        "0x04000000",
+        "0x00910000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        66,
+        86,
+        103,
+        117,
+        134,
+        150
+      ],
+      "bits": [
+        74,
+        91,
+        143,
+        165,
+        198,
+        261,
+        297,
+        365,
+        393,
+        446,
+        483
+      ],
+      "radius": 11,
+      "m2_added_bits": 9,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 7,
+      "hw_total": 103,
+      "net_delta": 17,
+      "lane_hw": [
+        12,
+        11,
+        13,
+        14,
+        15,
+        12,
+        12,
+        14
+      ],
+      "cg_objective": 153.0,
+      "cg_delta": 29.0,
+      "target_l1": 22,
+      "target_l1_delta": 1,
+      "standalone_net_delta_sum": 182,
+      "delta_lane_sum": [
+        -2,
+        7,
+        43,
+        43,
+        0,
+        32,
+        41,
+        18
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "repair"
+        ],
+        [
+          "repair_e"
+        ],
+        [
+          "repair_f"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_d"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00000000",
+        "0x08000000",
+        "0x01010000",
+        "0x00008010",
+        "0x00000020",
+        "0x00000040",
+        "0x00000000",
+        "0x00000020",
+        "0x00000200",
+        "0x00000000",
+        "0x00002000",
+        "0x20000000",
+        "0x44000000",
+        "0x00800000",
+        "0x00000008"
+      ]
+    },
+    {
+      "pair_ids": [
+        52,
+        106,
+        111,
+        117,
+        132,
+        150
+      ],
+      "bits": [
+        74,
+        84,
+        91,
+        183,
+        196,
+        261,
+        271,
+        319,
+        359,
+        389,
+        393,
+        459
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 103,
+      "net_delta": 17,
+      "lane_hw": [
+        12,
+        16,
+        13,
+        13,
+        10,
+        15,
+        13,
+        11
+      ],
+      "cg_objective": 155.0,
+      "cg_delta": 31.0,
+      "target_l1": 26,
+      "target_l1_delta": 5,
+      "standalone_net_delta_sum": 173,
+      "delta_lane_sum": [
+        12,
+        -1,
+        29,
+        40,
+        9,
+        22,
+        25,
+        37
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "hw",
+          "cg"
+        ],
+        [
+          "repair_d"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00000000",
+        "0x08100000",
+        "0x01010000",
+        "0x00000010",
+        "0x00800000",
+        "0x00000010",
+        "0x00000000",
+        "0x00008020",
+        "0x80000000",
+        "0x00000000",
+        "0x00000080",
+        "0x20000020",
+        "0x04000000",
+        "0x00800800",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        24,
+        81,
+        117,
+        126,
+        143,
+        150
+      ],
+      "bits": [
+        74,
+        91,
+        119,
+        261,
+        263,
+        280,
+        296,
+        304,
+        347,
+        393,
+        448,
+        452
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 103,
+      "net_delta": 17,
+      "lane_hw": [
+        16,
+        16,
+        14,
+        10,
+        8,
+        12,
+        12,
+        15
+      ],
+      "cg_objective": 155.0,
+      "cg_delta": 31.0,
+      "target_l1": 26,
+      "target_l1_delta": 5,
+      "standalone_net_delta_sum": 175,
+      "delta_lane_sum": [
+        2,
+        8,
+        37,
+        45,
+        1,
+        32,
+        31,
+        19
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "repair_d"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_g"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00000000",
+        "0x08000000",
+        "0x01810000",
+        "0x00000010",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x010000a0",
+        "0x00010100",
+        "0x08000000",
+        "0x00000000",
+        "0x20000000",
+        "0x04000000",
+        "0x00800011",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        4,
+        10,
+        22,
+        48,
+        99,
+        150
+      ],
+      "bits": [
+        33,
+        74,
+        90,
+        106,
+        109,
+        112,
+        154,
+        158,
+        253,
+        261,
+        342,
+        464
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 103,
+      "net_delta": 17,
+      "lane_hw": [
+        10,
+        12,
+        12,
+        16,
+        15,
+        14,
+        11,
+        13
+      ],
+      "cg_objective": 149.0,
+      "cg_delta": 25.0,
+      "target_l1": 28,
+      "target_l1_delta": 7,
+      "standalone_net_delta_sum": 130,
+      "delta_lane_sum": [
+        3,
+        2,
+        40,
+        38,
+        10,
+        20,
+        2,
+        15
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target",
+          "hw"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "cg",
+          "repair_g"
+        ],
+        [
+          "repair_g"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00000002",
+        "0x04000000",
+        "0x01002400",
+        "0x44000010",
+        "0x00000000",
+        "0x00000000",
+        "0x20000000",
+        "0x00000020",
+        "0x00000000",
+        "0x00400000",
+        "0x00000000",
+        "0x20000200",
+        "0x04000000",
+        "0x00810000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        38,
+        86,
+        89,
+        118,
+        150
+      ],
+      "bits": [
+        63,
+        64,
+        74,
+        112,
+        116,
+        117,
+        143,
+        198,
+        261,
+        342,
+        361,
+        461
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 105,
+      "net_delta": 19,
+      "lane_hw": [
+        16,
+        11,
+        10,
+        17,
+        12,
+        11,
+        15,
+        13
+      ],
+      "cg_objective": 155.0,
+      "cg_delta": 31.0,
+      "target_l1": 28,
+      "target_l1_delta": 7,
+      "standalone_net_delta_sum": 156,
+      "delta_lane_sum": [
+        -1,
+        10,
+        36,
+        43,
+        1,
+        30,
+        19,
+        18
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair_e"
+        ],
+        [
+          "repair_c"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x80000000",
+        "0x00000001",
+        "0x01300000",
+        "0x00008010",
+        "0x00000000",
+        "0x00000040",
+        "0x00000000",
+        "0x00000020",
+        "0x00000000",
+        "0x00400000",
+        "0x00000200",
+        "0x20000200",
+        "0x04000000",
+        "0x00802000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        4,
+        10,
+        20,
+        74,
+        101,
+        117
+      ],
+      "bits": [
+        52,
+        91,
+        106,
+        112,
+        195,
+        228,
+        253,
+        342,
+        393,
+        430,
+        434,
+        500
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 105,
+      "net_delta": 19,
+      "lane_hw": [
+        13,
+        14,
+        12,
+        16,
+        16,
+        14,
+        7,
+        13
+      ],
+      "cg_objective": 143.0,
+      "cg_delta": 19.0,
+      "target_l1": 30,
+      "target_l1_delta": 9,
+      "standalone_net_delta_sum": 105,
+      "delta_lane_sum": [
+        -6,
+        -10,
+        35,
+        36,
+        3,
+        16,
+        22,
+        9
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target",
+          "hw"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00100000",
+        "0x08000400",
+        "0x01000400",
+        "0x00000010",
+        "0x00000000",
+        "0x00000008",
+        "0x20000010",
+        "0x00000000",
+        "0x00000000",
+        "0x00400000",
+        "0x00000000",
+        "0x20000000",
+        "0x04044000",
+        "0x00800000",
+        "0x00100000"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        20,
+        79,
+        116,
+        117,
+        139
+      ],
+      "bits": [
+        24,
+        91,
+        112,
+        195,
+        221,
+        228,
+        244,
+        320,
+        337,
+        342,
+        393,
+        468
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 106,
+      "net_delta": 20,
+      "lane_hw": [
+        16,
+        12,
+        16,
+        14,
+        12,
+        13,
+        9,
+        14
+      ],
+      "cg_objective": 156.0,
+      "cg_delta": 32.0,
+      "target_l1": 23,
+      "target_l1_delta": 2,
+      "standalone_net_delta_sum": 137,
+      "delta_lane_sum": [
+        0,
+        12,
+        35,
+        41,
+        -11,
+        14,
+        32,
+        14
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair_h"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_e"
+        ]
+      ],
+      "M2": [
+        "0x01000000",
+        "0x00000000",
+        "0x08000400",
+        "0x01000000",
+        "0x00000010",
+        "0x00000000",
+        "0x20000008",
+        "0x00100010",
+        "0x00000000",
+        "0x00000000",
+        "0x00420001",
+        "0x00000000",
+        "0x20000000",
+        "0x04000000",
+        "0x00900000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        4,
+        62,
+        76,
+        96,
+        117,
+        150
+      ],
+      "bits": [
+        74,
+        91,
+        106,
+        172,
+        199,
+        253,
+        261,
+        265,
+        304,
+        348,
+        370,
+        393
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 106,
+      "net_delta": 20,
+      "lane_hw": [
+        11,
+        13,
+        14,
+        14,
+        12,
+        15,
+        13,
+        14
+      ],
+      "cg_objective": 160.0,
+      "cg_delta": 36.0,
+      "target_l1": 25,
+      "target_l1_delta": 4,
+      "standalone_net_delta_sum": 148,
+      "delta_lane_sum": [
+        5,
+        -2,
+        36,
+        46,
+        -7,
+        16,
+        27,
+        27
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target",
+          "hw"
+        ],
+        [
+          "repair_f"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair",
+          "repair_e"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00000000",
+        "0x08000000",
+        "0x01010400",
+        "0x00000010",
+        "0x00001000",
+        "0x00000080",
+        "0x20000000",
+        "0x00000220",
+        "0x00010000",
+        "0x10000000",
+        "0x00040000",
+        "0x20000000",
+        "0x04000000",
+        "0x00800000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        2,
+        10,
+        35,
+        38,
+        49,
+        150
+      ],
+      "bits": [
+        0,
+        64,
+        70,
+        74,
+        94,
+        112,
+        117,
+        183,
+        189,
+        261,
+        342,
+        459
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 106,
+      "net_delta": 20,
+      "lane_hw": [
+        7,
+        19,
+        16,
+        11,
+        12,
+        13,
+        8,
+        20
+      ],
+      "cg_objective": 154.0,
+      "cg_delta": 30.0,
+      "target_l1": 37,
+      "target_l1_delta": 16,
+      "standalone_net_delta_sum": 131,
+      "delta_lane_sum": [
+        4,
+        0,
+        45,
+        30,
+        8,
+        11,
+        18,
+        15
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair_f"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000001",
+        "0x00000000",
+        "0x40000041",
+        "0x01200000",
+        "0x00000010",
+        "0x20800000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000020",
+        "0x00000000",
+        "0x00400000",
+        "0x00000000",
+        "0x20000200",
+        "0x04000000",
+        "0x00800800",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        43,
+        77,
+        102,
+        126,
+        150
+      ],
+      "bits": [
+        15,
+        51,
+        74,
+        112,
+        179,
+        261,
+        263,
+        342,
+        347,
+        457,
+        473,
+        480
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 107,
+      "net_delta": 21,
+      "lane_hw": [
+        13,
+        13,
+        15,
+        11,
+        14,
+        10,
+        15,
+        16
+      ],
+      "cg_objective": 167.0,
+      "cg_delta": 43.0,
+      "target_l1": 22,
+      "target_l1_delta": 1,
+      "standalone_net_delta_sum": 167,
+      "delta_lane_sum": [
+        10,
+        -10,
+        45,
+        51,
+        4,
+        20,
+        22,
+        25
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_g"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00008000",
+        "0x00080000",
+        "0x00000000",
+        "0x01000000",
+        "0x00000010",
+        "0x00080000",
+        "0x00000000",
+        "0x00000000",
+        "0x000000a0",
+        "0x00000000",
+        "0x08400000",
+        "0x00000000",
+        "0x20000200",
+        "0x04000000",
+        "0x02800200",
+        "0x00000001"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        26,
+        78,
+        84,
+        135,
+        150
+      ],
+      "bits": [
+        47,
+        74,
+        112,
+        119,
+        122,
+        140,
+        194,
+        261,
+        342,
+        403,
+        429,
+        499
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 107,
+      "net_delta": 21,
+      "lane_hw": [
+        13,
+        11,
+        13,
+        13,
+        19,
+        12,
+        14,
+        12
+      ],
+      "cg_objective": 161.0,
+      "cg_delta": 37.0,
+      "target_l1": 24,
+      "target_l1_delta": 3,
+      "standalone_net_delta_sum": 168,
+      "delta_lane_sum": [
+        11,
+        2,
+        33,
+        54,
+        5,
+        24,
+        30,
+        9
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair_h"
+        ],
+        [
+          "repair_c"
+        ],
+        [
+          "repair",
+          "repair_e"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00008000",
+        "0x00000000",
+        "0x05800000",
+        "0x00001010",
+        "0x00000000",
+        "0x00000004",
+        "0x00000000",
+        "0x00000020",
+        "0x00000000",
+        "0x00400000",
+        "0x00000000",
+        "0x20080200",
+        "0x04002000",
+        "0x00800000",
+        "0x00080000"
+      ]
+    },
+    {
+      "pair_ids": [
+        36,
+        49,
+        62,
+        69,
+        117,
+        150
+      ],
+      "bits": [
+        70,
+        74,
+        91,
+        94,
+        108,
+        261,
+        295,
+        304,
+        370,
+        393,
+        404,
+        459
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 107,
+      "net_delta": 21,
+      "lane_hw": [
+        12,
+        15,
+        14,
+        15,
+        14,
+        11,
+        15,
+        11
+      ],
+      "cg_objective": 165.0,
+      "cg_delta": 41.0,
+      "target_l1": 24,
+      "target_l1_delta": 3,
+      "standalone_net_delta_sum": 139,
+      "delta_lane_sum": [
+        -11,
+        5,
+        45,
+        39,
+        -1,
+        2,
+        29,
+        31
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "repair_f"
+        ],
+        [
+          "repair_f"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00000000",
+        "0x48000040",
+        "0x01011000",
+        "0x00000010",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000020",
+        "0x00010080",
+        "0x00000000",
+        "0x00040000",
+        "0x20100000",
+        "0x04000000",
+        "0x00800800",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        6,
+        8,
+        10,
+        81,
+        123,
+        150
+      ],
+      "bits": [
+        3,
+        74,
+        112,
+        119,
+        133,
+        261,
+        278,
+        296,
+        326,
+        330,
+        342,
+        463
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 107,
+      "net_delta": 21,
+      "lane_hw": [
+        14,
+        12,
+        14,
+        14,
+        10,
+        17,
+        14,
+        12
+      ],
+      "cg_objective": 163.0,
+      "cg_delta": 39.0,
+      "target_l1": 26,
+      "target_l1_delta": 5,
+      "standalone_net_delta_sum": 126,
+      "delta_lane_sum": [
+        -2,
+        6,
+        28,
+        28,
+        8,
+        15,
+        22,
+        21
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target",
+          "hw",
+          "cg"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair_d"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000008",
+        "0x00000000",
+        "0x00000000",
+        "0x01800000",
+        "0x00000030",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00400020",
+        "0x00000100",
+        "0x00400440",
+        "0x00000000",
+        "0x20000200",
+        "0x04000000",
+        "0x00808000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        28,
+        69,
+        95,
+        114,
+        117,
+        150
+      ],
+      "bits": [
+        25,
+        68,
+        74,
+        91,
+        94,
+        164,
+        259,
+        261,
+        295,
+        393,
+        397,
+        450
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 107,
+      "net_delta": 21,
+      "lane_hw": [
+        17,
+        12,
+        12,
+        12,
+        16,
+        9,
+        17,
+        12
+      ],
+      "cg_objective": 165.0,
+      "cg_delta": 41.0,
+      "target_l1": 26,
+      "target_l1_delta": 5,
+      "standalone_net_delta_sum": 160,
+      "delta_lane_sum": [
+        -5,
+        2,
+        47,
+        39,
+        4,
+        25,
+        22,
+        26
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_g"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x02000000",
+        "0x00000000",
+        "0x48000010",
+        "0x01010000",
+        "0x00000010",
+        "0x00000010",
+        "0x00000000",
+        "0x00000000",
+        "0x00000028",
+        "0x00000080",
+        "0x00000000",
+        "0x00000000",
+        "0x20002000",
+        "0x04000000",
+        "0x00800004",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        57,
+        68,
+        76,
+        148,
+        150
+      ],
+      "bits": [
+        13,
+        74,
+        112,
+        172,
+        240,
+        261,
+        263,
+        297,
+        342,
+        348,
+        384,
+        508
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 107,
+      "net_delta": 21,
+      "lane_hw": [
+        12,
+        15,
+        12,
+        17,
+        12,
+        12,
+        11,
+        16
+      ],
+      "cg_objective": 153.0,
+      "cg_delta": 29.0,
+      "target_l1": 28,
+      "target_l1_delta": 7,
+      "standalone_net_delta_sum": 161,
+      "delta_lane_sum": [
+        13,
+        -6,
+        32,
+        49,
+        2,
+        26,
+        24,
+        21
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "hw",
+          "cg"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair",
+          "repair_e"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00002000",
+        "0x00000000",
+        "0x00000000",
+        "0x01000000",
+        "0x00000010",
+        "0x00001000",
+        "0x00000000",
+        "0x00010000",
+        "0x000000a0",
+        "0x00000200",
+        "0x10400000",
+        "0x00000000",
+        "0x20000201",
+        "0x04000000",
+        "0x00800000",
+        "0x10000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        24,
+        69,
+        74,
+        141,
+        150
+      ],
+      "bits": [
+        13,
+        44,
+        74,
+        94,
+        112,
+        261,
+        280,
+        295,
+        342,
+        430,
+        434,
+        448
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 107,
+      "net_delta": 21,
+      "lane_hw": [
+        15,
+        15,
+        13,
+        11,
+        10,
+        14,
+        18,
+        11
+      ],
+      "cg_objective": 169.0,
+      "cg_delta": 45.0,
+      "target_l1": 28,
+      "target_l1_delta": 7,
+      "standalone_net_delta_sum": 144,
+      "delta_lane_sum": [
+        7,
+        -4,
+        32,
+        42,
+        -2,
+        22,
+        32,
+        15
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_c"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00002000",
+        "0x00001000",
+        "0x40000000",
+        "0x01000000",
+        "0x00000010",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x01000020",
+        "0x00000080",
+        "0x00400000",
+        "0x00000000",
+        "0x20000200",
+        "0x04044000",
+        "0x00800001",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        26,
+        29,
+        117,
+        140,
+        145,
+        150
+      ],
+      "bits": [
+        47,
+        53,
+        74,
+        91,
+        158,
+        236,
+        261,
+        276,
+        341,
+        393,
+        396,
+        403
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 107,
+      "net_delta": 21,
+      "lane_hw": [
+        14,
+        13,
+        10,
+        17,
+        15,
+        11,
+        12,
+        15
+      ],
+      "cg_objective": 151.0,
+      "cg_delta": 27.0,
+      "target_l1": 30,
+      "target_l1_delta": 9,
+      "standalone_net_delta_sum": 176,
+      "delta_lane_sum": [
+        0,
+        0,
+        34,
+        51,
+        8,
+        26,
+        40,
+        17
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_c"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00208000",
+        "0x08000000",
+        "0x01010000",
+        "0x40000010",
+        "0x00000000",
+        "0x00000000",
+        "0x00001000",
+        "0x00100020",
+        "0x00000000",
+        "0x00200000",
+        "0x00000000",
+        "0x20081000",
+        "0x04000000",
+        "0x00800000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        2,
+        5,
+        10,
+        29,
+        82,
+        117
+      ],
+      "bits": [
+        1,
+        53,
+        91,
+        94,
+        101,
+        112,
+        158,
+        189,
+        342,
+        392,
+        393,
+        435
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 107,
+      "net_delta": 21,
+      "lane_hw": [
+        10,
+        18,
+        13,
+        13,
+        9,
+        15,
+        12,
+        17
+      ],
+      "cg_objective": 157.0,
+      "cg_delta": 33.0,
+      "target_l1": 36,
+      "target_l1_delta": 15,
+      "standalone_net_delta_sum": 105,
+      "delta_lane_sum": [
+        3,
+        -12,
+        33,
+        30,
+        0,
+        15,
+        18,
+        18
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000002",
+        "0x00200000",
+        "0x48000400",
+        "0x01000020",
+        "0x40000010",
+        "0x20000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00400000",
+        "0x00000000",
+        "0x20000100",
+        "0x04080000",
+        "0x00800000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        8,
+        10,
+        27,
+        57,
+        103,
+        150
+      ],
+      "bits": [
+        4,
+        74,
+        112,
+        165,
+        261,
+        263,
+        278,
+        297,
+        326,
+        342,
+        365,
+        488
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 108,
+      "net_delta": 22,
+      "lane_hw": [
+        15,
+        11,
+        18,
+        17,
+        13,
+        10,
+        12,
+        12
+      ],
+      "cg_objective": 168.0,
+      "cg_delta": 44.0,
+      "target_l1": 23,
+      "target_l1_delta": 2,
+      "standalone_net_delta_sum": 148,
+      "delta_lane_sum": [
+        15,
+        -10,
+        39,
+        40,
+        12,
+        14,
+        24,
+        14
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target",
+          "hw",
+          "cg"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_f"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000010",
+        "0x00000000",
+        "0x00000000",
+        "0x01000000",
+        "0x00000010",
+        "0x00000020",
+        "0x00000000",
+        "0x00000000",
+        "0x004000a0",
+        "0x00000200",
+        "0x00400040",
+        "0x00002000",
+        "0x20000200",
+        "0x04000000",
+        "0x00800000",
+        "0x00000100"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        16,
+        54,
+        74,
+        117,
+        129
+      ],
+      "bits": [
+        61,
+        91,
+        96,
+        99,
+        112,
+        261,
+        300,
+        342,
+        376,
+        393,
+        430,
+        434
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 108,
+      "net_delta": 22,
+      "lane_hw": [
+        14,
+        12,
+        13,
+        11,
+        16,
+        12,
+        15,
+        15
+      ],
+      "cg_objective": 164.0,
+      "cg_delta": 40.0,
+      "target_l1": 25,
+      "target_l1_delta": 4,
+      "standalone_net_delta_sum": 113,
+      "delta_lane_sum": [
+        -4,
+        -6,
+        42,
+        40,
+        -10,
+        16,
+        26,
+        9
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target",
+          "hw"
+        ],
+        [
+          "repair_h"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x20000000",
+        "0x08000400",
+        "0x01000009",
+        "0x00000010",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000020",
+        "0x00001000",
+        "0x00400000",
+        "0x01000000",
+        "0x20000000",
+        "0x04044000",
+        "0x00800000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        49,
+        88,
+        89,
+        120,
+        150
+      ],
+      "bits": [
+        41,
+        70,
+        74,
+        112,
+        116,
+        261,
+        274,
+        342,
+        361,
+        409,
+        459
+      ],
+      "radius": 11,
+      "m2_added_bits": 9,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 7,
+      "hw_total": 108,
+      "net_delta": 22,
+      "lane_hw": [
+        13,
+        17,
+        14,
+        15,
+        10,
+        15,
+        12,
+        12
+      ],
+      "cg_objective": 160.0,
+      "cg_delta": 36.0,
+      "target_l1": 27,
+      "target_l1_delta": 6,
+      "standalone_net_delta_sum": 158,
+      "delta_lane_sum": [
+        11,
+        -13,
+        42,
+        45,
+        12,
+        18,
+        19,
+        24
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "repair_f"
+        ],
+        [
+          "repair_b"
+        ],
+        [
+          "repair_c"
+        ],
+        [
+          "repair_b"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00000200",
+        "0x00000040",
+        "0x01100000",
+        "0x00000010",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00040020",
+        "0x00000000",
+        "0x00400000",
+        "0x00000200",
+        "0x22000200",
+        "0x04000000",
+        "0x00800800",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        47,
+        59,
+        77,
+        87,
+        117,
+        150
+      ],
+      "bits": [
+        51,
+        74,
+        91,
+        139,
+        179,
+        220,
+        228,
+        248,
+        261,
+        359,
+        393,
+        405
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 108,
+      "net_delta": 22,
+      "lane_hw": [
+        17,
+        18,
+        12,
+        13,
+        10,
+        11,
+        13,
+        14
+      ],
+      "cg_objective": 158.0,
+      "cg_delta": 34.0,
+      "target_l1": 31,
+      "target_l1_delta": 10,
+      "standalone_net_delta_sum": 148,
+      "delta_lane_sum": [
+        6,
+        -17,
+        27,
+        47,
+        5,
+        26,
+        32,
+        22
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "cg"
+        ],
+        [
+          "hw",
+          "cg"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_b"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00080000",
+        "0x08000000",
+        "0x01010000",
+        "0x00000810",
+        "0x00080000",
+        "0x10000000",
+        "0x01000010",
+        "0x00000020",
+        "0x00000000",
+        "0x00000000",
+        "0x00000080",
+        "0x20200000",
+        "0x04000000",
+        "0x00800000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        32,
+        73,
+        79,
+        117,
+        136,
+        150
+      ],
+      "bits": [
+        74,
+        91,
+        244,
+        258,
+        261,
+        263,
+        320,
+        329,
+        337,
+        350,
+        393,
+        501
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 108,
+      "net_delta": 22,
+      "lane_hw": [
+        16,
+        19,
+        9,
+        13,
+        14,
+        16,
+        11,
+        10
+      ],
+      "cg_objective": 148.0,
+      "cg_delta": 24.0,
+      "target_l1": 33,
+      "target_l1_delta": 12,
+      "standalone_net_delta_sum": 178,
+      "delta_lane_sum": [
+        5,
+        9,
+        43,
+        35,
+        2,
+        30,
+        40,
+        14
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "repair_d"
+        ],
+        [
+          "repair_h"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00000000",
+        "0x08000000",
+        "0x01010000",
+        "0x00000010",
+        "0x00000000",
+        "0x00000000",
+        "0x00100000",
+        "0x000000a4",
+        "0x00000000",
+        "0x40020201",
+        "0x00000000",
+        "0x20000000",
+        "0x04000000",
+        "0x00800000",
+        "0x00200000"
+      ]
+    },
+    {
+      "pair_ids": [
+        5,
+        8,
+        10,
+        56,
+        57,
+        117
+      ],
+      "bits": [
+        91,
+        112,
+        249,
+        263,
+        278,
+        297,
+        326,
+        342,
+        370,
+        392,
+        393,
+        435
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 108,
+      "net_delta": 22,
+      "lane_hw": [
+        12,
+        15,
+        10,
+        12,
+        16,
+        11,
+        16,
+        16
+      ],
+      "cg_objective": 160.0,
+      "cg_delta": 36.0,
+      "target_l1": 33,
+      "target_l1_delta": 12,
+      "standalone_net_delta_sum": 102,
+      "delta_lane_sum": [
+        12,
+        -13,
+        28,
+        34,
+        8,
+        14,
+        5,
+        14
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target",
+          "hw",
+          "cg"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair_g"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00000000",
+        "0x08000400",
+        "0x01000000",
+        "0x00000010",
+        "0x00000000",
+        "0x00000000",
+        "0x02000000",
+        "0x00400080",
+        "0x00000200",
+        "0x00400040",
+        "0x00040000",
+        "0x20000100",
+        "0x04080000",
+        "0x00800000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        17,
+        21,
+        60,
+        116,
+        117,
+        150
+      ],
+      "bits": [
+        74,
+        91,
+        116,
+        133,
+        177,
+        261,
+        285,
+        337,
+        349,
+        393,
+        468,
+        488
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 108,
+      "net_delta": 22,
+      "lane_hw": [
+        11,
+        11,
+        11,
+        16,
+        14,
+        14,
+        18,
+        13
+      ],
+      "cg_objective": 166.0,
+      "cg_delta": 42.0,
+      "target_l1": 33,
+      "target_l1_delta": 12,
+      "standalone_net_delta_sum": 140,
+      "delta_lane_sum": [
+        -11,
+        6,
+        34,
+        42,
+        2,
+        20,
+        27,
+        20
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target",
+          "hw"
+        ],
+        [
+          "target"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00000000",
+        "0x08000000",
+        "0x01110000",
+        "0x00000030",
+        "0x00020000",
+        "0x00000000",
+        "0x00000000",
+        "0x20000020",
+        "0x00000000",
+        "0x20020000",
+        "0x00000000",
+        "0x20000000",
+        "0x04000000",
+        "0x00900000",
+        "0x00000100"
+      ]
+    },
+    {
+      "pair_ids": [
+        3,
+        10,
+        78,
+        124,
+        140,
+        150
+      ],
+      "bits": [
+        74,
+        112,
+        125,
+        194,
+        236,
+        261,
+        262,
+        296,
+        299,
+        341,
+        342,
+        499
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 108,
+      "net_delta": 22,
+      "lane_hw": [
+        8,
+        15,
+        13,
+        14,
+        12,
+        22,
+        11,
+        13
+      ],
+      "cg_objective": 156.0,
+      "cg_delta": 32.0,
+      "target_l1": 35,
+      "target_l1_delta": 14,
+      "standalone_net_delta_sum": 175,
+      "delta_lane_sum": [
+        16,
+        -1,
+        47,
+        49,
+        -1,
+        25,
+        20,
+        20
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair_h"
+        ],
+        [
+          "repair_g"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x21000000",
+        "0x00000010",
+        "0x00000000",
+        "0x00000004",
+        "0x00001000",
+        "0x00000060",
+        "0x00000900",
+        "0x00600000",
+        "0x00000000",
+        "0x20000200",
+        "0x04000000",
+        "0x00800000",
+        "0x00080000"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        13,
+        22,
+        85,
+        91,
+        117
+      ],
+      "bits": [
+        33,
+        38,
+        91,
+        112,
+        117,
+        158,
+        269,
+        342,
+        348,
+        377,
+        393,
+        493
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 108,
+      "net_delta": 22,
+      "lane_hw": [
+        9,
+        9,
+        13,
+        15,
+        17,
+        16,
+        16,
+        13
+      ],
+      "cg_objective": 166.0,
+      "cg_delta": 42.0,
+      "target_l1": 37,
+      "target_l1_delta": 16,
+      "standalone_net_delta_sum": 119,
+      "delta_lane_sum": [
+        3,
+        -7,
+        25,
+        40,
+        -1,
+        15,
+        23,
+        21
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00000042",
+        "0x08000400",
+        "0x01200000",
+        "0x40000010",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00002000",
+        "0x00000000",
+        "0x10400000",
+        "0x02000000",
+        "0x20000000",
+        "0x04000000",
+        "0x00800000",
+        "0x00002000"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        16,
+        67,
+        73,
+        117,
+        132
+      ],
+      "bits": [
+        61,
+        91,
+        112,
+        196,
+        263,
+        271,
+        305,
+        337,
+        341,
+        342,
+        376,
+        393
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 108,
+      "net_delta": 22,
+      "lane_hw": [
+        9,
+        23,
+        10,
+        12,
+        15,
+        12,
+        13,
+        14
+      ],
+      "cg_objective": 154.0,
+      "cg_delta": 30.0,
+      "target_l1": 39,
+      "target_l1_delta": 18,
+      "standalone_net_delta_sum": 126,
+      "delta_lane_sum": [
+        15,
+        -7,
+        31,
+        31,
+        -5,
+        16,
+        21,
+        24
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target",
+          "hw"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_d"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x20000000",
+        "0x08000400",
+        "0x01000000",
+        "0x00000010",
+        "0x00000000",
+        "0x00000010",
+        "0x00000000",
+        "0x00008080",
+        "0x00020000",
+        "0x00620000",
+        "0x01000000",
+        "0x20000000",
+        "0x04000000",
+        "0x00800000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        9,
+        10,
+        63,
+        76,
+        104,
+        150
+      ],
+      "bits": [
+        74,
+        112,
+        116,
+        172,
+        261,
+        299,
+        331,
+        342,
+        348,
+        478,
+        486,
+        499
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 108,
+      "net_delta": 22,
+      "lane_hw": [
+        9,
+        18,
+        8,
+        15,
+        13,
+        17,
+        14,
+        14
+      ],
+      "cg_objective": 152.0,
+      "cg_delta": 28.0,
+      "target_l1": 43,
+      "target_l1_delta": 22,
+      "standalone_net_delta_sum": 163,
+      "delta_lane_sum": [
+        9,
+        2,
+        32,
+        47,
+        19,
+        30,
+        22,
+        2
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair_h"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair_h"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x01100000",
+        "0x00000010",
+        "0x00001000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000020",
+        "0x00000800",
+        "0x10400800",
+        "0x00000000",
+        "0x20000200",
+        "0x04000000",
+        "0x40800000",
+        "0x00080040"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        32,
+        34,
+        38,
+        68,
+        117
+      ],
+      "bits": [
+        13,
+        64,
+        91,
+        112,
+        117,
+        149,
+        231,
+        240,
+        329,
+        342,
+        393,
+        501
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 109,
+      "net_delta": 23,
+      "lane_hw": [
+        14,
+        11,
+        16,
+        17,
+        17,
+        11,
+        13,
+        10
+      ],
+      "cg_objective": 167.0,
+      "cg_delta": 43.0,
+      "target_l1": 24,
+      "target_l1_delta": 3,
+      "standalone_net_delta_sum": 100,
+      "delta_lane_sum": [
+        0,
+        -2,
+        22,
+        26,
+        5,
+        16,
+        19,
+        14
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "hw",
+          "cg"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00002000",
+        "0x00000000",
+        "0x08000401",
+        "0x01200000",
+        "0x00200010",
+        "0x00000000",
+        "0x00000000",
+        "0x00010080",
+        "0x00000000",
+        "0x00000000",
+        "0x00400200",
+        "0x00000000",
+        "0x20000000",
+        "0x04000000",
+        "0x00800000",
+        "0x00200000"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        55,
+        89,
+        104,
+        130,
+        150
+      ],
+      "bits": [
+        74,
+        81,
+        89,
+        112,
+        116,
+        207,
+        247,
+        261,
+        299,
+        342,
+        361,
+        499
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 109,
+      "net_delta": 23,
+      "lane_hw": [
+        15,
+        13,
+        13,
+        12,
+        11,
+        17,
+        14,
+        14
+      ],
+      "cg_objective": 163.0,
+      "cg_delta": 39.0,
+      "target_l1": 28,
+      "target_l1_delta": 7,
+      "standalone_net_delta_sum": 181,
+      "delta_lane_sum": [
+        14,
+        17,
+        33,
+        52,
+        10,
+        17,
+        29,
+        9
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "repair_h"
+        ],
+        [
+          "repair_c"
+        ],
+        [
+          "repair_h"
+        ],
+        [
+          "repair_f"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00000000",
+        "0x02020000",
+        "0x01100000",
+        "0x00000010",
+        "0x00000000",
+        "0x00008000",
+        "0x00800000",
+        "0x00000020",
+        "0x00000800",
+        "0x00400000",
+        "0x00000200",
+        "0x20000200",
+        "0x04000000",
+        "0x00800000",
+        "0x00080000"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        20,
+        59,
+        107,
+        117,
+        149
+      ],
+      "bits": [
+        61,
+        91,
+        112,
+        195,
+        220,
+        228,
+        270,
+        295,
+        321,
+        342,
+        393
+      ],
+      "radius": 11,
+      "m2_added_bits": 9,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 7,
+      "hw_total": 109,
+      "net_delta": 23,
+      "lane_hw": [
+        15,
+        16,
+        12,
+        15,
+        11,
+        13,
+        13,
+        14
+      ],
+      "cg_objective": 159.0,
+      "cg_delta": 35.0,
+      "target_l1": 30,
+      "target_l1_delta": 9,
+      "standalone_net_delta_sum": 142,
+      "delta_lane_sum": [
+        -2,
+        -7,
+        32,
+        40,
+        11,
+        19,
+        26,
+        23
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "hw",
+          "cg"
+        ],
+        [
+          "repair_b"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x20000000",
+        "0x08000400",
+        "0x01000000",
+        "0x00000010",
+        "0x00000000",
+        "0x10000008",
+        "0x00000010",
+        "0x00004000",
+        "0x00000080",
+        "0x00400002",
+        "0x00000000",
+        "0x20000000",
+        "0x04000000",
+        "0x00800000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        47,
+        82,
+        96,
+        149,
+        150
+      ],
+      "bits": [
+        1,
+        61,
+        74,
+        101,
+        112,
+        199,
+        248,
+        261,
+        265,
+        295,
+        342,
+        359
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 109,
+      "net_delta": 23,
+      "lane_hw": [
+        10,
+        15,
+        16,
+        15,
+        15,
+        13,
+        11,
+        14
+      ],
+      "cg_objective": 163.0,
+      "cg_delta": 39.0,
+      "target_l1": 30,
+      "target_l1_delta": 9,
+      "standalone_net_delta_sum": 171,
+      "delta_lane_sum": [
+        8,
+        -5,
+        40,
+        38,
+        5,
+        22,
+        27,
+        36
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair",
+          "repair_e"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000002",
+        "0x20000000",
+        "0x00000000",
+        "0x01000020",
+        "0x00000010",
+        "0x00000000",
+        "0x00000080",
+        "0x01000000",
+        "0x00000220",
+        "0x00000080",
+        "0x00400000",
+        "0x00000080",
+        "0x20000200",
+        "0x04000000",
+        "0x00800000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        15,
+        39,
+        48,
+        138,
+        150
+      ],
+      "bits": [
+        74,
+        95,
+        109,
+        112,
+        145,
+        154,
+        242,
+        261,
+        264,
+        342,
+        406,
+        417
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 109,
+      "net_delta": 23,
+      "lane_hw": [
+        10,
+        11,
+        19,
+        16,
+        13,
+        15,
+        12,
+        13
+      ],
+      "cg_objective": 171.0,
+      "cg_delta": 47.0,
+      "target_l1": 30,
+      "target_l1_delta": 9,
+      "standalone_net_delta_sum": 136,
+      "delta_lane_sum": [
+        10,
+        1,
+        35,
+        42,
+        5,
+        23,
+        7,
+        13
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target",
+          "repair",
+          "hw",
+          "cg"
+        ],
+        [
+          "target"
+        ],
+        [
+          "cg",
+          "repair_g"
+        ],
+        [
+          "repair_g"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00000000",
+        "0x80000000",
+        "0x01002000",
+        "0x04020010",
+        "0x00000000",
+        "0x00000000",
+        "0x00040000",
+        "0x00000120",
+        "0x00000000",
+        "0x00400000",
+        "0x00000000",
+        "0x20400200",
+        "0x04000002",
+        "0x00800000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        61,
+        63,
+        66,
+        70,
+        117,
+        150
+      ],
+      "bits": [
+        31,
+        44,
+        74,
+        91,
+        160,
+        261,
+        297,
+        331,
+        393,
+        446,
+        464,
+        486
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 109,
+      "net_delta": 23,
+      "lane_hw": [
+        15,
+        15,
+        11,
+        11,
+        11,
+        14,
+        13,
+        19
+      ],
+      "cg_objective": 157.0,
+      "cg_delta": 33.0,
+      "target_l1": 32,
+      "target_l1_delta": 11,
+      "standalone_net_delta_sum": 155,
+      "delta_lane_sum": [
+        0,
+        5,
+        33,
+        44,
+        0,
+        31,
+        33,
+        9
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "repair_e"
+        ],
+        [
+          "repair_h"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x80000000",
+        "0x00001000",
+        "0x08000000",
+        "0x01010000",
+        "0x00000010",
+        "0x00000001",
+        "0x00000000",
+        "0x00000000",
+        "0x00000020",
+        "0x00000200",
+        "0x00000800",
+        "0x00000000",
+        "0x20000000",
+        "0x44000000",
+        "0x00810000",
+        "0x00000040"
+      ]
+    },
+    {
+      "pair_ids": [
+        23,
+        40,
+        117,
+        136,
+        148,
+        150
+      ],
+      "bits": [
+        47,
+        58,
+        74,
+        91,
+        92,
+        155,
+        258,
+        261,
+        350,
+        384,
+        393,
+        508
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 109,
+      "net_delta": 23,
+      "lane_hw": [
+        14,
+        13,
+        13,
+        12,
+        9,
+        15,
+        16,
+        17
+      ],
+      "cg_objective": 167.0,
+      "cg_delta": 43.0,
+      "target_l1": 32,
+      "target_l1_delta": 11,
+      "standalone_net_delta_sum": 180,
+      "delta_lane_sum": [
+        11,
+        0,
+        38,
+        49,
+        -11,
+        33,
+        43,
+        17
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "hw"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair",
+          "repair_e"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x04008000",
+        "0x18000000",
+        "0x01010000",
+        "0x08000010",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000024",
+        "0x00000000",
+        "0x40000000",
+        "0x00000000",
+        "0x20000001",
+        "0x04000000",
+        "0x00800000",
+        "0x10000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        56,
+        74,
+        89,
+        130,
+        150
+      ],
+      "bits": [
+        74,
+        89,
+        112,
+        116,
+        207,
+        249,
+        261,
+        342,
+        361,
+        370,
+        430,
+        434
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 109,
+      "net_delta": 23,
+      "lane_hw": [
+        17,
+        13,
+        9,
+        13,
+        16,
+        14,
+        12,
+        15
+      ],
+      "cg_objective": 151.0,
+      "cg_delta": 27.0,
+      "target_l1": 34,
+      "target_l1_delta": 13,
+      "standalone_net_delta_sum": 152,
+      "delta_lane_sum": [
+        10,
+        1,
+        28,
+        50,
+        3,
+        13,
+        23,
+        24
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "repair_g"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_c"
+        ],
+        [
+          "repair_f"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00000000",
+        "0x02000000",
+        "0x01100000",
+        "0x00000010",
+        "0x00000000",
+        "0x00008000",
+        "0x02000000",
+        "0x00000020",
+        "0x00000000",
+        "0x00400000",
+        "0x00040200",
+        "0x20000200",
+        "0x04044000",
+        "0x00800000",
+        "0x00000000"
+      ]
+    }
+  ],
+  "top_by_target_l1": [
+    {
+      "pair_ids": [
+        10,
+        14,
+        24,
+        65,
+        134,
+        150
+      ],
+      "bits": [
+        53,
+        74,
+        112,
+        261,
+        280,
+        342,
+        392,
+        416,
+        448,
+        483,
+        484
+      ],
+      "radius": 11,
+      "m2_added_bits": 9,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 7,
+      "hw_total": 99,
+      "net_delta": 13,
+      "lane_hw": [
+        13,
+        11,
+        14,
+        10,
+        10,
+        14,
+        14,
+        13
+      ],
+      "cg_objective": 155.0,
+      "cg_delta": 31.0,
+      "target_l1": 18,
+      "target_l1_delta": -3,
+      "standalone_net_delta_sum": 147,
+      "delta_lane_sum": [
+        7,
+        4,
+        35,
+        23,
+        13,
+        35,
+        21,
+        9
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair_d"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00200000",
+        "0x00000000",
+        "0x01000000",
+        "0x00000010",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x01000020",
+        "0x00000000",
+        "0x00400000",
+        "0x00000000",
+        "0x20000300",
+        "0x04000001",
+        "0x00800001",
+        "0x00000018"
+      ]
+    },
+    {
+      "pair_ids": [
+        66,
+        86,
+        103,
+        117,
+        134,
+        150
+      ],
+      "bits": [
+        74,
+        91,
+        143,
+        165,
+        198,
+        261,
+        297,
+        365,
+        393,
+        446,
+        483
+      ],
+      "radius": 11,
+      "m2_added_bits": 9,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 7,
+      "hw_total": 103,
+      "net_delta": 17,
+      "lane_hw": [
+        12,
+        11,
+        13,
+        14,
+        15,
+        12,
+        12,
+        14
+      ],
+      "cg_objective": 153.0,
+      "cg_delta": 29.0,
+      "target_l1": 22,
+      "target_l1_delta": 1,
+      "standalone_net_delta_sum": 182,
+      "delta_lane_sum": [
+        -2,
+        7,
+        43,
+        43,
+        0,
+        32,
+        41,
+        18
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "repair"
+        ],
+        [
+          "repair_e"
+        ],
+        [
+          "repair_f"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_d"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00000000",
+        "0x08000000",
+        "0x01010000",
+        "0x00008010",
+        "0x00000020",
+        "0x00000040",
+        "0x00000000",
+        "0x00000020",
+        "0x00000200",
+        "0x00000000",
+        "0x00002000",
+        "0x20000000",
+        "0x44000000",
+        "0x00800000",
+        "0x00000008"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        43,
+        77,
+        102,
+        126,
+        150
+      ],
+      "bits": [
+        15,
+        51,
+        74,
+        112,
+        179,
+        261,
+        263,
+        342,
+        347,
+        457,
+        473,
+        480
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 107,
+      "net_delta": 21,
+      "lane_hw": [
+        13,
+        13,
+        15,
+        11,
+        14,
+        10,
+        15,
+        16
+      ],
+      "cg_objective": 167.0,
+      "cg_delta": 43.0,
+      "target_l1": 22,
+      "target_l1_delta": 1,
+      "standalone_net_delta_sum": 167,
+      "delta_lane_sum": [
+        10,
+        -10,
+        45,
+        51,
+        4,
+        20,
+        22,
+        25
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_g"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00008000",
+        "0x00080000",
+        "0x00000000",
+        "0x01000000",
+        "0x00000010",
+        "0x00080000",
+        "0x00000000",
+        "0x00000000",
+        "0x000000a0",
+        "0x00000000",
+        "0x08400000",
+        "0x00000000",
+        "0x20000200",
+        "0x04000000",
+        "0x02800200",
+        "0x00000001"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        20,
+        79,
+        116,
+        117,
+        139
+      ],
+      "bits": [
+        24,
+        91,
+        112,
+        195,
+        221,
+        228,
+        244,
+        320,
+        337,
+        342,
+        393,
+        468
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 106,
+      "net_delta": 20,
+      "lane_hw": [
+        16,
+        12,
+        16,
+        14,
+        12,
+        13,
+        9,
+        14
+      ],
+      "cg_objective": 156.0,
+      "cg_delta": 32.0,
+      "target_l1": 23,
+      "target_l1_delta": 2,
+      "standalone_net_delta_sum": 137,
+      "delta_lane_sum": [
+        0,
+        12,
+        35,
+        41,
+        -11,
+        14,
+        32,
+        14
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair_h"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_e"
+        ]
+      ],
+      "M2": [
+        "0x01000000",
+        "0x00000000",
+        "0x08000400",
+        "0x01000000",
+        "0x00000010",
+        "0x00000000",
+        "0x20000008",
+        "0x00100010",
+        "0x00000000",
+        "0x00000000",
+        "0x00420001",
+        "0x00000000",
+        "0x20000000",
+        "0x04000000",
+        "0x00900000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        8,
+        10,
+        27,
+        57,
+        103,
+        150
+      ],
+      "bits": [
+        4,
+        74,
+        112,
+        165,
+        261,
+        263,
+        278,
+        297,
+        326,
+        342,
+        365,
+        488
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 108,
+      "net_delta": 22,
+      "lane_hw": [
+        15,
+        11,
+        18,
+        17,
+        13,
+        10,
+        12,
+        12
+      ],
+      "cg_objective": 168.0,
+      "cg_delta": 44.0,
+      "target_l1": 23,
+      "target_l1_delta": 2,
+      "standalone_net_delta_sum": 148,
+      "delta_lane_sum": [
+        15,
+        -10,
+        39,
+        40,
+        12,
+        14,
+        24,
+        14
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target",
+          "hw",
+          "cg"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_f"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000010",
+        "0x00000000",
+        "0x00000000",
+        "0x01000000",
+        "0x00000010",
+        "0x00000020",
+        "0x00000000",
+        "0x00000000",
+        "0x004000a0",
+        "0x00000200",
+        "0x00400040",
+        "0x00002000",
+        "0x20000200",
+        "0x04000000",
+        "0x00800000",
+        "0x00000100"
+      ]
+    },
+    {
+      "pair_ids": [
+        0,
+        10,
+        62,
+        116,
+        133,
+        150
+      ],
+      "bits": [
+        74,
+        85,
+        112,
+        261,
+        304,
+        337,
+        342,
+        370,
+        377,
+        392,
+        464,
+        468
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 101,
+      "net_delta": 15,
+      "lane_hw": [
+        17,
+        17,
+        14,
+        7,
+        12,
+        13,
+        9,
+        12
+      ],
+      "cg_objective": 147.0,
+      "cg_delta": 23.0,
+      "target_l1": 24,
+      "target_l1_delta": 3,
+      "standalone_net_delta_sum": 142,
+      "delta_lane_sum": [
+        2,
+        6,
+        34,
+        44,
+        1,
+        9,
+        24,
+        22
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target",
+          "hw"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair_f"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_c"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00000000",
+        "0x00200000",
+        "0x01000000",
+        "0x00000010",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000020",
+        "0x00010000",
+        "0x00420000",
+        "0x02040000",
+        "0x20000300",
+        "0x04000000",
+        "0x00910000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        26,
+        78,
+        84,
+        135,
+        150
+      ],
+      "bits": [
+        47,
+        74,
+        112,
+        119,
+        122,
+        140,
+        194,
+        261,
+        342,
+        403,
+        429,
+        499
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 107,
+      "net_delta": 21,
+      "lane_hw": [
+        13,
+        11,
+        13,
+        13,
+        19,
+        12,
+        14,
+        12
+      ],
+      "cg_objective": 161.0,
+      "cg_delta": 37.0,
+      "target_l1": 24,
+      "target_l1_delta": 3,
+      "standalone_net_delta_sum": 168,
+      "delta_lane_sum": [
+        11,
+        2,
+        33,
+        54,
+        5,
+        24,
+        30,
+        9
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair_h"
+        ],
+        [
+          "repair_c"
+        ],
+        [
+          "repair",
+          "repair_e"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00008000",
+        "0x00000000",
+        "0x05800000",
+        "0x00001010",
+        "0x00000000",
+        "0x00000004",
+        "0x00000000",
+        "0x00000020",
+        "0x00000000",
+        "0x00400000",
+        "0x00000000",
+        "0x20080200",
+        "0x04002000",
+        "0x00800000",
+        "0x00080000"
+      ]
+    },
+    {
+      "pair_ids": [
+        36,
+        49,
+        62,
+        69,
+        117,
+        150
+      ],
+      "bits": [
+        70,
+        74,
+        91,
+        94,
+        108,
+        261,
+        295,
+        304,
+        370,
+        393,
+        404,
+        459
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 107,
+      "net_delta": 21,
+      "lane_hw": [
+        12,
+        15,
+        14,
+        15,
+        14,
+        11,
+        15,
+        11
+      ],
+      "cg_objective": 165.0,
+      "cg_delta": 41.0,
+      "target_l1": 24,
+      "target_l1_delta": 3,
+      "standalone_net_delta_sum": 139,
+      "delta_lane_sum": [
+        -11,
+        5,
+        45,
+        39,
+        -1,
+        2,
+        29,
+        31
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "repair_f"
+        ],
+        [
+          "repair_f"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00000000",
+        "0x48000040",
+        "0x01011000",
+        "0x00000010",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000020",
+        "0x00010080",
+        "0x00000000",
+        "0x00040000",
+        "0x20100000",
+        "0x04000000",
+        "0x00800800",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        32,
+        34,
+        38,
+        68,
+        117
+      ],
+      "bits": [
+        13,
+        64,
+        91,
+        112,
+        117,
+        149,
+        231,
+        240,
+        329,
+        342,
+        393,
+        501
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 109,
+      "net_delta": 23,
+      "lane_hw": [
+        14,
+        11,
+        16,
+        17,
+        17,
+        11,
+        13,
+        10
+      ],
+      "cg_objective": 167.0,
+      "cg_delta": 43.0,
+      "target_l1": 24,
+      "target_l1_delta": 3,
+      "standalone_net_delta_sum": 100,
+      "delta_lane_sum": [
+        0,
+        -2,
+        22,
+        26,
+        5,
+        16,
+        19,
+        14
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "hw",
+          "cg"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00002000",
+        "0x00000000",
+        "0x08000401",
+        "0x01200000",
+        "0x00200010",
+        "0x00000000",
+        "0x00000000",
+        "0x00010080",
+        "0x00000000",
+        "0x00000000",
+        "0x00400200",
+        "0x00000000",
+        "0x20000000",
+        "0x04000000",
+        "0x00800000",
+        "0x00200000"
+      ]
+    },
+    {
+      "pair_ids": [
+        4,
+        62,
+        76,
+        96,
+        117,
+        150
+      ],
+      "bits": [
+        74,
+        91,
+        106,
+        172,
+        199,
+        253,
+        261,
+        265,
+        304,
+        348,
+        370,
+        393
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 106,
+      "net_delta": 20,
+      "lane_hw": [
+        11,
+        13,
+        14,
+        14,
+        12,
+        15,
+        13,
+        14
+      ],
+      "cg_objective": 160.0,
+      "cg_delta": 36.0,
+      "target_l1": 25,
+      "target_l1_delta": 4,
+      "standalone_net_delta_sum": 148,
+      "delta_lane_sum": [
+        5,
+        -2,
+        36,
+        46,
+        -7,
+        16,
+        27,
+        27
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target",
+          "hw"
+        ],
+        [
+          "repair_f"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair",
+          "repair_e"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00000000",
+        "0x08000000",
+        "0x01010400",
+        "0x00000010",
+        "0x00001000",
+        "0x00000080",
+        "0x20000000",
+        "0x00000220",
+        "0x00010000",
+        "0x10000000",
+        "0x00040000",
+        "0x20000000",
+        "0x04000000",
+        "0x00800000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        16,
+        54,
+        74,
+        117,
+        129
+      ],
+      "bits": [
+        61,
+        91,
+        96,
+        99,
+        112,
+        261,
+        300,
+        342,
+        376,
+        393,
+        430,
+        434
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 108,
+      "net_delta": 22,
+      "lane_hw": [
+        14,
+        12,
+        13,
+        11,
+        16,
+        12,
+        15,
+        15
+      ],
+      "cg_objective": 164.0,
+      "cg_delta": 40.0,
+      "target_l1": 25,
+      "target_l1_delta": 4,
+      "standalone_net_delta_sum": 113,
+      "delta_lane_sum": [
+        -4,
+        -6,
+        42,
+        40,
+        -10,
+        16,
+        26,
+        9
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target",
+          "hw"
+        ],
+        [
+          "repair_h"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x20000000",
+        "0x08000400",
+        "0x01000009",
+        "0x00000010",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000020",
+        "0x00001000",
+        "0x00400000",
+        "0x01000000",
+        "0x20000000",
+        "0x04044000",
+        "0x00800000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        49,
+        51,
+        93,
+        121,
+        150
+      ],
+      "bits": [
+        70,
+        74,
+        112,
+        156,
+        220,
+        256,
+        261,
+        320,
+        342,
+        459,
+        474,
+        484
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 110,
+      "net_delta": 24,
+      "lane_hw": [
+        15,
+        15,
+        14,
+        14,
+        14,
+        12,
+        11,
+        15
+      ],
+      "cg_objective": 160.0,
+      "cg_delta": 36.0,
+      "target_l1": 25,
+      "target_l1_delta": 4,
+      "standalone_net_delta_sum": 160,
+      "delta_lane_sum": [
+        7,
+        4,
+        47,
+        42,
+        14,
+        -2,
+        24,
+        24
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "repair_f"
+        ],
+        [
+          "repair_f"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_d"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00000000",
+        "0x00000040",
+        "0x01000000",
+        "0x10000010",
+        "0x00000000",
+        "0x10000000",
+        "0x00000000",
+        "0x00000021",
+        "0x00000000",
+        "0x00400001",
+        "0x00000000",
+        "0x20000200",
+        "0x04000000",
+        "0x04800800",
+        "0x00000010"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        14,
+        67,
+        113,
+        114,
+        150
+      ],
+      "bits": [
+        25,
+        53,
+        68,
+        74,
+        112,
+        261,
+        305,
+        313,
+        341,
+        342,
+        353,
+        392
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 110,
+      "net_delta": 24,
+      "lane_hw": [
+        13,
+        15,
+        15,
+        10,
+        16,
+        19,
+        13,
+        9
+      ],
+      "cg_objective": 166.0,
+      "cg_delta": 42.0,
+      "target_l1": 25,
+      "target_l1_delta": 4,
+      "standalone_net_delta_sum": 168,
+      "delta_lane_sum": [
+        21,
+        -2,
+        41,
+        34,
+        17,
+        33,
+        12,
+        12
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_g"
+        ],
+        [
+          "repair_g"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x02000000",
+        "0x00200000",
+        "0x00000010",
+        "0x01000000",
+        "0x00000010",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000020",
+        "0x02020000",
+        "0x00600000",
+        "0x00000002",
+        "0x20000300",
+        "0x04000000",
+        "0x00800000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        0,
+        6,
+        10,
+        112,
+        136,
+        150
+      ],
+      "bits": [
+        74,
+        85,
+        112,
+        113,
+        258,
+        261,
+        323,
+        330,
+        342,
+        350,
+        392,
+        463
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 110,
+      "net_delta": 24,
+      "lane_hw": [
+        16,
+        12,
+        14,
+        12,
+        15,
+        10,
+        15,
+        16
+      ],
+      "cg_objective": 168.0,
+      "cg_delta": 44.0,
+      "target_l1": 25,
+      "target_l1_delta": 4,
+      "standalone_net_delta_sum": 151,
+      "delta_lane_sum": [
+        10,
+        -3,
+        39,
+        40,
+        2,
+        9,
+        29,
+        25
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target",
+          "hw"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair_f"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00000000",
+        "0x00200000",
+        "0x01020000",
+        "0x00000010",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000024",
+        "0x00000000",
+        "0x40400408",
+        "0x00000000",
+        "0x20000300",
+        "0x04000000",
+        "0x00808000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        22,
+        62,
+        75,
+        117,
+        132
+      ],
+      "bits": [
+        33,
+        45,
+        91,
+        112,
+        158,
+        196,
+        271,
+        304,
+        306,
+        342,
+        370,
+        393
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 110,
+      "net_delta": 24,
+      "lane_hw": [
+        17,
+        14,
+        14,
+        11,
+        15,
+        12,
+        16,
+        11
+      ],
+      "cg_objective": 170.0,
+      "cg_delta": 46.0,
+      "target_l1": 25,
+      "target_l1_delta": 4,
+      "standalone_net_delta_sum": 130,
+      "delta_lane_sum": [
+        14,
+        -3,
+        30,
+        39,
+        2,
+        2,
+        13,
+        33
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair_f"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00002002",
+        "0x08000400",
+        "0x01000000",
+        "0x40000010",
+        "0x00000000",
+        "0x00000010",
+        "0x00000000",
+        "0x00008000",
+        "0x00050000",
+        "0x00400000",
+        "0x00040000",
+        "0x20000000",
+        "0x04000000",
+        "0x00800000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        38,
+        93,
+        101,
+        102,
+        150
+      ],
+      "bits": [
+        15,
+        52,
+        64,
+        74,
+        112,
+        117,
+        256,
+        261,
+        320,
+        342,
+        480,
+        500
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 110,
+      "net_delta": 24,
+      "lane_hw": [
+        13,
+        12,
+        17,
+        14,
+        13,
+        11,
+        14,
+        16
+      ],
+      "cg_objective": 172.0,
+      "cg_delta": 48.0,
+      "target_l1": 25,
+      "target_l1_delta": 4,
+      "standalone_net_delta_sum": 160,
+      "delta_lane_sum": [
+        3,
+        -17,
+        41,
+        50,
+        11,
+        17,
+        28,
+        27
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00008000",
+        "0x00100000",
+        "0x00000001",
+        "0x01200000",
+        "0x00000010",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000021",
+        "0x00000000",
+        "0x00400001",
+        "0x00000000",
+        "0x20000200",
+        "0x04000000",
+        "0x00800000",
+        "0x00100001"
+      ]
+    },
+    {
+      "pair_ids": [
+        52,
+        106,
+        111,
+        117,
+        132,
+        150
+      ],
+      "bits": [
+        74,
+        84,
+        91,
+        183,
+        196,
+        261,
+        271,
+        319,
+        359,
+        389,
+        393,
+        459
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 103,
+      "net_delta": 17,
+      "lane_hw": [
+        12,
+        16,
+        13,
+        13,
+        10,
+        15,
+        13,
+        11
+      ],
+      "cg_objective": 155.0,
+      "cg_delta": 31.0,
+      "target_l1": 26,
+      "target_l1_delta": 5,
+      "standalone_net_delta_sum": 173,
+      "delta_lane_sum": [
+        12,
+        -1,
+        29,
+        40,
+        9,
+        22,
+        25,
+        37
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "hw",
+          "cg"
+        ],
+        [
+          "repair_d"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00000000",
+        "0x08100000",
+        "0x01010000",
+        "0x00000010",
+        "0x00800000",
+        "0x00000010",
+        "0x00000000",
+        "0x00008020",
+        "0x80000000",
+        "0x00000000",
+        "0x00000080",
+        "0x20000020",
+        "0x04000000",
+        "0x00800800",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        24,
+        81,
+        117,
+        126,
+        143,
+        150
+      ],
+      "bits": [
+        74,
+        91,
+        119,
+        261,
+        263,
+        280,
+        296,
+        304,
+        347,
+        393,
+        448,
+        452
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 103,
+      "net_delta": 17,
+      "lane_hw": [
+        16,
+        16,
+        14,
+        10,
+        8,
+        12,
+        12,
+        15
+      ],
+      "cg_objective": 155.0,
+      "cg_delta": 31.0,
+      "target_l1": 26,
+      "target_l1_delta": 5,
+      "standalone_net_delta_sum": 175,
+      "delta_lane_sum": [
+        2,
+        8,
+        37,
+        45,
+        1,
+        32,
+        31,
+        19
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "repair_d"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_g"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00000000",
+        "0x08000000",
+        "0x01810000",
+        "0x00000010",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x010000a0",
+        "0x00010100",
+        "0x08000000",
+        "0x00000000",
+        "0x20000000",
+        "0x04000000",
+        "0x00800011",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        6,
+        8,
+        10,
+        81,
+        123,
+        150
+      ],
+      "bits": [
+        3,
+        74,
+        112,
+        119,
+        133,
+        261,
+        278,
+        296,
+        326,
+        330,
+        342,
+        463
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 107,
+      "net_delta": 21,
+      "lane_hw": [
+        14,
+        12,
+        14,
+        14,
+        10,
+        17,
+        14,
+        12
+      ],
+      "cg_objective": 163.0,
+      "cg_delta": 39.0,
+      "target_l1": 26,
+      "target_l1_delta": 5,
+      "standalone_net_delta_sum": 126,
+      "delta_lane_sum": [
+        -2,
+        6,
+        28,
+        28,
+        8,
+        15,
+        22,
+        21
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target",
+          "hw",
+          "cg"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair_d"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000008",
+        "0x00000000",
+        "0x00000000",
+        "0x01800000",
+        "0x00000030",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00400020",
+        "0x00000100",
+        "0x00400440",
+        "0x00000000",
+        "0x20000200",
+        "0x04000000",
+        "0x00808000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        28,
+        69,
+        95,
+        114,
+        117,
+        150
+      ],
+      "bits": [
+        25,
+        68,
+        74,
+        91,
+        94,
+        164,
+        259,
+        261,
+        295,
+        393,
+        397,
+        450
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 107,
+      "net_delta": 21,
+      "lane_hw": [
+        17,
+        12,
+        12,
+        12,
+        16,
+        9,
+        17,
+        12
+      ],
+      "cg_objective": 165.0,
+      "cg_delta": 41.0,
+      "target_l1": 26,
+      "target_l1_delta": 5,
+      "standalone_net_delta_sum": 160,
+      "delta_lane_sum": [
+        -5,
+        2,
+        47,
+        39,
+        4,
+        25,
+        22,
+        26
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_g"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x02000000",
+        "0x00000000",
+        "0x48000010",
+        "0x01010000",
+        "0x00000010",
+        "0x00000010",
+        "0x00000000",
+        "0x00000000",
+        "0x00000028",
+        "0x00000080",
+        "0x00000000",
+        "0x00000000",
+        "0x20002000",
+        "0x04000000",
+        "0x00800004",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        15,
+        55,
+        61,
+        94,
+        117,
+        150
+      ],
+      "bits": [
+        20,
+        44,
+        74,
+        81,
+        91,
+        96,
+        160,
+        242,
+        247,
+        261,
+        393,
+        417
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 111,
+      "net_delta": 25,
+      "lane_hw": [
+        14,
+        16,
+        14,
+        18,
+        14,
+        9,
+        15,
+        11
+      ],
+      "cg_objective": 169.0,
+      "cg_delta": 45.0,
+      "target_l1": 26,
+      "target_l1_delta": 5,
+      "standalone_net_delta_sum": 141,
+      "delta_lane_sum": [
+        1,
+        0,
+        31,
+        38,
+        -6,
+        29,
+        39,
+        9
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target",
+          "repair",
+          "hw",
+          "cg"
+        ],
+        [
+          "repair_h"
+        ],
+        [
+          "repair_e"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00100000",
+        "0x00001000",
+        "0x08020000",
+        "0x01010001",
+        "0x00000010",
+        "0x00000001",
+        "0x00000000",
+        "0x00840000",
+        "0x00000020",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x20000000",
+        "0x04000002",
+        "0x00800000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        30,
+        84,
+        86,
+        102,
+        117
+      ],
+      "bits": [
+        15,
+        91,
+        112,
+        119,
+        140,
+        143,
+        198,
+        342,
+        393,
+        403,
+        480,
+        498
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 111,
+      "net_delta": 25,
+      "lane_hw": [
+        17,
+        11,
+        16,
+        13,
+        14,
+        11,
+        14,
+        15
+      ],
+      "cg_objective": 171.0,
+      "cg_delta": 47.0,
+      "target_l1": 26,
+      "target_l1_delta": 5,
+      "standalone_net_delta_sum": 130,
+      "delta_lane_sum": [
+        14,
+        -4,
+        24,
+        39,
+        -6,
+        22,
+        23,
+        18
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair_c"
+        ],
+        [
+          "repair_e"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00008000",
+        "0x00000000",
+        "0x08000400",
+        "0x01800000",
+        "0x00009010",
+        "0x00000000",
+        "0x00000040",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00400000",
+        "0x00000000",
+        "0x20080000",
+        "0x04000000",
+        "0x00800000",
+        "0x00040001"
+      ]
+    },
+    {
+      "pair_ids": [
+        7,
+        40,
+        79,
+        97,
+        117,
+        150
+      ],
+      "bits": [
+        47,
+        50,
+        58,
+        74,
+        91,
+        121,
+        244,
+        261,
+        320,
+        363,
+        393,
+        417
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 111,
+      "net_delta": 25,
+      "lane_hw": [
+        15,
+        17,
+        19,
+        14,
+        12,
+        13,
+        11,
+        10
+      ],
+      "cg_objective": 171.0,
+      "cg_delta": 47.0,
+      "target_l1": 26,
+      "target_l1_delta": 5,
+      "standalone_net_delta_sum": 145,
+      "delta_lane_sum": [
+        1,
+        -3,
+        32,
+        43,
+        1,
+        23,
+        35,
+        13
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target",
+          "hw",
+          "cg"
+        ],
+        [
+          "hw"
+        ],
+        [
+          "repair_h"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x04048000",
+        "0x08000000",
+        "0x03010000",
+        "0x00000010",
+        "0x00000000",
+        "0x00000000",
+        "0x00100000",
+        "0x00000020",
+        "0x00000000",
+        "0x00000001",
+        "0x00000800",
+        "0x20000000",
+        "0x04000002",
+        "0x00800000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        62,
+        77,
+        96,
+        138,
+        150
+      ],
+      "bits": [
+        51,
+        74,
+        95,
+        112,
+        145,
+        179,
+        199,
+        261,
+        265,
+        304,
+        342,
+        370
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 111,
+      "net_delta": 25,
+      "lane_hw": [
+        17,
+        15,
+        15,
+        12,
+        12,
+        12,
+        15,
+        13
+      ],
+      "cg_objective": 171.0,
+      "cg_delta": 47.0,
+      "target_l1": 26,
+      "target_l1_delta": 5,
+      "standalone_net_delta_sum": 167,
+      "delta_lane_sum": [
+        15,
+        -2,
+        44,
+        48,
+        -7,
+        19,
+        19,
+        31
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "repair_f"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair",
+          "repair_e"
+        ],
+        [
+          "repair_g"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00080000",
+        "0x80000000",
+        "0x01000000",
+        "0x00020010",
+        "0x00080000",
+        "0x00000080",
+        "0x00000000",
+        "0x00000220",
+        "0x00010000",
+        "0x00400000",
+        "0x00040000",
+        "0x20000200",
+        "0x04000000",
+        "0x00800000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        49,
+        88,
+        89,
+        120,
+        150
+      ],
+      "bits": [
+        41,
+        70,
+        74,
+        112,
+        116,
+        261,
+        274,
+        342,
+        361,
+        409,
+        459
+      ],
+      "radius": 11,
+      "m2_added_bits": 9,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 7,
+      "hw_total": 108,
+      "net_delta": 22,
+      "lane_hw": [
+        13,
+        17,
+        14,
+        15,
+        10,
+        15,
+        12,
+        12
+      ],
+      "cg_objective": 160.0,
+      "cg_delta": 36.0,
+      "target_l1": 27,
+      "target_l1_delta": 6,
+      "standalone_net_delta_sum": 158,
+      "delta_lane_sum": [
+        11,
+        -13,
+        42,
+        45,
+        12,
+        18,
+        19,
+        24
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "repair_f"
+        ],
+        [
+          "repair_b"
+        ],
+        [
+          "repair_c"
+        ],
+        [
+          "repair_b"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00000200",
+        "0x00000040",
+        "0x01100000",
+        "0x00000010",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00040020",
+        "0x00000000",
+        "0x00400000",
+        "0x00000200",
+        "0x22000200",
+        "0x04000000",
+        "0x00800800",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        60,
+        104,
+        123,
+        146,
+        150
+      ],
+      "bits": [
+        3,
+        74,
+        112,
+        133,
+        172,
+        255,
+        261,
+        285,
+        299,
+        342,
+        488,
+        499
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 110,
+      "net_delta": 24,
+      "lane_hw": [
+        20,
+        13,
+        17,
+        17,
+        11,
+        13,
+        11,
+        8
+      ],
+      "cg_objective": 166.0,
+      "cg_delta": 42.0,
+      "target_l1": 27,
+      "target_l1_delta": 6,
+      "standalone_net_delta_sum": 185,
+      "delta_lane_sum": [
+        -5,
+        17,
+        48,
+        46,
+        9,
+        37,
+        22,
+        11
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair_h"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_e"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000008",
+        "0x00000000",
+        "0x00000000",
+        "0x01000000",
+        "0x00000030",
+        "0x00001000",
+        "0x00000000",
+        "0x80000000",
+        "0x20000020",
+        "0x00000800",
+        "0x00400000",
+        "0x00000000",
+        "0x20000200",
+        "0x04000000",
+        "0x00800000",
+        "0x00080100"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        29,
+        55,
+        60,
+        96,
+        150
+      ],
+      "bits": [
+        53,
+        74,
+        81,
+        112,
+        158,
+        199,
+        247,
+        261,
+        265,
+        285,
+        342,
+        488
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 110,
+      "net_delta": 24,
+      "lane_hw": [
+        12,
+        12,
+        18,
+        18,
+        13,
+        13,
+        10,
+        14
+      ],
+      "cg_objective": 166.0,
+      "cg_delta": 42.0,
+      "target_l1": 27,
+      "target_l1_delta": 6,
+      "standalone_net_delta_sum": 152,
+      "delta_lane_sum": [
+        15,
+        9,
+        42,
+        37,
+        4,
+        17,
+        20,
+        8
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair_h"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair",
+          "repair_e"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00200000",
+        "0x00020000",
+        "0x01000000",
+        "0x40000010",
+        "0x00000000",
+        "0x00000080",
+        "0x00800000",
+        "0x20000220",
+        "0x00000000",
+        "0x00400000",
+        "0x00000000",
+        "0x20000200",
+        "0x04000000",
+        "0x00800000",
+        "0x00000100"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        58,
+        78,
+        89,
+        96,
+        150
+      ],
+      "bits": [
+        74,
+        112,
+        116,
+        162,
+        194,
+        199,
+        261,
+        265,
+        285,
+        342,
+        361,
+        499
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 110,
+      "net_delta": 24,
+      "lane_hw": [
+        12,
+        11,
+        17,
+        11,
+        19,
+        13,
+        14,
+        13
+      ],
+      "cg_objective": 172.0,
+      "cg_delta": 48.0,
+      "target_l1": 27,
+      "target_l1_delta": 6,
+      "standalone_net_delta_sum": 149,
+      "delta_lane_sum": [
+        13,
+        2,
+        36,
+        50,
+        -8,
+        17,
+        21,
+        18
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "repair",
+          "hw",
+          "repair_e"
+        ],
+        [
+          "repair_h"
+        ],
+        [
+          "repair_c"
+        ],
+        [
+          "repair",
+          "repair_e"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x01100000",
+        "0x00000010",
+        "0x00000004",
+        "0x00000084",
+        "0x00000000",
+        "0x20000220",
+        "0x00000000",
+        "0x00400000",
+        "0x00000200",
+        "0x20000200",
+        "0x04000000",
+        "0x00800000",
+        "0x00080000"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        19,
+        96,
+        117,
+        121,
+        131
+      ],
+      "bits": [
+        7,
+        91,
+        112,
+        115,
+        155,
+        199,
+        220,
+        265,
+        342,
+        383,
+        393,
+        484
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 110,
+      "net_delta": 24,
+      "lane_hw": [
+        18,
+        12,
+        16,
+        13,
+        11,
+        12,
+        17,
+        11
+      ],
+      "cg_objective": 176.0,
+      "cg_delta": 52.0,
+      "target_l1": 27,
+      "target_l1_delta": 6,
+      "standalone_net_delta_sum": 145,
+      "delta_lane_sum": [
+        17,
+        -1,
+        37,
+        26,
+        6,
+        11,
+        31,
+        18
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair",
+          "repair_e"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_d"
+        ],
+        [
+          "repair_b"
+        ]
+      ],
+      "M2": [
+        "0x00000080",
+        "0x00000000",
+        "0x08000400",
+        "0x01080000",
+        "0x08000010",
+        "0x00000000",
+        "0x10000080",
+        "0x00000000",
+        "0x00000200",
+        "0x00000000",
+        "0x00400000",
+        "0x80000000",
+        "0x20000000",
+        "0x04000000",
+        "0x00800000",
+        "0x00000010"
+      ]
+    },
+    {
+      "pair_ids": [
+        37,
+        87,
+        98,
+        117,
+        119,
+        150
+      ],
+      "bits": [
+        47,
+        74,
+        91,
+        110,
+        139,
+        183,
+        207,
+        249,
+        261,
+        294,
+        393,
+        405
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 112,
+      "net_delta": 26,
+      "lane_hw": [
+        17,
+        13,
+        16,
+        16,
+        18,
+        11,
+        10,
+        11
+      ],
+      "cg_objective": 164.0,
+      "cg_delta": 40.0,
+      "target_l1": 27,
+      "target_l1_delta": 6,
+      "standalone_net_delta_sum": 174,
+      "delta_lane_sum": [
+        4,
+        -5,
+        41,
+        44,
+        -1,
+        35,
+        43,
+        13
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "repair_b"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00008000",
+        "0x08000000",
+        "0x01014000",
+        "0x00000810",
+        "0x00800000",
+        "0x00008000",
+        "0x02000000",
+        "0x00000020",
+        "0x00000040",
+        "0x00000000",
+        "0x00000000",
+        "0x20200000",
+        "0x04000000",
+        "0x00800000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        49,
+        60,
+        102,
+        116,
+        150
+      ],
+      "bits": [
+        15,
+        70,
+        74,
+        112,
+        261,
+        285,
+        337,
+        342,
+        459,
+        468,
+        480,
+        488
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 112,
+      "net_delta": 26,
+      "lane_hw": [
+        17,
+        19,
+        14,
+        11,
+        16,
+        11,
+        15,
+        9
+      ],
+      "cg_objective": 170.0,
+      "cg_delta": 46.0,
+      "target_l1": 27,
+      "target_l1_delta": 6,
+      "standalone_net_delta_sum": 145,
+      "delta_lane_sum": [
+        -1,
+        2,
+        39,
+        45,
+        2,
+        10,
+        23,
+        25
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "repair_f"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00008000",
+        "0x00000000",
+        "0x00000040",
+        "0x01000000",
+        "0x00000010",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x20000020",
+        "0x00000000",
+        "0x00420000",
+        "0x00000000",
+        "0x20000200",
+        "0x04000000",
+        "0x00900800",
+        "0x00000101"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        22,
+        89,
+        111,
+        136,
+        150
+      ],
+      "bits": [
+        33,
+        74,
+        112,
+        116,
+        158,
+        258,
+        261,
+        319,
+        342,
+        350,
+        359,
+        361
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 112,
+      "net_delta": 26,
+      "lane_hw": [
+        13,
+        12,
+        20,
+        13,
+        12,
+        15,
+        12,
+        15
+      ],
+      "cg_objective": 176.0,
+      "cg_delta": 52.0,
+      "target_l1": 27,
+      "target_l1_delta": 6,
+      "standalone_net_delta_sum": 163,
+      "delta_lane_sum": [
+        17,
+        -1,
+        26,
+        45,
+        6,
+        21,
+        19,
+        30
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair_c"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00000002",
+        "0x00000000",
+        "0x01100000",
+        "0x40000010",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000024",
+        "0x80000000",
+        "0x40400000",
+        "0x00000280",
+        "0x20000200",
+        "0x04000000",
+        "0x00800000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        22,
+        94,
+        117,
+        123,
+        137
+      ],
+      "bits": [
+        3,
+        20,
+        33,
+        91,
+        96,
+        112,
+        133,
+        143,
+        158,
+        203,
+        342,
+        393
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 112,
+      "net_delta": 26,
+      "lane_hw": [
+        15,
+        13,
+        19,
+        11,
+        15,
+        12,
+        14,
+        13
+      ],
+      "cg_objective": 178.0,
+      "cg_delta": 54.0,
+      "target_l1": 27,
+      "target_l1_delta": 6,
+      "standalone_net_delta_sum": 134,
+      "delta_lane_sum": [
+        -8,
+        -3,
+        27,
+        37,
+        11,
+        21,
+        24,
+        25
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00100008",
+        "0x00000002",
+        "0x08000400",
+        "0x01000001",
+        "0x40008030",
+        "0x00000000",
+        "0x00000800",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00400000",
+        "0x00000000",
+        "0x20000000",
+        "0x04000000",
+        "0x00800000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        1,
+        93,
+        99,
+        117,
+        127,
+        150
+      ],
+      "bits": [
+        74,
+        90,
+        91,
+        109,
+        154,
+        191,
+        256,
+        261,
+        320,
+        365,
+        393,
+        464
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 112,
+      "net_delta": 26,
+      "lane_hw": [
+        15,
+        18,
+        17,
+        11,
+        12,
+        11,
+        16,
+        12
+      ],
+      "cg_objective": 178.0,
+      "cg_delta": 54.0,
+      "target_l1": 27,
+      "target_l1_delta": 6,
+      "standalone_net_delta_sum": 168,
+      "delta_lane_sum": [
+        -4,
+        4,
+        44,
+        44,
+        13,
+        19,
+        22,
+        26
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_g"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_d"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00000000",
+        "0x0c000000",
+        "0x01012000",
+        "0x04000010",
+        "0x80000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000021",
+        "0x00000000",
+        "0x00000001",
+        "0x00002000",
+        "0x20000000",
+        "0x04000000",
+        "0x00810000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        4,
+        10,
+        22,
+        48,
+        99,
+        150
+      ],
+      "bits": [
+        33,
+        74,
+        90,
+        106,
+        109,
+        112,
+        154,
+        158,
+        253,
+        261,
+        342,
+        464
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 103,
+      "net_delta": 17,
+      "lane_hw": [
+        10,
+        12,
+        12,
+        16,
+        15,
+        14,
+        11,
+        13
+      ],
+      "cg_objective": 149.0,
+      "cg_delta": 25.0,
+      "target_l1": 28,
+      "target_l1_delta": 7,
+      "standalone_net_delta_sum": 130,
+      "delta_lane_sum": [
+        3,
+        2,
+        40,
+        38,
+        10,
+        20,
+        2,
+        15
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target",
+          "hw"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "cg",
+          "repair_g"
+        ],
+        [
+          "repair_g"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00000002",
+        "0x04000000",
+        "0x01002400",
+        "0x44000010",
+        "0x00000000",
+        "0x00000000",
+        "0x20000000",
+        "0x00000020",
+        "0x00000000",
+        "0x00400000",
+        "0x00000000",
+        "0x20000200",
+        "0x04000000",
+        "0x00810000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        38,
+        86,
+        89,
+        118,
+        150
+      ],
+      "bits": [
+        63,
+        64,
+        74,
+        112,
+        116,
+        117,
+        143,
+        198,
+        261,
+        342,
+        361,
+        461
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 105,
+      "net_delta": 19,
+      "lane_hw": [
+        16,
+        11,
+        10,
+        17,
+        12,
+        11,
+        15,
+        13
+      ],
+      "cg_objective": 155.0,
+      "cg_delta": 31.0,
+      "target_l1": 28,
+      "target_l1_delta": 7,
+      "standalone_net_delta_sum": 156,
+      "delta_lane_sum": [
+        -1,
+        10,
+        36,
+        43,
+        1,
+        30,
+        19,
+        18
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair_e"
+        ],
+        [
+          "repair_c"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x80000000",
+        "0x00000001",
+        "0x01300000",
+        "0x00008010",
+        "0x00000000",
+        "0x00000040",
+        "0x00000000",
+        "0x00000020",
+        "0x00000000",
+        "0x00400000",
+        "0x00000200",
+        "0x20000200",
+        "0x04000000",
+        "0x00802000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        57,
+        68,
+        76,
+        148,
+        150
+      ],
+      "bits": [
+        13,
+        74,
+        112,
+        172,
+        240,
+        261,
+        263,
+        297,
+        342,
+        348,
+        384,
+        508
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 107,
+      "net_delta": 21,
+      "lane_hw": [
+        12,
+        15,
+        12,
+        17,
+        12,
+        12,
+        11,
+        16
+      ],
+      "cg_objective": 153.0,
+      "cg_delta": 29.0,
+      "target_l1": 28,
+      "target_l1_delta": 7,
+      "standalone_net_delta_sum": 161,
+      "delta_lane_sum": [
+        13,
+        -6,
+        32,
+        49,
+        2,
+        26,
+        24,
+        21
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "hw",
+          "cg"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair",
+          "repair_e"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00002000",
+        "0x00000000",
+        "0x00000000",
+        "0x01000000",
+        "0x00000010",
+        "0x00001000",
+        "0x00000000",
+        "0x00010000",
+        "0x000000a0",
+        "0x00000200",
+        "0x10400000",
+        "0x00000000",
+        "0x20000201",
+        "0x04000000",
+        "0x00800000",
+        "0x10000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        24,
+        69,
+        74,
+        141,
+        150
+      ],
+      "bits": [
+        13,
+        44,
+        74,
+        94,
+        112,
+        261,
+        280,
+        295,
+        342,
+        430,
+        434,
+        448
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 107,
+      "net_delta": 21,
+      "lane_hw": [
+        15,
+        15,
+        13,
+        11,
+        10,
+        14,
+        18,
+        11
+      ],
+      "cg_objective": 169.0,
+      "cg_delta": 45.0,
+      "target_l1": 28,
+      "target_l1_delta": 7,
+      "standalone_net_delta_sum": 144,
+      "delta_lane_sum": [
+        7,
+        -4,
+        32,
+        42,
+        -2,
+        22,
+        32,
+        15
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_c"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00002000",
+        "0x00001000",
+        "0x40000000",
+        "0x01000000",
+        "0x00000010",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x01000020",
+        "0x00000080",
+        "0x00400000",
+        "0x00000000",
+        "0x20000200",
+        "0x04044000",
+        "0x00800001",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        55,
+        89,
+        104,
+        130,
+        150
+      ],
+      "bits": [
+        74,
+        81,
+        89,
+        112,
+        116,
+        207,
+        247,
+        261,
+        299,
+        342,
+        361,
+        499
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 109,
+      "net_delta": 23,
+      "lane_hw": [
+        15,
+        13,
+        13,
+        12,
+        11,
+        17,
+        14,
+        14
+      ],
+      "cg_objective": 163.0,
+      "cg_delta": 39.0,
+      "target_l1": 28,
+      "target_l1_delta": 7,
+      "standalone_net_delta_sum": 181,
+      "delta_lane_sum": [
+        14,
+        17,
+        33,
+        52,
+        10,
+        17,
+        29,
+        9
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "repair_h"
+        ],
+        [
+          "repair_c"
+        ],
+        [
+          "repair_h"
+        ],
+        [
+          "repair_f"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00000000",
+        "0x02020000",
+        "0x01100000",
+        "0x00000010",
+        "0x00000000",
+        "0x00008000",
+        "0x00800000",
+        "0x00000020",
+        "0x00000800",
+        "0x00400000",
+        "0x00000200",
+        "0x20000200",
+        "0x04000000",
+        "0x00800000",
+        "0x00080000"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        16,
+        35,
+        103,
+        116,
+        117
+      ],
+      "bits": [
+        0,
+        61,
+        91,
+        112,
+        165,
+        183,
+        337,
+        342,
+        365,
+        376,
+        393,
+        468
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 111,
+      "net_delta": 25,
+      "lane_hw": [
+        16,
+        14,
+        13,
+        11,
+        17,
+        13,
+        12,
+        15
+      ],
+      "cg_objective": 161.0,
+      "cg_delta": 37.0,
+      "target_l1": 28,
+      "target_l1_delta": 7,
+      "standalone_net_delta_sum": 115,
+      "delta_lane_sum": [
+        -1,
+        2,
+        26,
+        45,
+        -5,
+        0,
+        26,
+        22
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target",
+          "hw"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair_f"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000001",
+        "0x20000000",
+        "0x08000400",
+        "0x01000000",
+        "0x00000010",
+        "0x00800020",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00420000",
+        "0x01002000",
+        "0x20000000",
+        "0x04000000",
+        "0x00900000",
+        "0x00000000"
+      ]
+    }
+  ],
+  "top_by_cg": [
+    {
+      "pair_ids": [
+        4,
+        10,
+        20,
+        74,
+        101,
+        117
+      ],
+      "bits": [
+        52,
+        91,
+        106,
+        112,
+        195,
+        228,
+        253,
+        342,
+        393,
+        430,
+        434,
+        500
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 105,
+      "net_delta": 19,
+      "lane_hw": [
+        13,
+        14,
+        12,
+        16,
+        16,
+        14,
+        7,
+        13
+      ],
+      "cg_objective": 143.0,
+      "cg_delta": 19.0,
+      "target_l1": 30,
+      "target_l1_delta": 9,
+      "standalone_net_delta_sum": 105,
+      "delta_lane_sum": [
+        -6,
+        -10,
+        35,
+        36,
+        3,
+        16,
+        22,
+        9
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target",
+          "hw"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00100000",
+        "0x08000400",
+        "0x01000400",
+        "0x00000010",
+        "0x00000000",
+        "0x00000008",
+        "0x20000010",
+        "0x00000000",
+        "0x00000000",
+        "0x00400000",
+        "0x00000000",
+        "0x20000000",
+        "0x04044000",
+        "0x00800000",
+        "0x00100000"
+      ]
+    },
+    {
+      "pair_ids": [
+        0,
+        10,
+        62,
+        116,
+        133,
+        150
+      ],
+      "bits": [
+        74,
+        85,
+        112,
+        261,
+        304,
+        337,
+        342,
+        370,
+        377,
+        392,
+        464,
+        468
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 101,
+      "net_delta": 15,
+      "lane_hw": [
+        17,
+        17,
+        14,
+        7,
+        12,
+        13,
+        9,
+        12
+      ],
+      "cg_objective": 147.0,
+      "cg_delta": 23.0,
+      "target_l1": 24,
+      "target_l1_delta": 3,
+      "standalone_net_delta_sum": 142,
+      "delta_lane_sum": [
+        2,
+        6,
+        34,
+        44,
+        1,
+        9,
+        24,
+        22
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target",
+          "hw"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair_f"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_c"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00000000",
+        "0x00200000",
+        "0x01000000",
+        "0x00000010",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000020",
+        "0x00010000",
+        "0x00420000",
+        "0x02040000",
+        "0x20000300",
+        "0x04000000",
+        "0x00910000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        32,
+        73,
+        79,
+        117,
+        136,
+        150
+      ],
+      "bits": [
+        74,
+        91,
+        244,
+        258,
+        261,
+        263,
+        320,
+        329,
+        337,
+        350,
+        393,
+        501
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 108,
+      "net_delta": 22,
+      "lane_hw": [
+        16,
+        19,
+        9,
+        13,
+        14,
+        16,
+        11,
+        10
+      ],
+      "cg_objective": 148.0,
+      "cg_delta": 24.0,
+      "target_l1": 33,
+      "target_l1_delta": 12,
+      "standalone_net_delta_sum": 178,
+      "delta_lane_sum": [
+        5,
+        9,
+        43,
+        35,
+        2,
+        30,
+        40,
+        14
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "repair_d"
+        ],
+        [
+          "repair_h"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00000000",
+        "0x08000000",
+        "0x01010000",
+        "0x00000010",
+        "0x00000000",
+        "0x00000000",
+        "0x00100000",
+        "0x000000a4",
+        "0x00000000",
+        "0x40020201",
+        "0x00000000",
+        "0x20000000",
+        "0x04000000",
+        "0x00800000",
+        "0x00200000"
+      ]
+    },
+    {
+      "pair_ids": [
+        4,
+        10,
+        22,
+        48,
+        99,
+        150
+      ],
+      "bits": [
+        33,
+        74,
+        90,
+        106,
+        109,
+        112,
+        154,
+        158,
+        253,
+        261,
+        342,
+        464
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 103,
+      "net_delta": 17,
+      "lane_hw": [
+        10,
+        12,
+        12,
+        16,
+        15,
+        14,
+        11,
+        13
+      ],
+      "cg_objective": 149.0,
+      "cg_delta": 25.0,
+      "target_l1": 28,
+      "target_l1_delta": 7,
+      "standalone_net_delta_sum": 130,
+      "delta_lane_sum": [
+        3,
+        2,
+        40,
+        38,
+        10,
+        20,
+        2,
+        15
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target",
+          "hw"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "cg",
+          "repair_g"
+        ],
+        [
+          "repair_g"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00000002",
+        "0x04000000",
+        "0x01002400",
+        "0x44000010",
+        "0x00000000",
+        "0x00000000",
+        "0x20000000",
+        "0x00000020",
+        "0x00000000",
+        "0x00400000",
+        "0x00000000",
+        "0x20000200",
+        "0x04000000",
+        "0x00810000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        25,
+        78,
+        111,
+        112,
+        150
+      ],
+      "bits": [
+        74,
+        112,
+        113,
+        194,
+        261,
+        319,
+        323,
+        342,
+        359,
+        465,
+        476,
+        499
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 100,
+      "net_delta": 14,
+      "lane_hw": [
+        9,
+        13,
+        8,
+        14,
+        14,
+        12,
+        17,
+        13
+      ],
+      "cg_objective": 150.0,
+      "cg_delta": 26.0,
+      "target_l1": 35,
+      "target_l1_delta": 14,
+      "standalone_net_delta_sum": 167,
+      "delta_lane_sum": [
+        9,
+        10,
+        29,
+        46,
+        15,
+        19,
+        21,
+        18
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair_h"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair_f"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x01020000",
+        "0x00000010",
+        "0x00000000",
+        "0x00000004",
+        "0x00000000",
+        "0x00000020",
+        "0x80000000",
+        "0x00400008",
+        "0x00000080",
+        "0x20000200",
+        "0x04000000",
+        "0x10820000",
+        "0x00080000"
+      ]
+    },
+    {
+      "pair_ids": [
+        26,
+        29,
+        117,
+        140,
+        145,
+        150
+      ],
+      "bits": [
+        47,
+        53,
+        74,
+        91,
+        158,
+        236,
+        261,
+        276,
+        341,
+        393,
+        396,
+        403
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 107,
+      "net_delta": 21,
+      "lane_hw": [
+        14,
+        13,
+        10,
+        17,
+        15,
+        11,
+        12,
+        15
+      ],
+      "cg_objective": 151.0,
+      "cg_delta": 27.0,
+      "target_l1": 30,
+      "target_l1_delta": 9,
+      "standalone_net_delta_sum": 176,
+      "delta_lane_sum": [
+        0,
+        0,
+        34,
+        51,
+        8,
+        26,
+        40,
+        17
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_c"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00208000",
+        "0x08000000",
+        "0x01010000",
+        "0x40000010",
+        "0x00000000",
+        "0x00000000",
+        "0x00001000",
+        "0x00100020",
+        "0x00000000",
+        "0x00200000",
+        "0x00000000",
+        "0x20081000",
+        "0x04000000",
+        "0x00800000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        56,
+        74,
+        89,
+        130,
+        150
+      ],
+      "bits": [
+        74,
+        89,
+        112,
+        116,
+        207,
+        249,
+        261,
+        342,
+        361,
+        370,
+        430,
+        434
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 109,
+      "net_delta": 23,
+      "lane_hw": [
+        17,
+        13,
+        9,
+        13,
+        16,
+        14,
+        12,
+        15
+      ],
+      "cg_objective": 151.0,
+      "cg_delta": 27.0,
+      "target_l1": 34,
+      "target_l1_delta": 13,
+      "standalone_net_delta_sum": 152,
+      "delta_lane_sum": [
+        10,
+        1,
+        28,
+        50,
+        3,
+        13,
+        23,
+        24
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "repair_g"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_c"
+        ],
+        [
+          "repair_f"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00000000",
+        "0x02000000",
+        "0x01100000",
+        "0x00000010",
+        "0x00000000",
+        "0x00008000",
+        "0x02000000",
+        "0x00000020",
+        "0x00000000",
+        "0x00400000",
+        "0x00040200",
+        "0x20000200",
+        "0x04044000",
+        "0x00800000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        25,
+        63,
+        83,
+        117,
+        126,
+        150
+      ],
+      "bits": [
+        61,
+        74,
+        91,
+        261,
+        263,
+        322,
+        331,
+        347,
+        393,
+        465,
+        476,
+        486
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 115,
+      "net_delta": 29,
+      "lane_hw": [
+        14,
+        15,
+        10,
+        14,
+        16,
+        20,
+        8,
+        18
+      ],
+      "cg_objective": 151.0,
+      "cg_delta": 27.0,
+      "target_l1": 42,
+      "target_l1_delta": 21,
+      "standalone_net_delta_sum": 175,
+      "delta_lane_sum": [
+        2,
+        1,
+        38,
+        51,
+        17,
+        27,
+        29,
+        10
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "repair_h"
+        ],
+        [
+          "repair",
+          "repair_b"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_g"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x20000000",
+        "0x08000000",
+        "0x01010000",
+        "0x00000010",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x000000a0",
+        "0x00000000",
+        "0x08000804",
+        "0x00000000",
+        "0x20000000",
+        "0x04000000",
+        "0x10820000",
+        "0x00000040"
+      ]
+    },
+    {
+      "pair_ids": [
+        9,
+        10,
+        63,
+        76,
+        104,
+        150
+      ],
+      "bits": [
+        74,
+        112,
+        116,
+        172,
+        261,
+        299,
+        331,
+        342,
+        348,
+        478,
+        486,
+        499
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 108,
+      "net_delta": 22,
+      "lane_hw": [
+        9,
+        18,
+        8,
+        15,
+        13,
+        17,
+        14,
+        14
+      ],
+      "cg_objective": 152.0,
+      "cg_delta": 28.0,
+      "target_l1": 43,
+      "target_l1_delta": 22,
+      "standalone_net_delta_sum": 163,
+      "delta_lane_sum": [
+        9,
+        2,
+        32,
+        47,
+        19,
+        30,
+        22,
+        2
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair_h"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair_h"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x01100000",
+        "0x00000010",
+        "0x00001000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000020",
+        "0x00000800",
+        "0x10400800",
+        "0x00000000",
+        "0x20000200",
+        "0x04000000",
+        "0x40800000",
+        "0x00080040"
+      ]
+    },
+    {
+      "pair_ids": [
+        66,
+        86,
+        103,
+        117,
+        134,
+        150
+      ],
+      "bits": [
+        74,
+        91,
+        143,
+        165,
+        198,
+        261,
+        297,
+        365,
+        393,
+        446,
+        483
+      ],
+      "radius": 11,
+      "m2_added_bits": 9,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 7,
+      "hw_total": 103,
+      "net_delta": 17,
+      "lane_hw": [
+        12,
+        11,
+        13,
+        14,
+        15,
+        12,
+        12,
+        14
+      ],
+      "cg_objective": 153.0,
+      "cg_delta": 29.0,
+      "target_l1": 22,
+      "target_l1_delta": 1,
+      "standalone_net_delta_sum": 182,
+      "delta_lane_sum": [
+        -2,
+        7,
+        43,
+        43,
+        0,
+        32,
+        41,
+        18
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "repair"
+        ],
+        [
+          "repair_e"
+        ],
+        [
+          "repair_f"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_d"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00000000",
+        "0x08000000",
+        "0x01010000",
+        "0x00008010",
+        "0x00000020",
+        "0x00000040",
+        "0x00000000",
+        "0x00000020",
+        "0x00000200",
+        "0x00000000",
+        "0x00002000",
+        "0x20000000",
+        "0x44000000",
+        "0x00800000",
+        "0x00000008"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        57,
+        68,
+        76,
+        148,
+        150
+      ],
+      "bits": [
+        13,
+        74,
+        112,
+        172,
+        240,
+        261,
+        263,
+        297,
+        342,
+        348,
+        384,
+        508
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 107,
+      "net_delta": 21,
+      "lane_hw": [
+        12,
+        15,
+        12,
+        17,
+        12,
+        12,
+        11,
+        16
+      ],
+      "cg_objective": 153.0,
+      "cg_delta": 29.0,
+      "target_l1": 28,
+      "target_l1_delta": 7,
+      "standalone_net_delta_sum": 161,
+      "delta_lane_sum": [
+        13,
+        -6,
+        32,
+        49,
+        2,
+        26,
+        24,
+        21
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "hw",
+          "cg"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair",
+          "repair_e"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00002000",
+        "0x00000000",
+        "0x00000000",
+        "0x01000000",
+        "0x00000010",
+        "0x00001000",
+        "0x00000000",
+        "0x00010000",
+        "0x000000a0",
+        "0x00000200",
+        "0x10400000",
+        "0x00000000",
+        "0x20000201",
+        "0x04000000",
+        "0x00800000",
+        "0x10000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        26,
+        56,
+        93,
+        117,
+        124,
+        150
+      ],
+      "bits": [
+        47,
+        74,
+        91,
+        249,
+        256,
+        261,
+        262,
+        296,
+        320,
+        370,
+        393,
+        403
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 111,
+      "net_delta": 25,
+      "lane_hw": [
+        18,
+        16,
+        13,
+        14,
+        16,
+        13,
+        8,
+        13
+      ],
+      "cg_objective": 153.0,
+      "cg_delta": 29.0,
+      "target_l1": 32,
+      "target_l1_delta": 11,
+      "standalone_net_delta_sum": 165,
+      "delta_lane_sum": [
+        8,
+        -4,
+        44,
+        55,
+        6,
+        13,
+        14,
+        29
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "repair_g"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_g"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00008000",
+        "0x08000000",
+        "0x01010000",
+        "0x00000010",
+        "0x00000000",
+        "0x00000000",
+        "0x02000000",
+        "0x00000061",
+        "0x00000100",
+        "0x00000001",
+        "0x00040000",
+        "0x20080000",
+        "0x04000000",
+        "0x00800000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        91,
+        99,
+        144,
+        146,
+        150
+      ],
+      "bits": [
+        74,
+        90,
+        112,
+        172,
+        204,
+        255,
+        261,
+        266,
+        342,
+        348,
+        377,
+        464
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 111,
+      "net_delta": 25,
+      "lane_hw": [
+        16,
+        13,
+        12,
+        12,
+        13,
+        18,
+        9,
+        18
+      ],
+      "cg_objective": 153.0,
+      "cg_delta": 29.0,
+      "target_l1": 32,
+      "target_l1_delta": 11,
+      "standalone_net_delta_sum": 173,
+      "delta_lane_sum": [
+        2,
+        -7,
+        36,
+        58,
+        4,
+        30,
+        24,
+        26
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_g"
+        ],
+        [
+          "repair",
+          "repair_c"
+        ],
+        [
+          "repair_e"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00000000",
+        "0x04000000",
+        "0x01000000",
+        "0x00000010",
+        "0x00001000",
+        "0x00001000",
+        "0x80000000",
+        "0x00000420",
+        "0x00000000",
+        "0x10400000",
+        "0x02000000",
+        "0x20000200",
+        "0x04000000",
+        "0x00810000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        2,
+        10,
+        35,
+        38,
+        49,
+        150
+      ],
+      "bits": [
+        0,
+        64,
+        70,
+        74,
+        94,
+        112,
+        117,
+        183,
+        189,
+        261,
+        342,
+        459
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 106,
+      "net_delta": 20,
+      "lane_hw": [
+        7,
+        19,
+        16,
+        11,
+        12,
+        13,
+        8,
+        20
+      ],
+      "cg_objective": 154.0,
+      "cg_delta": 30.0,
+      "target_l1": 37,
+      "target_l1_delta": 16,
+      "standalone_net_delta_sum": 131,
+      "delta_lane_sum": [
+        4,
+        0,
+        45,
+        30,
+        8,
+        11,
+        18,
+        15
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair_f"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000001",
+        "0x00000000",
+        "0x40000041",
+        "0x01200000",
+        "0x00000010",
+        "0x20800000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000020",
+        "0x00000000",
+        "0x00400000",
+        "0x00000000",
+        "0x20000200",
+        "0x04000000",
+        "0x00800800",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        16,
+        67,
+        73,
+        117,
+        132
+      ],
+      "bits": [
+        61,
+        91,
+        112,
+        196,
+        263,
+        271,
+        305,
+        337,
+        341,
+        342,
+        376,
+        393
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 108,
+      "net_delta": 22,
+      "lane_hw": [
+        9,
+        23,
+        10,
+        12,
+        15,
+        12,
+        13,
+        14
+      ],
+      "cg_objective": 154.0,
+      "cg_delta": 30.0,
+      "target_l1": 39,
+      "target_l1_delta": 18,
+      "standalone_net_delta_sum": 126,
+      "delta_lane_sum": [
+        15,
+        -7,
+        31,
+        31,
+        -5,
+        16,
+        21,
+        24
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target",
+          "hw"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_d"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x20000000",
+        "0x08000400",
+        "0x01000000",
+        "0x00000010",
+        "0x00000000",
+        "0x00000010",
+        "0x00000000",
+        "0x00008080",
+        "0x00020000",
+        "0x00620000",
+        "0x01000000",
+        "0x20000000",
+        "0x04000000",
+        "0x00800000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        19,
+        57,
+        117,
+        121,
+        126
+      ],
+      "bits": [
+        7,
+        91,
+        112,
+        155,
+        220,
+        263,
+        297,
+        342,
+        347,
+        393,
+        484
+      ],
+      "radius": 11,
+      "m2_added_bits": 9,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 7,
+      "hw_total": 110,
+      "net_delta": 24,
+      "lane_hw": [
+        13,
+        16,
+        13,
+        16,
+        16,
+        13,
+        9,
+        14
+      ],
+      "cg_objective": 154.0,
+      "cg_delta": 30.0,
+      "target_l1": 29,
+      "target_l1_delta": 8,
+      "standalone_net_delta_sum": 142,
+      "delta_lane_sum": [
+        7,
+        8,
+        36,
+        29,
+        15,
+        18,
+        13,
+        16
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_d"
+        ],
+        [
+          "repair_g"
+        ]
+      ],
+      "M2": [
+        "0x00000080",
+        "0x00000000",
+        "0x08000400",
+        "0x01000000",
+        "0x08000010",
+        "0x00000000",
+        "0x10000000",
+        "0x00000000",
+        "0x00000080",
+        "0x00000200",
+        "0x08400000",
+        "0x00000000",
+        "0x20000000",
+        "0x04000000",
+        "0x00800000",
+        "0x00000010"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        14,
+        73,
+        121,
+        135,
+        150
+      ],
+      "bits": [
+        53,
+        74,
+        112,
+        122,
+        220,
+        261,
+        263,
+        337,
+        342,
+        392,
+        429,
+        484
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 110,
+      "net_delta": 24,
+      "lane_hw": [
+        16,
+        11,
+        8,
+        15,
+        19,
+        10,
+        14,
+        17
+      ],
+      "cg_objective": 154.0,
+      "cg_delta": 30.0,
+      "target_l1": 37,
+      "target_l1_delta": 16,
+      "standalone_net_delta_sum": 170,
+      "delta_lane_sum": [
+        6,
+        8,
+        44,
+        24,
+        8,
+        27,
+        32,
+        21
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair_d"
+        ],
+        [
+          "repair_d"
+        ],
+        [
+          "repair",
+          "repair_e"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00200000",
+        "0x00000000",
+        "0x05000000",
+        "0x00000010",
+        "0x00000000",
+        "0x10000000",
+        "0x00000000",
+        "0x000000a0",
+        "0x00000000",
+        "0x00420000",
+        "0x00000000",
+        "0x20000300",
+        "0x04002000",
+        "0x00800000",
+        "0x00000010"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        41,
+        68,
+        117,
+        132,
+        134
+      ],
+      "bits": [
+        13,
+        91,
+        112,
+        196,
+        217,
+        240,
+        261,
+        271,
+        342,
+        393,
+        478,
+        483
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 110,
+      "net_delta": 24,
+      "lane_hw": [
+        12,
+        20,
+        8,
+        9,
+        18,
+        17,
+        14,
+        12
+      ],
+      "cg_objective": 154.0,
+      "cg_delta": 30.0,
+      "target_l1": 41,
+      "target_l1_delta": 20,
+      "standalone_net_delta_sum": 115,
+      "delta_lane_sum": [
+        1,
+        -5,
+        22,
+        30,
+        5,
+        14,
+        22,
+        26
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "hw",
+          "cg"
+        ],
+        [
+          "hw",
+          "cg"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_d"
+        ]
+      ],
+      "M2": [
+        "0x00002000",
+        "0x00000000",
+        "0x08000400",
+        "0x01000000",
+        "0x00000010",
+        "0x00000000",
+        "0x02000010",
+        "0x00010000",
+        "0x00008020",
+        "0x00000000",
+        "0x00400000",
+        "0x00000000",
+        "0x20000000",
+        "0x04000000",
+        "0x40800000",
+        "0x00000008"
+      ]
+    },
+    {
+      "pair_ids": [
+        5,
+        7,
+        79,
+        117,
+        130,
+        150
+      ],
+      "bits": [
+        50,
+        74,
+        89,
+        91,
+        121,
+        207,
+        244,
+        261,
+        320,
+        392,
+        393,
+        435
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 112,
+      "net_delta": 26,
+      "lane_hw": [
+        13,
+        17,
+        11,
+        13,
+        15,
+        16,
+        10,
+        17
+      ],
+      "cg_objective": 154.0,
+      "cg_delta": 30.0,
+      "target_l1": 33,
+      "target_l1_delta": 12,
+      "standalone_net_delta_sum": 151,
+      "delta_lane_sum": [
+        2,
+        9,
+        32,
+        47,
+        2,
+        13,
+        33,
+        13
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target",
+          "hw",
+          "cg"
+        ],
+        [
+          "repair_h"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_f"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00040000",
+        "0x0a000000",
+        "0x03010000",
+        "0x00000010",
+        "0x00000000",
+        "0x00008000",
+        "0x00100000",
+        "0x00000020",
+        "0x00000000",
+        "0x00000001",
+        "0x00000000",
+        "0x20000100",
+        "0x04080000",
+        "0x00800000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        26,
+        63,
+        113,
+        117,
+        143,
+        150
+      ],
+      "bits": [
+        47,
+        74,
+        91,
+        261,
+        304,
+        313,
+        331,
+        353,
+        393,
+        403,
+        452,
+        486
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 116,
+      "net_delta": 30,
+      "lane_hw": [
+        21,
+        14,
+        13,
+        19,
+        15,
+        14,
+        6,
+        14
+      ],
+      "cg_objective": 154.0,
+      "cg_delta": 30.0,
+      "target_l1": 41,
+      "target_l1_delta": 20,
+      "standalone_net_delta_sum": 189,
+      "delta_lane_sum": [
+        3,
+        1,
+        44,
+        60,
+        9,
+        34,
+        28,
+        10
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "repair_h"
+        ],
+        [
+          "repair_g"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00008000",
+        "0x08000000",
+        "0x01010000",
+        "0x00000010",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000020",
+        "0x02010000",
+        "0x00000800",
+        "0x00000002",
+        "0x20080000",
+        "0x04000000",
+        "0x00800010",
+        "0x00000040"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        14,
+        24,
+        65,
+        134,
+        150
+      ],
+      "bits": [
+        53,
+        74,
+        112,
+        261,
+        280,
+        342,
+        392,
+        416,
+        448,
+        483,
+        484
+      ],
+      "radius": 11,
+      "m2_added_bits": 9,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 7,
+      "hw_total": 99,
+      "net_delta": 13,
+      "lane_hw": [
+        13,
+        11,
+        14,
+        10,
+        10,
+        14,
+        14,
+        13
+      ],
+      "cg_objective": 155.0,
+      "cg_delta": 31.0,
+      "target_l1": 18,
+      "target_l1_delta": -3,
+      "standalone_net_delta_sum": 147,
+      "delta_lane_sum": [
+        7,
+        4,
+        35,
+        23,
+        13,
+        35,
+        21,
+        9
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair_d"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00200000",
+        "0x00000000",
+        "0x01000000",
+        "0x00000010",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x01000020",
+        "0x00000000",
+        "0x00400000",
+        "0x00000000",
+        "0x20000300",
+        "0x04000001",
+        "0x00800001",
+        "0x00000018"
+      ]
+    },
+    {
+      "pair_ids": [
+        52,
+        106,
+        111,
+        117,
+        132,
+        150
+      ],
+      "bits": [
+        74,
+        84,
+        91,
+        183,
+        196,
+        261,
+        271,
+        319,
+        359,
+        389,
+        393,
+        459
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 103,
+      "net_delta": 17,
+      "lane_hw": [
+        12,
+        16,
+        13,
+        13,
+        10,
+        15,
+        13,
+        11
+      ],
+      "cg_objective": 155.0,
+      "cg_delta": 31.0,
+      "target_l1": 26,
+      "target_l1_delta": 5,
+      "standalone_net_delta_sum": 173,
+      "delta_lane_sum": [
+        12,
+        -1,
+        29,
+        40,
+        9,
+        22,
+        25,
+        37
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "hw",
+          "cg"
+        ],
+        [
+          "repair_d"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00000000",
+        "0x08100000",
+        "0x01010000",
+        "0x00000010",
+        "0x00800000",
+        "0x00000010",
+        "0x00000000",
+        "0x00008020",
+        "0x80000000",
+        "0x00000000",
+        "0x00000080",
+        "0x20000020",
+        "0x04000000",
+        "0x00800800",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        24,
+        81,
+        117,
+        126,
+        143,
+        150
+      ],
+      "bits": [
+        74,
+        91,
+        119,
+        261,
+        263,
+        280,
+        296,
+        304,
+        347,
+        393,
+        448,
+        452
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 103,
+      "net_delta": 17,
+      "lane_hw": [
+        16,
+        16,
+        14,
+        10,
+        8,
+        12,
+        12,
+        15
+      ],
+      "cg_objective": 155.0,
+      "cg_delta": 31.0,
+      "target_l1": 26,
+      "target_l1_delta": 5,
+      "standalone_net_delta_sum": 175,
+      "delta_lane_sum": [
+        2,
+        8,
+        37,
+        45,
+        1,
+        32,
+        31,
+        19
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "repair_d"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_g"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00000000",
+        "0x08000000",
+        "0x01810000",
+        "0x00000010",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x010000a0",
+        "0x00010100",
+        "0x08000000",
+        "0x00000000",
+        "0x20000000",
+        "0x04000000",
+        "0x00800011",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        38,
+        86,
+        89,
+        118,
+        150
+      ],
+      "bits": [
+        63,
+        64,
+        74,
+        112,
+        116,
+        117,
+        143,
+        198,
+        261,
+        342,
+        361,
+        461
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 105,
+      "net_delta": 19,
+      "lane_hw": [
+        16,
+        11,
+        10,
+        17,
+        12,
+        11,
+        15,
+        13
+      ],
+      "cg_objective": 155.0,
+      "cg_delta": 31.0,
+      "target_l1": 28,
+      "target_l1_delta": 7,
+      "standalone_net_delta_sum": 156,
+      "delta_lane_sum": [
+        -1,
+        10,
+        36,
+        43,
+        1,
+        30,
+        19,
+        18
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair_e"
+        ],
+        [
+          "repair_c"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x80000000",
+        "0x00000001",
+        "0x01300000",
+        "0x00008010",
+        "0x00000000",
+        "0x00000040",
+        "0x00000000",
+        "0x00000020",
+        "0x00000000",
+        "0x00400000",
+        "0x00000200",
+        "0x20000200",
+        "0x04000000",
+        "0x00802000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        20,
+        79,
+        116,
+        117,
+        139
+      ],
+      "bits": [
+        24,
+        91,
+        112,
+        195,
+        221,
+        228,
+        244,
+        320,
+        337,
+        342,
+        393,
+        468
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 106,
+      "net_delta": 20,
+      "lane_hw": [
+        16,
+        12,
+        16,
+        14,
+        12,
+        13,
+        9,
+        14
+      ],
+      "cg_objective": 156.0,
+      "cg_delta": 32.0,
+      "target_l1": 23,
+      "target_l1_delta": 2,
+      "standalone_net_delta_sum": 137,
+      "delta_lane_sum": [
+        0,
+        12,
+        35,
+        41,
+        -11,
+        14,
+        32,
+        14
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair_h"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_e"
+        ]
+      ],
+      "M2": [
+        "0x01000000",
+        "0x00000000",
+        "0x08000400",
+        "0x01000000",
+        "0x00000010",
+        "0x00000000",
+        "0x20000008",
+        "0x00100010",
+        "0x00000000",
+        "0x00000000",
+        "0x00420001",
+        "0x00000000",
+        "0x20000000",
+        "0x04000000",
+        "0x00900000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        3,
+        10,
+        78,
+        124,
+        140,
+        150
+      ],
+      "bits": [
+        74,
+        112,
+        125,
+        194,
+        236,
+        261,
+        262,
+        296,
+        299,
+        341,
+        342,
+        499
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 108,
+      "net_delta": 22,
+      "lane_hw": [
+        8,
+        15,
+        13,
+        14,
+        12,
+        22,
+        11,
+        13
+      ],
+      "cg_objective": 156.0,
+      "cg_delta": 32.0,
+      "target_l1": 35,
+      "target_l1_delta": 14,
+      "standalone_net_delta_sum": 175,
+      "delta_lane_sum": [
+        16,
+        -1,
+        47,
+        49,
+        -1,
+        25,
+        20,
+        20
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair_h"
+        ],
+        [
+          "repair_g"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x21000000",
+        "0x00000010",
+        "0x00000000",
+        "0x00000004",
+        "0x00001000",
+        "0x00000060",
+        "0x00000900",
+        "0x00600000",
+        "0x00000000",
+        "0x20000200",
+        "0x04000000",
+        "0x00800000",
+        "0x00080000"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        70,
+        71,
+        87,
+        100,
+        117
+      ],
+      "bits": [
+        31,
+        65,
+        91,
+        112,
+        139,
+        315,
+        342,
+        393,
+        405,
+        439,
+        459,
+        464
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 116,
+      "net_delta": 30,
+      "lane_hw": [
+        15,
+        17,
+        12,
+        16,
+        18,
+        14,
+        8,
+        16
+      ],
+      "cg_objective": 156.0,
+      "cg_delta": 32.0,
+      "target_l1": 39,
+      "target_l1_delta": 18,
+      "standalone_net_delta_sum": 118,
+      "delta_lane_sum": [
+        13,
+        -9,
+        15,
+        30,
+        1,
+        29,
+        23,
+        16
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_b"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x80000000",
+        "0x00000000",
+        "0x08000402",
+        "0x01000000",
+        "0x00000810",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x08000000",
+        "0x00400000",
+        "0x00000000",
+        "0x20200000",
+        "0x04800000",
+        "0x00810800",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        46,
+        59,
+        76,
+        117,
+        126,
+        150
+      ],
+      "bits": [
+        74,
+        91,
+        104,
+        172,
+        220,
+        228,
+        261,
+        263,
+        276,
+        347,
+        348,
+        393
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 118,
+      "net_delta": 32,
+      "lane_hw": [
+        17,
+        14,
+        12,
+        20,
+        17,
+        20,
+        7,
+        11
+      ],
+      "cg_objective": 156.0,
+      "cg_delta": 32.0,
+      "target_l1": 43,
+      "target_l1_delta": 22,
+      "standalone_net_delta_sum": 160,
+      "delta_lane_sum": [
+        2,
+        1,
+        26,
+        51,
+        10,
+        31,
+        20,
+        19
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "repair_h"
+        ],
+        [
+          "hw",
+          "cg"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_g"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00000000",
+        "0x08000000",
+        "0x01010100",
+        "0x00000010",
+        "0x00001000",
+        "0x10000000",
+        "0x00000010",
+        "0x001000a0",
+        "0x00000000",
+        "0x18000000",
+        "0x00000000",
+        "0x20000000",
+        "0x04000000",
+        "0x00800000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        2,
+        5,
+        10,
+        29,
+        82,
+        117
+      ],
+      "bits": [
+        1,
+        53,
+        91,
+        94,
+        101,
+        112,
+        158,
+        189,
+        342,
+        392,
+        393,
+        435
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 107,
+      "net_delta": 21,
+      "lane_hw": [
+        10,
+        18,
+        13,
+        13,
+        9,
+        15,
+        12,
+        17
+      ],
+      "cg_objective": 157.0,
+      "cg_delta": 33.0,
+      "target_l1": 36,
+      "target_l1_delta": 15,
+      "standalone_net_delta_sum": 105,
+      "delta_lane_sum": [
+        3,
+        -12,
+        33,
+        30,
+        0,
+        15,
+        18,
+        18
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000002",
+        "0x00200000",
+        "0x48000400",
+        "0x01000020",
+        "0x40000010",
+        "0x20000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00400000",
+        "0x00000000",
+        "0x20000100",
+        "0x04080000",
+        "0x00800000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        61,
+        63,
+        66,
+        70,
+        117,
+        150
+      ],
+      "bits": [
+        31,
+        44,
+        74,
+        91,
+        160,
+        261,
+        297,
+        331,
+        393,
+        446,
+        464,
+        486
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 109,
+      "net_delta": 23,
+      "lane_hw": [
+        15,
+        15,
+        11,
+        11,
+        11,
+        14,
+        13,
+        19
+      ],
+      "cg_objective": 157.0,
+      "cg_delta": 33.0,
+      "target_l1": 32,
+      "target_l1_delta": 11,
+      "standalone_net_delta_sum": 155,
+      "delta_lane_sum": [
+        0,
+        5,
+        33,
+        44,
+        0,
+        31,
+        33,
+        9
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "repair_e"
+        ],
+        [
+          "repair_h"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "cg"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x80000000",
+        "0x00001000",
+        "0x08000000",
+        "0x01010000",
+        "0x00000010",
+        "0x00000001",
+        "0x00000000",
+        "0x00000000",
+        "0x00000020",
+        "0x00000200",
+        "0x00000800",
+        "0x00000000",
+        "0x20000000",
+        "0x44000000",
+        "0x00810000",
+        "0x00000040"
+      ]
+    },
+    {
+      "pair_ids": [
+        41,
+        88,
+        117,
+        144,
+        149,
+        150
+      ],
+      "bits": [
+        41,
+        61,
+        74,
+        91,
+        204,
+        217,
+        261,
+        266,
+        295,
+        393,
+        459,
+        478
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 119,
+      "net_delta": 33,
+      "lane_hw": [
+        18,
+        16,
+        6,
+        17,
+        17,
+        20,
+        13,
+        12
+      ],
+      "cg_objective": 157.0,
+      "cg_delta": 33.0,
+      "target_l1": 50,
+      "target_l1_delta": 29,
+      "standalone_net_delta_sum": 173,
+      "delta_lane_sum": [
+        -12,
+        -2,
+        31,
+        47,
+        21,
+        22,
+        37,
+        29
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "hw",
+          "cg"
+        ],
+        [
+          "repair_b"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair",
+          "repair_c"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x20000200",
+        "0x08000000",
+        "0x01010000",
+        "0x00000010",
+        "0x00000000",
+        "0x02001000",
+        "0x00000000",
+        "0x00000420",
+        "0x00000080",
+        "0x00000000",
+        "0x00000000",
+        "0x20000000",
+        "0x04000000",
+        "0x40800800",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        47,
+        59,
+        77,
+        87,
+        117,
+        150
+      ],
+      "bits": [
+        51,
+        74,
+        91,
+        139,
+        179,
+        220,
+        228,
+        248,
+        261,
+        359,
+        393,
+        405
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 108,
+      "net_delta": 22,
+      "lane_hw": [
+        17,
+        18,
+        12,
+        13,
+        10,
+        11,
+        13,
+        14
+      ],
+      "cg_objective": 158.0,
+      "cg_delta": 34.0,
+      "target_l1": 31,
+      "target_l1_delta": 10,
+      "standalone_net_delta_sum": 148,
+      "delta_lane_sum": [
+        6,
+        -17,
+        27,
+        47,
+        5,
+        26,
+        32,
+        22
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "cg"
+        ],
+        [
+          "hw",
+          "cg"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_b"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00080000",
+        "0x08000000",
+        "0x01010000",
+        "0x00000810",
+        "0x00080000",
+        "0x10000000",
+        "0x01000010",
+        "0x00000020",
+        "0x00000000",
+        "0x00000000",
+        "0x00000080",
+        "0x20200000",
+        "0x04000000",
+        "0x00800000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        45,
+        51,
+        68,
+        85,
+        117,
+        150
+      ],
+      "bits": [
+        13,
+        51,
+        74,
+        91,
+        117,
+        156,
+        207,
+        240,
+        261,
+        269,
+        393,
+        474
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 110,
+      "net_delta": 24,
+      "lane_hw": [
+        13,
+        15,
+        11,
+        19,
+        11,
+        13,
+        13,
+        15
+      ],
+      "cg_objective": 158.0,
+      "cg_delta": 34.0,
+      "target_l1": 33,
+      "target_l1_delta": 12,
+      "standalone_net_delta_sum": 139,
+      "delta_lane_sum": [
+        -13,
+        -3,
+        33,
+        48,
+        2,
+        17,
+        36,
+        19
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "repair",
+          "hw"
+        ],
+        [
+          "repair_f"
+        ],
+        [
+          "hw",
+          "cg"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00002000",
+        "0x00080000",
+        "0x08000000",
+        "0x01210000",
+        "0x10000010",
+        "0x00000000",
+        "0x00008000",
+        "0x00010000",
+        "0x00002020",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x20000000",
+        "0x04000000",
+        "0x04800000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        39,
+        51,
+        117,
+        139,
+        142,
+        150
+      ],
+      "bits": [
+        24,
+        60,
+        74,
+        91,
+        156,
+        221,
+        224,
+        261,
+        264,
+        393,
+        406,
+        474
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 110,
+      "net_delta": 24,
+      "lane_hw": [
+        14,
+        18,
+        9,
+        14,
+        14,
+        15,
+        15,
+        11
+      ],
+      "cg_objective": 158.0,
+      "cg_delta": 34.0,
+      "target_l1": 35,
+      "target_l1_delta": 14,
+      "standalone_net_delta_sum": 180,
+      "delta_lane_sum": [
+        9,
+        18,
+        38,
+        38,
+        8,
+        11,
+        32,
+        26
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "repair_f"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_e"
+        ],
+        [
+          "repair_d"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x01000000",
+        "0x10000000",
+        "0x08000000",
+        "0x01010000",
+        "0x10000010",
+        "0x00000000",
+        "0x20000000",
+        "0x00000001",
+        "0x00000120",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x20400000",
+        "0x04000000",
+        "0x04800000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        17,
+        28,
+        68,
+        82,
+        117,
+        150
+      ],
+      "bits": [
+        1,
+        13,
+        74,
+        91,
+        101,
+        133,
+        164,
+        240,
+        261,
+        349,
+        393,
+        397
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 112,
+      "net_delta": 26,
+      "lane_hw": [
+        16,
+        16,
+        11,
+        16,
+        10,
+        14,
+        12,
+        17
+      ],
+      "cg_objective": 158.0,
+      "cg_delta": 34.0,
+      "target_l1": 37,
+      "target_l1_delta": 16,
+      "standalone_net_delta_sum": 135,
+      "delta_lane_sum": [
+        -8,
+        -13,
+        34,
+        35,
+        2,
+        25,
+        33,
+        27
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target",
+          "hw"
+        ],
+        [
+          "target"
+        ],
+        [
+          "hw",
+          "cg"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00002002",
+        "0x00000000",
+        "0x08000000",
+        "0x01010020",
+        "0x00000030",
+        "0x00000010",
+        "0x00000000",
+        "0x00010000",
+        "0x00000020",
+        "0x00000000",
+        "0x20000000",
+        "0x00000000",
+        "0x20002000",
+        "0x04000000",
+        "0x00800000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        33,
+        42,
+        117,
+        139,
+        147
+      ],
+      "bits": [
+        24,
+        91,
+        112,
+        143,
+        176,
+        208,
+        221,
+        309,
+        342,
+        393,
+        500,
+        511
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 114,
+      "net_delta": 28,
+      "lane_hw": [
+        15,
+        18,
+        11,
+        15,
+        13,
+        19,
+        11,
+        12
+      ],
+      "cg_objective": 158.0,
+      "cg_delta": 34.0,
+      "target_l1": 35,
+      "target_l1_delta": 14,
+      "standalone_net_delta_sum": 134,
+      "delta_lane_sum": [
+        0,
+        3,
+        24,
+        37,
+        -6,
+        25,
+        22,
+        29
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "hw",
+          "cg"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_e"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x01000000",
+        "0x00000000",
+        "0x08000400",
+        "0x01000000",
+        "0x00008010",
+        "0x00010000",
+        "0x20010000",
+        "0x00000000",
+        "0x00000000",
+        "0x00200000",
+        "0x00400000",
+        "0x00000000",
+        "0x20000000",
+        "0x04000000",
+        "0x00800000",
+        "0x80100000"
+      ]
+    },
+    {
+      "pair_ids": [
+        8,
+        10,
+        57,
+        117,
+        136,
+        140
+      ],
+      "bits": [
+        91,
+        112,
+        236,
+        258,
+        263,
+        278,
+        297,
+        326,
+        341,
+        342,
+        350,
+        393
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 114,
+      "net_delta": 28,
+      "lane_hw": [
+        15,
+        17,
+        15,
+        14,
+        18,
+        10,
+        7,
+        18
+      ],
+      "cg_objective": 158.0,
+      "cg_delta": 34.0,
+      "target_l1": 35,
+      "target_l1_delta": 14,
+      "standalone_net_delta_sum": 139,
+      "delta_lane_sum": [
+        21,
+        -20,
+        35,
+        40,
+        -2,
+        24,
+        23,
+        18
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target",
+          "hw",
+          "cg"
+        ],
+        [
+          "target"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00000000",
+        "0x08000400",
+        "0x01000000",
+        "0x00000010",
+        "0x00000000",
+        "0x00000000",
+        "0x00001000",
+        "0x00400084",
+        "0x00000200",
+        "0x40600040",
+        "0x00000000",
+        "0x20000000",
+        "0x04000000",
+        "0x00800000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        10,
+        20,
+        59,
+        107,
+        117,
+        149
+      ],
+      "bits": [
+        61,
+        91,
+        112,
+        195,
+        220,
+        228,
+        270,
+        295,
+        321,
+        342,
+        393
+      ],
+      "radius": 11,
+      "m2_added_bits": 9,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 7,
+      "hw_total": 109,
+      "net_delta": 23,
+      "lane_hw": [
+        15,
+        16,
+        12,
+        15,
+        11,
+        13,
+        13,
+        14
+      ],
+      "cg_objective": 159.0,
+      "cg_delta": 35.0,
+      "target_l1": 30,
+      "target_l1_delta": 9,
+      "standalone_net_delta_sum": 142,
+      "delta_lane_sum": [
+        -2,
+        -7,
+        32,
+        40,
+        11,
+        19,
+        26,
+        23
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "target"
+        ],
+        [
+          "hw",
+          "cg"
+        ],
+        [
+          "repair_b"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x20000000",
+        "0x08000400",
+        "0x01000000",
+        "0x00000010",
+        "0x00000000",
+        "0x10000008",
+        "0x00000010",
+        "0x00004000",
+        "0x00000080",
+        "0x00400002",
+        "0x00000000",
+        "0x20000000",
+        "0x04000000",
+        "0x00800000",
+        "0x00000000"
+      ]
+    },
+    {
+      "pair_ids": [
+        60,
+        61,
+        71,
+        103,
+        117,
+        150
+      ],
+      "bits": [
+        44,
+        65,
+        74,
+        91,
+        160,
+        165,
+        261,
+        285,
+        365,
+        393,
+        439,
+        488
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 111,
+      "net_delta": 25,
+      "lane_hw": [
+        13,
+        17,
+        12,
+        14,
+        15,
+        12,
+        12,
+        16
+      ],
+      "cg_objective": 159.0,
+      "cg_delta": 35.0,
+      "target_l1": 30,
+      "target_l1_delta": 9,
+      "standalone_net_delta_sum": 160,
+      "delta_lane_sum": [
+        5,
+        9,
+        31,
+        41,
+        -4,
+        23,
+        40,
+        15
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "cg"
+        ],
+        [
+          "repair_e"
+        ],
+        [
+          "repair"
+        ],
+        [
+          "repair_f"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00001000",
+        "0x08000002",
+        "0x01010000",
+        "0x00000010",
+        "0x00000021",
+        "0x00000000",
+        "0x00000000",
+        "0x20000020",
+        "0x00000000",
+        "0x00000000",
+        "0x00002000",
+        "0x20000000",
+        "0x04800000",
+        "0x00800000",
+        "0x00000100"
+      ]
+    },
+    {
+      "pair_ids": [
+        20,
+        64,
+        104,
+        117,
+        135,
+        150
+      ],
+      "bits": [
+        74,
+        91,
+        122,
+        195,
+        228,
+        249,
+        261,
+        299,
+        393,
+        415,
+        429,
+        499
+      ],
+      "radius": 12,
+      "m2_added_bits": 10,
+      "m2_removed_bits": 2,
+      "m2_net_added_bits": 8,
+      "hw_total": 113,
+      "net_delta": 27,
+      "lane_hw": [
+        15,
+        16,
+        13,
+        13,
+        15,
+        17,
+        10,
+        14
+      ],
+      "cg_objective": 159.0,
+      "cg_delta": 35.0,
+      "target_l1": 30,
+      "target_l1_delta": 9,
+      "standalone_net_delta_sum": 172,
+      "delta_lane_sum": [
+        -6,
+        8,
+        40,
+        48,
+        -2,
+        31,
+        43,
+        10
+      ],
+      "bit_overlap_signature": null,
+      "pair_sources": [
+        [
+          "target"
+        ],
+        [
+          "hw"
+        ],
+        [
+          "repair_h"
+        ],
+        [
+          "repair_a"
+        ],
+        [
+          "repair",
+          "repair_e"
+        ],
+        [
+          "repair_a"
+        ]
+      ],
+      "M2": [
+        "0x00000000",
+        "0x00000000",
+        "0x08000000",
+        "0x05010000",
+        "0x00000010",
+        "0x00000000",
+        "0x00000008",
+        "0x02000010",
+        "0x00000020",
+        "0x00000800",
+        "0x00000000",
+        "0x00000000",
+        "0xa0000000",
+        "0x04002000",
+        "0x00800000",
+        "0x00080000"
+      ]
+    }
+  ],
+  "top_records_hw_le_init": [],
+  "wall_seconds": 12.05
+}

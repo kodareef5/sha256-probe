@@ -36,6 +36,7 @@ Usage:
     --rank 0 --rounds 24 --out search_artifacts/F534_bit13_rank36_m2_pair_beam.json
 """
 import argparse
+from collections import Counter
 import itertools
 import json
 import os
@@ -210,6 +211,213 @@ def record_sort_key(record):
     return (record["hw"], record.get("objective", record["hw"]), record.get("depth", 0), record["bits"])
 
 
+def state_sort_key(state):
+    return (
+        state["hw"],
+        state.get("objective", state["hw"]),
+        state.get("depth", 0),
+        sorted(state["bits"]),
+    )
+
+
+def state_objective_sort_key(state):
+    return (
+        state.get("objective", state["hw"]),
+        state["hw"],
+        state.get("depth", 0),
+        sorted(state["bits"]),
+    )
+
+
+def m2_shape_key(state):
+    return (
+        f"add{state['m2_added_bits']}_remove{state['m2_removed_bits']}"
+        f"_net{state['m2_net_added_bits']:+d}"
+    )
+
+
+def counter_top(counter, limit):
+    return [
+        {"bucket": bucket, "count": count}
+        for bucket, count in sorted(counter.items(), key=lambda item: (-item[1], item[0]))[:limit]
+    ]
+
+
+def keep_best_state(mapping, key, state):
+    previous = mapping.get(key)
+    if previous is None or state_sort_key(state) < state_sort_key(previous):
+        mapping[key] = state
+
+
+def compact_state(state, target_lane=None):
+    lane_hw = state["lane_hw"]
+    out = {
+        "hw": state["hw"],
+        "objective": round(state.get("objective", state["hw"]), 6),
+        "lane_hw": lane_hw,
+        "m2_weight": state["m2_weight"],
+        "m2_added_bits": state["m2_added_bits"],
+        "m2_removed_bits": state["m2_removed_bits"],
+        "m2_net_added_bits": state["m2_net_added_bits"],
+        "m2_shape": m2_shape_key(state),
+        "depth": state["depth"],
+        "bits": sorted(state["bits"]),
+    }
+    if target_lane is not None:
+        out["target_l1"] = target_l1(lane_hw, target_lane)
+    return out
+
+
+def best_states_by_bucket(mapping, limit, target_lane=None):
+    ranked = sorted(mapping.items(), key=lambda item: state_sort_key(item[1]))[:limit]
+    return [
+        {"bucket": bucket, "best": compact_state(state, target_lane)}
+        for bucket, state in ranked
+    ]
+
+
+def summarize_frontier(states, depth, candidate_count, limit, target_lane=None):
+    if not states:
+        return {
+            "depth": depth,
+            "candidate_count": candidate_count,
+            "kept_count": 0,
+        }
+
+    shape_hist = Counter()
+    net_hist = Counter()
+    removed_hist = Counter()
+    added_hist = Counter()
+    best_by_shape = {}
+    best_by_net = {}
+    best_by_removed = {}
+    best_by_added = {}
+
+    for state in states:
+        shape = m2_shape_key(state)
+        net = str(state["m2_net_added_bits"])
+        removed = str(state["m2_removed_bits"])
+        added = str(state["m2_added_bits"])
+        shape_hist[shape] += 1
+        net_hist[net] += 1
+        removed_hist[removed] += 1
+        added_hist[added] += 1
+        keep_best_state(best_by_shape, shape, state)
+        keep_best_state(best_by_net, net, state)
+        keep_best_state(best_by_removed, removed, state)
+        keep_best_state(best_by_added, added, state)
+
+    best_hw_state = min(states, key=state_sort_key)
+    best_objective_state = min(states, key=state_objective_sort_key)
+    return {
+        "depth": depth,
+        "candidate_count": candidate_count,
+        "kept_count": len(states),
+        "best_hw": best_hw_state["hw"],
+        "best_objective": round(best_objective_state["objective"], 6),
+        "shape_hist_top": counter_top(shape_hist, limit),
+        "net_added_hist_top": counter_top(net_hist, limit),
+        "removed_bits_hist_top": counter_top(removed_hist, limit),
+        "added_bits_hist_top": counter_top(added_hist, limit),
+        "top_by_hw": [
+            compact_state(state, target_lane)
+            for state in sorted(states, key=state_sort_key)[:limit]
+        ],
+        "top_by_objective": [
+            compact_state(state, target_lane)
+            for state in sorted(states, key=state_objective_sort_key)[:limit]
+        ],
+        "best_by_shape": best_states_by_bucket(best_by_shape, limit, target_lane),
+        "best_by_net_added": best_states_by_bucket(best_by_net, limit, target_lane),
+        "best_by_removed_bits": best_states_by_bucket(best_by_removed, limit, target_lane),
+        "best_by_added_bits": best_states_by_bucket(best_by_added, limit, target_lane),
+    }
+
+
+def add_selected_states(selected, selected_keys, candidates, limit, predicate):
+    added = 0
+    if limit <= 0:
+        return added
+    for state in candidates:
+        if not predicate(state):
+            continue
+        key = state["bits"]
+        if key in selected_keys:
+            continue
+        selected.append(state)
+        selected_keys.add(key)
+        added += 1
+        if added >= limit:
+            break
+    return added
+
+
+def select_beam(candidates, args):
+    """Select the next beam, optionally reserving slots for repair-shape buckets."""
+    if not candidates:
+        return [], []
+
+    reserve_total = args.reserve_low_net_width + args.reserve_removed_width
+    global_primary_limit = max(0, args.beam_width - reserve_total)
+    selected = []
+    selected_keys = set()
+    passes = []
+
+    added = add_selected_states(
+        selected,
+        selected_keys,
+        candidates,
+        global_primary_limit,
+        lambda state: True,
+    )
+    passes.append({"pass": "global_primary", "limit": global_primary_limit, "added": added})
+
+    added = add_selected_states(
+        selected,
+        selected_keys,
+        candidates,
+        args.reserve_low_net_width,
+        lambda state: (
+            state["m2_net_added_bits"] <= args.reserve_low_net_max
+            and state["m2_removed_bits"] >= args.reserve_low_net_min_removed
+        ),
+    )
+    if args.reserve_low_net_width:
+        passes.append({
+            "pass": "low_net_reserve",
+            "limit": args.reserve_low_net_width,
+            "added": added,
+            "max_net_added": args.reserve_low_net_max,
+            "min_removed_bits": args.reserve_low_net_min_removed,
+        })
+
+    added = add_selected_states(
+        selected,
+        selected_keys,
+        candidates,
+        args.reserve_removed_width,
+        lambda state: state["m2_removed_bits"] >= args.reserve_removed_min,
+    )
+    if args.reserve_removed_width:
+        passes.append({
+            "pass": "removed_reserve",
+            "limit": args.reserve_removed_width,
+            "added": added,
+            "min_removed_bits": args.reserve_removed_min,
+        })
+
+    fill_limit = args.beam_width - len(selected)
+    added = add_selected_states(
+        selected,
+        selected_keys,
+        candidates,
+        fill_limit,
+        lambda state: True,
+    )
+    passes.append({"pass": "global_fill", "limit": fill_limit, "added": added})
+    return selected[:args.beam_width], passes
+
+
 def load_seed(path, rank):
     """Load seed JSONL and extract entry at given rank index."""
     seeds = []
@@ -258,9 +466,22 @@ def main():
     ap.add_argument("--max-target-l1", type=int, default=None,
                     help="Reject beam states with L1(lane, target-lane) above this cap.")
     ap.add_argument("--beam-width", type=int, default=1024)
+    ap.add_argument("--reserve-low-net-width", type=int, default=0,
+                    help="Reserve this many beam slots for states with bounded net additions and removals.")
+    ap.add_argument("--reserve-low-net-max", type=int, default=4,
+                    help="Max net added M2 bits for --reserve-low-net-width.")
+    ap.add_argument("--reserve-low-net-min-removed", type=int, default=1,
+                    help="Min removed M2 bits for --reserve-low-net-width.")
+    ap.add_argument("--reserve-removed-width", type=int, default=0,
+                    help="Reserve this many beam slots for states with at least --reserve-removed-min removals.")
+    ap.add_argument("--reserve-removed-min", type=int, default=2,
+                    help="Min removed M2 bits for --reserve-removed-width.")
     ap.add_argument("--max-pairs", type=int, default=6)
     ap.add_argument("--max-radius", type=int, default=12)
     ap.add_argument("--top-records", type=int, default=30)
+    ap.add_argument("--frontier-summary-limit", type=int, default=12,
+                    help="Number of compact states/buckets to retain per depth for frontier diagnostics. "
+                         "Use 0 to disable frontier summaries.")
     ap.add_argument("--init-M2", default=None,
                     help="Optional 16-word M2 override, comma/space-separated hex. "
                          "Uses seed diff63 but starts beam from this M2.")
@@ -410,6 +631,8 @@ def main():
     best_objective_state = initial
     n_new_records = 0
     top_records = []
+    frontier_summaries = []
+    beam_selection_summaries = []
     seen_states = {frozenset(): True}
 
     for depth in range(1, args.max_pairs + 1):
@@ -498,12 +721,31 @@ def main():
                         top_records[-1] = record
                         top_records.sort(key=record_sort_key)
         next_beam.sort(key=lambda s: (s["objective"], s["hw"]))
-        beam = next_beam[:args.beam_width]
+        candidate_count = len(next_beam)
+        beam, selection_passes = select_beam(next_beam, args)
+        beam_selection_summaries.append({
+            "depth": depth,
+            "candidate_count": candidate_count,
+            "kept_count": len(beam),
+            "passes": selection_passes,
+        })
+        if args.frontier_summary_limit > 0:
+            frontier_summaries.append(
+                summarize_frontier(
+                    beam,
+                    depth,
+                    candidate_count,
+                    args.frontier_summary_limit,
+                    target_lane,
+                )
+            )
         if beam:
             best_hw_at_depth = min(s["hw"] for s in beam)
+            best_shape_at_depth = m2_shape_key(min(beam, key=state_sort_key))
             print(
                 f"  depth {depth}: kept={len(beam)} "
-                f"best_hw={best_hw_at_depth} best_obj={beam[0]['objective']:.3f}"
+                f"best_hw={best_hw_at_depth} best_obj={beam[0]['objective']:.3f} "
+                f"best_shape={best_shape_at_depth}"
             )
         else:
             print(f"  depth {depth}: empty beam, stopping")
@@ -576,8 +818,14 @@ def main():
         "max_added_word": dict(sorted(added_word_caps.items())),
         "max_target_l1": args.max_target_l1,
         "beam_width": args.beam_width,
+        "reserve_low_net_width": args.reserve_low_net_width,
+        "reserve_low_net_max": args.reserve_low_net_max,
+        "reserve_low_net_min_removed": args.reserve_low_net_min_removed,
+        "reserve_removed_width": args.reserve_removed_width,
+        "reserve_removed_min": args.reserve_removed_min,
         "max_pairs": args.max_pairs,
         "max_radius": args.max_radius,
+        "frontier_summary_limit": args.frontier_summary_limit,
         "init_M2": [f"0x{w:08x}" for w in m2_init],
         "seed_M2": [f"0x{w:08x}" for w in seed_m2],
         "init_M2_overridden": bool(args.init_M2),
@@ -608,6 +856,8 @@ def main():
         "best_objective_M2": [f"0x{w:08x}" for w in best_objective_state["M2"]],
         "n_new_records": n_new_records,
         "top_records": top_records,
+        "frontier_summaries": frontier_summaries,
+        "beam_selection_summaries": beam_selection_summaries,
         "wall_seconds": round(wall, 2),
     }
     os.makedirs(os.path.dirname(args.out) or ".", exist_ok=True)

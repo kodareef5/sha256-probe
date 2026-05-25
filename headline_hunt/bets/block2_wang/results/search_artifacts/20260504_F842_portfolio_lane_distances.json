@@ -1,0 +1,641 @@
+{
+  "description": "M2 witness lane comparison",
+  "targets": {
+    "bit13": [
+      10,
+      11,
+      9,
+      12,
+      9,
+      7,
+      10,
+      14
+    ],
+    "bit15": [
+      10,
+      6,
+      12,
+      14,
+      13,
+      6,
+      12,
+      10
+    ],
+    "bit25": [
+      9,
+      11,
+      13,
+      10,
+      9,
+      9,
+      9,
+      14
+    ],
+    "bit6": [
+      9,
+      13,
+      12,
+      13,
+      8,
+      7,
+      14,
+      9
+    ]
+  },
+  "witnesses": [
+    {
+      "label": "bit13_HW82",
+      "source_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260503_F732_hw85_cg_objective_m2_pair_beam.json",
+      "source_kind": "beam:best_seen",
+      "hw": 82,
+      "lane_hw": [
+        10,
+        11,
+        9,
+        12,
+        9,
+        7,
+        10,
+        14
+      ],
+      "cg_sum": 19,
+      "m2_weight": 29,
+      "target_l1": null,
+      "M2": [
+        "0x20500008",
+        "0x40000000",
+        "0x00000100",
+        "0x00100008",
+        "0x40020000",
+        "0x50000000",
+        "0x08040000",
+        "0x00100000",
+        "0x08400000",
+        "0x00000008",
+        "0x20000000",
+        "0x40000800",
+        "0x04010041",
+        "0x00004200",
+        "0x00010000",
+        "0x00000008"
+      ],
+      "bits": null,
+      "distances": {
+        "bit13": {
+          "l1": 0,
+          "linf": 0
+        },
+        "bit15": {
+          "l1": 21,
+          "linf": 5
+        },
+        "bit25": {
+          "l1": 10,
+          "linf": 4
+        },
+        "bit6": {
+          "l1": 17,
+          "linf": 5
+        }
+      },
+      "m2_distances": {
+        "bit15_HW83": 45,
+        "bit24_F428_HW84": 71,
+        "bit25_HW84": 51,
+        "bit14_HW85": 39,
+        "bit6_HW85": 43,
+        "bit12_HW86": 41,
+        "bit18_HW86": 37,
+        "bit2_HW86": 49
+      }
+    },
+    {
+      "label": "bit15_HW83",
+      "source_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260504_F552_bit15_HW88_cg_m2_pair_beam.json",
+      "source_kind": "beam:best_seen",
+      "hw": 83,
+      "lane_hw": [
+        10,
+        6,
+        12,
+        14,
+        13,
+        6,
+        12,
+        10
+      ],
+      "cg_sum": 24,
+      "m2_weight": 18,
+      "target_l1": null,
+      "M2": [
+        "0x00000000",
+        "0x00040000",
+        "0x00008000",
+        "0x00000000",
+        "0x00022000",
+        "0x20000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00001420",
+        "0x0500c040",
+        "0x00000008",
+        "0x00000440",
+        "0x00002000",
+        "0x00000080"
+      ],
+      "bits": null,
+      "distances": {
+        "bit13": {
+          "l1": 21,
+          "linf": 5
+        },
+        "bit15": {
+          "l1": 0,
+          "linf": 0
+        },
+        "bit25": {
+          "l1": 25,
+          "linf": 5
+        },
+        "bit6": {
+          "l1": 18,
+          "linf": 7
+        }
+      },
+      "m2_distances": {
+        "bit13_HW82": 45,
+        "bit24_F428_HW84": 72,
+        "bit25_HW84": 44,
+        "bit14_HW85": 28,
+        "bit6_HW85": 36,
+        "bit12_HW86": 30,
+        "bit18_HW86": 26,
+        "bit2_HW86": 42
+      }
+    },
+    {
+      "label": "bit24_F428_HW84",
+      "source_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260504_F550_bit24_HW78_cg_wider_m2_pair_beam.json",
+      "source_kind": "beam:best_seen",
+      "hw": 84,
+      "lane_hw": [
+        9,
+        7,
+        16,
+        11,
+        13,
+        8,
+        11,
+        9
+      ],
+      "cg_sum": 27,
+      "m2_weight": 54,
+      "target_l1": null,
+      "M2": [
+        "0x00905000",
+        "0x21000080",
+        "0x00044004",
+        "0x40146000",
+        "0x00040104",
+        "0x10001010",
+        "0x04000001",
+        "0x00200080",
+        "0x08006410",
+        "0x20020042",
+        "0x10808908",
+        "0x00010000",
+        "0x06000000",
+        "0x00648020",
+        "0x12018002",
+        "0x00000040"
+      ],
+      "bits": null,
+      "distances": {
+        "bit13": {
+          "l1": 24,
+          "linf": 7
+        },
+        "bit15": {
+          "l1": 13,
+          "linf": 4
+        },
+        "bit25": {
+          "l1": 20,
+          "linf": 5
+        },
+        "bit6": {
+          "l1": 21,
+          "linf": 6
+        }
+      },
+      "m2_distances": {
+        "bit13_HW82": 71,
+        "bit15_HW83": 72,
+        "bit25_HW84": 76,
+        "bit14_HW85": 64,
+        "bit6_HW85": 72,
+        "bit12_HW86": 66,
+        "bit18_HW86": 62,
+        "bit2_HW86": 66
+      }
+    },
+    {
+      "label": "bit25_HW84",
+      "source_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260504_F562_bit25_ma2f498b1_HW84_cg_m2_pair_beam.json",
+      "source_kind": "beam:best_seen",
+      "hw": 84,
+      "lane_hw": [
+        9,
+        11,
+        13,
+        10,
+        9,
+        9,
+        9,
+        14
+      ],
+      "cg_sum": 22,
+      "m2_weight": 28,
+      "target_l1": null,
+      "M2": [
+        "0x00000208",
+        "0x00000048",
+        "0x00000400",
+        "0x41000800",
+        "0x00002000",
+        "0x40060100",
+        "0x0000000a",
+        "0x00000020",
+        "0x08000040",
+        "0x08000000",
+        "0x00000008",
+        "0x00000080",
+        "0x00046000",
+        "0x00000000",
+        "0x00000010",
+        "0x04084000"
+      ],
+      "bits": null,
+      "distances": {
+        "bit13": {
+          "l1": 10,
+          "linf": 4
+        },
+        "bit15": {
+          "l1": 25,
+          "linf": 5
+        },
+        "bit25": {
+          "l1": 0,
+          "linf": 0
+        },
+        "bit6": {
+          "l1": 19,
+          "linf": 5
+        }
+      },
+      "m2_distances": {
+        "bit13_HW82": 51,
+        "bit15_HW83": 44,
+        "bit24_F428_HW84": 76,
+        "bit14_HW85": 38,
+        "bit6_HW85": 46,
+        "bit12_HW86": 38,
+        "bit18_HW86": 32,
+        "bit2_HW86": 54
+      }
+    },
+    {
+      "label": "bit14_HW85",
+      "source_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260504_F557_bit14_HW85_cg_m2_pair_beam.json",
+      "source_kind": "beam:best_seen",
+      "hw": 85,
+      "lane_hw": [
+        13,
+        11,
+        14,
+        10,
+        12,
+        9,
+        10,
+        6
+      ],
+      "cg_sum": 24,
+      "m2_weight": 12,
+      "target_l1": null,
+      "M2": [
+        "0x00000000",
+        "0x00000004",
+        "0x00000008",
+        "0x00400000",
+        "0x00000000",
+        "0x40000010",
+        "0x00000000",
+        "0x08000000",
+        "0x00000000",
+        "0x00100000",
+        "0x00000000",
+        "0x81000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x80100001"
+      ],
+      "bits": null,
+      "distances": {
+        "bit13": {
+          "l1": 23,
+          "linf": 8
+        },
+        "bit15": {
+          "l1": 24,
+          "linf": 5
+        },
+        "bit25": {
+          "l1": 17,
+          "linf": 8
+        },
+        "bit6": {
+          "l1": 24,
+          "linf": 4
+        }
+      },
+      "m2_distances": {
+        "bit13_HW82": 39,
+        "bit15_HW83": 28,
+        "bit24_F428_HW84": 64,
+        "bit25_HW84": 38,
+        "bit6_HW85": 30,
+        "bit12_HW86": 20,
+        "bit18_HW86": 20,
+        "bit2_HW86": 38
+      }
+    },
+    {
+      "label": "bit6_HW85",
+      "source_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260504_F565_bit6_HW85_cg_m2_pair_beam.json",
+      "source_kind": "beam:best_seen",
+      "hw": 85,
+      "lane_hw": [
+        9,
+        13,
+        12,
+        13,
+        8,
+        7,
+        14,
+        9
+      ],
+      "cg_sum": 26,
+      "m2_weight": 18,
+      "target_l1": null,
+      "M2": [
+        "0x01000042",
+        "0x00028020",
+        "0x01000000",
+        "0x08000000",
+        "0x00000000",
+        "0x00100000",
+        "0x48000000",
+        "0x10000000",
+        "0x00000000",
+        "0x10000000",
+        "0x00100040",
+        "0x00000000",
+        "0x00000040",
+        "0x00080000",
+        "0x00004000",
+        "0x00000000"
+      ],
+      "bits": null,
+      "distances": {
+        "bit13": {
+          "l1": 17,
+          "linf": 5
+        },
+        "bit15": {
+          "l1": 18,
+          "linf": 7
+        },
+        "bit25": {
+          "l1": 19,
+          "linf": 5
+        },
+        "bit6": {
+          "l1": 0,
+          "linf": 0
+        }
+      },
+      "m2_distances": {
+        "bit13_HW82": 43,
+        "bit15_HW83": 36,
+        "bit24_F428_HW84": 72,
+        "bit25_HW84": 46,
+        "bit14_HW85": 30,
+        "bit12_HW86": 28,
+        "bit18_HW86": 26,
+        "bit2_HW86": 44
+      }
+    },
+    {
+      "label": "bit12_HW86",
+      "source_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260504_F560_bit12_m8cbb392c_HW86_cg_m2_pair_beam.json",
+      "source_kind": "beam:best_seen",
+      "hw": 86,
+      "lane_hw": [
+        12,
+        8,
+        12,
+        17,
+        9,
+        13,
+        9,
+        6
+      ],
+      "cg_sum": 21,
+      "m2_weight": 12,
+      "target_l1": null,
+      "M2": [
+        "0x00000000",
+        "0x00080020",
+        "0x00100008",
+        "0x00000000",
+        "0x00010040",
+        "0x00000000",
+        "0x00020020",
+        "0x00000000",
+        "0x01000000",
+        "0x00100000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000010",
+        "0x00040000"
+      ],
+      "bits": null,
+      "distances": {
+        "bit13": {
+          "l1": 28,
+          "linf": 8
+        },
+        "bit15": {
+          "l1": 25,
+          "linf": 7
+        },
+        "bit25": {
+          "l1": 26,
+          "linf": 8
+        },
+        "bit6": {
+          "l1": 27,
+          "linf": 6
+        }
+      },
+      "m2_distances": {
+        "bit13_HW82": 41,
+        "bit15_HW83": 30,
+        "bit24_F428_HW84": 66,
+        "bit25_HW84": 38,
+        "bit14_HW85": 20,
+        "bit6_HW85": 28,
+        "bit18_HW86": 20,
+        "bit2_HW86": 40
+      }
+    },
+    {
+      "label": "bit18_HW86",
+      "source_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260504_F555_bit18_HW86_cg_m2_pair_beam.json",
+      "source_kind": "beam:best_seen",
+      "hw": 86,
+      "lane_hw": [
+        11,
+        14,
+        9,
+        7,
+        13,
+        11,
+        10,
+        11
+      ],
+      "cg_sum": 19,
+      "m2_weight": 8,
+      "target_l1": null,
+      "M2": [
+        "0x00000000",
+        "0x00000000",
+        "0x00000400",
+        "0x01010000",
+        "0x00000010",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x20000200",
+        "0x04000000",
+        "0x00800000",
+        "0x00000000"
+      ],
+      "bits": null,
+      "distances": {
+        "bit13": {
+          "l1": 20,
+          "linf": 5
+        },
+        "bit15": {
+          "l1": 27,
+          "linf": 8
+        },
+        "bit25": {
+          "l1": 22,
+          "linf": 4
+        },
+        "bit6": {
+          "l1": 27,
+          "linf": 6
+        }
+      },
+      "m2_distances": {
+        "bit13_HW82": 37,
+        "bit15_HW83": 26,
+        "bit24_F428_HW84": 62,
+        "bit25_HW84": 32,
+        "bit14_HW85": 20,
+        "bit6_HW85": 26,
+        "bit12_HW86": 20,
+        "bit2_HW86": 36
+      }
+    },
+    {
+      "label": "bit2_HW86",
+      "source_path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260504_F560_bit2_ma896ee41_HW88_cg_m2_pair_beam.json",
+      "source_kind": "beam:best_seen",
+      "hw": 86,
+      "lane_hw": [
+        9,
+        15,
+        11,
+        10,
+        12,
+        13,
+        8,
+        8
+      ],
+      "cg_sum": 19,
+      "m2_weight": 28,
+      "target_l1": null,
+      "M2": [
+        "0x30000000",
+        "0x00000004",
+        "0x00004000",
+        "0x02100000",
+        "0x40020000",
+        "0x00000000",
+        "0x00000000",
+        "0x04080000",
+        "0x04000000",
+        "0x20020242",
+        "0x00108200",
+        "0x00040040",
+        "0x00081000",
+        "0x00000000",
+        "0x02100120",
+        "0x00080000"
+      ],
+      "bits": null,
+      "distances": {
+        "bit13": {
+          "l1": 26,
+          "linf": 6
+        },
+        "bit15": {
+          "l1": 29,
+          "linf": 9
+        },
+        "bit25": {
+          "l1": 20,
+          "linf": 6
+        },
+        "bit6": {
+          "l1": 23,
+          "linf": 6
+        }
+      },
+      "m2_distances": {
+        "bit13_HW82": 49,
+        "bit15_HW83": 42,
+        "bit24_F428_HW84": 66,
+        "bit25_HW84": 54,
+        "bit14_HW85": 38,
+        "bit6_HW85": 44,
+        "bit12_HW86": 40,
+        "bit18_HW86": 36
+      }
+    }
+  ]
+}

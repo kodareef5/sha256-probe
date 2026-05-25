@@ -1,0 +1,3062 @@
+{
+  "description": "M2 combo branch comparison",
+  "combo_count": 7,
+  "combos": [
+    {
+      "path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260504_F788_bit24_f760_hw82_overlap_pair6_sample20m_combo6.json",
+      "label": "F788_bit24_f760_hw82_overlap_pair6_sample20m_combo6",
+      "init_hw": 82,
+      "init_lane_hw": [
+        9,
+        10,
+        11,
+        10,
+        10,
+        13,
+        13,
+        6
+      ],
+      "init_m2_weight": 30,
+      "init_target_l1": 24,
+      "init_cg_objective": 130.0,
+      "selection": {
+        "target_pairs": 80,
+        "repair_pairs": 80,
+        "hw_pairs": 20,
+        "cg_pairs": 40,
+        "per_reg_pairs": 10,
+        "selected_pairs": 236,
+        "pair_count": 6,
+        "min_radius": 10,
+        "max_radius": 12,
+        "sample_combos": 20000000,
+        "rng_seed": 788,
+        "late_word_start": 12,
+        "late_word_end": 15,
+        "early_word_end": 8,
+        "min_late_pairs": 0,
+        "min_late_late_pairs": 0,
+        "min_early_late_pairs": 0,
+        "min_delta_lane_sum": null,
+        "max_delta_lane_sum": null,
+        "min_standalone_net_delta_sum": null,
+        "max_standalone_net_delta_sum": null,
+        "min_pair_removed_union": 80,
+        "max_pair_added_union": 170,
+        "min_pair_added_repeat_excess": 250,
+        "min_pair_removed_repeat_excess": null
+      },
+      "selected_pairs_reconstructed": 236,
+      "counts": {
+        "candidate_combos": 20000000,
+        "skipped_radius": 2014,
+        "skipped_duplicate": 715,
+        "evaluated": 16647332,
+        "hw_lt_init": 0,
+        "hw_le_init": 0,
+        "cg_lt_init": 40,
+        "target_l1_lt_init": 8860,
+        "skipped_late_pair_motif": 0,
+        "skipped_pair_graph_motif": 0,
+        "skipped_delta_signature": 0,
+        "skipped_bit_overlap_signature": 3349939
+      },
+      "rates_per_million": {
+        "hw_lt_init": 0.0,
+        "hw_le_init": 0.0,
+        "target_l1_lt_init": 532.2174147785363,
+        "cg_lt_init": 2.4027874256367325
+      },
+      "best": {
+        "top_by_hw": {
+          "hw_total": 86,
+          "target_l1": 16,
+          "cg_objective": 130.0,
+          "net_delta": 4,
+          "lane_hw": [
+            14,
+            13,
+            10,
+            8,
+            8,
+            8,
+            12,
+            13
+          ],
+          "bits": [
+            14,
+            23,
+            56,
+            61,
+            109,
+            192,
+            260,
+            270,
+            368,
+            409,
+            410,
+            432
+          ],
+          "m2_weight": 40,
+          "m2_added_bits": 11,
+          "m2_removed_bits": 1,
+          "m2_net_added_bits": 10,
+          "pair_ids": [
+            33,
+            104,
+            146,
+            172,
+            220,
+            235
+          ],
+          "word_pairs": [
+            [
+              1,
+              11
+            ],
+            [
+              6,
+              13
+            ],
+            [
+              12,
+              12
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              0,
+              8
+            ],
+            [
+              1,
+              8
+            ]
+          ],
+          "motifs": {
+            "late_touch_pairs": 2,
+            "late_late_pairs": 1,
+            "early_late_pairs": 1,
+            "word_degree": {
+              "0": 2,
+              "1": 2,
+              "3": 1,
+              "6": 1,
+              "8": 2,
+              "11": 1,
+              "12": 2,
+              "13": 1
+            }
+          },
+          "source_counts": {
+            "cg": 1,
+            "repair": 2,
+            "repair_d": 1,
+            "repair_h": 2,
+            "target": 1
+          },
+          "source_bucket": {
+            "target": 1,
+            "repair": 5,
+            "hw": 0,
+            "cg": 1
+          },
+          "standalone_net_delta_sum": 175,
+          "delta_lane_sum": [
+            39,
+            36,
+            20,
+            26,
+            33,
+            3,
+            -2,
+            20
+          ],
+          "bit_overlap_signature": {
+            "pair_removed_union_total": 81,
+            "pair_added_union_total": 168,
+            "pair_removed_occurrences": 272,
+            "pair_added_occurrences": 447,
+            "pair_removed_repeat_excess": 191,
+            "pair_added_repeat_excess": 279
+          },
+          "standalone_hw": [
+            101,
+            103,
+            107,
+            106,
+            117,
+            133
+          ]
+        },
+        "top_by_target_l1": {
+          "hw_total": 89,
+          "target_l1": 9,
+          "cg_objective": 129.0,
+          "net_delta": 7,
+          "lane_hw": [
+            12,
+            10,
+            10,
+            12,
+            12,
+            9,
+            10,
+            14
+          ],
+          "bits": [
+            67,
+            83,
+            126,
+            137,
+            275,
+            347,
+            355,
+            385,
+            402,
+            428,
+            444,
+            505
+          ],
+          "m2_weight": 40,
+          "m2_added_bits": 11,
+          "m2_removed_bits": 1,
+          "m2_net_added_bits": 10,
+          "pair_ids": [
+            16,
+            56,
+            120,
+            147,
+            152,
+            207
+          ],
+          "word_pairs": [
+            [
+              2,
+              3
+            ],
+            [
+              2,
+              12
+            ],
+            [
+              4,
+              13
+            ],
+            [
+              8,
+              13
+            ],
+            [
+              10,
+              12
+            ],
+            [
+              11,
+              15
+            ]
+          ],
+          "motifs": {
+            "late_touch_pairs": 5,
+            "late_late_pairs": 0,
+            "early_late_pairs": 3,
+            "word_degree": {
+              "2": 2,
+              "3": 1,
+              "4": 1,
+              "8": 1,
+              "10": 1,
+              "11": 1,
+              "12": 2,
+              "13": 2,
+              "15": 1
+            }
+          },
+          "source_counts": {
+            "cg": 1,
+            "repair": 3,
+            "repair_a": 2,
+            "target": 2
+          },
+          "source_bucket": {
+            "target": 2,
+            "repair": 5,
+            "hw": 0,
+            "cg": 1
+          },
+          "standalone_net_delta_sum": 173,
+          "delta_lane_sum": [
+            12,
+            20,
+            17,
+            42,
+            37,
+            -8,
+            -14,
+            67
+          ],
+          "bit_overlap_signature": {
+            "pair_removed_union_total": 82,
+            "pair_added_union_total": 170,
+            "pair_removed_occurrences": 300,
+            "pair_added_occurrences": 473,
+            "pair_removed_repeat_excess": 218,
+            "pair_added_repeat_excess": 303
+          },
+          "standalone_hw": [
+            104,
+            102,
+            105,
+            109,
+            117,
+            128
+          ]
+        },
+        "top_by_cg": {
+          "hw_total": 86,
+          "target_l1": 26,
+          "cg_objective": 116.0,
+          "net_delta": 4,
+          "lane_hw": [
+            11,
+            17,
+            9,
+            12,
+            14,
+            10,
+            6,
+            7
+          ],
+          "bits": [
+            30,
+            36,
+            71,
+            89,
+            114,
+            127,
+            144,
+            154,
+            240,
+            311,
+            352,
+            426
+          ],
+          "m2_weight": 42,
+          "m2_added_bits": 12,
+          "m2_removed_bits": 0,
+          "m2_net_added_bits": 12,
+          "pair_ids": [
+            21,
+            71,
+            78,
+            82,
+            90,
+            167
+          ],
+          "word_pairs": [
+            [
+              2,
+              11
+            ],
+            [
+              3,
+              4
+            ],
+            [
+              1,
+              4
+            ],
+            [
+              2,
+              9
+            ],
+            [
+              0,
+              7
+            ],
+            [
+              3,
+              13
+            ]
+          ],
+          "motifs": {
+            "late_touch_pairs": 1,
+            "late_late_pairs": 0,
+            "early_late_pairs": 1,
+            "word_degree": {
+              "0": 1,
+              "1": 1,
+              "2": 2,
+              "3": 2,
+              "4": 2,
+              "7": 1,
+              "9": 1,
+              "11": 1,
+              "13": 1
+            }
+          },
+          "source_counts": {
+            "cg": 2,
+            "repair": 1,
+            "target": 3
+          },
+          "source_bucket": {
+            "target": 3,
+            "repair": 1,
+            "hw": 0,
+            "cg": 2
+          },
+          "standalone_net_delta_sum": 149,
+          "delta_lane_sum": [
+            31,
+            35,
+            -1,
+            19,
+            16,
+            -1,
+            -7,
+            57
+          ],
+          "bit_overlap_signature": {
+            "pair_removed_union_total": 81,
+            "pair_added_union_total": 169,
+            "pair_removed_occurrences": 283,
+            "pair_added_occurrences": 432,
+            "pair_removed_repeat_excess": 202,
+            "pair_added_repeat_excess": 263
+          },
+          "standalone_hw": [
+            104,
+            106,
+            106,
+            102,
+            105,
+            118
+          ]
+        }
+      },
+      "derived": {
+        "best_hw_delta": 4,
+        "best_hw_target_l1": 16,
+        "best_target_l1": 9,
+        "best_target_hw_delta": 7,
+        "best_cg_delta": -14.0
+      }
+    },
+    {
+      "path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260504_F793_bit24_f789_hw78_unfiltered_pair6_sample5m_combo6.json",
+      "label": "F793_bit24_f789_hw78_unfiltered_pair6_sample5m_combo6",
+      "init_hw": 78,
+      "init_lane_hw": [
+        13,
+        11,
+        8,
+        9,
+        7,
+        9,
+        8,
+        13
+      ],
+      "init_m2_weight": 44,
+      "init_target_l1": 14,
+      "init_cg_objective": 110.0,
+      "selection": {
+        "target_pairs": 80,
+        "repair_pairs": 80,
+        "hw_pairs": 20,
+        "cg_pairs": 40,
+        "per_reg_pairs": 10,
+        "selected_pairs": 251,
+        "pair_count": 6,
+        "min_radius": 10,
+        "max_radius": 12,
+        "sample_combos": 5000000,
+        "rng_seed": 793,
+        "late_word_start": 12,
+        "late_word_end": 15,
+        "early_word_end": 8,
+        "min_late_pairs": 0,
+        "min_late_late_pairs": 0,
+        "min_early_late_pairs": 0,
+        "min_delta_lane_sum": null,
+        "max_delta_lane_sum": null,
+        "min_standalone_net_delta_sum": null,
+        "max_standalone_net_delta_sum": null,
+        "min_pair_removed_union": null,
+        "max_pair_added_union": null,
+        "min_pair_added_repeat_excess": null,
+        "min_pair_removed_repeat_excess": null
+      },
+      "selected_pairs_reconstructed": 251,
+      "counts": {
+        "candidate_combos": 5000000,
+        "skipped_radius": 388,
+        "skipped_duplicate": 41,
+        "evaluated": 4999571,
+        "hw_lt_init": 0,
+        "hw_le_init": 0,
+        "cg_lt_init": 0,
+        "target_l1_lt_init": 3,
+        "skipped_late_pair_motif": 0,
+        "skipped_pair_graph_motif": 0,
+        "skipped_delta_signature": 0,
+        "skipped_bit_overlap_signature": 0
+      },
+      "rates_per_million": {
+        "hw_lt_init": 0.0,
+        "hw_le_init": 0.0,
+        "target_l1_lt_init": 0.600051484417363,
+        "cg_lt_init": 0.0
+      },
+      "best": {
+        "top_by_hw": {
+          "hw_total": 84,
+          "target_l1": 22,
+          "cg_objective": 128.0,
+          "net_delta": 6,
+          "lane_hw": [
+            8,
+            8,
+            10,
+            9,
+            14,
+            11,
+            12,
+            12
+          ],
+          "bits": [
+            21,
+            73,
+            158,
+            226,
+            236,
+            245,
+            309,
+            412,
+            440,
+            458,
+            491,
+            492
+          ],
+          "m2_weight": 54,
+          "m2_added_bits": 11,
+          "m2_removed_bits": 1,
+          "m2_net_added_bits": 10,
+          "pair_ids": [
+            47,
+            76,
+            89,
+            91,
+            183,
+            191
+          ],
+          "word_pairs": [
+            [
+              4,
+              7
+            ],
+            [
+              7,
+              9
+            ],
+            [
+              0,
+              7
+            ],
+            [
+              2,
+              14
+            ],
+            [
+              12,
+              15
+            ],
+            [
+              13,
+              15
+            ]
+          ],
+          "motifs": {
+            "late_touch_pairs": 3,
+            "late_late_pairs": 2,
+            "early_late_pairs": 1,
+            "word_degree": {
+              "0": 1,
+              "2": 1,
+              "4": 1,
+              "7": 3,
+              "9": 1,
+              "12": 1,
+              "13": 1,
+              "14": 1,
+              "15": 2
+            }
+          },
+          "source_counts": {
+            "cg": 1,
+            "repair": 2,
+            "repair_a": 1,
+            "repair_e": 1,
+            "target": 2
+          },
+          "source_bucket": {
+            "target": 2,
+            "repair": 4,
+            "hw": 0,
+            "cg": 1
+          },
+          "standalone_net_delta_sum": 169,
+          "delta_lane_sum": [
+            -3,
+            13,
+            29,
+            28,
+            43,
+            25,
+            31,
+            3
+          ],
+          "bit_overlap_signature": null,
+          "standalone_hw": [
+            105,
+            104,
+            100,
+            104,
+            115,
+            109
+          ]
+        },
+        "top_by_target_l1": {
+          "hw_total": 94,
+          "target_l1": 12,
+          "cg_objective": 132.0,
+          "net_delta": 16,
+          "lane_hw": [
+            11,
+            12,
+            9,
+            15,
+            11,
+            11,
+            10,
+            15
+          ],
+          "bits": [
+            103,
+            113,
+            179,
+            223,
+            237,
+            288,
+            323,
+            344,
+            346,
+            408,
+            450,
+            501
+          ],
+          "m2_weight": 54,
+          "m2_added_bits": 11,
+          "m2_removed_bits": 1,
+          "m2_net_added_bits": 10,
+          "pair_ids": [
+            67,
+            83,
+            106,
+            157,
+            214,
+            232
+          ],
+          "word_pairs": [
+            [
+              10,
+              15
+            ],
+            [
+              6,
+              9
+            ],
+            [
+              3,
+              12
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              3,
+              14
+            ],
+            [
+              10,
+              10
+            ]
+          ],
+          "motifs": {
+            "late_touch_pairs": 3,
+            "late_late_pairs": 0,
+            "early_late_pairs": 2,
+            "word_degree": {
+              "3": 2,
+              "5": 1,
+              "6": 1,
+              "7": 1,
+              "9": 1,
+              "10": 3,
+              "12": 1,
+              "14": 1,
+              "15": 1
+            }
+          },
+          "source_counts": {
+            "cg": 1,
+            "hw": 1,
+            "repair": 1,
+            "repair_c": 1,
+            "repair_f": 1,
+            "target": 1
+          },
+          "source_bucket": {
+            "target": 1,
+            "repair": 3,
+            "hw": 1,
+            "cg": 1
+          },
+          "standalone_net_delta_sum": 200,
+          "delta_lane_sum": [
+            1,
+            25,
+            28,
+            28,
+            53,
+            26,
+            36,
+            3
+          ],
+          "bit_overlap_signature": null,
+          "standalone_hw": [
+            102,
+            99,
+            103,
+            117,
+            118,
+            129
+          ]
+        },
+        "top_by_cg": {
+          "hw_total": 89,
+          "target_l1": 31,
+          "cg_objective": 121.0,
+          "net_delta": 11,
+          "lane_hw": [
+            13,
+            10,
+            9,
+            10,
+            16,
+            16,
+            7,
+            8
+          ],
+          "bits": [
+            38,
+            122,
+            159,
+            160,
+            169,
+            170,
+            308,
+            309,
+            310,
+            398,
+            437,
+            492
+          ],
+          "m2_weight": 54,
+          "m2_added_bits": 11,
+          "m2_removed_bits": 1,
+          "m2_net_added_bits": 10,
+          "pair_ids": [
+            1,
+            9,
+            46,
+            75,
+            139,
+            235
+          ],
+          "word_pairs": [
+            [
+              9,
+              9
+            ],
+            [
+              1,
+              5
+            ],
+            [
+              3,
+              4
+            ],
+            [
+              5,
+              9
+            ],
+            [
+              12,
+              13
+            ],
+            [
+              5,
+              15
+            ]
+          ],
+          "motifs": {
+            "late_touch_pairs": 2,
+            "late_late_pairs": 1,
+            "early_late_pairs": 1,
+            "word_degree": {
+              "1": 1,
+              "3": 1,
+              "4": 1,
+              "5": 3,
+              "9": 3,
+              "12": 1,
+              "13": 1,
+              "15": 1
+            }
+          },
+          "source_counts": {
+            "hw": 1,
+            "repair": 1,
+            "repair_c": 1,
+            "target": 4
+          },
+          "source_bucket": {
+            "target": 4,
+            "repair": 2,
+            "hw": 1,
+            "cg": 0
+          },
+          "standalone_net_delta_sum": 175,
+          "delta_lane_sum": [
+            7,
+            15,
+            22,
+            34,
+            33,
+            22,
+            41,
+            1
+          ],
+          "bit_overlap_signature": null,
+          "standalone_hw": [
+            100,
+            97,
+            105,
+            104,
+            113,
+            124
+          ]
+        }
+      },
+      "derived": {
+        "best_hw_delta": 6,
+        "best_hw_target_l1": 22,
+        "best_target_l1": 12,
+        "best_target_hw_delta": 16,
+        "best_cg_delta": 11.0
+      }
+    },
+    {
+      "path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260504_F795_bit13_hw82_overlap_pair6_sample5m_combo6.json",
+      "label": "F795_bit13_hw82_overlap_pair6_sample5m_combo6",
+      "init_hw": 82,
+      "init_lane_hw": [
+        10,
+        11,
+        9,
+        12,
+        9,
+        7,
+        10,
+        14
+      ],
+      "init_m2_weight": 29,
+      "init_target_l1": 0,
+      "init_cg_objective": 120.0,
+      "selection": {
+        "target_pairs": 80,
+        "repair_pairs": 80,
+        "hw_pairs": 20,
+        "cg_pairs": 40,
+        "per_reg_pairs": 10,
+        "selected_pairs": 137,
+        "pair_count": 6,
+        "min_radius": 10,
+        "max_radius": 12,
+        "sample_combos": 5000000,
+        "rng_seed": 795,
+        "late_word_start": 12,
+        "late_word_end": 15,
+        "early_word_end": 8,
+        "min_late_pairs": 0,
+        "min_late_late_pairs": 0,
+        "min_early_late_pairs": 0,
+        "min_delta_lane_sum": null,
+        "max_delta_lane_sum": null,
+        "min_standalone_net_delta_sum": null,
+        "max_standalone_net_delta_sum": null,
+        "min_pair_removed_union": 80,
+        "max_pair_added_union": 170,
+        "min_pair_added_repeat_excess": 250,
+        "min_pair_removed_repeat_excess": null
+      },
+      "selected_pairs_reconstructed": 137,
+      "counts": {
+        "candidate_combos": 5000000,
+        "skipped_radius": 539,
+        "skipped_duplicate": 1292,
+        "evaluated": 4094143,
+        "hw_lt_init": 0,
+        "hw_le_init": 0,
+        "cg_lt_init": 0,
+        "target_l1_lt_init": 0,
+        "skipped_late_pair_motif": 0,
+        "skipped_pair_graph_motif": 0,
+        "skipped_delta_signature": 0,
+        "skipped_bit_overlap_signature": 904026
+      },
+      "rates_per_million": {
+        "hw_lt_init": 0.0,
+        "hw_le_init": 0.0,
+        "target_l1_lt_init": 0.0,
+        "cg_lt_init": 0.0
+      },
+      "best": {
+        "top_by_hw": {
+          "hw_total": 90,
+          "target_l1": 14,
+          "cg_objective": 140.0,
+          "net_delta": 8,
+          "lane_hw": [
+            9,
+            14,
+            15,
+            12,
+            9,
+            9,
+            10,
+            12
+          ],
+          "bits": [
+            54,
+            57,
+            64,
+            140,
+            169,
+            246,
+            275,
+            307,
+            346,
+            369,
+            391,
+            479
+          ],
+          "m2_weight": 41,
+          "m2_added_bits": 12,
+          "m2_removed_bits": 0,
+          "m2_net_added_bits": 12,
+          "pair_ids": [
+            31,
+            73,
+            84,
+            93,
+            134,
+            136
+          ],
+          "word_pairs": [
+            [
+              2,
+              4
+            ],
+            [
+              5,
+              10
+            ],
+            [
+              12,
+              14
+            ],
+            [
+              1,
+              8
+            ],
+            [
+              1,
+              7
+            ],
+            [
+              9,
+              11
+            ]
+          ],
+          "motifs": {
+            "late_touch_pairs": 1,
+            "late_late_pairs": 1,
+            "early_late_pairs": 0,
+            "word_degree": {
+              "1": 2,
+              "2": 1,
+              "4": 1,
+              "5": 1,
+              "7": 1,
+              "8": 1,
+              "9": 1,
+              "10": 1,
+              "11": 1,
+              "12": 1,
+              "14": 1
+            }
+          },
+          "source_counts": {
+            "cg": 1,
+            "repair_c": 2,
+            "repair_d": 1,
+            "repair_f": 1,
+            "repair_h": 1
+          },
+          "source_bucket": {
+            "target": 0,
+            "repair": 5,
+            "hw": 0,
+            "cg": 1
+          },
+          "standalone_net_delta_sum": 201,
+          "delta_lane_sum": [
+            30,
+            34,
+            14,
+            18,
+            40,
+            41,
+            34,
+            -10
+          ],
+          "bit_overlap_signature": {
+            "pair_removed_union_total": 81,
+            "pair_added_union_total": 170,
+            "pair_removed_occurrences": 261,
+            "pair_added_occurrences": 462,
+            "pair_removed_repeat_excess": 180,
+            "pair_added_repeat_excess": 292
+          },
+          "standalone_hw": [
+            100,
+            113,
+            111,
+            117,
+            121,
+            131
+          ]
+        },
+        "top_by_target_l1": {
+          "hw_total": 92,
+          "target_l1": 12,
+          "cg_objective": 134.0,
+          "net_delta": 10,
+          "lane_hw": [
+            12,
+            10,
+            10,
+            12,
+            12,
+            11,
+            11,
+            14
+          ],
+          "bits": [
+            54,
+            83,
+            100,
+            102,
+            207,
+            306,
+            307,
+            363,
+            389,
+            398,
+            437,
+            481
+          ],
+          "m2_weight": 39,
+          "m2_added_bits": 11,
+          "m2_removed_bits": 1,
+          "m2_net_added_bits": 10,
+          "pair_ids": [
+            0,
+            44,
+            81,
+            86,
+            100,
+            131
+          ],
+          "word_pairs": [
+            [
+              12,
+              13
+            ],
+            [
+              3,
+              12
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              3,
+              11
+            ],
+            [
+              9,
+              15
+            ],
+            [
+              2,
+              9
+            ]
+          ],
+          "motifs": {
+            "late_touch_pairs": 3,
+            "late_late_pairs": 1,
+            "early_late_pairs": 1,
+            "word_degree": {
+              "1": 1,
+              "2": 1,
+              "3": 2,
+              "6": 1,
+              "9": 2,
+              "11": 1,
+              "12": 2,
+              "13": 1,
+              "15": 1
+            }
+          },
+          "source_counts": {
+            "hw": 1,
+            "repair": 1,
+            "repair_b": 1,
+            "repair_f": 1,
+            "repair_g": 2,
+            "target": 1
+          },
+          "source_bucket": {
+            "target": 1,
+            "repair": 5,
+            "hw": 1,
+            "cg": 0
+          },
+          "standalone_net_delta_sum": 163,
+          "delta_lane_sum": [
+            24,
+            12,
+            37,
+            4,
+            37,
+            34,
+            10,
+            5
+          ],
+          "bit_overlap_signature": {
+            "pair_removed_union_total": 82,
+            "pair_added_union_total": 165,
+            "pair_removed_occurrences": 293,
+            "pair_added_occurrences": 456,
+            "pair_removed_repeat_excess": 211,
+            "pair_added_repeat_excess": 291
+          },
+          "standalone_hw": [
+            93,
+            109,
+            107,
+            112,
+            117,
+            117
+          ]
+        },
+        "top_by_cg": {
+          "hw_total": 96,
+          "target_l1": 34,
+          "cg_objective": 122.0,
+          "net_delta": 14,
+          "lane_hw": [
+            14,
+            13,
+            8,
+            19,
+            15,
+            12,
+            5,
+            10
+          ],
+          "bits": [
+            7,
+            8,
+            122,
+            148,
+            223,
+            242,
+            259,
+            303,
+            335,
+            340,
+            360,
+            367
+          ],
+          "m2_weight": 41,
+          "m2_added_bits": 12,
+          "m2_removed_bits": 0,
+          "m2_net_added_bits": 12,
+          "pair_ids": [
+            25,
+            29,
+            33,
+            49,
+            103,
+            123
+          ],
+          "word_pairs": [
+            [
+              3,
+              10
+            ],
+            [
+              4,
+              6
+            ],
+            [
+              7,
+              11
+            ],
+            [
+              0,
+              0
+            ],
+            [
+              8,
+              10
+            ],
+            [
+              9,
+              11
+            ]
+          ],
+          "motifs": {
+            "late_touch_pairs": 0,
+            "late_late_pairs": 0,
+            "early_late_pairs": 0,
+            "word_degree": {
+              "0": 2,
+              "3": 1,
+              "4": 1,
+              "6": 1,
+              "7": 1,
+              "8": 1,
+              "9": 1,
+              "10": 2,
+              "11": 2
+            }
+          },
+          "source_counts": {
+            "cg": 2,
+            "hw": 2,
+            "repair": 1,
+            "repair_g": 1,
+            "repair_h": 1
+          },
+          "source_bucket": {
+            "target": 0,
+            "repair": 3,
+            "hw": 2,
+            "cg": 2
+          },
+          "standalone_net_delta_sum": 135,
+          "delta_lane_sum": [
+            24,
+            13,
+            23,
+            7,
+            44,
+            39,
+            2,
+            -17
+          ],
+          "bit_overlap_signature": {
+            "pair_removed_union_total": 81,
+            "pair_added_union_total": 166,
+            "pair_removed_occurrences": 283,
+            "pair_added_occurrences": 418,
+            "pair_removed_repeat_excess": 202,
+            "pair_added_repeat_excess": 252
+          },
+          "standalone_hw": [
+            101,
+            101,
+            97,
+            99,
+            114,
+            115
+          ]
+        }
+      },
+      "derived": {
+        "best_hw_delta": 8,
+        "best_hw_target_l1": 14,
+        "best_target_l1": 12,
+        "best_target_hw_delta": 10,
+        "best_cg_delta": 2.0
+      }
+    },
+    {
+      "path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260504_F796_bit24_f763_hw82_overlap_pair6_sample5m_combo6.json",
+      "label": "F796_bit24_f763_hw82_overlap_pair6_sample5m_combo6",
+      "init_hw": 82,
+      "init_lane_hw": [
+        7,
+        10,
+        12,
+        16,
+        11,
+        7,
+        8,
+        11
+      ],
+      "init_m2_weight": 40,
+      "init_target_l1": 18,
+      "init_cg_objective": 122.0,
+      "selection": {
+        "target_pairs": 80,
+        "repair_pairs": 80,
+        "hw_pairs": 20,
+        "cg_pairs": 40,
+        "per_reg_pairs": 10,
+        "selected_pairs": 248,
+        "pair_count": 6,
+        "min_radius": 10,
+        "max_radius": 12,
+        "sample_combos": 5000000,
+        "rng_seed": 796,
+        "late_word_start": 12,
+        "late_word_end": 15,
+        "early_word_end": 8,
+        "min_late_pairs": 0,
+        "min_late_late_pairs": 0,
+        "min_early_late_pairs": 0,
+        "min_delta_lane_sum": null,
+        "max_delta_lane_sum": null,
+        "min_standalone_net_delta_sum": null,
+        "max_standalone_net_delta_sum": null,
+        "min_pair_removed_union": 80,
+        "max_pair_added_union": 170,
+        "min_pair_added_repeat_excess": 250,
+        "min_pair_removed_repeat_excess": null
+      },
+      "selected_pairs_reconstructed": 248,
+      "counts": {
+        "candidate_combos": 5000000,
+        "skipped_radius": 409,
+        "skipped_duplicate": 31,
+        "evaluated": 4242428,
+        "hw_lt_init": 0,
+        "hw_le_init": 0,
+        "cg_lt_init": 0,
+        "target_l1_lt_init": 49,
+        "skipped_late_pair_motif": 0,
+        "skipped_pair_graph_motif": 0,
+        "skipped_delta_signature": 0,
+        "skipped_bit_overlap_signature": 757132
+      },
+      "rates_per_million": {
+        "hw_lt_init": 0.0,
+        "hw_le_init": 0.0,
+        "target_l1_lt_init": 11.549989770009061,
+        "cg_lt_init": 0.0
+      },
+      "best": {
+        "top_by_hw": {
+          "hw_total": 87,
+          "target_l1": 15,
+          "cg_objective": 129.0,
+          "net_delta": 5,
+          "lane_hw": [
+            10,
+            11,
+            9,
+            14,
+            11,
+            11,
+            12,
+            9
+          ],
+          "bits": [
+            1,
+            34,
+            49,
+            88,
+            166,
+            193,
+            279,
+            297,
+            346,
+            357,
+            406,
+            449
+          ],
+          "m2_weight": 50,
+          "m2_added_bits": 11,
+          "m2_removed_bits": 1,
+          "m2_net_added_bits": 10,
+          "pair_ids": [
+            17,
+            54,
+            60,
+            131,
+            178,
+            227
+          ],
+          "word_pairs": [
+            [
+              12,
+              14
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              8,
+              11
+            ],
+            [
+              2,
+              6
+            ],
+            [
+              9,
+              10
+            ],
+            [
+              0,
+              5
+            ]
+          ],
+          "motifs": {
+            "late_touch_pairs": 1,
+            "late_late_pairs": 1,
+            "early_late_pairs": 0,
+            "word_degree": {
+              "0": 1,
+              "1": 2,
+              "2": 1,
+              "5": 1,
+              "6": 1,
+              "8": 1,
+              "9": 1,
+              "10": 1,
+              "11": 1,
+              "12": 1,
+              "14": 1
+            }
+          },
+          "source_counts": {
+            "repair_c": 1,
+            "repair_e": 1,
+            "repair_g": 1,
+            "target": 3
+          },
+          "source_bucket": {
+            "target": 3,
+            "repair": 3,
+            "hw": 0,
+            "cg": 0
+          },
+          "standalone_net_delta_sum": 161,
+          "delta_lane_sum": [
+            50,
+            23,
+            0,
+            -12,
+            7,
+            45,
+            27,
+            21
+          ],
+          "bit_overlap_signature": {
+            "pair_removed_union_total": 82,
+            "pair_added_union_total": 170,
+            "pair_removed_occurrences": 292,
+            "pair_added_occurrences": 453,
+            "pair_removed_repeat_excess": 210,
+            "pair_added_repeat_excess": 283
+          },
+          "standalone_hw": [
+            103,
+            105,
+            105,
+            103,
+            113,
+            124
+          ]
+        },
+        "top_by_target_l1": {
+          "hw_total": 92,
+          "target_l1": 10,
+          "cg_objective": 136.0,
+          "net_delta": 10,
+          "lane_hw": [
+            11,
+            11,
+            11,
+            14,
+            11,
+            9,
+            11,
+            14
+          ],
+          "bits": [
+            51,
+            74,
+            99,
+            120,
+            167,
+            186,
+            224,
+            239,
+            299,
+            348,
+            455,
+            503
+          ],
+          "m2_weight": 50,
+          "m2_added_bits": 11,
+          "m2_removed_bits": 1,
+          "m2_net_added_bits": 10,
+          "pair_ids": [
+            109,
+            114,
+            121,
+            154,
+            201,
+            241
+          ],
+          "word_pairs": [
+            [
+              3,
+              15
+            ],
+            [
+              1,
+              3
+            ],
+            [
+              5,
+              7
+            ],
+            [
+              5,
+              9
+            ],
+            [
+              2,
+              14
+            ],
+            [
+              7,
+              10
+            ]
+          ],
+          "motifs": {
+            "late_touch_pairs": 2,
+            "late_late_pairs": 0,
+            "early_late_pairs": 2,
+            "word_degree": {
+              "1": 1,
+              "2": 1,
+              "3": 2,
+              "5": 2,
+              "7": 2,
+              "9": 1,
+              "10": 1,
+              "14": 1,
+              "15": 1
+            }
+          },
+          "source_counts": {
+            "repair": 5,
+            "repair_d": 1,
+            "repair_f": 1
+          },
+          "source_bucket": {
+            "target": 0,
+            "repair": 7,
+            "hw": 0,
+            "cg": 0
+          },
+          "standalone_net_delta_sum": 185,
+          "delta_lane_sum": [
+            51,
+            30,
+            -8,
+            -39,
+            34,
+            41,
+            46,
+            30
+          ],
+          "bit_overlap_signature": {
+            "pair_removed_union_total": 81,
+            "pair_added_union_total": 168,
+            "pair_removed_occurrences": 286,
+            "pair_added_occurrences": 471,
+            "pair_removed_repeat_excess": 205,
+            "pair_added_repeat_excess": 303
+          },
+          "standalone_hw": [
+            101,
+            108,
+            109,
+            112,
+            122,
+            125
+          ]
+        },
+        "top_by_cg": {
+          "hw_total": 91,
+          "target_l1": 27,
+          "cg_objective": 127.0,
+          "net_delta": 9,
+          "lane_hw": [
+            13,
+            10,
+            10,
+            10,
+            18,
+            12,
+            8,
+            10
+          ],
+          "bits": [
+            22,
+            49,
+            68,
+            79,
+            127,
+            223,
+            298,
+            302,
+            312,
+            341,
+            357,
+            469
+          ],
+          "m2_weight": 52,
+          "m2_added_bits": 12,
+          "m2_removed_bits": 0,
+          "m2_net_added_bits": 12,
+          "pair_ids": [
+            106,
+            143,
+            144,
+            168,
+            209,
+            223
+          ],
+          "word_pairs": [
+            [
+              9,
+              9
+            ],
+            [
+              1,
+              6
+            ],
+            [
+              9,
+              11
+            ],
+            [
+              2,
+              14
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              2,
+              10
+            ]
+          ],
+          "motifs": {
+            "late_touch_pairs": 1,
+            "late_late_pairs": 0,
+            "early_late_pairs": 1,
+            "word_degree": {
+              "0": 1,
+              "1": 1,
+              "2": 2,
+              "3": 1,
+              "6": 1,
+              "9": 3,
+              "10": 1,
+              "11": 1,
+              "14": 1
+            }
+          },
+          "source_counts": {
+            "cg": 3,
+            "repair": 1,
+            "repair_g": 2,
+            "repair_h": 1
+          },
+          "source_bucket": {
+            "target": 0,
+            "repair": 4,
+            "hw": 0,
+            "cg": 3
+          },
+          "standalone_net_delta_sum": 174,
+          "delta_lane_sum": [
+            58,
+            36,
+            -3,
+            -5,
+            24,
+            51,
+            5,
+            8
+          ],
+          "bit_overlap_signature": {
+            "pair_removed_union_total": 81,
+            "pair_added_union_total": 168,
+            "pair_removed_occurrences": 294,
+            "pair_added_occurrences": 468,
+            "pair_removed_repeat_excess": 213,
+            "pair_added_repeat_excess": 300
+          },
+          "standalone_hw": [
+            108,
+            114,
+            103,
+            112,
+            113,
+            116
+          ]
+        }
+      },
+      "derived": {
+        "best_hw_delta": 5,
+        "best_hw_target_l1": 15,
+        "best_target_l1": 10,
+        "best_target_hw_delta": 10,
+        "best_cg_delta": 5.0
+      }
+    },
+    {
+      "path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260504_F799_bit24_f760_hw82_overlap_late_early_pair6_sample5m_combo6.json",
+      "label": "F799_bit24_f760_hw82_overlap_late_early_pair6_sample5m_combo6",
+      "init_hw": 82,
+      "init_lane_hw": [
+        9,
+        10,
+        11,
+        10,
+        10,
+        13,
+        13,
+        6
+      ],
+      "init_m2_weight": 30,
+      "init_target_l1": 24,
+      "init_cg_objective": 130.0,
+      "selection": {
+        "target_pairs": 80,
+        "repair_pairs": 80,
+        "hw_pairs": 20,
+        "cg_pairs": 40,
+        "per_reg_pairs": 10,
+        "selected_pairs": 236,
+        "pair_count": 6,
+        "min_radius": 10,
+        "max_radius": 12,
+        "sample_combos": 5000000,
+        "rng_seed": 799,
+        "late_word_start": 12,
+        "late_word_end": 15,
+        "early_word_end": 8,
+        "min_late_pairs": 2,
+        "min_late_late_pairs": 0,
+        "min_early_late_pairs": 1,
+        "min_delta_lane_sum": null,
+        "max_delta_lane_sum": null,
+        "min_standalone_net_delta_sum": null,
+        "max_standalone_net_delta_sum": null,
+        "min_pair_removed_union": 80,
+        "max_pair_added_union": 170,
+        "min_pair_added_repeat_excess": 250,
+        "min_pair_removed_repeat_excess": null
+      },
+      "selected_pairs_reconstructed": 236,
+      "counts": {
+        "candidate_combos": 5000000,
+        "skipped_radius": 450,
+        "skipped_duplicate": 48,
+        "evaluated": 3572503,
+        "hw_lt_init": 0,
+        "hw_le_init": 0,
+        "cg_lt_init": 8,
+        "target_l1_lt_init": 1916,
+        "skipped_late_pair_motif": 456667,
+        "skipped_pair_graph_motif": 246556,
+        "skipped_delta_signature": 0,
+        "skipped_bit_overlap_signature": 723776
+      },
+      "rates_per_million": {
+        "hw_lt_init": 0.0,
+        "hw_le_init": 0.0,
+        "target_l1_lt_init": 536.3186538961619,
+        "cg_lt_init": 2.2393263210695693
+      },
+      "best": {
+        "top_by_hw": {
+          "hw_total": 87,
+          "target_l1": 19,
+          "cg_objective": 119.0,
+          "net_delta": 5,
+          "lane_hw": [
+            12,
+            12,
+            7,
+            8,
+            13,
+            10,
+            9,
+            16
+          ],
+          "bits": [
+            68,
+            77,
+            158,
+            256,
+            347,
+            374,
+            391,
+            402,
+            403,
+            432,
+            458,
+            462
+          ],
+          "m2_weight": 40,
+          "m2_added_bits": 11,
+          "m2_removed_bits": 1,
+          "m2_net_added_bits": 10,
+          "pair_ids": [
+            57,
+            92,
+            142,
+            152,
+            179,
+            201
+          ],
+          "word_pairs": [
+            [
+              4,
+              13
+            ],
+            [
+              12,
+              14
+            ],
+            [
+              2,
+              11
+            ],
+            [
+              10,
+              12
+            ],
+            [
+              12,
+              14
+            ],
+            [
+              2,
+              8
+            ]
+          ],
+          "motifs": {
+            "late_touch_pairs": 4,
+            "late_late_pairs": 2,
+            "early_late_pairs": 1,
+            "word_degree": {
+              "2": 2,
+              "4": 1,
+              "8": 1,
+              "10": 1,
+              "11": 1,
+              "12": 3,
+              "13": 1,
+              "14": 2
+            }
+          },
+          "source_counts": {
+            "hw": 1,
+            "repair": 3,
+            "repair_h": 1,
+            "target": 1
+          },
+          "source_bucket": {
+            "target": 1,
+            "repair": 4,
+            "hw": 1,
+            "cg": 0
+          },
+          "standalone_net_delta_sum": 160,
+          "delta_lane_sum": [
+            41,
+            27,
+            25,
+            19,
+            20,
+            -4,
+            -9,
+            41
+          ],
+          "bit_overlap_signature": {
+            "pair_removed_union_total": 81,
+            "pair_added_union_total": 170,
+            "pair_removed_occurrences": 271,
+            "pair_added_occurrences": 431,
+            "pair_removed_repeat_excess": 190,
+            "pair_added_repeat_excess": 261
+          },
+          "standalone_hw": [
+            102,
+            98,
+            114,
+            117,
+            112,
+            109
+          ]
+        },
+        "top_by_target_l1": {
+          "hw_total": 89,
+          "target_l1": 13,
+          "cg_objective": 131.0,
+          "net_delta": 7,
+          "lane_hw": [
+            12,
+            12,
+            9,
+            15,
+            10,
+            8,
+            12,
+            11
+          ],
+          "bits": [
+            105,
+            120,
+            127,
+            128,
+            144,
+            164,
+            189,
+            230,
+            275,
+            362,
+            404,
+            444
+          ],
+          "m2_weight": 42,
+          "m2_added_bits": 12,
+          "m2_removed_bits": 0,
+          "m2_net_added_bits": 12,
+          "pair_ids": [
+            10,
+            28,
+            71,
+            102,
+            106,
+            147
+          ],
+          "word_pairs": [
+            [
+              7,
+              12
+            ],
+            [
+              3,
+              11
+            ],
+            [
+              3,
+              4
+            ],
+            [
+              4,
+              5
+            ],
+            [
+              3,
+              5
+            ],
+            [
+              8,
+              13
+            ]
+          ],
+          "motifs": {
+            "late_touch_pairs": 2,
+            "late_late_pairs": 0,
+            "early_late_pairs": 2,
+            "word_degree": {
+              "3": 3,
+              "4": 2,
+              "5": 2,
+              "7": 1,
+              "8": 1,
+              "11": 1,
+              "12": 1,
+              "13": 1
+            }
+          },
+          "source_counts": {
+            "cg": 2,
+            "hw": 2,
+            "repair": 1,
+            "repair_a": 1,
+            "target": 3
+          },
+          "source_bucket": {
+            "target": 3,
+            "repair": 2,
+            "hw": 2,
+            "cg": 2
+          },
+          "standalone_net_delta_sum": 130,
+          "delta_lane_sum": [
+            17,
+            26,
+            3,
+            23,
+            21,
+            7,
+            -11,
+            44
+          ],
+          "bit_overlap_signature": {
+            "pair_removed_union_total": 82,
+            "pair_added_union_total": 167,
+            "pair_removed_occurrences": 288,
+            "pair_added_occurrences": 418,
+            "pair_removed_repeat_excess": 206,
+            "pair_added_repeat_excess": 251
+          },
+          "standalone_hw": [
+            98,
+            97,
+            106,
+            103,
+            109,
+            109
+          ]
+        },
+        "top_by_cg": {
+          "hw_total": 87,
+          "target_l1": 19,
+          "cg_objective": 119.0,
+          "net_delta": 5,
+          "lane_hw": [
+            12,
+            12,
+            7,
+            8,
+            13,
+            10,
+            9,
+            16
+          ],
+          "bits": [
+            68,
+            77,
+            158,
+            256,
+            347,
+            374,
+            391,
+            402,
+            403,
+            432,
+            458,
+            462
+          ],
+          "m2_weight": 40,
+          "m2_added_bits": 11,
+          "m2_removed_bits": 1,
+          "m2_net_added_bits": 10,
+          "pair_ids": [
+            57,
+            92,
+            142,
+            152,
+            179,
+            201
+          ],
+          "word_pairs": [
+            [
+              4,
+              13
+            ],
+            [
+              12,
+              14
+            ],
+            [
+              2,
+              11
+            ],
+            [
+              10,
+              12
+            ],
+            [
+              12,
+              14
+            ],
+            [
+              2,
+              8
+            ]
+          ],
+          "motifs": {
+            "late_touch_pairs": 4,
+            "late_late_pairs": 2,
+            "early_late_pairs": 1,
+            "word_degree": {
+              "2": 2,
+              "4": 1,
+              "8": 1,
+              "10": 1,
+              "11": 1,
+              "12": 3,
+              "13": 1,
+              "14": 2
+            }
+          },
+          "source_counts": {
+            "hw": 1,
+            "repair": 3,
+            "repair_h": 1,
+            "target": 1
+          },
+          "source_bucket": {
+            "target": 1,
+            "repair": 4,
+            "hw": 1,
+            "cg": 0
+          },
+          "standalone_net_delta_sum": 160,
+          "delta_lane_sum": [
+            41,
+            27,
+            25,
+            19,
+            20,
+            -4,
+            -9,
+            41
+          ],
+          "bit_overlap_signature": {
+            "pair_removed_union_total": 81,
+            "pair_added_union_total": 170,
+            "pair_removed_occurrences": 271,
+            "pair_added_occurrences": 431,
+            "pair_removed_repeat_excess": 190,
+            "pair_added_repeat_excess": 261
+          },
+          "standalone_hw": [
+            102,
+            98,
+            114,
+            117,
+            112,
+            109
+          ]
+        }
+      },
+      "derived": {
+        "best_hw_delta": 5,
+        "best_hw_target_l1": 19,
+        "best_target_l1": 13,
+        "best_target_hw_delta": 7,
+        "best_cg_delta": -11.0
+      }
+    },
+    {
+      "path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260504_F852_bit18_hw86_to_bit14_combo1m.json",
+      "label": "F852_bit18_hw86_to_bit14_combo1m",
+      "init_hw": 86,
+      "init_lane_hw": [
+        11,
+        14,
+        9,
+        7,
+        13,
+        11,
+        10,
+        11
+      ],
+      "init_m2_weight": 8,
+      "init_target_l1": 21,
+      "init_cg_objective": 124.0,
+      "selection": {
+        "target_pairs": 64,
+        "repair_pairs": 64,
+        "hw_pairs": 16,
+        "cg_pairs": 16,
+        "per_reg_pairs": 8,
+        "selected_pairs": 151,
+        "pair_count": 6,
+        "min_radius": 8,
+        "max_radius": 12,
+        "sample_combos": 1000000,
+        "rng_seed": 852,
+        "late_word_start": 12,
+        "late_word_end": 15,
+        "early_word_end": 8,
+        "min_late_pairs": 0,
+        "min_late_late_pairs": 0,
+        "min_early_late_pairs": 0,
+        "min_delta_lane_sum": null,
+        "max_delta_lane_sum": null,
+        "min_standalone_net_delta_sum": null,
+        "max_standalone_net_delta_sum": null,
+        "min_pair_removed_union": null,
+        "max_pair_added_union": null,
+        "min_pair_added_repeat_excess": null,
+        "min_pair_removed_repeat_excess": null
+      },
+      "selected_pairs_reconstructed": 151,
+      "counts": {
+        "candidate_combos": 1000000,
+        "skipped_radius": 0,
+        "skipped_duplicate": 30,
+        "evaluated": 999970,
+        "hw_lt_init": 0,
+        "hw_le_init": 0,
+        "cg_lt_init": 0,
+        "target_l1_lt_init": 283,
+        "skipped_late_pair_motif": 0,
+        "skipped_pair_graph_motif": 0,
+        "skipped_delta_signature": 0,
+        "skipped_bit_overlap_signature": 0
+      },
+      "rates_per_million": {
+        "hw_lt_init": 0.0,
+        "hw_le_init": 0.0,
+        "target_l1_lt_init": 283.0084902547076,
+        "cg_lt_init": 0.0
+      },
+      "best": {
+        "top_by_hw": {
+          "hw_total": 90,
+          "target_l1": 25,
+          "cg_objective": 128.0,
+          "net_delta": 4,
+          "lane_hw": [
+            12,
+            16,
+            7,
+            12,
+            12,
+            7,
+            12,
+            12
+          ],
+          "bits": [
+            57,
+            70,
+            81,
+            99,
+            172,
+            173,
+            247,
+            300,
+            305,
+            341,
+            348,
+            459
+          ],
+          "m2_weight": 20,
+          "m2_added_bits": 12,
+          "m2_removed_bits": 0,
+          "m2_net_added_bits": 12,
+          "pair_ids": [
+            49,
+            54,
+            55,
+            67,
+            76,
+            80
+          ],
+          "word_pairs": [
+            [
+              2,
+              14
+            ],
+            [
+              3,
+              9
+            ],
+            [
+              2,
+              7
+            ],
+            [
+              9,
+              10
+            ],
+            [
+              5,
+              10
+            ],
+            [
+              1,
+              5
+            ]
+          ],
+          "motifs": {
+            "late_touch_pairs": 1,
+            "late_late_pairs": 0,
+            "early_late_pairs": 1,
+            "word_degree": {
+              "1": 1,
+              "2": 2,
+              "3": 1,
+              "5": 2,
+              "7": 1,
+              "9": 2,
+              "10": 2,
+              "14": 1
+            }
+          },
+          "source_counts": {
+            "cg": 1,
+            "repair": 1,
+            "repair_f": 1,
+            "repair_h": 3
+          },
+          "source_bucket": {
+            "target": 0,
+            "repair": 5,
+            "hw": 0,
+            "cg": 1
+          },
+          "standalone_net_delta_sum": 140,
+          "delta_lane_sum": [
+            24,
+            -5,
+            42,
+            47,
+            9,
+            14,
+            21,
+            -12
+          ],
+          "bit_overlap_signature": null,
+          "standalone_hw": [
+            102,
+            110,
+            112,
+            108,
+            106,
+            118
+          ]
+        },
+        "top_by_target_l1": {
+          "hw_total": 95,
+          "target_l1": 12,
+          "cg_objective": 143.0,
+          "net_delta": 9,
+          "lane_hw": [
+            14,
+            11,
+            14,
+            14,
+            13,
+            8,
+            10,
+            11
+          ],
+          "bits": [
+            33,
+            96,
+            122,
+            158,
+            207,
+            217,
+            236,
+            261,
+            272,
+            341,
+            429,
+            478
+          ],
+          "m2_weight": 20,
+          "m2_added_bits": 12,
+          "m2_removed_bits": 0,
+          "m2_net_added_bits": 12,
+          "pair_ids": [
+            22,
+            41,
+            72,
+            129,
+            135,
+            140
+          ],
+          "word_pairs": [
+            [
+              1,
+              4
+            ],
+            [
+              6,
+              14
+            ],
+            [
+              6,
+              8
+            ],
+            [
+              3,
+              8
+            ],
+            [
+              3,
+              13
+            ],
+            [
+              7,
+              10
+            ]
+          ],
+          "motifs": {
+            "late_touch_pairs": 2,
+            "late_late_pairs": 0,
+            "early_late_pairs": 2,
+            "word_degree": {
+              "1": 1,
+              "3": 2,
+              "4": 1,
+              "6": 2,
+              "7": 1,
+              "8": 2,
+              "10": 1,
+              "13": 1,
+              "14": 1
+            }
+          },
+          "source_counts": {
+            "cg": 1,
+            "hw": 1,
+            "repair": 4,
+            "repair_e": 1,
+            "target": 1
+          },
+          "source_bucket": {
+            "target": 1,
+            "repair": 5,
+            "hw": 1,
+            "cg": 1
+          },
+          "standalone_net_delta_sum": 134,
+          "delta_lane_sum": [
+            8,
+            -15,
+            33,
+            44,
+            -14,
+            24,
+            37,
+            17
+          ],
+          "bit_overlap_signature": null,
+          "standalone_hw": [
+            105,
+            86,
+            107,
+            113,
+            118,
+            121
+          ]
+        },
+        "top_by_cg": {
+          "hw_total": 93,
+          "target_l1": 30,
+          "cg_objective": 127.0,
+          "net_delta": 7,
+          "lane_hw": [
+            11,
+            10,
+            6,
+            12,
+            15,
+            15,
+            11,
+            13
+          ],
+          "bits": [
+            11,
+            20,
+            85,
+            96,
+            99,
+            117,
+            256,
+            300,
+            304,
+            320,
+            392,
+            452
+          ],
+          "m2_weight": 20,
+          "m2_added_bits": 12,
+          "m2_removed_bits": 0,
+          "m2_net_added_bits": 12,
+          "pair_ids": [
+            0,
+            54,
+            92,
+            93,
+            94,
+            143
+          ],
+          "word_pairs": [
+            [
+              2,
+              12
+            ],
+            [
+              3,
+              9
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              8,
+              10
+            ],
+            [
+              0,
+              3
+            ],
+            [
+              9,
+              14
+            ]
+          ],
+          "motifs": {
+            "late_touch_pairs": 2,
+            "late_late_pairs": 0,
+            "early_late_pairs": 1,
+            "word_degree": {
+              "0": 2,
+              "2": 1,
+              "3": 3,
+              "8": 1,
+              "9": 2,
+              "10": 1,
+              "12": 1,
+              "14": 1
+            }
+          },
+          "source_counts": {
+            "hw": 1,
+            "repair": 3,
+            "repair_b": 1,
+            "repair_h": 1,
+            "target": 1
+          },
+          "source_bucket": {
+            "target": 1,
+            "repair": 5,
+            "hw": 1,
+            "cg": 0
+          },
+          "standalone_net_delta_sum": 147,
+          "delta_lane_sum": [
+            24,
+            -29,
+            47,
+            54,
+            -2,
+            17,
+            23,
+            13
+          ],
+          "bit_overlap_signature": null,
+          "standalone_hw": [
+            98,
+            110,
+            112,
+            112,
+            107,
+            124
+          ]
+        }
+      },
+      "derived": {
+        "best_hw_delta": 4,
+        "best_hw_target_l1": 25,
+        "best_target_l1": 12,
+        "best_target_hw_delta": 9,
+        "best_cg_delta": 3.0
+      }
+    },
+    {
+      "path": "headline_hunt/bets/block2_wang/results/search_artifacts/20260504_F866_bit18_hw86_to_bit14_combo1m_m2shape_loose.json",
+      "label": "F866_bit18_hw86_to_bit14_combo1m_m2shape_loose",
+      "init_hw": 86,
+      "init_lane_hw": [
+        11,
+        14,
+        9,
+        7,
+        13,
+        11,
+        10,
+        11
+      ],
+      "init_m2_weight": 8,
+      "init_target_l1": 21,
+      "init_cg_objective": 124.0,
+      "selection": {
+        "target_pairs": 64,
+        "repair_pairs": 64,
+        "hw_pairs": 16,
+        "cg_pairs": 16,
+        "per_reg_pairs": 8,
+        "selected_pairs": 151,
+        "pair_count": 6,
+        "min_radius": 8,
+        "max_radius": 12,
+        "sample_combos": 1000000,
+        "rng_seed": 866,
+        "late_word_start": 12,
+        "late_word_end": 15,
+        "early_word_end": 8,
+        "min_late_pairs": 0,
+        "min_late_late_pairs": 0,
+        "min_early_late_pairs": 0,
+        "min_delta_lane_sum": null,
+        "max_delta_lane_sum": null,
+        "min_standalone_net_delta_sum": null,
+        "max_standalone_net_delta_sum": null,
+        "min_pair_removed_union": null,
+        "max_pair_added_union": null,
+        "min_pair_added_repeat_excess": null,
+        "min_pair_removed_repeat_excess": null,
+        "min_m2_added": null,
+        "max_m2_added": null,
+        "min_m2_removed": 2,
+        "max_m2_removed": null,
+        "min_m2_net_added": null,
+        "max_m2_net_added": 8
+      },
+      "selected_pairs_reconstructed": 151,
+      "counts": {
+        "candidate_combos": 1000000,
+        "skipped_radius": 0,
+        "skipped_duplicate": 27,
+        "evaluated": 3964,
+        "hw_lt_init": 0,
+        "hw_le_init": 0,
+        "cg_lt_init": 0,
+        "target_l1_lt_init": 1,
+        "skipped_late_pair_motif": 0,
+        "skipped_pair_graph_motif": 0,
+        "skipped_delta_signature": 0,
+        "skipped_bit_overlap_signature": 0,
+        "skipped_m2_shape_signature": 996009
+      },
+      "rates_per_million": {
+        "hw_lt_init": 0.0,
+        "hw_le_init": 0.0,
+        "target_l1_lt_init": 252.27043390514632,
+        "cg_lt_init": 0.0
+      },
+      "best": {
+        "top_by_hw": {
+          "hw_total": 99,
+          "target_l1": 18,
+          "cg_objective": 155.0,
+          "net_delta": 13,
+          "lane_hw": [
+            13,
+            11,
+            14,
+            10,
+            10,
+            14,
+            14,
+            13
+          ],
+          "bits": [
+            53,
+            74,
+            112,
+            261,
+            280,
+            342,
+            392,
+            416,
+            448,
+            483,
+            484
+          ],
+          "m2_weight": 15,
+          "m2_added_bits": 9,
+          "m2_removed_bits": 2,
+          "m2_net_added_bits": 7,
+          "pair_ids": [
+            10,
+            14,
+            24,
+            65,
+            134,
+            150
+          ],
+          "word_pairs": [
+            [
+              3,
+              10
+            ],
+            [
+              1,
+              12
+            ],
+            [
+              8,
+              14
+            ],
+            [
+              13,
+              15
+            ],
+            [
+              8,
+              15
+            ],
+            [
+              2,
+              8
+            ]
+          ],
+          "motifs": {
+            "late_touch_pairs": 4,
+            "late_late_pairs": 1,
+            "early_late_pairs": 3,
+            "word_degree": {
+              "1": 1,
+              "2": 1,
+              "3": 1,
+              "8": 3,
+              "10": 1,
+              "12": 1,
+              "13": 1,
+              "14": 1,
+              "15": 2
+            }
+          },
+          "source_counts": {
+            "cg": 1,
+            "repair_a": 1,
+            "repair_d": 1,
+            "target": 3
+          },
+          "source_bucket": {
+            "target": 3,
+            "repair": 2,
+            "hw": 0,
+            "cg": 1
+          },
+          "standalone_net_delta_sum": 147,
+          "delta_lane_sum": [
+            7,
+            4,
+            35,
+            23,
+            13,
+            35,
+            21,
+            9
+          ],
+          "bit_overlap_signature": null,
+          "standalone_hw": [
+            100,
+            104,
+            105,
+            100,
+            118,
+            136
+          ]
+        },
+        "top_by_target_l1": {
+          "hw_total": 99,
+          "target_l1": 18,
+          "cg_objective": 155.0,
+          "net_delta": 13,
+          "lane_hw": [
+            13,
+            11,
+            14,
+            10,
+            10,
+            14,
+            14,
+            13
+          ],
+          "bits": [
+            53,
+            74,
+            112,
+            261,
+            280,
+            342,
+            392,
+            416,
+            448,
+            483,
+            484
+          ],
+          "m2_weight": 15,
+          "m2_added_bits": 9,
+          "m2_removed_bits": 2,
+          "m2_net_added_bits": 7,
+          "pair_ids": [
+            10,
+            14,
+            24,
+            65,
+            134,
+            150
+          ],
+          "word_pairs": [
+            [
+              3,
+              10
+            ],
+            [
+              1,
+              12
+            ],
+            [
+              8,
+              14
+            ],
+            [
+              13,
+              15
+            ],
+            [
+              8,
+              15
+            ],
+            [
+              2,
+              8
+            ]
+          ],
+          "motifs": {
+            "late_touch_pairs": 4,
+            "late_late_pairs": 1,
+            "early_late_pairs": 3,
+            "word_degree": {
+              "1": 1,
+              "2": 1,
+              "3": 1,
+              "8": 3,
+              "10": 1,
+              "12": 1,
+              "13": 1,
+              "14": 1,
+              "15": 2
+            }
+          },
+          "source_counts": {
+            "cg": 1,
+            "repair_a": 1,
+            "repair_d": 1,
+            "target": 3
+          },
+          "source_bucket": {
+            "target": 3,
+            "repair": 2,
+            "hw": 0,
+            "cg": 1
+          },
+          "standalone_net_delta_sum": 147,
+          "delta_lane_sum": [
+            7,
+            4,
+            35,
+            23,
+            13,
+            35,
+            21,
+            9
+          ],
+          "bit_overlap_signature": null,
+          "standalone_hw": [
+            100,
+            104,
+            105,
+            100,
+            118,
+            136
+          ]
+        },
+        "top_by_cg": {
+          "hw_total": 105,
+          "target_l1": 30,
+          "cg_objective": 143.0,
+          "net_delta": 19,
+          "lane_hw": [
+            13,
+            14,
+            12,
+            16,
+            16,
+            14,
+            7,
+            13
+          ],
+          "bits": [
+            52,
+            91,
+            106,
+            112,
+            195,
+            228,
+            253,
+            342,
+            393,
+            430,
+            434,
+            500
+          ],
+          "m2_weight": 16,
+          "m2_added_bits": 10,
+          "m2_removed_bits": 2,
+          "m2_net_added_bits": 8,
+          "pair_ids": [
+            4,
+            10,
+            20,
+            74,
+            101,
+            117
+          ],
+          "word_pairs": [
+            [
+              3,
+              7
+            ],
+            [
+              3,
+              10
+            ],
+            [
+              6,
+              7
+            ],
+            [
+              13,
+              13
+            ],
+            [
+              1,
+              15
+            ],
+            [
+              2,
+              12
+            ]
+          ],
+          "motifs": {
+            "late_touch_pairs": 3,
+            "late_late_pairs": 1,
+            "early_late_pairs": 2,
+            "word_degree": {
+              "1": 1,
+              "2": 1,
+              "3": 2,
+              "6": 1,
+              "7": 2,
+              "10": 1,
+              "12": 1,
+              "13": 2,
+              "15": 1
+            }
+          },
+          "source_counts": {
+            "hw": 1,
+            "repair": 2,
+            "repair_a": 1,
+            "target": 3
+          },
+          "source_bucket": {
+            "target": 3,
+            "repair": 3,
+            "hw": 1,
+            "cg": 0
+          },
+          "standalone_net_delta_sum": 105,
+          "delta_lane_sum": [
+            -6,
+            -10,
+            35,
+            36,
+            3,
+            16,
+            22,
+            9
+          ],
+          "bit_overlap_signature": null,
+          "standalone_hw": [
+            97,
+            100,
+            103,
+            102,
+            110,
+            109
+          ]
+        }
+      },
+      "derived": {
+        "best_hw_delta": 13,
+        "best_hw_target_l1": 18,
+        "best_target_l1": 18,
+        "best_target_hw_delta": 13,
+        "best_cg_delta": 19.0
+      }
+    }
+  ]
+}
