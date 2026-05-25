@@ -168,10 +168,51 @@ structural — the oracle wins by (a) satisfying un-satisfiable interfaces and
 DOF (e.g. perturbing the *prefix* words W44/W45/W53 that feed W60 without touching
 round-58), whose schedule-realizability is the open question.
 
+## Update 3 (DECISIVE): the prefix-word Wpre2[44] lever reproduces the oracle exactly
+
+`delta_mode=6` sweeps a perturbation of `Wpre2[44]` — the one prefix word that
+feeds **only** `W60_2` (linearly) and **not** rounds 57..59. N=8, 4096 prefixes:
+
+```
+honest_d0    tail 9
+oracle       tail 3  (d60_hw=5)  W1=0x30,0x73,0x82
+sched_repair tail 3  (d60_hw=0)  W1=0x30,0x73,0x82   <- mode 6, SAME witness
+```
+
+**Mode 6 reproduces the oracle tail (HW3) exactly — but honestly, with d60=0.**
+Perturbing `Wpre2[44]` shifts `W60_2` to `req` with a single modular add and zero
+round-58 cost, so it realizes the oracle within the schedule recurrence.
+
+### What this resolves
+
+The "schedule-realizable repair" gap is **not** in the round 57..60 free-word
+interface at all — that interface fully admits the oracle, via `Wpre2[44]`. The
+entire remaining obstacle is **upstream**: in full SHA-256, `Wpre2[44]` and
+`init2` (the round-57 state) are both functions of message-2's `W0..W15`, so you
+cannot move `W44` by the needed δ without moving `init2` and breaking the cascade.
+
+That is exactly a **constrained message-modification problem** — i.e. the
+`block2_wang` Wang-style problem. So this lead converges with `block2_wang`: the
+mitm_residue tail-repair reduces to "perturb message-2's schedule to shift `W44`
+by a target δ while holding the round-57 state fixed."
+
+EVIDENCE level: decisive within the reduced-N relaxation (N=8 exact; confirm at
+N=10/12/14). The relaxation->full-SHA gap (the `W44 <-> init2` coupling) is the
+real open problem and is now cleanly isolated.
+
+## Where this leaves the bet
+
+1. Cascade a-zeroing is tail-suboptimal; one freed interface word recovers a big
+   slice (HW9->6), but the gain saturates (joint/coord-descent add nothing).
+2. The *full* oracle gap is realizable in the relaxation by one prefix word
+   (`Wpre2[44]`), so the round-57..60 interface is not the bottleneck.
+3. The real bottleneck is the upstream `W44 <-> init2` schedule coupling — a
+   constrained message-modification problem shared with `block2_wang`.
+
 ## Next
 
-- Probe the **prefix-word lever**: can perturbing Wpre2[44] (feeds only W60,
-  linearly) realize the unreachable patches without a round-58 cost? (caveat: in
-  full SHA this re-derives init2 — measure the relaxed gain first).
-- Measure whether freed-word near-collisions retain MITM `gh60` residue structure.
-- Confirm single-word-saturation + reachability split at N=10/12.
+- Quantify the `W44 <-> init2` coupling: over message-2 perturbations that shift
+  `Wpre2[44]` by a target δ, how much does `init2` (round-57 state) move? Is there
+  a low-cost neutral set (Wang-style) that hits δ while holding `init2`?
+- Confirm mode 6 == oracle at N=10/12/14.
+- Measure whether the mode-6 (oracle-matching) near-collisions retain `gh60` structure.

@@ -273,6 +273,46 @@ static int eval_probe3(const uint32_t init1[8], const uint32_t init2[8],
     return tail;
 }
 
+/* Prefix-word lever: perturb Wpre2[44], which feeds ONLY W60_2 (linearly) and
+ * NOT rounds 57..59. In the relaxed (fixed-init2) model this can shift W60_2 to
+ * any value with no round-58 cost, so it should reproduce the oracle — isolating
+ * that the true obstacle is upstream (Wpre2[44] <-> init2 consistency in full SHA),
+ * not the round 57..60 free-word interface. Cascade words used throughout. */
+static int eval_pfx44(const uint32_t init1[8], const uint32_t init2[8],
+                      const uint32_t Wpre1[64], const uint32_t Wpre2[64],
+                      uint32_t w57, uint32_t w58, uint32_t w59,
+                      uint32_t pdelta, res_t *r) {
+    uint32_t s1v[8], s2v[8];
+    copy_state(s1v, init1); copy_state(s2v, init2);
+    uint32_t w2_57 = w2_for_zero_a(s1v, s2v, 57, w57);
+    sha_round(s1v, 57, w57); sha_round(s2v, 57, w2_57);
+    uint32_t w2_58 = w2_for_zero_a(s1v, s2v, 58, w58);
+    sha_round(s1v, 58, w58); sha_round(s2v, 58, w2_58);
+    int mid58 = state_diff_hw(s1v, s2v);
+    uint32_t W44_2 = (Wpre2[44] + pdelta) & gMASK;
+    uint32_t W60_1 = (s1(w58)   + Wpre1[53] + s0(Wpre1[45]) + Wpre1[44]) & gMASK;
+    uint32_t W60_2 = (s1(w2_58) + Wpre2[53] + s0(Wpre2[45]) + W44_2) & gMASK;
+    uint32_t w2_59 = w2_for_zero_a(s1v, s2v, 59, w59);
+    sha_round(s1v, 59, w59); sha_round(s2v, 59, w2_59);
+    uint32_t req = w2_for_zero_e(s1v, s2v, 60, W60_1);
+    uint32_t d60 = (W60_2 - req) & gMASK;
+    uint32_t W61_1 = (s1(w59)   + Wpre1[54] + s0(Wpre1[46]) + Wpre1[45]) & gMASK;
+    uint32_t W61_2 = (s1(w2_59) + Wpre2[54] + s0(Wpre2[46]) + Wpre2[45]) & gMASK;
+    uint32_t W62_1 = (s1(W60_1) + Wpre1[55] + s0(Wpre1[47]) + Wpre1[46]) & gMASK;
+    uint32_t W62_2 = (s1(W60_2) + Wpre2[55] + s0(Wpre2[47]) + Wpre2[46]) & gMASK;
+    uint32_t W63_1 = (s1(W61_1) + Wpre1[56] + s0(Wpre1[48]) + Wpre1[47]) & gMASK;
+    uint32_t W63_2 = (s1(W61_2) + Wpre2[56] + s0(Wpre2[48]) + Wpre2[47]) & gMASK;
+    sha_round(s1v, 60, W60_1); sha_round(s2v, 60, W60_2);
+    sha_round(s1v, 61, W61_1); sha_round(s2v, 61, W61_2);
+    int r61 = state_diff_hw(s1v, s2v);
+    sha_round(s1v, 62, W62_1); sha_round(s2v, 62, W62_2);
+    sha_round(s1v, 63, W63_1); sha_round(s2v, 63, W63_2);
+    int tail = state_diff_hw(s1v, s2v);
+    if (r) { r->tail_hw=tail; r->r61_hw=r61; r->mid58_hw=mid58; r->d60=d60;
+             r->d60_hw=hw(d60); r->delta=pdelta; r->w57=w57; r->w58=w58; r->w59=w59; r->req=req; }
+    return tail;
+}
+
 static void maybe_update(res_t *best, const res_t *cand) {
     if (cand->tail_hw < best->tail_hw ||
         (cand->tail_hw == best->tail_hw && cand->r61_hw < best->r61_hw))
@@ -454,6 +494,13 @@ int main(int argc, char **argv) {
                     res_t rr;
                     eval_probe3(init1, init2, Wpre1, Wpre2, w57, w58, w59, d57, d58, d59, &rr);
                     maybe_update(&l_rep, &rr);
+                } else if (delta_mode == 6) {
+                    /* prefix-word lever: full sweep of Wpre2[44] perturbation */
+                    for (uint64_t v = 0; v < word_space; v++) {
+                        res_t rr;
+                        eval_pfx44(init1, init2, Wpre1, Wpre2, w57, w58, w59, (uint32_t)v, &rr);
+                        maybe_update(&l_rep, &rr);
+                    }
                 }
             }
         }
