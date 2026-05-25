@@ -1,0 +1,26 @@
+free_word_mitm_reducedn repair_seed_ball
+N=14 mask=0x3fff msb=0x2000
+repair_d60_hw_limit=0 seed_cap=64 budget=3000000000 seed_mode=2 mode_param=10
+seed[00] repaired_tail=11 r61=11 d60=0x0 d60_hw=0 gh60=0x4489caa W1=0x3e31,0xcdb,0x286a W2=0x3d3e,0x12da,0x25ff
+seed[01] repaired_tail=25 r61=12 d60=0x0 d60_hw=0 gh60=0x4488daa W1=0x16c1,0x3f49,0x28b4 W2=0x15ce,0xf90,0x3660
+seed[02] repaired_tail=26 r61=12 d60=0x0 d60_hw=0 gh60=0x5589caa W1=0x2d,0x4de,0xfbe W2=0x3f3a,0x499,0x35e2
+seed[03] repaired_tail=27 r61=12 d60=0x0 d60_hw=0 gh60=0x4589daa W1=0x3ead,0x3612,0x20a1 W2=0x3dba,0x3e5,0x7c5
+seed[04] repaired_tail=27 r61=12 d60=0x0 d60_hw=0 gh60=0x4588caa W1=0x25ed,0x1b21,0xbae W2=0x24fa,0x23dc,0x208
+seed[05] repaired_tail=28 r61=12 d60=0x0 d60_hw=0 gh60=0x4889caa W1=0x141,0x2936,0x2535 W2=0x4e,0x28e9,0x3cb5
+seed[06] repaired_tail=28 r61=12 d60=0x0 d60_hw=0 gh60=0x4488cae W1=0x362f,0x34cf,0x88a W2=0x353c,0x342e,0x2392
+seed[07] repaired_tail=28 r61=12 d60=0x0 d60_hw=0 gh60=0x44884aa W1=0x3441,0xd2f,0x2306 W2=0x334e,0x219f,0x8f5
+
+D60 repair seed refinement
+  input_seeds=8 retained_tail_seeds=64 retained_r61_seeds=64
+  elapsed=144.498s budget=3000000000 tested=3000000000 repairable=182017 exact_D60=0=182017 collisions=0 seed_inserts=489 prefix_enums=0
+  rate=20.76 Mtests/s repairable_rate=0.000061
+  phase tested/repairable: single=86/2 double=1722/0 walk=2999998192/182015 prefix=0/0
+  min refined D60 HW: 0 d60=0x0 at W1[57..59]=0x3e31,0xcdb,0x286a
+  best repaired tail HW: 11 d60=0x0 d60_hw=0 r61=11 gh60=0x4489caa
+  best repaired tail W1[57..59]=0x3e31,0xcdb,0x286a
+  best repaired tail W2[57..59]=0x3d3e,0x12da,0x25ff
+  best repaired r61 HW: 11 d60=0x0 d60_hw=0 tail=11 gh60=0x4489caa
+  best repaired r61 W1[57..59]=0x3e31,0xcdb,0x286a
+  best repaired r61 W2[57..59]=0x3d3e,0x12da,0x25ff
+
+SUMMARY N=14 sample_start=0 prefixes=0 total=3000000000 d0=182017 best_tail=11 tail_r61=11 best_r61=11 tail_W1=0x3e31,0xcdb,0x286a tail_W2=0x3d3e,0x12da,0x25ff r61_W1=0x3e31,0xcdb,0x286a r61_W2=0x3d3e,0x12da,0x25ff

@@ -22,6 +22,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)) + '/..')
 
 N = int(sys.argv[1]) if len(sys.argv) > 1 else 8
 timeout = int(sys.argv[2]) if len(sys.argv) > 2 else 60
+w57_start = int(sys.argv[3]) if len(sys.argv) > 3 else 0
+w57_end = int(sys.argv[4]) if len(sys.argv) > 4 else (1 << N)
 
 if N == 32:
     enc = __import__('13_custom_cnf_encoder')
@@ -73,7 +75,7 @@ else:
 MASK_N = (1 << N) - 1 if N < 32 else 0xFFFFFFFF
 
 print(f"Hybrid Cascade + SAT at N={N}")
-print(f"Outer loop: W1[57] = 0..{(1<<N)-1} ({1<<N} values)")
+print(f"Outer loop: W1[57] = {w57_start}..{w57_end-1} ({w57_end-w57_start} values)")
 print(f"Inner: SAT with {3*N} free bits (W1[58..60])")
 print(f"Timeout per instance: {timeout}s")
 print(flush=True)
@@ -84,7 +86,7 @@ n_sat = 0
 n_unsat = 0
 n_timeout = 0
 
-for w1_57 in range(1 << N):
+for w1_57 in range(w57_start, w57_end):
     # Compute state after round 57 for both messages
     s1 = tuple(state1_init)
     s2 = tuple(state2_init)
@@ -191,15 +193,15 @@ for w1_57 in range(1 << N):
         except subprocess.TimeoutExpired:
             n_timeout += 1
 
-    if w1_57 > 0 and (w1_57 & 0xF) == 0xF:
+    if w1_57 > w57_start and ((w1_57 - w57_start) & 0xF) == 0xF:
         elapsed = time.time() - t0
-        pct = 100 * (w1_57+1) / (1<<N)
+        pct = 100 * (w1_57+1-w57_start) / (w57_end-w57_start)
         print(f"  [{pct:.0f}%] w57=0x{w1_57:x} sat={n_sat} unsat={n_unsat} "
               f"timeout={n_timeout} collisions={n_collisions} {elapsed:.0f}s", flush=True)
 
 elapsed = time.time() - t0
 print(f"\n=== N={N} Hybrid Results ===")
-print(f"W1[57] values tested: {1<<N}")
+print(f"W1[57] values tested: {w57_end-w57_start} (range {w57_start}..{w57_end-1})")
 print(f"SAT: {n_sat}, UNSAT: {n_unsat}, TIMEOUT: {n_timeout}")
 print(f"Collisions: {n_collisions}")
 print(f"Time: {elapsed:.1f}s")

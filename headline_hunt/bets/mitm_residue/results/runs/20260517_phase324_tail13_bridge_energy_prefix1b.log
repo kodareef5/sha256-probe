@@ -1,0 +1,27 @@
+free_word_mitm_reducedn repair_seed_joint_energy
+N=14 mask=0x3fff msb=0x2000
+repair_d60_hw_limit=0 seed_cap=32 budget=1000000000 seed_mode=5 mode_param=834324
+seed[00] repaired_tail=11 r61=11 d60=0x0 d60_hw=0 gh60=0x4489caa W1=0x3e31,0xcdb,0x286a W2=0x3d3e,0x12da,0x25ff
+seed[01] repaired_tail=10 r61=12 d60=0x0 d60_hw=0 gh60=0x5a247a6 W1=0x3384,0x997,0x12b7 W2=0x3291,0x28b,0x85b
+seed[02] repaired_tail=23 r61=9 d60=0x0 d60_hw=0 gh60=0x4a044e6 W1=0x121c,0x3035,0x3416 W2=0x1129,0x18f7,0x158b
+seed[03] repaired_tail=13 r61=21 d60=0x0 d60_hw=0 gh60=0x7be879e W1=0x3ba7,0xd0d,0x338a W2=0x3ab4,0x16f6,0x19aa
+seed[04] repaired_tail=26 r61=13 d60=0x0 d60_hw=0 gh60=0x44885aa W1=0x14c1,0x3aa7,0x2393 W2=0x13ce,0x92f,0x2760
+seed[05] repaired_tail=30 r61=13 d60=0x0 d60_hw=0 gh60=0x4615cea W1=0x1e0e,0xd4b,0x2d4c W2=0x1d1b,0x1583,0x153f
+
+D60 repair seed refinement
+  input_seeds=6 retained_tail_seeds=32 retained_r61_seeds=32
+  elapsed=735.528s budget=1000000000 tested=1000000000 repairable=65917 exact_D60=0=65917 collisions=0 seed_inserts=216 prefix_enums=61034
+  rate=1.36 Mtests/s repairable_rate=0.000066
+  phase tested/repairable: single=252/1 double=5166/3 walk=13526/5 prefix=999981056/65908
+  min refined D60 HW: 0 d60=0x0 at W1[57..59]=0x3e31,0xcdb,0x286a
+  best repaired tail HW: 10 d60=0x0 d60_hw=0 r61=12 gh60=0x5a247a6
+  best repaired tail W1[57..59]=0x3384,0x997,0x12b7
+  best repaired tail W2[57..59]=0x3291,0x28b,0x85b
+  best repaired r61 HW: 9 d60=0x0 d60_hw=0 tail=23 gh60=0x4a044e6
+  best repaired r61 W1[57..59]=0x121c,0x3035,0x3416
+  best repaired r61 W2[57..59]=0x1129,0x18f7,0x158b
+  best repaired joint score: 22 max=11 tail=11 r61=11 d60=0x0 d60_hw=0 gh60=0x4489caa improvements=0
+  best repaired joint W1[57..59]=0x3e31,0xcdb,0x286a
+  best repaired joint W2[57..59]=0x3d3e,0x12da,0x25ff
+
+SUMMARY N=14 sample_start=0 prefixes=0 total=1000000000 d0=65917 best_tail=10 tail_r61=12 best_r61=9 best_joint=22 joint_max=11 joint_tail=11 joint_r61=11 tail_W1=0x3384,0x997,0x12b7 tail_W2=0x3291,0x28b,0x85b joint_W1=0x3e31,0xcdb,0x286a joint_W2=0x3d3e,0x12da,0x25ff r61_W1=0x121c,0x3035,0x3416 r61_W2=0x1129,0x18f7,0x158b

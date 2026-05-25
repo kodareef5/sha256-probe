@@ -1,0 +1,26 @@
+free_word_mitm_reducedn repair_seed_walk
+N=14 mask=0x3fff msb=0x2000
+repair_d60_hw_limit=0 seed_cap=16 budget=5000000000 walk_only=1 walk_nonce=830149
+seed[00] repaired_tail=11 r61=11 d60=0x0 d60_hw=0 gh60=0x4489caa W1=0x3e31,0xcdb,0x286a W2=0x3d3e,0x12da,0x25ff
+seed[01] repaired_tail=16 r61=15 d60=0x0 d60_hw=0 gh60=0x4a084e6 W1=0x241b,0x121d,0x2366 W2=0x2328,0x3df2,0x2555
+seed[02] repaired_tail=28 r61=10 d60=0x0 d60_hw=0 gh60=0x4a084e6 W1=0x2b0b,0x1a4d,0x20ab W2=0x2a18,0x3920,0x7c5
+seed[03] repaired_tail=16 r61=15 d60=0x0 d60_hw=0 gh60=0x4a08cea W1=0x70d,0x38ca,0x37b9 W2=0x61a,0x3bbd,0x39ee
+seed[04] repaired_tail=26 r61=10 d60=0x0 d60_hw=0 gh60=0x4a08cea W1=0x281d,0x140f,0x2591 W2=0x272a,0x13c6,0x2ee5
+seed[05] repaired_tail=17 r61=13 d60=0x0 d60_hw=0 gh60=0x46e45a6 W1=0x1484,0x1b03,0x17c0 W2=0x1391,0x1d7,0x3d63
+seed[06] repaired_tail=24 r61=9 d60=0x0 d60_hw=0 gh60=0x4a085e6 W1=0xc8b,0x13b6,0x2011 W2=0xb98,0x671,0x273c
+seed[07] repaired_tail=28 r61=10 d60=0x0 d60_hw=0 gh60=0x4618ca6 W1=0x1903,0x16d9,0x2d92 W2=0x1810,0x215,0x37e2
+
+D60 repair seed refinement
+  input_seeds=8 retained_tail_seeds=16 retained_r61_seeds=16
+  elapsed=336.631s budget=5000000000 tested=5000000000 repairable=484247 exact_D60=0=484247 collisions=0 seed_inserts=95 prefix_enums=0
+  rate=14.85 Mtests/s repairable_rate=0.000097
+  phase tested/repairable: single=344/10 double=6888/6 walk=4999992768/484231 prefix=0/0
+  min refined D60 HW: 0 d60=0x0 at W1[57..59]=0x3e31,0xcdb,0x286a
+  best repaired tail HW: 11 d60=0x0 d60_hw=0 r61=11 gh60=0x4489caa
+  best repaired tail W1[57..59]=0x3e31,0xcdb,0x286a
+  best repaired tail W2[57..59]=0x3d3e,0x12da,0x25ff
+  best repaired r61 HW: 9 d60=0x0 d60_hw=0 tail=24 gh60=0x4a085e6
+  best repaired r61 W1[57..59]=0xc8b,0x13b6,0x2011
+  best repaired r61 W2[57..59]=0xb98,0x671,0x273c
+
+SUMMARY N=14 sample_start=0 prefixes=0 total=5000000000 d0=484247 best_tail=11 tail_r61=11 best_r61=9 tail_W1=0x3e31,0xcdb,0x286a tail_W2=0x3d3e,0x12da,0x25ff r61_W1=0xc8b,0x13b6,0x2011 r61_W2=0xb98,0x671,0x273c

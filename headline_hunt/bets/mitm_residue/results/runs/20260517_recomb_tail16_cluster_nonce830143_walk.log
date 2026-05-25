@@ -1,0 +1,26 @@
+free_word_mitm_reducedn repair_seed_walk
+N=14 mask=0x3fff msb=0x2000
+repair_d60_hw_limit=0 seed_cap=16 budget=5000000000 walk_only=1 walk_nonce=830143
+seed[00] repaired_tail=16 r61=17 d60=0x0 d60_hw=0 gh60=0x45a849a W1=0x3429,0x487,0x370e W2=0x3336,0x3a12,0x3a2a
+seed[01] repaired_tail=16 r61=16 d60=0x0 d60_hw=0 gh60=0x5a0cbee W1=0x3990,0x3c75,0x303 W2=0x389d,0x3f09,0x1953
+seed[02] repaired_tail=16 r61=24 d60=0x0 d60_hw=0 gh60=0x599dfae W1=0x1fc0,0x1e37,0x322c W2=0x1ecd,0x1673,0x356d
+seed[03] repaired_tail=16 r61=13 d60=0x0 d60_hw=0 gh60=0x392879e W1=0x23c7,0x3ae3,0x1554 W2=0x22d4,0x3510,0x303d
+seed[04] repaired_tail=16 r61=15 d60=0x0 d60_hw=0 gh60=0x4a084e6 W1=0x241b,0x121d,0x2366 W2=0x2328,0x3df2,0x2555
+seed[05] repaired_tail=16 r61=15 d60=0x0 d60_hw=0 gh60=0x4a08cea W1=0x70d,0x38ca,0x37b9 W2=0x61a,0x3bbd,0x39ee
+seed[06] repaired_tail=16 r61=11 d60=0x0 d60_hw=0 gh60=0x4a184ea W1=0x221,0x2b8d,0x10d W2=0x12e,0x2f07,0x38d2
+seed[07] repaired_tail=49 r61=34 d60=0x501 d60_hw=3 gh60=0xce784fe W1=0x217,0x2b8d,0x10d W2=0x124,0x3735,0x353a
+
+D60 repair seed refinement
+  input_seeds=8 retained_tail_seeds=16 retained_r61_seeds=16
+  elapsed=336.736s budget=5000000000 tested=5000000000 repairable=484338 exact_D60=0=484338 collisions=0 seed_inserts=91 prefix_enums=0
+  rate=14.85 Mtests/s repairable_rate=0.000097
+  phase tested/repairable: single=344/9 double=6888/4 walk=4999992768/484325 prefix=0/0
+  min refined D60 HW: 0 d60=0x0 at W1[57..59]=0x221,0x2b8d,0x10d
+  best repaired tail HW: 16 d60=0x0 d60_hw=0 r61=17 gh60=0x45a849a
+  best repaired tail W1[57..59]=0x3429,0x487,0x370e
+  best repaired tail W2[57..59]=0x3336,0x3a12,0x3a2a
+  best repaired r61 HW: 11 d60=0x0 d60_hw=0 tail=16 gh60=0x4a184ea
+  best repaired r61 W1[57..59]=0x221,0x2b8d,0x10d
+  best repaired r61 W2[57..59]=0x12e,0x2f07,0x38d2
+
+SUMMARY N=14 sample_start=0 prefixes=0 total=5000000000 d0=484338 best_tail=16 tail_r61=17 best_r61=11 tail_W1=0x3429,0x487,0x370e tail_W2=0x3336,0x3a12,0x3a2a r61_W1=0x221,0x2b8d,0x10d r61_W2=0x12e,0x2f07,0x38d2

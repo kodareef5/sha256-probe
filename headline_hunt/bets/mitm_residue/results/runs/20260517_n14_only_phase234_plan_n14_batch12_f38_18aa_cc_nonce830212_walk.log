@@ -1,0 +1,26 @@
+free_word_mitm_reducedn repair_seed_walk
+N=14 mask=0x3fff msb=0x2000
+repair_d60_hw_limit=0 seed_cap=16 budget=5000000000 walk_only=1 walk_nonce=830212
+seed[00] repaired_tail=11 r61=11 d60=0x0 d60_hw=0 gh60=0x4489caa W1=0x3e31,0xcdb,0x286a W2=0x3d3e,0x12da,0x25ff
+seed[01] repaired_tail=10 r61=12 d60=0x0 d60_hw=0 gh60=0x5a247a6 W1=0x3384,0x997,0x12b7 W2=0x3291,0x28b,0x85b
+seed[02] repaired_tail=23 r61=9 d60=0x0 d60_hw=0 gh60=0x4a044e6 W1=0x121c,0x3035,0x3416 W2=0x1129,0x18f7,0x158b
+seed[03] repaired_tail=16 r61=17 d60=0x0 d60_hw=0 gh60=0xc8efcbe W1=0xf38,0x18aa,0xcc W2=0xe45,0x1706,0xe9a
+seed[04] repaired_tail=16 r61=17 d60=0x0 d60_hw=0 gh60=0xcef45ea W1=0x329e,0x2007,0x2241 W2=0x31ab,0x2a96,0x1bf6
+seed[05] repaired_tail=16 r61=17 d60=0x0 d60_hw=0 gh60=0xcd3457a W1=0x14d6,0x195a,0x668 W2=0x13e3,0x40f,0x3aa6
+seed[06] repaired_tail=16 r61=17 d60=0x0 d60_hw=0 gh60=0x45a849a W1=0x3429,0x487,0x370e W2=0x3336,0x3a12,0x3a2a
+seed[07] repaired_tail=16 r61=18 d60=0x0 d60_hw=0 gh60=0xdd9bcaa W1=0x103d,0x2758,0x112e W2=0xf4a,0x17ff,0x150e
+
+D60 repair seed refinement
+  input_seeds=8 retained_tail_seeds=16 retained_r61_seeds=16
+  elapsed=317.603s budget=5000000000 tested=5000000000 repairable=484116 exact_D60=0=484116 collisions=0 seed_inserts=96 prefix_enums=0
+  rate=15.74 Mtests/s repairable_rate=0.000097
+  phase tested/repairable: single=344/10 double=6888/3 walk=4999992768/484103 prefix=0/0
+  min refined D60 HW: 0 d60=0x0 at W1[57..59]=0x3384,0x997,0x12b7
+  best repaired tail HW: 10 d60=0x0 d60_hw=0 r61=12 gh60=0x5a247a6
+  best repaired tail W1[57..59]=0x3384,0x997,0x12b7
+  best repaired tail W2[57..59]=0x3291,0x28b,0x85b
+  best repaired r61 HW: 9 d60=0x0 d60_hw=0 tail=23 gh60=0x4a044e6
+  best repaired r61 W1[57..59]=0x121c,0x3035,0x3416
+  best repaired r61 W2[57..59]=0x1129,0x18f7,0x158b
+
+SUMMARY N=14 sample_start=0 prefixes=0 total=5000000000 d0=484116 best_tail=10 tail_r61=12 best_r61=9 tail_W1=0x3384,0x997,0x12b7 tail_W2=0x3291,0x28b,0x85b r61_W1=0x121c,0x3035,0x3416 r61_W2=0x1129,0x18f7,0x158b

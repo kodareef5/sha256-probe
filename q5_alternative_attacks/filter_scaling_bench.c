@@ -20,8 +20,10 @@
  * Scalar C, single-threaded, for clean measurements.
  *
  * Compile: gcc -O3 -march=native -o filter_scaling_bench filter_scaling_bench.c -lm
- * Usage:   ./filter_scaling_bench           (runs N=4,6,8)
+ * Usage:   ./filter_scaling_bench           (runs N=4,6,8 automatically)
  *          ./filter_scaling_bench --all      (runs N=4,6,8,10,12)
+ *
+ * N=10 takes ~4 hours (2^40 configs), N=12 takes ~weeks (2^48 configs).
  */
 #include <stdio.h>
 #include <stdlib.h>
@@ -181,10 +183,17 @@ static void run_combined(uint64_t *out_total, uint64_t *out_de61_pass,
     uint64_t total = 0, de61_pass = 0, coll = 0;
 
     /* ---- Pass 1: Baseline (no early exit) ---- */
-    struct timespec t0, t1;
+    struct timespec t0, t1, tp;
     clock_gettime(CLOCK_MONOTONIC, &t0);
 
     for (uint32_t w57 = 0; w57 < Nv; w57++) {
+        if (gN >= 10 && (w57 & 0xF) == 0xF) {
+            clock_gettime(CLOCK_MONOTONIC, &tp);
+            double el = elapsed_sec(&t0, &tp);
+            double pct = 100.0 * (w57 + 1) / Nv;
+            printf("    [baseline] %.0f%% %.1fs ETA %.0fs\n",
+                   pct, el, el / pct * 100 - el);
+        }
         uint32_t s57a[8], s57b[8];
         memcpy(s57a, state1, 32); memcpy(s57b, state2, 32);
         uint32_t w57b = find_w2(s57a, s57b, 57, w57);
@@ -246,6 +255,13 @@ static void run_combined(uint64_t *out_total, uint64_t *out_de61_pass,
     clock_gettime(CLOCK_MONOTONIC, &t0);
 
     for (uint32_t w57 = 0; w57 < Nv; w57++) {
+        if (gN >= 10 && (w57 & 0xF) == 0xF) {
+            clock_gettime(CLOCK_MONOTONIC, &tp);
+            double el = elapsed_sec(&t0, &tp);
+            double pct = 100.0 * (w57 + 1) / Nv;
+            printf("    [filtered] %.0f%% %.1fs ETA %.0fs\n",
+                   pct, el, el / pct * 100 - el);
+        }
         uint32_t s57a[8], s57b[8];
         memcpy(s57a, state1, 32); memcpy(s57b, state2, 32);
         uint32_t w57b = find_w2(s57a, s57b, 57, w57);
@@ -347,7 +363,10 @@ int main(int argc, char *argv[]) {
     printf("  g63 = f62 = e61 in the SHA shift register, so\n");
     printf("  collision requires de61=0 (N-bit constraint).\n");
     printf("  Expected pass rate: ~1/2^N.\n");
-    printf("  Savings: skip rounds 62-63 for ~(1-1/2^N) of configs.\n\n");
+    printf("  Savings: skip rounds 62-63 for ~(1-1/2^N) of configs.\n");
+    if (run_all)
+        printf("  WARNING: N=10 (~4h) and N=12 (~weeks) are very slow.\n");
+    printf("\n");
 
     for (int i = 0; i < n_runs; i++) {
         int N = Ns[i];

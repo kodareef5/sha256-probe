@@ -1,0 +1,29 @@
+free_word_mitm_reducedn repair_seed_walk
+N=14 mask=0x3fff msb=0x2000
+repair_d60_hw_limit=0 seed_cap=16 budget=5000000000 seed_mode=1 mode_param=830203
+seed[00] repaired_tail=11 r61=11 d60=0x0 d60_hw=0 gh60=0x4489caa W1=0x3e31,0xcdb,0x286a W2=0x3d3e,0x12da,0x25ff
+seed[01] repaired_tail=10 r61=12 d60=0x0 d60_hw=0 gh60=0x5a247a6 W1=0x3384,0x997,0x12b7 W2=0x3291,0x28b,0x85b
+seed[02] repaired_tail=23 r61=9 d60=0x0 d60_hw=0 gh60=0x4a044e6 W1=0x121c,0x3035,0x3416 W2=0x1129,0x18f7,0x158b
+seed[03] repaired_tail=15 r61=16 d60=0x0 d60_hw=0 gh60=0x4ab44ba W1=0x39f6,0x3130,0x395c W2=0x3903,0x266f,0x2ec5
+seed[04] repaired_tail=15 r61=16 d60=0x0 d60_hw=0 gh60=0x5b28d7a W1=0x659,0x25fe,0x3771 W2=0x566,0x3f1,0x245e
+seed[05] repaired_tail=15 r61=16 d60=0x0 d60_hw=0 gh60=0x7b1bd6a W1=0x2ee1,0x2794,0x8ee W2=0x2dee,0x1853,0x13cd
+seed[06] repaired_tail=15 r61=17 d60=0x0 d60_hw=0 gh60=0x5d3c49e W1=0x3448,0x209a,0x278e W2=0x3355,0x2e8c,0x10a1
+seed[07] repaired_tail=15 r61=17 d60=0x0 d60_hw=0 gh60=0xba6cca6 W1=0x28f4,0x2197,0x2cb4 W2=0x2801,0x2cc4,0x3a5a
+
+D60 repair seed refinement
+  input_seeds=8 retained_tail_seeds=16 retained_r61_seeds=16
+  elapsed=319.384s budget=5000000000 tested=5000000000 repairable=484926 exact_D60=0=484926 collisions=0 seed_inserts=81 prefix_enums=0
+  rate=15.66 Mtests/s repairable_rate=0.000097
+  phase tested/repairable: single=344/11 double=6888/3 walk=4999992768/484912 prefix=0/0
+  min refined D60 HW: 0 d60=0x0 at W1[57..59]=0x3384,0x997,0x12b7
+  best repaired tail HW: 10 d60=0x0 d60_hw=0 r61=12 gh60=0x5a247a6
+  best repaired tail W1[57..59]=0x3384,0x997,0x12b7
+  best repaired tail W2[57..59]=0x3291,0x28b,0x85b
+  best repaired r61 HW: 9 d60=0x0 d60_hw=0 tail=23 gh60=0x4a044e6
+  best repaired r61 W1[57..59]=0x121c,0x3035,0x3416
+  best repaired r61 W2[57..59]=0x1129,0x18f7,0x158b
+  best repaired joint score: 22 max=11 tail=11 r61=11 d60=0x0 d60_hw=0 gh60=0x4489caa improvements=0
+  best repaired joint W1[57..59]=0x3e31,0xcdb,0x286a
+  best repaired joint W2[57..59]=0x3d3e,0x12da,0x25ff
+
+SUMMARY N=14 sample_start=0 prefixes=0 total=5000000000 d0=484926 best_tail=10 tail_r61=12 best_r61=9 best_joint=22 joint_max=11 joint_tail=11 joint_r61=11 tail_W1=0x3384,0x997,0x12b7 tail_W2=0x3291,0x28b,0x85b joint_W1=0x3e31,0xcdb,0x286a joint_W2=0x3d3e,0x12da,0x25ff r61_W1=0x121c,0x3035,0x3416 r61_W2=0x1129,0x18f7,0x158b

@@ -1,0 +1,24 @@
+free_word_mitm_reducedn repair_seed_ball
+N=14 mask=0x3fff msb=0x2000
+repair_d60_hw_limit=0 seed_cap=64 budget=500000000 seed_mode=2 mode_param=7
+seed[00] repaired_tail=13 r61=14 d60=0x0 d60_hw=0 gh60=0x4e04c9a W1=0x160a,0x1400,0x3d93 W2=0x1517,0xbc3,0x1f5e
+seed[01] repaired_tail=16 r61=14 d60=0x0 d60_hw=0 gh60=0xba64ca6 W1=0x38f4,0x432,0x2946 W2=0x3801,0x1e5f,0x36f1
+seed[02] repaired_tail=16 r61=16 d60=0x0 d60_hw=0 gh60=0x5a0cbee W1=0x3990,0x3c75,0x303 W2=0x389d,0x3f09,0x1953
+seed[03] repaired_tail=26 r61=11 d60=0x0 d60_hw=0 gh60=0x4588caa W1=0x1641,0x14d,0xe33 W2=0x154e,0x19bc,0x1161
+seed[04] repaired_tail=26 r61=11 d60=0x0 d60_hw=0 gh60=0xc8884aa W1=0x2531,0x22a4,0x1f79 W2=0x243e,0x2964,0x2915
+seed[05] repaired_tail=23 r61=9 d60=0x0 d60_hw=0 gh60=0x4a044e6 W1=0x121c,0x3035,0x3416 W2=0x1129,0x18f7,0x158b
+
+D60 repair seed refinement
+  input_seeds=6 retained_tail_seeds=64 retained_r61_seeds=64
+  elapsed=10.789s budget=500000000 tested=199194576 repairable=12072 exact_D60=0=12072 collisions=0 seed_inserts=375 prefix_enums=0
+  rate=18.46 Mtests/s repairable_rate=0.000061
+  phase tested/repairable: single=258/6 double=5166/4 walk=199189152/12062 prefix=0/0
+  min refined D60 HW: 0 d60=0x0 at W1[57..59]=0x160a,0x1400,0x3d93
+  best repaired tail HW: 13 d60=0x0 d60_hw=0 r61=14 gh60=0x4e04c9a
+  best repaired tail W1[57..59]=0x160a,0x1400,0x3d93
+  best repaired tail W2[57..59]=0x1517,0xbc3,0x1f5e
+  best repaired r61 HW: 9 d60=0x0 d60_hw=0 tail=23 gh60=0x4a044e6
+  best repaired r61 W1[57..59]=0x121c,0x3035,0x3416
+  best repaired r61 W2[57..59]=0x1129,0x18f7,0x158b
+
+SUMMARY N=14 sample_start=0 prefixes=0 total=199194576 d0=12072 best_tail=13 tail_r61=14 best_r61=9 tail_W1=0x160a,0x1400,0x3d93 tail_W2=0x1517,0xbc3,0x1f5e r61_W1=0x121c,0x3035,0x3416 r61_W2=0x1129,0x18f7,0x158b
