@@ -241,10 +241,14 @@ clamped to `prefix_space`; fine at the counts used.)
 |---:|-----------:|----------------------------------:|------:|
 | 12 | 96         | 23                                | 24%   |
 | 16 | 128        | 33                                | 26%   |
+| 20 | 160        | 44                                | 27.5% |
+| 24 | 192        | 57                                | 30%   |
 
-The cost to move `W44` holds at ~a quarter of the round-57 state regardless of
-width (N=16: 200M samples, <=8-bit perturbations). Extrapolated to N=32 that is
-~64 of 256 bits — the upstream obstacle does **not** weaken with scale.
+The cost to move `W44` holds at ~a quarter-to-third of the round-57 state across
+all tested widths (300M samples, <=8-bit perturbations). The slight upward drift
+is partly a sampling artifact (fixed sample count covers less of the perturbation
+space at larger N). Robust conclusion: the upstream obstacle does **not** weaken
+with scale — no cheap W44 lever exists at any width.
 
 ## Net read (final for this session's probe)
 
@@ -256,9 +260,30 @@ at N=12). That obstacle is the `block2_wang` constrained-message problem, so the
 two leads converge: **progress on mitm_residue tail-repair now routes through
 block2_wang's neutral-set machinery.**
 
+## Update 5 (synthesis): the coupling IS block2_wang's "dense schedule inverse"
+
+Reading `block2_wang/encoders/preimage_lift.py`: it already found that lifting a
+low-HW `dW` target back to `dM` via the schedule recurrence gives **high-HW dM
+(~113 bits mean)** because "the schedule recurrence's GF(2) inverse is dense."
+`search_schedule_space.py` then *abandoned* the linear lift for an atlas-loss
+mutation search precisely for this reason.
+
+That is the **same structural fact** as the `W44 <-> init2` coupling measured
+here (mode 7) from the other direction: you cannot cheaply move a late schedule
+word (W44) via the message because the inverse map is dense. Two independent
+leads, one obstacle.
+
+**Honest conclusion for the bet:** the mitm_residue tail-repair does NOT open a
+new tractable path. It is *realizable* at the round-57..60 interface (via
+`Wpre2[44]`), but realizing it in full SHA reduces exactly to the dense
+schedule-inverse / neutral-set problem that `block2_wang` is already grinding on
+(and which it has shown is not linearly tractable). The value delivered: the
+"oracle gap" mystery is fully explained and localized, and the two leads are now
+known to share one bottleneck rather than being independent shots.
+
 ## Next
 
-- Run `block2_wang`'s neutral-set search against the concrete target: shift
-  `Wpre2[44]` by the repair δ while holding the round-57 state.
-- Measure whether mode-6 (oracle-matching) near-collisions retain `gh60` structure.
-- Coupling scaling: N=16 (closer to real width).
+- (compute, running) coupling scaling at N=20/24 to confirm width-stability.
+- If pursuing further, it is `block2_wang`'s atlas-loss search aimed at the
+  `Wpre2[44]`-shift target — but expect the dense-inverse wall both leads hit.
+- Lower priority: gh60 structure of mode-6 oracle-matching near-collisions.
