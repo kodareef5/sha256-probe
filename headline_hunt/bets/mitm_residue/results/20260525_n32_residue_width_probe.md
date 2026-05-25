@@ -50,3 +50,40 @@ clarifies that the residue is a joint-freedom property and pins one concrete fac
 (cascade chain => `dh63=0` for all W57). A real residue-width measurement needs the
 full W57..W61 joint MITM with the backward-W60 round-63 match — i.e. completing
 `cascade_mitm_full.py`. Logged so the next attempt doesn't repeat the narrow setup.
+
+## Follow-up: JOINT free-word measurement (residue_width_n32_joint.py)
+
+Joint forward sweep — free `W1[57..60]`, message-2 via the full cascade chain
+(`da=0` at 57/58/59 via `w2_for_zero_a`, `de60=0` via cascade-2), `da59_breaks=0`
+verified. Over 300k samples on the cert base:
+
+```
+round-63 active mask: dd63=0 and dh63=0 (collide for ALL samples); other 6 avalanche
+abcd63 active=96, efgh63 active=96  -> ~192-bit forward residual (6 registers)
+gh60 residue active bits: g60(=e58)=32, h60(=e57)=28  -> 60/64 active (only h60 low 4 fixed)
+min round-63 total HW = 62 over 300k  (avalanche tail, not a near-collision floor)
+```
+
+**This challenges the bet's headline "~24 effective bits in g60/h60" claim.**
+Direct N=32 forward measurement shows:
+- The joint cascade buys exactly **2** collided output registers (`dd63`, `dh63`);
+  the other 6 avalanche (~192-bit residual). One more than the single-word case.
+- `gh60` itself spans **~60 active bits** over a free `(w57,w58)` sweep — NOT 24.
+  Only `h60`'s low 4 bits are structurally fixed.
+
+Implication (EVIDENCE level): the "232 almost-free / ~24-hard" decomposition is
+**not a forward free-word property**. If the 24-bit residue is real it must be a
+**MITM-meet** property — the forward∩backward intersection collapsing the effective
+search — which requires the backward-W60/W61 round-63 match that
+`cascade_mitm_full.py` sets up but never completes. Until that meet is built and
+measured, the ~24-bit headline is unsupported by direct measurement (and these
+forward numbers argue the concentration, if any, comes entirely from the meet).
+
+## Net for the bet
+
+Two session probes (single-word + joint) consistently find NO 24-bit residue in
+forward free-word freedom (gh60 ~60 bits active; forward round-63 residual ~192
+bits, 2 registers free). The headline hypothesis hinges on the unbuilt MITM meet.
+Highest-value next step if pursued: build the actual forward/backward match (round-59
+fingerprint table + backward W60/W61) and measure the post-meet residual — that is
+the only thing that can confirm or refute the ~24-bit claim.
