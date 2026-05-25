@@ -3,6 +3,10 @@
 Runner: macbook (kodareef5)
 Tool: `prototypes/sched_repair_probe.c` (new), reuses the `free_word_mitm_reducedn.c` reduced-N model verbatim.
 Evidence level: **EVIDENCE** (reduced-N, sampled at N>=10; effect consistent N=8..14; see caveats).
+Lead status: **RESOLVED** — repair is realizable at the round-57..60 interface
+(prefix word `Wpre2[44]`); the sole obstacle is the upstream `W44<->init2`
+coupling = `block2_wang`'s dense schedule inverse. No new tractable path; the two
+leads share one bottleneck. gh60-structure + neutral-set follow-ups noted below.
 
 ## Question
 
@@ -211,8 +215,13 @@ real open problem and is now cleanly isolated.
 
 ## Update 4: the W44<->init2 coupling is tight (mode 7) + mode-6==oracle confirmed N=10/12
 
-**Mode-6 == oracle confirmed across widths** (prefix-44 lever reaches the oracle
-tail honestly, d60=0, identical witness): N=8 HW3, N=10 HW5, N=12 HW9.
+**Mode-6 >= oracle across widths** (prefix-44 lever reaches the oracle tail
+honestly): N=8 HW3=oracle, N=10 HW5=oracle, N=12 HW9=oracle, N=14 **HW16 < oracle
+HW18**. At N=14 the lever *beats* the oracle: sweeping `Wpre2[44]` explores ALL
+`W60_2` values, while the "oracle" only tried `req` (the round-60 e-zeroing
+value). So the prefix-44 lever is the true interface bound and the naive oracle
+was a lower bound on it — the round-57..60 interface admits optimal `W60_2`
+selection schedule-consistently.
 
 **Coupling (mode 7)**, N=12, state = 96 bits, 16.7M random message perturbations
 (<=6 bit flips of W0..W15):
