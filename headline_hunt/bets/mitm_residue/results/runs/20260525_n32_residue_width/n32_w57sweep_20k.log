@@ -1,0 +1,15 @@
+N=32 RESIDUE WIDTH  samples=20000 seed=42  (25914/s)
+cascade-2 efgh63 breaks (should be 0): 19999
+active-bit mask per register (bits that ever differ over the W57 sweep):
+  da63 active=0xffffffff hw=32
+  db63 active=0xffffffff hw=32
+  dc63 active=0xffffffff hw=32
+  dd63 active=0xffffffff hw=32
+  de63 active=0xffffffff hw=32
+  df63 active=0xffffffff hw=32
+  dg63 active=0xffffffff hw=32
+  dh63 active=0x00000000 hw=0
+EFFECTIVE RESIDUE WIDTH (abcd63 active bits) = 128
+  (efgh63 active bits = 96, expected 0 via cascade-2)
+min round-63 total HW = 0; min abcd63 HW = 0
+abcd63 HW histogram (low end): {0: 1, 40: 1, 42: 2, 43: 2, 44: 3, 45: 4, 46: 9, 47: 15, 48: 27, 49: 36, 50: 73, 51: 112}
