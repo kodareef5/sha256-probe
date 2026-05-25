@@ -79,11 +79,47 @@ search — which requires the backward-W60/W61 round-63 match that
 measured, the ~24-bit headline is unsupported by direct measurement (and these
 forward numbers argue the concentration, if any, comes entirely from the meet).
 
+## Decisive: gh60 distinct-value count (gh60_entropy_n32.py)
+
+Distinct-value count is a rigorous LOWER bound on effective dimension (unlike the
+active-bit count above). Sweeping random `(W1[57],W1[58])` (cascade da=0) and
+counting distinct 64-bit gh60 differences:
+
+```
+samples      distinct_gh60   ratio
+   65536        65536        1.0000
+  262144       262144        1.0000
+ 1048576      1048545        1.0000
+ 2097152      2097026        0.9999
+ 4194304      4193831        0.9999   <- no ceiling; birthday shortfall => space >= ~2^34
+```
+
+distinct == samples up to 2^22 (ratio 0.9999). **gh60 has >= ~34 effective bits and
+shows NO 24-bit ceiling** — it is essentially injective in `(w57,w58)`.
+
+### Verdict on the headline hypothesis
+
+The bet's literal claim — "the hard work concentrates in g60/h60 with ~24 effective
+bits" — is **REFUTED at the forward free-word level** (EVIDENCE, N=32): forward gh60
+is high-entropy (>= ~34 bits), not a 24-bit object. Across three probes (single-word,
+joint, distinct-count) the forward free-word structure exhibits NO 24-bit residue.
+
+**Careful caveat (do not over-claim a kill-trigger):** this measures FORWARD gh60
+entropy. The bet's kill-criterion ("effective-residue width at N=32 substantially
+larger than 24 bits") refers to the POST-MEET MITM residue. A meet-in-the-middle
+reading — where the forward gh60 distribution intersects a backward-required gh60
+distribution in a structured ~24-bit set — is NOT tested here and is the only
+surviving route for the ~24-bit claim. So: the *forward/gh60-is-24-bits* reading is
+dead; the *post-meet-residue-is-24-bits* reading is untested and now looks less
+likely (the forward side provides no concentration to build on).
+
 ## Net for the bet
 
-Two session probes (single-word + joint) consistently find NO 24-bit residue in
-forward free-word freedom (gh60 ~60 bits active; forward round-63 residual ~192
-bits, 2 registers free). The headline hypothesis hinges on the unbuilt MITM meet.
-Highest-value next step if pursued: build the actual forward/backward match (round-59
-fingerprint table + backward W60/W61) and measure the post-meet residual — that is
-the only thing that can confirm or refute the ~24-bit claim.
+Three session probes consistently find NO 24-bit residue in forward free-word
+freedom (gh60 active 60/64, distinct >= 2^22 / >= ~34 effective bits; forward
+round-63 residual ~192 bits, only dd63/dh63 collide). The headline hypothesis as
+stated is refuted; any surviving ~24-bit claim rests entirely on the unbuilt MITM
+meet, whose payoff now looks less likely given the high forward entropy. Highest-
+value next step IF pursued: the forward/backward match + post-meet residual. Given
+the negative forward evidence and that the bet is priority-5/owned elsewhere, this
+may instead inform a kill/de-prioritize discussion (flag for the owner).
