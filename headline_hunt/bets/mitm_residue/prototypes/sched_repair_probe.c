@@ -412,6 +412,59 @@ int main(int argc, char **argv) {
         return 0;
     }
 
+    /* delta_mode=7: W44 <-> init2 coupling. Perturb message-2's W0..W15 (k random
+     * bit flips), recompute the round-57 state and W44, and find the SMALLEST
+     * round-57 state disturbance that still changes W44. Small => a cheap lever to
+     * shift W44 exists (would crack the upstream obstacle); large => W44 is tightly
+     * coupled to init2 (the Wang-style constrained-message problem). tri_limit =
+     * samples, delta_radius = max message bits flipped. */
+    if (delta_mode == 7) {
+        uint64_t samples = tri_limit;
+        int maxk = delta_radius > 0 ? delta_radius : 4;
+        int msg_bits = 16 * gN;
+        int min_dstate_any = 9999;
+        int min_state_by_w44hw[64];
+        for (int i = 0; i < 64; i++) min_state_by_w44hw[i] = 9999;
+        #pragma omp parallel
+        {
+            int l_min_any = 9999, l_by[64];
+            for (int i = 0; i < 64; i++) l_by[i] = 9999;
+            #pragma omp for schedule(dynamic, 8192)
+            for (uint64_t s = 0; s < samples; s++) {
+                uint32_t MM[16];
+                memcpy(MM, M2, 16 * sizeof(uint32_t));
+                uint64_t h = mix64(s + 0x1234567ULL);
+                int k = 1 + (int)(mix64(h) % (uint64_t)maxk);
+                for (int j = 0; j < k; j++) {
+                    uint64_t bb = mix64(h + 17u * (uint64_t)j + 1u) % (uint64_t)msg_bits;
+                    MM[bb / gN] ^= (1u << (bb % gN));
+                }
+                uint32_t st[8], W[64];
+                precompute(MM, st, W);
+                int dstate = state_diff_hw(st, init2);
+                int w44hw = hw((W[44] - Wpre2[44]) & gMASK);
+                if (w44hw > 0) {
+                    if (dstate < l_min_any) l_min_any = dstate;
+                    if (w44hw < 64 && dstate < l_by[w44hw]) l_by[w44hw] = dstate;
+                }
+            }
+            #pragma omp critical
+            {
+                if (l_min_any < min_dstate_any) min_dstate_any = l_min_any;
+                for (int i = 0; i < 64; i++)
+                    if (l_by[i] < min_state_by_w44hw[i]) min_state_by_w44hw[i] = l_by[i];
+            }
+        }
+        printf("N=%d W44<->init2 COUPLING: samples=%" PRIu64 " maxk=%d state=%d bits\n",
+               N, samples, maxk, 8 * gN);
+        printf("min round-57 state move with ANY W44 change = %d / %d bits\n",
+               min_dstate_any, 8 * gN);
+        printf("Pareto (dW44_hw : min d-state_hw):\n");
+        for (int i = 1; i <= 12 && i < 64; i++)
+            if (min_state_by_w44hw[i] < 9999) printf("  %2d : %d\n", i, min_state_by_w44hw[i]);
+        return 0;
+    }
+
     res_t best_d0   = {.tail_hw=999,.r61_hw=999};
     res_t best_any  = {.tail_hw=999,.r61_hw=999};
     res_t best_orac = {.tail_hw=999,.r61_hw=999};

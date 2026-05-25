@@ -209,10 +209,45 @@ real open problem and is now cleanly isolated.
 3. The real bottleneck is the upstream `W44 <-> init2` schedule coupling — a
    constrained message-modification problem shared with `block2_wang`.
 
+## Update 4: the W44<->init2 coupling is tight (mode 7) + mode-6==oracle confirmed N=10/12
+
+**Mode-6 == oracle confirmed across widths** (prefix-44 lever reaches the oracle
+tail honestly, d60=0, identical witness): N=8 HW3, N=10 HW5, N=12 HW9.
+
+**Coupling (mode 7)**, N=12, state = 96 bits, 16.7M random message perturbations
+(<=6 bit flips of W0..W15):
+
+```
+min round-57 state move with ANY W44 change = 23 / 96 bits (~24%)
+Pareto (dW44_hw : min d-state_hw):  1:29  2:27  3:25  4:25  5:23  6:24 ...
+```
+
+The cheapest way to move `W44` (via the message) still disturbs ~a quarter of the
+round-57 state. So `W44` is **tightly coupled** to `init2`: there is no cheap lever
+to shift `W44` while holding the round-57 state, under naive small perturbations.
+(It is below full avalanche ~50%, hinting at *some* structure, but far above the
+~0 disturbance the cascade needs.) This quantifies the upstream obstacle as
+genuinely hard — i.e. the Wang-style neutral-set / message-modification problem.
+
+Caveat: this is naive <=6-bit random search (a difficulty *lower bound* on cheap
+levers). Structured neutral sets are exactly what `block2_wang` tools
+(`m2_delta_neutral_combo.py`, `search_schedule_space.py`, `preimage_lift.py`)
+search for — the proper next attack lives there. (Minor: mode-7 `samples` is
+clamped to `prefix_space`; fine at the counts used.)
+
+## Net read (final for this session's probe)
+
+The "schedule-realizable repair" question is answered: the repair IS realizable —
+the round-57..60 free-word interface fully admits the oracle via the single prefix
+word `Wpre2[44]` (confirmed N=8/10/12). The only obstacle is the upstream
+`W44 <-> init2` coupling, now measured to be tight (>=23/96 state bits to move W44
+at N=12). That obstacle is the `block2_wang` constrained-message problem, so the
+two leads converge: **progress on mitm_residue tail-repair now routes through
+block2_wang's neutral-set machinery.**
+
 ## Next
 
-- Quantify the `W44 <-> init2` coupling: over message-2 perturbations that shift
-  `Wpre2[44]` by a target δ, how much does `init2` (round-57 state) move? Is there
-  a low-cost neutral set (Wang-style) that hits δ while holding `init2`?
-- Confirm mode 6 == oracle at N=10/12/14.
-- Measure whether the mode-6 (oracle-matching) near-collisions retain `gh60` structure.
+- Run `block2_wang`'s neutral-set search against the concrete target: shift
+  `Wpre2[44]` by the repair δ while holding the round-57 state.
+- Measure whether mode-6 (oracle-matching) near-collisions retain `gh60` structure.
+- Coupling scaling: N=16 (closer to real width).
