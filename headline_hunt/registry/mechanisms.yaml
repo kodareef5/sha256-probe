@@ -198,20 +198,28 @@
   structural_basis:
   - "BDD has O(N^4.8) size \u2014 a corresponding compact DP state must exist if the BDD is constructive."
   - 'Completion quotient = #collisions, verified N=8/N=10/N=12.'
-  status: open
+  status: closed
   priority: 6
   expected_info_per_cpu_hour: medium_low
   dependencies:
   - Define the mode variable set and canonical residual representation.
   - N=8 prototype that recovers the known 260 collisions with compact state.
-  next_action: Design the future-completion quotient state; prototype on N=8.
+  next_action: "CLOSED 2026-05-25 (macbook-claude). Kill criterion met: the BDD
+    completion quotient (= Myhill-Nerode minimal forward-DP layer width for this
+    variable order) peaks at 255/260 collisions (results/bdd_qm_2026-04-25/), so NO
+    mode/quotient abstraction (incl. the design-seed 5-mode tuple) can be more
+    compact than near-collision-count. Total BDD O(N^4.8) is summed over layers;
+    the forward frontier a DP must materialize is the per-layer width (~exponential).
+    Kill memo: graveyard/closed_bets/chunk_mode_dp_with_modes.md."
   kill_criteria:
   - N=8 prototype cannot recover 260 with a compact state count (e.g., state explosion comparable to brute force).
   reopen_criteria:
   - "New quotient theory \u2014 e.g., from the BDD construction proof \u2014 suggests a workable mode set."
-  evidence: []
-  owner: unassigned
-  last_updated: '2026-04-24'
+  evidence:
+  - bets/chunk_mode_dp/results/bdd_qm_2026-04-25/RESULT.md (completion quotient 255/260, near-injective)
+  - graveyard/closed_bets/chunk_mode_dp_with_modes.md (kill memo + Myhill-Nerode argument)
+  owner: macbook-claude
+  last_updated: '2026-05-25'
 - id: sigma1_aligned_kernel_sweep
   name: sigma1-aligned N=32 kernels (bits 10, 17, 19) with improved fills
   headline_if_success: Faster sr=60 SAT or first sr=61 SAT via better-tuned candidate.

@@ -16,6 +16,21 @@
   related_mechanisms:
   - chunk_mode_dp_with_modes
   owner: macbook
+- id: forward_completion_quotient_min_width_near_collision_count
+  claim: No forward DP / mode-quotient over round-ordered W bits can be compact; the minimal automaton layer width (Myhill-Nerode) is near the collision count.
+  scope: Cascade sr=60 collision language at N=8 (BDD variable order). Generalizes the raw-carry and BDD-subgraph negatives to ALL forward quotients in this order.
+  status: closed
+  evidence_level: VERIFIED
+  closed_date: '2026-05-25'
+  evidence_files:
+  - bets/chunk_mode_dp/results/bdd_qm_2026-04-25/RESULT.md
+  - graveyard/closed_bets/chunk_mode_dp_with_modes.md
+  why_closed: The BDD completion quotient (distinct residual sub-functions per prefix depth) IS the Myhill-Nerode minimal forward-automaton layer width for this variable order; it peaks at 255/260 collisions (near-injective). By minimality no mode/quotient abstraction can be smaller, so every forward-DP design (incl. the chunk_mode_dp cascade-status + 4-modular-d.o.f. mode tuple) has exponential frontier. O(N^4.8) is total BDD nodes summed over layers; a forward DP must materialize the per-layer width (~collision count), which is why BDD construction stays O(2^{4N}).
+  would_change_my_mind:
+  - A variable ORDER (not merely a mode tuple) whose minimal automaton max layer width is shown polynomial in N.
+  related_mechanisms:
+  - chunk_mode_dp_with_modes
+  owner: macbook-claude
 - id: gf2_linearization_carry_nonlinearity
   claim: GF(2) linearization of the collision function fails.
   scope: Cascade sr=60 at N=8; tested on 30+ slices.
