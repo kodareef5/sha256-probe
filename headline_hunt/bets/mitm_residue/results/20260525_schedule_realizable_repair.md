@@ -235,6 +235,17 @@ levers). Structured neutral sets are exactly what `block2_wang` tools
 search for — the proper next attack lives there. (Minor: mode-7 `samples` is
 clamped to `prefix_space`; fine at the counts used.)
 
+**Scaling — the coupling is width-stable.** Same metric at larger widths:
+
+| N  | state bits | min state move for any W44 change | ratio |
+|---:|-----------:|----------------------------------:|------:|
+| 12 | 96         | 23                                | 24%   |
+| 16 | 128        | 33                                | 26%   |
+
+The cost to move `W44` holds at ~a quarter of the round-57 state regardless of
+width (N=16: 200M samples, <=8-bit perturbations). Extrapolated to N=32 that is
+~64 of 256 bits — the upstream obstacle does **not** weaken with scale.
+
 ## Net read (final for this session's probe)
 
 The "schedule-realizable repair" question is answered: the repair IS realizable —
