@@ -1,11 +1,15 @@
 mechanism_id: chunk_mode_dp_with_modes
 priority: 6
-status: open
-owner: unassigned
-machines_assigned: []
+status: closed
+owner: macbook-claude
+machines_assigned: [macbook-claude]
 compute_budget_cpu_hours: 200   # prototype-only; scaled if N=8 success
 current_progress: |
-  Not started. Future-completion quotient state not designed. N=8 prototype required
-  before any extrapolation.
-last_heartbeat: "2026-04-24T00:00:00Z"
+  CLOSED 2026-05-25 (macbook-claude). Kill criterion met. The BDD completion quotient
+  (= Myhill-Nerode minimal forward-DP layer width for this variable order) peaks at
+  255/260 collisions (results/bdd_qm_2026-04-25/), so no mode/quotient abstraction can
+  be more compact than near-collision-count; every forward DP has exponential frontier.
+  O(N^4.8) is total BDD nodes over all layers, not the per-layer width a DP must
+  materialize. Kill memo: graveyard/closed_bets/chunk_mode_dp_with_modes.md.
+last_heartbeat: "2026-05-25T16:50:00Z"
 heartbeat_interval_days: 14
