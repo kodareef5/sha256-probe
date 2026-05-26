@@ -58,9 +58,14 @@ trail_engine_build: |
   [6a] MESSAGE SCHEDULE constraints DONE (build_schedule): W_t = sigma1(W_{t-2})+W_{t-7}+
   sigma0(W_{t-15})+W_{t-16} for t>=16, wired into the W_t nodes shared with the round T1
   chains; self-tested R=24, 50 concrete schedules expand as fixpoints, fully determined.
-  [6b] pin >=5 block-1 residual clusters as input diff, target low/zero output diff,
-  report best absorber-round count vs the >18 KILL GATE -- expect possible search blow-up
-  (which would itself be the bet's answer). [5c-legacy] control validation (known
+  [6b] absorber search IN PROGRESS (memo results/20260526_absorber_search_preliminary.md):
+  bit13 HW35 cluster -- self-absorption (no msg diff) PROVABLY infeasible; an 8-round
+  message-modification absorber EXISTS + oracle-confirmed (W0..W7, msg-diff HW140, zero
+  output diff). Fast to R=15; naive search blows up at R>=16 (NOT the schedule -- free==
+  scheduled identical, so it is search-cost). >18-round verdict currently SEARCH-LIMITED,
+  not resolved -- kill #1 NOT fired. Crux for deep absorber = schedule RE-INJECTION of the
+  W0..W7 diffs into W16+. TODO: re-injection isolation test, >=5 clusters, trail_search_summary.md.
+  [5c-legacy] control validation (known
   SHA-256 local-collision trail); [6] run >=5 residual clusters, report best-trail rounds
   vs the 18-round gate.
 recent_progress_2026-05-04_F564_bit6_HW85: |
