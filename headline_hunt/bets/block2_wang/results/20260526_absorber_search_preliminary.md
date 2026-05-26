@@ -55,9 +55,26 @@ that *holds* past round 16, the message schedule forces
 `W16 = σ1(W14)+W9+σ0(W1)+W0`, etc. — so the W0..W7 differences are **re-injected** into
 W16,W17,… and must be cancelled *again*. That re-injection (the dense schedule inverse;
 cf. the W44↔init2 coupling in `mitm_residue`, [[project_cascade_tail_suboptimal]]) is the
-structural obstacle a >18-round absorber must beat. A dedicated test (force absorption by
-round K, require it to hold to round 20, free-message vs schedule-compliant) is running to
-isolate this; result to be appended.
+structural obstacle a >18-round absorber must beat.
+
+**Isolation test** — force a state-collision by round K, then require it to HOLD to round 20,
+free-message vs schedule-compliant:
+
+```
+  absorb-by-round K= 8:  FREE = HOLDS (n=914)      SCHEDULE = search blow-up (>250k)
+  absorb-by-round K=10:  FREE = HOLDS (n=980)      SCHEDULE = search blow-up (>250k)
+  absorb-by-round K=12:  FREE = blow-up            SCHEDULE = blow-up
+```
+
+The contrast is the point. **Without the schedule**, an early absorption pads out to a
+20-round collision trivially (~900 nodes) — the degenerate extension. **With the schedule**,
+holding the same early collision to round 20 blows the search up, because the re-injected
+W0..W7 differences in W16..W19 must be re-absorbed under the schedule's coupling back to
+W0..W15. This is strong EVIDENCE that schedule re-injection — not round depth per se — is
+what blocks a deep (>18-round) absorber, matching the project's established "dense schedule
+inverse" theme. CAVEAT: SCHEDULE here is search-budget-exceeded, **not a proven
+infeasibility**; the naive search cannot resolve hard-vs-impossible. A clean kill needs
+either a propagation-level contradiction or a smarter search that pushes past the wall.
 
 ## Honest status & next steps (do NOT fire kill #1 yet)
 
