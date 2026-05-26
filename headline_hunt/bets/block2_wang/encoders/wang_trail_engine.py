@@ -42,6 +42,11 @@ def sym(mask):
     return MASK_TO_SYM.get(mask, f"[{mask:04b}]")
 
 
+def bits(mask):
+    """Allowed pair-values v=(x<<1)|x* for a condition mask."""
+    return [v for v in range(4) if (mask >> v) & 1]
+
+
 def fwd_unop(ma, op):
     """Forward-propagate a 1-input bitwise op (e.g. NOT) over a condition mask."""
     out = 0
@@ -148,9 +153,73 @@ def word_active_bits(cond):
     return sum(1 for c in cond if c == COND["x"])
 
 
-# NOTE [increment 2]: modular addition needs carry-aware propagation. A '+' of two
-# difference words is NOT bitwise XOR — carries couple bit i to i+1 with their own
-# conditions. Implement as a per-bit transducer over (carry-in condition) next.
+# ---- increment 2: carry-aware modular addition ----
+#
+# (A + B) mod 2^N is NOT bitwise XOR of conditions: bit i produces a carry-out
+# (c,c*) that becomes bit i+1's carry-in, coupling the whole word LSB->MSB. We
+# propagate a per-bit transducer whose STATE is the carry condition mask (over the
+# carry pair (c,c*)). For each bit we enumerate the feasible (a,a*,b,b*,cin,cin*),
+# emit the sum-bit pair s=(a^b^cin, a*^b*^cin*) and the carry-out pair
+# co=(maj(a,b,cin), maj(a*,b*,cin*)). The result is a SOUND forward over-approximation:
+# the per-bit sum mask and the propagated carry mask together contain every concrete
+# behaviour. (Tracking the joint (sum,carry) correlation -- a tighter result -- is for
+# the backward/search increments; mask-level soundness is what forward needs.)
+
+_MAJ3 = lambda a, b, c: (a & b) | (a & c) | (b & c)
+
+
+def add_words(ca, cb, carry_in=None):
+    """Carry-aware modular add of two condition-words (index 0 = LSB).
+    Returns (sum_word, final_carry_mask). carry_in defaults to '0' (no carry, no diff)."""
+    c = COND["0"] if carry_in is None else carry_in
+    out = [0] * N
+    for i in range(N):
+        s_mask = 0
+        cout_mask = 0
+        for va in bits(ca[i]):
+            a, as_ = va >> 1, va & 1
+            for vb in bits(cb[i]):
+                b, bs = vb >> 1, vb & 1
+                for vc in bits(c):
+                    ci, cis = vc >> 1, vc & 1
+                    s = a ^ b ^ ci
+                    ss = as_ ^ bs ^ cis
+                    co = _MAJ3(a, b, ci)
+                    cos = _MAJ3(as_, bs, cis)
+                    s_mask |= 1 << ((s << 1) | ss)
+                    cout_mask |= 1 << ((co << 1) | cos)
+        out[i] = s_mask
+        c = cout_mask
+    return out, c
+
+
+def add_words_multi(words, carry_in=None):
+    """Chain modular addition over a list of condition-words (associative)."""
+    acc = words[0]
+    carry = carry_in
+    for w in words[1:]:
+        acc, carry = add_words(acc, w, carry)
+        carry = None  # only the very first add may take an external carry
+    return acc, carry
+
+
+def word_from_concrete(x, xstar):
+    """Exact condition-word for a known concrete pair (x, x*), each N-bit ints."""
+    out = [0] * N
+    for i in range(N):
+        xi = (x >> i) & 1
+        xs = (xstar >> i) & 1
+        out[i] = 1 << ((xi << 1) | xs)
+    return out
+
+
+def word_contains(cond, x, xstar):
+    """True if the concrete pair (x, x*) is admitted by condition-word cond at every bit."""
+    for i in range(N):
+        v = (((x >> i) & 1) << 1) | ((xstar >> i) & 1)
+        if not (cond[i] >> v) & 1:
+            return False
+    return True
 
 
 def _selftest():
@@ -186,5 +255,50 @@ def _selftest():
     print(f"  Sigma0(diff@bit0) active bits: {sorted(active)}")
 
 
+def _selftest_add():
+    import random
+
+    MASK = (1 << N) - 1
+    # (a) two no-diff words ('-') add to a no-diff word; carry-out has no diff either.
+    nd = [COND["-"]] * N
+    s, cfin = add_words(nd, nd)
+    assert all(b == COND["-"] for b in s), [sym(b) for b in s]
+    assert cfin == COND["-"], sym(cfin)
+    # (b) known modular behaviour: 1 + (2^N - 1) wraps to 0 (concrete, no diff).
+    s, _ = add_words(word_from_concrete(1, 1), word_from_concrete(MASK, MASK))
+    assert word_active_bits(s) == 0 and word_contains(s, 0, 0), [sym(b) for b in s]
+    # (c) a single MSB-only difference adds with no carry into nothing above it:
+    #     dA = 2^(N-1), B = 0  ->  sum difference exactly the MSB ('x' at bit N-1).
+    ca = word_const_diff(1 << (N - 1))
+    s, _ = add_words(ca, nd)
+    assert s[N - 1] == COND["x"], sym(s[N - 1])
+    # (d) SOUNDNESS cross-check vs concrete arithmetic: for random A,B and XOR-diffs
+    #     dA,dB, the engine's sum-word must CONTAIN the true (S,S*) pair at every bit.
+    rng = random.Random(20260526)
+    for _ in range(4000):
+        A = rng.getrandbits(N)
+        B = rng.getrandbits(N)
+        dA = rng.getrandbits(N)
+        dB = rng.getrandbits(N)
+        As, Bs = A ^ dA, B ^ dB
+        S = (A + B) & MASK
+        Ss = (As + Bs) & MASK
+        s, _ = add_words(word_from_concrete(A, As), word_from_concrete(B, Bs))
+        assert word_contains(s, S, Ss), (hex(A), hex(B), hex(dA), hex(dB))
+    # (e) multi-operand chain matches a 5-way concrete add (mimics T1 = h+S1+Ch+K+W).
+    for _ in range(2000):
+        vals = [rng.getrandbits(N) for _ in range(5)]
+        dvs = [rng.getrandbits(N) for _ in range(5)]
+        valss = [v ^ d for v, d in zip(vals, dvs)]
+        S = sum(vals) & MASK
+        Ss = sum(valss) & MASK
+        ws = [word_from_concrete(v, vs) for v, vs in zip(vals, valss)]
+        s, _ = add_words_multi(ws)
+        assert word_contains(s, S, Ss)
+    print("wang_trail_engine increment-2 (modular add) self-tests: PASS")
+    print("  6000 concrete cross-checks (2-op + 5-op) all contained by the engine output")
+
+
 if __name__ == "__main__":
     _selftest()
+    _selftest_add()
