@@ -46,8 +46,41 @@ insufficient and the bet needs the real Wang trail engine (local collisions +
 message modification, kill_criteria #1: >18 rounds). If it improves, residual-min
 pays off and the pipelines should be wired together.
 
+## INTEGRATION TEST (same day): the HW35 residual does NOT help block-2 absorption
+
+Built the missing bundle from the bit13 HW35 record (encoders/build_bundle_from_record.py,
+reuses run_full): `results/runs/20260525_block2_absorb_probe/bit13_HW35_from_record.json`
+(validated against the 2blockcertpin/v1 schema). Residual HW=35, and notably
+**c63 = g63 = 0x80000000** — at the deep frontier the c/g "lock" is exactly the MSB.
+
+Ran the same block-2 absorber probes on it:
+
+```
+HW35 bundle:  baseline FORWARD_BROKEN, dist median 127
+  sweep (single pins):   FORWARD_BROKEN, best minD 105
+  beam depth-3 (combine): FORWARD_BROKEN, best min final HW 105, 0 bit-condition collisions
+vs HW59 naive bundle:    FORWARD_BROKEN, best ~102-109   (essentially identical)
+```
+
+**Minimizing the block-1 residual 59 -> 35 does NOT improve block-2 exact_diff
+absorption** — both stay FORWARD_BROKEN at ~distance 105. So:
+1. The hard-won residual-min work does not pay off for the exact-diff-pin absorber.
+2. The exact_diff-pin absorber is structurally insufficient *regardless* of residual HW.
+3. The bet's ONLY remaining path is the real **Wang trail engine** (local collisions +
+   message modification through block-2 rounds, NOT just exact_diff pins) — kill_criteria #1
+   (absorber trail > 18 rounds). That is a major concentrated-design build.
+
+## Decision point (for the owner/user)
+
+block2_wang's two pursued routes are now both characterized as insufficient on this
+laptop's autonomous lane: (a) block-1 residual-minimization is deeply-worked/floored
+(~HW35) AND doesn't help block-2; (b) the exact_diff-pin block-2 absorber is FORWARD_BROKEN
+for both naive (HW59) and optimized (HW35) residuals. The remaining high-value path is the
+**Wang trail engine** — a multi-day expert-cryptanalysis build (the bet's original premise,
+never started). Recommend: a deliberate decision to commit to that build, or de-prioritize.
+
 ## Honest scope
 
 Triage-level (n=40); the tools' own docstrings call this a "design probe, not a
-solver." Confirms the naive-blocktwo exact-diff approach is insufficient and pinpoints
-the residual<->absorber integration gap; does not by itself close or advance the bet.
+solver." But the integration comparison (HW35 vs HW59, identical FORWARD_BROKEN) is a
+clean apples-to-apples result on the same probe, and the c63=g63=MSB observation is exact.

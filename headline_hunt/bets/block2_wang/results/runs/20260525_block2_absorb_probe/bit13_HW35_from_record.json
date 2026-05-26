@@ -1,0 +1,68 @@
+{
+  "schema_version": "2blockcertpin/v1",
+  "cand_id": "cand_n32_bit13_m916a56aa_fillffffffff",
+  "witness_id": "bit13_m916a56aa_HW35_from_record_macbook_claude",
+  "block1": {
+    "m0": "0x916a56aa",
+    "fill": "0xffffffff",
+    "kernel_bit": 13,
+    "W1_57_60": [
+      "0x5228ed8d",
+      "0x61a1a29c",
+      "0x6a7a8409",
+      "0xc7d515db"
+    ],
+    "W2_57_60": [
+      "0x1cf531f1",
+      "0xb6007fec",
+      "0x8af8919a",
+      "0xa0dae661"
+    ],
+    "expected_status": "near_residual_unsat",
+    "residual_state_diff": {
+      "da63": "0xd8581011",
+      "db63": "0xa004804c",
+      "dc63": "0x80000000",
+      "dd63": "0x00000000",
+      "de63": "0x8007828a",
+      "df63": "0x0001864c",
+      "dg63": "0x80000000",
+      "dh63": "0x00000000"
+    },
+    "residual_hw": 35,
+    "residual_lm_cost": null,
+    "comment": "bit13_m916a56aa HW=35 from the residual-min frontier record (macbook-claude 2026-05-25). Built to test whether the optimized residual absorbs in block-2 better than the naive HW55-63 bundles."
+  },
+  "block2": {
+    "absorption_pattern": "naive_no_constraints_test",
+    "modified_message_words": [],
+    "W2_constraints": [],
+    "chain_state_input": {
+      "comment": "Block-1 produces HW=35 working-state residual, d=h=0 cascade-1 forced."
+    },
+    "target_diff_at_round_N": {
+      "round": 63,
+      "diff_a": "0x00000000",
+      "diff_b": "0x00000000",
+      "diff_c": "0x00000000",
+      "diff_d": "0x00000000",
+      "diff_e": "0x00000000",
+      "diff_f": "0x00000000",
+      "diff_g": "0x00000000",
+      "diff_h": "0x00000000",
+      "comment": "All-zero collision target; naive block-2, no W2 constraints."
+    },
+    "expected_status": "forward_broken_test",
+    "expected_modular_paths": [],
+    "predicted_lm_cost_block2": null
+  },
+  "metadata": {
+    "designer": "macbook-claude (residual<->absorber integration test)",
+    "design_date": "2026-05-25",
+    "design_method": "block1_residual_min_frontier_record",
+    "confidence": "test_whether_optimized_residual_helps_block2",
+    "compat_with_block1_witness": true,
+    "smaller_N_validation": null,
+    "purpose": "Integration test: does the HW35 residual-min record absorb in block-2 better than naive HW55-63 bundles? Compare sweep/beam_w2_exactdiff."
+  }
+}
