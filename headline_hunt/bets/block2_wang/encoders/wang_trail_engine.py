@@ -24,6 +24,12 @@ Generalized conditions on a bit PAIR (x, x*), encoded as a 4-bit mask over the
 allowed values v = (x<<1)|x*  (v in 0..3):  bit v set  <=>  (x,x*) allowed.
 """
 
+import os as _os
+import sys as _sys
+
+# repo root (encoders/ -> block2_wang -> bets -> headline_hunt -> repo) for lib imports
+_sys.path.insert(0, _os.path.abspath(_os.path.join(_os.path.dirname(__file__), "../../../..")))
+
 # value index v = (x<<1)|x*   ->   00:0  01:1  10:2  11:3
 COND = {
     "?": 0b1111,  # no constraint
@@ -222,6 +228,39 @@ def word_contains(cond, x, xstar):
     return True
 
 
+def has_contradiction(cond):
+    """A word holds a contradiction if any bit's mask is empty (no admissible pair)."""
+    return any(c == 0 for c in cond)
+
+
+# ---- increment 3: one full SHA-256 round, forward characteristic propagation ----
+#
+# T1 = h + Sigma1(e) + Ch(e,f,g) + K + W      (K is a constant -> no-diff word)
+# T2 = Sigma0(a) + Maj(a,b,c)
+# a' = T1 + T2 ;  e' = d + T1 ; the other registers shift down.
+# State is the 8 condition-words [a,b,c,d,e,f,g,h] (each a list of N bit-masks).
+
+
+def ch_word(ce, cf, cg):
+    return [ch(ce[i], cf[i], cg[i]) for i in range(N)]
+
+
+def maj_word(ca, cb, cc):
+    return [maj(ca[i], cb[i], cc[i]) for i in range(N)]
+
+
+def round_fwd(state, w_cond, kconst):
+    """Forward-propagate conditions through one SHA-256 round.
+    state: 8 condition-words [a..h]; w_cond: message-word conditions; kconst: int round const."""
+    a, b, c, d, e, f, g, h = state
+    kw = word_from_concrete(kconst, kconst)
+    t1, _ = add_words_multi([h, bigsigma1(e), ch_word(e, f, g), kw, w_cond])
+    t2, _ = add_words_multi([bigsigma0(a), maj_word(a, b, c)])
+    a2, _ = add_words(t1, t2)
+    e2, _ = add_words(d, t1)
+    return [a2, a, b, c, e2, e, f, g]
+
+
 def _selftest():
     # XOR identities
     assert xor(COND["-"], COND["-"]) == COND["-"], sym(xor(COND["-"], COND["-"]))
@@ -299,6 +338,62 @@ def _selftest_add():
     print("  6000 concrete cross-checks (2-op + 5-op) all contained by the engine output")
 
 
+def _concrete_round(st, W, kconst):
+    """Reference one-round oracle using lib.sha256 primitives (no reimplementation)."""
+    import lib.sha256 as L
+
+    a, b, c, d, e, f, g, h = st
+    t1 = L.add(h, L.Sigma1(e), L.Ch(e, f, g), kconst, W)
+    t2 = L.add(L.Sigma0(a), L.Maj(a, b, c))
+    a2 = L.add(t1, t2)
+    e2 = L.add(d, t1)
+    return [a2, a, b, c, e2, e, f, g]
+
+
+def _selftest_round():
+    import random
+    import lib.sha256 as L
+
+    rng = random.Random(20260526)
+    REG = "abcdefgh"
+    # (a) single-round soundness: every output register condition CONTAINS the true diff.
+    for _ in range(3000):
+        st = [rng.getrandbits(N) for _ in range(8)]
+        W = rng.getrandbits(N)
+        dst = [rng.getrandbits(N) for _ in range(8)]
+        dW = rng.getrandbits(N)
+        sts = [x ^ d for x, d in zip(st, dst)]
+        Ws = W ^ dW
+        k0 = L.K[0]
+        out = _concrete_round(st, W, k0)
+        outs = _concrete_round(sts, Ws, k0)
+        cond_state = [word_from_concrete(x, xs) for x, xs in zip(st, sts)]
+        eng = round_fwd(cond_state, word_from_concrete(W, Ws), k0)
+        for r in range(8):
+            assert not has_contradiction(eng[r]), f"contradiction in {REG[r]}"
+            assert word_contains(eng[r], out[r], outs[r]), (
+                REG[r], hex(out[r]), hex(outs[r]))
+    # (b) multi-round consistency: chain 4 rounds from a concrete state with a single-bit
+    #     message difference; soundness must hold each round and no word may go contradictory.
+    for _ in range(500):
+        st = [rng.getrandbits(N) for _ in range(8)]
+        Ws_msg = [rng.getrandbits(N) for _ in range(4)]
+        bitpos = rng.randrange(N)
+        Wd = [w ^ (1 << bitpos) if i == 0 else w for i, w in enumerate(Ws_msg)]
+        cst = [word_from_concrete(x, x) for x in st]      # no state diff to start
+        ost, osts = list(st), list(st)
+        for ridx in range(4):
+            ost = _concrete_round(ost, Ws_msg[ridx], L.K[ridx])
+            osts = _concrete_round(osts, Wd[ridx], L.K[ridx])
+            cst = round_fwd(cst, word_from_concrete(Ws_msg[ridx], Wd[ridx]), L.K[ridx])
+            for r in range(8):
+                assert not has_contradiction(cst[r])
+                assert word_contains(cst[r], ost[r], osts[r])
+    print("wang_trail_engine increment-3 (full round) self-tests: PASS")
+    print("  3000 single-round + 500 4-round concrete trails, all contained, no contradiction")
+
+
 if __name__ == "__main__":
     _selftest()
     _selftest_add()
+    _selftest_round()
