@@ -38,9 +38,13 @@ trail_engine_build: |
   modular-addition propagation [DONE, self-tested: 6000 concrete cross-checks, 2-op +
   5-op T1-shaped, all contained by engine output]; [3] full-round forward propagation
   [DONE, self-tested: 3000 single-round + 500 4-round concrete trails vs lib oracle, all
-  contained, no contradiction; sound over-approximation]; [3b] BACKWARD propagation +
-  multi-round consistency tightening (next); [4] guess-and-determine message-modification
-  search; [5] control validation (known
+  contained, no contradiction; sound over-approximation]; [3b] BACKWARD propagation /
+  arc-consistency refinement DONE [refine_binop/terop + carry-chain refine_add; self-tested:
+  bitwise arc-consistency, 1500 add-soundness (never drops a real trail), tightening
+  ('?' eliminated on a+0), contradiction detection]; [4] guess-and-determine message-modification
+  search over a round-level constraint network (assemble refine primitives w/ intermediate
+  vars T1/T2/sigma; pick lowest-entropy bit, branch, propagate-refine, backtrack on '#');
+  [5] control validation (known
   SHA-256 local-collision trail); [6] run >=5 residual clusters, report best-trail rounds
   vs the 18-round gate.
 recent_progress_2026-05-04_F564_bit6_HW85: |

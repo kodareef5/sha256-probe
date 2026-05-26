@@ -261,6 +261,92 @@ def round_fwd(state, w_cond, kconst):
     return [a2, a, b, c, e2, e, f, g]
 
 
+# ---- increment 3b: backward propagation / arc-consistency refinement ----
+#
+# Forward over-approximates; to PRUNE (and later search) we refine. Given an output
+# condition plus sibling inputs, keep only the input/output values that participate
+# in some feasible tuple. This is bit-level generalized arc-consistency. For modular
+# add the bits are coupled by the carry chain, so we refine a per-bit 5-variable
+# relation (a,b,cin,sum,cout) with cout_i shared as cin_{i+1}, iterated to a fixpoint.
+# An empty mask anywhere => the characteristic is infeasible ('#'/contradiction).
+
+
+def refine_binop(ma, mb, mo, op):
+    """Arc-consistency for out = op(a,b): return refined (ma', mb', mo')."""
+    na = nb = no = 0
+    for va in bits(ma):
+        a, as_ = va >> 1, va & 1
+        for vb in bits(mb):
+            b, bs = vb >> 1, vb & 1
+            ov = (op(a, b) << 1) | op(as_, bs)
+            if (mo >> ov) & 1:
+                na |= 1 << va
+                nb |= 1 << vb
+                no |= 1 << ov
+    return na, nb, no
+
+
+def refine_terop(ma, mb, mc, mo, op):
+    """Arc-consistency for out = op(a,b,c) (Ch, Maj)."""
+    na = nb = nc = no = 0
+    for va in bits(ma):
+        a, as_ = va >> 1, va & 1
+        for vb in bits(mb):
+            b, bs = vb >> 1, vb & 1
+            for vc in bits(mc):
+                c, cs = vc >> 1, vc & 1
+                ov = (op(a, b, c) << 1) | op(as_, bs, cs)
+                if (mo >> ov) & 1:
+                    na |= 1 << va
+                    nb |= 1 << vb
+                    nc |= 1 << vc
+                    no |= 1 << ov
+    return na, nb, nc, no
+
+
+def _refine_add_bit(ma, mb, mcin, ms, mco):
+    """Refine the per-bit full-adder relation s=a^b^cin, cout=maj(a,b,cin)."""
+    na = nb = ncin = ns = nco = 0
+    for va in bits(ma):
+        a, as_ = va >> 1, va & 1
+        for vb in bits(mb):
+            b, bs = vb >> 1, vb & 1
+            for vc in bits(mcin):
+                ci, cis = vc >> 1, vc & 1
+                sv = ((a ^ b ^ ci) << 1) | (as_ ^ bs ^ cis)
+                cv = (_MAJ3(a, b, ci) << 1) | _MAJ3(as_, bs, cis)
+                if ((ms >> sv) & 1) and ((mco >> cv) & 1):
+                    na |= 1 << va
+                    nb |= 1 << vb
+                    ncin |= 1 << vc
+                    ns |= 1 << sv
+                    nco |= 1 << cv
+    return na, nb, ncin, ns, nco
+
+
+def refine_add(ca, cb, csum, carry_in=None, carry_final=None):
+    """Carry-chain arc-consistency for csum = ca + cb (mod 2^N).
+    Refines all three words (and the internal carry chain) to a fixpoint.
+    Returns (ca', cb', csum', carry_chain, contradiction)."""
+    ca, cb, csum = list(ca), list(cb), list(csum)
+    cm = [COND["?"]] * (N + 1)
+    cm[0] = COND["0"] if carry_in is None else carry_in
+    if carry_final is not None:
+        cm[N] = carry_final
+    changed = True
+    while changed:
+        changed = False
+        for i in range(N):
+            na, nb, ncin, ns, nco = _refine_add_bit(ca[i], cb[i], cm[i], csum[i], cm[i + 1])
+            if (na, nb, ncin, ns, nco) != (ca[i], cb[i], cm[i], csum[i], cm[i + 1]):
+                changed = True
+            ca[i], cb[i], cm[i], csum[i], cm[i + 1] = na, nb, ncin, ns, nco
+            if 0 in (na, nb, ncin, ns, nco):
+                return ca, cb, csum, cm, True
+    contradiction = any(x == 0 for w in (ca, cb, csum) for x in w)
+    return ca, cb, csum, cm, contradiction
+
+
 def _selftest():
     # XOR identities
     assert xor(COND["-"], COND["-"]) == COND["-"], sym(xor(COND["-"], COND["-"]))
@@ -393,7 +479,60 @@ def _selftest_round():
     print("  3000 single-round + 500 4-round concrete trails, all contained, no contradiction")
 
 
+def _selftest_refine():
+    import random
+
+    MASK = (1 << N) - 1
+    Q = COND["?"]
+    rng = random.Random(20260526)
+
+    # --- bitwise arc-consistency ---
+    # xor out pinned to 'x' (differ): inputs forced to disagree in difference parity.
+    na, nb, no = refine_binop(Q, Q, COND["x"], _XOR)
+    # every surviving (va,vb) must xor to a differing pair; e.g. (a no-diff, b diff) ok.
+    for va in bits(na):
+        ok = any((((va >> 1) ^ (vb >> 1)) != ((va & 1) ^ (vb & 1))) for vb in bits(nb))
+        assert ok
+    # Ch with e fixed 0 selects g: out 'x' forces g 'x'.
+    _, _, ng, _ = refine_terop(COND["0"], Q, Q, COND["x"], _CH)
+    assert ng == COND["x"], sym(ng)
+
+    # --- modular-add refinement: SOUNDNESS (never drops a real trail) ---
+    for _ in range(1500):
+        A, B = rng.getrandbits(N), rng.getrandbits(N)
+        dA, dB = rng.getrandbits(N), rng.getrandbits(N)
+        As, Bs = A ^ dA, B ^ dB
+        S, Ss = (A + B) & MASK, (As + Bs) & MASK
+        ca = word_from_concrete(A, As)
+        cb = word_from_concrete(B, Bs)
+        # sum unknown -> refinement must DETERMINE it to exactly (S,Ss).
+        rca, rcb, rcs, _, contra = refine_add(ca, cb, [Q] * N)
+        assert not contra
+        assert word_contains(rcs, S, Ss)
+        assert all(c in (COND["0"], COND["1"], COND["u"], COND["n"]) for c in rcs)  # fully fixed
+
+    # --- TIGHTENING: a + 0 = a, so a single-'x' sum forces a single-'x' addend ---
+    ca = [Q] * N
+    cb = word_from_concrete(0, 0)
+    csum = [COND["x"] if i == 0 else COND["-"] for i in range(N)]
+    rca, _, _, _, contra = refine_add(ca, cb, csum)
+    assert not contra
+    assert Q not in rca, [sym(x) for x in rca]          # '?' eliminated -> genuine tightening
+    assert rca[0] == COND["x"] and all(rca[i] == COND["-"] for i in range(1, N))
+
+    # --- CONTRADICTION: a (no diff) + 0 cannot produce a differing sum bit ---
+    ca = [COND["-"]] * N
+    cb = word_from_concrete(0, 0)
+    csum = [COND["x"] if i == 0 else COND["-"] for i in range(N)]
+    _, _, _, _, contra = refine_add(ca, cb, csum)
+    assert contra, "expected infeasible characteristic -> contradiction"
+
+    print("wang_trail_engine increment-3b (backward/refine) self-tests: PASS")
+    print("  arc-consistency (xor/Ch) + 1500 add soundness + tightening + contradiction")
+
+
 if __name__ == "__main__":
     _selftest()
     _selftest_add()
     _selftest_round()
+    _selftest_refine()
