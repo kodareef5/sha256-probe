@@ -68,6 +68,17 @@ A = oracle-confirmed absorber   . = infeasible by propagation   ? = search budge
    different (CNF/SAT) formulation; comparing it to this engine's best-trail-round needs the
    naive-SAT metric re-derived under the same target. Pending.
 
+## Propagation cannot decide it (2026-05-26) — kissat is required
+
+Propagation-only (no search) was run on the schedule-compliant absorber at R=18, 20, 24 for
+both a sparse (bit13 HW35) and dense (bit24 HW101) cluster: **no contradiction** at any R.
+So a deep (>18-round) absorber is **NOT provably infeasible** by arc-consistency — kill #1
+cannot be fired on a propagation argument. It is either satisfiable or search-hard. Given
+block 2 has 512 bits of message freedom (W0..W15 ×2) and propagation finds no obstruction,
+a >18-round absorber **may genuinely exist**; a real CDCL solver could return a *positive*
+(headline) result, not only a kill. This makes the CNF + `lib.solver.run_kissat` build the
+decisive next step (and potentially the bet's payoff, not just its closure).
+
 ## Decision — kill #1 NOT fired
 
 Kill #1's trigger is "**1 week** of dedicated trail-engine development + search complete";
