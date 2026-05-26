@@ -283,6 +283,48 @@ def assignment_pair(assign, name):
     return x, xs
 
 
+def local_collision_search(R, dist_bit, kconsts=None, free_from=1, max_nodes=400_000):
+    """Control: inject a 1-bit difference in W0, leave W{free_from..R-1} as FREE
+    message words (full message modification), require the state difference to vanish
+    after R rounds, and search for correcting differences. Returns a result dict; if a
+    collision is found it is re-checked against the lib.sha256 oracle."""
+    import lib.sha256 as L
+
+    if kconsts is None:
+        kconsts = L.K[:R]
+    REG = "abcdefgh"
+    net = Net()
+    build_rounds(net, R, kconsts)
+    for j in range(8):
+        for i in range(N):
+            net.pin((f"{REG[j]}0", i), COND["-"])         # no input difference
+    for i in range(N):
+        net.pin(("W0", i), COND["x"] if i == dist_bit else COND["-"])  # disturbance
+    # W{free_from..R-1} stay '?' (free correction words)
+    for j in range(8):
+        for i in range(N):
+            net.pin((f"{REG[j]}{R}", i), COND["-"])       # collision: zero output difference
+    try:
+        assign, nodes = run_search(net, max_nodes=max_nodes)
+    except RuntimeError:
+        return {"R": R, "status": "BUDGET_EXCEEDED", "nodes": max_nodes}
+    if assign is None:
+        return {"R": R, "status": "INFEASIBLE", "nodes": nodes}
+    st0 = [assignment_pair(assign, f"{REG[j]}0")[0] for j in range(8)]
+    st0s = [assignment_pair(assign, f"{REG[j]}0")[1] for j in range(8)]
+    msgs = [assignment_pair(assign, f"W{t}")[0] for t in range(R)]
+    msgss = [assignment_pair(assign, f"W{t}")[1] for t in range(R)]
+    states = concrete_rounds(st0, msgs, kconsts)
+    statess = concrete_rounds(st0s, msgss, kconsts)
+    final_ok = all(states[R][j] == statess[R][j] for j in range(8))
+    mdiffs = [msgs[t] ^ msgss[t] for t in range(R)]
+    return {"R": R, "status": "COLLISION" if final_ok else "ORACLE_MISMATCH",
+            "nodes": nodes, "oracle_ok": final_ok,
+            "active_words": [t for t in range(R) if mdiffs[t]],
+            "msg_diff_hw": sum(bin(d).count("1") for d in mdiffs),
+            "msg_diffs": [f"0x{d:08x}" for d in mdiffs]}
+
+
 def _selftest():
     import random
     import lib.sha256 as L
@@ -402,6 +444,24 @@ def _selftest_search():
           f"worst search node-count {worst_nodes}; infeasible characteristic -> None")
 
 
+def _selftest_control():
+    # CONTROL: independently reproduce the known SHA-256 local-collision span. A single-bit
+    # W0 disturbance with free correction words must be provably uncancellable in <=8 rounds
+    # and achievable in exactly 9 (corrections spanning W0..W8) -- the 9-step local collision.
+    for p in (0, 5, 8, 15, 20, 31):
+        r8 = local_collision_search(8, p)
+        assert r8["status"] == "INFEASIBLE", (p, r8)
+        r9 = local_collision_search(9, p)
+        assert r9["status"] == "COLLISION" and r9["oracle_ok"], (p, r9)
+        aw = r9["active_words"]
+        assert 0 in aw and 8 in aw and max(aw) == 8, (p, aw)   # span = steps 0..8 (9 rounds)
+    print("wang_search increment-5b (local-collision CONTROL) self-tests: PASS")
+    print("  single-bit W0 disturbance: provably INFEASIBLE <=8 rounds; COLLISION at 9 rounds")
+    print("  (corrections span W0..W8), oracle-confirmed -- matches the known SHA-256 9-step")
+    print("  local collision. Independent reproduction validates the engine end-to-end.")
+
+
 if __name__ == "__main__":
     _selftest()
     _selftest_search()
+    _selftest_control()

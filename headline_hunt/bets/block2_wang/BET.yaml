@@ -50,7 +50,15 @@ trail_engine_build: |
   (R=2,3) realized + oracle-confirmed vs lib.sha256, worst node-count 385, infeasible->None.
   NOTE: validated on FORWARD realization (no backtracking needed there); the backtracking
   stress is pinning a TARGET output differential -- that is increments [5b]/[6].
-  [5b] control validation (known
+  [5b] CONTROL VALIDATION DONE *** the engine independently reproduces the known SHA-256
+  9-step local collision: single-bit W0 disturbance is PROVABLY uncancellable in <=8 rounds
+  (contradiction by propagation alone) and achievable in exactly 9 (corrections span W0..W8),
+  oracle-confirmed vs lib.sha256, robust over bits 0/5/8/15/20/31. Memo
+  results/20260526_local_collision_control.md. This validates the engine end-to-end ***
+  [6] add the MESSAGE SCHEDULE constraints (W_t = sigma1(W_{t-2})+W_{t-7}+sigma0(W_{t-15})+W_{t-16}
+  for t>=16), pin >=5 block-1 residual clusters as input diff, target low/zero output diff,
+  report best absorber-round count vs the >18 KILL GATE -- expect possible search blow-up
+  (which would itself be the bet's answer). [5c-legacy] control validation (known
   SHA-256 local-collision trail); [6] run >=5 residual clusters, report best-trail rounds
   vs the 18-round gate.
 recent_progress_2026-05-04_F564_bit6_HW85: |
