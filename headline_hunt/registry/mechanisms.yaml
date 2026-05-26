@@ -27,6 +27,21 @@
     don't cancel residual amplification \u2014 Sigma-aware multi-round
     bitconditions are required (Mendel/Nad/Schl\u00e4ffer signed-DC
     framework)."
+  update_2026_05_26: "macbook-claude built the Wang trail engine (the dependency above):
+    wang_trail_engine.py + wang_search.py (condition algebra, carry-aware modular-add,
+    full-round fwd+backward refinement, constraint-network fixpoint, guess-and-determine),
+    CONTROL-VALIDATED by reproducing the known SHA-256 9-step local collision. Plus a CNF
+    encoder (absorber_cnf.py, reuses lib.cnf_encoder) validated vs the engine. RESULT
+    (results/20260526_block2_absorber_VERDICT.md + trail_search_summary.md): an 18-round
+    block-2 absorber EXISTS and is oracle-confirmed via kissat (bit13_HW35: R=15/16/18 SAT,
+    R=18 zero-output-diff msg-HW240) -- this MATCHES the naive-SAT 18 frontier. R>=19 is a
+    sharp hardness cliff: kissat UNKNOWN@866s, R=20 timeout. So the >18 gate is
+    SEARCH-LIMITED, NOT proven-infeasible (propagation finds no contradiction at R=18/20/24).
+    KILL #1 NOT FIRED (timeout != decisive; substantial deliverable). Caveat: CNF leaves
+    chaining value CV free, so this is a >=18-round absorber TRAIL for the residual difference,
+    not yet a full 2-block collision pinned to block-1's CV. PAUSED pending a direction
+    decision: (1) pause here, (2) tailored differential-path-guided CNF / solver warm-start,
+    (3) redirect."
   kill_criteria:
   - No residual cluster yields >18-round absorber after 1 week of dedicated trail search.
   - No improvement over naive block-2 SAT frontier on N=8/N=12 analogs after pilot phase.

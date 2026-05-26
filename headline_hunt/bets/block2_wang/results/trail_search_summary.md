@@ -89,6 +89,12 @@ zero state difference after 18 rounds, block-2 message-difference HW 240. So:
 (Note: this plain 2-message CNF *is* the "naive SAT" formulation; reaching 18 reproduces the
 known frontier. Whether a tailored differential path pushes a solver past 18 is the open headline.)
 
+**Deep sweep verdict (R=19):** kissat ran R=19 to UNKNOWN at 866s; a cadical cross-check on
+the same instance also timed out (300s). So R=19 is **solver-limited (neither SAT nor UNSAT)**
+for the naive CNF — a sharp hardness cliff right above the R=18 frontier. The >18 gate is thus
+**search-limited, not proven-infeasible**; kill #1 stays unfired. Full verdict + the
+pause-for-direction recommendation: `results/20260526_block2_absorber_VERDICT.md`.
+
 ## Propagation cannot decide it (2026-05-26) — kissat is required
 
 Propagation-only (no search) was run on the schedule-compliant absorber at R=18, 20, 24 for
