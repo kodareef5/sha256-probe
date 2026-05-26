@@ -39,9 +39,15 @@ CLUSTERS = {
 }
 
 
-def build_absorber_cnf(residual, R):
-    """Encode the R-round block-2 absorber. Returns (cnf, refs) where refs holds the
-    input free-word variable lists {cv1, W1, W2} for model extraction."""
+def build_absorber_cnf(residual, R, diff_words=None):
+    """Encode the R-round block-2 absorber. Returns (cnf, refs) with input free-word
+    variable lists {cv1, W1, W2}.
+
+    diff_words: if given, the set of message-word indices (0..15) ALLOWED to carry a
+    difference; W1[t]==W2[t] is forced for every other t. This is the 'tailored' lever --
+    restricting the message difference to a structured window shrinks the solver's search
+    (the naive case is diff_words = all 16). Schedule words (t>=16) inherit their difference
+    from the W0..15 differences via the schedule constraints."""
     cnf = ce.CNFBuilder()
     cv1 = [cnf.free_word(f"CV1_{j}") for j in range(8)]
     cv2 = [cnf.xor_word(cv1[j], cnf.const_word(residual[j])) for j in range(8)]
@@ -56,6 +62,11 @@ def build_absorber_cnf(residual, R):
         return W
 
     W1, W2 = schedule("W1"), schedule("W2")
+    if diff_words is not None:
+        allow = set(diff_words)
+        for t in range(16):
+            if t not in allow:
+                cnf.eq_word(W1[t], W2[t])   # force no difference outside the window
     st1, st2 = tuple(cv1), tuple(cv2)
     for t in range(R):
         st1 = cnf.sha256_round_correct(st1, L.K[t], W1[t])
@@ -65,11 +76,12 @@ def build_absorber_cnf(residual, R):
     return cnf, {"cv1": cv1, "W1": W1[:16], "W2": W2[:16]}
 
 
-def solve_absorber(residual, R, name, timeout=600, outdir=None):
+def solve_absorber(residual, R, name, timeout=600, outdir=None, diff_words=None):
     outdir = outdir or os.path.join(HERE, "../results/cnf")
     os.makedirs(outdir, exist_ok=True)
-    cnf, refs = build_absorber_cnf(residual, R)
-    path = os.path.join(outdir, f"absorber_{name}_R{R}.cnf")
+    cnf, refs = build_absorber_cnf(residual, R, diff_words=diff_words)
+    tag = "" if diff_words is None else f"_dw{len(set(diff_words))}"
+    path = os.path.join(outdir, f"absorber_{name}_R{R}{tag}.cnf")
     cnf.write_dimacs(path)
     status, out = solver.run_kissat(path, timeout=timeout)
     return status, path, (cnf, refs, out)
