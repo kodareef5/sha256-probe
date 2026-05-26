@@ -45,8 +45,12 @@ trail_engine_build: |
   propagate-to-fixpoint DONE (encoders/wang_search.py): bit-level node graph, per-op
   arc-consistency (parity/Ch/Maj/full-adder/eq), worklist fixpoint; self-tested R=3: 300
   random differential trails are fixpoints w/ forward-determined outputs, 200/200 planted
-  contradictions caught; [5] guess-and-determine SEARCH on top of propagate() (lowest-entropy
-  bit, branch, refine, backtrack on '#') -- find-ability test; [5b] control validation (known
+  contradictions caught; [5] guess-and-determine SEARCH DONE (run_search): lowest-entropy
+  bit, branch, propagate(seed), backtrack on '#'; self-tested 120 planted-diff characteristics
+  (R=2,3) realized + oracle-confirmed vs lib.sha256, worst node-count 385, infeasible->None.
+  NOTE: validated on FORWARD realization (no backtracking needed there); the backtracking
+  stress is pinning a TARGET output differential -- that is increments [5b]/[6].
+  [5b] control validation (known
   SHA-256 local-collision trail); [6] run >=5 residual clusters, report best-trail rounds
   vs the 18-round gate.
 recent_progress_2026-05-04_F564_bit6_HW85: |

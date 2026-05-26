@@ -109,10 +109,20 @@ class Net:
         for nd in nodes:
             self.watch.setdefault(nd, []).append(idx)
 
-    def propagate(self):
-        """Worklist arc-consistency to fixpoint. Returns True iff contradiction."""
-        q = list(range(len(self.cons)))
-        inq = set(q)
+    def propagate(self, seed=None):
+        """Worklist arc-consistency to fixpoint. Returns True iff contradiction.
+        seed=None re-checks all constraints; seed=[nodes] re-checks only watchers of
+        the just-changed nodes (used by the search after pinning a single bit)."""
+        if seed is None:
+            q = list(range(len(self.cons)))
+            inq = set(q)
+        else:
+            q, inq = [], set()
+            for nd in seed:
+                for c in self.watch.get(nd, []):
+                    if c not in inq:
+                        q.append(c)
+                        inq.add(c)
         while q:
             idx = q.pop()
             inq.discard(idx)
@@ -225,6 +235,54 @@ def concrete_rounds(st0, msgs, kconsts):
     return states
 
 
+# ---- increment 5: guess-and-determine search on top of propagate() ----
+
+def run_search(net, max_nodes=2_000_000):
+    """Find ONE fully-determined characteristic consistent with the pinned conditions.
+    Returns (assignment dict | None, node_count). Branches on the lowest-entropy
+    undetermined node, refines via propagate(), backtracks on contradiction."""
+    count = [0]
+
+    def rec(seed):
+        count[0] += 1
+        if count[0] > max_nodes:
+            raise RuntimeError(f"search node budget {max_nodes} exceeded")
+        if net.propagate(seed):
+            return None
+        # lowest-entropy undetermined node (popcount > 1); binary is optimal -> stop early
+        best = None
+        for k, m in net.var.items():
+            pc = bin(m).count("1")
+            if pc > 1:
+                if best is None or pc < best[0]:
+                    best = (pc, k, m)
+                    if pc == 2:
+                        break
+        if best is None:
+            return dict(net.var)
+        _, k, m = best
+        for v in bits(m):
+            saved = dict(net.var)
+            net.var[k] = 1 << v
+            r = rec([k])
+            if r is not None:
+                return r
+            net.var = saved
+        return None
+
+    return rec(None), count[0]
+
+
+def assignment_pair(assign, name):
+    """Read a determined word (all popcount-1 masks) as a concrete (x, x*) int pair."""
+    x = xs = 0
+    for i in range(N):
+        val = assign[(name, i)].bit_length() - 1   # 0..3 = (x<<1)|x*
+        x |= (val >> 1) << i
+        xs |= (val & 1) << i
+    return x, xs
+
+
 def _selftest():
     import random
     import lib.sha256 as L
@@ -287,5 +345,63 @@ def _selftest():
           f"200/200 planted contradictions caught")
 
 
+def _selftest_search():
+    import random
+    import lib.sha256 as L
+
+    rng = random.Random(99)
+    REG = "abcdefgh"
+    worst_nodes = 0
+    for R in (2, 3):
+        kconsts = L.K[:R]
+        for _ in range(60):
+            p = rng.randrange(N)                    # planted single-bit msg difference in W0
+            net = Net()
+            build_rounds(net, R, kconsts)
+            for j in range(8):                      # state0: no difference, value free
+                for i in range(N):
+                    net.pin((f"{REG[j]}0", i), COND["-"])
+            for t in range(R):                      # W0 differs at bit p only; values free
+                for i in range(N):
+                    net.pin((f"W{t}", i), COND["x"] if (t == 0 and i == p) else COND["-"])
+            assign, nodes = run_search(net)
+            assert assign is not None, "search failed to realize a planted-diff characteristic"
+            worst_nodes = max(worst_nodes, nodes)
+            # every node fully determined
+            assert all(bin(m).count("1") == 1 for m in assign.values())
+            # ORACLE: build the realized message/state pair and check the round equations
+            st0 = [assignment_pair(assign, f"{REG[j]}0")[0] for j in range(8)]
+            st0s = [assignment_pair(assign, f"{REG[j]}0")[1] for j in range(8)]
+            assert st0 == st0s                       # state0 had no difference
+            msgs = [assignment_pair(assign, f"W{t}")[0] for t in range(R)]
+            msgss = [assignment_pair(assign, f"W{t}")[1] for t in range(R)]
+            assert [a ^ b for a, b in zip(msgs, msgss)] == [(1 << p) if t == 0 else 0
+                                                            for t in range(R)]
+            states = concrete_rounds(st0, msgs, kconsts)
+            statess = concrete_rounds(st0s, msgss, kconsts)
+            for t in range(1, R + 1):
+                for j in range(8):
+                    xx, xs = assignment_pair(assign, f"{REG[j]}{t}")
+                    assert (xx, xs) == (states[t][j], statess[t][j]), (R, t, REG[j])
+
+    # contradiction: a zero-difference characteristic cannot have a differing output bit
+    net = Net()
+    build_rounds(net, 2, L.K[:2])
+    for j in range(8):
+        for i in range(N):
+            net.pin((f"{REG[j]}0", i), COND["-"])
+    for t in range(2):
+        for i in range(N):
+            net.pin((f"W{t}", i), COND["-"])
+    net.pin(("a1", rng.randrange(N)), COND["x"])
+    assign, _ = run_search(net)
+    assert assign is None, "search returned an assignment for an infeasible characteristic"
+
+    print("wang_search increment-5 (guess-and-determine search) self-tests: PASS")
+    print(f"  120 planted-diff characteristics realized + oracle-confirmed (R=2,3); "
+          f"worst search node-count {worst_nodes}; infeasible characteristic -> None")
+
+
 if __name__ == "__main__":
     _selftest()
+    _selftest_search()
