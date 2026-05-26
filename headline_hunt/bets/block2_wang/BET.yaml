@@ -30,7 +30,15 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-25T17:00:00Z'
+last_heartbeat: '2026-05-26T09:00:00Z'
+trail_engine_build: |
+  STARTED 2026-05-26 (macbook-claude, user-authorized). Building the kill_criteria#1
+  Wang trail engine incrementally (encoders/wang_trail_engine.py). Plan: [1] condition
+  algebra + linear/boolean forward propagation [DONE, self-tested]; [2] carry-aware
+  modular-addition propagation; [3] one-round fwd+bwd + multi-round consistency;
+  [4] guess-and-determine message-modification search; [5] control validation (known
+  SHA-256 local-collision trail); [6] run >=5 residual clusters, report best-trail rounds
+  vs the 18-round gate.
 recent_progress_2026-05-04_F564_bit6_HW85: |
   cg-iter:
     bit26 HW=88 -> 88 (closed)
