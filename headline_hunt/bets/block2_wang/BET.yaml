@@ -30,7 +30,7 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-26T09:00:00Z'
+last_heartbeat: '2026-05-26T10:30:00Z'
 trail_engine_build: |
   STARTED 2026-05-26 (macbook-claude, user-authorized). Building the kill_criteria#1
   Wang trail engine incrementally (encoders/wang_trail_engine.py). Plan: [1] condition
@@ -64,8 +64,16 @@ trail_engine_build: |
   output diff). Fast to R=15; naive search blows up at R>=16 (NOT the schedule -- free==
   scheduled identical, so it is search-cost). >18-round verdict currently SEARCH-LIMITED,
   not resolved -- kill #1 NOT fired. Crux for deep absorber = schedule RE-INJECTION of the
-  W0..W7 diffs into W16+. TODO: re-injection isolation test, >=5 clusters, trail_search_summary.md.
-  [5c-legacy] control validation (known
+  W0..W7 diffs into W16+.
+  [6c] >=5-CLUSTER SWEEP DONE (results/trail_search_summary.md + absorber_sweep.json,
+  encoders/run_absorber_sweep.py): 6 clusters (bit13_HW35, bit14/6/15/24/28 HW93-101) all
+  give oracle-confirmed absorbers to R=15, then naive-DFS budget-exceeded at R>=16 ->
+  best-trail-round=15 uniformly (residual HW irrelevant; msg-mod freedom dominates).
+  KILL #1 NOT FIRED: trigger needs ~1wk dev (I'm ~1day) AND >18 verdict is SEARCH-LIMITED
+  (budget-exceeded != proven-infeasible; naive DFS < kissat) AND these are round-R state
+  collisions not hash collisions (schedule re-injection blocks extension). Path to clean
+  verdict: stronger search -- CNF + lib.solver.run_kissat (proper naive-SAT-vs-tailored
+  comparison) OR message-first/sparse-diff branching. [5c-legacy] control validation (known
   SHA-256 local-collision trail); [6] run >=5 residual clusters, report best-trail rounds
   vs the 18-round gate.
 recent_progress_2026-05-04_F564_bit6_HW85: |
