@@ -56,3 +56,29 @@ to ≤24. Two coherent directions:
 
 This does not close the bet — it redirects effort from residual-HW grinding (deeply
 plateaued, now shown universal) toward the trail-design question it was meant to test.
+
+---
+
+## CORRECTION (2026-05-25, same day, macbook-claude) — retract the pessimistic floor
+
+On reviewing the existing frontier I found my numbers above are WRONG and the
+strategic claim is too pessimistic. Honest correction:
+
+1. **The achievable residual frontier is ~HW35, NOT ~43.** The deep frontier was
+   reached by the c/g pair-beam / exact-atlas tools (not hillclimb), progressively:
+   49 -> 43 -> 38 (F460) -> 36 (F471 record) -> 35 (F487 record). My panel map used a
+   QUICK ANNEAL from random seeds (51-59), which is a weak-search artifact, not the
+   true floor. I extrapolated a "~43 floor" the bet's better tools had already beaten.
+2. **"Residual-min cannot reach <=24" is RETRACTED as premature.** The gap is ~11 HW
+   (35 -> 24), and the frontier was *steadily* reduced (49 -> 35), slowing but not
+   provably floored at 35. No hard floor at 35 is established.
+3. **The "HW82" I associated with the floor (F749) is a DIFFERENT metric** — the M2
+   *absorber* weight (block-2 message), not the block-1 residual HW. I conflated them.
+
+What survives: the c/g lane coupling (joint, not single-lane) is real (the decomposition
+negative still holds), and quick generic search floors uniformly ~55 — but the genuine
+frontier needs the exact c/g pair-beam tools, which were progressing toward the target.
+Lesson: validate against the existing frontier before asserting a floor. The strategic
+"pivot away from residual-min" recommendation is withdrawn; the right next step is to
+RESUME the c/g pair-beam push from the HW35 record (or advance the trail engine), not to
+abandon residual-min.
