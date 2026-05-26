@@ -40,7 +40,8 @@ CLUSTERS = {
 
 
 def build_absorber_cnf(residual, R):
-    """Return a CNFBuilder encoding the R-round block-2 absorber for `residual`."""
+    """Encode the R-round block-2 absorber. Returns (cnf, refs) where refs holds the
+    input free-word variable lists {cv1, W1, W2} for model extraction."""
     cnf = ce.CNFBuilder()
     cv1 = [cnf.free_word(f"CV1_{j}") for j in range(8)]
     cv2 = [cnf.xor_word(cv1[j], cnf.const_word(residual[j])) for j in range(8)]
@@ -61,17 +62,67 @@ def build_absorber_cnf(residual, R):
         st2 = cnf.sha256_round_correct(st2, L.K[t], W2[t])
     for j in range(8):
         cnf.eq_word(st1[j], st2[j])         # collision target
-    return cnf
+    return cnf, {"cv1": cv1, "W1": W1[:16], "W2": W2[:16]}
 
 
 def solve_absorber(residual, R, name, timeout=600, outdir=None):
     outdir = outdir or os.path.join(HERE, "../results/cnf")
     os.makedirs(outdir, exist_ok=True)
-    cnf = build_absorber_cnf(residual, R)
+    cnf, refs = build_absorber_cnf(residual, R)
     path = os.path.join(outdir, f"absorber_{name}_R{R}.cnf")
     cnf.write_dimacs(path)
-    status, _ = solver.run_kissat(path, timeout=timeout)
-    return status, path, cnf
+    status, out = solver.run_kissat(path, timeout=timeout)
+    return status, path, (cnf, refs, out)
+
+
+def _model_true_vars(stdout):
+    true = set()
+    for line in (stdout or "").splitlines():
+        if line.startswith("v"):
+            for tok in line.split()[1:]:
+                v = int(tok)
+                if v > 0:
+                    true.add(v)
+    return true
+
+
+def _word_val(bits, true):
+    return sum((1 << i) for i, b in enumerate(bits) if b in true)
+
+
+def oracle_verify(residual, R, refs, stdout):
+    """Reconstruct CV1, W1[0..15], W2[0..15] from a SAT model and confirm via lib.sha256
+    that the two block-2 messages collide after R rounds with input difference = residual.
+    Returns (ok, info)."""
+    true = _model_true_vars(stdout)
+    if not true:
+        return None, "no model in solver output (re-run capturing witness)"
+    cv1 = [_word_val(w, true) for w in refs["cv1"]]
+    cv2 = [c ^ d for c, d in zip(cv1, residual)]
+    w1 = [_word_val(w, true) for w in refs["W1"]]
+    w2 = [_word_val(w, true) for w in refs["W2"]]
+
+    def expand(W):
+        W = list(W)
+        for t in range(16, R):
+            W.append(L.add(L.sigma1(W[t - 2]), W[t - 7], L.sigma0(W[t - 15]), W[t - 16]))
+        return W
+
+    def run(cv, W):
+        st = list(cv)
+        Wf = expand(W)
+        for t in range(R):
+            a, b, c, d, e, f, g, h = st
+            t1 = L.add(h, L.Sigma1(e), L.Ch(e, f, g), L.K[t], Wf[t])
+            t2 = L.add(L.Sigma0(a), L.Maj(a, b, c))
+            st = [L.add(t1, t2), a, b, c, L.add(d, t1), e, f, g]
+        return st
+    out1, out2 = run(cv1, w1), run(cv2, w2)
+    in_diff = [a ^ b for a, b in zip(cv1, cv2)]
+    out_diff = [a ^ b for a, b in zip(out1, out2)]
+    ok = (in_diff == residual) and all(d == 0 for d in out_diff) and (w1 != w2 or cv1 != cv2)
+    return ok, {"in_diff_ok": in_diff == residual, "out_collision": all(d == 0 for d in out_diff),
+                "msg_diff_hw": sum(bin(a ^ b).count("1") for a, b in zip(w1, w2))}
 
 
 def _selftest():

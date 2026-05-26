@@ -68,6 +68,27 @@ A = oracle-confirmed absorber   . = infeasible by propagation   ? = search budge
    different (CNF/SAT) formulation; comparing it to this engine's best-trail-round needs the
    naive-SAT metric re-derived under the same target. Pending.
 
+## kissat result (2026-05-26) — engine wall was weak search; an 18-round absorber EXISTS
+
+A real CDCL solver (`absorber_cnf.py` → kissat, encoder validated: bit13 R=4 UNSAT / R=8 SAT
+match the engine) blows straight through the naive-DFS R=15 wall on bit13_HW35:
+
+```
+  R=15: SAT  (0.1s)     R=16: SAT (0.1s)     R=18: SAT (5.2s)     R=20: TIMEOUT (300s)
+```
+
+The **R=18 absorber is oracle-confirmed** (`lib.sha256`): input difference = the residual,
+zero state difference after 18 rounds, block-2 message-difference HW 240. So:
+- The engine's "best-trail-round = 15" was a **weak-search artifact, not structural** — kissat
+  reaches 18 in seconds. (The trail-engine value is its sound propagation / control validation,
+  not its DFS.)
+- An **18-round block-2 absorber exists** — this *matches* the naive-SAT frontier. The bet's
+  gate is *>18*; R=20 is a 300s **timeout** (search-limited), so the >18 question is still open.
+- A deeper sweep (R=19/20/22/24, 900s/call, oracle-verified) is running to settle >18.
+
+(Note: this plain 2-message CNF *is* the "naive SAT" formulation; reaching 18 reproduces the
+known frontier. Whether a tailored differential path pushes a solver past 18 is the open headline.)
+
 ## Propagation cannot decide it (2026-05-26) — kissat is required
 
 Propagation-only (no search) was run on the schedule-compliant absorber at R=18, 20, 24 for
