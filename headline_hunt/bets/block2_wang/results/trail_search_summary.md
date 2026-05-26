@@ -95,6 +95,16 @@ for the naive CNF — a sharp hardness cliff right above the R=18 frontier. The 
 **search-limited, not proven-infeasible**; kill #1 stays unfired. Full verdict + the
 pause-for-direction recommendation: `results/20260526_block2_absorber_VERDICT.md`.
 
+**Tailored encoding (R>18) — both levers fail; full conclusion in
+`results/20260526_tailored_encoding_conclusion.md`:**
+- Difference-window (restrict which W_t may differ): non-monotonic — R=18 W0..3 & W0..7 time
+  out, but a **12-word window is an R=18 sweet spot** (SAT 2.3s, *sparser* msg-HW 188 vs 240).
+  At R=19 even the 12-word window times out (300s). Does not crack >18.
+- Path-pinning (pin engine-forced bits into the CNF): **dead** — engine `propagate()` on the
+  R=19 absorber forces 0 message + 0 state0 bits, so there is nothing to pin.
+- Structural reason: dense (HW≥35) residuals admit no sparse characteristic to exploit — the
+  never-met "HW≤16" dependency. >18 remains **solver-limited, not infeasible**; kill #1 unfired.
+
 ## Propagation cannot decide it (2026-05-26) — kissat is required
 
 Propagation-only (no search) was run on the schedule-compliant absorber at R=18, 20, 24 for

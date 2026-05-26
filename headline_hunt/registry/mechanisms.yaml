@@ -42,6 +42,13 @@
     not yet a full 2-block collision pinned to block-1's CV. PAUSED pending a direction
     decision: (1) pause here, (2) tailored differential-path-guided CNF / solver warm-start,
     (3) redirect."
+  update_2026_05_26b: "Tailored encoding ATTEMPTED per user direction (chase >18); both levers
+    fail to beat 18 (results/20260526_tailored_encoding_conclusion.md). Difference-window:
+    non-monotonic -- R=18 has a 12-word SWEET SPOT (SAT 2.3s, sparser msg-HW188) but R=19
+    12-word times out (300s). Path-pinning: DEAD -- engine propagate() on R=19 forces 0 free
+    bits, nothing to pin. Structural reason: dense (HW>=35) residuals admit no sparse
+    characteristic (the never-met HW<=16 dependency). >18 stays SOLVER-LIMITED not infeasible;
+    kill #1 still NOT fired. Re-surfaced the direction decision to the user."
   kill_criteria:
   - No residual cluster yields >18-round absorber after 1 week of dedicated trail search.
   - No improvement over naive block-2 SAT frontier on N=8/N=12 analogs after pilot phase.
