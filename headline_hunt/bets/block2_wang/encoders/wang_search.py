@@ -218,6 +218,22 @@ def build_rounds(net, R, kconsts):
         build_round(net, t, kconsts[t])
 
 
+def build_schedule(net, R):
+    """Message-schedule constraints: for t in 16..R-1,
+    W_t = sigma1(W_{t-2}) + W_{t-7} + sigma0(W_{t-15}) + W_{t-16}.
+    sigma0 = ROTR7^ROTR18^SHR3, sigma1 = ROTR17^ROTR19^SHR10. W_t nodes already exist
+    (created by build_round) and are shared with the round's T1 chain -- this couples the
+    expanded schedule to the state, exactly the >16-round constraint the absorber must obey."""
+    for t in range(16, R):
+        s1, s0 = f"sW1_{t}", f"sW0_{t}"
+        link_linear(net, f"W{t-2}", s1, [17, 19], shrs=[10])     # sigma1
+        link_linear(net, f"W{t-15}", s0, [7, 18], shrs=[3])      # sigma0
+        p1, p2 = f"sp1_{t}", f"sp2_{t}"
+        link_add(net, s1, f"W{t-7}", p1, f"sc0_{t}")
+        link_add(net, p1, f"W{t-16}", p2, f"sc1_{t}")
+        link_add(net, p2, s0, f"W{t}", f"sc2_{t}")               # sum written into W_t
+
+
 # ---- concrete oracle (lib.sha256) for validation ----
 
 def concrete_rounds(st0, msgs, kconsts):
@@ -444,6 +460,33 @@ def _selftest_search():
           f"worst search node-count {worst_nodes}; infeasible characteristic -> None")
 
 
+def _selftest_schedule():
+    import random
+    import lib.sha256 as L
+
+    rng = random.Random(7)
+    R = 24
+    for _ in range(50):
+        W0_15 = [rng.getrandbits(N) for _ in range(16)]
+        W = list(W0_15)
+        for t in range(16, R):
+            W.append(L.add(L.sigma1(W[t - 2]), W[t - 7], L.sigma0(W[t - 15]), W[t - 16]))
+        net = Net()
+        build_rounds(net, R, L.K[:R])
+        build_schedule(net, R)
+        for t in range(16):
+            net.pin_word(f"W{t}", W[t], W[t])
+        contra = net.propagate()
+        assert not contra, "real expanded schedule wrongly rejected"
+        for t in range(16, R):
+            assert net.word_pair_contained(f"W{t}", W[t], W[t]), t
+            for i in range(N):
+                assert bin(net.var[(f"W{t}", i)]).count("1") == 1, (t, i)  # fully determined
+    print("wang_search increment-6 (message schedule) self-tests: PASS")
+    print(f"  R={R}: 50 concrete schedules expanded W16..W{R-1} are network fixpoints, "
+          f"fully determined")
+
+
 def _selftest_control():
     # CONTROL: independently reproduce the known SHA-256 local-collision span. A single-bit
     # W0 disturbance with free correction words must be provably uncancellable in <=8 rounds
@@ -465,3 +508,4 @@ if __name__ == "__main__":
     _selftest()
     _selftest_search()
     _selftest_control()
+    _selftest_schedule()
