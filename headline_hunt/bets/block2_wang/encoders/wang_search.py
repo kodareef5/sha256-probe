@@ -253,10 +253,20 @@ def concrete_rounds(st0, msgs, kconsts):
 
 # ---- increment 5: guess-and-determine search on top of propagate() ----
 
-def run_search(net, max_nodes=2_000_000):
+import re as _re
+_INPUT_KEY = _re.compile(r"^([abcdefgh]0|W\d+)$")  # state0 + message words = the free DOF
+
+
+def _is_input(key):
+    return bool(_INPUT_KEY.match(key[0]))
+
+
+def run_search(net, max_nodes=2_000_000, input_first=True):
     """Find ONE fully-determined characteristic consistent with the pinned conditions.
     Returns (assignment dict | None, node_count). Branches on the lowest-entropy
-    undetermined node, refines via propagate(), backtracks on contradiction."""
+    undetermined node, refines via propagate(), backtracks on contradiction.
+    input_first: branch on input nodes (state0 + message words) before derived nodes --
+    everything else is forward-determined, so branching on derived nodes wastes effort."""
     count = [0]
 
     def rec(seed):
@@ -265,18 +275,20 @@ def run_search(net, max_nodes=2_000_000):
             raise RuntimeError(f"search node budget {max_nodes} exceeded")
         if net.propagate(seed):
             return None
-        # lowest-entropy undetermined node (popcount > 1); binary is optimal -> stop early
-        best = None
+        # pick branch node: prefer input nodes (priority 0), then lowest entropy (popcount)
+        best = None  # (priority, popcount, key, mask)
         for k, m in net.var.items():
             pc = bin(m).count("1")
             if pc > 1:
-                if best is None or pc < best[0]:
-                    best = (pc, k, m)
-                    if pc == 2:
+                pr = 0 if (input_first and _is_input(k)) else 1
+                cand = (pr, pc, k, m)
+                if best is None or cand[:2] < best[:2]:
+                    best = cand
+                    if pr == 0 and pc == 2:
                         break
         if best is None:
             return dict(net.var)
-        _, k, m = best
+        _, _, k, m = best
         for v in bits(m):
             saved = dict(net.var)
             net.var[k] = 1 << v

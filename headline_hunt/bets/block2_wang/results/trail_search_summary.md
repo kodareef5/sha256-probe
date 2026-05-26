@@ -76,10 +76,17 @@ structural impossibility. Firing the kill now would mislabel an implementation l
 cryptographic barrier. Per CLAUDE.md ("don't say more than the evidence supports"), the bet
 stays **open / in_flight**.
 
+**Branching tried (2026-05-26):** added input-first ordering to `run_search`
+(`input_first=True`: branch on state0 + message-word nodes before forward-determined
+nodes). It gives only a constant-factor gain (R=15: 737 vs 997 nodes, ~26%) and does **not**
+break the R≥16 wall — the wall is the exponential search, not node ordering. Confirms the
+naive DFS is the wrong tool for the >18 verdict.
+
 **What would decide it cleanly (next increments, in priority order):**
 1. A **stronger search** to actually test R>18: encode the absorber as CNF and run
    `lib.solver.run_kissat` (the proper naive-SAT-vs-tailored comparison the bet is premised
-   on), or add message-first / sparse-difference branching to the DFS.
+   on) — a real CDCL solver vastly outpowers the Python DFS. (Sparse-difference branching is
+   a weaker alternative.)
 2. If a stronger search still cannot reach a *full-hash* (re-injection-respecting) collision
    beyond 18 rounds across ≥5 clusters → fire kill #1 with the schedule-re-injection barrier
    as the documented reason (not a timeout).
