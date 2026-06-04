@@ -193,3 +193,38 @@
   observed_clauses: [51168, 51511]
   example_file: "(generated at runtime via cascade_aux_encoder.py --sr 59)"
   last_audited: "2026-04-25"
+
+# linear_lever_gaps encoder (bets/linear_lever_gaps/encoders/lever_gap_encoder.py).
+# Configurable gap placement: arbitrary free positions + t-7/t-16 linear levers.
+# Sizes are LARGER than the cascade family because the decisive config uses a deep
+# tail_start=54 (10 bit-blasted rounds vs the standard 7). Ranges are well clear of
+# all cascade fingerprints (which cap ~14000 vars / ~56500 clauses) and the sr=60
+# vs sr=61 ranges below do NOT overlap (avoids spurious cross-sr-level flags).
+- bucket_id: sr60_n32_lever_gap_ts54
+  sr_level: 60
+  n: 32
+  encoder_variant: "lever_gap"
+  vars_range: [17050, 17250]
+  clauses_range: [73000, 73800]
+  observed_n_kernels: 1
+  observed_vars: [17121, 17121]
+  observed_clauses: [73354, 73354]
+  example_file: "headline_hunt/bets/linear_lever_gaps/cnfs/lever_sr60_ts54_m17149975_fillffffffff_bit31.cnf"
+  last_audited: "2026-05-30"
+  notes: |
+    Linear-lever sr=60: free {54,55,56,57}, t-7 levers 54->61,55->62,56->63,
+    tail_start=54. The decisive-probe config. Candidate m17149975/fill ff/bit31.
+- bucket_id: sr61_n32_lever_gap_ts54
+  sr_level: 61
+  n: 32
+  encoder_variant: "lever_gap"
+  vars_range: [17300, 17550]
+  clauses_range: [74300, 75000]
+  observed_n_kernels: 1
+  observed_vars: [17411, 17411]
+  observed_clauses: [74647, 74647]
+  example_file: "headline_hunt/bets/linear_lever_gaps/cnfs/lever_sr61_ts54_m17149975_fillffffffff_bit31.cnf"
+  last_audited: "2026-05-30"
+  notes: |
+    Linear-lever sr=61: free {54,55,56} (3 t-7 levers, 0 tail residual freedom).
+    Phase-3 config; needs restored collision freedom to be satisfiable.

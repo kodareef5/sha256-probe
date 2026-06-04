@@ -30,7 +30,25 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-26T11:40:00Z'
+last_heartbeat: '2026-05-30T00:00:00Z'
+feedforward_finding_2026-05-30: |
+  macbook-claude (pivot from killed linear_lever_gaps). Found + fixed TWO
+  faithfulness gaps in the R=18 absorber and ran the faithful test for the
+  first time. See results/20260530_feedforward_faithful_absorber.md.
+    1. absorber_cnf.py targets working-state ΔC=0, but a hash collision needs
+       ΔC=-Δcv (Davies-Meyer feed-forward). With Δcv≠0, ΔC=0 is NOT a collision.
+    2. It pins the working-state residual (HW~35), but block-2's real input is
+       the POST-feed-forward residual (HW=95 for the lowest-working-HW witness).
+  Built encoders/absorber_feedforward.py (free-CV) + absorber_pinned.py (CV
+  pinned to a real block-1 output, correct target+input). RESULT: the faithful
+  CV-pinned feed-forward absorber walls at the SAME ~18-20 rounds as the working
+  proxy (R12/16 SAT, R20 timeout; free-CV ff R18 SAT/R20-24-32 timeout; working
+  R20 timeout). The ~18 wall is TARGET-INDEPENDENT — it is the schedule-
+  re-injection wall over a dense input, not an artifact of the target condition.
+  Post-FF residual floors at HW=66 across the corpus (re-ranked by the correct
+  metric) — still ≫ Wang's ≤24, so no sparse-input rescue. Verdict: multi-block
+  absorption done correctly hits the same wall; reinforces single-block sr=60
+  cap. Tools (faithful encoders) preserved for any future sparse-post-FF attempt.
 trail_engine_build: |
   STARTED 2026-05-26 (macbook-claude, user-authorized). Building the kill_criteria#1
   Wang trail engine incrementally (encoders/wang_trail_engine.py). Plan: [1] condition

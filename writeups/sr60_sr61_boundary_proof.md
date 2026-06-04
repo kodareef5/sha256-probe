@@ -113,6 +113,21 @@ SHA-256 schedule function over the N-bit word space).
 
 At N=32: P(match) = 2^{-32} ≈ 2.3 × 10^{-10}. ∎
 
+> **CORRECTION (2026-05-30): the rate is 2^{-2N}, not 2^{-N}.** This proof counts only
+> the *inter-message difference compatibility* — that the cascade-required dW[61] matches
+> the schedule-required dW[61] (`h = casoff − (sched2−sched1) = 0`), which is genuinely
+> 2^{-N}. But sr=61 also requires the *per-message value* to match — `W1[61] = sched1`
+> (`g1 = 0`), an independent 2^{-N} condition that this proof's "constraints on W2[61]"
+> framing silently treats as already satisfied. Since `g2 = g1 + h`, sr=61 ⟺ `g1=0 AND
+> h=0`. Verified empirically (`headline_hunt/bets/coincidence_variety/`): `h` and `g1`
+> are each uniform at 2^{-N}, and **independent** (P(g1=0 & h=0)/[P(g1=0)P(h=0)] = 1.005
+> over 1×10⁹ samples at N=10; 0.92 over 1.6×10⁷ at N=8). So the true cascade-break rate is
+> **2^{-2N}** (at N=32: 2^{-64}). The original N=8 "0/260" check is consistent with this
+> (it could not distinguish 2^{-N} from 2^{-2N} — both predict ≈0 observed). See
+> `RESULT_sr61_is_2minus2N.md`. This *hardens* the boundary: single-block sr=61 is
+> ≈2^{-32}-rare across the whole candidate registry — effectively unreachable, which
+> explains the 1800 CPU-h / 0-SAT result. (It remains a rarity bound, not an UNSAT proof.)
+
 ## Theorem 6: 3x Algorithmic Ceiling
 
 **Statement**: Register-diff filtering on the cascade-DP structure gives
@@ -140,9 +155,12 @@ Verified: 5 independent implementations converge to ≤3x. ∎
 
 **sr=61 is hard** (exponentially harder per additional round):
 - Would need cascade through round 61 → requires W2[61] = specific value
-- W[61] is schedule-determined → P(compatible) = 2^{-N} (Theorem 5)
-- Expected trials needed: 2^N × (sr=60 search cost) = 2^N × 2^{3N} = 2^{4N}
-- This is the SAME as brute force with no cascade at all
+- W[61] is schedule-determined → P(compatible) = 2^{-2N} (Theorem 5, **corrected** —
+  was 2^{-N}; see correction box above: per-message value match × difference compatibility)
+- Expected trials needed: 2^{2N} × (sr=60 search cost). Under this section's cost model
+  (sr=60 ≈ 2^{3N}) that is 2^{5N} — i.e. the cascade's rounds-57–60 advantage is not just
+  cancelled at the boundary (the original 2^{-N} claim) but *over*-cancelled by a further
+  factor 2^N. Either way the cascade confers no net advantage for reaching sr=61.
 - The cascade gains at rounds 57-60 are exactly cancelled by the
   schedule constraint at round 61
 
@@ -159,7 +177,7 @@ round contributes a 2^N penalty, eliminating the cascade's benefit.
 | de60=0 always | VERIFIED | Algebraic proof + exhaustive at N=4-12 |
 | Three-filter equivalence | VERIFIED | Exhaustive at N=4 (49=49) |
 | da=de at r≥61 | VERIFIED | Algebraic + N=8 (260/260 perfect correlation) |
-| Cascade break P=2^{-N} | VERIFIED | N=8 empirical + algebraic |
+| Cascade break P=2^{-2N} (corrected from 2^{-N}) | VERIFIED | N=8 exhaustive + N=10 1e9-sample independence test (ratio 1.005) |
 | 3x ceiling | VERIFIED | 5 implementations at N=8 |
 | sr=60 exists all N | VERIFIED | SAT at N=8-32 |
 | sr=61 exponentially harder | EVIDENCE | 50h+ Kissat timeout at N=32 |

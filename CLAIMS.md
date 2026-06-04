@@ -435,6 +435,15 @@ at round 60) = 2^{-N} = 2^{-32} at full SHA-256.
 - **Evidence:** Verified at N=8 (43/10000 = 0.43%, expected 0.39%)
 - **Significance:** Clean structural explanation of WHY sr=61 is hard.
   The schedule removes W[60] freedom needed for a-path cascade continuation.
+- **CORRECTION (2026-05-30): the FULL sr=61 rate is 2^{-2N}, not 2^{-N}.**
+  The 2^{-N} above is P(cascade *survives* = inter-message difference compatibility,
+  `h=0`) — correct. But sr=61 additionally needs the per-message *value* match
+  `W1[60]=sched1` (`g1=0`), an independent 2^{-N} condition. sr=61 ⟺ `g1=0 AND h=0`,
+  and g1 ⊥ h (independence ratio 1.005 over 1e9 samples at N=10). So the full rate is
+  **2^{-2N}** (2^{-64} at N=32); single-block sr=61 ≈ 2^{-32}-rare across the whole
+  registry — effectively unreachable (explains the 1800 CPU-h/0-SAT). Verification:
+  `headline_hunt/bets/coincidence_variety/RESULT_sr61_is_2minus2N.md`. Rarity bound,
+  not an UNSAT proof.
 
 ### Single DOF Theorem: Collisions have exactly one degree of freedom (VERIFIED)
 Among collision solutions, the state-diff trajectory is UNIQUE:

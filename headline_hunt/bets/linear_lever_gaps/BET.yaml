@@ -1,0 +1,48 @@
+mechanism_id: linear_lever_gaps
+priority: 2
+status: closed   # kill #2 fired 2026-05-30; see graveyard/closed_bets/linear_lever_gaps.md
+owner: macbook-claude
+machines_assigned: [macbook-claude]
+compute_budget_cpu_hours: 30   # fail-fast probe: encoder + validation + tiered sr=60 solves
+current_progress: |
+  CLAIMED by macbook-claude 2026-05-30. Fast, fail-fast SAT probe.
+
+  THESIS. The sr=61 wall (writeups/sr61_impossibility_argument.md,
+  sr60_sr61_boundary_proof.md Thm 5) is conditioned on ONE enforcement lever:
+  the σ1 (t-2) term. The schedule recurrence
+    W[t] = σ1(W[t-2]) + W[t-7] + σ0(W[t-15]) + W[t-16]
+  has two LINEAR (identity) feedback terms (t-7, t-16) that were never
+  implemented — 04_alternative_gaps.py posed the idea then dropped it after a
+  buggy, solver-free analyzer wrongly called it "wasteful".
+
+  MECHANISM (corrected after Phase 0 σ-rank finding): at N=32 σ0 AND σ1 are
+  full-rank bijections (rank 32/32), so the benefit is NOT avoiding σ1's image
+  (there is none at N=32) — it is DECOUPLING. The σ1-cascade sr=60 pins both
+  W[61] and W[63] to the single free word W[59] (over-determined: W[63] has no
+  free lever). The linear levers reach deep enough that each boundary word
+  {61,62,63} gets its OWN free knob {54,55,56}, all independently controllable
+  while the boundary equations still hold.
+
+  TESTABLE CLAIM. The linear-lever sr=60 instance (free {54,55,56,57}; t-7
+  levers 54->61, 55->62, 56->63; held = {16..53} U {58..63} = 44 eqs = genuine
+  sr=60) — which the σ1 cascade provably canNOT build (W[63] has no free lever
+  at sr=60) — solves materially faster than the σ1-cascade sr=60 baseline
+  (paper: timeout; repo: 12h/seed=5), despite a longer 10-round tail. If so,
+  the wall was a lever artifact -> push to sr=61. If not (fail-fast window),
+  KILL and pivot.
+
+  PHASE 0 — DONE (results/20260530_phase0_sigma_ranks_and_feasibility.md):
+    - σ ranks recorded (σ0,σ1 full-rank at N=32; rank-deficient only at N<=10).
+    - lever_feasibility.py: headline config CONFIRMED sr=60 (not sr=58);
+      σ1-cascade sr=60 located as the wall (W[63] uncontrollable); 428 indep.
+      sr=60 configs, 41 indep. sr=61 configs (all 0 residual freedom), 0 at sr=62.
+
+  NEXT: Phase 1 configurable encoder + clause/solve-equivalence validation gate
+  vs the known sr=59/sr=60 CNFs; then Phase 2 decisive sr=60 probe.
+
+  HONEST CAVEAT. Still zero-slack by raw counting (4 free words x 2 msgs = 256b
+  = collision condition); mitm_residue's d60-repair oracle plateaued at HW8-10
+  under full single-word control. Null hypothesis = confirms the wall. This is
+  a probe, not a campaign.
+last_heartbeat: "2026-05-30T00:00:00Z"
+heartbeat_interval_days: 7

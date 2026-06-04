@@ -64,6 +64,15 @@ FILENAME_PATTERNS = [
     # sr=60 patterns
     (re.compile(r"^sr60_.*\.cnf$"),
      {"sr_level": 60, "n": None, "encoder_variant": "sr60_unspecified"}),
+    # linear_lever_gaps encoder (bets/linear_lever_gaps/encoders/lever_gap_encoder.py):
+    # configurable gap placement with arbitrary free positions + t-7/t-16 levers.
+    # Naming: lever_sr<LVL>_ts<TAIL>_m<M0>_fill<FILL>_bit<BIT>.cnf
+    (re.compile(r"^lever_sr59_.*\.cnf$"),
+     {"sr_level": 59, "n": 32, "encoder_variant": "lever_gap"}),
+    (re.compile(r"^lever_sr60_.*\.cnf$"),
+     {"sr_level": 60, "n": 32, "encoder_variant": "lever_gap"}),
+    (re.compile(r"^lever_sr61_.*\.cnf$"),
+     {"sr_level": 61, "n": 32, "encoder_variant": "lever_gap"}),
 ]
 
 

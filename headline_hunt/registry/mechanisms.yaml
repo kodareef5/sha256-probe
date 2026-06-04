@@ -461,3 +461,51 @@
     had no mechanisms.yaml entry, no BET.yaml, and no runs.jsonl entries.
     Yale should review and replace placeholder values (priority, budget,
     kill_criteria) with real ones.
+
+- id: linear_lever_gaps
+  name: "Linear-lever gap placement (t-7/t-16 enforcement)"
+  headline_if_success: "First sr>59 single-block SFS collision via a new gap-placement lever; if sr=61, first crack past the impossibility wall."
+  hypothesis: "The sr=61 wall is conditioned on the σ1 (t-2) enforcement lever. Enforcing boundary schedule equations via the LINEAR t-7/t-16 feedback terms gives each boundary word {61,62,63} its own independent free knob (decoupling), making the linear-lever sr=60 instance solve faster than the σ1 baseline and opening a path to sr=61."
+  structural_basis:
+    - "Schedule recurrence W[t]=σ1(W[t-2])+W[t-7]+σ0(W[t-15])+W[t-16] has two linear (identity) feedback terms never used as enforcement levers (04_alternative_gaps.py posed then dropped the idea)."
+    - "Phase 0: at N=32 σ0,σ1 are full-rank bijections, so the mechanism is DECOUPLING not image-escape. σ1-cascade sr=60 leaves W[63] with no free lever (over-determined); linear-lever sr=60 (free {54,55,56,57}) is independently controllable. Confirmed genuine sr=60 (44 held eqs)."
+  status: closed
+  priority: 2
+  expected_info_per_cpu_hour: high
+  dependencies:
+    - "lib/cnf_encoder.py CNFBuilder; lib/sha256.py precompute; lib/solver.py"
+    - "Antagonist evidence: writeups/sr61_impossibility_argument.md, sr60_sr61_boundary_proof.md Thm 5"
+  next_action: "CLOSED 2026-05-30 (kill #2). See graveyard/closed_bets/linear_lever_gaps.md. Pivot: block2_wang connection."
+  kill_criteria:
+    - "Encoder fails to reproduce known sr=59/sr=60 CNFs or oracle-verify a solved model (hard gate)."
+    - "Linear-lever sr=60 shows no SAT and no speed advantage over σ1 baseline across 5 seeds x 2 solvers within fail-fast window (300s->1h). KILL + pivot."
+    - "Native small-N pre-check shows linear-lever collision freedom collapses to ~0 as N grows."
+  reopen_criteria:
+    - "New lever family (t-7+t-16 combined, or σ0 t-15) scores above current best in lever_feasibility.py."
+    - "da[56]=0-layered or extra-free-message-word sr=61 variant with nonzero well-shaped collision freedom."
+  evidence:
+    - "results/20260530_phase0_sigma_ranks_and_feasibility.md"
+  owner: macbook-claude
+  last_updated: "2026-05-30"
+
+- id: coincidence_variety
+  name: "Theorem-5 coincidence variety (sr=61 rate audit)"
+  headline_if_success: "Corrected the sr=61 cascade-break rate from 2^-N to 2^-2N (cornerstone fix)."
+  hypothesis: "The Theorem-5 2^-N rate undercounts sr=61: each held expansion equation is TWO independent per-message conditions (value match g1=0, difference compatibility h=0), so the rate is 2^-2N."
+  structural_basis:
+    - "sr=61 <=> g1=0 AND h=0 (since g2=g1+h); g1 and h each uniform at 2^-N and INDEPENDENT (ratio 1.005 over 1e9 samples at N=10)."
+    - "sr=61 count 0 at N=8,10 consistent with 2^-2N not 2^-N; original N=8 0/260 could not distinguish."
+  status: closed
+  priority: null
+  expected_info_per_cpu_hour: high
+  dependencies:
+    - "Reuses validated backward-construction enumeration; gap_analysis.c"
+  next_action: "Completed; corrections propagated to boundary_proof.md + CLAIMS.md."
+  kill_criteria:
+    - "n/a (completed audit finding)"
+  reopen_criteria:
+    - "A non-cascade-DP single-block construction whose sr-step is shown 2^-N (not 2^-2N)."
+  evidence:
+    - "RESULT_sr61_is_2minus2N.md"
+  owner: macbook-claude
+  last_updated: "2026-05-30"
