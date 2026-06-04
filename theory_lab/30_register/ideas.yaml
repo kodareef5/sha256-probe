@@ -1,0 +1,531 @@
+# SHA-256 Theory Lab — classified idea register (SOURCE OF TRUTH)
+# Schema + controlled vocabularies: see SCHEMA.md
+# Validate:  python3 infra/validate_ideas.py
+# Rebuild views/INDEX:  python3 infra/rebuild_views.py
+# Every entry MUST have a non-empty kill_criterion.
+
+# =====================================================================
+# A. REPO-ESTABLISHED — the novelty baseline (the repo's ~12 framings).
+#    Logged so fresh ideas can be diffed against them. Not live angles.
+# =====================================================================
+
+- id: cascade-dp-message-reduction
+  title: Cascade dynamic-programming reduction of the message schedule
+  one_liner: Compute M2 round-by-round to force da=0, cutting search O(2^8N)->O(2^4N).
+  lens: automata-transducer
+  locus: [message-schedule, round-function]
+  mechanism: reduce
+  reframes: {competes_with: [cascade_dp], delta: "baseline — this is the repo's core primitive"}
+  novelty: repo-established
+  plausibility: 5
+  probe_cost: trivial
+  kill_criterion: "Established; gives only ~3x algorithmic ceiling (too permissive, zero intermediate pruning). Revive a variant only if a cascade that also prunes intermediate W-values beats the 3x ceiling at N=8."
+  status: archived
+  source: human
+  repo_refs: [../sha256_review/CLAIMS.md, ../sha256_review/writeups/sr60_sr61_boundary_proof.md]
+  external_refs: []
+  created: 2026-06-03
+  updated: 2026-06-03
+  notes: "The reduction every other framing sits on top of."
+  dive: null
+
+- id: carry-automaton-entropy-bijection
+  title: Carry-difference finite automaton with entropy = log2(#collisions)
+  one_liner: Carry diffs form a deterministic automaton; carry-entropy counts collisions exactly.
+  lens: automata-transducer
+  locus: [carries, state-cross-section]
+  mechanism: count
+  reframes: {competes_with: [carry_automaton, cascade_dp, bdd_poly], delta: "none — this IS the repo framing; the baseline to diff fresh carry ideas against"}
+  novelty: repo-established
+  plausibility: 5
+  probe_cost: trivial
+  kill_criterion: "Established (carry entropy = log2(#collisions) exact N=4,6,8; branching <=2). Revive a VARIANT only if a non-raw-carry quotient beats brute force >10x at N=8 (repo reopen trigger)."
+  status: archived
+  source: human
+  repo_refs: [../sha256_review/CLAIMS.md, ../sha256_review/headline_hunt/registry/negatives.yaml]
+  external_refs: [lipmaaMoriai2001]
+  created: 2026-06-03
+  updated: 2026-06-03
+  notes: "Any new carry-lens idea must say how it escapes raw-carry-DP near-injectivity and the Myhill-Nerode forward-frontier=collision-count result."
+  dive: null
+
+- id: transducer-window-automaton
+  title: Finite-state transducer with rotation-induced sliding window
+  one_liner: LSB->MSB transducer; rotations force a lookahead window, inflating state to 2^(8N+98).
+  lens: automata-transducer
+  locus: [whole-function, carries]
+  mechanism: reframe
+  reframes: {competes_with: [transducer_window, carry_automaton], delta: "baseline unified model"}
+  novelty: repo-established
+  plausibility: 5
+  probe_cost: trivial
+  kill_criterion: "Established model. Revive only if a variable ORDER aligned to rotation orbits yields a provably sub-N^4.8 OBDD."
+  status: archived
+  source: human
+  repo_refs: [../sha256_review/writeups]
+  external_refs: []
+  created: 2026-06-03
+  updated: 2026-06-03
+  notes: "The rotation frontier (~25 bits at N=32) is why bit-serial DP fails."
+  dive: null
+
+- id: bdd-polynomial-complexity
+  title: Collision function has an O(N^4.8) BDD yet exponential construction
+  one_liner: ROBDD of the collision function is ~0.38*N^4.82 nodes, but building it stays exponential.
+  lens: knowledge-compilation
+  locus: [whole-function]
+  mechanism: reframe
+  reframes: {competes_with: [bdd_poly], delta: "baseline — the compact-representation-not-efficient-computation paradox"}
+  novelty: repo-established
+  plausibility: 5
+  probe_cost: trivial
+  kill_criterion: "Established (10 data points, R^2=0.93). Revive only if the BDD can be CONSTRUCTED in poly time without first enumerating all collisions (the open circular dependency)."
+  status: archived
+  source: human
+  repo_refs: [../sha256_review/writeups]
+  external_refs: []
+  created: 2026-06-03
+  updated: 2026-06-03
+  notes: "The central paradox the SAT-free-compilation headline class chases."
+  dive: null
+
+- id: anf-degree-analysis
+  title: ANF / algebraic-degree analysis via Mobius transform
+  one_liner: Output-bit degree grows LSB->MSB tracking carry chains; high degree = hardness sign, not method.
+  lens: boolean-function
+  locus: [whole-function, carries]
+  mechanism: structural-invariant
+  reframes: {competes_with: [anf_degree], delta: "baseline static-degree view"}
+  novelty: repo-established
+  plausibility: 5
+  probe_cost: trivial
+  kill_criterion: "Established. Revive only if a Grobner/F4 run finds a NEW low-degree relation below the measured ANF degree (see expansion-code-min-distance / commutative-algebra angles)."
+  status: archived
+  source: human
+  repo_refs: [../sha256_review/writeups/anf_deep_dive.md]
+  external_refs: []
+  created: 2026-06-03
+  updated: 2026-06-03
+  notes: "da=de is one hand-found low-degree relation; existence proof that siblings might exist."
+  dive: null
+
+- id: modular-carry-nonlinearity
+  title: Modular-addition carry chains are the fundamental nonlinearity
+  one_liner: Carries couple bits; rotation frontier defeats bit-serial independence; defeats GF(2).
+  lens: differential-crypto
+  locus: [carries, round-function]
+  mechanism: structural-invariant
+  reframes: {competes_with: [modular_carry], delta: "baseline"}
+  novelty: repo-established
+  plausibility: 5
+  probe_cost: trivial
+  kill_criterion: "Established. This is the obstruction the 2-adic and lattice angles try to put a METRIC on rather than restate."
+  status: archived
+  source: human
+  repo_refs: [../sha256_review/THE_THERMODYNAMIC_FLOOR.md]
+  external_refs: [lipmaaMoriai2001]
+  created: 2026-06-03
+  updated: 2026-06-03
+  notes: "NB THE_THERMODYNAMIC_FLOOR: XOR-only sr=60 also times out at N=32, so carry-LENGTH is not the whole barrier."
+  dive: null
+
+- id: sr60-61-phase-transition
+  title: sr=60/61 phase transition with 2^-2N cascade-break rate
+  one_liner: Each enforced round past 60 costs 2^-2N (two independent N-bit conditions g1=0 AND h=0).
+  lens: differential-crypto
+  locus: [message-schedule, state-cross-section]
+  mechanism: lower-bound
+  reframes: {competes_with: [sr60_61_phase], delta: "baseline — the wall the whole lab is trying to reframe"}
+  novelty: repo-established
+  plausibility: 5
+  probe_cost: trivial
+  kill_criterion: "Established (2^-2N corrected from 2^-N, ratio 1.005 over 1B samples). Revive only if a mechanism makes the two conditions DEPENDENT, restoring 2^-N."
+  status: archived
+  source: human
+  repo_refs: [../sha256_review/writeups/sr60_sr61_boundary_proof.md, ../sha256_review/CLAIMS.md]
+  external_refs: []
+  created: 2026-06-03
+  updated: 2026-06-03
+  notes: "The headline barrier. 2-adic v2(deltaH) growth is the candidate additive RE-EXPRESSION of this rate."
+  dive: null
+
+- id: hard-core-132-bits
+  title: 132 hard-core output bits with zero deterministic single-bit control
+  one_liner: 132 of 256 output diffs are uncontrolled; explains the HW~74 search plateau across methods.
+  lens: boolean-function
+  locus: [whole-function, differential-trail]
+  mechanism: structural-invariant
+  reframes: {competes_with: [hard_core_132], delta: "baseline"}
+  novelty: repo-established
+  plausibility: 5
+  probe_cost: trivial
+  kill_criterion: "Established (SAT, SVD, hill-climb, GPU all plateau ~74-78). Revive only if a multi-block or MITM split makes the hard core small at the split."
+  status: archived
+  source: human
+  repo_refs: [../sha256_review/writeups]
+  external_refs: []
+  created: 2026-06-03
+  updated: 2026-06-03
+  notes: ""
+  dive: null
+
+- id: rotation-aligned-kernels
+  title: Rotation-aligned kernels — 20% yield, no structural SAT advantage (REFUTED)
+  one_liner: Aligning the kernel bit to a SHA rotation constant helps yield ~20% but not SAT time.
+  lens: differential-crypto
+  locus: [message-schedule]
+  mechanism: reduce
+  reframes: {competes_with: [rotation_kernels], delta: "baseline; strong form refuted"}
+  novelty: repo-established
+  plausibility: 5
+  probe_cost: trivial
+  kill_criterion: "Strong hypothesis already refuted (non-aligned bits productive; mean hard-bits 7.6 vs 7.4). Do not reopen without a SAT-time (not yield) advantage."
+  status: archived
+  source: human
+  repo_refs: [../sha256_review/headline_hunt/registry/negatives.yaml]
+  external_refs: []
+  created: 2026-06-03
+  updated: 2026-06-03
+  notes: ""
+  dive: null
+
+- id: three-filter-da-de-identity
+  title: Three-filter equivalence and the da=de algebraic identity
+  one_liner: Collision at rounds 61-63 reduces to ONE independent constraint dT1_61=0.
+  lens: differential-crypto
+  locus: [round-function, state-cross-section]
+  mechanism: reduce
+  reframes: {competes_with: [three_filter_da_de], delta: "baseline; lower-dimensional than 8 register eqs"}
+  novelty: repo-established
+  plausibility: 5
+  probe_cost: trivial
+  kill_criterion: "Established (verified exhaustively N=4; cross-checked N=8,32). The reduction simplifies understanding, not solving; dT1_61=0 stays nonlinear."
+  status: archived
+  source: human
+  repo_refs: [../sha256_review/writeups/sr60_sr61_boundary_proof.md]
+  external_refs: []
+  created: 2026-06-03
+  updated: 2026-06-03
+  notes: "Existence of one hand-found low-degree relation motivates the commutative-algebra hunt for more."
+  dive: null
+
+- id: kernel-fill-phase-diagram
+  title: Kernel-fill-enforced-bits SAT phase diagram
+  one_liner: SAT/UNSAT boundary in (N, kernel, fill, enforced-bits); freedom threshold f*(N) shrinks with N.
+  lens: differential-crypto
+  locus: [message-schedule]
+  mechanism: structural-invariant
+  reframes: {competes_with: [kernel_fill_phase_diagram], delta: "baseline empirical landscape"}
+  novelty: repo-established
+  plausibility: 5
+  probe_cost: trivial
+  kill_criterion: "Established empirical map. No closed-form f*(N,k,F); high-dim, not exhaustively explorable."
+  status: archived
+  source: human
+  repo_refs: [../sha256_review/writeups]
+  external_refs: []
+  created: 2026-06-03
+  updated: 2026-06-03
+  notes: ""
+  dive: null
+
+- id: n-invariant-scaling-laws
+  title: N-invariant scaling laws (collisions ~ 2^0.74N)
+  one_liner: Collision/carry counts follow clean power laws; structural shape is N-invariant, specific values are not.
+  lens: prob-combinatorics
+  locus: [whole-function]
+  mechanism: structural-invariant
+  reframes: {competes_with: [n_invariant_scaling], delta: "baseline"}
+  novelty: repo-established
+  plausibility: 5
+  probe_cost: trivial
+  kill_criterion: "Established. NB april28 proved specific small-N solutions are statistically independent across N (hard non-Hensel) — only the SHAPE is invariant."
+  status: archived
+  source: human
+  repo_refs: [../sha256_review/CLAIMS.md, ../sha256_review/april28_explore/items/item_03_padic.md]
+  external_refs: []
+  created: 2026-06-03
+  updated: 2026-06-03
+  notes: ""
+  dive: null
+
+# =====================================================================
+# B. REPO-KILLED — already probed dead. Logged with reopen triggers so
+#    no adjacent-field analogy silently re-proposes them.
+# =====================================================================
+
+- id: cascade1-hard-non-hensel
+  title: Hensel-lift of cascade-1 solutions small-N -> large-N (KILLED)
+  one_liner: Small-N cascade solutions do NOT lift; lift residuals are uniform-random (hard non-Hensel).
+  lens: number-theory-padic
+  locus: [whole-function, carries]
+  mechanism: bridge-scales
+  reframes: {competes_with: [n_invariant_scaling], delta: "tried to bootstrap N=8->N=32; failed"}
+  novelty: repo-killed
+  plausibility: 1
+  probe_cost: cheap
+  kill_criterion: "KILLED by april28 probes 03/03b/03c: 0/1200 lift-compatible, residual XOR-distance mean 32.06 = uniform. Reopen ONLY for the DISTINCT Newton-slope/2-adic-span reading (that is a separate live entry: 2adic-carry-valuation-newton), never the lift reading."
+  status: archived
+  source: adjacent-analogy
+  repo_refs: [../sha256_review/april28_explore/items/item_03_padic.md]
+  external_refs: []
+  created: 2026-06-03
+  updated: 2026-06-03
+  notes: "Important: the Hensel-LIFT reading is dead; the 2-adic-METRIC reading was never probed. Don't conflate them."
+  dive: null
+
+- id: cascade-corpus-mps-hostile
+  title: Tensor-network / MPS compression of the cascade corpus (KILLED)
+  one_liner: Cascade-1 corpus is rank-rich; bond dim scales linearly with corpus, MPS ~80x slower than naive.
+  lens: tensor-network
+  locus: [whole-function]
+  mechanism: reduce
+  reframes: {competes_with: [bdd_poly], delta: "tried low-rank compression; corpus is high-rank"}
+  novelty: repo-killed
+  plausibility: 1
+  probe_cost: cheap
+  kill_criterion: "KILLED by april28 item_35: bond dim 144/256 at N=8, 563/1048 at N=10 (ratio ~constant), MPS O(N*BD^2) loses to naive O(N*corpus). Reopen only if a DIFFERENT contraction order or a constrained (not full-corpus) tensor shows sub-linear bond growth."
+  status: archived
+  source: adjacent-analogy
+  repo_refs: [../sha256_review/april28_explore/99_FINAL_REPORT.md]
+  external_refs: []
+  created: 2026-06-03
+  updated: 2026-06-03
+  notes: ""
+  dive: null
+
+- id: raw-carry-state-dp
+  title: Raw carry-state dynamic programming (KILLED)
+  one_liner: Carry-diff state is 89-99% near-injective; provides zero pruning, = brute force.
+  lens: automata-transducer
+  locus: [carries]
+  mechanism: reduce
+  reframes: {competes_with: [carry_automaton], delta: "tried DP over carry state; near-injective"}
+  novelty: repo-killed
+  plausibility: 1
+  probe_cost: trivial
+  kill_criterion: "KILLED (negatives.yaml). Reopen only if a quotient NOT based on raw carries gives >10x reduction at N=8."
+  status: archived
+  source: human
+  repo_refs: [../sha256_review/headline_hunt/registry/negatives.yaml]
+  external_refs: []
+  created: 2026-06-03
+  updated: 2026-06-03
+  notes: ""
+  dive: null
+
+- id: gf2-linearization
+  title: GF(2) linearization of the round function (KILLED)
+  one_liner: Carry nonlinearity is fundamental; linearizing destroys the solution space.
+  lens: boolean-function
+  locus: [round-function, carries]
+  mechanism: solve
+  reframes: {competes_with: [modular_carry], delta: "tried to linearize over GF(2)"}
+  novelty: repo-killed
+  plausibility: 1
+  probe_cost: trivial
+  kill_criterion: "KILLED (negatives.yaml gf2_linearization; Ghost-Carry observation: forcing carry equality => instant UNSAT even at sr=59). Reopen only with a GF(2)-equivalent quotient that ABSORBS carry structure (the 2-adic angle is the non-GF(2) attempt)."
+  status: archived
+  source: human
+  repo_refs: [../sha256_review/THE_THERMODYNAMIC_FLOOR.md, ../sha256_review/headline_hunt/registry/negatives.yaml]
+  external_refs: []
+  created: 2026-06-03
+  updated: 2026-06-03
+  notes: ""
+  dive: null
+
+# =====================================================================
+# C. FRESH ANGLES — the live catalog (ranked plausibility x cheapness).
+#    The top 3 share a spine: put a metric/invariant on the carry
+#    obstruction and attack THAT, instead of enumerating messages.
+# =====================================================================
+
+- id: 2adic-carry-valuation-newton
+  title: 2-adic valuation flow of carry propagation (FCSR-span + Newton-polygon obstruction)
+  one_liner: Put a 2-adic metric on carries; a monotone v2/Newton-slope trend would be a global no-collision obstruction.
+  lens: number-theory-padic
+  locus: [carries, message-schedule, whole-function]
+  mechanism: lower-bound
+  reframes: {competes_with: [carry_automaton, sr60_61_phase, hard_core_132], delta: "carries as a 2-adic METRIC, not a GF(2) automaton"}
+  novelty: genuinely-new
+  plausibility: 3
+  probe_cost: cheap
+  kill_criterion: "Dead if (a) FCSR/2-adic-span synthesis on the deltaW difference-sequence of a known sr=60 pair returns ~maximal span, AND (b) v2(deltaH) shows no monotone trend vs enforced rounds, AND (c) the per-round Newton polygon over Z_2 has no monotone slope. (april28 probe_03c already killed the Hensel-LIFT reading; this survives only in the span/slope readings.)"
+  status: probe-designed
+  source: adjacent-analogy
+  depends_on: []
+  repo_refs: [../sha256_review/april28_explore/items/item_03_padic.md, ../sha256_review/THE_THERMODYNAMIC_FLOOR.md, ../sha256_review/lib/sha256.py, ../sha256_review/headline_hunt/datasets/certificates/sr60_n32_m17149975.yaml]
+  external_refs: [anashin2006nonarch, klapperGoresky1997fcsr, klapperGoresky1995rational]
+  created: 2026-06-03
+  updated: 2026-06-03
+  notes: "Headline fresh angle. Carry IS the 2-adic carry (Klapper-Goresky); SHA round fn is a T-function on Z_2 (Anashin). Realistic prize = a 'why the wall' invariant, not a collision. Must explain THE_THERMODYNAMIC_FLOOR's XOR-only timeout."
+  dive: 40_deep_dives/dive_2adic-carry-valuation-newton.md
+
+- id: expansion-code-min-distance
+  title: Minimum-distance bound on the SHA-256 message-expansion code (Jutla-Patthak technique)
+  one_liner: Linearize the schedule to a GF(2) code; a min-distance bound caps how sparse a compliant difference can be.
+  lens: coding-theory
+  locus: [message-schedule, differential-trail]
+  mechanism: lower-bound
+  reframes: {competes_with: [sr60_61_phase, anf_degree], delta: "static message-independent sparsity budget vs per-round 2^-2N"}
+  novelty: flagged-unpursued
+  plausibility: 3
+  probe_cost: cheap
+  kill_criterion: "Dead if a low-weight-codeword search (Stern/Canteaut-Chabaud) on the linearized SHA-256 expansion matrix gives a last-K-rounds min weight that NEITHER forbids sparse late trails NOR seeds a surprise light trail — i.e. it just reproduces the known degree bound."
+  status: probe-designed
+  source: community-paper
+  depends_on: []
+  repo_refs: [../sha256_review/writeups/anf_deep_dive.md, ../sha256_review/16_gf2_kernel_search.py]
+  external_refs: [jutla2005code]
+  created: 2026-06-03
+  updated: 2026-06-03
+  notes: "Jutla-Patthak built the computer-assisted min-distance LB technique for SHA-1-like expansion; nobody ran it on SHA-256's schedule specifically. Necessary-not-sufficient (XOR weight need not survive carries)."
+  dive: 40_deep_dives/dive_expansion-code-min-distance.md
+
+- id: carry-lifted-lattice
+  title: Carry-lifted lattice (LLL/BKZ over Z with unknowns = carries)
+  one_liner: Lift a+b=c mod 2^32 to integers; schedule compliance = does a lattice coset hold a 0/1-carry vector.
+  lens: lattice
+  locus: [carries, message-schedule, state-cross-section]
+  mechanism: solve
+  reframes: {competes_with: [sr60_61_phase, modular_carry], delta: "geometric covering-radius question vs probabilistic 2^-2N penalty"}
+  novelty: genuinely-new
+  plausibility: 3
+  probe_cost: cheap
+  kill_criterion: "Dead if the integer-lifted carry lattice for the SMALLEST open residue (sr=60->61, one round) is already so high-dimensional (carries x words x bits -> hundreds) that BKZ enumeration is hopeless, OR BKZ finds no 0/1-carry coset point where SAT also fails."
+  status: probe-designed
+  source: adjacent-analogy
+  depends_on: [2adic-carry-valuation-newton]
+  repo_refs: [../sha256_review/lib/sha256.py, ../sha256_review/headline_hunt/datasets/certificates/sr60_n32_m17149975.yaml, ../sha256_review/april28_explore/items/item_07_lll.md]
+  external_refs: []
+  created: 2026-06-03
+  updated: 2026-06-03
+  notes: "The natural SOLVER for the 2-adic angle's additive invariant. april28 item_07 found LLL useful only as a linear trail-completion step, NOT this carry-lifting construction. Probe the 1-round residue first (the only cheap size)."
+  dive: 40_deep_dives/dive_carry-lifted-lattice.md
+
+- id: survey-propagation-factor-graph
+  title: Survey propagation / spin-glass analysis of the collision factor graph
+  one_liner: Is the residual hard because glassy/clustered or UNSAT-dense? SP magnetizations as a branching heuristic.
+  lens: statistical-physics
+  locus: [whole-function]
+  mechanism: reduce
+  reframes: {competes_with: [hard_core_132], delta: "Gibbs-measure / clustering view of the solution set"}
+  novelty: adjacent-untested
+  plausibility: 2
+  probe_cost: cheap
+  kill_criterion: "Dead if SP fails to converge on the (dense, structured) SHA CNF — the expected failure mode — yielding no usable magnetization signal; or if magnetizations just reproduce the known backbone the repo already mines."
+  status: triaged
+  source: adjacent-analogy
+  depends_on: []
+  repo_refs: [../sha256_review/THE_THERMODYNAMIC_FLOOR.md]
+  external_refs: []
+  created: 2026-06-03
+  updated: 2026-06-03
+  notes: "Repo already does backbone/frontier mining (the empirical shadow of SP magnetizations) but never ran SP-decimation. Low odds of convergence on dense structured CNF."
+  dive: null
+
+- id: walsh-clat-pre-sat-oracle
+  title: Walsh/cLAT correlation as a pre-SAT trail-pruning oracle (Wallen)
+  one_liner: Score which tail masks have non-negligible correlation; prune trails before spending solver time.
+  lens: boolean-function
+  locus: [differential-trail, round-function]
+  mechanism: reduce
+  reframes: {competes_with: [anf_degree], delta: "correlation filter complementing the coding-theory weight filter"}
+  novelty: flagged-unpursued
+  plausibility: 2
+  probe_cost: cheap
+  kill_criterion: "Dead if the MSB-kernel mask's modular-addition correlation (Wallen closed form) through rounds 57-63 is either uniformly near-zero (filter uninformative) OR non-zero everywhere (no pruning) — i.e. it doesn't localize the wall."
+  status: triaged
+  source: community-paper
+  depends_on: []
+  repo_refs: []
+  external_refs: [wallen2003linear, arxLinearHull2019]
+  created: 2026-06-03
+  updated: 2026-06-03
+  notes: "CAVEAT: cLAT machinery is for key-recovery DISTINGUISHERS over many samples, not for CONSTRUCTING one collision. At best a pruning heuristic. Complements expansion-code-min-distance (weight vs correlation)."
+  dive: null
+
+# =====================================================================
+# D. PARKED — catalogued and marked dead-for-CONSTRUCTION, with a
+#    one-line kill reason so they aren't re-opened without new evidence.
+# =====================================================================
+
+- id: algebraic-geometry-variety
+  title: Collision set as an algebraic variety (genus/intersection theory)
+  one_liner: Treat V(I) of the round ideal geometrically; "is there a collision" = is V nonempty.
+  lens: algebraic-geometry
+  locus: [whole-function]
+  mechanism: reframe
+  reframes: {competes_with: [anf_degree], delta: "geometric view of the solution variety"}
+  novelty: adjacent-untested
+  plausibility: 1
+  probe_cost: trivial
+  kill_criterion: "Dead-for-construction: over GF(2) this collapses to Grobner/PolyBoRi (astronomically high degree, no exploitable smoothness/genus). Reopen only if a commutative-algebra probe finds a new low-degree ideal element (tracked separately)."
+  status: archived
+  source: adjacent-analogy
+  repo_refs: [../sha256_review/april28_explore/items/item_08_algebraic_geometry.md]
+  external_refs: []
+  created: 2026-06-03
+  updated: 2026-06-03
+  notes: "Classical AG tools assume char-0 / geometric structure SHA lacks."
+  dive: null
+
+- id: additive-combinatorics-sumset
+  title: Additive combinatorics (sumsets / Freiman) on the schedule
+  one_liner: Schedule outputs as a sumset; collision as a sum-coincidence.
+  lens: prob-combinatorics
+  locus: [message-schedule]
+  mechanism: count
+  reframes: {competes_with: [], delta: "additive-structure view"}
+  novelty: genuinely-new
+  plausibility: 1
+  probe_cost: trivial
+  kill_criterion: "Dead-for-construction: additive combinatorics COUNTS structure in large sets and proves density/existence-of-many; it has no machinery to EXHIBIT one specific collision under a rigid algebraic constraint. Reopen only if reframed as a counting/lower-bound, not a construction."
+  status: archived
+  source: adjacent-analogy
+  repo_refs: []
+  external_refs: []
+  created: 2026-06-03
+  updated: 2026-06-03
+  notes: "Structurally mismatched: distinguishing/counting tool vs a construction problem."
+  dive: null
+
+- id: tropical-carry-maxchain
+  title: Tropical (min/max-plus) geometry of carry max-chains
+  one_liner: Longest carry-propagation chain as a min-plus eigenvalue.
+  lens: dynamical-systems
+  locus: [carries]
+  mechanism: structural-invariant
+  reframes: {competes_with: [modular_carry], delta: "models worst-case carry DEPTH (latency), not existence"}
+  novelty: adjacent-untested
+  plausibility: 1
+  probe_cost: trivial
+  kill_criterion: "Dead-for-construction: tropical geometry bounds carry-chain LENGTH (a complexity/latency quantity), not the existence of a colliding assignment. The repo already estimates carry reach ~28 bits. Reopen only as a latency bound, never a solver."
+  status: archived
+  source: adjacent-analogy
+  repo_refs: [../sha256_review/april28_explore/items/item_09_tropical.md]
+  external_refs: []
+  created: 2026-06-03
+  updated: 2026-06-03
+  notes: "april28 item_09 also flagged a tropical-Dijkstra global-LM-min TRAIL search — a separate, still-unprobed optimization idea (not this latency reading)."
+  dive: null
+
+- id: quantum-grover-residual
+  title: Quantum / Grover search over the hard residue
+  one_liner: Bounded BDD width suggests a small residual; Grover gives at most a square-root over it.
+  lens: communication-complexity
+  locus: [whole-function]
+  mechanism: solve
+  reframes: {competes_with: [bdd_poly], delta: "quantum query view"}
+  novelty: flagged-unpursued
+  plausibility: 1
+  probe_cost: trivial
+  kill_criterion: "Dead-for-construction: Grover gives only a sqrt over the RESIDUAL brute force (assumes you already reduced to a small search) and offers zero CLASSICAL progress; no quantum hardware in scope. Reopen only as a query-complexity LOWER bound."
+  status: archived
+  source: external-model:GPT-5.5
+  repo_refs: [../sha256_review/april28_explore/items]
+  external_refs: [zhou2025quantum]
+  created: 2026-06-03
+  updated: 2026-06-03
+  notes: "2025 quantum-reduced-SHA-256 line (Zhou et al.) is real but attacks reduced rounds with quantum HW, orthogonal to a classical foothold."
+  dive: null

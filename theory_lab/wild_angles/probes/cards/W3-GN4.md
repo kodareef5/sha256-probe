@@ -1,0 +1,20 @@
+# W3-GN4 — LP integrality gap = the structural-pruning exponent; vertices = extreme collisions   ·   VERDICT: KILLED
+
+**Card claim:** relax the collision IP to an LP polytope P_LP; gap = vol(P_LP)/#integer-points = the "bits of pruning" (0.74 = volume-exponent − gap-exponent); P_LP vertices = extreme collision configs (the N=10 dW[63] hw=1 anatomy is a candidate vertex); sr-boundary = LP-feasible-but-IP-empty.
+
+**Probe run:** The cascade-family collision set is defined by the tail modular-equality constraints de61=de62=de63=0 over the free-word box [0,2^N)^4 (w57..w60). The LP relaxation's natural volume is the box volume × the measure of each relaxed mod-2^N hyperplane (2^-N per independent equality, with integer carry/wrap lift): vol(P_LP) ~ (2^N)^4 · (2^-N)^3 = 2^N. I compared this to the **exact** integer collision count C(N) — N=8 enumerated fresh with the repo's validated `backward_construct` enumerator; N=10 from the repo-verified count C(10)=946 (= exact #rows of `coincidence_variety/gap_rows.csv`) — to get gap(N)=vol/C and its exponent, and checked the "vertices=collisions" claim against the real collisions' modular spread. Throttled (`taskpolicy -b`, OMP=2).
+
+**Result (numbers):**
+- **N=8:** C = 260 (=2^8.02); vol(P_LP) = 2^8 = 256; **gap = 0.985 = 2^-0.022.**
+- **N=10:** C = 946 (=2^9.89); vol(P_LP) = 2^10 = 1024; **gap = 1.082 = 2^0.114.**
+- **gap exponent:** slope d[log₂ gap]/dN = **0.068/bit** (≈ 0). The gap stays ≈1; it is **O(1), not exponential.**
+- The "0.74 = vol-exp − gap-exp" decomposition collapses to **vol-exp = 1, gap-exp ≈ 0** for this family (C(N) ~ 2^N, gap ~ 1). It does **not** produce 0.74.
+- Vertex check: the 946 N=10 collisions take **627 distinct g1 values across [2,1022] = 61% of the modular range** — a broadly spread modular slice, not a small extreme-point set.
+
+**Kill_criterion:** "gap is O(1) (no exponential gap → subsumed by GN1), or vertices ≠ collisions" — **fired? YES, on both clauses.** The integrality gap is O(1) (gap ≈ 1, slope ≈ 0/bit), and the collisions are a generic modular coset (no LP-vertex structure).
+
+**Verdict reasoning:** Exactly the collapse the card's own skeptic predicted ("volume-vs-count *is* the Ehrhart object → risks collapsing into GN1"). The LP relaxation of a system of thin (codimension-3) mod-2^N equality constraints has continuous volume ≈ the integer-point count, so the integrality gap is ≈1 with ≈0 exponent — there is no exponential "structural-pruning" gap, and the framing is therefore subsumed by GN1 (itself already KILLED). It also fails to *derive* the 0.74 it claims to explain: the decomposition forces vol-exp=1/gap-exp≈0, and 0.74 is in any case non-sharp (prior finding #2: slope 0.673, spread 0.72–1.04). The "vertices = extreme collisions" picture is ill-posed: a modular-equality feasible set is a union of lattice cosets, not a bounded convex polytope, so it has no vertices in the LP sense; empirically the collisions cover 61% of the g1 range rather than concentrating at extreme points. KILLED.
+
+**Cross-check / skeptic note:** The O(1)-vs-exponential question is the binary the kill turns on, and two independent exact counts (260 at N=8, 946 at N=10) pin the gap at ≈1 with a near-zero slope — robust to the absence of a true polytope-volume oracle (a full real-volume computation with wrap variables is a much larger build, and unnecessary once the gap is shown O(1) from exact counts). The N=10 enumeration was not redone here (2^40 throttled overruns the compute-courtesy budget); the count 946 is the repo-validated figure backing the whole coincidence_variety result, so reusing it is sound. Caveat: this uses the all-ones-fill canonical family (the 260/946 sequence) where C(N)≈2^N (exponent ~1), distinct from the best-kernel 0.74 family — but that only *strengthens* the kill: even in the family the card points at, the gap is O(1) and 0.74 does not fall out. A defender wanting an exponential gap would need a relaxation that is *not* the Ehrhart/volume object — but the card defines it precisely as vol/#int, which is.
+
+**Reproduce:** `OMP_NUM_THREADS=2 taskpolicy -b python3 wild_angles/probes/cards/W3-GN4.py`

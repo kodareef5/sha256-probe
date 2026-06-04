@@ -1,0 +1,19 @@
+# W2-SO3 — Carry-avalanche SOC: 0.74 as a sandpile avalanche exponent   ·   VERDICT: KILLED
+
+**Card claim:** ARX carry chains are toppling avalanches; if SHA self-organizes to criticality, 0.74 is the avalanche exponent. Constant channels (de57/59/60) are subcritical (exp cutoff); the growing de58 channel is critical (scale-free).
+
+**Probe run:** On the REAL masked modular adder (exact carry chain via `adder_diff.add_carry_trace`, primitives re-exported from repo `lib.sha256`), measured the avalanche induced by a single input-bit flip of `x+y mod 2^N`: carry-cascade **length** (run of toppled carry positions) and avalanche **size** (output sum-bits flipped), 200k random pairs/injection-bits each at N=8,10,12. Fit avalanche-size to a discrete power law (CSN-style MLE, smin chosen by KS) AND to an exponential, and checked the carry-length tail for the geometric fingerprint P(L+1)/P(L)=const. Cross-checked the de-channel subcritical/critical prediction against the repo de-law (`sb.DE_SIZES`). Throttled (OMP=2, taskpolicy -b), ~seconds.
+
+**Result (numbers):**
+- **Carry-cascade LENGTH is exponential/geometric, not scale-free.** Tail ratio P(L+1)/P(L) ≈ 0.40, 0.42, 0.44 at N=8/10/12 — roughly constant = the geometric signature. Exponential fit: correlation length **ξ ≈ 0.75–0.84 bits** (a hard cutoff well below one bit). Mean cascade length ≈ 0.88–0.92 bits.
+- **Avalanche-size exponent is nowhere near 0.74 and drifts with N:** MLE α = **3.83, 4.58, 5.40** at N=8/10/12 (spread 1.57, increasing). Distance of mean-α to 0.74 = **3.86**; to the refit-null 0.673 = **3.93**. The exponential alternative fits the same data well (λ ≈ 1.2–1.3).
+- **Avalanche-size spans <1.1 decades at every N** (0.90 / 1.00 / 1.08). SOC power-law claims need ≥1.5–2 decades; <1 decade can't even define a power law (the card's own skeptic note).
+- **No subcritical/critical channel contrast:** de57/59/60 = **1** always (a single difference value — not a "subcritical distribution", but *no* distribution); de58 grows as 2^hw(db56), a carry-**collapse** count, not a power-law avalanche-size law.
+
+**Kill_criterion:** "Dead if cascade-length distributions are exponential (clear cutoff) at all N, or the exponent is far from a simple function of 0.74, or no subcritical/critical channel contrast." — **fired? YES — all three clauses.**
+
+**Verdict reasoning:** Every clause of the kill criterion fires independently. (1) The carry-cascade length distribution is geometric with ξ<1 bit — an *explicit* exponential cutoff at all N, the antithesis of scale-free. (2) The avalanche-size exponent (3.8–5.4) is off from 0.74 by ~3.9 and is N-drifting, not a constant — it is not "a simple function of 0.74". (3) The supposed off-critical-vs-critical channels are |de|=1 (constant, no distribution) vs a carry-collapse count, not a subcritical-vs-critical avalanche contrast. The physical reason is plain: a single carry rarely propagates more than ~1 bit before being absorbed (P(propagate)≈1/2 per step → geometric chain of mean ≈1), so ARX carries are a *subcritical* branching process, the opposite of self-organized criticality. There is no sandpile here.
+
+**Cross-check / skeptic note (weaponizing prior #2):** This is the decisive answer to "did SO3's exponent differ from 0.673?" — **yes, by a factor of ~6–8 (α≈3.8–5.4 vs 0.673), and it is not even a stable constant.** So this is *not* the trap of finding a number in the 0.6–0.8 band and over-claiming: the measured exponent is in a completely different regime, and the underlying distribution is exponential, not a power law (both KS-fit and the constant length-ratio agree). The card's own skeptic line — "a ≤32-bit chain gives <1 decade — too short to assert SOC" — is realized exactly (size spans <1.1 decades). Coincidence with 0.74 was never in play; the angle is dead.
+
+**Reproduce:** `OMP_NUM_THREADS=2 taskpolicy -b python3 wild_angles/probes/cards/W2-SO3.py`

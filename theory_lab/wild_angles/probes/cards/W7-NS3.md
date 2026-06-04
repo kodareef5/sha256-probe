@@ -1,0 +1,18 @@
+# W7-NS3 — Internal/external audit: which laws transfer, which are walls   ·   VERDICT: SURVIVES
+
+**Card claim:** Łoś/transfer reframe — algebraic identities (Thm 4 da_61=de_61; de57/59/60 constant; cascade da=0) are N-EXACT (internal → finitarily provable); count-asymptotics (0.74 growth, the 132-fraction) provably never lock (external → unprovable by finite-N), explaining why sr=61 has no UNSAT proof. The prediction: a *clean no-crossover split*, internal⇔hard-fact-provable, external⇔count-only.
+
+**Probe run:** N=6,8,10,12,14 one-table audit on the repo's faithful `make_helpers(N)` mini-SHA cascade (READ-ONLY import of `n_invariants.py`). Tagged each candidate law N-exact vs N-drifting over 6000 random cascade prefixes per N. Throttled: yes.
+
+**Result (numbers):**
+- **INTERNAL column (predicted N-exact) — all held at every N:** Thm 4 (da_61=de_61) **6000/6000** at N=6,8,10,12,14; R63.1 (dc_63=dg_63) **6000/6000**; R63.3 (da_63−de_63=dT2_63) **6000/6000**; da-cascade da_r=0 for r=57..60 holds (0/ok); |de57|=|de59|=|de60|=**1** (single-valued) at every N. No crossover — no identity failed at any N.
+- **EXTERNAL column (predicted N-drifting) — all drifted:** |de58| = **{8, 8, 16, 512, 32}** for N={6,8,10,12,14} (no fixed value, carry-collapsed, matches `DE_SIZES`); growth exponent d(N)=log₂(#sr60-coll)/N = **1.003 (N=8) → 0.989 (N=10)**, drifting −0.014, with 0.74 only an N→∞ limit (and the finite-N values sit ~1.0, far from 0.74).
+- **No-crossover clean split: TRUE.** Every algebraic identity is internal; every count is external; the two columns never cross.
+
+**Kill_criterion:** "every writable law is N-exact (no external witnesses → wall internal, inert), OR internal/external doesn't align with hard/easy" — **fired? no.** External witnesses exist (de58, growth), and the internal⇔identity / external⇔count alignment is clean.
+
+**Verdict reasoning:** This is the one nonstandard card that delivers the concrete partition the framing promised (prior finding #6). The audit is *not* vague philosophy: it produces a falsifiable table where the algebraic identities (Thm 4, R63.x, cascade-da, three single-valued de's) are exactly N-uniform 6000/6000 across N=6..14, while the two count-objects (de58 cardinality, collision-growth exponent) visibly fail to lock. That alignment — provable-identity ⇔ internal, count-only ⇔ external — is the card's load-bearing claim and it holds with no crossover. SURVIVES rather than CONFIRMED because the deliverable is a *classification*, not a reproduced sharp constant: the partition is consistent and concrete, but "internal⇒finitarily provable / external⇒unprovable" is a meta-claim the finite-N audit *motivates* (the external numbers demonstrably don't converge to a rational at reachable N) without formally proving non-provability.
+
+**Cross-check / skeptic note:** The internal identities reproduce independently here exactly as the repo's own `n_invariants.py` reports them (8192/8192) — convergence, not coincidence. The honest caveat is the meta-bridge: a clean finite-N split is *evidence* that the wall is a counting boundary (no UNSAT proof), not a theorem that no finite-N proof exists; one could in principle still have a non-counting internal obstruction we haven't probed. But the kill_criterion is specifically the empirical split, and that empirical split is clean. Note also the finite-N growth exponents (~1.0) are nowhere near 0.74 — consistent with prior finding #2 that 0.74 is not a sharp derivable constant — which *strengthens* NS3's classification of growth as external (it doesn't even approach its claimed limit at small N).
+
+**Reproduce:** `OMP_NUM_THREADS=2 taskpolicy -b python3 wild_angles/probes/cards/W7-NS3.py`

@@ -1,0 +1,19 @@
+# W8-KC4 — k-core onion of the folded gate graph -> inner shell of 128 nucleates at W59/W60   ·   VERDICT: KILLED
+
+**Card claim:** After the encoder's constant-folding, the folded gate graph's coreness onion has an inner shell that NUCLEATES at W59/W60 = the 128 round-bits, with the 4 anchors as highest-coreness seeds; sr=61 adds a shell (giant k≥3-core emergence = the cost jump). F213's elimination data is already a partial onion.
+
+**Probe run:** Built the folded gate-graph incidence graph from the repo's own `lib.cnf_encoder.encode_collision` (mode sr60 = free W57..60, and sr59 = one more free round = the sr=61 frontier). This BUILDS the CNF with the repo's aggressive constant propagation — no SAT solving. Computed full k-core decomposition (coreness onion) via heap peeling on the variable co-occurrence graph (~10.7k vars, ~45k clauses, N=32 literal — the 128-round-bit question). Then ran the MANDATORY F324 shuffle test. Throttled. (Read-only workaround: injected the missing module global `m1_override=None` at runtime to bypass a latent NameError in `encode_collision`; the repo file was not modified.)
+
+**Result (numbers):**
+- **k_max = 5 for BOTH sr=60 and sr=59 (jump = +0)** → flat max-core, NO nucleation at the 60→61 frontier. The onion is: k=5 shell (384 vars) ⊂ k=4 giant core (9772 vars) ⊂ k=3 (507) ⊂ k=2 (40).
+- **Inner shell = 384 vars**, NOT ~128. 384 ∉ [108,148]. (384 = 3×128: the internal CSA/ripple-adder wire bulk, not round bits.)
+- **0 of 384 inner-shell vars are free round-bit vars.** The highest-coreness vars (IDs 3541–3610) are internal adder gate wires — NOT W59/W60, NOT the "4 anchors". The anchor-seed claim fails.
+- **MANDATORY SHUFFLE TEST:** true coreness multiset is INVARIANT under variable relabeling (k_max=5, inner=384 before AND after) — as required for a real structure. BUT inner-shell var-ID **contiguity collapses 0.98 → 0.15** under shuffle: the apparent "onion/deep-chain" is a contiguous arithmetic-progression ID block (allocation order), destroyed by shuffle while graph coreness is untouched.
+
+**Kill_criterion:** "flat max-core (no nucleation), inner shell ∉128±20, OR (mandatory) shuffling the variable-numbering changes the onion" — **fired? YES (flat max-core k60=k61=5 AND inner shell 384∉[108,148]).**
+
+**Verdict reasoning:** Two structural kill clauses fire directly: the max-core is FLAT across the 60→61 frontier (no nucleation, no giant-core emergence) and the inner shell is 384 internal-adder wires, not the 128 round bits. The mandatory shuffle test then nails the mechanism: the honest graph coreness is permutation-invariant (so there is no hidden 128-shell that the shuffle reveals), while the ONLY thing that changes under shuffle is the var-ID contiguity (0.98→0.15) — proving that F213's "partial onion / deep elimination chain" was the arithmetic-progression ID allocation order (F324's exact warning), not circuit structure. The 128/round-bit shell does not exist as a coreness object; per prior finding #1 the honest core is 0/width-scaling (here a 9772-var k=4 bulk + a 384-wire k=5 shell), never a stable 128 of round bits.
+
+**Cross-check / skeptic note:** This was flagged as the highest-artifact-risk card, and the shuffle test confirms the risk was real. Caveat: the encoder uses CSA adder trees (sr60_round_correct), so the inner-most shell being adder wires is encoder-specific — a different adder encoding would give a different inner-shell size, which is itself further evidence the "128" is encoder-allocation, not an invariant of SHA-256. The coreness algorithm was validated as relabel-invariant (multiset identical pre/post shuffle), so the negative is not an implementation artifact. No 60→61 cost-jump appears in the static graph (consistent with prior finding #5: the wall is the schedule condition at 61, not a graph-structural event).
+
+**Reproduce:** `OMP_NUM_THREADS=2 taskpolicy -b python3 wild_angles/probes/cards/W8-KC4.py`

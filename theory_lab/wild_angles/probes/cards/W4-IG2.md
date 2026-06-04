@@ -1,0 +1,19 @@
+# W4-IG2 — Cramér–Rao floor → 2^-2N as an inverse Fisher volume   ·   VERDICT: CONFIRMED
+
+**Card claim:** the two enforced sr=61 conditions (g1=0, h=0) are two independent observations whose Fisher informations *add* → a block-diagonal 2×2 Fisher metric whose √det factorizes into 2^-N·2^-N; the "2" is the determinant of a block-diagonal (independent) metric, and the empirical independence becomes a *prediction* of zero cross-Fisher.
+
+**Probe run:** real cascade-DP sr=60 collisions — repo N=10 CSV (946 collisions) + a freshly regenerated N=8 CSV (260 collisions, gap_analysis.c at N=8, throttled). Four tests: (1) rank-2 *derivation* g2≡g1+h, (2) cross-Fisher via the 2N×2N bit-score covariance of (g1,h), (3) slope of log₂P(both) vs N from the full-triple-space marginals (10⁷–10⁹ samples), (4) the structural disjoint-handles reason. Throttled (OMP=2, taskpolicy -b).
+
+**Result (numbers):**
+- **[1 RANK-2 DERIVATION]** g2 ≡ g1 + h (mod 2^N) for **260/260** (N=8) and **946/946** (N=10) collisions — EXACT. The map (g1,h)→(g1,g2) is the unimodular [[1,0],[1,1]] (det 1); sr=61 = the codim-2 point (g1,g2)=(0,0). *This is the two conditions, derived, not assumed.*
+- **[3 SLOPE −2]** log₂P(g1=0 ∧ h=0) = **−15.990** (N=8), **−20.002** (N=10) → fitted **slope = −2.006** (ideal −2; a 2^-N rename would be −1). Full-space marginals P(g1=0)=2^-N, P(h=0)=2^-N independently.
+- **[2 CROSS-FISHER]** max|corr(g1_i,h_j)| = 0.187 (N=8) → **0.089** (N=10), shrinking with N and *comparable to the within-block* max|corr| (0.107→0.057) — i.e. finite-sample noise, not structural coupling. Independence ratio P(both)/[P(g1)P(h)] = 0.923 (N=8) / **1.005** (N=10, over 1.07×10⁹ hits). Block-diagonal → det factorizes.
+- **[4 STRUCTURE]** g1's value-knob is w60 (the W[60] value itself); h's inputs are {w58,w59,casoff} with **no w60 dependence** → the two scores live on disjoint handles, the structural reason the cross-block is zero.
+
+**Kill_criterion:** "slope ≠ −2, or cross-Fisher-information significantly nonzero." — **fired? NO.** Slope = −2.006 (within 0.006 of −2); cross-correlation → 0 with N (0.089 at N=10, same magnitude as within-block noise) and the 1.07B-sample independence ratio is 1.005.
+
+**Verdict reasoning:** CONFIRMED, and per prior-finding #3 this is a *real* confirmation, not a rename: the probe **derives** the two-conditions/rank-2 structure (g2≡g1+h exact, codim-2 point in a unimodular 2-lattice) rather than merely *permitting* 2^-2N via a generic variance argument. The slope lands on exactly −2 (distinguishing it sharply from the old 2^-N/Theorem-5 claim, which would give −1), and the cross-Fisher is structurally zero (disjoint input handles: value-match w60 vs offset-compatibility {w58,w59}). The "inverse Fisher volume = product of two 2^-N condition costs" is the Cramér–Rao reading of the established `g2=g1+h` rank-2 fact.
+
+**Cross-check / skeptic note:** The skeptic worry ("dressed-up Pr[A∧B]=Pr[A]Pr[B]") is met head-on: the non-trivial content is *why* the cross-block is zero, answered structurally (disjoint handles) — not assumed. The only soft spot is that the collision-sample cross-correlation at N=8/10 (260/946 pts) is small-but-nonzero; this is resolved by (a) it tracking the within-block noise and shrinking 0.187→0.089 as N grows, and (b) the independent 1.07×10⁹-sample full-space ratio = 1.005. Independent corroboration: this is the same rank-2 `g2=g1+h` structure CONFIRMED 8× across other formalisms and in the repo's VERIFIED `RESULT_sr61_is_2minus2N.md`. A surprising CONFIRMED deserved the skeptic's look; it holds because it converges on a previously-established exact structure, not a coincidental number.
+
+**Reproduce:** `OMP_NUM_THREADS=2 taskpolicy -b python3 wild_angles/probes/cards/W4-IG2.py`  (regenerate N=8 CSV: `cd /tmp/run_g8 && OMP_NUM_THREADS=2 taskpolicy -b /tmp/gap_8`)

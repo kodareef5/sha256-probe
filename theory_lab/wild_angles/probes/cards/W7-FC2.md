@@ -1,0 +1,19 @@
+# W7-FC2 — Concept-count explosion → the sr=60→61 wall   ·   VERDICT: KILLED
+
+**Card claim:** Below 60 the cascade is single-DOF → a near-CHAIN concept lattice (few concepts); the two INDEPENDENT sr=61 attributes (g1=0 ⊥ h=0) turn the chain into a Boolean SQUARE, so |B(K)| jumps multiplicatively — the same independence that gives 2^-2N — appearing as an independent 2×2 sublattice. (HEADLINE)
+
+**Probe run:** N=8, N=10, 4000 sampled free-word objects each, throttled. Per object computed the cascade diffs (rounds 57-60, da pinned 0) plus the two sr=61 coincidence scalars g1=W1[60]−sched1[60], h=casoff−(sched2−sched1) (validated: P(g1=0)=8.4e-4, P(h=0)=9.7e-4 at N=10, both ≈ 2^-10). Computed |B(K)| by next-closure as below-wall attributes {de57..60=0, dd60=0, db60=0} are added in round order; then added the sr=61 pair; then two CONTROLS — (a) correlated (h=0 + a copy), (b) generic-independent (two unrelated free-word low-bit conditions of the same ~1/2 density, structurally NOT the wall).
+
+**Result (numbers):** Identical at N=8 and N=10:
+- **All below-wall (57→60) attributes are DEGENERATE**: de57=de58=de59=0 *never* hold (constant-false); de60=dd60=db60=0 *always* hold (constant-true). So **|B(K)| = 2 (a trivial top/bottom chain) through the entire 57→60 cascade** — tame growth is exactly *zero*.
+- **+ g1=0**: |B| = 3 (×1.50). **+ g1=0 AND h=0** (the sr=61 pair): |B| = **4 (×2.00)** — a Boolean square, as predicted.
+- **CONTROL correlated** (h=0 + copy): |B| = 3 (×1.50) — correctly no square (redundant), the card's own control behaving.
+- **CONTROL generic-independent** (two unrelated 1/2-density dummies): |B| = **5 (×2.50)** — a *bigger* jump than the real sr=61 pair.
+
+**Kill_criterion:** "|B(K)| grows as fast across tame rounds 57→60 as adding the sr=61 pair (no kink)" (+ adversarial clause: the generic-independent control reproduces the jump) — **fired? YES (second clause, decisively).** Two arbitrary independent attributes give |B|=5 > the sr=61 pair's |B|=4; the jump is not specific to 60→61.
+
+**Verdict reasoning:** The card is half-right and half-wrong, and the wrong half is fatal. Right: below 60 the lattice is a trivial 2-element chain (single-DOF cascade — confirmed, |B|=2 flat) and the sr=61 pair does add a 2×2 Boolean square (×2). Wrong: that ×2 is the **generic free-cascade → first-independent-condition step**, exactly prior-finding #4. Any two independent ~1/2-density attributes lift the trivial chain to ≥4 concepts — the unrelated dummy pair gives |B|=5, *exceeding* the sr=61 pair. So the "multiplicative explosion located AT 60→61" is an artifact of going from an all-degenerate context (constant diffs, |B|=2) to the *first* context with non-degenerate columns; it is a DOF/bookkeeping boundary, not an intrinsic complexity jump tied to round 60→61. The g1⊥h independence does give a 2×2, but independence per se — not the wall — is what makes squares.
+
+**Cross-check / skeptic note:** The card's prescribed correlated-dummy control behaves correctly (no square, ×1.5), which validates the method; it is the *independent-generic* control (the prior-#4 adversarial addition) that kills the specialness. Identical results at N=8 and N=10 rule out sample/granularity artifacts in the verdict. This converges with the ~15× "no round-60 knee" prior finding and with RESULT_sr61_is_2minus2N.md: the only feature at the boundary is the enforcement→coincidence transition (g1=0, h=0 must hold by luck), which the concept lattice faithfully renders as "first non-degenerate attributes appear," not as an explosion of an already-rich lattice. To CONFIRM I would have needed tame 57→60 growth to be genuinely sub-multiplicative AND the sr=61 pair to out-jump any generic independent pair; instead tame growth is zero (trivially) and a random independent pair out-jumps the wall.
+
+**Reproduce:** `OMP_NUM_THREADS=2 taskpolicy -b python3 wild_angles/probes/cards/W7-FC2.py`

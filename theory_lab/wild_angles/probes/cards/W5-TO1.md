@@ -1,0 +1,18 @@
+# W5-TO1 — Forcing threshold: collision is a dense open through 60, nowhere-dense at 61   ·   VERDICT: SURVIVES (as a rename — the "61" knee IS the schedule constraint; no new number)
+
+**Card claim:** on the poset of partial-consistent assignments, Φ="extends to a collision" is forced (dense-open below p) for r≤60 and becomes nowhere-dense at 61; the residual open measure = 2^-2N; the ¬¬-vs-actual gap = "no obstruction ≠ constructible." Explains why XOR-linearization still times out.
+
+**Probe run:** Exact full-grid enumeration of the cascade-DP tail at N=4 (65536 inputs, 49 collisions). (1) Per-round forcing density δ_r = fraction of still-live partial collisions surviving the round-r constraint — collision constraints are de61=de62=de63=0 (boundary-proof Thm 3); rounds 57-60 are cascade-free (de60=0 automatic). (2) ¬¬-vs-actual gap: classify each prefix (fixing w57..w_{56+k}, k=1..4) as forced / refuted / undetermined (= ¬¬Φ true but Φ not constructible). Throttled.
+
+**Result (numbers):**
+- δ_r = **1.00000 for ALL free rounds 57, 58, 59, 60** (dense open — no constraint), then crashes to **0.0740 at r61** (≈ 2^-N = 0.0625), 0.096 at r62, 0.106 at r63. δ_61/δ_60 = 0.0740.
+- The knee sits EXACTLY at the free→schedule boundary: δ=1 for every free-word round, δ<0.5 for every schedule-determined round.
+- ¬¬-gap (Ω non-Boolean?): UNDETERMINED prefix counts = 11 (k=1), 30 (k=2), 30 (k=3), **0 (k=4, full assignment)**. The gap is NON-empty at partial levels (Ω genuinely non-Boolean) and collapses to Boolean only at full input.
+
+**Kill_criterion:** "δ_r smooth/monotone (no knee at 61), OR the ¬¬-gap is empty everywhere (Ω Boolean → framing buys nothing)." — **fired? no (neither clause).** There IS a knee at 61 (δ jumps 1.0→0.074), and the ¬¬-gap is non-empty (Ω non-Boolean at partial assignments).
+
+**Verdict reasoning:** Neither literal kill clause fires, so this is not KILLED — but it is not CONFIRMED either. The card's predicted shape is reproduced (dense through 60, crash at 61, non-Boolean Ω), yet per prior finding #4 the "61 transition" is exactly the KNOWN message-schedule constraint: δ=1 through 60 because W[57..60] are free words (no differential constraint), and δ crashes at 61 precisely because W[61] becomes schedule-determined (de61=0 is the first real filter, ≈2^-N). The non-Booleanness is just the free-word freedom (short prefixes have both colliding and non-colliding completions). No NEW number or prediction emerges beyond the established 2^-2N rate. Per the RENAME discipline (finding #5), this is **SURVIVES-as-rename**: the Kripke-Joyal forcing picture is internally consistent and re-derives the real objects, but adds nothing the boundary proof didn't already give. The "explains why XOR-linearization times out" claim is not supported here (the carry-free model is degenerate — 0 collisions — so it can't be compared).
+
+**Cross-check / skeptic note:** The δ_r=1-then-crash structure is the boundary proof's free/schedule split (Thm 1-2: rounds 57-60 free, de60=0 automatic; Thm 5: the round-61 schedule break at 2^-2N) seen as a forcing density — a faithful re-description, not new physics. The residual-open-measure→2^-2N matches g1∧h (TO2). A skeptic wanting CONFIRMED would need an intrinsic genericity threshold that lands at 61 *independent of where the schedule boundary is* — but the knee tracks the free/schedule boundary by construction, so relabeling rounds would move the "knee" with the boundary, not with the absolute index 61. N=4-only (degenerate M0 at N=6,7,9; N=8 grid infeasible), but the split is N-invariant. SURVIVES strictly as a rename of the schedule constraint.
+
+**Reproduce:** `OMP_NUM_THREADS=2 taskpolicy -b python3 wild_angles/probes/cards/W5-TO1.py`

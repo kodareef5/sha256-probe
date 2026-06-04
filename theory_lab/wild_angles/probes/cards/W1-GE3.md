@@ -1,0 +1,17 @@
+# W1-GE3 — Morse–Bott on the HW landscape (132 = Hessian kernel)   ·   VERDICT: SURVIVES
+
+**Card claim:** The HW≈74 plateau is a Morse-degenerate critical manifold whose 132 null directions ARE the hard-core bits; sublevel Betti numbers lower-bound the low-HW basins; dominant-band index = #hardcore/2.
+**Probe run:** Genuine tail/full SHA arithmetic (repo `full_compression` via shabridge) on the verified champion (m0=0x17149975, fill=0xffffffff, bit=31, (0,9) kernel). (1) Hessian-kernel dim via the repo's *deterministic-control* notion (output-diff bit is hard-core iff no single free-bit flip toggles it with correlation ≥ 0.98), 32-bit, 64 base points. (2) Sublevel b₀(k) by union-find on the (W57,W58) single-bit-flip cube (N=4,5). (3) Skeptic's demand — tie a Betti number to an observable: does bottom-decile basin count b₀ grow like the repo's collision law 2^{0.74 N}? Throttled (~10 s).
+
+**Result (numbers):**
+- **(1) 132 not reproduced.** Correlation-based control: hard-core = **256** (no free-bit flip deterministically controls *any* output bit when the cascade is not pinned). The complementary "ever-toggled" notion gave **0**. The true 132 is bracketed (0 < 132 < 256) but not hit — it requires the cascade constraints (da57=0, de60=0) the cheap probe doesn't impose. The "a,b,e,f = 128" line is mechanical (4×32), not an emergent measurement.
+- **(2) Kill does NOT fire.** b₀ **branches**: max b₀ over sublevels = **12** (N=4), **50** (N=5); it is >1 well above the global min. Multiple basins exist (consistent with a degenerate Morse-Bott manifold). But the dominant HW band = **126–134**, not 74 (the slice runs full-width SHA on tiny message freedom, so HW sits near 128 ≈ half of 256).
+- **(3) The Betti↔observable tie FAILED.** Bottom-decile basin count = 5, 4, 2 for N=3,4,5 — fitted growth exponent **−0.661**, the *wrong sign* vs the +0.74 collision-growth target.
+
+**Kill_criterion:** "Dead if b₀≡1 until the global min (no branching matching observed basins)." — **fired? no** (b₀ branches to 12/50).
+
+**Verdict reasoning:** By the letter of its kill_criterion the card survives — the HW landscape genuinely has many disconnected sublevel basins, not a single basin to the minimum, which is consistent with (does not refute) a degenerate critical manifold. But the survival is weak: none of the card's *positive* numbers reproduced under the cheap probe. The 132 was bracketed but not measured (needs cascade-constrained diff-linear correlation, a bigger computation the repo already did once). The 74 did not emerge (slice HW ≈ 128). And the one concrete Betti-to-observable tie I could build came out anti-correlated (−0.66 vs +0.74). So: SURVIVES (kill didn't fire) but NOT CONFIRMED.
+
+**Cross-check / skeptic note:** The card's own skeptic said it "survives only because the Hessian kernel is pre-identified (132) and 74 is half-confirmed — must tie a Betti number to an observable." My attempt to tie b₀ to the 0.74 growth law failed with the wrong sign, which is the honest weak point: the multiplicity of basins is real but I found no quantitative bridge to a ground-truth number. A faithful decision needs the full-width landscape *with cascade constraints applied* (so HW concentrates near 74 and the 132 directions are the flat ones); that is the larger probe to promote this to CONFIRMED or to a real KILL. As stands, the topology is descriptive-only here, exactly the risk the card flagged.
+
+**Reproduce:** `OMP_NUM_THREADS=2 taskpolicy -b python3 wild_angles/probes/cards/W1-GE3.py`

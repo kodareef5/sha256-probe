@@ -1,0 +1,18 @@
+# W1-GE4 — Davies-Meyer feed-forward as an Euler class   ·   VERDICT: INCONCLUSIVE
+
+**Card claim:** Without feed-forward the difference bundle is trivial (collisions glue freely); the feed-forward is the section s(M)=ΔP+ΔH_in whose zero-set's Euler class localizes the easy/hard gap, with cocycle support = the 132 hard-core bits.
+**Probe run:** Genuine full SHA arithmetic (repo `full_compression` via shabridge) on 3 candidates (champion msb / bit28 / bit2). [0] Is feed-forward (Davies-Meyer modular add of H_in) visible to the same-IV (ΔH_in=0) XOR-difference, ON vs OFF, over 1500 free-word draws. [A] Sampled "section support" (output bits never zero). [B] ΔH_in≠0 regime. [C] Deterministic-control (hard-core) pattern with modular feed-forward ON vs OFF at 32-bit, correlation ≥ 0.98. Throttled.
+
+**Result (numbers):**
+- **[0] Feed-forward IS visible to the difference: 1500/1500 mismatches (ON ≠ OFF).** This *overturns* the naive trivialization: SHA's feed-forward is a **modular** add, so Δ_XOR(H_in+P) ≠ Δ_XOR(P) — the carry chains of (H_in+P₁) and (H_in+P₂) differ. The feed-forward is therefore *not* an XOR-invisible constant shift; the clean "bare P trivial bundle" KILL does **not** apply.
+- **[A] sampled support = 0** for ON and OFF, all candidates (random sampling makes every bit zero sometimes — instrument blind).
+- **[B]** with ΔH_in≠0: ON≠OFF in 500/500 (feed-forward acts there too; but the real single-block attack has ΔH_in=0).
+- **[C] feed-forward ON vs OFF give IDENTICAL control patterns** (both 256, per-reg [32×8]) — but at threshold 0.98 with *unconstrained* free words the instrument saturates (nothing is deterministically controlled either way), so this is blind too.
+
+**Kill_criterion:** "Dead if the zero-support is just the diff-linear-rank statistic re-expressed (no new bits, no new prediction)." — **fired? cannot determine from the cheap probe.**
+
+**Verdict reasoning:** The cheap probe was decisive on one thing — it killed my own initial assumption that feed-forward is an XOR-invisible constant (it is modular and demonstrably acts on the difference, 1500/1500). So this card cannot be cleanly KILLED on the "trivial bundle / invisible feed-forward" grounds. But the cheap probe **cannot extract the genuine cocycle support**: random-sampling support is blind (→0) and unconstrained deterministic-control saturates (→256 both ways). The only faithful instrument for the support is the cascade-constrained diff-linear correlation matrix — which *is* the rank statistic the kill names, so computing it would by construction trigger the "rank re-expressed" clause without telling us if there's *new* prediction. The cheap probe genuinely cannot separate CONFIRMED (new bits, agrees with 132 by a different method) from KILLED (just the rank).
+
+**Cross-check / skeptic note:** The card's own skeptic ("earns its keep only if the cocycle-support is computed by a *different* method yet agrees with the hard core") is exactly the unresolved hinge. **Deciding probe:** compute the hard-core/zero-support set two ways — (i) the cascade-constrained diff-linear rank (the repo's 132), and (ii) a feed-forward-localization computation (e.g. the obstruction class of s on the feed-forward patch via a Z/2 Euler-number / Conley-index count) — and check whether (ii) reproduces the a,b,e,f set *and* predicts something (ii)≠(i). That is beyond a seconds-scale small-N probe. As stands: feed-forward is non-trivial (not a clean kill), but no new structure is extractable cheaply (not a confirm).
+
+**Reproduce:** `OMP_NUM_THREADS=2 taskpolicy -b python3 wild_angles/probes/cards/W1-GE4.py`

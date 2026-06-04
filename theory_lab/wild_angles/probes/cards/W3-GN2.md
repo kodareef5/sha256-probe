@@ -1,0 +1,19 @@
+# W3-GN2 — 2^-2N = the covolume quadrupling per round (Minkowski threshold)   ·   VERDICT: KILLED
+
+**Card claim:** each sr-round shrinks the feasible body's volume by **2^-2N** (= two independent N-bit slices, "the 2"); the sr-boundary is the round its covolume crosses the Minkowski lattice-point-existence bound (R-nonempty but Z-empty).
+
+**Probe run:** Reused the repo's validated cascade enumerator primitives (`backward_construct` / `gap_analysis`: scaled rotations, cascade `find_w2`, `sha_round`) compiled lab-side. At N=8 I exhaustively enumerated the full free-word space (w57,w58,w59,w60) ∈ (2^N)^4 = 2^32 configs (w2-words forced for da=0) and counted **survivors per tail round** that keep de(r)=0 cumulatively at r=60,61,62,63, plus the full 8-register collision. The decisive number is the per-round factor f(r)=S(r)/S(r-1). N=10 cross-checked from the repo-verified gap_analysis figures. Throttled (`taskpolicy -b`, OMP=2, ~90 s).
+
+**Result (numbers, N=8):**
+- NCFG = 2^32; S60 = 2^32 (de60 = 0 for *all* configs — cascade zeroes da,db,dc,dd AND de by round 60; the surviving diff lives only in {f,g,h}); S61 = 16,211,828; S62 = 64,703; S63 = 260; FULL = 260.
+- **Per-round factors:** f60 = 1.000; **f61 = 3.77e-3; f62 = 3.99e-3; f63 = 4.02e-3** — all ≈ **2^-N (=3.91e-3)**, NOT 2^-2N (=1.53e-5). Off from the predicted quadrupling factor by ~2^N = 256×.
+- Full tail collision: 260/2^32 = 6.05e-8 = **2^-24 = 2^-3N** (three rounds × 2^-N, one de=0 condition per round).
+- N=10 cross-check (repo-verified): de61=0 hits = 1.07e9, NCFG = 2^40 ⇒ f61 = 9.73e-4 ≈ 2^-10 = 2^-N; FULL = 946 ⇒ 946/2^40 = 2^-30.1 = 2^-3N. Same 2^-N-per-round law.
+
+**Kill_criterion:** "per-round factor ≠ 2^-2N, or predicted r* off by >2 rounds" — **fired? YES.** The measured per-round survivor factor is 2^-N (one condition/round), a full factor of 2^N away from the claimed 2^-2N. (The Minkowski-crossing sub-claim is moot once the per-round factor itself is wrong, and the cascade has no per-round "R-nonempty/Z-empty" knee — survival is a clean 2^-N geometric decay.)
+
+**Verdict reasoning:** Direct enumeration shows each tail round costs exactly **one** N-bit condition (de(r)=0), so the per-round volume shrink is 2^-N ("doubling"), not the 2^-2N "quadrupling" the card posits; the full sr=64 tail collision is 2^-3N from the free space, i.e. three independent 2^-N rounds. The genuine 2^-2N (prior finding #3, rank-2, `g2=g1+h` exact) is a **different object**: the one-time cost of the *schedule-compliance sr-step* — given an sr=60 collision, demanding W[60] also match the schedule for *both* messages requires g1=0 AND g2=0 = two independent N-bit conditions. GN2 takes that real two-condition fact and **mis-locates it as a recurring per-round covolume factor**, which the measurement refutes. Per the card's own instruction ("CONFIRM iff it *derives* the (2^-N)² two-conditions; a framing that merely permits it is a rename"): GN2 does not derive them and its concrete prediction (uniform 2^-2N per round) is measurably false — so it is worse than a rename. KILLED.
+
+**Cross-check / skeptic note:** The 2^-2N is real and I did not kill *it* — I killed the claim that it is a *per-round* covolume factor. A charitable reading ("the *one* sr-step from the last enforceable level costs 2^-2N") is true but is exactly the established `RESULT_sr61_is_2minus2N.md` result, not a new geometry-of-numbers derivation, and it is a single step, not "per round". I verified the surprising S60=NCFG (de60=0 for all configs) with a direct 16-config spot check (da=db=dc=dd=de=0 after round 60; only df,dg,dh nonzero) — so the survivor ladder genuinely begins at round 61 and decays 2^-N/round. The convex-body/Minkowski framing is also a category stretch (the constraints are modular GF(2^N) hyperplanes, not a convex polytope), which the card's own skeptic flagged.
+
+**Reproduce:** `OMP_NUM_THREADS=2 taskpolicy -b python3 wild_angles/probes/cards/W3-GN2.py`

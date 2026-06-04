@@ -1,0 +1,15 @@
+# W7-RA2 — Collision existence as a Hales–Jewett inevitability   ·   VERDICT: KILLED
+
+**Card claim:** Message-difference vectors over a fixed alphabet = points of [b]^n; color by output-diff class; a collision family with one free word = a monochromatic combinatorial LINE (a slidable coordinate, matching the cascade's one free axis).
+
+**Probe run:** b=2 ({no-diff, δ}), N=8. Two constructions. (1) Generic: n=2..5 message-word positions, δ = single-bit diff on a random base; cube {0,1}^n colored by the 8-register modular out-diff after R∈{8,12,16,32,57,64} rounds; searched for a combinatorial line both of whose endpoints are the zero (collision) class. (2) Strengthened (`_ra2_cascade.py`): cube axes slide tail words between two GENUINE sr=60 collisions (the cascade's real free axis), R∈{57..63}, tracking n*(R) = smallest n forcing a zero-line. Throttled.
+
+**Result (numbers):** Generic cube: #zero(collision) points = 1 (only the trivial all-no-diff identity) and #distinct colors = 2^n at every R and n — NO combinatorial line at any reachable n≤5, for any R from 8 to 64. Cascade cube: no zero-line for R=57..62; at R=63 (the collision boundary) a zero-line appears at n*=1. So n*(R) = [None,None,None,None,None,None,1] — INDEPENDENT of round count (jumps to the minimal n=1 exactly when collisions first exist), never climbing with R.
+
+**Kill_criterion:** "zero-diff points never align into a line at reachable n, OR threshold n* INDEPENDENT of round count." — **fired? yes (both prongs).** Generic: never a line at n≤5. Cascade: the line exists only at n*=1 and is independent of R.
+
+**Verdict reasoning:** With generic differences the zero class is just the identity point — no line, so no inevitability. When collisions do exist (the cascade family), the "line" is the single free tail word sliding between two collisions: it appears at the minimal n=1 the moment a collision exists and does NOT grow with the round count. A genuine Hales–Jewett forcing requires n*(R) to climb toward the (astronomically large) HJ(2,k) threshold as the coloring gets harder; here it is flat-minimal. The observed line is exactly the cascade's σ-linear free axis the skeptic flagged — HJ(2,5) dwarfs n=5, so n≤5 is vastly sub-threshold and any line is linearity leaking, not inevitability. This is a rename of "the cascade has one free word," not a new HJ prediction.
+
+**Cross-check / skeptic note:** What would overturn KILLED: n*(R) increasing with R (a real HJ threshold dependence) and lines appearing in GENERIC (non-cascade) difference cubes at reachable n. Neither occurs — generic cubes have only the identity collision, and the cascade line is n*=1 ∀ collision-round. Independent corroboration: the cascade's single-free-axis structure (one slidable word) is the established sr=60 family geometry, reproduced here as the n=1 line.
+
+**Reproduce:** `OMP_NUM_THREADS=2 taskpolicy -b python3 wild_angles/probes/cards/W7-RA2.py` then `_ra2_cascade.py` (cascade-family n* vs round-count — the load-bearing prong-B test).

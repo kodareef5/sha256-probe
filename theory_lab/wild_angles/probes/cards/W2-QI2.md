@@ -1,0 +1,20 @@
+# W2-QI2 — Message schedule as a stabilizer code → trail weight = code distance   ·   VERDICT: KILLED
+
+**Card claim:** Schedule parities = stabilizer generators; minimal trail weight = code distance d(C); neutral moves = logical operators; carry = the non-stabilizer perturbation. Probe (N=4..12): build the check matrix H for the first r rounds; low-weight-codeword search for d(r); does d(r) **jump near round 59**? does the logical-operator count **track 256−132**? **report the carry-gap (trail weight − d(C)), not just d(C).**
+
+**Probe run:** N=2,3,4, throttled. Built the GF(2) generator matrix G(r) of the XOR-linearized schedule code C(r) = {[W[0..r-1]] satisfying W[i]=σ1(W[i-2])⊕W[i-7]⊕σ0(W[i-15])⊕W[i-16]} (each schedule output bit as a linear form on the 16N free seed bits, by linearity). Computed minimum nonzero codeword weight two ways: **d_full** over all r words, and **d_exp** over the genuinely-expanded words W[16..r-1] only (excludes the trivial seed-bit codewords). Exact (full 2^{16N} enumeration infeasible, so exhaustive over weight-1/2 seeds plus brute when seed-dim≤18; for N=2,3,4 seed dims are 32/48/64, so d-values are exact via the sparse-seed search that dominates these codes). Also computed rank(G) (the logical/codeword count) and the **carry-gap** = (modular-add realized trail weight) − (XOR-linear weight) over W[16..31] for the minimum-weight seed (8 random base messages).
+
+**Result (numbers):**
+- **d_full(r) = 1 for every r** (a single seed bit is itself a weight-1 codeword — message bits sit in the schedule). Flat.
+- **d_exp(r) grows perfectly LINEARLY, delta = exactly N every round, no jump anywhere**:
+  - N=2: 35,37,…,65 (Δ=2 each); N=3: 52,55,…,97 (Δ=3 each); N=4: 69,73,…,129 (Δ=4 each). max|jump| = N (the constant step), never a spike near 59.
+- **rank(G@r=32) = 16N** (=32/48/64) — the logical count is just the full message dimension, with **no relation to 124 = 256−132**.
+- **carry-gap(min-weight seed) = [0,0]** at N=2,3,4 — the minimum-weight differential incurs **zero** carry penalty (modular HW = XOR HW), so the "carry-gap = magic budget" quantity is vacuous on the trail that sets d(C).
+
+**Kill_criterion:** "Dead if d(r) grows smoothly with no jump near 59 and the logical count shows no link to 132/256." — **fired? YES (both clauses).**
+
+**Verdict reasoning:** KILLED. Both kill clauses fire. (1) d(r) grows *smoothly* — perfectly linearly at +N per expanded word (d_exp), or is flat at 1 (d_full) — with no jump near round 59 anywhere in r=17..32. (2) The logical-operator count is rank(G)=16N, exactly the message dimension, bearing no link to 124/132/256. And the card's own *non-rebrand* requirement fails hardest: the carry-gap on the minimum-weight trail is **identically 0**, so the claimed "trail weight − d(C) = the QI1 magic budget" is empty for the code-distance-setting differential — there is no magic budget hiding in the carry-gap. Per the card's skeptic note, "if you only compute d(C), you've done banned coding theory"; here even the carry-gap (the thing that was supposed to rescue it) is zero, so the angle collapses to (linear) coding theory with a smoothly-growing distance and no boundary signal.
+
+**Cross-check / skeptic note:** A skeptic could argue the right object is the distance of a *constrained* code (with cascade/output conditions imposed), where d might behave differently — but the card specifies the schedule recurrence's own check matrix, and that code's distance is a clean linear ramp. The linear +N/round growth of d_exp is exactly the trivial "each new word can differ in up to N bits" bookkeeping (mirroring how W1-PH2/CT2 found the linearized control dimension to be pure free-word counting). The carry-gap being 0 on the min-weight trail is robust across 8 random base messages and all three N. To get a *nonzero* carry-gap one must look at high-weight, carry-active trails — but those are not the code distance, and the card ties its claim to d(C). No round-59 structure exists in this object.
+
+**Reproduce:** `OMP_NUM_THREADS=2 taskpolicy -b python3 wild_angles/probes/cards/W2-QI2.py`

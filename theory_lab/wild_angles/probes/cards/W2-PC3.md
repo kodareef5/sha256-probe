@@ -1,0 +1,19 @@
+# W2-PC3 — Feasible interpolation off the two-block absorber   ·   VERDICT: KILLED
+
+**Card claim:** A short refutation of A(x,z)∧B(y,z) yields (Pudlák) a small circuit C(z) separating absorbable from non-absorbable junction states z (de57/58/59, W58–W59); the 128-bit hard core / HW~74 plateau is evidence C(z) has NO small circuit → a refutation-size lower bound.
+
+**Probe run:** Enumerated the full junction interface z=(w57,w58,w59) [3N bits] via the faithful mini-SHA cascade (MSB kernel M0, `find_w2` second-message relation), labelled each junction absorbable iff it admits a w60 completing an sr≥61 collision = [h(z)==0] per the verified gap algebra (cross-checked density vs gap_analysis.c). Measured the separator's Boolean complexity at N=3,4,5: density, avg/max sensitivity, exact decision-tree depth, DNF minterms, monotonicity. Throttled.
+
+**Result (numbers):**
+- Density tracks 2^-N exactly (0.1328 / 0.0620 / 0.0318 vs 0.125 / 0.0625 / 0.0312) — separator correctly identified.
+- **Max sensitivity = full junction width (9, 12, 15) at every N**; exact DT depth = full width (9) at N=3. Non-monotone (0 monotone coords).
+- **Average sensitivity DECREASES with N** (2.00 → 1.37 → 0.91 ≈ 3N·2^-N) — almost all junctions are non-absorbable and locally insensitive.
+- **The separator factors through a single N-bit value:** C(z) = [h(z)==0] where h = one N-bit *modular subtraction* of σ-images. So C is computed by an **O(N)-gate circuit** (a subtractor + a zero-comparator OR-tree).
+
+**Kill_criterion:** "Dead if the separator has small DT / low sensitivity at every N (cheap circuit ⇒ short proof, not a barrier); or if only resolution (not cutting-planes) applies." — **fired? YES (cheap-circuit clause).** The separator has an explicit O(N) circuit regardless of its full DT-depth.
+
+**Verdict reasoning:** KILLED. The card needs the absorbable-junction separator to have NO small circuit. It does — C(z)=[h(z)==0] is literally a modular-addition zero-test, an O(N)-gate circuit. The large measures (DT depth = max sensitivity = full width 3N) are a **parity-like red herring**: full DT depth / max sensitivity is true of almost any predicate that depends on all its bits (carry propagation guarantees it) and is *consistent with* — does not contradict — a tiny circuit (n-bit addition itself has full sensitivity yet O(n) size). So none of the measured "hardness" is a circuit lower bound; the one structural fact (C factors through a single thin arithmetic value) positively exhibits a small circuit. The 128-bit hard core / HW~74 plateau does NOT transfer to this separator — confirming finding #1 (apparent largeness ≠ a real, load-bearing complexity lower bound) and the card's own skeptic note (feasible interpolation is known to FAIL for strong systems under crypto assumptions, and SHA is such an assumption).
+
+**Cross-check / skeptic note:** A clean negative, honestly bounded. The strongest pro-card objection: maybe the *true* absorber separator is richer than [h==0] — block2_wang absorbs via more than the single compatibility scalar, and the real circuit couples block-1's residual signature too. But the verified gap algebra (PH1/IN3, three-way confirmed) says sr≥61 absorbability at the W[60] level is exactly g1=0 ∧ h=0 with g1 solvable by the free w60 choice — so absorbability reduces to the single scalar test h(z)==0, which is the thin circuit measured here. If a deeper, multi-scalar absorber separator were the real object (sr=62+), the larger probe would be: enumerate the junction at sr=62 (two stacked compatibility scalars) and measure whether the separator's circuit size grows super-linearly — this cheap N=3..5 probe decides the sr=61 separator is O(N), no barrier.
+
+**Reproduce:** `OMP_NUM_THREADS=2 taskpolicy -b python3 wild_angles/probes/cards/W2-PC3.py`

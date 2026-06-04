@@ -1,0 +1,18 @@
+# W8-RD2 — Rate cliff: 2^-2N as a +2N-bit R(0) discontinuity, sr=62 = 2^-4N   ·   VERDICT: KILLED (rename)
+
+**Card claim:** Holding round 61 adds *two independent* refinement constraints (g1=0, h=0, each N bits), so R(0) jumps by 2N (successive-refinement chain rule, cross-term=0 by independence) → 2^-2N; explains Theorem 5's 2^-N undercount. Predicts sr=62 → 4N.
+
+**Probe run:** Faithful mini-SHA(N) cascade (`_minisha`, MSB kernel, pair (0,9), fill=all-ones — the repo's standard construction). For random free words W1[57..61] I measured the rate increment R_61(0)−R_60(0) = −log2 P(g1=0 ∧ h=0), the coupling term log2[P(A)P(B)/P(A∧B)], the mutual information I(g1;h), and the four-condition sr=62 surplus. Also confirmed the structural identity g2=g1+h on the 946 measured N=10 collisions (`gap_rows.csv`). N=8 (600K samples) and N=10 (350K). Throttled: yes. (N=6: this construction has no cascade-eligible kernel — a known quirk; N=8/10 carry the test.)
+
+**Result (numbers):**
+- Identity g2=g1+h (mod 2^N): **946/946** → the round-61 distortion D=0 IS the single event (g1=0 ∧ h=0).
+- N=8: R(g1=0)=7.97, R(h=0)=7.94, **R(g1=0 ∧ h=0)=15.87 ≈ 2N=16**. Coupling term = **−0.041 bits (~0)**, I(g1;h)=**0.0000 bits**. **R_sr62(0)=31.89 ≈ 4N=32**.
+- N=10: R(g1=0)=10.00, R(h=0)=10.02, R(joint)=inf (a 2^-20 event, 0 hits in 350K — consistent w/ 2N=20). Coupling=+inf (zero-count artifact), I(g1;h)=**0.0000 bits**. **R_sr62(0)=40.49 ≈ 4N=40**.
+
+**Kill_criterion:** "the gap is N (g1,h dependent, MI>0.1)" — **fired? no** (the forward gap is 2N, MI≈0). **But the rename rule (prior finding #3) fired instead.**
+
+**Verdict reasoning:** Every *forward* prediction the card makes is correct and reproduced — the increment is 2N (not N), g1⊥h (MI=0.0000), and sr=62=2^-4N (R_sr62≈4N at both N, matching the prior CG3/CL2 measurements). The kill_criterion as written does NOT fire. However, per the explicit instruction (finding #3), a near-2^-2N reproduction is CONFIRMED only if the rate-distortion structure ADDS a mechanism beyond restating g1,h and their trivial forward product. It does not: the "successive-refinement chain rule with cross-term = 0" is *literally* the elementary identity −log2 P(A∧B) = −log2 P(A) − log2 P(B) that holds for any two independent events — the measured coupling term is −0.041≈0 precisely because g1⊥h was already established (it carries no new content). The distortion D = HW(round-61 difference) is 0 iff the single binary event (g1=0 ∧ h=0) holds, so R(0) is one *point*, not a convex R(D) frontier; there is no Blahut–Arimoto codebook and no reconstruction alphabet beyond {collide, not-collide}. The framing is a **rename** of the already-established two-condition mechanism. A rename is not a CONFIRMED.
+
+**Cross-check / skeptic note:** The sr=62→4N forward part independently reproduces the prior CG3 result (R_sr62 ≈ 32 at N=8, ≈40 at N=10 from the four-marginal product), and the g2=g1+h identity holds on 100% of measured collisions — so the *physics* is right; only the *novelty* fails. What could make this a CONFIRMED rather than a rename: an actual convex R(D) curve with D ranging over partial round-61 distortions (intermediate Hamming weights) showing a non-trivial Blahut–Arimoto codebook — but D here is governed by a single all-or-nothing event, so no such curve exists. The +inf coupling at N=10 is purely a zero-count artifact (the 2^-20 joint event is unsamplable at 350K); N=8 (with the event samplable) shows coupling = −0.04 ≈ 0, confirming independence, not the curve.
+
+**Reproduce:** `OMP_NUM_THREADS=2 taskpolicy -b python3 wild_angles/probes/cards/W8-RD2.py`

@@ -1,0 +1,15 @@
+# W7-RA4 — Van der Waerden APs on the de58 axis   ·   VERDICT: KILLED
+
+**Card claim:** de58 sits at the modular feed-forward (vdW-relevant additive structure); its reachable set S ⊂ Z/2^N contains *excess* arithmetic progressions (structured generators), explaining why de58 alone grows.
+
+**Probe run:** N=4,8,10,11 (N=6,13,14 had no cascade-eligible MSB-kernel M0; N=12 skipped, |S|=512 too heavy for O(|S|²) AP count). Faithful width-N port of the repo de58 enumerator (`headline_hunt/bets/cascade_aux_encoding/encoders/de58_enum.c`): S_N = { e1[58]−e2[58] mod 2^N : w57∈[0,2^N) } over the cascade-1 path-2. Counted exact 3-APs and longest AP mod 2^N vs (a) uniform-random equal-density null and (b) the *honest* structured null = random subsets of S's own affine free-bit span. Throttled (`OMP_NUM_THREADS=2 taskpolicy -b`).
+
+**Result (numbers):** |S| matched repo Fig.3 exactly (2,8,16,32 at N=4,8,10,11 — gate OK). vs UNIFORM random S looks AP-rich (N=8: 8 vs p95=4; N=11: 224 vs p95=24). But against the structured null (same affine span): N=8 real=8 vs p95=8 (NOT excess), N=10 real=48 vs p95=78 (BELOW null), N=11 real=224 vs p95=138 (mild, no stable AP). Dominant common-difference is ALWAYS just a free-bit group-translation weight (0x80, 0x40, 0x20) and is NOT stable across N. S is not a clean additive coset, but is an additively-banded set whose "APs" are entirely its free-bit translations.
+
+**Kill_criterion:** "AP statistics indistinguishable from random at all N." — **fired? yes (correctly interpreted).** Against the honest carry-collapse null, AP stats are indistinguishable-or-below; the only excess (vs an unstructured null) is the additive shadow of the free-bit span.
+
+**Verdict reasoning:** The first-pass "AP excess vs uniform random" is a null-model artifact: you cannot compare an additively-structured small set to an unstructured baseline. Once the null is matched to S's affine free-bit span (= the carry-collapse structure, finding #5: |de58|=2^hw(db56)), the AP structure disappears. No recurring/stable common difference and no AP law that *derives* the growth law emerged — the dominant "AP" is just translation by a free bit, σ-linearity leaking exactly as the card's own skeptic predicted. This is a RENAME of the closed de58 thread, not a van der Waerden density-forcing. Per finding #5's bar ("CONFIRM only if real APs appear that derive the law"), nothing here qualifies.
+
+**Cross-check / skeptic note:** What would overturn KILLED: a common difference that recurs across ≥3 N AND can be tied to db56 to re-derive 2^hw(db56). None found — d jumps 128→64→2016 with N, tracking whichever bits happen to be free. de58 was already established as non-monotone carry-collapse (|de58|: 2,8,8,16,32,512,32,32,256 — not AP-shaped). Independent corroboration: S fails the additive-coset test at every N yet its AP count never beats its own span's random subsets.
+
+**Reproduce:** `OMP_NUM_THREADS=2 taskpolicy -b python3 wild_angles/probes/cards/W7-RA4.py` then `_ra4_inspect.py` (coset/subspace structure) and `_ra4_null.py` (structured null — the load-bearing comparison).

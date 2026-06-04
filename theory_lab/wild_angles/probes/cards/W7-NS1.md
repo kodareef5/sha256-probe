@@ -1,0 +1,20 @@
+# W7-NS1 — The wall as a definable cut: why no finite-N argument pins it   ·   VERDICT: KILLED
+
+**Card claim:** "sr-reachable within standard cost" mixes an internal quantity (the rate ρ(r), transfer-stable) with an external one (cost standard-finite) → a proper *cut* in *ℕ with no internal definition — the kind of object no finite-N argument resolves (matching 1800 CPU-h, 0 SAT, no UNSAT). Probe asks: is the r=61 −log₂(rate)/N jump a clean +2 STEP for all N (internal, inert) or does it INTERPOLATE (a genuine cut)?
+
+**Probe run:** N=6,8,10 on the repo's faithful `make_helpers(N)` cascade (READ-ONLY). Measured per-round conditional cost −log₂(rate)/N over the 4 free schedule words (w57..w60). cond1 (de61=0) measured directly by sampling; cond2 (tail closes | de61=0, a rare ~2^-2N event) anchored to the EXACT repo-verified sr=61 collision counts (260@N=8, 946@N=10) so it carries no Monte-Carlo noise. Throttled: yes.
+
+**Result (numbers):**
+- **Rounds 57–60: cost ≈ 0** — the cascade DP chooses the path-2 word to force da_{r+1}=0, so every prefix survives (rate 1). The free cascade contributes nothing to the wall (matches "rounds 57–60 are the free cascade").
+- **cond1 (de61=0, "g1=0"): a clean +1 step at every N.** −log₂P(de61=0)/N = **0.996 (N=6), 1.007 (N=8), 1.010 (N=10)**; measured P(de61=0) = 1.59e-2 ≈ 2^-6, 3.75e-3 ≈ 2^-8, 9.13e-4 ≈ 2^-10 — exactly 2^-N at all three N.
+- **cond2 (tail closes | de61=0, "h=0"): a clean +2 step.** From exact counts: cost_full/N = 4 − d(N) = 4 − 1.003 = **2.997 (N=8)**, 4 − 0.989 = **3.011 (N=10)**; subtracting cond1 (+1) leaves cond2 = **1.997 (N=8), 2.011 (N=10)** ≈ +2.
+- **Full sr=61 wall: +3 per N** (= 4 free-word dims − the ~1.0 growth dim), a clean integer for both N.
+- **The sr=60→sr=61 increment** (the established "2^-2N per enforced round") = −log₂(2^-2N)/N = **+2.000 for every N** (exact, from the verified g1⊥h independence, ratio 1.005). No interpolation.
+
+**Kill_criterion:** "jump = 2.00 ± 0.05 for every N (clean uniform doubling) → `Reach` internal, framing is a relabel of the known 2^-2N (downgrade to 'confirmed N-uniformity')" — **fired? yes.** Every component is a clean integer step uniform in N (cond1=+1, cond2=+2, sr60→sr61 increment=+2); nothing interpolates.
+
+**Verdict reasoning:** The probe returns "step," exactly as the card's own skeptic note predicted ("given g1⊥h is crisp at N=10, the doubling is probably already a clean step → likely inert"). The wall's −log₂(rate)/N profile is a stack of clean integer counting conditions: rounds 57–60 free (cost 0), then at the schedule-pinning boundary two independent 2^-N conditions (de61=0 and the tail closing) stack to the established 2^-2N increment, = +2 per N with no N-dependence in the *per-bit* rate. There is no interpolating +1.3→+1.7→+2 signature that an external definable cut would produce. So `Reach` is internal/N-uniform and the "definable cut" framing is a relabel of the verified 2^-2N. KILLED, downgraded to confirmed N-uniformity. (The conceptual shape — a cut explaining no-finite-proof — is the card's strongest aspect, but the *computational* probe it specified returns a clean step, so the falsifiable content dies.)
+
+**Cross-check / skeptic note:** cond1 = +1 is a direct, clean measurement (P(de61=0) lands on 2^-N to 2 significant figures at N=6,8). cond2 = +2 is *derived* from the exact collision counts rather than sampled — justified because the joint event is ~2^-2N (at N=8 only ~0.05 expected full collisions per 800k draws, so direct sampling is hopeless), and the exact counts 260/946 are repo-verified and cross-validated. The decomposition cond1+cond2 = full-wall is consistent: 1.0+2.0 = 3.0 = 4−d(N), and both N=8,10 give 3.0 independently. This convergence (sampled cond1, count-derived cond2, and the independently-known 2^-2N increment all agreeing on clean integers) is the corroboration. A defender wanting "cut" would need the increment to drift with N (e.g. +1.5 at N=8, +1.8 at N=14); the verified independence ratio 1.005 and the exact-count slope rule it out.
+
+**Reproduce:** `OMP_NUM_THREADS=2 taskpolicy -b python3 wild_angles/probes/cards/W7-NS1.py`

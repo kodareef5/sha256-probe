@@ -1,0 +1,251 @@
+% papers.bib — external literature grounding the SHA-256 Theory Lab community scan.
+%
+% Scope: (a) the 2024-2026 SHA-2 collision frontier, (b) the adjacent-field anchor
+% papers that ground the lab's fresh-angle catalog (2-adic/FCSR, expansion-code
+% min-distance, Walsh/linear-of-add).
+%
+% Discipline notes:
+%   - Bibliographic facts cross-checked against ../../sha256_review/headline_hunt/
+%     registry/literature.yaml (the working repo's curated, ID-verified registry)
+%     wherever the two overlap. Where the repo had an ambiguous identifier, the
+%     value here is the one confirmed by direct fetch (recorded in the matching note).
+%   - @misc with url/eprint is used where exact venue page/volume fields are not
+%     confidently known. Page numbers are omitted rather than guessed.
+%   - These citations ground REFRAMINGS. None of them breaks full SHA-256; most
+%     most-plausibly explain the wall. Do not over-read the keys.
+
+% ============================================================================
+% (a) 2024-2026 SHA-2 collision frontier
+% ============================================================================
+
+@inproceedings{liLiuWang2024records,
+  author    = {Li, Yingxin and Liu, Fukang and Wang, Gaoli},
+  title     = {New Records in Collision Attacks on {SHA}-2},
+  booktitle = {Advances in Cryptology --- EUROCRYPT 2024},
+  series    = {Lecture Notes in Computer Science},
+  volume    = {14651},
+  publisher = {Springer},
+  year      = {2024},
+  note      = {IACR ePrint 2024/349. First practical 39-step semi-free-start
+               SHA-256 collision; MILP-relaxed differential-characteristic search
+               with SAT/SMT back-end and message modification.},
+  url       = {https://eprint.iacr.org/2024/349}
+}
+
+@inproceedings{liLiuWangDongSun2024practical,
+  author    = {Li, Yingxin and Liu, Fukang and Wang, Gaoli and Dong, Xiaoyang and Sun, Siwei},
+  title     = {The First Practical Collision for 31-Step {SHA}-256},
+  booktitle = {Advances in Cryptology --- ASIACRYPT 2024},
+  series    = {Lecture Notes in Computer Science},
+  volume    = {15494},
+  publisher = {Springer},
+  year      = {2024},
+  note      = {Best-paper award. Memory-efficient full-collision search; first
+               practical (not semi-free-start) 31-step SHA-256 colliding message pair.}
+}
+
+@misc{zhangLiGaoWang2026,
+  author = {Zhang, Zhuolong and Li, Muzhou and Gao, Lei and Wang, Meiqin},
+  title  = {Collision Attacks on {SHA}-256 up to 37 Steps with Improved Trail Search},
+  year   = {2026},
+  note   = {IACR ePrint 2026/232. Extends the practical reduced-round SHA-256
+            frontier to 37 steps via automated discovery of high-quality local
+            collisions in the message expansion (automating the previously manual
+            Mendel--Nad--Schl\"affer step).},
+  url    = {https://eprint.iacr.org/2026/232},
+  howpublished = {Cryptology ePrint Archive, Paper 2026/232}
+}
+
+@misc{alamgirNejatiBright2024psat,
+  author = {Alamgir, Nahiyan and Nejati, Saeed and Bright, Curtis},
+  title  = {{SHA}-256 Collision Attack with Programmatic {SAT}},
+  year   = {2024},
+  note   = {arXiv:2406.20072. SAT solver guided by a computer-algebra system (CAS)
+            via the IPASIR-UP user-propagator interface (CaDiCaL) to detect
+            inconsistencies; reaches a 38-step modified-IV collision where pure SAT
+            reached only 28 steps.},
+  eprint       = {2406.20072},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.CR},
+  url    = {https://arxiv.org/abs/2406.20072}
+}
+
+@article{zhou2025quantum,
+  author  = {Zhou, Bao-Min and Sun, Hong-Wei and Zhang, Xing and others},
+  title   = {Quantum collision attacks on reduced {SHA}-256},
+  journal = {Quantum Information Processing},
+  volume  = {25},
+  number  = {2},
+  year    = {2026},
+  note    = {Published online 2025; vol.\ 25, art.\ 2 (2026). DOI 10.1007/s11128-025-05024-w.
+             Converts a 39-step semi-free-start SHA-256 collision (Li et al., EUROCRYPT 2024)
+             into a two-block full collision via a quantum framework; reported time
+             $t = 2^{124}/\sqrt{S}$ on a size-$S$ quantum computer.},
+  doi     = {10.1007/s11128-025-05024-w},
+  url     = {https://doi.org/10.1007/s11128-025-05024-w}
+}
+
+% ----- classical lineage (collision/trail-search foundations) -----
+
+@inproceedings{mendelNadSchlaffer,
+  author    = {Mendel, Florian and Nad, Tomislav and Schl\"affer, Martin},
+  title     = {Improving Local Collisions: New Attacks on Reduced {SHA}-256},
+  booktitle = {Advances in Cryptology --- EUROCRYPT 2013},
+  series    = {Lecture Notes in Computer Science},
+  volume    = {7881},
+  pages     = {262--278},
+  publisher = {Springer},
+  year      = {2013},
+  doi       = {10.1007/978-3-642-38348-9_17},
+  note      = {Signed differential characteristics + SAT-based search + message
+               modification; 38-step SHA-256 collision. Foundation of the modern
+               automated local-collision line.}
+}
+
+@inproceedings{deCanniereRechberger2006,
+  author    = {De Canni\`ere, Christophe and Rechberger, Christian},
+  title     = {Finding {SHA}-1 Characteristics: General Results and Applications},
+  booktitle = {Advances in Cryptology --- ASIACRYPT 2006},
+  series    = {Lecture Notes in Computer Science},
+  volume    = {4284},
+  pages     = {1--20},
+  publisher = {Springer},
+  year      = {2006},
+  doi       = {10.1007/11935230_1},
+  note      = {Automated differential-characteristic search with generalized
+               (signed) conditions; the engine the SHA-2 line later specialized.}
+}
+
+@inproceedings{mouha2010sfunctions,
+  author    = {Mouha, Nicky and Velichkov, Vesselin and De Canni\`ere, Christophe and Preneel, Bart},
+  title     = {The Differential Analysis of {S}-Functions},
+  booktitle = {Selected Areas in Cryptography (SAC) 2010},
+  series    = {Lecture Notes in Computer Science},
+  volume    = {6544},
+  pages     = {36--56},
+  publisher = {Springer},
+  year      = {2010},
+  doi       = {10.1007/978-3-642-19574-7_3},
+  note      = {S-function / matrix-method framework for ARX differential
+               probabilities; basis for later MILP-based ARX trail search.}
+}
+
+@inproceedings{lipmaaMoriai2001,
+  author    = {Lipmaa, Helger and Moriai, Shiho},
+  title     = {Efficient Algorithms for Computing Differential Properties of Addition},
+  booktitle = {Fast Software Encryption (FSE) 2001},
+  series    = {Lecture Notes in Computer Science},
+  volume    = {2355},
+  pages     = {336--350},
+  publisher = {Springer},
+  year      = {2001},
+  doi       = {10.1007/3-540-45473-X_28},
+  note      = {Closed-form xdp+ for XOR-differential probability through modular
+               addition; the modular-vs-XOR ``rosetta stone'' for ARX.}
+}
+
+% ============================================================================
+% (b) Adjacent-field anchors for the fresh-angle catalog
+% ============================================================================
+
+% --- ANGLE 1: 2-adic / FCSR (carry as a metric object) ---
+
+@article{klapperGoresky1997fcsr,
+  author  = {Klapper, Andrew and Goresky, Mark},
+  title   = {Feedback Shift Registers, 2-Adic Span, and Combiners with Memory},
+  journal = {Journal of Cryptology},
+  volume  = {10},
+  number  = {2},
+  pages   = {111--147},
+  year    = {1997},
+  doi     = {10.1007/s001459900024},
+  note    = {Defines FCSRs (arithmetic analog of LFSRs), the 2-adic span complexity
+             measure, and a 2-adic Berlekamp--Massey synthesis algorithm. Notes that
+             combining rational approximations can grow in size ``due to the carry
+             from addition of integers.''}
+}
+
+@inproceedings{klapperGoresky1995rational,
+  author    = {Klapper, Andrew and Goresky, Mark},
+  title     = {Cryptanalysis Based on 2-Adic Rational Approximation},
+  booktitle = {Advances in Cryptology --- CRYPTO '95},
+  series    = {Lecture Notes in Computer Science},
+  volume    = {963},
+  pages     = {262--273},
+  publisher = {Springer},
+  year      = {1995},
+  doi       = {10.1007/3-540-44750-4_21},
+  note      = {Rational-approximation (2-adic) cryptanalysis: the smallest FCSR
+               generating a sequence is found by a 2-adic synthesis algorithm;
+               sequences with small 2-adic span are weak.}
+}
+
+@misc{anashin2006nonarch,
+  author = {Anashin, Vladimir},
+  title  = {Non-{A}rchimedean Analysis, {T}-Functions, and Cryptography},
+  year   = {2006},
+  note   = {arXiv:cs/0612038. 1-Lipschitz maps on the ring of 2-adic integers
+            $\mathbb{Z}_2$; van der Put series; ADD/XOR/ROT as continuous functions
+            on $\mathbb{Z}_2$; T-functions as triangular (carry-causal) maps.},
+  eprint = {cs/0612038},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/cs/0612038}
+}
+
+@misc{anashin2007ergodic,
+  author = {Anashin, Vladimir},
+  title  = {Non-{A}rchimedean Ergodic Theory and Pseudorandom Generators},
+  year   = {2007},
+  note   = {arXiv:0710.1418. Explicit measure-preservation and ergodicity criteria
+            for 1-Lipschitz maps on $\mathbb{Z}_2$ via the van der Put / Mahler
+            coefficients.},
+  eprint = {0710.1418},
+  archivePrefix = {arXiv},
+  url    = {https://arxiv.org/abs/0710.1418}
+}
+
+% --- ANGLE 2: coding theory (expansion-code minimum distance) ---
+
+@misc{jutla2005code,
+  author = {Jutla, Charanjit S. and Patthak, Anindya C.},
+  title  = {A Simple and Provably Good Code for {SHA} Message Expansion},
+  year   = {2005},
+  note   = {IACR ePrint 2005/247 (also circulated as ``Provably Good Codes for Hash
+            Function Design''). Computer-assisted lower bounds on the minimum
+            distance of the linear SHA message-expansion code: a modified
+            expansion has min distance $\geq 82$ in the last 64 of 80 expanded
+            words ($\geq 75$ / $\geq 52$ in the last 60 / 48). The ORIGINAL SHA-1
+            expansion has min weight $\leq 44$ (only $\approx 30$ in the last 64
+            words) --- the slack that enabled the $2^{69}$ differential attack.},
+  url    = {https://eprint.iacr.org/2005/247},
+  howpublished = {Cryptology ePrint Archive, Paper 2005/247}
+}
+
+% --- ANGLE 5: Walsh / linear theory of modular addition ---
+
+@inproceedings{wallen2003linear,
+  author    = {Wall\'en, Johan},
+  title     = {Linear Approximations of Addition Modulo $2^n$},
+  booktitle = {Fast Software Encryption (FSE) 2003},
+  series    = {Lecture Notes in Computer Science},
+  volume    = {2887},
+  pages     = {261--273},
+  publisher = {Springer},
+  year      = {2003},
+  doi       = {10.1007/978-3-540-39887-5_20},
+  note      = {Walsh/correlation theory of modular addition; the combinational LAT
+               (cLAT) gives an automaton computing the correlation of any linear
+               approximation of $+ \bmod 2^n$. Built for KEY-RECOVERY distinguishers
+               over many samples, not for constructing a single collision.}
+}
+
+@misc{arxLinearHull2019,
+  author = {{(automatic ARX linear-hull search line)}},
+  title  = {Automatic Search of Linear Trails / Linear Hulls in {ARX} Ciphers},
+  year   = {2019},
+  note   = {IACR ePrint 2019/1319. Applies Wall\'en's correlation theory of modular
+            addition to automatic linear-hull search on SPECK / SPARX / Chaskey via
+            SAT/SMT/MILP encodings of the cLAT.},
+  url    = {https://eprint.iacr.org/2019/1319},
+  howpublished = {Cryptology ePrint Archive, Paper 2019/1319}
+}

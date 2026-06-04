@@ -1,0 +1,18 @@
+# W1-GE5 — Ollivier–Ricci curvature → the "0-slack" barrier   ·   VERDICT: SURVIVES (weak)
+
+**Card claim:** "0-slack" = strongly negative discrete Ricci curvature on carry edges; a signed local predictor that beats the repo's dead predictors (de58_size, hard_bit_lb had ρ≈0).
+**Probe run:** Built each candidate's **bare-arithmetic** variable-interaction graph (nodes=(round,register,bit) on the tail rounds; edges = carry-ripple adjacency within each modular adder + Σ0/Σ1 rotation links + register-shift round coupling), restricted to the candidate's differentially-active bits — **not** the Tseitin/CNF graph (skeptic honored). Computed edge-wise Ollivier-Ricci (W₁ via scipy min-cost matching; reusable kernel `kernels/ollivier.py`). Validation set = the **67-candidate registry** (36 have `hard_bit_total_lb`); plus F48's 4 gold kissat seq-median times. Throttled (~13 s).
+
+**Result (numbers):**
+- Curvature is genuinely negative (mean κ ≈ −0.15..−0.21, min κ ≈ −1.0..−1.4, ~40% of edges negative) — the graph *is* bottlenecked, qualitatively matching "0-slack."
+- **vs in-table hardness proxy `hard_bit_total_lb` (n=36):** mean_κ ρ=**+0.167**, **min_κ ρ=−0.314**, frac_neg ρ=−0.279. min_κ clears |ρ|>0.1 with the card's predicted sign (more negative ⇒ harder).
+- **vs F48 kissat time (n=4):** mean_κ ρ=+0.600.
+- **SKEPTIC CONTROLS:** ρ(min_κ, **de58**) = **−0.399** — i.e. curvature correlates with de58 *more strongly* than with hard_lb; and de58 vs hard_lb is ρ=+0.788. Test **(i)** sr=60 vs sr=61 curvature: **flat** (−0.167 vs −0.168; more negative in only 8/12).
+
+**Kill_criterion:** "Dead if |ρ|≲0.1 against the same table where de58 already failed." — **fired? no** (min_κ achieves |ρ|=0.31).
+
+**Verdict reasoning:** By the literal kill_criterion the card survives: a curvature statistic (min_κ) reaches |ρ|=0.31 on the validation table, beating the de58 figure the card cites as ρ≈0, with the predicted sign. So I will not soften that into a KILL. **But the survival is weak and the skeptic is largely vindicated.** Three problems block a CONFIRMED: (1) the target `hard_bit_total_lb` is a *differential lower bound*, not clean solver behavior, and is itself ρ=0.79-correlated with de58 — so curvature-vs-hard_lb is partly two views of the same trail; (2) curvature actually tracks **de58 itself** (ρ=−0.40) at least as strongly, so it is partly a *relabel of the dead predictor*, not a transcendence of it — the opposite of the card's selling point; (3) the card's own test (i) (sr=61 more negative than sr=60) is essentially flat, and the only clean solver dataset (F48) is n=4, where ρ=0.6 is not significant.
+
+**Cross-check / skeptic note:** Significance caveat: at n=36 the ~95% Spearman threshold is |ρ|≈0.33, so min_κ's ρ=−0.31 is *just below* individual significance — it clears the card's |ρ|>0.1 kill bar but is not, on its own, a significant correlation. I built on the variable-interaction graph (not CNF), so the skeptic's "you're measuring the encoder" trap is avoided — but a *different* confound bit: curvature ≈ de58 in disguise. **Deciding probe (to confirm or kill):** obtain a clean per-candidate solver-effort vector for ≥20 of the 67 (kissat conflicts/decisions at fixed budget), then test the *partial* Spearman ρ(min_κ, solver | de58) — does curvature predict solver hardness **after** de58 is regressed out? If yes (partial |ρ|>0.1), CONFIRMED (genuine geometric slack signal); if it collapses to ~0, KILLED (curvature was just de58). That dataset is the gap; the cheap probe can't manufacture it.
+
+**Reproduce:** `OMP_NUM_THREADS=2 taskpolicy -b python3 wild_angles/probes/cards/W1-GE5.py`

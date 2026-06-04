@@ -1,0 +1,19 @@
+# W8-RD1 — de58 test-channel R(D) → 0.74N = R(0)   ·   VERDICT: KILLED
+
+**Card claim:** de58 is the *entire* reconstruction alphabet (de57/59/60 constant = thrown-away bits); the cascade is the optimal distortion code, so R(0) (rate to hit D=HW(Δout)=0) = log2 #collisions = 0.74N; the de58 partition IS the codebook.
+
+**Probe run:** Faithful mini-SHA(N) cascade (`_minisha`). (1) Measured the de57..de60 image sizes over 200K random free-word tuples; (2) built the empirical test channel W → de58 with distortion D = HW(round-60 state difference), ran a Blahut–Arimoto-style R(0) over the de58 alphabet (500K samples N=8, 350K N=10); (3) computed finite-N log-density log2(#colls)/N from the repo's MEASURED collision counts (best-kernel Fig-2 counts N=4..11, and cascade-DP sr=60 counts 260/946). Throttled: yes (the N=8 BA run was offloaded to background QoS and finished at exit 0).
+
+**Result (numbers):**
+- de-images: N=8 (1,8,1,1), N=10 (1,16,1,1), N=12 (1,512,1,1) — **de58 is the only varying alphabet** (matches DE_SIZES). Premise OK.
+- Blahut–Arimoto R(0) over de58: H(de58)=3.000 bits (=log2 8) at N=8, 4.000 bits (=log2 16) at N=10. **D=0 (collision) hits = 0/500000 (N=8) and 0/350000 (N=10)** → distinct de58 symbols among D=0 hits = **0** → B-A R(0) over de58 = **nan**. The de58 channel produces NO D=0 codeword (collisions are ~2^-2N rare), so the de58 partition is **not** the codebook. Targets 0.74N = 5.92 (N=8) / 7.40 (N=10) — unreached and unrelated.
+- Finite-N log2(#colls)/N (the only candidate for "0.74N"): best-kernel **1.80, 2.00, 1.06, 1.22, 1.34, 1.53, 1.05, 1.04** (N=4..11) — swings, never ~0.74. Cascade-DP **1.003 (N=8), 0.989 (N=10)** — ~1.0, not 0.74. The two-point asymptotic best-kernel slope is **0.603** (N=4→11, endpoint-sensitive).
+- |de58| ∈ {8,16,512} vs #collisions ∈ {260,946,…}: **different objects**.
+
+**Kill_criterion:** "R(0) slope ∉ [0.6,0.9] across N, OR the B-A codebook unrelated to |de58|" — **fired? YES (both clauses).** Finite-N log-density is 1.0–2.0 (best-kernel) / ~1.0 (cascade), outside [0.6,0.9] at every individual N; and the B-A codebook (collision set) is unrelated to |de58| (8/16/512 ≠ 260/946; de58 channel yields zero D=0 codewords).
+
+**Verdict reasoning:** Both kill clauses fire. (a) R(0) for a "D=0 only at the collision" channel is by definition log2(#D=0 codewords) = log2(#collisions) — a trivial count, exactly the object prior finding #2 flags: 0.74 exists only as an *asymptotic* affine slope, while the finite-N log-density is 0.9–2.0 and never a sharp 0.74. Here the cascade-DP density sits at ~1.0 (8.02/8, 9.89/10), not 0.74. (b) The de58 alphabet is the image of one register at one round (|de58|=2^hw(db56), the carry-collapse/Maj-image count of finding #4) — it has 8/16/512 symbols, utterly distinct from the collision count, and the Blahut–Arimoto loop over de58 yields ZERO zero-distortion codewords, so de58 is provably not the reconstruction codebook. The card conflates "the only varying de-register" with "the rate-distortion codebook"; they are unrelated. This is the predicted RESTATE (de58) + DEAD-constant (0.74) double failure.
+
+**Cross-check / skeptic note:** The de58 image sizes (1,8,1,1)/(1,16,1,1)/(1,512,1,1) independently reproduce the repo's DE_SIZES table — so the *de58 measurement* is correct; only the rate-distortion *interpretation* fails. Caveat: my auto-discovered kernel (M0=103 at N=8) gives hw(db56)=4 (2^hw=16) which differs from the repo reference kernel's hw=3 — yet the |de58| IMAGE still lands at 8/16/512 (kernel-robust), so the conclusion is unaffected. A skeptic might ask whether a different distortion (partial Δout buckets) would reveal a 0.74 frontier; but R(0) at D=0 is fixed = log2(#collisions) regardless of the intermediate frontier shape, and that count's per-N density is demonstrably not 0.74.
+
+**Reproduce:** `OMP_NUM_THREADS=2 taskpolicy -b python3 wild_angles/probes/cards/W8-RD1.py`

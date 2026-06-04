@@ -1,0 +1,18 @@
+# W1-DY4 — Carry subshift + shadowing lemma -> a barrier certificate   ·   VERDICT: KILLED
+
+**Card claim:** Symbol = per-round carry pattern; admissible transitions = an SFT. A delta-pseudo-orbit = a near-collision (HW~74 plateau). Shadowing asks if every pseudo-orbit has a true orbit (collision) within epsilon. Where shadowing FAILS marks rounds/HW-radii where near-collisions are genuinely isolated = a barrier certificate (the only idea here that yields a NEGATIVE guarantee).
+
+**Probe run:** (1) Built the carry-symbol SFT adjacency at N=6,8 and computed its topological entropy = log2(top_eig). (2) Tested shadowing on the REAL collision corpus (repo's N=10 gap_rows.csv, 946 sr=60 collisions with their (g1,h) gating; sr=61 <=> g1=0 AND h=0): measured nearest-other-collision Hamming radius and closeness-to-sr61 score |g1|+|h|. (3) Skeptic check: rebuilt the SFT with progressively finer carry alphabets (low 2,3,4 bits of the produced (a,e)) to test whether full-shift is just a coarse-alphabet artifact. Throttled, seconds.
+
+**Result (numbers):**
+- carry-SFT (coarse hw-bucket symbol): 9 symbols, 81/81 edges, density = 1.00 -> the FULL SHIFT (every transition admissible), entropy log2(9)=3.170 bits/round.
+- Finer alphabets: nbits=2 -> 16 symbols, density 1.000 (full shift); nbits=3 -> 64 symbols, density 1.000 (full shift); nbits=4 -> 256 symbols, density 0.60 (forbidden words appear only when "symbol" = 4 full state bits, i.e. tracking the state itself, not a coarse carry pattern).
+- Corpus shadowing: nearest-other-collision Hamming radius (w57..w60) median 9, max 12; only 7.7% of collisions have another within Hamming<=4. sr=61 present in corpus: 0; closest near-collision is still |g1|+|h| = 30 (mod 1024) from the sr=61 condition.
+
+**Kill_criterion:** "Dead if every near-collision up to the plateau radius already has a nearby true collision (shadowing trivial -> no barrier), OR shadowing fails at delta->0 (wrong encoding)." — **fired? YES (first clause, at the symbolic level).**
+
+**Verdict reasoning:** At every genuinely coarse carry-symbol alphabet the SFT is the FULL SHIFT — no forbidden words — so in the symbolic-dynamics sense every pseudo-orbit is realizable as a true orbit: shadowing is trivially satisfied and the SFT yields NO barrier obstruction. That is exactly the "shadowing trivial -> no barrier" kill condition. The metric barrier that does exist in the data (the sr=61 region is un-shadowed: zero true sr=61 configs near any near-collision) is real, but it is NOT produced by the shadowing/SFT apparatus — it is the already-known sr-cliff (2^-2N, "sr=61 effectively unreachable") re-expressed. The shadowing lemma adds no new decidable isolation beyond the known gap.
+
+**Cross-check / skeptic note:** The card's own skeptic line nails it: "shadowing is a uniformly-hyperbolic theorem; partial hyperbolicity gives a vacuous modulus." A full shift is the extreme of NON-constraint (maximal entropy, no gluing obstructions), so the carry subshift is not Anosov-like and the shadowing modulus is vacuous. Forbidden words appear only once the "symbol" carries ~4 bits of true state (density 0.60 at nbits=4), at which point it is the state-transition graph, not a carry-pattern SFT, and the "barrier certificate" framing collapses into ordinary reachability. The DY1<->DY4 entropy cross-check also cannot anchor the angle: DY1 already showed the differential operator's log2 lambda_max is not 0.74, so there is no shared 0.74 for the SFT entropy (3.17 bits/round) to converge onto. A genuinely Anosov carry encoding would reopen this, but the natural one is a full shift.
+
+**Reproduce:** `OMP_NUM_THREADS=2 taskpolicy -b python3 wild_angles/probes/cards/W1-DY4.py`
