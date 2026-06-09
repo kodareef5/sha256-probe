@@ -369,3 +369,24 @@
   - chunk_mode_dp_with_modes
   - d4_xor_preprocessing
   owner: macbook-claude
+- id: quantum_sfs_to_full_needs_differential_sfs_not_sr
+  claim: The Zhou et al. (Dec 2025) quantum SFS->full-collision conversion cannot consume the repo's sr=60 object; the existing sr result does not yield a (quantum) full-collision headline.
+  scope: Metric-bridge desk analysis (T0.1) of the sr-metric vs the standard step-reduced / semi-free-start metric. Zero compute.
+  status: closed
+  evidence_level: VERIFIED
+  closed_date: '2026-06-09'
+  evidence_files:
+  - headline_hunt/reports/20260609_metric_bridge_lattice.md
+  - reference/paper.pdf
+  why_closed: >-
+    The sr=60 object relaxes ONLY the schedule axis (4 free expansion words W[57..60]) at full 64 rounds with STANDARD IV and
+    zero output difference. The quantum conversion consumes a REDUCED-ROUND, FREE-IV differential semi-free-start collision
+    (R and IV axes relaxed, full schedule) and absorbs its chaining-value difference with a 2nd block. These are different
+    equivalence classes: there is no free IV to vary and no reduced-round differential trail in the sr object. The three
+    relaxation axes (rounds R / IV-freedom / schedule-compliance S) are ORTHOGONAL; sr=60 lives on S only, the quantum input
+    lives on R+IV. Category mismatch, decided definitionally at zero compute.
+  would_change_my_mind:
+  - The repo produces a genuine reduced-round free-IV differential SFS collision (R-axis result) -- then quantum conversion is a citable destination (but adds no step depth beyond the classical SFS depth achieved).
+  related_mechanisms:
+  - block2_wang_residual_absorption
+  owner: macbook-claude
