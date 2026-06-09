@@ -64,7 +64,7 @@
   - bets/block2_wang/results/20260428_F101_HW_above_80_probe.md
   - bets/block2_wang/results/20260428_F106_simulator_nontrivial_validation.md
   owner: macbook-claude
-  last_updated: '2026-05-25'
+  last_updated: '2026-06-09'
   notes: "GPT-5.5 ranked this #1 EV/CPU-hour. F34/F42 now make cascade-1
     a universal 43-active-adder, LM-compatible trail source across all
     3,065 sampled records. F43-F45/F77 show target choice is a
@@ -102,9 +102,12 @@
   - bets/cascade_aux_encoding/encoders/SPEC.md
   - bets/cascade_aux_encoding/encoders/cascade_aux_encoder.py
   owner: macbook
-  last_updated: '2026-04-24'
+  last_updated: '2026-06-09'
   notes: Cheap to build, directly addresses the SAT-vs-compiler encoding conflict. CLAIMED by macbook 2026-04-24 as first-worker
     bet. Design + initial implementation shipped; compute/measurement work open for fleet pickup.
+    2026-06-09 (fable test) Direction A added a treewidth LOWER bound (tw 46-51 across 3 cascade CNFs); the decomposition/KC
+    route (GPT-5.4 top lead) provably costs at least 2^46, above the 2^32 barrier, so NO-GO. See
+    results/20260609_core_treewidth_lower_bound.md and negatives entry cascade_cnf_treewidth_lower_bound_exceeds_barrier.
 - id: d4_xor_preprocessing
   name: d4 with XOR-preserving preprocessing on standard CNF
   headline_if_success: "Constructive d-DNNF compilation of N=16+ collision object \u2014 directly tests the BDD paradox boundary."

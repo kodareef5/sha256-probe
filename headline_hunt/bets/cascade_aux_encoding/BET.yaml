@@ -75,7 +75,13 @@ current_progress: |
   = 72 CNFs, all CONFIRMED. Bet remains characterized (Mode B 2-3.4× front-
   loaded preprocessing, not a path to cascade-DP SAT discovery).
 
-last_heartbeat: "2026-05-01T17:30:00Z"
+last_heartbeat: "2026-06-09T00:00:00Z"
+treewidth_lower_bound_2026-06-09: |
+  macbook-claude (fable model test). Added the missing treewidth LOWER bound
+  (minor-min-width) to F211/F212's upper bounds: tw >= 46-51 across 3 cascade CNFs.
+  Since beating the ~2^32 barrier needs tw <~ 32, the decomposition / KC route
+  (GPT-5.4's #1 lead) provably costs >= 2^46 -- NO-GO, recorded in negatives.yaml.
+  See results/20260609_core_treewidth_lower_bound.md.
 recent_progress_2026-05-01_F381_F395_xor_ladder_chain: |
   2026-05-01: 16-memo F381-F395 chain on cadical CDCL proof structure.
 

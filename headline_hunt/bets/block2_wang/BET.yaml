@@ -30,7 +30,12 @@ current_progress: "Phase 1 partially done (2026-04-24, macbook):\n  - Built resi
   \  M12 source ready (backward_construct_n12.c compiled), launch held until de58 validation matrix\
   \ completes for clean wall-time measurement. ETA M12 wall \u2248 2 hours single-machine.\n  Files: trails/SCALING_PLAN.md\
   \ \u2192 stage gates; trails/M10_RESULT.md \u2192 numbers; trails/n_invariants.py \u2192 N-invariance probe.\n"
-last_heartbeat: '2026-05-30T00:00:00Z'
+last_heartbeat: '2026-06-09T00:00:00Z'
+faithful_frontier_2026-06-09: |
+  macbook-claude (fable model test). Completed the faithful CV-pinned frontier the
+  2026-05-30 memo left open: R=16 SAT (0.12s), R=18 timeout (120s), R=19 timeout (240s).
+  Confirms the ~18 wall is target-independent; kill #1 still NOT fired (timeouts, no UNSAT
+  proof). See results/20260609_faithful_frontier_R16_R19.md.
 feedforward_finding_2026-05-30: |
   macbook-claude (pivot from killed linear_lever_gaps). Found + fixed TWO
   faithfulness gaps in the R=18 absorber and ran the faithful test for the

@@ -344,3 +344,28 @@
   - block2_wang_residual_absorption
   - cascade_auxiliary_encoding
   owner: macbook
+- id: cascade_cnf_treewidth_lower_bound_exceeds_barrier
+  claim: No tree-decomposition / knowledge-compilation route (d4 / d-DNNF / AND-OR + component caching, GPT-5.4's #1 lead) yields a SAT-free collision enumerator beating the ~2^32 search barrier; the cascade CNF treewidth is bounded BELOW by ~50.
+  scope: Cascade collision CNFs at N=32 (sr60/sr61 cascade encodings), 3 candidates measured. Complements the Myhill-Nerode forward-DP negative (forward_completion_quotient) by covering tree-order (not just linear-order) width.
+  status: closed
+  evidence_level: VERIFIED
+  closed_date: '2026-06-09'
+  evidence_files:
+  - headline_hunt/bets/cascade_aux_encoding/results/20260609_core_treewidth_lower_bound.md
+  - headline_hunt/bets/cascade_aux_encoding/encoders/core_treewidth_probe.py
+  why_closed: >-
+    F211/F212 had only treewidth UPPER bounds (cascade_aux=699, m17149975=480, min-degree heuristic), which cannot decide
+    feasibility. core_treewidth_probe.py adds a minor-min-width (MMD+) LOWER bound (rigorous: treewidth is minor-monotone;
+    implementation verified exact on P6/C6/K7/grid). Measured tw >= 51 (m17149975 bit31), 46 (TRUE_sr61_bit10_3304), 50
+    (md41b678d bit4). A width-bounded compiler costs ~2^tw; beating the ~2^32 barrier needs tw <~ 32. A LOWER bound of ~50
+    means any such compiler costs >= 2^46 -- strictly worse than the barrier it was meant to beat. The "small treewidth ->
+    poly compiler" hope (separator-based compilation) is dead. Both width measures now agree: linear-order frontier ~=
+    collision count (Myhill-Nerode) AND tree-order width >= ~50; no small-width decomposition exists in ANY order.
+  would_change_my_mind:
+  - A variable order or branch decomposition with MEASURED width <~ 32 on a cascade CNF (would reopen the KC route).
+  - A d4 / d-DNNF compiler exploiting function-level determinism that compiles a cascade CNF to a < 2^32 representation despite tw ~ 50 (would show graph treewidth is not the binding constraint).
+  related_mechanisms:
+  - cascade_auxiliary_encoding
+  - chunk_mode_dp_with_modes
+  - d4_xor_preprocessing
+  owner: macbook-claude

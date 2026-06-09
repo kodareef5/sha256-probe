@@ -437,9 +437,16 @@ int main(int argc, char *argv[]) {
     }
     prop.build_decide_order();
 
+    // Conflict budget (4th arg, default 500000 to match reopen criterion).
+    // Wall 'timeout' kept only as a hard backstop; the conflict limit makes
+    // solve() return gracefully so the firing stats actually print (the old
+    // alarm()-only path SIGKILLed the process before reporting).
+    long max_conflicts = argc > 4 ? atol(argv[4]) : 500000;
+    solver.limit("conflicts", (int)max_conflicts);
+
     printf("Propagator: watching %zu variables across 8 free words\n",
            prop.var_to_word_bit.size());
-    printf("Timeout: %ds\n", timeout);
+    printf("Conflict budget: %ld   (wall backstop: %ds)\n", max_conflicts, timeout);
     fflush(stdout);
 
     alarm(timeout);
@@ -450,8 +457,8 @@ int main(int argc, char *argv[]) {
     printf("Result: %s in %lds\n",
            result == 10 ? "SAT" : result == 20 ? "UNSAT" : "UNKNOWN",
            (long)(t1 - t0));
-    printf("Stats: %ld forward runs, %ld propagated\n",
-           prop.n_forward_runs, prop.n_propagated);
+    printf("Stats: %ld forward runs, %ld propagated (conflict budget %ld)\n",
+           prop.n_forward_runs, prop.n_propagated, max_conflicts);
 
     solver.disconnect_external_propagator();
     return result == 10 ? 10 : (result == 20 ? 20 : 0);
