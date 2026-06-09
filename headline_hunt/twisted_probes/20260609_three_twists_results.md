@@ -62,3 +62,29 @@ addition" hypotheses.
 ```
 python3 headline_hunt/twisted_probes/three_twists_v2.py
 ```
+
+## Twist 3 follow-up: is the asymmetry EXPLOITABLE? — instructive NO
+
+Hypothesis: backward (slow-diffusing) side is the softer attack surface. Tested with a greedy
+local-collision (inject the best single-bit message difference dW each round to keep the
+state-diff thin), forward vs backward. Result REVERSES the hypothesis:
+
+| keep trail HW <= | forward | backward |
+|---|---|---|
+| 8  | 6.41 rounds | 3.52 |
+| 16 | 6.68 | 4.77 |
+
+**Two opposing asymmetries:** passive diffusion favors backward (~2x slower), but ACTIVE
+control favors forward (~2x more controllable). Structural reason: the message word W enters
+T1, which forward drives BOTH new registers (a',e') — strong cancellation leverage; backward W
+only enters h's recovery — weak leverage. For real (message-modification) attacks control
+dominates, so FORWARD wins — which is exactly why all real SHA-2 attacks are forward. The
+"backward soft side" is a red herring for control-based attacks; the two effects roughly cancel
+(a concrete reason SHA-256 is balanced here).
+
+**What survives:** (1) register **h** is the leverage point in BOTH regimes (most controllable
+backward: 3.53 rounds vs 0.17 for b) because W enters h directly. (2) The forward greedy trail
+sustaining ~6.4 rounds of HW<=8 with single-bit diffs independently re-discovers the ~9-round
+local-collision length — validating the experiment. Honest verdict: Twist 3 is a real structural
+asymmetry but NOT an exploitable backward attack advantage; tooling reproducible in
+`twist3_exploit.py`.
